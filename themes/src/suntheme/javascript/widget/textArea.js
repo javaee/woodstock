@@ -20,16 +20,16 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.textArea");
+@JS_NS@._dojo.provide("@JS_NS@.widget.textArea");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.textField");
+@JS_NS@._dojo.require("@JS_NS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@.widget.textField");
 
 /**
  * This function is used to construct a textArea widget.
  *
- * @name webui.@THEME_JS@.widget.textArea
- * @extends webui.@THEME_JS@.widget.textField
+ * @name @JS_NS@.widget.textArea
+ * @extends @JS_NS@.widget.textField
  * @class This class contains functions for the textArea widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -63,8 +63,8 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.textField");
  * @config {String} value Value of input.
  * @config {boolean} visible Hide or show element.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.textArea",
-        webui.@THEME_JS@.widget.textField, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.textArea",
+        @JS_NS@.widget.textField, {
     // Set defaults.
     constructor: function() {
         this.autoSave = 0;
@@ -80,13 +80,13 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.textArea",
  * @return {Function} The callback function.
  * @private
  */
-webui.@THEME_JS@.widget.textArea.prototype._createSubmitCallback = function() {
+@JS_NS@.widget.textArea.prototype._createSubmitCallback = function() {
     var _id = this.id;
 
     // New literals are created every time this function
     // is called, and it's saved by closure magic.
     return function(event) { 
-        var widget = webui.@THEME_JS@.widget.common.getWidget(_id);
+        var widget = @JS_NS@.widget.common.getWidget(_id);
         if (widget == null) {
             return false;
         }
@@ -108,18 +108,18 @@ webui.@THEME_JS@.widget.textArea.prototype._createSubmitCallback = function() {
  * </p>
  * @ignore
  */
-webui.@THEME_JS@.widget.textArea.event =
-        webui.@THEME_JS@.widget.textArea.prototype.event = {
+@JS_NS@.widget.textArea.event =
+        @JS_NS@.widget.textArea.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_textArea_event_refresh_begin",
+        beginTopic: "@JS_NS@_widget_textArea_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_textArea_event_refresh_end"
+        endTopic: "@JS_NS@_widget_textArea_event_refresh_end"
     },
 
     /**
@@ -128,10 +128,10 @@ webui.@THEME_JS@.widget.textArea.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_textArea_event_state_begin",
+        beginTopic: "@JS_NS@_widget_textArea_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_textArea_event_state_end"
+        endTopic: "@JS_NS@_widget_textArea_event_state_end"
     },
 
     /**
@@ -140,10 +140,10 @@ webui.@THEME_JS@.widget.textArea.event =
      */
     submit: {
         /** Submit event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_textArea_event_submit_begin",
+        beginTopic: "@JS_NS@_widget_textArea_event_submit_begin",
 
         /** Submit event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_textArea_event_submit_end"
+        endTopic: "@JS_NS@_widget_textArea_event_submit_end"
     }
 };
 
@@ -153,7 +153,7 @@ webui.@THEME_JS@.widget.textArea.event =
  * @return {String} The HTML input element class name.
  * @private
  */
-webui.@THEME_JS@.widget.textArea.prototype._getInputClassName = function() {
+@JS_NS@.widget.textArea.prototype._getInputClassName = function() {
     // Set readOnly style
     if (this._fieldNode.readOnly) {
         return this._theme.getClassName("TEXT_AREA_READONLY", "");
@@ -176,7 +176,7 @@ webui.@THEME_JS@.widget.textArea.prototype._getInputClassName = function() {
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME_JS@.widget.textArea.prototype.getProps = function() {
+@JS_NS@.widget.textArea.prototype.getProps = function() {
     var props = this._inherited("getProps", arguments);
     
     // Set properties.
@@ -196,7 +196,7 @@ webui.@THEME_JS@.widget.textArea.prototype.getProps = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.textArea.prototype._postCreate = function () {
+@JS_NS@.widget.textArea.prototype._postCreate = function () {
     // Set events.                
     if (this.autoSave > 0) {
         this.autoSaveTimerId = setInterval(this._createSubmitCallback(), 
@@ -215,7 +215,7 @@ webui.@THEME_JS@.widget.textArea.prototype._postCreate = function () {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.textArea.prototype._setProps = function(props) {
+@JS_NS@.widget.textArea.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }

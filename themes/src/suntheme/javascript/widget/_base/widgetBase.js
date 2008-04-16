@@ -20,24 +20,24 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget._base.widgetBase");
+@JS_NS@._dojo.provide("@JS_NS@.widget._base.widgetBase");
  
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.proto");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.theme.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.eventBase");
+@JS_NS@._dojo.require("@JS_NS@._base.common");
+@JS_NS@._dojo.require("@JS_NS@._base.proto");
+@JS_NS@._dojo.require("@JS_NS@.theme.common");
+@JS_NS@._dojo.require("@JS_NS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.eventBase");
 
 /**
  * This function is used to construct a base class.
  *
- * @name webui.@THEME_JS@.widget._base.widgetBase
- * @extends webui.@THEME_JS@.widget._base.eventBase
+ * @name @JS_NS@.widget._base.widgetBase
+ * @extends @JS_NS@.widget._base.eventBase
  * @class This class contains functions used for base functionality in all 
  * widgets. 
  * <p>
- * The widgetBase class inherits from webui.@THEME_JS@._dijit._Widget and 
- * webui.@THEME_JS@._dijit._Templated. The webui.@THEME_JS@._dijit._Widget class
+ * The widgetBase class inherits from @JS_NS@._dijit._Widget and 
+ * @JS_NS@._dijit._Templated. The @JS_NS@._dijit._Widget class
  * is responsible for calling the _buildRendering() and _postCreate() functions 
  * in that order. The dijit_Templated function overrides the _buildRendering() 
  * functon to fill in template properties.
@@ -84,14 +84,14 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.eventBase");
  * not a direct child of the BODY element. If there is any Javascript
  * running inside the body that is a direct child of body, IE will throw
  * an "Internet Explorer cannot open the Internet site" error. For example,
- * webui.@THEME_JS@._dijit._Templated._createNodesFromText generates such an 
+ * @JS_NS@._dijit._Templated._createNodesFromText generates such an 
  * error by calling appendChild(). Therefore, widget creation must be deferred
  * to the window.onLoad event. See http://trac.dojotoolkit.org/ticket/4631
  * </p>
  * @constructor
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget._base.widgetBase", 
-        webui.@THEME_JS@.widget._base.eventBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget._base.widgetBase", 
+        @JS_NS@.widget._base.eventBase, {
     // Note: If your class contains arrays or other objects, they should be
     // declared in the constructor function so that each instance gets it's own
     // copy. Simple types (literal strings and numbers) are fine to declare in 
@@ -102,16 +102,16 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget._base.widgetBase",
     },
 
     // Set defaults.
-    _common: webui.@THEME_JS@._base.common, // Common utils.
-    _dojo: webui.@THEME_JS@._dojo, // Dojo utils.
-    _proto: webui.@THEME_JS@._base.proto, // Prototype utils.
-    _theme: webui.@THEME_JS@.theme.common, // Theme utils.
-    _widget: webui.@THEME_JS@.widget.common // Widget utils.
+    _common: @JS_NS@._base.common, // Common utils.
+    _dojo: @JS_NS@._dojo, // Dojo utils.
+    _proto: @JS_NS@._base.proto, // Prototype utils.
+    _theme: @JS_NS@.theme.common, // Theme utils.
+    _widget: @JS_NS@.widget.common // Widget utils.
 });
 
 // This function is not public and should not appear in the jsDoc.
 /** @ignore */
-webui.@THEME_JS@.widget._base.widgetBase.prototype.buildRendering = function () {
+@JS_NS@.widget._base.widgetBase.prototype.buildRendering = function () {
     // Template must be set prior to calling "superclass".
     this._buildRendering();
     return this._inherited("buildRendering", arguments);
@@ -123,7 +123,7 @@ webui.@THEME_JS@.widget._base.widgetBase.prototype.buildRendering = function () 
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget._base.widgetBase.prototype._buildRendering = function () {
+@JS_NS@.widget._base.widgetBase.prototype._buildRendering = function () {
     // Get default templates.
     if (this.templatePath == null && this.templateString == null) {
         this.templatePath = this._theme._getTemplatePath(this._widgetType);
@@ -147,7 +147,7 @@ webui.@THEME_JS@.widget._base.widgetBase.prototype._buildRendering = function ()
  * @return {String} The outermost HTML element class name.
  * @private
  */
-webui.@THEME_JS@.widget._base.widgetBase.prototype._getClassName = function() {
+@JS_NS@.widget._base.widgetBase.prototype._getClassName = function() {
     return this.className;
 };
 
@@ -158,7 +158,7 @@ webui.@THEME_JS@.widget._base.widgetBase.prototype._getClassName = function() {
  * @return {Object} Key-Value pairs of properties.
  * @private
  */
-webui.@THEME_JS@.widget._base.widgetBase.prototype._getCommonProps = function() {
+@JS_NS@.widget._base.widgetBase.prototype._getCommonProps = function() {
     var props = {};
 
     // Set properties.
@@ -178,7 +178,7 @@ webui.@THEME_JS@.widget._base.widgetBase.prototype._getCommonProps = function() 
  * @return {Object} Key-Value pairs of properties.
  * @private
  */
-webui.@THEME_JS@.widget._base.widgetBase.prototype._getCoreProps = function() {
+@JS_NS@.widget._base.widgetBase.prototype._getCoreProps = function() {
     var props = {};
 
     // Set properties.
@@ -197,7 +197,7 @@ webui.@THEME_JS@.widget._base.widgetBase.prototype._getCoreProps = function() {
  * @return {Object} Key-Value pairs of properties.
  * @private
  */
-webui.@THEME_JS@.widget._base.widgetBase.prototype._getEventProps = function() {
+@JS_NS@.widget._base.widgetBase.prototype._getEventProps = function() {
     var props = {};
 
     // Set properties.
@@ -223,10 +223,10 @@ webui.@THEME_JS@.widget._base.widgetBase.prototype._getEventProps = function() {
  * This function is used to get widget properties. Please see the constructor 
  * detail for a list of supported properties.
  *
- * @id webui.@THEME_JS@.widget._base.widgetBase.getProps
+ * @id @JS_NS@.widget._base.widgetBase.getProps
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME_JS@.widget._base.widgetBase.prototype.getProps = function() {
+@JS_NS@.widget._base.widgetBase.prototype.getProps = function() {
     var props = {};
 
     // Set properties.
@@ -262,7 +262,7 @@ webui.@THEME_JS@.widget._base.widgetBase.prototype.getProps = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget._base.widgetBase.prototype._inherited = function(name, args, newArgs){
+@JS_NS@.widget._base.widgetBase.prototype._inherited = function(name, args, newArgs){
     return this.inherited(name, args, newArgs);
 }
 
@@ -275,7 +275,7 @@ webui.@THEME_JS@.widget._base.widgetBase.prototype._inherited = function(name, a
  * @return {boolean} true if widget is initialized.
  * @private
  */
-webui.@THEME_JS@.widget._base.widgetBase.prototype._isInitialized = function() {
+@JS_NS@.widget._base.widgetBase.prototype._isInitialized = function() {
     // Testing if the outermost DOM node has been added to the document and
     // ensuring a Dojo attach point exists works fine for JSP. However, the 
     // following code always returns null for facelets.
@@ -290,7 +290,7 @@ webui.@THEME_JS@.widget._base.widgetBase.prototype._isInitialized = function() {
 
 // This function is not public and should not appear in the jsDoc.
 /** @ignore */
-webui.@THEME_JS@.widget._base.widgetBase.prototype.postCreate = function () {
+@JS_NS@.widget._base.widgetBase.prototype.postCreate = function () {
     return this._postCreate();
 }
 
@@ -302,7 +302,7 @@ webui.@THEME_JS@.widget._base.widgetBase.prototype.postCreate = function () {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget._base.widgetBase.prototype._postCreate = function () {
+@JS_NS@.widget._base.widgetBase.prototype._postCreate = function () {
     // In order to register widgets properly, the DOM node id must be set prior 
     // to creating any widget children. Otherwise, widgets may not be destroyed.
     this._domNode.id = this.id;
@@ -316,11 +316,11 @@ webui.@THEME_JS@.widget._base.widgetBase.prototype._postCreate = function () {
 
     /** @ignore */
     this._domNode.getProps = function() { 
-        return webui.@THEME_JS@.widget.common.getWidget(_id).getProps();
+        return @JS_NS@.widget.common.getWidget(_id).getProps();
     };
     /** @ignore */
     this._domNode.setProps = function(props, notify) { 
-        return webui.@THEME_JS@.widget.common.getWidget(_id).setProps(props, notify);
+        return @JS_NS@.widget.common.getWidget(_id).setProps(props, notify);
     };
 
     // Initialize public events and functions.
@@ -346,7 +346,7 @@ webui.@THEME_JS@.widget._base.widgetBase.prototype._postCreate = function () {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget._base.widgetBase.prototype._setCommonProps = function(domNode, props) {
+@JS_NS@.widget._base.widgetBase.prototype._setCommonProps = function(domNode, props) {
     if (domNode == null || props == null) {
         return false;
     }
@@ -386,7 +386,7 @@ webui.@THEME_JS@.widget._base.widgetBase.prototype._setCommonProps = function(do
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget._base.widgetBase.prototype._setCoreProps = function(domNode, props) {
+@JS_NS@.widget._base.widgetBase.prototype._setCoreProps = function(domNode, props) {
     if (domNode == null || props == null) {
         return false;
     }
@@ -428,7 +428,7 @@ webui.@THEME_JS@.widget._base.widgetBase.prototype._setCoreProps = function(domN
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget._base.widgetBase.prototype._setEventProps = function(domNode, props) {
+@JS_NS@.widget._base.widgetBase.prototype._setEventProps = function(domNode, props) {
     if (domNode == null || props == null) {
         return false;
     }
@@ -519,12 +519,12 @@ webui.@THEME_JS@.widget._base.widgetBase.prototype._setEventProps = function(dom
  * published. This is typically used to keep client-side state in sync with the
  * server.
  * </p>
- * @id webui.@THEME_JS@.widget._base.widgetBase.setProps
+ * @id @JS_NS@.widget._base.widgetBase.setProps
  * @param {Object} props Key-Value pairs of properties.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget._base.widgetBase.prototype.setProps = function(props, notify) {
+@JS_NS@.widget._base.widgetBase.prototype.setProps = function(props, notify) {
     if (props == null) {
         return false;
     }
@@ -553,7 +553,7 @@ webui.@THEME_JS@.widget._base.widgetBase.prototype.setProps = function(props, no
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget._base.widgetBase.prototype._setProps = function(props) {
+@JS_NS@.widget._base.widgetBase.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -567,7 +567,7 @@ webui.@THEME_JS@.widget._base.widgetBase.prototype._setProps = function(props) {
 
 // This function is not public and should not appear in the jsDoc.
 /** @ignore */
-webui.@THEME_JS@.widget._base.widgetBase.prototype.startup = function () {
+@JS_NS@.widget._base.widgetBase.prototype.startup = function () {
     return this._start();
 }
 
@@ -578,7 +578,7 @@ webui.@THEME_JS@.widget._base.widgetBase.prototype.startup = function () {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget._base.widgetBase.prototype._start = function () {
+@JS_NS@.widget._base.widgetBase.prototype._start = function () {
     if (typeof this._started == "undefined") {
         return false;
     }

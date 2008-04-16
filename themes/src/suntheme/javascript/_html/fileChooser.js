@@ -20,10 +20,10 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._html.fileChooser");
+@JS_NS@._dojo.provide("@JS_NS@._html.fileChooser");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.proto");
+@JS_NS@._dojo.require("@JS_NS@._base.common");
+@JS_NS@._dojo.require("@JS_NS@._base.proto");
 
 /** 
  * @class This class contains functions for fileChooser components.
@@ -97,7 +97,7 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.proto");
  * @static
  * @private
  */
-webui.@THEME_JS@._html.fileChooser = {
+@JS_NS@._html.fileChooser = {
     // FIXME: Note that the dependence on literal client id's is not sufficient
     // if these components are developer defined facets. The actual
     // literal id's cannot be guaranteed.
@@ -143,23 +143,23 @@ webui.@THEME_JS@._html.fileChooser = {
         }
 
         // Get HTML elements.
-        var widget = webui.@THEME_JS@.widget.common.getWidget(idPrefix + "_lookinField");
+        var widget = @JS_NS@.widget.common.getWidget(idPrefix + "_lookinField");
         if (widget) {
             domNode.lookinfield = widget.getInputElement();
         }
-        widget = webui.@THEME_JS@.widget.common.getWidget(idPrefix + "_filterField");
+        widget = @JS_NS@.widget.common.getWidget(idPrefix + "_filterField");
         if (widget) {
             domNode.filterfield = widget.getInputElement();
         }
-        widget = webui.@THEME_JS@.widget.common.getWidget(idPrefix + "_selectedField");
+        widget = @JS_NS@.widget.common.getWidget(idPrefix + "_selectedField");
         if (widget) {
             domNode.selectedfield = widget.getInputElement();
         }
-        widget = webui.@THEME_JS@.widget.common.getWidget(idPrefix + "_listEntries");
+        widget = @JS_NS@.widget.common.getWidget(idPrefix + "_listEntries");
         if (widget) {
             domNode.listentries = widget.getSelectElement();
         }
-        widget = webui.@THEME_JS@.widget.common.getWidget(idPrefix + "_sortMenu");
+        widget = @JS_NS@.widget.common.getWidget(idPrefix + "_sortMenu");
         if (widget) {
             domNode.sortmenu = widget.getSelectElement();
         }
@@ -175,12 +175,12 @@ webui.@THEME_JS@._html.fileChooser = {
                 || domNode.listentries == null
                 || domNode.sortmenu == null) {
             return setTimeout(function() {
-                webui.@THEME_JS@._html.fileChooser._init(props);
+                @JS_NS@._html.fileChooser._init(props);
             }, 10);
         }
 
         // Set given properties on domNode.
-        webui.@THEME_JS@._base.proto._extend(domNode, props, false);
+        @JS_NS@._base.proto._extend(domNode, props, false);
 
         // boolean identifying the chooser mode.
         domNode.folderChooser = (props.chooserType == "folderChooser");
@@ -201,43 +201,43 @@ webui.@THEME_JS@._html.fileChooser = {
         }
 
         // Set public functions.
-        domNode.enterKeyPressed = webui.@THEME_JS@._html.fileChooser.enterKeyPressed;
-        domNode.handleDblClick = webui.@THEME_JS@._html.fileChooser.handleDblClick;
-        domNode.handleOnChange = webui.@THEME_JS@._html.fileChooser.handleOnChange;
-        domNode.openFolderClicked = webui.@THEME_JS@._html.fileChooser.openFolderClicked;
-        domNode.moveUpButtonClicked = webui.@THEME_JS@._html.fileChooser.moveUpButtonClicked;
-        domNode.setChooseButton = webui.@THEME_JS@._html.fileChooser.setChooseButton;
-        domNode.getCurrentDirectory = webui.@THEME_JS@._html.fileChooser.getCurrentDirectory;
-        domNode.getOptionElements = webui.@THEME_JS@._html.fileChooser.getOptionElements;
-        domNode.getSelectedOptions = webui.@THEME_JS@._html.fileChooser.getSelectedOptions;
-        domNode.isFolderChooser = webui.@THEME_JS@._html.fileChooser.isFolderChooser;
-        domNode.isFolderSelected = webui.@THEME_JS@._html.fileChooser.isFolderSelected;
-        domNode.getSelectionValue = webui.@THEME_JS@._html.fileChooser.getSelectionValue;
-        domNode.getSelectionValueByIndex = webui.@THEME_JS@._html.fileChooser.getSelectionValueByIndex;
-        domNode.getSelectionType = webui.@THEME_JS@._html.fileChooser.getSelectionType;
-        domNode.getSelectionTypeByIndex = webui.@THEME_JS@._html.fileChooser.getSelectionTypeByIndex;
-        domNode.getValueType = webui.@THEME_JS@._html.fileChooser.getValueType;
-        domNode.itemSelected = webui.@THEME_JS@._html.fileChooser.itemSelected;
-        domNode.getSelectedFolders = webui.@THEME_JS@._html.fileChooser.getSelectedFolders;
-        domNode.getSelectedFiles = webui.@THEME_JS@._html.fileChooser.getSelectedFiles;
-        domNode.getSelectedValuesByType = webui.@THEME_JS@._html.fileChooser.getSelectedValuesByType;
-        domNode.setSelectedFieldValue = webui.@THEME_JS@._html.fileChooser.setSelectedFieldValue;
-        domNode.clearSelections = webui.@THEME_JS@._html.fileChooser.clearSelections;
-        domNode.deselectFolders = webui.@THEME_JS@._html.fileChooser.deselectFolders;
-        domNode.deselectSelectionsByType = webui.@THEME_JS@._html.fileChooser.deselectSelectionsByType;
-        domNode.setSelected = webui.@THEME_JS@._html.fileChooser.setSelected;
-        domNode.clearSelectedField = webui.@THEME_JS@._html.fileChooser.clearSelectedField;
-        domNode.armChooseButton = webui.@THEME_JS@._html.fileChooser.armChooseButton;
-        domNode.getFileNameOnly = webui.@THEME_JS@._html.fileChooser.getFileNameOnly;
-        domNode.setChooseButtonDisabled = webui.@THEME_JS@._html.fileChooser.setChooseButtonDisabled;
+        domNode.enterKeyPressed = @JS_NS@._html.fileChooser.enterKeyPressed;
+        domNode.handleDblClick = @JS_NS@._html.fileChooser.handleDblClick;
+        domNode.handleOnChange = @JS_NS@._html.fileChooser.handleOnChange;
+        domNode.openFolderClicked = @JS_NS@._html.fileChooser.openFolderClicked;
+        domNode.moveUpButtonClicked = @JS_NS@._html.fileChooser.moveUpButtonClicked;
+        domNode.setChooseButton = @JS_NS@._html.fileChooser.setChooseButton;
+        domNode.getCurrentDirectory = @JS_NS@._html.fileChooser.getCurrentDirectory;
+        domNode.getOptionElements = @JS_NS@._html.fileChooser.getOptionElements;
+        domNode.getSelectedOptions = @JS_NS@._html.fileChooser.getSelectedOptions;
+        domNode.isFolderChooser = @JS_NS@._html.fileChooser.isFolderChooser;
+        domNode.isFolderSelected = @JS_NS@._html.fileChooser.isFolderSelected;
+        domNode.getSelectionValue = @JS_NS@._html.fileChooser.getSelectionValue;
+        domNode.getSelectionValueByIndex = @JS_NS@._html.fileChooser.getSelectionValueByIndex;
+        domNode.getSelectionType = @JS_NS@._html.fileChooser.getSelectionType;
+        domNode.getSelectionTypeByIndex = @JS_NS@._html.fileChooser.getSelectionTypeByIndex;
+        domNode.getValueType = @JS_NS@._html.fileChooser.getValueType;
+        domNode.itemSelected = @JS_NS@._html.fileChooser.itemSelected;
+        domNode.getSelectedFolders = @JS_NS@._html.fileChooser.getSelectedFolders;
+        domNode.getSelectedFiles = @JS_NS@._html.fileChooser.getSelectedFiles;
+        domNode.getSelectedValuesByType = @JS_NS@._html.fileChooser.getSelectedValuesByType;
+        domNode.setSelectedFieldValue = @JS_NS@._html.fileChooser.setSelectedFieldValue;
+        domNode.clearSelections = @JS_NS@._html.fileChooser.clearSelections;
+        domNode.deselectFolders = @JS_NS@._html.fileChooser.deselectFolders;
+        domNode.deselectSelectionsByType = @JS_NS@._html.fileChooser.deselectSelectionsByType;
+        domNode.setSelected = @JS_NS@._html.fileChooser.setSelected;
+        domNode.clearSelectedField = @JS_NS@._html.fileChooser.clearSelectedField;
+        domNode.armChooseButton = @JS_NS@._html.fileChooser.armChooseButton;
+        domNode.getFileNameOnly = @JS_NS@._html.fileChooser.getFileNameOnly;
+        domNode.setChooseButtonDisabled = @JS_NS@._html.fileChooser.setChooseButtonDisabled;
 
         // For supporting valid entries in look in field and filter field.
         //
         // It is imperative that the look in field and filter field
         // are never submitted if the value does not imply a valid action.
         // Not currently used.
-        domNode.onFocus = webui.@THEME_JS@._html.fileChooser.onFocus;
-        domNode.onBlur = webui.@THEME_JS@._html.fileChooser.onBlur;
+        domNode.onFocus = @JS_NS@._html.fileChooser.onFocus;
+        domNode.onBlur = @JS_NS@._html.fileChooser.onBlur;
 
         // Save the initial lookin and filter values.
         domNode.lastLookInValue = domNode.lookinfield.value;
@@ -294,7 +294,7 @@ webui.@THEME_JS@._html.fileChooser = {
 	// or dbl click in the list.
 	if (this.selectedfield && element.id == this.selectedfield.id) {
 	    var escapedSelections = this.selectedfield.value;
-	    var selections = webui.@THEME_JS@._base.common._unescapeStrings(escapedSelections,
+	    var selections = @JS_NS@._base.common._unescapeStrings(escapedSelections,
 		    this.delimiter, this.escapeChar);
 
 	    // If a choose button has been defined call its click method
@@ -468,7 +468,7 @@ webui.@THEME_JS@._html.fileChooser = {
      * @return {boolean} false to cancel JavaScript event.
      */
     handleOnChange: function() {
-        var widget = webui.@THEME_JS@.widget.common.getWidget(this.listentries.id);
+        var widget = @JS_NS@.widget.common.getWidget(this.listentries.id);
         if (widget) {
             widget._changed();
         }
@@ -527,7 +527,7 @@ webui.@THEME_JS@._html.fileChooser = {
 		this.deselectFolders();
 		this.setSelected(index, true);
 		this.clearSelectedField();
-                var widget = webui.@THEME_JS@.widget.common.getWidget(this.listentries.id);
+                var widget = @JS_NS@.widget.common.getWidget(this.listentries.id);
                 if (widget) {
                     widget._changed();
                 }
@@ -554,7 +554,7 @@ webui.@THEME_JS@._html.fileChooser = {
 	// Make sure the hidden select option array is up
 	// to date in case there isn't a selectedFileField.
 	if (!this.setSelectedFieldValue(selections)) {
-	    webui.@THEME_JS@._base.common._createSubmittableArray(
+	    @JS_NS@._base.common._createSubmittableArray(
                 this.selectionsId, this.listentries.form, null, selections);
 	}
 
@@ -749,14 +749,14 @@ webui.@THEME_JS@._html.fileChooser = {
 	if (selections == null || selections.length == 0) {
 	    return false;
 	} else {
-	    value = webui.@THEME_JS@._base.common._escapeString(
+	    value = @JS_NS@._base.common._escapeString(
                 this.getFileNameOnly(selections[0]), this.delimiter,
                 this.escapeChar);
 	}
 
 	for (var j = 1; j < selections.length; j++) {
 	    value = value + ',' + 
-                webui.@THEME_JS@._base.common._escapeString(
+                @JS_NS@._base.common._escapeString(
                     this.getFileNameOnly(selections[j]), this.delimiter,
                     this.escapeChar);
 	} 
@@ -817,7 +817,7 @@ webui.@THEME_JS@._html.fileChooser = {
 	} 
 	// call listbox.changed to update the
 	// private state
-        var widget = webui.@THEME_JS@.widget.common.getWidget(this.listentries.id);
+        var widget = @JS_NS@.widget.common.getWidget(this.listentries.id);
         if (widget) {
             widget._changed();
         }
@@ -834,7 +834,7 @@ webui.@THEME_JS@._html.fileChooser = {
      */
     setSelected: function(index, torf) {
 	this.listOptions[index].selected = torf;
-        var widget = webui.@THEME_JS@.widget.common.getWidget(this.listentries.id);
+        var widget = @JS_NS@.widget.common.getWidget(this.listentries.id);
         if (widget) {
             return widget._changed();
         }
@@ -863,7 +863,7 @@ webui.@THEME_JS@._html.fileChooser = {
 		this.listOptions[j].selected = false;
 	    } 
 	} 
-        var widget = webui.@THEME_JS@.widget.common.getWidget(this.listentries.id);
+        var widget = @JS_NS@.widget.common.getWidget(this.listentries.id);
         if (widget) {
             return widget._changed();
         }

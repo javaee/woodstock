@@ -20,17 +20,17 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.calendar");
+@JS_NS@._dojo.provide("@JS_NS@.widget.calendar");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.browser");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
+@JS_NS@._dojo.require("@JS_NS@._base.browser");
+@JS_NS@._dojo.require("@JS_NS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.widgetBase");
 
 /**
  * This function is used to construct a calendar widget.
  *
- * @name webui.@THEME_JS@.widget.calendar
- * @extends webui.@THEME_JS@.widget._base.widgetBase
+ * @name @JS_NS@.widget.calendar
+ * @extends @JS_NS@.widget._base.widgetBase
  * @class This class contains functions for the calendar widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -48,8 +48,8 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
  * @config {boolean} visible Hide or show element.
  * @config {Object} yearMenu
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.calendar",
-        webui.@THEME_JS@.widget._base.widgetBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.calendar",
+        @JS_NS@.widget._base.widgetBase, {
     // Set defaults.
     _widgetType: "calendar" // Required for theme properties.
 });
@@ -65,7 +65,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.calendar",
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.calendar.prototype._addDayLink = function(rowNodeClone, day, 
+@JS_NS@.widget.calendar.prototype._addDayLink = function(rowNodeClone, day, 
         id, className, setFocus) {
     // Clone <td> and <a> elements. 
     var colNodeClone = this._dayColumnContainer.cloneNode(false);
@@ -87,7 +87,7 @@ webui.@THEME_JS@.widget.calendar.prototype._addDayLink = function(rowNodeClone, 
 
     var widgetId = this.id;
     linkNodeClone.onclick = function() { 
-        webui.@THEME_JS@.widget.common.getWidget(widgetId)._daySelected(formattedDate); 
+        @JS_NS@.widget.common.getWidget(widgetId)._daySelected(formattedDate); 
         return false;
     };  
     
@@ -95,7 +95,7 @@ webui.@THEME_JS@.widget.calendar.prototype._addDayLink = function(rowNodeClone, 
     // the focus should go to the close button. 
     if (setFocus) {
         linkNodeClone.onkeydown = function(event) {
-            var widget = webui.@THEME_JS@.widget.common.getWidget(widgetId);
+            var widget = @JS_NS@.widget.common.getWidget(widgetId);
             
             // Get hold of the close button and set focus on it.
             var evt = (event) ? event : ((window.event) ? window.event : null);
@@ -128,7 +128,7 @@ webui.@THEME_JS@.widget.calendar.prototype._addDayLink = function(rowNodeClone, 
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.calendar.prototype._addDaysInMonth = function(currentValue, initialize) {
+@JS_NS@.widget.calendar.prototype._addDaysInMonth = function(currentValue, initialize) {
     // Date representing a day in a month.
     var day;    
     // Number of columns in a row.
@@ -326,7 +326,7 @@ webui.@THEME_JS@.widget.calendar.prototype._addDaysInMonth = function(currentVal
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.calendar.prototype._addWeekDays = function() {            
+@JS_NS@.widget.calendar.prototype._addWeekDays = function() {            
     var colNodeClone;
     var spanNodeClone;    
     var firstDay = this.firstDayOfWeek - 1;
@@ -362,7 +362,7 @@ webui.@THEME_JS@.widget.calendar.prototype._addWeekDays = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */            
-webui.@THEME_JS@.widget.calendar.prototype._closeCalendar = function(event) {
+@JS_NS@.widget.calendar.prototype._closeCalendar = function(event) {
     var evt = (event) ? event : ((window.event) ? window.event : null);
      
     // If key pressed and enter, then close the menu
@@ -385,9 +385,9 @@ webui.@THEME_JS@.widget.calendar.prototype._closeCalendar = function(event) {
  * @return {boolean} false to cancel JavaScript event.
  * @private
  */
-webui.@THEME_JS@.widget.calendar.prototype._daySelected = function(formattedDate) {
+@JS_NS@.widget.calendar.prototype._daySelected = function(formattedDate) {
     this._toggleCalendar();    
-    this._publish(webui.@THEME_JS@.widget.calendar.event.day.selectedTopic, [{
+    this._publish(@JS_NS@.widget.calendar.event.day.selectedTopic, [{
         id: this.id,
         date:formattedDate
     }]);
@@ -400,7 +400,7 @@ webui.@THEME_JS@.widget.calendar.prototype._daySelected = function(formattedDate
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.calendar.prototype._decreaseMonth = function() {
+@JS_NS@.widget.calendar.prototype._decreaseMonth = function() {
     var monthMenu = this._widget.getWidget(this.monthMenu.id).getSelectElement();
     // If the monthMenu has no value, set it to January (that's what
     // it will have appeared like in the browser). Can happen on IE.  
@@ -442,15 +442,15 @@ webui.@THEME_JS@.widget.calendar.prototype._decreaseMonth = function() {
  * </p>
  * @ignore
  */
-webui.@THEME_JS@.widget.calendar.event =
-        webui.@THEME_JS@.widget.calendar.prototype.event = {
+@JS_NS@.widget.calendar.event =
+        @JS_NS@.widget.calendar.prototype.event = {
     /**
      * This object contains day event topics.
      * @ignore
      */
     day: {
         /** Day event topic for custom AJAX implementations to listen for. */
-        selectedTopic: "webui_@THEME_JS@_widget_calendar_event_selected"
+        selectedTopic: "@JS_NS@_widget_calendar_event_selected"
     },
 
     /**
@@ -459,10 +459,10 @@ webui.@THEME_JS@.widget.calendar.event =
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_calendar_event_refresh_begin",
+        beginTopic: "@JS_NS@_widget_calendar_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_calendar_event_refresh_end"
+        endTopic: "@JS_NS@_widget_calendar_event_refresh_end"
     },
 
     /**
@@ -471,10 +471,10 @@ webui.@THEME_JS@.widget.calendar.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_calendar_event_state_begin",
+        beginTopic: "@JS_NS@_widget_calendar_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_calendar_event_state_end"
+        endTopic: "@JS_NS@_widget_calendar_event_state_end"
     },
 
     /**
@@ -483,10 +483,10 @@ webui.@THEME_JS@.widget.calendar.event =
      */
     toggle: {
         /** Open event topic for custom AJAX implementations to listen for. */
-        openTopic: "webui_@THEME_JS@_widget_calendar_event_toggle_open",
+        openTopic: "@JS_NS@_widget_calendar_event_toggle_open",
 
         /** Close event topic for custom AJAX implementations to listen for. */
-        closeTopic: "webui_@THEME_JS@_widget_calendar_event_toggle_close"
+        closeTopic: "@JS_NS@_widget_calendar_event_toggle_close"
     }
 };
 
@@ -499,7 +499,7 @@ webui.@THEME_JS@.widget.calendar.event =
  * @return {String} The date format.
  * @private
  */
-webui.@THEME_JS@.widget.calendar.prototype._formatDate = function(month, day, year) {
+@JS_NS@.widget.calendar.prototype._formatDate = function(month, day, year) {
     var date = new String(this.dateFormat);      
     date = date.replace("yyyy", new String(year));
     if (month < 10) {
@@ -521,7 +521,7 @@ webui.@THEME_JS@.widget.calendar.prototype._formatDate = function(month, day, ye
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME_JS@.widget.calendar.prototype.getProps = function() {
+@JS_NS@.widget.calendar.prototype.getProps = function() {
     var props = this._inherited("getProps", arguments);
     
     // Set properties.
@@ -549,7 +549,7 @@ webui.@THEME_JS@.widget.calendar.prototype.getProps = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.calendar.prototype._ieStackingContextFix = function() {
+@JS_NS@.widget.calendar.prototype._ieStackingContextFix = function() {
     var div = this._calendarContainer;
     if (div.style.display == "block") {
         // This popup should be displayed
@@ -596,7 +596,7 @@ webui.@THEME_JS@.widget.calendar.prototype._ieStackingContextFix = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.calendar.prototype._ieShowShim = function() {  
+@JS_NS@.widget.calendar.prototype._ieShowShim = function() {  
     var popup = this._calendarContainer;
     var shim = this._shimContainer;
     
@@ -617,7 +617,7 @@ webui.@THEME_JS@.widget.calendar.prototype._ieShowShim = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.calendar.prototype._ieHideShim = function() {
+@JS_NS@.widget.calendar.prototype._ieHideShim = function() {
     var shim = this._shimContainer;
     shim.style.display = "none";
     return true;
@@ -629,7 +629,7 @@ webui.@THEME_JS@.widget.calendar.prototype._ieHideShim = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.calendar.prototype._increaseMonth = function() {            
+@JS_NS@.widget.calendar.prototype._increaseMonth = function() {            
     var monthMenu = this._widget.getWidget(this.monthMenu.id).getSelectElement();          
     
     // If the monthMenu has no value, set it to January (that's what
@@ -670,7 +670,7 @@ webui.@THEME_JS@.widget.calendar.prototype._increaseMonth = function() {
  * return {Object} A JSON array of months.
  * @private
  */
-webui.@THEME_JS@.widget.calendar.prototype._getMonthOptions = function() {
+@JS_NS@.widget.calendar.prototype._getMonthOptions = function() {
     var monthMenu = new Array();
     
     // Get the number of months in a calendar year.
@@ -697,7 +697,7 @@ webui.@THEME_JS@.widget.calendar.prototype._getMonthOptions = function() {
  * @return {Object} A JSON array of calendar years.
  * @private
  */
-webui.@THEME_JS@.widget.calendar.prototype._getYearOptions = function(minYear, maxYear) {    
+@JS_NS@.widget.calendar.prototype._getYearOptions = function(minYear, maxYear) {    
     var yearMenu =new Array();       
     var diff = maxYear - minYear;
     for ( var i = 0; i <= diff; i++ ) {
@@ -722,7 +722,7 @@ webui.@THEME_JS@.widget.calendar.prototype._getYearOptions = function(minYear, m
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.calendar.prototype._postCreate = function () {
+@JS_NS@.widget.calendar.prototype._postCreate = function () {
     // Set ids. 
     if (this.id) {
         this._calendarMenuContainer.id = this.id + "_calendarMenuContainer";
@@ -932,7 +932,7 @@ webui.@THEME_JS@.widget.calendar.prototype._postCreate = function () {
  * @return {Object}  The Date object corresponding to the input String
  * @private
  */
-webui.@THEME_JS@.widget.calendar.prototype._convertStringToDate = function(inputDate, yearCheck) {   
+@JS_NS@.widget.calendar.prototype._convertStringToDate = function(inputDate, yearCheck) {   
     if (inputDate == "") {
         property = null;
         return false;
@@ -1036,7 +1036,7 @@ webui.@THEME_JS@.widget.calendar.prototype._convertStringToDate = function(input
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.calendar.prototype._setInitialFocus = function() {    
+@JS_NS@.widget.calendar.prototype._setInitialFocus = function() {    
     var pattern = new String(this.dateFormat);
     var yearIndex = pattern.indexOf("yyyy");
     var monthIndex = pattern.indexOf("MM");
@@ -1061,7 +1061,7 @@ webui.@THEME_JS@.widget.calendar.prototype._setInitialFocus = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.calendar.prototype._setLimitedSelectedValue = function(select, value) {
+@JS_NS@.widget.calendar.prototype._setLimitedSelectedValue = function(select, value) {
     var min = select.options[0].value;
     var max = select.options[select.length - 1].value;
     if (value < min) {        
@@ -1084,7 +1084,7 @@ webui.@THEME_JS@.widget.calendar.prototype._setLimitedSelectedValue = function(s
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.calendar.prototype._setProps = function(props) {
+@JS_NS@.widget.calendar.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -1124,9 +1124,9 @@ webui.@THEME_JS@.widget.calendar.prototype._setProps = function(props) {
     if (props.closeButtonLink) {
         // Set properties.
         props.closeButtonLink.onClick = 
-            "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "')._toggleCalendar();return false;";
+            "@JS_NS@.widget.common.getWidget('" + this.id + "')._toggleCalendar();return false;";
         props.closeButtonLink.onKeyDown = 
-            "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "')._closeCalendar(event);return false;";       
+            "@JS_NS@.widget.common.getWidget('" + this.id + "')._closeCalendar(event);return false;";       
 
         // Update/add fragment.
         this._widget._updateFragment(this._closeButtonContainer, 
@@ -1137,7 +1137,7 @@ webui.@THEME_JS@.widget.calendar.prototype._setProps = function(props) {
     if (props.decreaseLink) {
         // Set properties.
         props.decreaseLink.onClick = 
-            "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "')._decreaseMonth();return false;";
+            "@JS_NS@.widget.common.getWidget('" + this.id + "')._decreaseMonth();return false;";
 
         // Update/add fragment.
         this._widget._updateFragment(this._previousLinkContainer, 
@@ -1148,7 +1148,7 @@ webui.@THEME_JS@.widget.calendar.prototype._setProps = function(props) {
     if (props.increaseLink) {
         // Set properties.
         props.increaseLink.onClick = 
-            "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "')._increaseMonth();return false;";
+            "@JS_NS@.widget.common.getWidget('" + this.id + "')._increaseMonth();return false;";
 
         // Update/add fragment.
         this._widget._updateFragment(this._nextLinkContainer, this.increaseLink.id, 
@@ -1194,7 +1194,7 @@ webui.@THEME_JS@.widget.calendar.prototype._setProps = function(props) {
     if (props.monthMenu) {                        
         // Set properties.
         props.monthMenu.onChange =
-            "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "')._updateMonth(false);return false;";
+            "@JS_NS@.widget.common.getWidget('" + this.id + "')._updateMonth(false);return false;";
                          
         // Update/add fragment.
         this._widget._updateFragment(this._monthMenuContainer, this.monthMenu.id,
@@ -1205,7 +1205,7 @@ webui.@THEME_JS@.widget.calendar.prototype._setProps = function(props) {
     if (props.yearMenu) {        
         // Set properties.
         props.yearMenu.onChange =
-            "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "')._updateMonth(false);return false;";
+            "@JS_NS@.widget.common.getWidget('" + this.id + "')._updateMonth(false);return false;";
 
         // Update/add fragment.
         this._widget._updateFragment(this._yearMenuContainer, this.yearMenu.id,
@@ -1230,7 +1230,7 @@ webui.@THEME_JS@.widget.calendar.prototype._setProps = function(props) {
         // Set properties.
         props.toggleLink.disabled = this.disabled;
         props.toggleLink.onClick =
-            "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "')._toggleCalendar();return false;";
+            "@JS_NS@.widget.common.getWidget('" + this.id + "')._toggleCalendar();return false;";
 
         // Update/add fragment.
         this._widget._updateFragment(this._linkNode, this.toggleLink.id, props.toggleLink); 
@@ -1251,7 +1251,7 @@ webui.@THEME_JS@.widget.calendar.prototype._setProps = function(props) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.calendar.prototype._setSelectedValue = function(select, value) {
+@JS_NS@.widget.calendar.prototype._setSelectedValue = function(select, value) {
     for (var i = 0; i < select.length; i++) {
         if (select.options[i].value == value) {
             select.selectedIndex = i;
@@ -1268,37 +1268,37 @@ webui.@THEME_JS@.widget.calendar.prototype._setSelectedValue = function(select, 
  * @return {boolean} false to cancel JavaScript event.
  * @private
  */
-webui.@THEME_JS@.widget.calendar.prototype._toggleCalendar = function() {
+@JS_NS@.widget.calendar.prototype._toggleCalendar = function() {
     var topic = (this._calendarContainer.style.display != "block")
-        ? webui.@THEME_JS@.widget.calendar.event.toggle.openTopic
-        : webui.@THEME_JS@.widget.calendar.event.toggle.closeTopic;
+        ? @JS_NS@.widget.calendar.event.toggle.openTopic
+        : @JS_NS@.widget.calendar.event.toggle.closeTopic;
 
     // Publish an event for other widgets to listen for.
     //
     // Note: This must be done before the calendar is opened so user
     // input can be applied to the current date.
-    this._publish(webui.@THEME_JS@.widget.calendar.event.toggle.openTopic, [{
+    this._publish(@JS_NS@.widget.calendar.event.toggle.openTopic, [{
         id: this.id
     }]);
 
     // Open the calendar.
     if (this._calendarContainer.style.display != "block") {
-        if (webui.@THEME_JS@.widget.calendar.activeCalendarId != null) {
-            var cal = this._widget.getWidget(webui.@THEME_JS@.widget.calendar.activeCalendarId);
+        if (@JS_NS@.widget.calendar.activeCalendarId != null) {
+            var cal = this._widget.getWidget(@JS_NS@.widget.calendar.activeCalendarId);
             cal._toggleCalendar();
         }
-        webui.@THEME_JS@.widget.calendar.activeCalendarId = this.id;        
+        @JS_NS@.widget.calendar.activeCalendarId = this.id;        
         this._calendarContainer.style.display = "block";
         this._setInitialFocus();
         this._updateMonth(true);    
     } else {
         // Hide the calendar popup
         this._calendarContainer.style.display = "none";
-        webui.@THEME_JS@.widget.calendar.activeCalendarId = null;
+        @JS_NS@.widget.calendar.activeCalendarId = null;
     }
 
     // Test for IE 
-    if (webui.@THEME_JS@._base.browser._isIe5up()) {
+    if (@JS_NS@._base.browser._isIe5up()) {
         this._ieStackingContextFix();
     }          
     return false;
@@ -1314,7 +1314,7 @@ webui.@THEME_JS@.widget.calendar.prototype._toggleCalendar = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.calendar.prototype._updateMonth = function(initialize) {
+@JS_NS@.widget.calendar.prototype._updateMonth = function(initialize) {
     // Remove all the nodes of <tbody> before cloning its children.
     this._widget._removeChildNodes(this._tbodyContainer);    
     // Add week days

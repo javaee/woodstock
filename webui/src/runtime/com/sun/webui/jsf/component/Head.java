@@ -486,18 +486,18 @@ public class Head extends UIComponentBase {
     }
 
     /**
-     * Flag (true or false) indicating to include all tag library functionality. 
+     * Flag (true or false) indicating to include all widgets. 
      * <p>
      * For better performance, Javascript is included in the page for only the
-     * most commonly used tags (default). Other tags will continue to function,
-     * but additional requests may be generated to include more resources. Set
-     * the webuiAll property to true to include JavaScript resources when the 
-     * page is loaded, using a single request. Use this feature in combination 
-     * with the webuiJsfx property to include default Ajax functionality 
-     * based on JSF Extensions.
+     * most commonly used widgets (default). Other widgets will continue to 
+     * function, but additional requests may be generated to include more 
+     * resources. Set the webuiAll property to true to include JavaScript 
+     * resources when the page is loaded, using a single request. Use this 
+     * feature in combination with the webuiJsfx property to include default 
+     * Ajax functionality based on JSF Extensions.
      * </p>
      */
-    @Property(name="webuiAll", displayName="Include All Tag Library Functionality", category="Javascript")
+    @Property(name="webuiAll", displayName="Include All Widgets", category="Javascript")
     private boolean webuiAll = false; 
     private boolean webuiAll_set = false; 
  

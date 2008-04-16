@@ -20,16 +20,16 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.button");
+@JS_NS@._dojo.provide("@JS_NS@.widget.button");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
+@JS_NS@._dojo.require("@JS_NS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.widgetBase");
  
 /**
  * This function is used to construct a button widget.
  *
- * @name webui.@THEME_JS@.widget.button
- * @extends webui.@THEME_JS@.widget._base.widgetBase
+ * @name @JS_NS@.widget.button
+ * @extends @JS_NS@.widget._base.widgetBase
  * @class This class contains functions for the button widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -61,8 +61,8 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
  * @config {String} value Value of input.
  * @config {boolean} visible Hide or show element.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.button", 
-        webui.@THEME_JS@.widget._base.widgetBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.button", 
+        @JS_NS@.widget._base.widgetBase, {
     // Set defaults.
     constructor: function() {
         this.disabled = false;
@@ -82,8 +82,8 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.button",
  * </p>
  * @ignore
  */
-webui.@THEME_JS@.widget.button.event =
-        webui.@THEME_JS@.widget.button.prototype.event = {
+@JS_NS@.widget.button.event =
+        @JS_NS@.widget.button.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
@@ -92,18 +92,18 @@ webui.@THEME_JS@.widget.button.event =
         /** 
          * Refresh event topic for custom AJAX implementations to listen for.
          * 
-         * @id webui.@THEME_JS@.widget.button.event.beginTopic
+         * @id @JS_NS@.widget.button.event.beginTopic
          * @property {String} beginTopic
          */
-        beginTopic: "webui_@THEME_JS@_widget_button_event_refresh_begin",
+        beginTopic: "@JS_NS@_widget_button_event_refresh_begin",
 
         /** 
          * Refresh event topic for custom AJAX implementations to listen for.
          * 
-         * @id webui.@THEME_JS@.widget.button.event.endTopic
+         * @id @JS_NS@.widget.button.event.endTopic
          * @property {String} endTopic
          */
-        endTopic: "webui_@THEME_JS@_widget_button_event_refresh_end"
+        endTopic: "@JS_NS@_widget_button_event_refresh_end"
     },
 
     /**
@@ -112,10 +112,10 @@ webui.@THEME_JS@.widget.button.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_button_event_state_begin",
+        beginTopic: "@JS_NS@_widget_button_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_button_event_state_end"
+        endTopic: "@JS_NS@_widget_button_event_state_end"
     }
 };
 
@@ -128,7 +128,7 @@ webui.@THEME_JS@.widget.button.event =
  * @return {String} The outermost HTML element class name.
  * @private
  */
-webui.@THEME_JS@.widget.button.prototype._getClassName = function() {
+@JS_NS@.widget.button.prototype._getClassName = function() {
     var key = null;
 
     if (this.mini == true && this.primary == true) {
@@ -165,7 +165,7 @@ webui.@THEME_JS@.widget.button.prototype._getClassName = function() {
  * @return {String} The outermost HTML element class name.
  * @private
  */
-webui.@THEME_JS@.widget.button.prototype._getHoverClassName = function() {
+@JS_NS@.widget.button.prototype._getHoverClassName = function() {
     var key = null;
 
     if (this.mini == true && this.primary == true) {
@@ -188,10 +188,10 @@ webui.@THEME_JS@.widget.button.prototype._getHoverClassName = function() {
  * This function is used to get widget properties. Please see the constructor 
  * detail for a list of supported properties.
  *
- * @id webui.@THEME_JS@.widget.button.getProps
+ * @id @JS_NS@.widget.button.getProps
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME_JS@.widget.button.prototype.getProps = function() {
+@JS_NS@.widget.button.prototype.getProps = function() {
     var props = this._inherited("getProps", arguments);
 
     // Set properties.
@@ -213,7 +213,7 @@ webui.@THEME_JS@.widget.button.prototype.getProps = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.button.prototype._onBlurCallback = function(event) {
+@JS_NS@.widget.button.prototype._onBlurCallback = function(event) {
     if (this.disabled == true) {
         return true;
     }
@@ -232,7 +232,7 @@ webui.@THEME_JS@.widget.button.prototype._onBlurCallback = function(event) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.button.prototype._onFocusCallback = function(event) {
+@JS_NS@.widget.button.prototype._onFocusCallback = function(event) {
     if (this.disabled == true) {
         return true;
     }
@@ -253,7 +253,7 @@ webui.@THEME_JS@.widget.button.prototype._onFocusCallback = function(event) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.button.prototype._postCreate = function () {
+@JS_NS@.widget.button.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
         this._domNode.name = this.id;
@@ -266,29 +266,29 @@ webui.@THEME_JS@.widget.button.prototype._postCreate = function () {
     // continue to be backward compatible.
     
     /** @ignore */
-    this._domNode.isSecondary = function() { return !(webui.@THEME_JS@.widget.common.getWidget(this.id).getProps().primary); };
+    this._domNode.isSecondary = function() { return !(@JS_NS@.widget.common.getWidget(this.id).getProps().primary); };
     /** @ignore */
-    this._domNode.setSecondary = function(secondary) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProps({primary: !secondary}); };
+    this._domNode.setSecondary = function(secondary) { return @JS_NS@.widget.common.getWidget(this.id).setProps({primary: !secondary}); };
     /** @ignore */
-    this._domNode.isPrimary = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).getProps().primary; };
+    this._domNode.isPrimary = function() { return @JS_NS@.widget.common.getWidget(this.id).getProps().primary; };
     /** @ignore */
-    this._domNode.setPrimary = function(primary) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProps({primary: primary}); };
+    this._domNode.setPrimary = function(primary) { return @JS_NS@.widget.common.getWidget(this.id).setProps({primary: primary}); };
     /** @ignore */
-    this._domNode.isMini = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).getProps().mini; };
+    this._domNode.isMini = function() { return @JS_NS@.widget.common.getWidget(this.id).getProps().mini; };
     /** @ignore */
-    this._domNode.setMini = function(mini) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProps({mini: mini}); };
+    this._domNode.setMini = function(mini) { return @JS_NS@.widget.common.getWidget(this.id).setProps({mini: mini}); };
     /** @ignore */
-    this._domNode.getDisabled = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).getProps().disabled; };
+    this._domNode.getDisabled = function() { return @JS_NS@.widget.common.getWidget(this.id).getProps().disabled; };
     /** @ignore */
-    this._domNode.setDisabled = function(disabled) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProps({disabled: disabled}); };
+    this._domNode.setDisabled = function(disabled) { return @JS_NS@.widget.common.getWidget(this.id).setProps({disabled: disabled}); };
     /** @ignore */
-    this._domNode.getVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).getProps().visible; };
+    this._domNode.getVisible = function() { return @JS_NS@.widget.common.getWidget(this.id).getProps().visible; };
     /** @ignore */
-    this._domNode.setVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProps({visible: show}); };
+    this._domNode.setVisible = function(show) { return @JS_NS@.widget.common.getWidget(this.id).setProps({visible: show}); };
     /** @ignore */
-    this._domNode.getText = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).getProps().value; };
+    this._domNode.getText = function() { return @JS_NS@.widget.common.getWidget(this.id).getProps().value; };
     /** @ignore */
-    this._domNode.setText = function(text) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProps({value: text}); };
+    this._domNode.setText = function(text) { return @JS_NS@.widget.common.getWidget(this.id).setProps({value: text}); };
     this._domNode.doClick = this._domNode.click;
 
     // Set events.
@@ -310,7 +310,7 @@ webui.@THEME_JS@.widget.button.prototype._postCreate = function () {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.button.prototype._setProps = function(props) {
+@JS_NS@.widget.button.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }

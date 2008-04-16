@@ -20,19 +20,19 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._html.button");
+@JS_NS@._dojo.provide("@JS_NS@._html.button");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.browser");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@._base.browser");
+@JS_NS@._dojo.require("@JS_NS@.widget.common");
 
 /**
  * @class This class contains functions for button components.
  * @static
  *
- * @deprecated See webui.@THEME_JS@.widget.button
+ * @deprecated See @JS_NS@.widget.button
  * @private
  */
-webui.@THEME_JS@._html.button = {
+@JS_NS@._html.button = {
     /**
      * This function is used to initialize HTML element properties with Object
      * literals.
@@ -40,7 +40,7 @@ webui.@THEME_JS@._html.button = {
      * @param {Object} props Key-Value pairs of properties.
      * @config {String} id The element id.
      * @return {boolean} true if successful; otherwise, false.
-     * @deprecated See webui.@THEME_JS@.widget.button
+     * @deprecated See @JS_NS@.widget.button
      * @private
      */
     _init: function(props) {
@@ -49,26 +49,26 @@ webui.@THEME_JS@._html.button = {
             console.debug(message); // See Firebug console.
             return false;
         }
-        var widget = webui.@THEME_JS@.widget.common.getWidget(props.id);
+        var widget = @JS_NS@.widget.common.getWidget(props.id);
         if (widget == null) {
             console.debug(message); // See Firebug console.
             return false;
         }
 
         // Set functions
-        widget._domNode.isSecondary = webui.@THEME_JS@._html.button.isSecondary;
-        widget._domNode.setSecondary = webui.@THEME_JS@._html.button.setSecondary;
-        widget._domNode.isPrimary = webui.@THEME_JS@._html.button.isPrimary;
-        widget._domNode.setPrimary = webui.@THEME_JS@._html.button.setPrimary;
-        widget._domNode.isMini = webui.@THEME_JS@._html.button.isMini;
-        widget._domNode.setMini = webui.@THEME_JS@._html.button.setMini;
-        widget._domNode.getDisabled = webui.@THEME_JS@._html.button.getDisabled;
-        widget._domNode.setDisabled = webui.@THEME_JS@._html.button.setDisabled;
-        widget._domNode.getVisible = webui.@THEME_JS@._html.button.getVisible;
-        widget._domNode.setVisible = webui.@THEME_JS@._html.button.setVisible;
-        widget._domNode.getText = webui.@THEME_JS@._html.button.getText;
-        widget._domNode.setText = webui.@THEME_JS@._html.button.setText;
-        widget._domNode.doClick = webui.@THEME_JS@._html.button.click;
+        widget._domNode.isSecondary = @JS_NS@._html.button.isSecondary;
+        widget._domNode.setSecondary = @JS_NS@._html.button.setSecondary;
+        widget._domNode.isPrimary = @JS_NS@._html.button.isPrimary;
+        widget._domNode.setPrimary = @JS_NS@._html.button.setPrimary;
+        widget._domNode.isMini = @JS_NS@._html.button.isMini;
+        widget._domNode.setMini = @JS_NS@._html.button.setMini;
+        widget._domNode.getDisabled = @JS_NS@._html.button.getDisabled;
+        widget._domNode.setDisabled = @JS_NS@._html.button.setDisabled;
+        widget._domNode.getVisible = @JS_NS@._html.button.getVisible;
+        widget._domNode.setVisible = @JS_NS@._html.button.setVisible;
+        widget._domNode.getText = @JS_NS@._html.button.getText;
+        widget._domNode.setText = @JS_NS@._html.button.setText;
+        widget._domNode.doClick = @JS_NS@._html.button.click;
 
         return true;
     },
@@ -227,4 +227,4 @@ webui.@THEME_JS@._html.button = {
 };
 
 // Extend for backward compatibility with JSF based components.
-webui.@THEME_JS@.button = webui.@THEME_JS@._html.button;
+@JS_NS@.button = @JS_NS@._html.button;

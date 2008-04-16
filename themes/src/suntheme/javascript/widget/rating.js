@@ -20,15 +20,15 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.rating");
+@JS_NS@._dojo.provide("@JS_NS@.widget.rating");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.widgetBase");
 
 /**
  * This function is used to construct a rating widget.
  *
- * @name webui.@THEME_JS@.widget.rating
- * @extends webui.@THEME_JS@.widget._base.widgetBase
+ * @name @JS_NS@.widget.rating
+ * @extends @JS_NS@.widget._base.widgetBase
  * @class This class contains functions for the rating widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -93,8 +93,8 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
  * @config {String} style CSS style or styles to be applied to the outermost 
  * HTML element when this component is rendered.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.rating",
-        webui.@THEME_JS@.widget._base.widgetBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.rating",
+        @JS_NS@.widget._base.widgetBase, {
     // Set defaults.
     constructor: function() {
         // Set defaults for public properties that can be modified.
@@ -136,18 +136,18 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.rating",
  * </p>
  * @ignore
  */
-webui.@THEME_JS@.widget.rating.event =
-        webui.@THEME_JS@.widget.rating.prototype.event = {
+@JS_NS@.widget.rating.event =
+        @JS_NS@.widget.rating.prototype.event = {
     /** 
      * This closure is used to process refresh events.
      * @ignore
      */
     refresh: {
         /** Refresh event topics for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_rating_event_refresh_begin",
+        beginTopic: "@JS_NS@_widget_rating_event_refresh_begin",
 
         /** Refresh event topics for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_rating_event_refresh_end"
+        endTopic: "@JS_NS@_widget_rating_event_refresh_end"
     },
 
     /**
@@ -156,10 +156,10 @@ webui.@THEME_JS@.widget.rating.event =
      */
     submit: {
         /** Submit event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_rating_event_submit_begin",
+        beginTopic: "@JS_NS@_widget_rating_event_submit_begin",
 
         /** Submit event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_rating_event_submit_end"
+        endTopic: "@JS_NS@_widget_rating_event_submit_end"
     }
 };
 
@@ -169,7 +169,7 @@ webui.@THEME_JS@.widget.rating.event =
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME_JS@.widget.rating.prototype.getProps = function() {
+@JS_NS@.widget.rating.prototype.getProps = function() {
     var props = this._inherited("getProps", arguments);
 
     if (this.autoSubmit != null)
@@ -226,7 +226,7 @@ webui.@THEME_JS@.widget.rating.prototype.getProps = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.rating.prototype._setText = function(text) {
+@JS_NS@.widget.rating.prototype._setText = function(text) {
     if (this._textContainer != null) {
         if (text != null && (text.replace(/^\s+/g, '').replace(/\s+$/g, '') == "" ))
             text = null;
@@ -250,7 +250,7 @@ webui.@THEME_JS@.widget.rating.prototype._setText = function(text) {
  *           the 2nd element is the image width.
  * @private
  */
-webui.@THEME_JS@.widget.rating.prototype._getGradeImageInfo = function(
+@JS_NS@.widget.rating.prototype._getGradeImageInfo = function(
             averageMode, grade, rank) {
     var className = null;
     var width = null;
@@ -306,7 +306,7 @@ webui.@THEME_JS@.widget.rating.prototype._getGradeImageInfo = function(
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.rating.prototype._previewState = function(code, isMouseOver) {
+@JS_NS@.widget.rating.prototype._previewState = function(code, isMouseOver) {
     // Determine if we will be displaying average grade.
     //
     var displayingAvg = false;
@@ -440,7 +440,7 @@ webui.@THEME_JS@.widget.rating.prototype._previewState = function(code, isMouseO
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.rating.prototype._modifyState = function(code) {
+@JS_NS@.widget.rating.prototype._modifyState = function(code) {
     if (code == this._CODE_MODETOGGLE) {
         // Toggle mode
         this.inAverageMode = !this.inAverageMode;
@@ -497,7 +497,7 @@ webui.@THEME_JS@.widget.rating.prototype._modifyState = function(code) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.rating.prototype._onMouseCallback = function(code, isMouseOver) {
+@JS_NS@.widget.rating.prototype._onMouseCallback = function(code, isMouseOver) {
     // Return if either:
     //   1. this is a mouse over, or
     //   2. this is a mouse out, and the component is not considered in a "mousedover" state.
@@ -528,7 +528,7 @@ webui.@THEME_JS@.widget.rating.prototype._onMouseCallback = function(code, isMou
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.rating.prototype._onClickCallback = function(code) {
+@JS_NS@.widget.rating.prototype._onClickCallback = function(code) {
     // Return if either:
     //   1. clicked on a grade control when gradeReadOnly is true, or
     //   2. clicked on modeTogglecontrol, but modeReadOnly is true, or
@@ -558,7 +558,7 @@ webui.@THEME_JS@.widget.rating.prototype._onClickCallback = function(code) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.rating.prototype._onFocusCallback = function(code) {
+@JS_NS@.widget.rating.prototype._onFocusCallback = function(code) {
     // TBD
 //    console.log("_onFocusCallback: code=" + code);
     return true;
@@ -573,7 +573,7 @@ webui.@THEME_JS@.widget.rating.prototype._onFocusCallback = function(code) {
  * @return {Object} the event handler
  * @private
  */
-webui.@THEME_JS@.widget.rating.prototype._createOnMouseOverCallback = function(code) {
+@JS_NS@.widget.rating.prototype._createOnMouseOverCallback = function(code) {
     var _code = code;
     var _this = this;
     return function(event) {
@@ -590,7 +590,7 @@ webui.@THEME_JS@.widget.rating.prototype._createOnMouseOverCallback = function(c
  * @return {Object} the event handler
  * @private
  */
-webui.@THEME_JS@.widget.rating.prototype._createOnMouseOutCallback = function(code) {
+@JS_NS@.widget.rating.prototype._createOnMouseOutCallback = function(code) {
     var _code = code;
     var _this = this;
     return function(event) {
@@ -607,7 +607,7 @@ webui.@THEME_JS@.widget.rating.prototype._createOnMouseOutCallback = function(co
  * @return {Object} the event handler
  * @private
  */
-webui.@THEME_JS@.widget.rating.prototype._createOnClickCallback = function(code) {
+@JS_NS@.widget.rating.prototype._createOnClickCallback = function(code) {
     var _code = code;
     var _this = this;
     return function(event) {
@@ -624,7 +624,7 @@ webui.@THEME_JS@.widget.rating.prototype._createOnClickCallback = function(code)
  * @return {Object} the event handler
  * @private
  */
-webui.@THEME_JS@.widget.rating.prototype._createOnFocusCallback = function(code) {
+@JS_NS@.widget.rating.prototype._createOnFocusCallback = function(code) {
     var _code = code;
     var _this = this;
     return function(event) {
@@ -641,7 +641,7 @@ webui.@THEME_JS@.widget.rating.prototype._createOnFocusCallback = function(code)
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.rating.prototype._postCreate = function () {
+@JS_NS@.widget.rating.prototype._postCreate = function () {
     // Set IDs for the controls
     this.notInterestedID = this.id + "_notInterested";
     this.clearID = this.id + "_clear";
@@ -737,7 +737,7 @@ webui.@THEME_JS@.widget.rating.prototype._postCreate = function () {
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.rating.prototype.setProps = function(props, notify) {
+@JS_NS@.widget.rating.prototype.setProps = function(props, notify) {
     if (props == null) {
         return false;
     }
@@ -809,7 +809,7 @@ webui.@THEME_JS@.widget.rating.prototype.setProps = function(props, notify) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.rating.prototype._setProps = function(props) {
+@JS_NS@.widget.rating.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -1131,16 +1131,16 @@ webui.@THEME_JS@.widget.rating.prototype._setProps = function(props) {
  * processing lifecycle must be run.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.rating.prototype.submit = function(execute) {
+@JS_NS@.widget.rating.prototype.submit = function(execute) {
     // Publish an event for custom AJAX implementations to listen for.
     // Note that the current grade value is placed in a hidden input field which 
     // is automatically submitted, and so we don't need to explicitly include
     // the grade value in the props payload associated with beginTopic.
     //
-    this._publish(webui.@THEME_JS@.widget.rating.event.submit.beginTopic, [{
+    this._publish(@JS_NS@.widget.rating.event.submit.beginTopic, [{
         id: this.id,
         execute: execute,
-        endTopic: webui.@THEME_JS@.widget.rating.event.submit.endTopic
+        endTopic: @JS_NS@.widget.rating.event.submit.endTopic
     }]);
 
     return true;
@@ -1156,7 +1156,7 @@ webui.@THEME_JS@.widget.rating.prototype.submit = function(execute) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.rating.prototype._submitCallback = function(props) {
+@JS_NS@.widget.rating.prototype._submitCallback = function(props) {
     // Clear hidden field after each asynch submit, otherwise a subsequent
     // page submit would re-submit the same value again.
     this._hiddenFieldNode.value = null;

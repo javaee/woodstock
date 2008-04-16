@@ -384,8 +384,8 @@ public class JavaScriptUtilities {
 
         StringBuffer buff = new StringBuffer(256);
         buff.append("var ")
-            .append(getModuleName(null).replace('.', '_'))
-            .append("=");
+            .append(getModuleName(null))
+            .append("Config=");
 
         // Add config properties.
         json.put("ajax", getAjaxConfig())

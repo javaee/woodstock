@@ -20,16 +20,16 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.table2");
+@JS_NS@._dojo.provide("@JS_NS@.widget.table2");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
+@JS_NS@._dojo.require("@JS_NS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.widgetBase");
 
 /**
  * This function is used to construct a table2 widget.
  *
- * @name webui.@THEME_JS@.widget.table2
- * @extends webui.@THEME_JS@.widget._base.widgetBase
+ * @name @JS_NS@.widget.table2
+ * @extends @JS_NS@.widget._base.widgetBase
  * @class This class contains functions for the table2 widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -63,8 +63,8 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
  * @config {boolean} visible Hide or show element.
  * @config {String} width
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.table2",
-        webui.@THEME_JS@.widget._base.widgetBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.table2",
+        @JS_NS@.widget._base.widgetBase, {
     // Set defaults.
     _widgetType: "table2" // Required for theme properties.
 });
@@ -78,18 +78,18 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.table2",
  * </p>
  * @ignore
  */
-webui.@THEME_JS@.widget.table2.event =
-        webui.@THEME_JS@.widget.table2.prototype.event = {
+@JS_NS@.widget.table2.event =
+        @JS_NS@.widget.table2.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_table2_event_refresh_begin",
+        beginTopic: "@JS_NS@_widget_table2_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_table2_event_refresh_end"
+        endTopic: "@JS_NS@_widget_table2_event_refresh_end"
     },
 
     /**
@@ -98,10 +98,10 @@ webui.@THEME_JS@.widget.table2.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_table2_event_state_begin",
+        beginTopic: "@JS_NS@_widget_table2_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_table2_event_state_end"
+        endTopic: "@JS_NS@_widget_table2_event_state_end"
     }
 };
 
@@ -111,7 +111,7 @@ webui.@THEME_JS@.widget.table2.event =
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME_JS@.widget.table2.prototype.getProps = function() {
+@JS_NS@.widget.table2.prototype.getProps = function() {
     var props = this._inherited("getProps", arguments);
 
     // Set properties.
@@ -141,7 +141,7 @@ webui.@THEME_JS@.widget.table2.prototype.getProps = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.table2.prototype._postCreate = function () {
+@JS_NS@.widget.table2.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
         this._actionsContainer.id = this.id + "_actionsContainer";
@@ -171,7 +171,7 @@ webui.@THEME_JS@.widget.table2.prototype._postCreate = function () {
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.table2.prototype.setProps = function(props, notify) {
+@JS_NS@.widget.table2.prototype.setProps = function(props, notify) {
     if (props == null) {
         return false;
     }
@@ -200,7 +200,7 @@ webui.@THEME_JS@.widget.table2.prototype.setProps = function(props, notify) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.table2.prototype._setProps = function(props) {
+@JS_NS@.widget.table2.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -263,7 +263,7 @@ webui.@THEME_JS@.widget.table2.prototype._setProps = function(props) {
             setTimeout(function() {
                 // New literals are created every time this function is called, 
                 // and it's saved by closure magic.
-                webui.@THEME_JS@.widget.common.getWidget(_id)._resize();
+                @JS_NS@.widget.common.getWidget(_id)._resize();
             }, 2000);
         }
     }

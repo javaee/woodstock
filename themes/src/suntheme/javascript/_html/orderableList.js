@@ -20,16 +20,16 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._html.orderableList");
+@JS_NS@._dojo.provide("@JS_NS@._html.orderableList");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.proto");
+@JS_NS@._dojo.require("@JS_NS@._base.proto");
 
 /** 
  * @class This class contains functions for orderableList components.
  * @static
  * @private
  */
-webui.@THEME_JS@._html.orderableList = {
+@JS_NS@._html.orderableList = {
     /**
      * This function is used to initialize HTML element properties with Object
      * literals.
@@ -103,12 +103,12 @@ webui.@THEME_JS@._html.orderableList = {
                 || domNode.moveBottomButton == null 
                 || domNode.values == null) {
             return setTimeout(function() {
-                webui.@THEME_JS@._html.orderableList._init(props);
+                @JS_NS@._html.orderableList._init(props);
             }, 10);
         }
 
         // Set given properties on domNode.
-        webui.@THEME_JS@._base.proto._extend(domNode, props, false);
+        @JS_NS@._base.proto._extend(domNode, props, false);
 
         // The options of the select element from which selections are made 
         domNode.options = domNode.list.options;
@@ -119,13 +119,13 @@ webui.@THEME_JS@._html.orderableList = {
         }
 
         // Set functions.
-        domNode.moveUp = webui.@THEME_JS@._html.orderableList.moveUp;
-        domNode.moveDown = webui.@THEME_JS@._html.orderableList.moveDown;
-        domNode.moveTop = webui.@THEME_JS@._html.orderableList.moveTop;
-        domNode.moveBottom = webui.@THEME_JS@._html.orderableList.moveBottom;
-        domNode.updateButtons = webui.@THEME_JS@._html.orderableList.updateButtons;
-        domNode.updateValue = webui.@THEME_JS@._html.orderableList.updateValue;
-        domNode.onChange = webui.@THEME_JS@._html.orderableList.updateButtons;
+        domNode.moveUp = @JS_NS@._html.orderableList.moveUp;
+        domNode.moveDown = @JS_NS@._html.orderableList.moveDown;
+        domNode.moveTop = @JS_NS@._html.orderableList.moveTop;
+        domNode.moveBottom = @JS_NS@._html.orderableList.moveBottom;
+        domNode.updateButtons = @JS_NS@._html.orderableList.updateButtons;
+        domNode.updateValue = @JS_NS@._html.orderableList.updateValue;
+        domNode.onChange = @JS_NS@._html.orderableList.updateButtons;
 
         // Initialize buttons.
         domNode.updateButtons();

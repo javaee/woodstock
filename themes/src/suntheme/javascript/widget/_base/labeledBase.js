@@ -20,13 +20,13 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget._base.labeledBase");
+@JS_NS@._dojo.provide("@JS_NS@.widget._base.labeledBase");
 
 /**
  * This function is used to construct a base class.
  *
- * @name webui.@THEME_JS@.widget._base.labeledBase
- * @extends webui.@THEME_JS@.widget._base.widgetBase
+ * @name @JS_NS@.widget._base.labeledBase
+ * @extends @JS_NS@.widget._base.widgetBase
  * @class This class defines functions and properties 
  * for widgets that have label subcomponents and implements 
  * the <code>required</code> and <code>valid</code> properties which
@@ -48,11 +48,11 @@ webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget._base.labeledBase");
  * null for <code>labeledBase</code> to render a label. If only the
  * <code>value</code> property is specified the following default
  * values will be used to create an instance of 
- * <code>webui.@THEME_JS@.widget.label</code>.
+ * <code>@JS_NS@.widget.label</code>.
  * <p>
  * <ul>
  * <li><code>widgetType</code> -
- * <code>webui.@THEME_JS@.widget.label</code></li>
+ * <code>@JS_NS@.widget.label</code></li>
  * <li><code>id</code> - this.id + "_label"</li>
  * <li><code>htmlFor</code> - subclasses determine the appropriate value
  * for this property in their implementation of <code>_getLabelProps</code>.
@@ -73,8 +73,8 @@ webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget._base.labeledBase");
  * widget that is labeled. Subclasses may or may not implement this property.
  * @constructor
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget._base.labeledBase",
-        webui.@THEME_JS@.widget._base.widgetBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget._base.labeledBase",
+        @JS_NS@.widget._base.widgetBase, {
     // Set defaults.
     constructor: function() {
 	// If true the label appears above the owning widget.
@@ -100,7 +100,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget._base.labeledBase",
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME_JS@.widget._base.labeledBase.prototype.getProps = function() {
+@JS_NS@.widget._base.labeledBase.prototype.getProps = function() {
     var props = this._inherited("getProps", arguments);
 
     if (this.label != null) { props.label = this.label; };
@@ -123,7 +123,7 @@ webui.@THEME_JS@.widget._base.labeledBase.prototype.getProps = function() {
  * selector for the label when widget is enabled.
  * @return {String} This implementation returns null;
  */
-webui.@THEME_JS@.widget._base.labeledBase.prototype._getLabelDisabledClassName = function(disabled) {
+@JS_NS@.widget._base.labeledBase.prototype._getLabelDisabledClassName = function(disabled) {
     return null;
 };
 
@@ -139,7 +139,7 @@ webui.@THEME_JS@.widget._base.labeledBase.prototype._getLabelDisabledClassName =
  * @return {String} This implementation returns null;
  * @private
  */
-webui.@THEME_JS@.widget._base.labeledBase.prototype._getLabelOnTopClassName = function(ontop) {
+@JS_NS@.widget._base.labeledBase.prototype._getLabelOnTopClassName = function(ontop) {
     return null;
 };
 
@@ -152,7 +152,7 @@ webui.@THEME_JS@.widget._base.labeledBase.prototype._getLabelOnTopClassName = fu
  * @return {Object} Key-Value pairs of label properties.
  * @private
  */
-webui.@THEME_JS@.widget._base.labeledBase.prototype._getLabelProps = function() {
+@JS_NS@.widget._base.labeledBase.prototype._getLabelProps = function() {
     var props = {};
     
     var cn = this._getLabelOnTopClassName(this.labelOnTop);
@@ -175,7 +175,7 @@ webui.@THEME_JS@.widget._base.labeledBase.prototype._getLabelProps = function() 
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget._base.labeledBase.prototype._postCreate = function () {
+@JS_NS@.widget._base.labeledBase.prototype._postCreate = function () {
     // A widget that has inherited from labeledBase must have
     // "this._labelContainer", but check anyway.
     //
@@ -217,7 +217,7 @@ webui.@THEME_JS@.widget._base.labeledBase.prototype._postCreate = function () {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget._base.labeledBase.prototype._setProps = function(props) {
+@JS_NS@.widget._base.labeledBase.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }

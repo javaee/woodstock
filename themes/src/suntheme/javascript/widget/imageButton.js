@@ -20,15 +20,15 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.imageButton");
+@JS_NS@._dojo.provide("@JS_NS@.widget.imageButton");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.button");
+@JS_NS@._dojo.require("@JS_NS@.widget.button");
 
 /**
  * This function is used to construct a imageButton widget.
  *
- * @name webui.@THEME_JS@.widget.imageButton
- * @extends webui.@THEME_JS@.widget.button
+ * @name @JS_NS@.widget.imageButton
+ * @extends @JS_NS@.widget.button
  * @class This class contains functions for the imageButton widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -60,8 +60,8 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.button");
  * @config {String} value Value of input.
  * @config {boolean} visible Hide or show element.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.imageButton",
-        webui.@THEME_JS@.widget.button, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.imageButton",
+        @JS_NS@.widget.button, {
     // Set defaults.
     _widgetType: "imageButton"  // Required for theme properties.
 });
@@ -75,18 +75,18 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.imageButton",
  * </p>
  * @ignore
  */
-webui.@THEME_JS@.widget.imageButton.event =
-        webui.@THEME_JS@.widget.imageButton.prototype.event = {
+@JS_NS@.widget.imageButton.event =
+        @JS_NS@.widget.imageButton.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_imageButton_event_refresh_begin",
+        beginTopic: "@JS_NS@_widget_imageButton_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_imageButton_event_refresh_end"
+        endTopic: "@JS_NS@_widget_imageButton_event_refresh_end"
     },
 
     /**
@@ -95,10 +95,10 @@ webui.@THEME_JS@.widget.imageButton.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_imageButton_event_state_begin",
+        beginTopic: "@JS_NS@_widget_imageButton_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_imageButton_event_state_end"
+        endTopic: "@JS_NS@_widget_imageButton_event_state_end"
     }
 };
 
@@ -111,7 +111,7 @@ webui.@THEME_JS@.widget.imageButton.event =
  * @return {String} The outermost HTML element class name.
  * @private
  */
-webui.@THEME_JS@.widget.imageButton.prototype._getClassName = function() {
+@JS_NS@.widget.imageButton.prototype._getClassName = function() {
     // If it is an image button, only the BUTTON3 selectors are used.
     // Note that the "mini" and "primary" values can still be set but
     // have no effect on image buttons by policy, vs by theme.
@@ -135,7 +135,7 @@ webui.@THEME_JS@.widget.imageButton.prototype._getClassName = function() {
  * @return {String} The outermost HTML element class name.
  * @private
  */
-webui.@THEME_JS@.widget.imageButton.prototype._getHoverClassName = function() {
+@JS_NS@.widget.imageButton.prototype._getHoverClassName = function() {
     // If it is an image button, only the BUTTON3 selectors are used.
     // Note that the "mini" and "primary" values can still be set but
     // have no effect on image buttons by policy, vs by theme.
@@ -152,7 +152,7 @@ webui.@THEME_JS@.widget.imageButton.prototype._getHoverClassName = function() {
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME_JS@.widget.imageButton.prototype.getProps = function() {
+@JS_NS@.widget.imageButton.prototype.getProps = function() {
     var props = this._inherited("getProps", arguments);
 
     // Set properties.
@@ -171,7 +171,7 @@ webui.@THEME_JS@.widget.imageButton.prototype.getProps = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.imageButton.prototype._setProps = function(props) {
+@JS_NS@.widget.imageButton.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -182,7 +182,7 @@ webui.@THEME_JS@.widget.imageButton.prototype._setProps = function(props) {
         // context path already appended and if not, append it.
         if (this.prefix) {
             props.src = 
-                webui.@THEME_JS@.widget.common._appendPrefix(this.prefix, props.src);                
+                @JS_NS@.widget.common._appendPrefix(this.prefix, props.src);                
         }
         this._domNode.src = props.src; 
     }

@@ -20,23 +20,22 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget._base.eventBase");
+@JS_NS@._dojo.provide("@JS_NS@.widget._base.eventBase");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.config");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._dijit._Widget"); 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._dijit._Templated");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@._dijit._Widget"); 
+@JS_NS@._dojo.require("@JS_NS@._dijit._Templated");
+@JS_NS@._dojo.require("@JS_NS@.widget.common");
 
 /** 
  * This function is used to construct a base class.
  *
- * @name webui.@THEME_JS@.widget._base.eventBase
- * @extends webui.@THEME_JS@._dijit._Widget, webui.@THEME_JS@._dijit._Templated
+ * @name @JS_NS@.widget._base.eventBase
+ * @extends @JS_NS@._dijit._Widget, @JS_NS@._dijit._Templated
  * @class This class contains functions for widgets that extend eventBase.
  * @constructor
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget._base.eventBase", [
-    webui.@THEME_JS@._dijit._Widget, webui.@THEME_JS@._dijit._Templated]);
+@JS_NS@._dojo.declare("@JS_NS@.widget._base.eventBase", [
+    @JS_NS@._dijit._Widget, @JS_NS@._dijit._Templated]);
 
 /**
  * This object contains event topics.
@@ -47,8 +46,8 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget._base.eventBase", [
  * </p>
  * @ignore
  */
-webui.@THEME_JS@.widget._base.eventBase.event =
-        webui.@THEME_JS@.widget._base.eventBase.prototype.event = {
+@JS_NS@.widget._base.eventBase.event =
+        @JS_NS@.widget._base.eventBase.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
@@ -96,7 +95,7 @@ webui.@THEME_JS@.widget._base.eventBase.event =
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget._base.eventBase.prototype._initEvents = function () {
+@JS_NS@.widget._base.eventBase.prototype._initEvents = function () {
     if (this.event == null) {
         return false;
     }
@@ -117,7 +116,7 @@ webui.@THEME_JS@.widget._base.eventBase.prototype._initEvents = function () {
     if (this.event.refresh != null) {
         /** @ignore */
         this._domNode.refresh = function(execute) {
-            return webui.@THEME_JS@.widget.common.getWidget(_id).refresh(execute);
+            return @JS_NS@.widget.common.getWidget(_id).refresh(execute);
         };
         subscribe = true;
     } else {
@@ -128,7 +127,7 @@ webui.@THEME_JS@.widget._base.eventBase.prototype._initEvents = function () {
     if (this.event.submit != null) {
         /** @ignore */
         this._domNode.submit = function(execute) {
-            return webui.@THEME_JS@.widget.common.getWidget(_id).submit(execute);    
+            return @JS_NS@.widget.common.getWidget(_id).submit(execute);    
         };
         subscribe = true;
     } else {
@@ -146,7 +145,7 @@ webui.@THEME_JS@.widget._base.eventBase.prototype._initEvents = function () {
     if (subscribe == true) {
         /** @ignore */
         this._domNode.subscribe = function(topic, obj, func) {
-            return webui.@THEME_JS@.widget.common.subscribe(topic, obj, func);
+            return @JS_NS@.widget.common.subscribe(topic, obj, func);
         };
     }
     return true;
@@ -164,13 +163,13 @@ webui.@THEME_JS@.widget._base.eventBase.prototype._initEvents = function () {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget._base.eventBase.prototype._publish = function(topic, props) {
+@JS_NS@.widget._base.eventBase.prototype._publish = function(topic, props) {
     // Obtain the Ajax module associated with this widget.
-    var config = webui.@THEME_JS@._base.config;
+    var config = @JS_NS@._base.config;
     if (new Boolean(config.ajax.isAjax).valueOf() == true && config.ajax.module) {
-        webui.@THEME_JS@._dojo.require(config.ajax.module + "." + this._widgetType);
+        @JS_NS@._dojo.require(config.ajax.module + "." + this._widgetType);
     }
-    return webui.@THEME_JS@.widget.common.publish(topic, props);
+    return @JS_NS@.widget.common.publish(topic, props);
 };
 
 /**
@@ -185,7 +184,7 @@ webui.@THEME_JS@.widget._base.eventBase.prototype._publish = function(topic, pro
  * processing lifecycle must be run.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget._base.eventBase.prototype.refresh = function(execute) {
+@JS_NS@.widget._base.eventBase.prototype.refresh = function(execute) {
     if (this.event.refresh == null) {
         console.debug("Error: Refresh event topics not implemented for " + 
             this._widgetType); // See Firebug console.
@@ -212,7 +211,7 @@ webui.@THEME_JS@.widget._base.eventBase.prototype.refresh = function(execute) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget._base.eventBase.prototype._stateChanged = function(props) {
+@JS_NS@.widget._base.eventBase.prototype._stateChanged = function(props) {
     if (this.event.state == null) {
         console.debug("Error: State event topics not implemented for " + 
             this._widgetType); // See Firebug console.
@@ -240,7 +239,7 @@ webui.@THEME_JS@.widget._base.eventBase.prototype._stateChanged = function(props
  * processing lifecycle must be run.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget._base.eventBase.prototype.submit = function(execute) {
+@JS_NS@.widget._base.eventBase.prototype.submit = function(execute) {
     if (this.event.submit == null) {
         console.debug("Error: Submit event topics not implemented for " + 
             this._widgetType); // See Firebug console.

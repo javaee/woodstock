@@ -20,15 +20,15 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.anchor");
+@JS_NS@._dojo.provide("@JS_NS@.widget.anchor");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.anchorBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.anchorBase");
 
 /**
  * This function is used to construct an anchor widget.
  *
- * @name webui.@THEME_JS@.widget.anchor
- * @extends webui.@THEME_JS@.widget._base.anchorBase
+ * @name @JS_NS@.widget.anchor
+ * @extends @JS_NS@.widget._base.anchorBase
  * @class This class contains functions for the anchor widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -64,8 +64,8 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.anchorBase");
  * @config {String} title Provides a title for element.
  * @config {boolean} visible Hide or show element.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.anchor",
-        webui.@THEME_JS@.widget._base.anchorBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.anchor",
+        @JS_NS@.widget._base.anchorBase, {
     // Set defaults.
     _widgetType: "anchor" // Required for theme properties.
 });
@@ -79,18 +79,18 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.anchor",
  * </p>
  * @ignore
  */
-webui.@THEME_JS@.widget.anchor.event =
-        webui.@THEME_JS@.widget.anchor.prototype.event = {
+@JS_NS@.widget.anchor.event =
+        @JS_NS@.widget.anchor.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_anchor_event_refresh_begin",
+        beginTopic: "@JS_NS@_widget_anchor_event_refresh_begin",
         
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_anchor_event_refresh_end"
+        endTopic: "@JS_NS@_widget_anchor_event_refresh_end"
     },
 
     /**
@@ -99,10 +99,10 @@ webui.@THEME_JS@.widget.anchor.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_anchor_event_state_begin",
+        beginTopic: "@JS_NS@_widget_anchor_event_state_begin",
         
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_anchor_event_state_end"
+        endTopic: "@JS_NS@_widget_anchor_event_state_end"
     }
 };
 
@@ -115,7 +115,7 @@ webui.@THEME_JS@.widget.anchor.event =
  * @return {String} The outermost HTML element class name.
  * @private
  */
-webui.@THEME_JS@.widget.anchor.prototype._getClassName = function() {
+@JS_NS@.widget.anchor.prototype._getClassName = function() {
     // Set default style.
     var className = (this.href && this.disabled == false)
         ? this._theme.getClassName("ANCHOR","")
@@ -135,7 +135,7 @@ webui.@THEME_JS@.widget.anchor.prototype._getClassName = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.anchor.prototype._postCreate = function () {
+@JS_NS@.widget.anchor.prototype._postCreate = function () {
     // Create callback function for onclick event.
     this._dojo.connect(this._domNode, "onclick", this, "_onClickCallback");
 

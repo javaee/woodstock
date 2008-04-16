@@ -20,14 +20,14 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.formElements");
+@JS_NS@._dojo.provide("@JS_NS@.formElements");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._html.button");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._html.checkbox");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._html.dropDown");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._html.field");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._html.hyperlink");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._html.jumpDropDown");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._html.listbox");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._html.rbcb");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._html.radiobutton");
+@JS_NS@._dojo.require("@JS_NS@._html.button");
+@JS_NS@._dojo.require("@JS_NS@._html.checkbox");
+@JS_NS@._dojo.require("@JS_NS@._html.dropDown");
+@JS_NS@._dojo.require("@JS_NS@._html.field");
+@JS_NS@._dojo.require("@JS_NS@._html.hyperlink");
+@JS_NS@._dojo.require("@JS_NS@._html.jumpDropDown");
+@JS_NS@._dojo.require("@JS_NS@._html.listbox");
+@JS_NS@._dojo.require("@JS_NS@._html.rbcb");
+@JS_NS@._dojo.require("@JS_NS@._html.radiobutton");

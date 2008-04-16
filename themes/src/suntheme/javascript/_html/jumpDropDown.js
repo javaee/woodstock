@@ -20,18 +20,18 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._html.jumpDropDown");
+@JS_NS@._dojo.provide("@JS_NS@._html.jumpDropDown");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@.widget.common");
 
 /**
  * @class This class contains functions for jumpDropDown components.
  * @static
  *
- * @deprecated See webui.@THEME_JS@.widget.dropDown
+ * @deprecated See @JS_NS@.widget.dropDown
  * @private
  */
-webui.@THEME_JS@._html.jumpDropDown = {
+@JS_NS@._html.jumpDropDown = {
     /**
      * This function is invoked by the jumpdropdown onchange action to set the
      * form action and then submit the form.
@@ -46,7 +46,7 @@ webui.@THEME_JS@._html.jumpDropDown = {
      * @deprecated Use document.getElementById(elementId).changed()
      */
     changed: function(elementId) {
-        var widget = webui.@THEME_JS@.widget.common.getWidget(elementId);
+        var widget = @JS_NS@.widget.common.getWidget(elementId);
         if (widget) {
             return widget.changed();
         }
@@ -55,4 +55,4 @@ webui.@THEME_JS@._html.jumpDropDown = {
 };
 
 // Extend for backward compatibility with JSF based components.
-webui.@THEME_JS@.jumpDropDown = webui.@THEME_JS@._html.jumpDropDown;
+@JS_NS@.jumpDropDown = @JS_NS@._html.jumpDropDown;

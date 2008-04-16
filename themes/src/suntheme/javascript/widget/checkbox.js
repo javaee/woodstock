@@ -20,15 +20,15 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.checkbox");
+@JS_NS@._dojo.provide("@JS_NS@.widget.checkbox");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.checkedBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.checkedBase");
 
 /**
  * This function is used to construct a checkbox widget.
  *
- * @name webui.@THEME_JS@.widget.checkbox
- * @extends webui.@THEME_JS@.widget._base.checkedBase
+ * @name @JS_NS@.widget.checkbox
+ * @extends @JS_NS@.widget._base.checkedBase
  * @class This class contains functions for the checkbox widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -63,8 +63,8 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.checkedBase");
  * @config {String} value Value of input.
  * @config {boolean} visible Hide or show element.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.checkbox",
-        webui.@THEME_JS@.widget._base.checkedBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.checkbox",
+        @JS_NS@.widget._base.checkedBase, {
     // Set defaults.
     _idSuffix: "_cb",
     _widgetType: "checkbox" // Required for theme properties.
@@ -79,18 +79,18 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.checkbox",
  * </p>
  * @ignore
  */
-webui.@THEME_JS@.widget.checkbox.event =
-        webui.@THEME_JS@.widget.checkbox.prototype.event = {
+@JS_NS@.widget.checkbox.event =
+        @JS_NS@.widget.checkbox.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
         /** event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_checkbox_event_refresh_begin",
+        beginTopic: "@JS_NS@_widget_checkbox_event_refresh_begin",
 
         /** event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_checkbox_event_refresh_end"
+        endTopic: "@JS_NS@_widget_checkbox_event_refresh_end"
     },
 
     /**
@@ -99,10 +99,10 @@ webui.@THEME_JS@.widget.checkbox.event =
      */
     state: {
         /** event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_checkbox_event_state_begin",
+        beginTopic: "@JS_NS@_widget_checkbox_event_state_begin",
 
         /** event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_checkbox_event_state_end"
+        endTopic: "@JS_NS@_widget_checkbox_event_state_end"
     },
 
     /**
@@ -111,10 +111,10 @@ webui.@THEME_JS@.widget.checkbox.event =
      */
     submit: {
         /** event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_checkbox_event_submit_begin",
+        beginTopic: "@JS_NS@_widget_checkbox_event_submit_begin",
 
         /** event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_checkbox_event_submit_end"
+        endTopic: "@JS_NS@_widget_checkbox_event_submit_end"
     }
 };
 
@@ -127,7 +127,7 @@ webui.@THEME_JS@.widget.checkbox.event =
  * @return {String} The outermost HTML element class name.
  * @private
  */
-webui.@THEME_JS@.widget.checkbox.prototype._getClassName = function() {
+@JS_NS@.widget.checkbox.prototype._getClassName = function() {
     // Set default style.
     var className = (this.disabled == true)
         ? this._theme.getClassName("CHECKBOX_SPAN_DISABLED", "")
@@ -144,7 +144,7 @@ webui.@THEME_JS@.widget.checkbox.prototype._getClassName = function() {
  * @return {String} The HTML image element class name.
  * @private
  */
-webui.@THEME_JS@.widget.checkbox.prototype._getImageClassName = function() {
+@JS_NS@.widget.checkbox.prototype._getImageClassName = function() {
     return (this.disabled == true)
         ? this._theme.getClassName("CHECKBOX_IMAGE_DISABLED", "")
         : this._theme.getClassName("CHECKBOX_IMAGE", "");  
@@ -156,7 +156,7 @@ webui.@THEME_JS@.widget.checkbox.prototype._getImageClassName = function() {
  * @return {String} The HTML input element class name.
  * @private
  */
-webui.@THEME_JS@.widget.checkbox.prototype._getInputClassName = function() {
+@JS_NS@.widget.checkbox.prototype._getInputClassName = function() {
     // readOnly style.
     if (this.readOnly == true) {
         return this._theme.getClassName("CHECKBOX_READONLY", "");        
@@ -174,7 +174,7 @@ webui.@THEME_JS@.widget.checkbox.prototype._getInputClassName = function() {
  * @return {String} The HTML label element class name.
  * @private
  */
-webui.@THEME_JS@.widget.checkbox.prototype._getLabelDisabledClassName = function(disabled) {
+@JS_NS@.widget.checkbox.prototype._getLabelDisabledClassName = function(disabled) {
     return (disabled == true)
         ? this._theme.getClassName("CHECKBOX_LABEL_DISABLED", "")
         : this._theme.getClassName("CHECKBOX_LABEL", "");  
@@ -198,7 +198,7 @@ webui.@THEME_JS@.widget.checkbox.prototype._getLabelDisabledClassName = function
  * @return {Object} label properties.
  * @private
  */
-webui.@THEME_JS@.widget.checkbox.prototype._getLabelProps = function() {
+@JS_NS@.widget.checkbox.prototype._getLabelProps = function() {
 
     // First see if the super class wants to contribute to the props.
     // Let selectBase add the htmlFor property

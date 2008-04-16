@@ -20,18 +20,18 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.table2RowGroup");
+@JS_NS@._dojo.provide("@JS_NS@.widget.table2RowGroup");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.browser");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.theme.common");
+@JS_NS@._dojo.require("@JS_NS@._base.browser");
+@JS_NS@._dojo.require("@JS_NS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.widgetBase");
+@JS_NS@._dojo.require("@JS_NS@.theme.common");
 
 /**
  * This function is used to construct a table2RowGroup widget.
  *
- * @name webui.@THEME_JS@.widget.table2RowGroup
- * @extends webui.@THEME_JS@.widget._base.widgetBase
+ * @name @JS_NS@.widget.table2RowGroup
+ * @extends @JS_NS@.widget._base.widgetBase
  * @class This class contains functions for the table2RowGroup widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -65,8 +65,8 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.theme.common");
  * @config {String} valign 
  * @config {boolean} visible Hide or show element.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.table2RowGroup",
-        webui.@THEME_JS@.widget._base.widgetBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.table2RowGroup",
+        @JS_NS@.widget._base.widgetBase, {
     // Set defaults.
     constructor: function() {
         this.currentRow = 0; // Current row in view.
@@ -78,21 +78,21 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.table2RowGroup",
     _primarySortOptions: [{
         "group": false,
         "value": "sort",
-        "label": webui.@THEME_JS@.theme.common.getMessage("table2.sortByThisColumn"),
+        "label": @JS_NS@.theme.common.getMessage("table2.sortByThisColumn"),
         "disabled": true,
         "separator": false,
         "escape": true
     }, {
         "group": false,
         "value": "primaryAscending",
-        "label": webui.@THEME_JS@.theme.common.getMessage("table2.sortAscending"),
+        "label": @JS_NS@.theme.common.getMessage("table2.sortAscending"),
         "disabled": false,
         "separator": false,
         "escape": true
     }, {
         "group": false,
         "value": "primaryDescending",
-        "label": webui.@THEME_JS@.theme.common.getMessage("table2.sortDescending"),
+        "label": @JS_NS@.theme.common.getMessage("table2.sortDescending"),
         "disabled": false,
         "separator": true,
         "escape": true
@@ -101,7 +101,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.table2RowGroup",
     _clearSortOptions: [{
         "group": false,
         "value": "clear",
-        "label": webui.@THEME_JS@.theme.common.getMessage("table2.clearSort"),
+        "label": @JS_NS@.theme.common.getMessage("table2.clearSort"),
         "disabled": false,
         "separator": false,
         "escape": true
@@ -110,21 +110,21 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.table2RowGroup",
     _secondarySortOptions: [{
         "group": false,
         "value": "sort",
-        "label": webui.@THEME_JS@.theme.common.getMessage("table2.addColumnSort"),
+        "label": @JS_NS@.theme.common.getMessage("table2.addColumnSort"),
         "disabled": true,
         "separator": false,
         "escape": true
     }, {
         "group": false,
         "value": "ascending",
-        "label": webui.@THEME_JS@.theme.common.getMessage("table2.sortAscending"),
+        "label": @JS_NS@.theme.common.getMessage("table2.sortAscending"),
         "disabled": false,
         "separator": false,
         "escape": true
     }, {
         "group": false,
         "value": "descending",
-        "label": webui.@THEME_JS@.theme.common.getMessage("table2.sortDescending"),
+        "label": @JS_NS@.theme.common.getMessage("table2.sortDescending"),
         "disabled": false,
         "separator": true,
         "escape": true
@@ -138,7 +138,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.table2RowGroup",
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.table2RowGroup.prototype._addColumns = function() {
+@JS_NS@.widget.table2RowGroup.prototype._addColumns = function() {
     // Clear column headers/footers.
     this._widget._removeChildNodes(this._thead);
     this._widget._removeChildNodes(this._tfoot);
@@ -177,7 +177,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._addColumns = function() {
             if (colHeaderLink != null) {
                 this._widget._addFragment(colHeaderLink, {
                         id: headerCellClone.id + "_Text",
-                        onClick: "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "')._openSortMenu(event, '" + col.id + "', '" + col.sortLevel + "');",
+                        onClick: "@JS_NS@.widget.common.getWidget('" + this.id + "')._openSortMenu(event, '" + col.id + "', '" + col.sortLevel + "');",
                         value: col.headerText,
                         widgetType: "staticText"
                     }, "last");
@@ -222,7 +222,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._addColumns = function() {
  * @param {Array} rows An array of rows.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.table2RowGroup.prototype.addRows = function(rows) {
+@JS_NS@.widget.table2RowGroup.prototype.addRows = function(rows) {
     if (rows == null) {
         return false;
     }
@@ -287,7 +287,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype.addRows = function(rows) {
     setTimeout(function() {
         // New literals are created every time this function is called, and it's 
         // saved by closure magic.
-        webui.@THEME_JS@.widget.common.getWidget(_id)._resize();
+        @JS_NS@.widget.common.getWidget(_id)._resize();
     }, 10);
     return true;
 };
@@ -301,18 +301,18 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype.addRows = function(rows) {
  * </p>
  * @ignore
  */
-webui.@THEME_JS@.widget.table2RowGroup.event =
-        webui.@THEME_JS@.widget.table2RowGroup.prototype.event = {
+@JS_NS@.widget.table2RowGroup.event =
+        @JS_NS@.widget.table2RowGroup.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_table2RowGroup_event_refresh_begin",
+        beginTopic: "@JS_NS@_widget_table2RowGroup_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_table2RowGroup_event_refresh_end"
+        endTopic: "@JS_NS@_widget_table2RowGroup_event_refresh_end"
     },
 
     /**
@@ -321,10 +321,10 @@ webui.@THEME_JS@.widget.table2RowGroup.event =
      */
     scroll: {
         /** Scroll event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_table2RowGroup_event_scroll_begin",
+        beginTopic: "@JS_NS@_widget_table2RowGroup_event_scroll_begin",
 
         /** Scroll event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_table2RowGroup_event_scroll_end"
+        endTopic: "@JS_NS@_widget_table2RowGroup_event_scroll_end"
     },
     
     /**
@@ -338,10 +338,10 @@ webui.@THEME_JS@.widget.table2RowGroup.event =
          */
         next: {
             /** Scroll event topic for custom AJAX implementations to listen for. */
-            beginTopic: "webui_@THEME_JS@_widget_table2RowGroup_event_pagination_next_begin",
+            beginTopic: "@JS_NS@_widget_table2RowGroup_event_pagination_next_begin",
 
             /** Scroll event topic for custom AJAX implementations to listen for. */
-            endTopic: "webui_@THEME_JS@_widget_table2RowGroup_event_pagination_next_end"
+            endTopic: "@JS_NS@_widget_table2RowGroup_event_pagination_next_end"
         },
 
         /**
@@ -350,10 +350,10 @@ webui.@THEME_JS@.widget.table2RowGroup.event =
          */
         previous: {
             /** Scroll event topic for custom AJAX implementations to listen for. */
-            beginTopic: "webui_@THEME_JS@_widget_table2RowGroup_event_pagination_previous_begin",
+            beginTopic: "@JS_NS@_widget_table2RowGroup_event_pagination_previous_begin",
 
             /** Scroll event topic for custom AJAX implementations to listen for. */
-            endTopic: "webui_@THEME_JS@_widget_table2RowGroup_event_pagination_previous_end"
+            endTopic: "@JS_NS@_widget_table2RowGroup_event_pagination_previous_end"
         }
         
     },
@@ -364,10 +364,10 @@ webui.@THEME_JS@.widget.table2RowGroup.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_table2RowGroup_event_state_begin",
+        beginTopic: "@JS_NS@_widget_table2RowGroup_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_table2RowGroup_event_state_end"
+        endTopic: "@JS_NS@_widget_table2RowGroup_event_state_end"
     },
     
     /**
@@ -376,10 +376,10 @@ webui.@THEME_JS@.widget.table2RowGroup.event =
      */
     sort: {
         /** sort event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_table2RowGroup_event_sort_begin",
+        beginTopic: "@JS_NS@_widget_table2RowGroup_event_sort_begin",
 
         /** sort event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_table2RowGroup_event_sort_end"
+        endTopic: "@JS_NS@_widget_table2RowGroup_event_sort_end"
     }
 };
 
@@ -389,7 +389,7 @@ webui.@THEME_JS@.widget.table2RowGroup.event =
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME_JS@.widget.table2RowGroup.prototype.getProps = function() {
+@JS_NS@.widget.table2RowGroup.prototype.getProps = function() {
     var props = this._inherited("getProps", arguments);
 
     // Set properties.
@@ -420,14 +420,14 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype.getProps = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.table2RowGroup.prototype._paginationNext = function(event) {
+@JS_NS@.widget.table2RowGroup.prototype._paginationNext = function(event) {
     // Publish event to retrieve data.
     var currentPage = Math.floor(this.currentRow / this.maxRows) + 1;
     var totalPage = Math.floor(this.totalRows / this.maxRows);
     if (this.first < this.totalRows
             && currentPage < totalPage) {
         // Publish an event for custom AJAX implementations to listen for.
-        this._publish(webui.@THEME_JS@.widget.table2RowGroup.event.pagination.next.beginTopic, [{
+        this._publish(@JS_NS@.widget.table2RowGroup.event.pagination.next.beginTopic, [{
             id: this.id,
             first: this.first 
         }]);
@@ -449,7 +449,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._paginationNext = function(even
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.table2RowGroup.prototype._paginationPrevious = function(event) {
+@JS_NS@.widget.table2RowGroup.prototype._paginationPrevious = function(event) {
     var currentPage = Math.ceil(this.currentRow / this.maxRows) + 1;
     var totalPage = Math.floor(this.totalRows / this.maxRows);
     if (currentPage > 1) {                 
@@ -470,7 +470,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._paginationPrevious = function(
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.table2RowGroup.prototype._postCreate = function () {
+@JS_NS@.widget.table2RowGroup.prototype._postCreate = function () {
     // Set ids.    
     if (this.id) {
         this._colFooterRow.id = this.id + "_colFooterRow";
@@ -540,7 +540,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._postCreate = function () {
         };
     }
     // Resize hack for Moz/Firefox.
-    if (webui.@THEME_JS@._base.browser._isNav()) {
+    if (@JS_NS@._base.browser._isNav()) {
         this._dojo.connect(window, "onresize", this, "_resize");
     }        
     return this._inherited("_postCreate", arguments);
@@ -552,7 +552,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._postCreate = function () {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.table2RowGroup.prototype._resize = function() {
+@JS_NS@.widget.table2RowGroup.prototype._resize = function() {
     // Update rows text.
     this._updateRowsText();
 
@@ -660,7 +660,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._resize = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.table2RowGroup.prototype._setColumnProps = function(domNode, props) {
+@JS_NS@.widget.table2RowGroup.prototype._setColumnProps = function(domNode, props) {
     // Set properties.
     if (this.abbr) { domNode.abbr = this.abbr; }
     if (this.axis) { domNode.axis = this.axis; }
@@ -699,7 +699,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._setColumnProps = function(domN
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.table2RowGroup.prototype.setProps = function(props, notify) {
+@JS_NS@.widget.table2RowGroup.prototype.setProps = function(props, notify) {
     if (props == null) {
         return false;
     }
@@ -728,7 +728,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype.setProps = function(props, noti
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.table2RowGroup.prototype._setProps = function(props) {
+@JS_NS@.widget.table2RowGroup.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -756,13 +756,13 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._setProps = function(props) {
     if (props.paginationPrevButton) {
         // set onclick for previous button.
         props.paginationPrevButton.onClick = 
-            "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "')._paginationPrevious();return false;";        
+            "@JS_NS@.widget.common.getWidget('" + this.id + "')._paginationPrevious();return false;";        
         this._widget._addFragment(this._paginationButtonsNode, props.paginationPrevButton,"last");
     }
     if (props.paginationNextButton) {
         // set onclick for next button.
         props.paginationNextButton.onClick = 
-            "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "')._paginationNext();return false;";
+            "@JS_NS@.widget.common.getWidget('" + this.id + "')._paginationNext();return false;";
         this._widget._addFragment(this._paginationButtonsNode, props.paginationNextButton,"last");
     }
     if (props.paginationControls != null) {        
@@ -772,7 +772,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._setProps = function(props) {
     this._updatePaginationControls(); 
     //popup menu
     if (props.sortPopupMenu) {
-        webui.@THEME_JS@.widget.common._updateFragment(this._sortMenu, props.sortPopupMenu.id, props.sortPopupMenu);
+        @JS_NS@.widget.common._updateFragment(this._sortMenu, props.sortPopupMenu.id, props.sortPopupMenu);
     }
         
     // Set columns.
@@ -812,12 +812,12 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._setProps = function(props) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.table2RowGroup.prototype._scroll = function(event) {
+@JS_NS@.widget.table2RowGroup.prototype._scroll = function(event) {
     // Publish event to retrieve data.    
     if (this.first < this.totalRows
             && this.currentRow % this.maxRows == 0) {
         // Publish an event for custom AJAX implementations to listen for.
-        this._publish(webui.@THEME_JS@.widget.table2RowGroup.event.scroll.beginTopic, [{
+        this._publish(@JS_NS@.widget.table2RowGroup.event.scroll.beginTopic, [{
             id: this.id,
             first: this.first
         }]);
@@ -841,7 +841,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._scroll = function(event) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.table2RowGroup.prototype._updatePaginationControls = function() {
+@JS_NS@.widget.table2RowGroup.prototype._updatePaginationControls = function() {
     if (this.paginationPrevButton && this.paginationNextButton) {
         var domNodePrev = this._widget.getWidget(this.paginationPrevButton.id);
         var domNodeNext = this._widget.getWidget(this.paginationNextButton.id);
@@ -870,7 +870,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._updatePaginationControls = fun
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.table2RowGroup.prototype._updateRowsText = function() {
+@JS_NS@.widget.table2RowGroup.prototype._updateRowsText = function() {
     // Add title augment.
     var firstRow = this.currentRow + 1;
     var lastRow = Math.min(this.totalRows, this.currentRow + this.maxRows);
@@ -903,9 +903,9 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._updateRowsText = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.table2RowGroup.prototype._openSortMenu = function(event, 
+@JS_NS@.widget.table2RowGroup.prototype._openSortMenu = function(event, 
         colId, sortLevel) {    
-    var menu = webui.@THEME_JS@.widget.common.getWidget(this.sortPopupMenu.id);    
+    var menu = @JS_NS@.widget.common.getWidget(this.sortPopupMenu.id);    
     for (var i = 0; i < this.columns.length; i++) {
         var col = this.columns[i];
         if (col.id == colId) {
@@ -924,7 +924,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._openSortMenu = function(event,
                  this._secondarySortOptions)).concat(this._clearSortOptions);
             menu.setProps({options:menuOptions});
         }
-        menu.setProps({onClick: "webui.@THEME_JS@.widget.common.getWidget('" + 
+        menu.setProps({onClick: "@JS_NS@.widget.common.getWidget('" + 
             this.id + "')._sort('" + colId + "');"});          
         menu.open(event);        
     }
@@ -938,13 +938,13 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._openSortMenu = function(event,
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.table2RowGroup.prototype._sort = function(colId) {          
-    var menu = webui.@THEME_JS@.widget.common.getWidget(this.sortPopupMenu.id);   
+@JS_NS@.widget.table2RowGroup.prototype._sort = function(colId) {          
+    var menu = @JS_NS@.widget.common.getWidget(this.sortPopupMenu.id);   
     var value = menu.getSelectedValue();    
     var sortLevel = -1;
     
     // Publish an event for custom AJAX implementations to listen for.
-    this._publish(webui.@THEME_JS@.widget.table2RowGroup.event.sort.beginTopic, [{
+    this._publish(@JS_NS@.widget.table2RowGroup.event.sort.beginTopic, [{
         id: this.id,
         table2colId: colId,
         sortOrder: menu.getSelectedValue()

@@ -20,19 +20,19 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget._base.selectBase");
+@JS_NS@._dojo.provide("@JS_NS@.widget._base.selectBase");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.browser");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.labeledBase");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
+@JS_NS@._dojo.require("@JS_NS@._base.browser");
+@JS_NS@._dojo.require("@JS_NS@._base.common");
+@JS_NS@._dojo.require("@JS_NS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.labeledBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.widgetBase");
 
 /**
  * This function is used to construct a base class.
  *
- * @name webui.@THEME_JS@.widget._base.selectBase
- * @extends webui.@THEME_JS@.widget._base.widgetBase
+ * @name @JS_NS@.widget._base.selectBase
+ * @extends @JS_NS@.widget._base.widgetBase
  * @class This class defines functions and properties for
  * widgets based on the "select" HTML element.
  *
@@ -119,8 +119,8 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
  * select element.
  * @constructor
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget._base.selectBase", 
-	webui.@THEME_JS@.widget._base.labeledBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget._base.selectBase", 
+	@JS_NS@.widget._base.labeledBase, {
     // Set defaults
     constructor: function() {
 	this.disabled = false;
@@ -150,13 +150,13 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget._base.selectBase",
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget._base.selectBase.prototype._changed = function(ev) {
+@JS_NS@.widget._base.selectBase.prototype._changed = function(ev) {
     var options = this._listContainer.options;
 
     // IE allows disabled options to be selected. Ensure that
     // disabled options never appear as selected options.
     //
-    if (webui.@THEME_JS@._base.browser._isIe()) {
+    if (@JS_NS@._base.browser._isIe()) {
 	for (var i = 0; i < options.length; ++i) {
 	    if (options[i].disabled == true && options[i].selected == true) {
 		if (this._listContainer.multiple == true) {
@@ -209,7 +209,7 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._changed = function(ev) {
  * @return {boolean} Returns true.
  * @private
  */
-webui.@THEME_JS@.widget._base.selectBase.prototype._copyOption = function(toOption, fromOption) {
+@JS_NS@.widget._base.selectBase.prototype._copyOption = function(toOption, fromOption) {
     var domhandlers = [ "onblur", "onchange", "onclick", "ondblclick",
 	"onfocus", "onkeydown", "onkeypress", "onkeyup", "onmousedown",
 	"onmouseout", "onmouseover", "onmouseup", "onmousemove", "onresize"];
@@ -258,7 +258,7 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._copyOption = function(toOpti
  * <code>domNode</code> has no child nodes, an empty array is returned.
  * @private
  */
-webui.@THEME_JS@.widget._base.selectBase.prototype._copyOptions = function(domNode) {
+@JS_NS@.widget._base.selectBase.prototype._copyOptions = function(domNode) {
     var newoptions = [];
     if (!domNode.hasChildNodes()) {
 	return newoptions;
@@ -282,7 +282,7 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._copyOptions = function(domNo
  * @return {Object} Key-Value pairs of properties.
  * @private
  */
-webui.@THEME_JS@.widget._base.selectBase.prototype._getLabelProps = function() {
+@JS_NS@.widget._base.selectBase.prototype._getLabelProps = function() {
     var props = this._inherited("_getLabelProps", arguments);
 
     props.htmlFor = this._listContainer.id;
@@ -301,7 +301,7 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._getLabelProps = function() {
  * @return {String} The HTML option element class name.
  * @private
  */
-webui.@THEME_JS@.widget._base.selectBase.prototype._getOptionClassName = function(option) {
+@JS_NS@.widget._base.selectBase.prototype._getOptionClassName = function(option) {
     // Make sure that if a subclass does not implement this method
     // that it causes no change to option.
     //
@@ -314,7 +314,7 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._getOptionClassName = functio
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME_JS@.widget._base.selectBase.prototype.getProps = function() {
+@JS_NS@.widget._base.selectBase.prototype.getProps = function() {
     var props = this._inherited("getProps", arguments);
 
     // Get properties.
@@ -346,7 +346,7 @@ webui.@THEME_JS@.widget._base.selectBase.prototype.getProps = function() {
  *
  * @return {Node} The HTML select element.
  */
-webui.@THEME_JS@.widget._base.selectBase.prototype.getSelectElement = function() {
+@JS_NS@.widget._base.selectBase.prototype.getSelectElement = function() {
     return this._listContainer;
 };
 
@@ -355,7 +355,7 @@ webui.@THEME_JS@.widget._base.selectBase.prototype.getSelectElement = function()
  *
  * @return {int} The selected index of underlying HTML select element.
  */
-webui.@THEME_JS@.widget._base.selectBase.prototype.getSelectedIndex = function() {
+@JS_NS@.widget._base.selectBase.prototype.getSelectedIndex = function() {
     return this._listContainer.selectedIndex;
 };
 
@@ -373,7 +373,7 @@ webui.@THEME_JS@.widget._base.selectBase.prototype.getSelectedIndex = function()
  * @return The label of the selected option, or null if none is selected. 
  * @return {String} The label attribute of the selected option.
  */
-webui.@THEME_JS@.widget._base.selectBase.prototype.getSelectedLabel = function() { 
+@JS_NS@.widget._base.selectBase.prototype.getSelectedLabel = function() { 
     var index = this._listContainer.selectedIndex; 
 
     if (index == -1) { 
@@ -396,7 +396,7 @@ webui.@THEME_JS@.widget._base.selectBase.prototype.getSelectedLabel = function()
  *
  * @return {String} The selected option value or null if none is selected. 
  */
-webui.@THEME_JS@.widget._base.selectBase.prototype.getSelectedValue = function() { 
+@JS_NS@.widget._base.selectBase.prototype.getSelectedValue = function() { 
     var index = this._listContainer.selectedIndex; 
     if (index == -1) { 
         return null; 
@@ -419,7 +419,7 @@ webui.@THEME_JS@.widget._base.selectBase.prototype.getSelectedValue = function()
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget._base.selectBase.prototype._onChangeCallback = function(event) {
+@JS_NS@.widget._base.selectBase.prototype._onChangeCallback = function(event) {
     if (this.disabled == true) {
         return false;
     }
@@ -445,7 +445,7 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._onChangeCallback = function(
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget._base.selectBase.prototype._postCreate = function () {
+@JS_NS@.widget._base.selectBase.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
         this._listContainer.id = this.id + "_list";
@@ -456,15 +456,15 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._postCreate = function () {
 
     /** @ignore */
     this._domNode.getSelectedValue = function() { 
-	return webui.@THEME_JS@.widget.common.getWidget(this.id).getSelectedValue();
+	return @JS_NS@.widget.common.getWidget(this.id).getSelectedValue();
     };
     /** @ignore */
     this._domNode.getSelectedLabel = function() { 
-	return webui.@THEME_JS@.widget.common.getWidget(this.id).getSelectedLabel();
+	return @JS_NS@.widget.common.getWidget(this.id).getSelectedLabel();
     };
     /** @ignore */
     this._domNode.getSelectElement = function() { 
-	return webui.@THEME_JS@.widget.common.getWidget(this.id).getSelectElement();
+	return @JS_NS@.widget.common.getWidget(this.id).getSelectElement();
     };
 
     // Set events.
@@ -499,7 +499,7 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._postCreate = function () {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget._base.selectBase.prototype._setGroupOptionProps =
+@JS_NS@.widget._base.selectBase.prototype._setGroupOptionProps =
 	function(element, option) {
     element.label = option.label;
   
@@ -560,7 +560,7 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._setGroupOptionProps =
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget._base.selectBase.prototype._setOptionProps = function(element, option) {
+@JS_NS@.widget._base.selectBase.prototype._setOptionProps = function(element, option) {
     element.value = option.value;
 
     // If option.escape is true, we want the text to be displayed
@@ -700,7 +700,7 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._setOptionProps = function(el
  * </p>
  * @private
  */
-webui.@THEME_JS@.widget._base.selectBase.prototype._setOptions = function(props) {
+@JS_NS@.widget._base.selectBase.prototype._setOptions = function(props) {
     if (props == null) {
 	return false;
     }
@@ -729,7 +729,7 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._setOptions = function(props)
 
 	var pOption = props.options[i];
 
-	var isie = webui.@THEME_JS@._base.browser._isIe();
+	var isie = @JS_NS@._base.browser._isIe();
 	if (pOption.group == null || pOption.group == false) {
 
 	    // For some reason, ie is prone to painting problems (esp. after a 
@@ -825,7 +825,7 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._setOptions = function(props)
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget._base.selectBase.prototype._setProps = function(props) {
+@JS_NS@.widget._base.selectBase.prototype._setProps = function(props) {
     if (props == null) {
 	return null;
     }
@@ -874,7 +874,7 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._setProps = function(props) {
  * @param {int} index The selected index of underlying HTML select element.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget._base.selectBase.prototype.setSelectedIndex = function(index) {
+@JS_NS@.widget._base.selectBase.prototype.setSelectedIndex = function(index) {
     if (index >= 0 && index < this._listContainer.options.length) {
         this._listContainer.selectedIndex = index;
     }

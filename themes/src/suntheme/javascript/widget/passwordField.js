@@ -20,15 +20,15 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.passwordField");
+@JS_NS@._dojo.provide("@JS_NS@.widget.passwordField");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.fieldBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.fieldBase");
 
 /**
  * This function is used to construct a passwordField widget.
  *
- * @name webui.@THEME_JS@.widget.passwordField
- * @extends webui.@THEME_JS@.widget._base.fieldBase
+ * @name @JS_NS@.widget.passwordField
+ * @extends @JS_NS@.widget._base.fieldBase
  * @class This class contains functions for the passwordField widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -64,8 +64,8 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.fieldBase");
  * @config {String} value Value of input.
  * @config {boolean} visible Hide or show element.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.passwordField",
-        webui.@THEME_JS@.widget._base.fieldBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.passwordField",
+        @JS_NS@.widget._base.fieldBase, {
     // Set defaults.
     _widgetType: "passwordField" // Required for theme properties.
 });
@@ -76,7 +76,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.passwordField",
  * @return {String} The HTML input element class name.
  * @private
  */
-webui.@THEME_JS@.widget.passwordField.prototype._getInputClassName = function() {
+@JS_NS@.widget.passwordField.prototype._getInputClassName = function() {
     if (this._fieldNode.readOnly) {
         return this._theme.getClassName("PASSWORD_FIELD_READONLY", "");
     }

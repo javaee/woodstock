@@ -20,15 +20,15 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.listbox");
+@JS_NS@._dojo.provide("@JS_NS@.widget.listbox");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.selectBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.selectBase");
 
 /**
  * This function is used to construct a listbox widget.
  *
- * @name webui.@THEME_JS@.widget.listbox
- * @extends webui.@THEME_JS@.widget._base.selectBase
+ * @name @JS_NS@.widget.listbox
+ * @extends @JS_NS@.widget._base.selectBase
  * @class This class contains functions for the listbox widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -64,8 +64,8 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.selectBase");
  * @config {String} title Provides a title for element.
  * @config {boolean} visible Hide or show element.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.listbox", 
-	webui.@THEME_JS@.widget._base.selectBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.listbox", 
+	@JS_NS@.widget._base.selectBase, {
     // Set defaults.
     //
     constructor : function() {
@@ -87,18 +87,18 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.listbox",
  * </p>
  * @ignore
  */
-webui.@THEME_JS@.widget.listbox.event =
-        webui.@THEME_JS@.widget.listbox.prototype.event = {
+@JS_NS@.widget.listbox.event =
+        @JS_NS@.widget.listbox.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for.*/
-        beginTopic: "webui_@THEME_JS@_widget_listbox_event_refresh_begin",
+        beginTopic: "@JS_NS@_widget_listbox_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for.*/
-        endTopic: "webui_@THEME_JS@_widget_listbox_event_refresh_end"
+        endTopic: "@JS_NS@_widget_listbox_event_refresh_end"
     },
 
     /**
@@ -107,10 +107,10 @@ webui.@THEME_JS@.widget.listbox.event =
      */
     state: {
         /** event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_listbox_event_state_begin",
+        beginTopic: "@JS_NS@_widget_listbox_event_state_begin",
 
         /** event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_listbox_event_state_end"
+        endTopic: "@JS_NS@_widget_listbox_event_state_end"
     },
 
     /**
@@ -119,10 +119,10 @@ webui.@THEME_JS@.widget.listbox.event =
      */
     submit: {
         /** event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_listbox_event_submit_begin",
+        beginTopic: "@JS_NS@_widget_listbox_event_submit_begin",
 
         /** event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_listbox_event_submit_end"
+        endTopic: "@JS_NS@_widget_listbox_event_submit_end"
     }
 };
 
@@ -135,7 +135,7 @@ webui.@THEME_JS@.widget.listbox.event =
  * @return {String} The outermost HTML element class name.
  * @private
  */
-webui.@THEME_JS@.widget.listbox.prototype._getClassName = function() {
+@JS_NS@.widget.listbox.prototype._getClassName = function() {
     var cn = this._theme.getClassName("LISTBOX", "");
     return (this.className) ? cn + " " + this.className : cn;
 };
@@ -158,7 +158,7 @@ webui.@THEME_JS@.widget.listbox.prototype._getClassName = function() {
  * @return {Object} Key-Value pairs of label properties.
  * @private
  */
-webui.@THEME_JS@.widget.listbox.prototype._getLabelProps = function() {
+@JS_NS@.widget.listbox.prototype._getLabelProps = function() {
 
     var props = this._inherited("_getLabelProps", arguments);
     props.level = this._theme.getMessage("listbox.labelLevel", null, 2);
@@ -178,7 +178,7 @@ webui.@THEME_JS@.widget.listbox.prototype._getLabelProps = function() {
  * @return {String} A CSS selector for the listbox label.
  * @private
  */
-webui.@THEME_JS@.widget.listbox.prototype._getLabelClassName = function(ontop) {
+@JS_NS@.widget.listbox.prototype._getLabelClassName = function(ontop) {
     //var labelontop = ontop != null ? ontop : this.labelOnTop;
     //return labelontop == true
     return ontop != null && ontop == true
@@ -218,7 +218,7 @@ webui.@THEME_JS@.widget.listbox.prototype._getLabelClassName = function(ontop) {
  * @return {String} A CSS selector for the _listContainer HTML element.
  * @private
  */
-webui.@THEME_JS@.widget.listbox.prototype._getListContainerClassName =
+@JS_NS@.widget.listbox.prototype._getListContainerClassName =
 	function(disabled, monospace) {
     var key = "LIST";
     if (disabled == true) {
@@ -239,7 +239,7 @@ webui.@THEME_JS@.widget.listbox.prototype._getListContainerClassName =
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME_JS@.widget.listbox.prototype.getProps = function() {
+@JS_NS@.widget.listbox.prototype.getProps = function() {
     var props = this._inherited("getProps", arguments);
 
     // Get properties.
@@ -292,7 +292,7 @@ webui.@THEME_JS@.widget.listbox.prototype.getProps = function() {
  * @return {String} The HTML option element CSS class name.
  * @private
  */
-webui.@THEME_JS@.widget.listbox.prototype._getOptionClassName = function(element) {
+@JS_NS@.widget.listbox.prototype._getOptionClassName = function(element) {
     var key = "LIST_OPTION";
     if (element == null) {
 	return this._theme.getClassName(key, null);
@@ -325,7 +325,7 @@ webui.@THEME_JS@.widget.listbox.prototype._getOptionClassName = function(element
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.listbox.prototype._postCreate = function () {
+@JS_NS@.widget.listbox.prototype._postCreate = function () {
     // Don't trash the template.
     this._common._addStyleClass(this._listContainer,
 	this._getListContainerClassName(
@@ -349,7 +349,7 @@ webui.@THEME_JS@.widget.listbox.prototype._postCreate = function () {
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.listbox.prototype.setProps = function(props, notify) {
+@JS_NS@.widget.listbox.prototype.setProps = function(props, notify) {
     if (props == null) {
 	return this._inherited("setProps", arguments);
     }
@@ -411,7 +411,7 @@ webui.@THEME_JS@.widget.listbox.prototype.setProps = function(props, notify) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.listbox.prototype._setProps = function(props) {
+@JS_NS@.widget.listbox.prototype._setProps = function(props) {
     // If props == null create one so that the superclass can 
     // handle "labelOnTop" or anything else that needs to be
     // set in props and handled in the superclass

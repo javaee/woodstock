@@ -20,16 +20,16 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.image");
+@JS_NS@._dojo.provide("@JS_NS@.widget.image");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.browser");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
+@JS_NS@._dojo.require("@JS_NS@._base.browser");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.widgetBase");
 
 /**
  * This function is used to construct a image widget.
  *
- * @name webui.@THEME_JS@.widget.image
- * @extends webui.@THEME_JS@.widget._base.widgetBase
+ * @name @JS_NS@.widget.image
+ * @extends @JS_NS@.widget._base.widgetBase
  * @class This class contains functions for the image widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -62,8 +62,8 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
  * @config {String} vspace
  * @config {String} width
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.image",
-        webui.@THEME_JS@.widget._base.widgetBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.image",
+        @JS_NS@.widget._base.widgetBase, {
     // Set defaults.
     constructor: function() {
         this.border = 0;
@@ -81,18 +81,18 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.image",
  * </p>
  * @ignore
  */
-webui.@THEME_JS@.widget.image.event =
-        webui.@THEME_JS@.widget.image.prototype.event = {
+@JS_NS@.widget.image.event =
+        @JS_NS@.widget.image.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_image_event_refresh_begin",
+        beginTopic: "@JS_NS@_widget_image_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_image_event_refresh_end"
+        endTopic: "@JS_NS@_widget_image_event_refresh_end"
     },
 
     /**
@@ -101,10 +101,10 @@ webui.@THEME_JS@.widget.image.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_image_event_state_begin",
+        beginTopic: "@JS_NS@_widget_image_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_image_event_state_end"
+        endTopic: "@JS_NS@_widget_image_event_state_end"
     }
 };
 
@@ -114,7 +114,7 @@ webui.@THEME_JS@.widget.image.event =
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME_JS@.widget.image.prototype.getProps = function() {
+@JS_NS@.widget.image.prototype.getProps = function() {
     var props = this._inherited("getProps", arguments);
 
     // Set properties.
@@ -142,7 +142,7 @@ webui.@THEME_JS@.widget.image.prototype.getProps = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.image.prototype._setProps = function(props) {
+@JS_NS@.widget.image.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -179,7 +179,7 @@ webui.@THEME_JS@.widget.image.prototype._setProps = function(props) {
             console.debug("Error: theme icon '" + props.icon + "' not found.");
         } else {
             var mapKey = iconProps['map_key'];
-            if (mapKey != null && !webui.@THEME_JS@._base.browser._isIe6()
+            if (mapKey != null && !@JS_NS@._base.browser._isIe6()
                     && !this._widget._isHighContrastMode()) {
                 // Note: Comparing height/width against "actual" properties is not a
                 // valid test -- DOT images don't have a default size, for example.
@@ -215,7 +215,7 @@ webui.@THEME_JS@.widget.image.prototype._setProps = function(props) {
             // context path already appended and if not, append it.
             if (this.prefix) {
                 props.src = 
-                    webui.@THEME_JS@.widget.common._appendPrefix(this.prefix, props.src);                
+                    @JS_NS@.widget.common._appendPrefix(this.prefix, props.src);                
             }
             this._domNode.src = props.src;  
         } 

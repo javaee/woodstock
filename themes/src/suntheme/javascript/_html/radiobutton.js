@@ -20,18 +20,18 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._html.radiobutton");
+@JS_NS@._dojo.provide("@JS_NS@._html.radiobutton");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._html.rbcb");
+@JS_NS@._dojo.require("@JS_NS@._html.rbcb");
 
 /**
  * @class This class contains functions for radioButton components.
  * @static
  *
- * @deprecated See webui.@THEME_JS@.widget.radioButton
+ * @deprecated See @JS_NS@.widget.radioButton
  * @private
  */
-webui.@THEME_JS@._html.radiobutton = {
+@JS_NS@._html.radiobutton = {
     /**
      * Set the disabled state for the given radiobutton element Id. If the disabled 
      * state is set to true, the element is shown with disabled styles.
@@ -42,7 +42,7 @@ webui.@THEME_JS@._html.radiobutton = {
      * @deprecated Use document.getElementById(id).setProps({disabled: boolean});
      */
     setDisabled: function(elementId, disabled) {    
-        return webui.@THEME_JS@._html.rbcb.setDisabled(elementId, disabled, 
+        return @JS_NS@._html.rbcb.setDisabled(elementId, disabled, 
             "radio", "Rb", "RbDis");
     },
 
@@ -57,7 +57,7 @@ webui.@THEME_JS@._html.radiobutton = {
      * @deprecated Use document.getElementById(id).setProps({disabled: boolean});
      */
     setGroupDisabled: function(controlName, disabled) {    
-        return webui.@THEME_JS@._html.rbcb.setGroupDisabled(controlName, disabled, 
+        return @JS_NS@._html.rbcb.setGroupDisabled(controlName, disabled, 
             "radio", "Rb", "RbDis");
     },
 
@@ -70,9 +70,9 @@ webui.@THEME_JS@._html.radiobutton = {
      * @deprecated Use document.getElementById(id).setProps({checked: boolean});
      */
     setChecked: function(elementId, checked) {
-        return webui.@THEME_JS@._html.rbcb.setChecked(elementId, checked, "radio");
+        return @JS_NS@._html.rbcb.setChecked(elementId, checked, "radio");
     }
 };
 
 // Extend for backward compatibility with JSF based components.
-webui.@THEME_JS@.radiobutton = webui.@THEME_JS@._html.radiobutton;
+@JS_NS@.radiobutton = @JS_NS@._html.radiobutton;

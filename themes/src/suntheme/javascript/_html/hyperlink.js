@@ -20,18 +20,18 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._html.hyperlink");
+@JS_NS@._dojo.provide("@JS_NS@._html.hyperlink");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@.widget.common");
 
 /**
  * @class This class contains functions for hyperlink components.
  * @static
  *
- * @deprecated See webui.@THEME_JS@.widget.hyperlink
+ * @deprecated See @JS_NS@.widget.hyperlink
  * @private
  */
-webui.@THEME_JS@._html.hyperlink = {
+@JS_NS@._html.hyperlink = {
     /**
      * This function is used to submit a hyperlink.
      * <p>
@@ -43,17 +43,17 @@ webui.@THEME_JS@._html.hyperlink = {
      * @params {String} formId The form id
      * @params {Object} params Name value pairs
      * @return {boolean} true if successful; otherwise, false.
-     * @deprecated See webui.@THEME_JS@.widget.hyperlink
+     * @deprecated See @JS_NS@.widget.hyperlink
      */
     submit: function(hyperlink, formId, params) {
         // Need to test widget for tab and common task components. If a widget 
         // does not exist, fall back to the old code.
-	var widget = webui.@THEME_JS@.widget.common.getWidget(hyperlink.id);
+	var widget = @JS_NS@.widget.common.getWidget(hyperlink.id);
 	if (widget == null) {
             // If a widget does not exist, we shall create one in order to call
             // the submit function directly.
-            webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.hyperlink");
-            widget = new webui.@THEME_JS@.widget.hyperlink({id: hyperlink.id});
+            @JS_NS@._dojo.require("@JS_NS@.widget.hyperlink");
+            widget = new @JS_NS@.widget.hyperlink({id: hyperlink.id});
 	}
         return widget._submitFormData(formId, params);
     },
@@ -70,10 +70,10 @@ webui.@THEME_JS@._html.hyperlink = {
     getImgElement: function(elementId) {
         // Need to test widget for alarmStatus, jobstatus, and notification phrase
         // components. If a widget does not exist, fall back to the old code.
-        var widget = webui.@THEME_JS@.widget.common.getWidget(elementId);
+        var widget = @JS_NS@.widget.common.getWidget(elementId);
         var props = (widget) ? widget.getProps() : null;
         if (props && props.enabledImage) {
-            var imgWidget = webui.@THEME_JS@.widget.common.getWidget(props.enabledImage.id);
+            var imgWidget = @JS_NS@.widget.common.getWidget(props.enabledImage.id);
             if (imgWidget != null) {
                 return imgWidget._domNode;    
             }
@@ -94,4 +94,4 @@ webui.@THEME_JS@._html.hyperlink = {
 };
 
 // Extend for backward compatibility with JSF based components.
-webui.@THEME_JS@.hyperlink = webui.@THEME_JS@._html.hyperlink;
+@JS_NS@.hyperlink = @JS_NS@._html.hyperlink;

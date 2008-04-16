@@ -20,16 +20,16 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._base.common");
+@JS_NS@._dojo.provide("@JS_NS@._base.common");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.theme.common");
+@JS_NS@._dojo.require("@JS_NS@.theme.common");
 
 /**
  * @class This class contains functions common to HTML elements.
  * @static
  * @private
  */
-webui.@THEME_JS@._base.common = {
+@JS_NS@._base.common = {
     /**
      * Variable needed when submitting form so timeout will work properly.
      * @private
@@ -187,7 +187,7 @@ webui.@THEME_JS@._base.common = {
         // Now replace escaped delimiters
         // i.e.  "\," with ","
         for (i = 0; i < selections.length; ++i) {
-            unescapedArray[i] = webui.@THEME_JS@._base.common._unescapeString(
+            unescapedArray[i] = @JS_NS@._base.common._unescapeString(
             selections[i], delimiter, escapeChar);
         }
         return unescapedArray;
@@ -218,7 +218,7 @@ webui.@THEME_JS@._base.common = {
         }
         
         // break out style classes into an array  
-        var classes = webui.@THEME_JS@._base.common._splitStyleClasses(element);
+        var classes = @JS_NS@._base.common._splitStyleClasses(element);
         if (classes == null) {
             return false;
         }
@@ -284,7 +284,7 @@ webui.@THEME_JS@._base.common = {
         }
         
         // break out style classes into an array  
-        var classes = webui.@THEME_JS@._base.common._splitStyleClasses(element);
+        var classes = @JS_NS@._base.common._splitStyleClasses(element);
         if (classes == null) {
             return false;
         }
@@ -358,16 +358,16 @@ webui.@THEME_JS@._base.common = {
         // "submissionComponentId" is a component id (not client id).
         // the virtual form implementation uses _submissionComponentId
         // to determine which virtual form (if any) was submitted.
-        if (webui.@THEME_JS@._base.common._formToSubmit == null) {
+        if (@JS_NS@._base.common._formToSubmit == null) {
             return false;
         }
-        if (webui.@THEME_JS@._base.common._submissionComponentId != null &&
-                webui.@THEME_JS@._base.common._submissionComponentId.length > 0) {
-            webui.@THEME_JS@._base.common._insertHiddenField('_submissionComponentId', 
-                webui.@THEME_JS@._base.common._submissionComponentId,
-                webui.@THEME_JS@._base.common._formToSubmit);
+        if (@JS_NS@._base.common._submissionComponentId != null &&
+                @JS_NS@._base.common._submissionComponentId.length > 0) {
+            @JS_NS@._base.common._insertHiddenField('_submissionComponentId', 
+                @JS_NS@._base.common._submissionComponentId,
+                @JS_NS@._base.common._formToSubmit);
         }
-        webui.@THEME_JS@._base.common._formToSubmit.submit();
+        @JS_NS@._base.common._formToSubmit.submit();
         return false;
     },
     
@@ -381,9 +381,9 @@ webui.@THEME_JS@._base.common = {
      * @deprecated Virtual forms only supported by JSF based form component.
      */
     _timeoutSubmitForm: function(form, submissionComponentId) {
-        webui.@THEME_JS@._base.common._formToSubmit = form;
-        webui.@THEME_JS@._base.common._submissionComponentId = submissionComponentId;
-        setTimeout('webui.@THEME_JS@._base.common._submitForm()', 0);
+        @JS_NS@._base.common._formToSubmit = form;
+        @JS_NS@._base.common._submissionComponentId = submissionComponentId;
+        setTimeout('@JS_NS@._base.common._submitForm()', 0);
         return true;
     },
     
@@ -404,7 +404,7 @@ webui.@THEME_JS@._base.common = {
         // no way of knowing that a virtual form was submitted.
         if (form != null && submissionComponentId != null && 
                 submissionComponentId.length > 0) {
-            webui.@THEME_JS@._base.common._insertHiddenField('_submissionComponentId',
+            @JS_NS@._base.common._insertHiddenField('_submissionComponentId',
             submissionComponentId, form);
         }
         return true;
@@ -458,14 +458,14 @@ webui.@THEME_JS@._base.common = {
     _createSubmittableArray: function(name, parentForm, labels, values) {
         // An attempt is made to remove a possibly previously created element
         // by this name. It always deletes an element of name from parentForm.
-        webui.@THEME_JS@._base.common._deleteSubmittableArray(name, parentForm);
+        @JS_NS@._base.common._deleteSubmittableArray(name, parentForm);
         
         if (values == null || values.length <= 0) {
             return null;
         }
         
         var selections = document.createElement('select');
-        selections.className = webui.@THEME_JS@.theme.common.getClassName("HIDDEN");
+        selections.className = @JS_NS@.theme.common.getClassName("HIDDEN");
         selections.name = name;
         selections.id = name;
         selections.multiple = true;
@@ -504,7 +504,7 @@ webui.@THEME_JS@._base.common = {
         }
         // Get element.
         var element = document.getElementById(elementId);
-        return webui.@THEME_JS@._base.common._isVisibleElement(element);
+        return @JS_NS@._base.common._isVisibleElement(element);
     },
     
     /**
@@ -520,9 +520,9 @@ webui.@THEME_JS@._base.common = {
             return false;
         }
         // Test for the hidden style class.
-        var styleClasses = webui.@THEME_JS@._base.common._splitStyleClasses(element); 
-        return !webui.@THEME_JS@._base.common._checkStyleClasses(styleClasses,
-            webui.@THEME_JS@.theme.common.getClassName("HIDDEN"));
+        var styleClasses = @JS_NS@._base.common._splitStyleClasses(element); 
+        return !@JS_NS@._base.common._checkStyleClasses(styleClasses,
+            @JS_NS@.theme.common.getClassName("HIDDEN"));
     },
     
     /**
@@ -539,7 +539,7 @@ webui.@THEME_JS@._base.common = {
         }
         // Get element.
         var element = document.getElementById(elementId);
-        return webui.@THEME_JS@._base.common._setVisibleElement(element, visible);
+        return @JS_NS@._base.common._setVisibleElement(element, visible);
     },
     
     /**
@@ -555,32 +555,32 @@ webui.@THEME_JS@._base.common = {
             return false;
         }
         if (visible) {
-            return webui.@THEME_JS@._base.common._stripStyleClass(element,
-                webui.@THEME_JS@.theme.common.getClassName("HIDDEN"));
+            return @JS_NS@._base.common._stripStyleClass(element,
+                @JS_NS@.theme.common.getClassName("HIDDEN"));
         } else {
-            return webui.@THEME_JS@._base.common._addStyleClass(element,
-                webui.@THEME_JS@.theme.common.getClassName("HIDDEN"));
+            return @JS_NS@._base.common._addStyleClass(element,
+                @JS_NS@.theme.common.getClassName("HIDDEN"));
         }
     }
 };
 
 // Extend for backward compatibility with JSF based components.
-webui.@THEME_JS@.common = {
-    escapeString: webui.@THEME_JS@._base.common._escapeString,
-    unescapeString: webui.@THEME_JS@._base.common._unescapeString,
-    unescapeStrings: webui.@THEME_JS@._base.common._unescapeStrings,
-    addStyleClass: webui.@THEME_JS@._base.common._addStyleClass,
-    checkStyleClasses: webui.@THEME_JS@._base.common._checkStyleClasses,
-    splitStyleClasses: webui.@THEME_JS@._base.common._splitStyleClasses,
-    stripStyleClass: webui.@THEME_JS@._base.common._stripStyleClass,
-    insertHiddenField: webui.@THEME_JS@._base.common._insertHiddenField,
-    submitForm: webui.@THEME_JS@._base.common._submitForm,
-    timeoutSubmitForm: webui.@THEME_JS@._base.common._timeoutSubmitForm,
-    leaveSubmitterTrace: webui.@THEME_JS@._base.common._leaveSubmitterTrace,
-    deleteSubmittableArray: webui.@THEME_JS@._base.common._deleteSubmittableArray,
-    createSubmittableArray: webui.@THEME_JS@._base.common._createSubmittableArray,
-    isVisible: webui.@THEME_JS@._base.common._isVisible,
-    isVisibleElement: webui.@THEME_JS@._base.common._isVisibleElement,
-    setVisible: webui.@THEME_JS@._base.common._setVisible,
-    setVisibleElement: webui.@THEME_JS@._base.common._setVisibleElement
+@JS_NS@.common = {
+    escapeString: @JS_NS@._base.common._escapeString,
+    unescapeString: @JS_NS@._base.common._unescapeString,
+    unescapeStrings: @JS_NS@._base.common._unescapeStrings,
+    addStyleClass: @JS_NS@._base.common._addStyleClass,
+    checkStyleClasses: @JS_NS@._base.common._checkStyleClasses,
+    splitStyleClasses: @JS_NS@._base.common._splitStyleClasses,
+    stripStyleClass: @JS_NS@._base.common._stripStyleClass,
+    insertHiddenField: @JS_NS@._base.common._insertHiddenField,
+    submitForm: @JS_NS@._base.common._submitForm,
+    timeoutSubmitForm: @JS_NS@._base.common._timeoutSubmitForm,
+    leaveSubmitterTrace: @JS_NS@._base.common._leaveSubmitterTrace,
+    deleteSubmittableArray: @JS_NS@._base.common._deleteSubmittableArray,
+    createSubmittableArray: @JS_NS@._base.common._createSubmittableArray,
+    isVisible: @JS_NS@._base.common._isVisible,
+    isVisibleElement: @JS_NS@._base.common._isVisibleElement,
+    setVisible: @JS_NS@._base.common._setVisible,
+    setVisibleElement: @JS_NS@._base.common._setVisibleElement
 };

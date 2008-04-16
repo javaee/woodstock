@@ -20,15 +20,15 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget._base.checkedGroupBase");
+@JS_NS@._dojo.provide("@JS_NS@.widget._base.checkedGroupBase");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.widgetBase");
 
 /**
  * This function is used to construct a base class.
  *
- * @name webui.@THEME_JS@.widget._base.checkedGroupBase
- * @extends webui.@THEME_JS@.widget._base.widgetBase
+ * @name @JS_NS@.widget._base.checkedGroupBase
+ * @extends @JS_NS@.widget._base.widgetBase
  * @class This class contains functions for widgets that extend checkedGroupBase.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -48,8 +48,8 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
  * @config {String} title Provides a title for element.
  * @config {boolean} visible Hide or show element.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget._base.checkedGroupBase",
-    webui.@THEME_JS@.widget._base.widgetBase);
+@JS_NS@._dojo.declare("@JS_NS@.widget._base.checkedGroupBase",
+    @JS_NS@.widget._base.widgetBase);
 
 /**
  * Helper function to add elements with Object literals.
@@ -62,7 +62,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget._base.checkedGroupBase",
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget._base.checkedGroupBase.prototype._addContents = function(props) {   
+@JS_NS@.widget._base.checkedGroupBase.prototype._addContents = function(props) {   
     if (props == null) {
         return false;
     }
@@ -129,7 +129,7 @@ webui.@THEME_JS@.widget._base.checkedGroupBase.prototype._addContents = function
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME_JS@.widget._base.checkedGroupBase.prototype.getProps = function() {
+@JS_NS@.widget._base.checkedGroupBase.prototype.getProps = function() {
     var props = this._inherited("getProps", arguments);
 
     // Set properties.     
@@ -153,7 +153,7 @@ webui.@THEME_JS@.widget._base.checkedGroupBase.prototype.getProps = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget._base.checkedGroupBase.prototype._postCreate = function () {
+@JS_NS@.widget._base.checkedGroupBase.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {                    
         this._contentsRowNode.id = this.id + "_contentsRowNode";
@@ -187,7 +187,7 @@ webui.@THEME_JS@.widget._base.checkedGroupBase.prototype._postCreate = function 
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget._base.checkedGroupBase.prototype.setProps = function(props, notify) {
+@JS_NS@.widget._base.checkedGroupBase.prototype.setProps = function(props, notify) {
     if (props == null) {
         return false;
     }
@@ -211,7 +211,7 @@ webui.@THEME_JS@.widget._base.checkedGroupBase.prototype.setProps = function(pro
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget._base.checkedGroupBase.prototype._setProps = function(props) {
+@JS_NS@.widget._base.checkedGroupBase.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }

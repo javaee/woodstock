@@ -20,15 +20,15 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.checkboxGroup");
+@JS_NS@._dojo.provide("@JS_NS@.widget.checkboxGroup");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.checkedGroupBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.checkedGroupBase");
 
 /**
  * This function is used to construct a checkboxGroup widget.
  *
- * @name webui.@THEME_JS@.widget.checkboxGroup
- * @extends webui.@THEME_JS@.widget._base.checkedGroupBase
+ * @name @JS_NS@.widget.checkboxGroup
+ * @extends @JS_NS@.widget._base.checkedGroupBase
  * @class This class contains functions for the checkboxGroup widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -48,8 +48,8 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.checkedGroupBase")
  * @config {String} title Provides a title for element.
  * @config {boolean} visible Hide or show element.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.checkboxGroup",
-        webui.@THEME_JS@.widget._base.checkedGroupBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.checkboxGroup",
+        @JS_NS@.widget._base.checkedGroupBase, {
     // Set defaults.
     _widgetType: "checkboxGroup" // Required for theme properties.
 });
@@ -63,18 +63,18 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.checkboxGroup",
  * </p>
  * @ignore
  */
-webui.@THEME_JS@.widget.checkboxGroup.event =
-        webui.@THEME_JS@.widget.checkboxGroup.prototype.event = {
+@JS_NS@.widget.checkboxGroup.event =
+        @JS_NS@.widget.checkboxGroup.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_checkboxGroup_event_refresh_begin",
+        beginTopic: "@JS_NS@_widget_checkboxGroup_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_checkboxGroup_event_refresh_end"
+        endTopic: "@JS_NS@_widget_checkboxGroup_event_refresh_end"
     },
 
     /**
@@ -83,10 +83,10 @@ webui.@THEME_JS@.widget.checkboxGroup.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_checkboxGroup_event_state_begin",
+        beginTopic: "@JS_NS@_widget_checkboxGroup_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_checkboxGroup_event_state_end"
+        endTopic: "@JS_NS@_widget_checkboxGroup_event_state_end"
     }
 };
 
@@ -99,7 +99,7 @@ webui.@THEME_JS@.widget.checkboxGroup.event =
  * @return {String} The outermost HTML element class name.
  * @private
  */
-webui.@THEME_JS@.widget.checkboxGroup.prototype._getClassName = function() {
+@JS_NS@.widget.checkboxGroup.prototype._getClassName = function() {
     // Set default style.
     var className = (this.columns > 1)
         ? this._theme.getClassName("CBGRP_HORIZ", "")

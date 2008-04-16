@@ -20,22 +20,17 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._base.config");
-
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.proto");
-
 /**
  * This optional variable contains config properties to initialize the 
- * environment. If this is not defined, webui_@THEME@ will be used (without the 
- * version number) for backward compatibility.
+ * environment.
  * <p><code><pre>
  *
- * webui.@THEME_JS@ = {
- *    // Flag to enable webui debug mode.
+ * @JS_NS@Config = {
+ *    // Flag to enable debug mode.
  *    isDebug: false,
  *    // Flag to inlcude style sheet(s).
  *    isStyleSheet: true,
- *    // Custom name space to map as webui.@THEME_JS@.
+ *    // Custom name space to map as @JS_NS@.
  *    namespace: "foo",
  *    // Flag to parse HTML markup onLoad.
  *    parseOnLoad: true,
@@ -44,36 +39,37 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.proto");
  *      // Theme locale.
  *      locale: "en"
  *    },
- *    // Flag to include all webui functionality.
+ *    // Flag to include all widgets.
  *    webuiAll: false,
- *    // Flag to include all Ajax functionality based on JSF Extensions.
+ *    // Flag to include Ajax functionality based on JSF Extensions.
  *    webuiJsfx: false
  * };
  *
  * </pre></code></p>
- * @name webui_@THEME_JS@
+ * @name @JS_NS@Config
  */
 
 /**
  * @class This class contains config properties to initialize the environment.
- * Properties shall be ovrridden by the global webui.@THEME_JS@ variable. If 
- * this variable does not exist, webui_@THEME@ will be used (without the version
- * number) for backward compatibility.
+ * Properties shall be ovrridden by the global @JS_NS@Config variable.
  * @static
  * @private
  */
-webui.@THEME_JS@._base.config = {
+@JS_NS@._base.config = {
     /** Ajax config properties. */
     ajax: {
         /** Flag allowing Ajax resources to be loaded in page. */
-        isAjax: false,
+        isAjax: (@JS_NS@Config.ajax && @JS_NS@Config.ajax.isAjax != null)
+            ? @JS_NS@Config.ajax.isAjax : false,
         /** Flag allowing JSF Extensions to be loaded in page. */
-        isJsfx: true,
+        isJsfx: (@JS_NS@Config.ajax && @JS_NS@Config.ajax.isJsfx != null)
+            ? @JS_NS@Config.ajax.isJsfx : true,
         /** Ajax module. */
-        module: "webui.@THEME_JS@.widget._jsfx"
+        module: (@JS_NS@Config.ajax && @JS_NS@Config.ajax.module)
+            ? @JS_NS@Config.ajax.module : "@JS_NS@.widget._jsfx"
     },
-    /** Flag to enable webui debug mode. */
-    isDebug: false,
+    /** Flag to enable debug mode. */
+    isDebug: (@JS_NS@Config.isDebug != null) ? @JS_NS@Config.isDebug : false,
     /** Flag to enable high contrast mode. */
     _isHighContrastMode: undefined,
     /** Dojo config properties. */
@@ -83,30 +79,31 @@ webui.@THEME_JS@._base.config = {
         /** Flag to enable dojo debug mode. */
         isDebug: false
     },
-    /** Webui module path. */
-    modulePath: undefined,
+    /** Woodstock module path. */
+    modulePath: (@JS_NS@Config.modulePath) ? @JS_NS@Config.modulePath : undefined,
     /** Flag to inlcude style sheet(s). */
-    isStyleSheet: true,
+    isStyleSheet: (@JS_NS@Config.isStyleSheet != null) ? @JS_NS@Config.isStyleSheet : true,
     /** Flag to parse HTML markup onLoad. */
-    parseOnLoad: true,
-    /** Custom name space to map as webui.@THEME_JS@. */
-    namespace: "webui.@THEME@",
+    parseOnLoad: (@JS_NS@Config.parseOnLoad != null) ? @JS_NS@Config.parseOnLoad : true,
+    /** Custom name space to map as @JS_NS@. */
+    namespace: (@JS_NS@Config.namespace) ? @JS_NS@Config.namespace : "webui.@THEME@",
     /** Theme config properties. */
     theme: {
         /** Theme bundle name. */
-        bundle: "@THEME@",
+        bundle: (@JS_NS@Config.theme && @JS_NS@Config.theme.bundle)
+            ? @JS_NS@Config.theme.bundle : "@THEME@",
         /** Theme locale. */
-        locale: "en",
+        locale: (@JS_NS@Config.theme && @JS_NS@Config.theme.locale)
+            ? @JS_NS@Config.theme.locale : "en",
         /** Theme module path. */
-        modulePath: undefined,
+        modulePath: (@JS_NS@Config.theme && @JS_NS@Config.theme.modulePath)
+            ? @JS_NS@Config.theme.modulePath : undefined,
         /** App context. */
-        prefix: undefined
+        prefix: (@JS_NS@Config.theme && @JS_NS@Config.theme.prefix)
+            ? @JS_NS@Config.theme.prefix : undefined
     },
-    /** Flag to include all webui functionality. */
-    webuiAll: false,
-    /** Flag to include all Ajax functionality based on JSF Extensions. */
-    webuiJsfx: false
+    /** Flag to include all widgets. */
+    webuiAll: (@JS_NS@Config.webuiAll != null) ? @JS_NS@Config.webuiAll : false,
+    /** Flag to include Ajax functionality based on JSF Extensions. */
+    webuiJsfx: (@JS_NS@Config.webuiJsfx != null) ? @JS_NS@Config.webuiJsfx : false
 };
-
-// Override default config properties.
-webui.@THEME_JS@._base.proto._extend(webui.@THEME_JS@._base.config, webui_@THEME_JS@);

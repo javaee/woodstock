@@ -20,13 +20,13 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget._jsfx.progressBar");
+@JS_NS@._dojo.provide("@JS_NS@.widget._jsfx.progressBar");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.json");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._jsfx.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._jsfx.dynaFaces");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.progressBar");
+@JS_NS@._dojo.require("@JS_NS@.json");
+@JS_NS@._dojo.require("@JS_NS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@.widget._jsfx.common");
+@JS_NS@._dojo.require("@JS_NS@.widget._jsfx.dynaFaces");
+@JS_NS@._dojo.require("@JS_NS@.widget.progressBar");
 
 /**
  * @class This class contains functions to obtain data asynchronously using JSF
@@ -34,7 +34,7 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.progressBar");
  * @static
  * @private
  */
-webui.@THEME_JS@.widget._jsfx.progressBar =  {
+@JS_NS@.widget._jsfx.progressBar =  {
     /**
      * This function is used to process progress events with Object literals.
      *
@@ -56,7 +56,7 @@ webui.@THEME_JS@.widget._jsfx.progressBar =  {
             (domNode) ? domNode : document.forms[0], {
             execute: props.id, // Need to decode hidden field.
             render: props.id,
-            replaceElement: webui.@THEME_JS@.widget._jsfx.progressBar._progressCallback,
+            replaceElement: @JS_NS@.widget._jsfx.progressBar._progressCallback,
             xjson: {
                 id: props.id,
                 event: "progress"
@@ -82,10 +82,10 @@ webui.@THEME_JS@.widget._jsfx.progressBar =  {
         }
 
         // Parse JSON text.
-        var props = webui.@THEME_JS@.json.parse(content);
+        var props = @JS_NS@.json.parse(content);
 
         // Set progress.
-        var widget = webui.@THEME_JS@.widget.common.getWidget(id);
+        var widget = @JS_NS@.widget.common.getWidget(id);
         widget.setProgress({
             failedStateText : props.failedStateText,
             logMessage : props.logMessage,
@@ -96,14 +96,14 @@ webui.@THEME_JS@.widget._jsfx.progressBar =  {
         });
 
         // Publish an event for custom AJAX implementations to listen for.
-        webui.@THEME_JS@._dojo.publish(
-            webui.@THEME_JS@.widget.progressBar.event.progress.endTopic, [props]);
+        @JS_NS@._dojo.publish(
+            @JS_NS@.widget.progressBar.event.progress.endTopic, [props]);
         return true;
     }
 };
 
 // Listen for Dojo Widget events.
-webui.@THEME_JS@._dojo.subscribe(webui.@THEME_JS@.widget.progressBar.event.progress.beginTopic,
-    webui.@THEME_JS@.widget._jsfx.progressBar, "_processProgressEvent");
-webui.@THEME_JS@._dojo.subscribe(webui.@THEME_JS@.widget.progressBar.event.refresh.beginTopic,
-    webui.@THEME_JS@.widget._jsfx.common, "_processRefreshEvent");
+@JS_NS@._dojo.subscribe(@JS_NS@.widget.progressBar.event.progress.beginTopic,
+    @JS_NS@.widget._jsfx.progressBar, "_processProgressEvent");
+@JS_NS@._dojo.subscribe(@JS_NS@.widget.progressBar.event.refresh.beginTopic,
+    @JS_NS@.widget._jsfx.common, "_processRefreshEvent");

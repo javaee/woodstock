@@ -20,18 +20,18 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._html.rbcb");
+@JS_NS@._dojo.provide("@JS_NS@._html.rbcb");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@.widget.common");
 
 /**
  * @class This class contains functions for checkbox and radio button components.
  * @static
  *
- * @deprecated See webui.@THEME_JS@.widget.rbcbGroup
+ * @deprecated See @JS_NS@.widget.rbcbGroup
  * @private
  */
-webui.@THEME_JS@._html.rbcb = {
+@JS_NS@._html.rbcb = {
     /**
      * 
      * @param {String} elementId The element Id.
@@ -41,7 +41,7 @@ webui.@THEME_JS@._html.rbcb = {
      * @deprecated Use document.getElementById(id).setProps({checked: boolean});
      */ 
     setChecked: function(elementId, checked, type) {
-        var widget = webui.@THEME_JS@.widget.common.getWidget(elementId);
+        var widget = @JS_NS@.widget.common.getWidget(elementId);
         if (widget) {
             return widget.setProps({checked: checked});
         }
@@ -60,7 +60,7 @@ webui.@THEME_JS@._html.rbcb = {
      */ 
     setDisabled: function(elementId, disabled, type, enabledStyle,
             disabledStyle) {
-        var widget = webui.@THEME_JS@.widget.common.getWidget(elementId);
+        var widget = @JS_NS@.widget.common.getWidget(elementId);
         if (widget) {
             return widget.setProps({disabled: disabled});
         }
@@ -79,7 +79,7 @@ webui.@THEME_JS@._html.rbcb = {
      */
     setGroupDisabled: function(controlName, disabled, type, enabledStyle,
             disabledStyle) {
-        var widget = webui.@THEME_JS@.widget.common.getWidget(elementId);
+        var widget = @JS_NS@.widget.common.getWidget(elementId);
         if (widget) {
             return widget.setProps({disabled: disabled});
         }
@@ -88,4 +88,4 @@ webui.@THEME_JS@._html.rbcb = {
 };
 
 // Extend for backward compatibility with JSF based components.
-webui.@THEME_JS@.rbcb = webui.@THEME_JS@._html.rbcb;
+@JS_NS@.rbcb = @JS_NS@._html.rbcb;

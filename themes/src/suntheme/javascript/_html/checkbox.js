@@ -20,18 +20,18 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._html.checkbox");
+@JS_NS@._dojo.provide("@JS_NS@._html.checkbox");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._html.rbcb");
+@JS_NS@._dojo.require("@JS_NS@._html.rbcb");
 
 /**
  * @class This class contains functions for checkbox components.
  * @static
  * 
- * @deprecated See webui.@THEME_JS@.widget.checkbox
+ * @deprecated See @JS_NS@.widget.checkbox
  * @private
  */
-webui.@THEME_JS@._html.checkbox = {
+@JS_NS@._html.checkbox = {
     /**
      * Set the disabled state for the given checkbox element Id. If the disabled 
      * state is set to true, the element is shown with disabled styles.
@@ -42,7 +42,7 @@ webui.@THEME_JS@._html.checkbox = {
      * @deprecated Use document.getElementById(id).setProps({disabled: boolean});
      */
     setDisabled: function(elementId, disabled) {
-        return webui.@THEME_JS@._html.rbcb.setDisabled(elementId, disabled,
+        return @JS_NS@._html.rbcb.setDisabled(elementId, disabled,
             "checkbox", "Cb", "CbDis");
     },
 
@@ -57,7 +57,7 @@ webui.@THEME_JS@._html.checkbox = {
      * @deprecated Use document.getElementById(id).setProps({disabled: boolean});
      */
     setGroupDisabled: function(controlName, disabled) {    
-        return webui.@THEME_JS@._html.rbcb.setGroupDisabled(controlName,
+        return @JS_NS@._html.rbcb.setGroupDisabled(controlName,
             disabled, "checkbox", "Cb", "CbDis");
     },
 
@@ -70,10 +70,10 @@ webui.@THEME_JS@._html.checkbox = {
      * @deprecated Use document.getElementById(id).setProps({checked: boolean});
      */
     setChecked: function(elementId, checked) {
-        return webui.@THEME_JS@._html.rbcb.setChecked(elementId, checked,
+        return @JS_NS@._html.rbcb.setChecked(elementId, checked,
             "checkbox");
     }
 };
 
 // Extend for backward compatibility with JSF based components.
-webui.@THEME_JS@.checkbox = webui.@THEME_JS@._html.checkbox;
+@JS_NS@.checkbox = @JS_NS@._html.checkbox;

@@ -20,18 +20,18 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._html.dropDown");
+@JS_NS@._dojo.provide("@JS_NS@._html.dropDown");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@.widget.common");
 
 /**
  * @class This class contains functions for dropDown components.
  * @static
  * 
- * @deprecated See webui.@THEME_JS@.widget.dropDown
+ * @deprecated See @JS_NS@.widget.dropDown
  * @private
  */
-webui.@THEME_JS@._html.dropDown = {
+@JS_NS@._html.dropDown = {
     /**
      * This function is invoked by the choice onselect action to set the
      * selected, and disabled styles.
@@ -46,7 +46,7 @@ webui.@THEME_JS@._html.dropDown = {
      * @deprecated
      */
     changed: function(elementId) {         
-        var widget = webui.@THEME_JS@.widget.common.getWidget(elementId);
+        var widget = @JS_NS@.widget.common.getWidget(elementId);
         if (widget) {
             return widget._changed();
         }
@@ -64,7 +64,7 @@ webui.@THEME_JS@._html.dropDown = {
      * @deprecated Use document.getElementById(elementId).setSelectElement()
      */
     getSelectElement: function(elementId) { 
-        var widget = webui.@THEME_JS@.widget.common.getWidget(elementId);
+        var widget = @JS_NS@.widget.common.getWidget(elementId);
         if (widget) {
             return widget.getSelectElement();
         }
@@ -84,7 +84,7 @@ webui.@THEME_JS@._html.dropDown = {
      * @deprecated Use document.getElementById(elementId).getSelectedLabel();
      */
     getSelectedLabel: function(elementId) { 
-        var widget = webui.@THEME_JS@.widget.common.getWidget(elementId);
+        var widget = @JS_NS@.widget.common.getWidget(elementId);
         if (widget) {
             return widget.getSelectedLabel();
         }
@@ -104,7 +104,7 @@ webui.@THEME_JS@._html.dropDown = {
      * @deprecated Use document.getElementById(elementId).getSelectedValue();
      */
     getSelectedValue: function(elementId) { 
-        var widget = webui.@THEME_JS@.widget.common.getWidget(elementId);
+        var widget = @JS_NS@.widget.common.getWidget(elementId);
         if (widget) {
             return widget.getSelectedValue();
         }
@@ -126,7 +126,7 @@ webui.@THEME_JS@._html.dropDown = {
      * @deprecated Use document.getElementById(elementId).setProps({disabled: boolean});
      */
     setDisabled: function(elementId, disabled) { 
-        var widget = webui.@THEME_JS@.widget.common.getWidget(elementId);
+        var widget = @JS_NS@.widget.common.getWidget(elementId);
         if (widget) {
             return widget.setProps({ disabled: disabled});
         }
@@ -135,4 +135,4 @@ webui.@THEME_JS@._html.dropDown = {
 };
 
 // Extend for backward compatibility with JSF based components.
-webui.@THEME_JS@.dropDown = webui.@THEME_JS@._html.dropDown;
+@JS_NS@.dropDown = @JS_NS@._html.dropDown;

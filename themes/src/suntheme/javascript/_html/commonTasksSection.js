@@ -20,19 +20,19 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._html.commonTasksSection");
+@JS_NS@._dojo.provide("@JS_NS@._html.commonTasksSection");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.browser");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.proto");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.theme.common");
+@JS_NS@._dojo.require("@JS_NS@._base.browser");
+@JS_NS@._dojo.require("@JS_NS@._base.common");
+@JS_NS@._dojo.require("@JS_NS@._base.proto");
+@JS_NS@._dojo.require("@JS_NS@.theme.common");
 
 /** 
  * @class This class contains functions for commonTasksSection components.
  * @static
  * @private
  */
-webui.@THEME_JS@._html.commonTasksSection = {
+@JS_NS@._html.commonTasksSection = {
     /**
      * This function is used to initialize HTML element properties with Object 
      * literals.
@@ -58,15 +58,15 @@ webui.@THEME_JS@._html.commonTasksSection = {
         }
 
         // Set given properties on domNode.
-        webui.@THEME_JS@._base.proto._extend(domNode, props, false);
+        @JS_NS@._base.proto._extend(domNode, props, false);
 
         // Set functions.
-	domNode.captureCloseKey = webui.@THEME_JS@._html.commonTasksSection.captureCloseKey;
-	domNode.captureBottomInfoKey = webui.@THEME_JS@._html.commonTasksSection.captureBottomInfoKey;
-        domNode.hideAll = webui.@THEME_JS@._html.commonTasksSection.hideAll;
-        domNode.addCommonTask = webui.@THEME_JS@._html.commonTasksSection.addCommonTask;
-        domNode.addInfoPanel = webui.@THEME_JS@._html.commonTasksSection.addInfoPanel;
-        domNode.windowResize = webui.@THEME_JS@._html.commonTasksSection.windowResize;
+	domNode.captureCloseKey = @JS_NS@._html.commonTasksSection.captureCloseKey;
+	domNode.captureBottomInfoKey = @JS_NS@._html.commonTasksSection.captureBottomInfoKey;
+        domNode.hideAll = @JS_NS@._html.commonTasksSection.hideAll;
+        domNode.addCommonTask = @JS_NS@._html.commonTasksSection.addCommonTask;
+        domNode.addInfoPanel = @JS_NS@._html.commonTasksSection.addInfoPanel;
+        domNode.windowResize = @JS_NS@._html.commonTasksSection.windowResize;
         domNode.onclick = domNode.hideAll;
 
         // Set task element array.
@@ -74,7 +74,7 @@ webui.@THEME_JS@._html.commonTasksSection = {
         domNode.count = 0;
 
         // Hide panels on resize.
-        webui.@THEME_JS@._dojo.connect(window, 'onresize', domNode, domNode.windowResize);
+        @JS_NS@._dojo.connect(window, 'onresize', domNode, domNode.windowResize);
 
         return true;
     },
@@ -89,11 +89,11 @@ webui.@THEME_JS@._html.commonTasksSection = {
         for (var i = 0; i < this.count; i++) {
             task = this.taskElement[i];
             if (task.infoPanel) {
-               webui.@THEME_JS@._base.common._setVisibleElement(task.infoPanel.info, false);
+               @JS_NS@._base.common._setVisibleElement(task.infoPanel.info, false);
                task.infoPanel.image.src = this.pic3URL;
             }
         }
-        if (webui.@THEME_JS@._base.browser._isIe5up()) {
+        if (@JS_NS@._base.browser._isIe5up()) {
             window.event.cancelBubble = true;
         } else {
             event.stopPropagation();
@@ -111,7 +111,7 @@ webui.@THEME_JS@._html.commonTasksSection = {
         for (var i = 0; i < this.count; i++) {
             task = this.taskElement[i];
             if (task.infoPanel) {
-               webui.@THEME_JS@._base.common._setVisibleElement(task.infoPanel.info, false);
+               @JS_NS@._base.common._setVisibleElement(task.infoPanel.info, false);
                task.infoPanel.image.src = this.pic3URL;
             }
         }
@@ -195,7 +195,7 @@ webui.@THEME_JS@._html.commonTasksSection = {
         this.task = task;
         this.bottomInfoLink = bottomInfoLink;
         this.spacer = spacer;
-        this._theme = webui.@THEME_JS@.theme.common;
+        this._theme = @JS_NS@.theme.common;
         
         var that = this;
 
@@ -208,7 +208,7 @@ webui.@THEME_JS@._html.commonTasksSection = {
                 
                 // Only for IE.                
                 onKeyDown:function(event) {
-                    if (webui.@THEME_JS@._base.browser._isIe5up()) {
+                    if (@JS_NS@._base.browser._isIe5up()) {
 
                         // For IE, while pressing the shift key along with the tab key
                         // the onkeydown seems to be called twice. To prevent this,
@@ -222,7 +222,7 @@ webui.@THEME_JS@._html.commonTasksSection = {
                 },
                 onKeyPress:function(event) {	    
                     var evt = (event) ? event : ((window.event) ? window.event : null);  
-                    if (!webui.@THEME_JS@._base.browser._isIe5up()) {
+                    if (!@JS_NS@._base.browser._isIe5up()) {
                         that.captureBottomInfoKey(event);
                     }
                     return false;                                 
@@ -238,7 +238,7 @@ webui.@THEME_JS@._html.commonTasksSection = {
                 // to be problems setting focus on another element in IE.
                 that.bottomInfoLink.blur();
 
-                webui.@THEME_JS@._base.common._setVisibleElement(that.info, false);
+                @JS_NS@._base.common._setVisibleElement(that.info, false);
                 that.image.src = that.parent.pic3URL;	
                 that.imageLink.focus();
             }
@@ -248,7 +248,7 @@ webui.@THEME_JS@._html.commonTasksSection = {
 
                 // If you dont do this, the info panel closes on IE
                 // and the focus is set on the "i" icon.
-                webui.@THEME_JS@._base.common._setVisibleElement(that.info, true);
+                @JS_NS@._base.common._setVisibleElement(that.info, true);
             }
             return true;
         };
@@ -269,10 +269,10 @@ webui.@THEME_JS@._html.commonTasksSection = {
 
                     // If this is not done, the info panel closes
                     // after you tab to the element on IE
-                    webui.@THEME_JS@._base.common._setVisibleElement(that.info, true);
+                    @JS_NS@._base.common._setVisibleElement(that.info, true);
                 } else {
                     that.image.src = that.parent.pic3URL;	            
-                    webui.@THEME_JS@._base.common._setVisibleElement(that.info, false);    
+                    @JS_NS@._base.common._setVisibleElement(that.info, false);    
                     that.imageLink.focus();
                 }                                      
             }
@@ -282,9 +282,9 @@ webui.@THEME_JS@._html.commonTasksSection = {
         // Events which handle the closing of the div.        
         this.close.setProps({
             onClick:function(event) {
-                webui.@THEME_JS@._base.common._setVisibleElement(that.info, false);
+                @JS_NS@._base.common._setVisibleElement(that.info, false);
                 that.image.src = that.parent.pic3URL;	
-                if (webui.@THEME_JS@._base.browser._isIe5up()) {
+                if (@JS_NS@._base.browser._isIe5up()) {
                     window. event.cancelBubble = true;
                 } else {
                     event.stopPropagation();
@@ -296,7 +296,7 @@ webui.@THEME_JS@._html.commonTasksSection = {
             // Need to do this only on IE. "Tab" key doesnt get registered
             // for keypress on IE.                        
             onKeyDown:function(event) {
-                if (webui.@THEME_JS@._base.browser._isIe5up()) {
+                if (@JS_NS@._base.browser._isIe5up()) {
 
                     // this seems to be called once for the shift key and
                     // once for the tab key. Prevent calling the capture
@@ -307,7 +307,7 @@ webui.@THEME_JS@._html.commonTasksSection = {
 
                     // If escape key is pressed, the info panel must close.
                     if (window.event.keyCode == 27 || window.event.keyCode == 13) {
-                        webui.@THEME_JS@._base.common._setVisibleElement(that.info, false);
+                        @JS_NS@._base.common._setVisibleElement(that.info, false);
                         that.image.src = that.parent.pic3URL;
                         that.imageLink.focus();
                     }                
@@ -321,12 +321,12 @@ webui.@THEME_JS@._html.commonTasksSection = {
             // the "more" link if it is present or the infoPanel should close. 
             onKeyPress:function(event) {              
                 var evt = (event) ? event : ((window.event) ? window.event : null);         
-                if (!webui.@THEME_JS@._base.browser._isIe5up()) {
+                if (!@JS_NS@._base.browser._isIe5up()) {
                     that.captureCloseKey(evt);
                 }
                 // If escape key is pressed, the info panel must close.
                 if (evt.keyCode == 27 || evt.keyCode == 13) {
-                    webui.@THEME_JS@._base.common._setVisibleElement(that.info, false);
+                    @JS_NS@._base.common._setVisibleElement(that.info, false);
                     that.image.src = that.parent.pic3URL;
                     that.imageLink.focus();
                 }
@@ -335,8 +335,8 @@ webui.@THEME_JS@._html.commonTasksSection = {
         });
         
         this.info.onclick = function(event) {
-            webui.@THEME_JS@._base.common._setVisibleElement(that.info, true);
-            if (webui.@THEME_JS@._base.browser._isIe5up()) {
+            @JS_NS@._base.common._setVisibleElement(that.info, true);
+            if (@JS_NS@._base.browser._isIe5up()) {
                 window. event.cancelBubble = true;
             } else {
                 event.stopPropagation();
@@ -347,7 +347,7 @@ webui.@THEME_JS@._html.commonTasksSection = {
         // Events which handle the image changes for the "i" image.
         this.imageLink.setProps({
             onMouseOver:function() {
-                if (!webui.@THEME_JS@._base.common._isVisibleElement(that.info)) {
+                if (!@JS_NS@._base.common._isVisibleElement(that.info)) {
                     that.image.src = that.parent.pic2URL;
                 } else {
                     that.image.src = that.parent.pic1URL;
@@ -355,7 +355,7 @@ webui.@THEME_JS@._html.commonTasksSection = {
                 return true;
             },        
             onFocus:function() {
-                if (!webui.@THEME_JS@._base.common._isVisibleElement(that.info)) {
+                if (!@JS_NS@._base.common._isVisibleElement(that.info)) {
                     that.image.src = that.parent.pic2URL;
                 } else {
                     that.image.src = that.parent.pic1URL;
@@ -363,7 +363,7 @@ webui.@THEME_JS@._html.commonTasksSection = {
                 return true;
             },        
             onBlur:function() {
-                  if (!webui.@THEME_JS@._base.common._isVisibleElement(that.info)) {
+                  if (!@JS_NS@._base.common._isVisibleElement(that.info)) {
                     that.image.src = that.parent.pic3URL;
                 } else {
                     that.image.src = that.parent.pic1URL;
@@ -371,7 +371,7 @@ webui.@THEME_JS@._html.commonTasksSection = {
                 return true;
             },
             onMouseOut:function() {
-                if (!webui.@THEME_JS@._base.common._isVisibleElement(that.info)) {
+                if (!@JS_NS@._base.common._isVisibleElement(that.info)) {
                     that.image.src = that.parent.pic3URL;
                 } else {
                     that.image.src = that.parent.pic1URL;
@@ -384,7 +384,7 @@ webui.@THEME_JS@._html.commonTasksSection = {
                     that.showInfoPanel();
                     return false;                
                 }
-                if (webui.@THEME_JS@._base.browser._isIe5up()) {
+                if (@JS_NS@._base.browser._isIe5up()) {
                     window.event.cancelBubble = true;
                 } else {
                     event.stopPropagation();
@@ -396,7 +396,7 @@ webui.@THEME_JS@._html.commonTasksSection = {
        // Toggle functionality incorporated
         this.image.setProps({onClick:function(event){
             that.showInfoPanel();
-            if (webui.@THEME_JS@._base.browser._isIe5up()) {
+            if (@JS_NS@._base.browser._isIe5up()) {
                 window.event.cancelBubble = true;
             } else {
                 event.stopPropagation();
@@ -410,13 +410,13 @@ webui.@THEME_JS@._html.commonTasksSection = {
                 task = cts.taskElement[i];
                 if (task.infoPanel != null
                         && task.infoPanel.image.id != this.image.id) {
-                    webui.@THEME_JS@._base.common._setVisibleElement(task.infoPanel.info, false);
+                    @JS_NS@._base.common._setVisibleElement(task.infoPanel.info, false);
                     task.infoPanel.image.src = cts.pic3URL;
                 }
             }
  
-            if (!webui.@THEME_JS@._base.common._isVisibleElement(this.info)) {
-                webui.@THEME_JS@._base.common._setVisibleElement(this.info, true);
+            if (!@JS_NS@._base.common._isVisibleElement(this.info)) {
+                @JS_NS@._base.common._setVisibleElement(this.info, true);
                 this.getElementPosition2(this.image.id);
                 this.getElementPosition(this.task.id);        
                 this.info.style.top = (this.ttop + parseInt(this._theme.getMessage("commonTasks.infoPanelOffsetTop"))) +'px';
@@ -426,7 +426,7 @@ webui.@THEME_JS@._html.commonTasksSection = {
                 this.image.src = cts.pic1URL;
             } else {
                 this.image.src = cts.pic3URL;
-                webui.@THEME_JS@._base.common._setVisibleElement(this.info, false);
+                @JS_NS@._base.common._setVisibleElement(this.info, false);
             }
             return true;
         };

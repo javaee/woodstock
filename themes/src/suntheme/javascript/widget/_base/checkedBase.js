@@ -20,22 +20,22 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget._base.checkedBase");
+@JS_NS@._dojo.provide("@JS_NS@.widget._base.checkedBase");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.browser");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.labeledBase");
+@JS_NS@._dojo.require("@JS_NS@._base.browser");
+@JS_NS@._dojo.require("@JS_NS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.labeledBase");
 
 /**
  * This function is used to construct a base class.
  *
- * @name webui.@THEME_JS@.widget._base.checkedBase
- * @extends webui.@THEME_JS@.widget._base.labeledBase
+ * @name @JS_NS@.widget._base.checkedBase
+ * @extends @JS_NS@.widget._base.labeledBase
  * @class This class contains functions for widgets that extend checkedBase.
  * @constructor
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget._base.checkedBase",
-        webui.@THEME_JS@.widget._base.labeledBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget._base.checkedBase",
+        @JS_NS@.widget._base.labeledBase, {
     // Set defaults.
     _idSuffix: "" // Overridden by subclass
 });
@@ -46,7 +46,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget._base.checkedBase",
  * @return {String} The HTML image element class name.
  * @private
  */
-webui.@THEME_JS@.widget._base.checkedBase.prototype._getImageClassName = function() {
+@JS_NS@.widget._base.checkedBase.prototype._getImageClassName = function() {
     return null; // Overridden by subclass.
 };
 
@@ -56,7 +56,7 @@ webui.@THEME_JS@.widget._base.checkedBase.prototype._getImageClassName = functio
  * @return {String} The HTML input element class name.
  * @private
  */
-webui.@THEME_JS@.widget._base.checkedBase.prototype._getInputClassName = function() {
+@JS_NS@.widget._base.checkedBase.prototype._getInputClassName = function() {
     return null; // Overridden by subclass.
 };
 
@@ -65,7 +65,7 @@ webui.@THEME_JS@.widget._base.checkedBase.prototype._getInputClassName = functio
  *
  * @return {Node} The HTML input element. 
  */
-webui.@THEME_JS@.widget._base.checkedBase.prototype.getInputElement = function() {
+@JS_NS@.widget._base.checkedBase.prototype.getInputElement = function() {
     return this._inputNode;
 };
 
@@ -80,7 +80,7 @@ webui.@THEME_JS@.widget._base.checkedBase.prototype.getInputElement = function()
  * property set.
  * @private
  */
-webui.@THEME_JS@.widget._base.checkedBase.prototype._getLabelProps = function() {
+@JS_NS@.widget._base.checkedBase.prototype._getLabelProps = function() {
     // Let the super class contribute
     //
     var props = this.inherited("_getLabelProps", arguments);
@@ -97,7 +97,7 @@ webui.@THEME_JS@.widget._base.checkedBase.prototype._getLabelProps = function() 
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME_JS@.widget._base.checkedBase.prototype.getProps = function() {
+@JS_NS@.widget._base.checkedBase.prototype.getProps = function() {
     var props = this._inherited("getProps", arguments);
 
     // Set properties.  
@@ -124,7 +124,7 @@ webui.@THEME_JS@.widget._base.checkedBase.prototype.getProps = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget._base.checkedBase.prototype._onClickCallback = function(event) {
+@JS_NS@.widget._base.checkedBase.prototype._onClickCallback = function(event) {
     if (this.readOnly == true) {
         event.preventDefault();
         return false;
@@ -149,7 +149,7 @@ webui.@THEME_JS@.widget._base.checkedBase.prototype._onClickCallback = function(
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget._base.checkedBase.prototype._postCreate = function () {
+@JS_NS@.widget._base.checkedBase.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
         this._inputNode.id = this.id + this._idSuffix;
@@ -165,7 +165,7 @@ webui.@THEME_JS@.widget._base.checkedBase.prototype._postCreate = function () {
 
     /** @ignore */
     this._domNode.getInputElement = function() {
-	var widget = webui.@THEME_JS@.widget;
+	var widget = @JS_NS@.widget;
 	return widget.common.getWidget(this.id).getInputElement();
     }
     
@@ -185,7 +185,7 @@ webui.@THEME_JS@.widget._base.checkedBase.prototype._postCreate = function () {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget._base.checkedBase.prototype._setProps = function(props) {
+@JS_NS@.widget._base.checkedBase.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -227,12 +227,12 @@ webui.@THEME_JS@.widget._base.checkedBase.prototype._setProps = function(props) 
         // the HTML input element has been added to the DOM. As a work around, 
         // we shall use a timeout to set the property during initialization.
         if (this._isInitialized() != true &&
-                webui.@THEME_JS@._base.browser._isIe()) {
+                @JS_NS@._base.browser._isIe()) {
             var _id = this.id;
             setTimeout(function() {
                 // New literals are created every time this function
                 // is called, and it's saved by closure magic.
-                var widget = webui.@THEME_JS@.widget.common.getWidget(_id);
+                var widget = @JS_NS@.widget.common.getWidget(_id);
                 widget._inputNode.checked = checked;
             }, 0); // (n) milliseconds delay.
         } else {

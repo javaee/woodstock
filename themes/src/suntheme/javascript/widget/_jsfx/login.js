@@ -20,12 +20,12 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget._jsfx.login");
+@JS_NS@._dojo.provide("@JS_NS@.widget._jsfx.login");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.json");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.login");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._jsfx.dynaFaces");
+@JS_NS@._dojo.require("@JS_NS@.json");
+@JS_NS@._dojo.require("@JS_NS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@.widget.login");
+@JS_NS@._dojo.require("@JS_NS@.widget._jsfx.dynaFaces");
 
 /**
  * @class This class contains functions to authenticate data asynchronously 
@@ -33,7 +33,7 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._jsfx.dynaFaces");
  * @static
  * @private
  */
-webui.@THEME_JS@.widget._jsfx.login =  {
+@JS_NS@.widget._jsfx.login =  {
     /**
      * This function is used to pass on the authentication data sent from 
      * the server callback object to the client. It calls the appropriate 
@@ -49,16 +49,16 @@ webui.@THEME_JS@.widget._jsfx.login =  {
      */
     _loginCallback : function(id, content, closure, xjson) {
         // Parse JSON text and update login widget.
-        var props = webui.@THEME_JS@.json.parse(content);
+        var props = @JS_NS@.json.parse(content);
 
         // Publish an event for custom AJAX implementations 
 	// to listen for.
-        var widget = webui.@THEME_JS@.widget.common.getWidget(id);
+        var widget = @JS_NS@.widget.common.getWidget(id);
         widget.setProps(props);
         
         // Publish an event for custom AJAX implementations to listen for.
         if (xjson.endTopic) {
-            webui.@THEME_JS@._dojo.publish(xjson.endTopic, props);
+            @JS_NS@._dojo.publish(xjson.endTopic, props);
         }
         return true;
     },
@@ -87,7 +87,7 @@ webui.@THEME_JS@.widget._jsfx.login =  {
             (domNode) ? domNode : document.forms[0], {
             execute: props.id,
             render: props.id,
-            replaceElement: webui.@THEME_JS@.widget._jsfx.login._loginCallback,
+            replaceElement: @JS_NS@.widget._jsfx.login._loginCallback,
             xjson: {
                 id: props.id,
                 loginState: props.loginState,
@@ -100,5 +100,5 @@ webui.@THEME_JS@.widget._jsfx.login =  {
 };
 
 // Listen for Dojo Widget events.
-webui.@THEME_JS@._dojo.subscribe(webui.@THEME_JS@.widget.login.event.authenticate.beginTopic,
-    webui.@THEME_JS@.widget._jsfx.login, "_processLoginEvent");
+@JS_NS@._dojo.subscribe(@JS_NS@.widget.login.event.authenticate.beginTopic,
+    @JS_NS@.widget._jsfx.login, "_processLoginEvent");

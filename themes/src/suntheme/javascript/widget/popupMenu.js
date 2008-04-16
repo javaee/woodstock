@@ -20,21 +20,21 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.popupMenu");
+@JS_NS@._dojo.provide("@JS_NS@.widget.popupMenu");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.menuBase");
+@JS_NS@._dojo.require("@JS_NS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.menuBase");
 
 /**
  * This function is used to construct a popupMenu widget.
  *
- * @name webui.@THEME_JS@.widget.popupMenu
- * @extends webui.@THEME_JS@.widget._base.menuBase
+ * @name @JS_NS@.widget.popupMenu
+ * @extends @JS_NS@.widget._base.menuBase
  * @class This class contains functions for the popupMenu widget.
  * @constructor
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.popupMenu",
-        webui.@THEME_JS@.widget._base.menuBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.popupMenu",
+        @JS_NS@.widget._base.menuBase, {
     // Set defaults.
     _widgetType: "popupMenu" // Required for theme properties.
 });
@@ -44,10 +44,10 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.popupMenu",
  *
  * @return {boolean} false to cancel the JavaScript event.
  */
-webui.@THEME_JS@.widget.popupMenu.prototype.close = function() {
+@JS_NS@.widget.popupMenu.prototype.close = function() {
     if (this._common._isVisibleElement(this._domNode)) {
-        if (webui.@THEME_JS@.widget.popupMenu.activeMenuId) {
-            webui.@THEME_JS@.widget.popupMenu.activeMenuId = null;
+        if (@JS_NS@.widget.popupMenu.activeMenuId) {
+            @JS_NS@.widget.popupMenu.activeMenuId = null;
         }
         if (this.target != null) {
             if (this.target.focus) {
@@ -68,18 +68,18 @@ webui.@THEME_JS@.widget.popupMenu.prototype.close = function() {
  * </p>
  * @ignore
  */
-webui.@THEME_JS@.widget.popupMenu.event =
-        webui.@THEME_JS@.widget.popupMenu.prototype.event = {
+@JS_NS@.widget.popupMenu.event =
+        @JS_NS@.widget.popupMenu.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_popupMenu_event_refresh_begin",
+        beginTopic: "@JS_NS@_widget_popupMenu_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_popupMenu_event_refresh_end"
+        endTopic: "@JS_NS@_widget_popupMenu_event_refresh_end"
     },
 
     /**
@@ -88,10 +88,10 @@ webui.@THEME_JS@.widget.popupMenu.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_popupMenu_event_state_begin",
+        beginTopic: "@JS_NS@_widget_popupMenu_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_popupMenu_event_state_end"
+        endTopic: "@JS_NS@_widget_popupMenu_event_state_end"
     },
 
     /**
@@ -100,10 +100,10 @@ webui.@THEME_JS@.widget.popupMenu.event =
      */
     submit: {
         /** Submit event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_popupMenu_event_submit_begin",
+        beginTopic: "@JS_NS@_widget_popupMenu_event_submit_begin",
 
         /** Submit event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_popupMenu_event_submit_end"
+        endTopic: "@JS_NS@_widget_popupMenu_event_submit_end"
     }
 };
 
@@ -114,7 +114,7 @@ webui.@THEME_JS@.widget.popupMenu.event =
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.popupMenu.prototype._onCloseMenuCallBack = function(event) {
+@JS_NS@.widget.popupMenu.prototype._onCloseMenuCallBack = function(event) {
     // Capture the click and see whether it falls within the boundary of the menu
     // if so do not close the menu.
     var evt = (event) 
@@ -181,7 +181,7 @@ webui.@THEME_JS@.widget.popupMenu.prototype._onCloseMenuCallBack = function(even
  * @param {Event} event The JavaScript event.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.popupMenu.prototype.open = function(event) {    
+@JS_NS@.widget.popupMenu.prototype.open = function(event) {    
     var evt = this._widget._getEvent(event);
     var keyCode = this._widget._getKeyCode(evt);
     if (evt.type == "keydown" || evt.type == "keypress") {
@@ -189,7 +189,7 @@ webui.@THEME_JS@.widget.popupMenu.prototype.open = function(event) {
             return false;
         }
 
-        if (webui.@THEME_JS@._base.browser._isIe5up()) {
+        if (@JS_NS@._base.browser._isIe5up()) {
             window.event.cancelBubble = true;
             window.event.returnValue = false;
         } else {
@@ -199,11 +199,11 @@ webui.@THEME_JS@.widget.popupMenu.prototype.open = function(event) {
     }
          
     // Only one menu can be open at a time. Hence, close the previous menu.
-    var widget = this._widget.getWidget(webui.@THEME_JS@.widget.popupMenu.activeMenuId);
+    var widget = this._widget.getWidget(@JS_NS@.widget.popupMenu.activeMenuId);
     if (widget) {
         widget.close();
     }
-    webui.@THEME_JS@.widget.popupMenu.activeMenuId = this.id;
+    @JS_NS@.widget.popupMenu.activeMenuId = this.id;
 
     var evt = (event) 
         ? event : ((window.event) 
@@ -350,13 +350,13 @@ webui.@THEME_JS@.widget.popupMenu.prototype.open = function(event) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.popupMenu.prototype._postCreate = function () {
+@JS_NS@.widget.popupMenu.prototype._postCreate = function () {
     // Set public functions.
 
     /** @ignore */
-    this._domNode.open = function(event) { return webui.@THEME_JS@.widget.common.getWidget(this.id).open(event); };
+    this._domNode.open = function(event) { return @JS_NS@.widget.common.getWidget(this.id).open(event); };
     /** @ignore */
-    this._domNode.close = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).close(); };
+    this._domNode.close = function() { return @JS_NS@.widget.common.getWidget(this.id).close(); };
 
     // Set events.
     this._dojo.connect(document, "onclick", this, "_onCloseMenuCallBack"); 
@@ -381,7 +381,7 @@ webui.@THEME_JS@.widget.popupMenu.prototype._postCreate = function () {
  * @return {boolean} true The enter key press event completed successfully
  * @private
  */
-webui.@THEME_JS@.widget.popupMenu.prototype._processEnterKeyPressEvent = function(value) {
+@JS_NS@.widget.popupMenu.prototype._processEnterKeyPressEvent = function(value) {
     this._inherited("_processEnterKeyPressEvent", arguments);
     this.close();
     return true;
@@ -394,7 +394,7 @@ webui.@THEME_JS@.widget.popupMenu.prototype._processEnterKeyPressEvent = functio
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.popupMenu.prototype._processOnClickEvent = function(value) {
+@JS_NS@.widget.popupMenu.prototype._processOnClickEvent = function(value) {
     this._inherited("_processOnClickEvent", arguments);
     this.close();
     return true;
@@ -410,7 +410,7 @@ webui.@THEME_JS@.widget.popupMenu.prototype._processOnClickEvent = function(valu
  * @return {boolean} true Propagate the javascript event
  * @private
  */
-webui.@THEME_JS@.widget.popupMenu.prototype._traverseMenu = function(keyCode, event, nodeId) {
+@JS_NS@.widget.popupMenu.prototype._traverseMenu = function(keyCode, event, nodeId) {
     // Handle the escape key and tab key press
     if (keyCode == 27 || keyCode == 9) {
         var focusElem = document.getElementById(this.menuId[this._focusPosition]);
@@ -437,7 +437,7 @@ webui.@THEME_JS@.widget.popupMenu.prototype._traverseMenu = function(keyCode, ev
         }                        
         focusElem.className = focusElem.className + " " +
             this._theme.getClassName("MENU_FOCUS"); 
-        if (webui.@THEME_JS@._base.browser._isIe5up()) {
+        if (@JS_NS@._base.browser._isIe5up()) {
             window. event.cancelBubble = true;
             window.event.returnValue = false;
         } else {
@@ -458,13 +458,13 @@ webui.@THEME_JS@.widget.popupMenu.prototype._traverseMenu = function(keyCode, ev
  * processing lifecycle must be run.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.popupMenu.prototype.submit = function(execute) {
+@JS_NS@.widget.popupMenu.prototype.submit = function(execute) {
     // Publish an event for custom AJAX implementations to listen for.
-    this._publish(webui.@THEME_JS@.widget.popupMenu.event.submit.beginTopic, [{
+    this._publish(@JS_NS@.widget.popupMenu.event.submit.beginTopic, [{
         id: this.id,
         execute: execute,
         value: this.getSelectedValue(),
-        endTopic: webui.@THEME_JS@.widget.popupMenu.event.submit.endTopic
+        endTopic: @JS_NS@.widget.popupMenu.event.submit.endTopic
     }]);
     return true;
 };

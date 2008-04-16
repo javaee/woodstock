@@ -20,17 +20,17 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.accordion");
+@JS_NS@._dojo.provide("@JS_NS@.widget.accordion");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.accordionTab");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
+@JS_NS@._dojo.require("@JS_NS@.widget.accordionTab");
+@JS_NS@._dojo.require("@JS_NS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.widgetBase");
 
 /**
  * This function is used to construct an accordion widget.
  *
- * @name webui.@THEME_JS@.widget.accordion
- * @extends webui.@THEME_JS@.widget._base.widgetBase
+ * @name @JS_NS@.widget.accordion
+ * @extends @JS_NS@.widget._base.widgetBase
  * @class This class contains functions for the accordion widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -46,8 +46,8 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
  * @config {boolean} toggleControls Set to true if expand/collapse icons should be set.
  * @config {boolean} visible Hide or show element.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.accordion",
-        webui.@THEME_JS@.widget._base.widgetBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.accordion",
+        @JS_NS@.widget._base.widgetBase, {
     // Set defaults.
     constructor: function() {
         this.duration = 250;
@@ -66,7 +66,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.accordion",
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.accordion.prototype._addControls = function(props) {       
+@JS_NS@.widget.accordion.prototype._addControls = function(props) {       
     // Add expand and collapse icons only if multiple select is set to
     // true and the icons have been supplied.
     if (props.toggleControls && props.multipleSelect) {
@@ -104,7 +104,7 @@ webui.@THEME_JS@.widget.accordion.prototype._addControls = function(props) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.accordion.prototype._collapseAllTabs = function(event) {
+@JS_NS@.widget.accordion.prototype._collapseAllTabs = function(event) {
     // Iterate over all tabs.
     for (var i = 0; i < this.tabs.length; i++) {
         var widget = this._widget.getWidget(this.tabs[i].id);
@@ -122,14 +122,14 @@ webui.@THEME_JS@.widget.accordion.prototype._collapseAllTabs = function(event) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.accordion.prototype._createOnKeyDownCallBack = function() {
+@JS_NS@.widget.accordion.prototype._createOnKeyDownCallBack = function() {
     var _id = this.id;
     return function(event) {
         var elem = document.getElementById(_id);
         if (elem == null) {
             return false;
         }
-        var common = webui.@THEME_JS@.widget.common;
+        var common = @JS_NS@.widget.common;
         var widget = common.getWidget(_id);
 
         event = common._getEvent(event);
@@ -157,18 +157,18 @@ webui.@THEME_JS@.widget.accordion.prototype._createOnKeyDownCallBack = function(
  * </p>
  * @ignore
  */
-webui.@THEME_JS@.widget.accordion.event = 
-        webui.@THEME_JS@.widget.accordion.prototype.event = {
+@JS_NS@.widget.accordion.event = 
+        @JS_NS@.widget.accordion.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_accordion_event_refresh_begin",
+        beginTopic: "@JS_NS@_widget_accordion_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_accordion_event_refresh_end"
+        endTopic: "@JS_NS@_widget_accordion_event_refresh_end"
     },
 
     /**
@@ -177,10 +177,10 @@ webui.@THEME_JS@.widget.accordion.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_accordion_event_state_begin",
+        beginTopic: "@JS_NS@_widget_accordion_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_accordion_event_state_end"
+        endTopic: "@JS_NS@_widget_accordion_event_state_end"
     }
 };
 
@@ -191,7 +191,7 @@ webui.@THEME_JS@.widget.accordion.event =
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.accordion.prototype._expandAllTabs = function(event) {
+@JS_NS@.widget.accordion.prototype._expandAllTabs = function(event) {
     // Iterate over all tabs.
     for (var i = 0; i < this.tabs.length; i++) {
         var widget = this._widget.getWidget(this.tabs[i].id);
@@ -213,7 +213,7 @@ webui.@THEME_JS@.widget.accordion.prototype._expandAllTabs = function(event) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.accordion.prototype._focusAndSelectTab = function(props) {
+@JS_NS@.widget.accordion.prototype._focusAndSelectTab = function(props) {
     // Iterate over all tabs to ensure id is valid.
     for (var i = 0; i < this.tabs.length; i++) {
         if (props.id == this.tabs[i].id) {
@@ -230,7 +230,7 @@ webui.@THEME_JS@.widget.accordion.prototype._focusAndSelectTab = function(props)
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME_JS@.widget.accordion.prototype.getProps = function() {
+@JS_NS@.widget.accordion.prototype.getProps = function() {
     var props = this._inherited("getProps", arguments);
 
     // Set properties.
@@ -257,7 +257,7 @@ webui.@THEME_JS@.widget.accordion.prototype.getProps = function() {
  * @return {String} The outermost HTML element class name.
  * @private
  */
-webui.@THEME_JS@.widget.accordion.prototype._getClassName = function() {
+@JS_NS@.widget.accordion.prototype._getClassName = function() {
     // Get theme property.
     var className = this._theme.getClassName("ACCORDION_DIV", "");
     return (this.className)
@@ -274,7 +274,7 @@ webui.@THEME_JS@.widget.accordion.prototype._getClassName = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.accordion.prototype._postCreate = function () {
+@JS_NS@.widget.accordion.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
         this._domNode.id = this.id;
@@ -303,7 +303,7 @@ webui.@THEME_JS@.widget.accordion.prototype._postCreate = function () {
     this._dojo.connect(this._refreshNodeContainer, "onclick", function(event) {
         // New literals are created every time this function is called, and it's 
         // saved by closure magic.
-        var widget = webui.@THEME_JS@.widget.common.getWidget(_id);
+        var widget = @JS_NS@.widget.common.getWidget(_id);
         widget._updateFocus(this._refreshNodeContainer);
         widget.refresh(_id);
         return false;
@@ -313,7 +313,7 @@ webui.@THEME_JS@.widget.accordion.prototype._postCreate = function () {
     this._dojo.connect(this._domNode, "onkeydown", this._createOnKeyDownCallBack());
     
     // Subscribe to the "tab selected" event present in the accordion widget.
-    this._widget.subscribe(webui.@THEME_JS@.widget.accordionTab.event.title.selectedTopic,
+    this._widget.subscribe(@JS_NS@.widget.accordionTab.event.title.selectedTopic,
         this, "_focusAndSelectTab");
 
     // Generate the accordion header icons on the client side.
@@ -401,7 +401,7 @@ webui.@THEME_JS@.widget.accordion.prototype._postCreate = function () {
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.accordion.prototype.setProps = function(props, notify) {
+@JS_NS@.widget.accordion.prototype.setProps = function(props, notify) {
     if (props == null) {
         return false;
     }
@@ -425,7 +425,7 @@ webui.@THEME_JS@.widget.accordion.prototype.setProps = function(props, notify) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.accordion.prototype._setProps = function(props) {
+@JS_NS@.widget.accordion.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -478,7 +478,7 @@ webui.@THEME_JS@.widget.accordion.prototype._setProps = function(props) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.accordion.prototype._setFocusStyleClass = function(nodeId) {
+@JS_NS@.widget.accordion.prototype._setFocusStyleClass = function(nodeId) {
     if (nodeId == this._collapseAllContainer.id) {
         //set focus style on collapseNode
         this._collapseAllContainer.className = this._theme.getClassName("ACCORDION_HDR_CLOSEALL_FOCUS");
@@ -500,7 +500,7 @@ webui.@THEME_JS@.widget.accordion.prototype._setFocusStyleClass = function(nodeI
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.accordion.prototype._setBlurStyleClass = function(nodeId) {
+@JS_NS@.widget.accordion.prototype._setBlurStyleClass = function(nodeId) {
     if (nodeId == this._collapseAllContainer.id) {
         //set normal className on collapseNode
         this._collapseAllContainer.className = this._theme.getClassName("ACCORDION_HDR_CLOSEALL");
@@ -521,7 +521,7 @@ webui.@THEME_JS@.widget.accordion.prototype._setBlurStyleClass = function(nodeId
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.accordion.prototype._setTabFocus = function(nodeId) {
+@JS_NS@.widget.accordion.prototype._setTabFocus = function(nodeId) {
     // update the tab with the appropriate tabIndex
     var tabWidget = this._widget.getWidget(nodeId);
     var props = {tabIndex: this.tabIndex};
@@ -544,7 +544,7 @@ webui.@THEME_JS@.widget.accordion.prototype._setTabFocus = function(nodeId) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.accordion.prototype._setTabBlur = function(nodeId) {
+@JS_NS@.widget.accordion.prototype._setTabBlur = function(nodeId) {
     // update the tab with the appropriate tabIndex
     var tabWidget = this._widget.getWidget(nodeId);
     
@@ -570,7 +570,7 @@ webui.@THEME_JS@.widget.accordion.prototype._setTabBlur = function(nodeId) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.accordion.prototype._tabSelected = function(props) {
+@JS_NS@.widget.accordion.prototype._tabSelected = function(props) {
     var widget = null;
 
     // Iterate over all tabs to ensure id is valid.
@@ -613,7 +613,7 @@ webui.@THEME_JS@.widget.accordion.prototype._tabSelected = function(props) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.accordion.prototype._traverseMenu = function(keyCode, event, nodeId) {
+@JS_NS@.widget.accordion.prototype._traverseMenu = function(keyCode, event, nodeId) {
     var savedFocusElement;
 
     if (this.focusElement != null) {
@@ -736,7 +736,7 @@ webui.@THEME_JS@.widget.accordion.prototype._traverseMenu = function(keyCode, ev
             }
         }
 
-        if (webui.@THEME_JS@._base.browser._isIe5up()) {
+        if (@JS_NS@._base.browser._isIe5up()) {
             window.event.cancelBubble = true;
             window.event.returnValue = false;
         } else {
@@ -776,7 +776,7 @@ webui.@THEME_JS@.widget.accordion.prototype._traverseMenu = function(keyCode, ev
             }
         }
 
-        if (webui.@THEME_JS@._base.browser._isIe5up()) {
+        if (@JS_NS@._base.browser._isIe5up()) {
             window.event.cancelBubble = true;
             window.event.returnValue = false;
         } else {
@@ -921,7 +921,7 @@ webui.@THEME_JS@.widget.accordion.prototype._traverseMenu = function(keyCode, ev
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.accordion.prototype._updateFocus = function(newFocusNode) {
+@JS_NS@.widget.accordion.prototype._updateFocus = function(newFocusNode) {
     if (this.focusElement) {
         if (this.focusElement.id == this._refreshNodeContainer.id) {
             this._setBlurStyleClass(this._refreshNodeContainer.id);

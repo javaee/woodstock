@@ -20,13 +20,13 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget._jsfx.textField");
+@JS_NS@._dojo.provide("@JS_NS@.widget._jsfx.textField");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.json");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._jsfx.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._jsfx.dynaFaces");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.textField");
+@JS_NS@._dojo.require("@JS_NS@.json");
+@JS_NS@._dojo.require("@JS_NS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@.widget._jsfx.common");
+@JS_NS@._dojo.require("@JS_NS@.widget._jsfx.dynaFaces");
+@JS_NS@._dojo.require("@JS_NS@.widget.textField");
 
 /**
  * @class This class contains functions to obtain data asynchronously using JSF
@@ -34,7 +34,7 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.textField");
  * @static
  * @private
  */
-webui.@THEME_JS@.widget._jsfx.textField = {
+@JS_NS@.widget._jsfx.textField = {
     /**
      * This function is used to process validation events with Object literals.
      *
@@ -56,7 +56,7 @@ webui.@THEME_JS@.widget._jsfx.textField = {
             (domNode) ? domNode : document.forms[0], {
             execute: props.id,
             render: props.id,
-            replaceElement: webui.@THEME_JS@.widget._jsfx.textField._validationCallback,
+            replaceElement: @JS_NS@.widget._jsfx.textField._validationCallback,
             xjson: {
                 id : props.id,
                 event: "validate"
@@ -81,10 +81,10 @@ webui.@THEME_JS@.widget._jsfx.textField = {
         }
         
         // Parse JSON text.
-        var props = webui.@THEME_JS@.json.parse(content);
+        var props = @JS_NS@.json.parse(content);
 
         // Update text field.
-        var widget = webui.@THEME_JS@.widget.common.getWidget(elementId);
+        var widget = @JS_NS@.widget.common.getWidget(elementId);
         widget.setProps({
             valid: props.valid,
             errorImage: {
@@ -97,7 +97,7 @@ webui.@THEME_JS@.widget._jsfx.textField = {
             // Update each given client ID.
             for (var i = 0; i < widget.notify.length; i++) {
                 // Get widget associated with client ID.
-                var curWidget = webui.@THEME_JS@.widget.common.getWidget(widget.notify[i]);
+                var curWidget = @JS_NS@.widget.common.getWidget(widget.notify[i]);
                 if (curWidget && typeof curWidget._notify == "function") {
                     curWidget._notify(props);
                 }
@@ -105,8 +105,8 @@ webui.@THEME_JS@.widget._jsfx.textField = {
         }
 
         // Publish an event for custom AJAX implementations to listen for.
-        webui.@THEME_JS@._dojo.publish(
-            webui.@THEME_JS@.widget.textField.event.validation.endTopic, [props]);
+        @JS_NS@._dojo.publish(
+            @JS_NS@.widget.textField.event.validation.endTopic, [props]);
         return true;
     },
 
@@ -131,7 +131,7 @@ webui.@THEME_JS@.widget._jsfx.textField = {
             (domNode) ? domNode : document.forms[0], {
             execute: props.id,
             render: props.id,
-            replaceElement: webui.@THEME_JS@.widget._jsfx.textField._autoCompleteCallback,
+            replaceElement: @JS_NS@.widget._jsfx.textField._autoCompleteCallback,
             xjson: {
                 id : props.id,
                 event: "autocomplete"
@@ -156,28 +156,28 @@ webui.@THEME_JS@.widget._jsfx.textField = {
         }
         
         // Parse JSON text.
-        var props = webui.@THEME_JS@.json.parse(content);
+        var props = @JS_NS@.json.parse(content);
 
         // Update text field.
-        var widget = webui.@THEME_JS@.widget.common.getWidget(elementId);
+        var widget = @JS_NS@.widget.common.getWidget(elementId);
         widget.setProps(props);       
 
 
         // Publish an event for custom AJAX implementations to listen for.
-        webui.@THEME_JS@._dojo.publish(
-            webui.@THEME_JS@.widget.textField.event.autoComplete.endTopic, [props]);
+        @JS_NS@._dojo.publish(
+            @JS_NS@.widget.textField.event.autoComplete.endTopic, [props]);
         return true;
     }    
 };
 
 // Listen for Dojo Widget events.
-webui.@THEME_JS@._dojo.subscribe(webui.@THEME_JS@.widget.textField.event.refresh.beginTopic,
-    webui.@THEME_JS@.widget._jsfx.common, "_processRefreshEvent");
-webui.@THEME_JS@._dojo.subscribe(webui.@THEME_JS@.widget.textField.event.state.beginTopic,
-    webui.@THEME_JS@.widget._jsfx.common, "_processStateEvent");
-webui.@THEME_JS@._dojo.subscribe(webui.@THEME_JS@.widget.textField.event.submit.beginTopic,
-    webui.@THEME_JS@.widget._jsfx.common, "_processSubmitEvent");
-webui.@THEME_JS@._dojo.subscribe(webui.@THEME_JS@.widget.textField.event.validation.beginTopic,
-    webui.@THEME_JS@.widget._jsfx.textField, "_processValidationEvent");
-webui.@THEME_JS@._dojo.subscribe(webui.@THEME_JS@.widget.textField.event.autoComplete.beginTopic,
-    webui.@THEME_JS@.widget._jsfx.textField, "_processAutoCompleteEvent");
+@JS_NS@._dojo.subscribe(@JS_NS@.widget.textField.event.refresh.beginTopic,
+    @JS_NS@.widget._jsfx.common, "_processRefreshEvent");
+@JS_NS@._dojo.subscribe(@JS_NS@.widget.textField.event.state.beginTopic,
+    @JS_NS@.widget._jsfx.common, "_processStateEvent");
+@JS_NS@._dojo.subscribe(@JS_NS@.widget.textField.event.submit.beginTopic,
+    @JS_NS@.widget._jsfx.common, "_processSubmitEvent");
+@JS_NS@._dojo.subscribe(@JS_NS@.widget.textField.event.validation.beginTopic,
+    @JS_NS@.widget._jsfx.textField, "_processValidationEvent");
+@JS_NS@._dojo.subscribe(@JS_NS@.widget.textField.event.autoComplete.beginTopic,
+    @JS_NS@.widget._jsfx.textField, "_processAutoCompleteEvent");

@@ -33,6 +33,9 @@
     <condition property="theme.name" value="${theme.name}" else="suntheme">
 	<isset property="theme.name"/>
     </condition>
+    <condition property="js.name" value="${js.name}" else="woodstock">
+	<isset property="js.name"/>
+    </condition>
 
     <!-- load theme properties files if they exist -->
 
@@ -119,8 +122,7 @@
     <!-- Not currently documented for cloning -->
     <property name="theme.master.css" value="css_master.css"/>
     <property name="theme.master-all.css" value="css_master-all.css"/>
-    <property name="theme.js-module-prefix"
-	value="webui.${theme.name}${CacheThemeVersion}"/>
+    <property name="theme.js-module" value="${js.name}${CacheThemeVersion}"/>
     <property name="theme._bootstrap_.js" value="_base/_bootstrap_.js"/>
     <property name="theme.bootstrap.js" value="bootstrap.js"/>
     <property name="theme._dnd_.js" value="_base/_dnd_.js"/>
@@ -162,8 +164,8 @@
 
     <!-- The default filter set for Javascript files. -->
     <filterset id="js-filter-set">
-	<filter token="THEME" value="${theme.name}"/>
-        <filter token="THEME_JS" value="${theme.name}${CacheThemeVersion}"/> 
+	<filter token="JS_NS" value="${theme.js-module}"/>
+        <filter token="THEME" value="${theme.name}"/>
 	<filter token="THEME_CSS" value="${theme.css-name}"/>
 	<filter token="THEME_VERSION" value="${theme.version}"/>
         <filter token="THEME_PATH" value="/${theme.package-path}"/>
@@ -238,8 +240,8 @@
         <exclude name="${theme._bootstrap_.js}" /> <!-- Temporary build file. -->
         <exclude name="${theme.bootstrap.js}" /> <!-- Generated file. -->
         <exclude name="_dojo/" /> <!-- Loaded separately. -->
-        <exclude name="_theme/nls/"/>
         <exclude name="_html/calendar.js" /> <!-- Not supported. -->
+        <exclude name="theme/nls/"/>
 	<exclude name="webui.js"/>
 	<exclude name="webui-all.js"/>
 	<exclude name="webui-jsfx.js"/>
@@ -249,7 +251,7 @@
     <!-- exclude files for compression dependencies -->
     <patternset id="generated-js-files">
 	<exclude name="_dojo/"/>
-	<exclude name="_theme/nls/"/>
+	<exclude name="theme/nls/"/>
 	<exclude name="${theme.bootstrap.js}"/>
 	<exclude name="${theme.dnd.js}"/>
 	<exclude name="${theme.webui.js}"/>
@@ -530,7 +532,7 @@
 	<mkdir dir="${cmp-tmp}/_dojo"/>
 	<mkdir dir="${cmp-tmp}/_dojo/_firebug"/>
         <mkdir dir="${cmp-tmp}/_html"/>
-        <mkdir dir="${cmp-tmp}/_theme"/>
+        <mkdir dir="${cmp-tmp}/theme"/>
 	<mkdir dir="${cmp-tmp}/widget"/>
         <mkdir dir="${cmp-tmp}/widget/_base"/>
 	<mkdir dir="${cmp-tmp}/widget/_jsfx"/>
@@ -1058,7 +1060,7 @@
     <target name="combined-js-uptodate" depends="copyJavascript">
 	<uptodate property="combined-js-uptodate">
 	    <srcfiles dir="${_from-dir_}" includes="**/*.js"
-		excludes="_theme/nls/"/>
+		excludes="theme/nls/"/>
 	    <mergemapper to="${_combined-file_}"/>
 	</uptodate>
     </target>
@@ -1077,7 +1079,7 @@
 	Expects the following globals to be set.
        
         ${theme.copyright}
-        ${theme.js-module-prefix}
+        ${theme.js-module}
         ${tools.jar}
     -->
     <target name="combineJavascript" depends="combined-js-uptodate" 
@@ -1115,7 +1117,7 @@
 	  <arg value="-fileList"/>
 	  <arg value="${__files-to-combine__}"/>
 	  <arg value="-modulePrefix"/>
-	  <arg value="${theme.js-module-prefix}"/>
+	  <arg value="${theme.js-module}"/>
 	  <arg value="-outFile"/>
           <arg value="${_combined-file_}"/>
 	  <arg value="-sourceDir"/>
@@ -1455,7 +1457,7 @@
 	<uptodate property="jsdoc-uptodate">
 	    <srcfiles dir="${theme.build-package-path}/javascript_uncompressed"
 		includes="**/*.js"
-		excludes="_theme/nls/,_dojo/,${theme.bootstrap.js},${theme.dnd.js},${theme.webui.js},${theme.webui-all.js},${theme.webui-jsfx.js},${theme.webui-jsfx-all.js}"/>
+		excludes="theme/nls/,_dojo/,${theme.bootstrap.js},${theme.dnd.js},${theme.webui.js},${theme.webui-all.js},${theme.webui-jsfx.js},${theme.webui-jsfx-all.js}"/>
 	    <mergemapper to="${jsdocs}/index.html"/>
 	</uptodate>
     </target>
@@ -1571,7 +1573,7 @@
 	<touch file="${_js-dest-cmp_}/_dojo/${theme.everything.sdoc}"/>
 	<touch file="${_js-dest-cmp_}/_dojo/_firebug/${theme.everything.sdoc}"/>
         <touch file="${_js-dest-cmp_}/_html/${theme.everything.sdoc}"/>
-        <touch file="${_js-dest-cmp_}/_theme/${theme.everything.sdoc}"/>
+        <touch file="${_js-dest-cmp_}/theme/${theme.everything.sdoc}"/>
 	<touch file="${_js-dest-cmp_}/widget/${theme.everything.sdoc}"/>
         <touch file="${_js-dest-cmp_}/widget/_base/${theme.everything.sdoc}"/>
 	<touch file="${_js-dest-cmp_}/widget/_jsfx/${theme.everything.sdoc}"/>
@@ -1582,7 +1584,7 @@
 	<touch file="${_js-dest-uncmp_}/_dojo/${theme.everything.sdoc}"/>
 	<touch file="${_js-dest-uncmp_}/_dojo/_firebug/${theme.everything.sdoc}"/>
         <touch file="${_js-dest-uncmp_}/_html/${theme.everything.sdoc}"/>
-        <touch file="${_js-dest-uncmp_}/_theme/${theme.everything.sdoc}"/>
+        <touch file="${_js-dest-uncmp_}/theme/${theme.everything.sdoc}"/>
 	<touch file="${_js-dest-uncmp_}/widget/${theme.everything.sdoc}"/>
         <touch file="${_js-dest-uncmp_}/widget/_base/${theme.everything.sdoc}"/>
 	<touch file="${_js-dest-uncmp_}/widget/_jsfx/${theme.everything.sdoc}"/>
@@ -1831,8 +1833,8 @@
 	</copy>
 
 	<filterset id="_theme-filter_">
-	    <filter token="THEME" value="${theme.name}"/>
-            <filter token="THEME_JS" value="${theme.name}${CacheThemeVersion}"/>
+	    <filter token="JS_NS" value="${theme.js-module}"/>
+            <filter token="THEME" value="${theme.name}"/>
 	    <filter token="THEME_PATH" value="/${theme.package-path}"/>
 	</filterset>
 

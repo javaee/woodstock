@@ -20,12 +20,12 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget._jsfx.rating");
+@JS_NS@._dojo.provide("@JS_NS@.widget._jsfx.rating");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._jsfx.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._jsfx.dynaFaces")
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.rating");
+@JS_NS@._dojo.require("@JS_NS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@.widget._jsfx.common");
+@JS_NS@._dojo.require("@JS_NS@.widget._jsfx.dynaFaces")
+@JS_NS@._dojo.require("@JS_NS@.widget.rating");
 
 /**
  * @class This class contains functions to obtain data asynchronously using JSF
@@ -33,7 +33,7 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.rating");
  * @static
  * @private
  */
-webui.@THEME_JS@.widget._jsfx.rating = {
+@JS_NS@.widget._jsfx.rating = {
     /**
      * This function is a callback to respond to the end of submit request.
      *
@@ -50,15 +50,15 @@ webui.@THEME_JS@.widget._jsfx.rating = {
         }
 
         // Parse JSON text.
-        var props = webui.@THEME_JS@.json.parse(content);
+        var props = @JS_NS@.json.parse(content);
 
         // Update rating widget
-        var widget = webui.@THEME_JS@.widget.common.getWidget(id);
+        var widget = @JS_NS@.widget.common.getWidget(id);
         widget.setProps(props);
             
         // Publish an event for custom AJAX implementations to listen for.
         if (xjson.endTopic) {
-            webui.@THEME_JS@._dojo.publish(xjson.endTopic, [props]);
+            @JS_NS@._dojo.publish(xjson.endTopic, [props]);
         }
         return true;
     },
@@ -93,7 +93,7 @@ webui.@THEME_JS@.widget._jsfx.rating = {
             (domNode) ? domNode : document.forms[0], {
             execute: (props.execute) ? props.execute : props.id,
             render: props.id,
-            replaceElement: webui.@THEME_JS@.widget._jsfx.rating._submitCallback,
+            replaceElement: @JS_NS@.widget._jsfx.rating._submitCallback,
             xjson: {
                 id: props.id,
                 endTopic: props.endTopic,
@@ -105,7 +105,7 @@ webui.@THEME_JS@.widget._jsfx.rating = {
 }
 
 // Listen for Dojo Widget events.
-webui.@THEME_JS@._dojo.subscribe(webui.@THEME_JS@.widget.rating.event.refresh.beginTopic,
-    webui.@THEME_JS@.widget._jsfx.common, "_processRefreshEvent");
-webui.@THEME_JS@._dojo.subscribe(webui.@THEME_JS@.widget.rating.event.submit.beginTopic,
-    webui.@THEME_JS@.widget._jsfx.rating, "_processSubmitEvent");
+@JS_NS@._dojo.subscribe(@JS_NS@.widget.rating.event.refresh.beginTopic,
+    @JS_NS@.widget._jsfx.common, "_processRefreshEvent");
+@JS_NS@._dojo.subscribe(@JS_NS@.widget.rating.event.submit.beginTopic,
+    @JS_NS@.widget._jsfx.rating, "_processSubmitEvent");

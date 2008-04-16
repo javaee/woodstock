@@ -20,17 +20,17 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._html.upload");
+@JS_NS@._dojo.provide("@JS_NS@._html.upload");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.browser");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.common");
+@JS_NS@._dojo.require("@JS_NS@._base.browser");
+@JS_NS@._dojo.require("@JS_NS@._base.common");
 
 /**
  * @class This class contains functions for upload components.
  * @static
  * @private
  */
-webui.@THEME_JS@._html.upload = {
+@JS_NS@._html.upload = {
     /**
      * Use this function to get the HTML input element associated with the
      * Upload component.  
@@ -80,7 +80,7 @@ webui.@THEME_JS@._html.upload = {
 	// If there is no upload component, don't do anything.
 	// I'm not sure if there is a timing issue here.
 	//
-	var uploadElement = webui.@THEME_JS@._html.upload.getInputElement(uploadId);
+	var uploadElement = @JS_NS@._html.upload.getInputElement(uploadId);
 	if (uploadElement == null) {
 	    return false;
 	}
@@ -112,7 +112,7 @@ webui.@THEME_JS@._html.upload = {
 	    if (preservePath != null) {
 		preservePath.value = node.value;
 	    } else {
-		webui.@THEME_JS@._base.common._insertHiddenField(preservePathId, 
+		@JS_NS@._base.common._insertHiddenField(preservePathId, 
                     node.value, theForm);
 	    }
 	    return true;
@@ -140,7 +140,7 @@ webui.@THEME_JS@._html.upload = {
             // must supply an elementId && state
             return false;
         }
-        var input = webui.@THEME_JS@._html.upload.getInputElement(elementId); 
+        var input = @JS_NS@._html.upload.getInputElement(elementId); 
         if (input == null) {
             // specified elementId not found
             return false;
@@ -161,13 +161,13 @@ webui.@THEME_JS@._html.upload = {
 	    return false;
 	}
 
-        var upload = webui.@THEME_JS@._html.upload.getInputElement(elementId); 
+        var upload = @JS_NS@._html.upload.getInputElement(elementId); 
         var form = upload != null ? upload.form : null;
 	if (form != null) {
             // form.enctype does not work for IE, but works Safari
             // form.encoding works on both IE and Firefox
 	    //
-            if (webui.@THEME_JS@._base.browser._isSafari()) {
+            if (@JS_NS@._base.browser._isSafari()) {
                 form.enctype = "multipart/form-data";
             } else {
                 form.encoding = "multipart/form-data";
@@ -179,4 +179,4 @@ webui.@THEME_JS@._html.upload = {
 };
 
 // Extend for backward compatibility with JSF based components.
-webui.@THEME_JS@.upload = webui.@THEME_JS@._html.upload;
+@JS_NS@.upload = @JS_NS@._html.upload;

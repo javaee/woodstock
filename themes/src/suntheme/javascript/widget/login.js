@@ -20,16 +20,16 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.login");
+@JS_NS@._dojo.provide("@JS_NS@.widget.login");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
+@JS_NS@._dojo.require("@JS_NS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.widgetBase");
 
 /**
  * This function is used to construct a login widget.
  *
- * @name webui.@THEME_JS@.widget.login
- * @extends webui.@THEME_JS@.widget._base.widgetBase
+ * @name @JS_NS@.widget.login
+ * @extends @JS_NS@.widget._base.widgetBase
  * @class This class contains functions for the login widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -42,8 +42,8 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
  * @config {Object} userData JSON object containing user data that needs to be displayed as user prompt.
  * @config {Object} keys JSON object representing the key value mapping for user data fields.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.login",
-        webui.@THEME_JS@.widget._base.widgetBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.login",
+        @JS_NS@.widget._base.widgetBase, {
     // Set defaults.
     constructor: function() {
         this.loginState = "INIT";
@@ -56,7 +56,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.login",
  *
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.login.prototype.authenticate = function() {
+@JS_NS@.widget.login.prototype.authenticate = function() {
     if (this.keys) {
         for (var i = 0; i < this.keys.length; i++) {
             var widget = this._widget.getWidget(this.keys[i][0]);
@@ -74,11 +74,11 @@ webui.@THEME_JS@.widget.login.prototype.authenticate = function() {
     }
                     
     // Publish an event for custom AJAX implementations to listen for.
-    this._publish(webui.@THEME_JS@.widget.login.event.authenticate.beginTopic, [{
+    this._publish(@JS_NS@.widget.login.event.authenticate.beginTopic, [{
         id: this.id,
         loginState: this.loginState,
         keys: this.keys,
-        endTopic: webui.@THEME_JS@.widget.login.event.authenticate.endTopic
+        endTopic: @JS_NS@.widget.login.event.authenticate.endTopic
     }]);
     return true;
 };
@@ -89,7 +89,7 @@ webui.@THEME_JS@.widget.login.prototype.authenticate = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.login.prototype._buttonClicked = function() {
+@JS_NS@.widget.login.prototype._buttonClicked = function() {
     return this.authenticate();
 };
 
@@ -102,8 +102,8 @@ webui.@THEME_JS@.widget.login.prototype._buttonClicked = function() {
  * </p>
  * @ignore
  */
-webui.@THEME_JS@.widget.login.event =
-        webui.@THEME_JS@.widget.login.prototype.event = {
+@JS_NS@.widget.login.event =
+        @JS_NS@.widget.login.prototype.event = {
     /**
      * This closure is used to process authentication events.
      * @ignore
@@ -112,12 +112,12 @@ webui.@THEME_JS@.widget.login.event =
         /**
          * Authentication begin event topics for custom AJAX implementations to listen for.
          */
-        beginTopic: "webui_@THEME_JS@_widget_login_event_authenticate_begin",
+        beginTopic: "@JS_NS@_widget_login_event_authenticate_begin",
 
         /**
          * Authentication end event topics for custom AJAX implementations to listen for.
          */
-        endTopic: "webui_@THEME_JS@_widget_login_event_authenticate_end"
+        endTopic: "@JS_NS@_widget_login_event_authenticate_end"
 
     },
 
@@ -129,12 +129,12 @@ webui.@THEME_JS@.widget.login.event =
         /**
          * Refresh event topics for custom AJAX implementations to listen for.
          */
-        beginTopic: "webui_@THEME_JS@_widget_login_event_refresh_begin",
+        beginTopic: "@JS_NS@_widget_login_event_refresh_begin",
 
         /**
          * Refresh event topics for custom AJAX implementations to listen for.
          */
-        endTopic: "webui_@THEME_JS@_widget_login_event_refresh_end"
+        endTopic: "@JS_NS@_widget_login_event_refresh_end"
     },
 
     /**
@@ -146,12 +146,12 @@ webui.@THEME_JS@.widget.login.event =
         /**
          * Successful authentication event topic for applications can listen for.
          */
-        successTopic: "webui_@THEME_JS@_widget_login_event_result_success",
+        successTopic: "@JS_NS@_widget_login_event_result_success",
 
         /**
          * Authentication failure event topic that applications can listen for.
          */
-        failureTopic: "webui_@THEME_JS@_widget_login_event_result_failure"
+        failureTopic: "@JS_NS@_widget_login_event_result_failure"
     },
 
     /**
@@ -162,12 +162,12 @@ webui.@THEME_JS@.widget.login.event =
         /**
          * Event topics for custom AJAX implementations to listen for.
          */
-        beginTopic: "webui_@THEME_JS@_widget_login_event_state_begin",
+        beginTopic: "@JS_NS@_widget_login_event_state_begin",
 
         /**
          * Event topics for custom AJAX implementations to listen for.
          */
-        endTopic: "webui_@THEME_JS@_widget_login_event_state_end"
+        endTopic: "@JS_NS@_widget_login_event_state_end"
     }
 };
 
@@ -183,9 +183,9 @@ webui.@THEME_JS@.widget.login.event =
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.login.prototype._handleFailure = function(props) {
+@JS_NS@.widget.login.prototype._handleFailure = function(props) {
     this._setAlert(props.alert);
-    this._publish(webui.@THEME_JS@.widget.login.event.result.failureTopic, [{
+    this._publish(@JS_NS@.widget.login.event.result.failureTopic, [{
         id: props.id
     }]);
 
@@ -204,7 +204,7 @@ webui.@THEME_JS@.widget.login.prototype._handleFailure = function(props) {
  * @return {String} The outermost HTML element class name.
  * @private
  */
-webui.@THEME_JS@.widget.login.prototype._getClassName = function() {
+@JS_NS@.widget.login.prototype._getClassName = function() {
     var key = "LOGIN_DIV";
 
     // Get theme property.
@@ -223,10 +223,10 @@ webui.@THEME_JS@.widget.login.prototype._getClassName = function() {
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME_JS@.widget.login.prototype.getProps = function() {
+@JS_NS@.widget.login.prototype.getProps = function() {
     var props = this._inherited("getProps", arguments);
 
-    // var props = webui.@THEME_JS@.widget.login.superclass.getProps.call(this);
+    // var props = @JS_NS@.widget.login.superclass.getProps.call(this);
     if (this.loginState) {props.loginState = this.loginState; }    
     if (this.autoStart != null) { props.autoStart = this.autoStart;}
     if (this.tabIndex != null) { props.tabIndex = this.tabIndex;}
@@ -247,13 +247,13 @@ webui.@THEME_JS@.widget.login.prototype.getProps = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.login.prototype._handleSuccess = function(props) {
+@JS_NS@.widget.login.prototype._handleSuccess = function(props) {
     // Publish the success event topic
     // Remove the alert message if props does not
     // contain any alert information.
     // Clear out the _loginTable.
     this._setAlert(props.alert);
-    this._publish(webui.@THEME_JS@.widget.login.event.result.successTopic, [{
+    this._publish(@JS_NS@.widget.login.event.result.successTopic, [{
         id: props.id
     }]);
 
@@ -279,7 +279,7 @@ webui.@THEME_JS@.widget.login.prototype._handleSuccess = function(props) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.login.prototype._postCreate = function () {
+@JS_NS@.widget.login.prototype._postCreate = function () {
     if (this.tabIndex == null) {
         this.tabIndex = -1;
     }
@@ -316,7 +316,7 @@ webui.@THEME_JS@.widget.login.prototype._postCreate = function () {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.login.prototype._setProps = function(props) {
+@JS_NS@.widget.login.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -352,7 +352,7 @@ webui.@THEME_JS@.widget.login.prototype._setProps = function(props) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.login.prototype._setAlert = function(props) {
+@JS_NS@.widget.login.prototype._setAlert = function(props) {
     if (props == null) {
         this._widget._removeChildNodes(this._alertContainer);
         return false;
@@ -390,7 +390,7 @@ webui.@THEME_JS@.widget.login.prototype._setAlert = function(props) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.login.prototype._start = function () {
+@JS_NS@.widget.login.prototype._start = function () {
     if (typeof this._started == "undefined") {
         return false;
     }
@@ -400,7 +400,7 @@ webui.@THEME_JS@.widget.login.prototype._start = function () {
         var id = this.id;
         if (this.autoStart) {
             setTimeout(function() {
-                webui.@THEME_JS@.widget.common.getWidget(id).authenticate();
+                @JS_NS@.widget.common.getWidget(id).authenticate();
             }, 10);    
         }
     }
@@ -421,7 +421,7 @@ webui.@THEME_JS@.widget.login.prototype._start = function () {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.login.prototype._updateLoginTable = function(props) {
+@JS_NS@.widget.login.prototype._updateLoginTable = function(props) {
     // Remove existing data entries before adding the new ones.
     // This involves destroying the widgets and also deleting
     // the table rows.

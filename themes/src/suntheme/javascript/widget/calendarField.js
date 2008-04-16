@@ -20,16 +20,16 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.calendarField");
+@JS_NS@._dojo.provide("@JS_NS@.widget.calendarField");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.calendar");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.textField");
+@JS_NS@._dojo.require("@JS_NS@.widget.calendar");
+@JS_NS@._dojo.require("@JS_NS@.widget.textField");
 
 /**
  * This function is used to construct a calendarField widget.
  *
- * @name webui.@THEME_JS@.widget.calendarField
- * @extends webui.@THEME_JS@.widget.textField
+ * @name @JS_NS@.widget.calendarField
+ * @extends @JS_NS@.widget.textField
  * @class This class contains functions for the calendarField widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -65,8 +65,8 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.textField");
  * @config {String} value Value of input.
  * @config {boolean} visible Hide or show element.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.calendarField",
-        webui.@THEME_JS@.widget.textField, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.calendarField",
+        @JS_NS@.widget.textField, {
     // Set defaults.
     _widgetType: "calendarField" // Required for theme properties.
 });
@@ -81,7 +81,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.calendarField",
  * @return {boolean} false to cancel JavaScript event.
  * @private
  */
-webui.@THEME_JS@.widget.calendarField.prototype._dayClicked = function(props) {
+@JS_NS@.widget.calendarField.prototype._dayClicked = function(props) {
     // Check whether the calendar associated with this particular calendarField
     // broadcasted the event.
     if (props.date != null && props.id == this.calendar.id) {
@@ -100,18 +100,18 @@ webui.@THEME_JS@.widget.calendarField.prototype._dayClicked = function(props) {
  * </p>
  * @ignore
  */
-webui.@THEME_JS@.widget.calendarField.event =
-        webui.@THEME_JS@.widget.calendarField.prototype.event = {
+@JS_NS@.widget.calendarField.event =
+        @JS_NS@.widget.calendarField.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_calendarField_event_refresh_begin",
+        beginTopic: "@JS_NS@_widget_calendarField_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_calendarField_event_refresh_end"
+        endTopic: "@JS_NS@_widget_calendarField_event_refresh_end"
     },
 
     /**
@@ -120,10 +120,10 @@ webui.@THEME_JS@.widget.calendarField.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_calendarField_event_state_begin",
+        beginTopic: "@JS_NS@_widget_calendarField_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_calendarField_event_state_end"
+        endTopic: "@JS_NS@_widget_calendarField_event_state_end"
     }
 };
 
@@ -136,7 +136,7 @@ webui.@THEME_JS@.widget.calendarField.event =
  * @return {String} The outermost HTML element class name.
  * @private
  */
-webui.@THEME_JS@.widget.calendarField.prototype._getClassName = function() {
+@JS_NS@.widget.calendarField.prototype._getClassName = function() {
     // Set default style.
     var className = this._theme.getClassName("CALENDAR_ROOT_TABLE","");
 
@@ -151,7 +151,7 @@ webui.@THEME_JS@.widget.calendarField.prototype._getClassName = function() {
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME_JS@.widget.calendarField.prototype.getProps = function() {
+@JS_NS@.widget.calendarField.prototype.getProps = function() {
     var props = this._inherited("getProps", arguments);
 
     // Set properties.  
@@ -171,7 +171,7 @@ webui.@THEME_JS@.widget.calendarField.prototype.getProps = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.calendarField.prototype._postCreate = function () {
+@JS_NS@.widget.calendarField.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
         this._inlineHelpNode.id = this.id + "_pattern";
@@ -197,10 +197,10 @@ webui.@THEME_JS@.widget.calendarField.prototype._postCreate = function () {
     // Set events.
 
     // Subscribe to the "day clicked" event present in the calendar widget.
-    this._widget.subscribe(webui.@THEME_JS@.widget.calendar.event.day.selectedTopic,
+    this._widget.subscribe(@JS_NS@.widget.calendar.event.day.selectedTopic,
         this, "_dayClicked");
     // Subscribe to the "toggle" event that occurs whenever the calendar is opened.
-    this._widget.subscribe(webui.@THEME_JS@.widget.calendar.event.toggle.openTopic,
+    this._widget.subscribe(@JS_NS@.widget.calendar.event.toggle.openTopic,
         this, "_toggleCalendar");
         
     return this._inherited("_postCreate", arguments);
@@ -221,7 +221,7 @@ webui.@THEME_JS@.widget.calendarField.prototype._postCreate = function () {
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.calendarField.prototype.setProps = function(props, notify) {
+@JS_NS@.widget.calendarField.prototype.setProps = function(props, notify) {
     if (props == null) {
         return false;
     }
@@ -249,7 +249,7 @@ webui.@THEME_JS@.widget.calendarField.prototype.setProps = function(props, notif
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.calendarField.prototype._setProps = function(props) {
+@JS_NS@.widget.calendarField.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -289,7 +289,7 @@ webui.@THEME_JS@.widget.calendarField.prototype._setProps = function(props) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.calendarField.prototype._start = function () {
+@JS_NS@.widget.calendarField.prototype._start = function () {
     if (typeof this._started == "undefined") {
         return false;
     }
@@ -314,7 +314,7 @@ webui.@THEME_JS@.widget.calendarField.prototype._start = function () {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.calendarField.prototype._toggleCalendar = function(props) {   
+@JS_NS@.widget.calendarField.prototype._toggleCalendar = function(props) {   
     if (props.id != null && props.id == this.calendar.id) {
         var widget = this._widget.getWidget(props.id);
         widget.setProps({date: this.getProps().value});

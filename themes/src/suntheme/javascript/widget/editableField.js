@@ -20,15 +20,15 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.editableField");
+@JS_NS@._dojo.provide("@JS_NS@.widget.editableField");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.textField");
+@JS_NS@._dojo.require("@JS_NS@.widget.textField");
 
 /**
  * This function is used to construct a editableField widget.
  *
- * @name webui.@THEME_JS@.widget.editableField
- * @extends webui.@THEME_JS@.widget.textField
+ * @name @JS_NS@.widget.editableField
+ * @extends @JS_NS@.widget.textField
  * @class This class contains functions for the editableField widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -62,8 +62,8 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.textField");
  * @config {String} value Value of input.
  * @config {boolean} visible Hide or show element.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.editableField",
-        webui.@THEME_JS@.widget.textField, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.editableField",
+        @JS_NS@.widget.textField, {
     // Set defaults.
     constructor: function() {
         this.edit = false;
@@ -91,7 +91,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.editableField",
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.editableField.prototype._disableEdit = function(acceptChanges) {
+@JS_NS@.widget.editableField.prototype._disableEdit = function(acceptChanges) {
     if (acceptChanges == true) {
         // If savedValue does not exist, we have not edited the field yet
         if (this.autoSave == true && this.savedValue && 
@@ -116,7 +116,7 @@ webui.@THEME_JS@.widget.editableField.prototype._disableEdit = function(acceptCh
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.editableField.prototype._enableEdit = function() {
+@JS_NS@.widget.editableField.prototype._enableEdit = function() {
     // Save the current value.
     this.savedValue = this._fieldNode.value;
         
@@ -137,18 +137,18 @@ webui.@THEME_JS@.widget.editableField.prototype._enableEdit = function() {
  * </p>
  * @ignore
  */
-webui.@THEME_JS@.widget.editableField.event =
-        webui.@THEME_JS@.widget.editableField.prototype.event = {
+@JS_NS@.widget.editableField.event =
+        @JS_NS@.widget.editableField.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_editableField_event_refresh_begin",
+        beginTopic: "@JS_NS@_widget_editableField_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_editableField_event_refresh_end"
+        endTopic: "@JS_NS@_widget_editableField_event_refresh_end"
     },
 
     /**
@@ -157,10 +157,10 @@ webui.@THEME_JS@.widget.editableField.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_editableField_event_state_begin",
+        beginTopic: "@JS_NS@_widget_editableField_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_editableField_event_state_end"
+        endTopic: "@JS_NS@_widget_editableField_event_state_end"
     },
 
     /**
@@ -169,10 +169,10 @@ webui.@THEME_JS@.widget.editableField.event =
      */
     submit: {
         /** Submit event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_editableField_event_submit_begin",
+        beginTopic: "@JS_NS@_widget_editableField_event_submit_begin",
 
         /** Submit event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_editableField_event_submit_end"
+        endTopic: "@JS_NS@_widget_editableField_event_submit_end"
     }
 };
 
@@ -182,7 +182,7 @@ webui.@THEME_JS@.widget.editableField.event =
  * @return {String} The HTML input element class name.
  * @private
  */
-webui.@THEME_JS@.widget.editableField.prototype._getInputClassName = function() {    
+@JS_NS@.widget.editableField.prototype._getInputClassName = function() {    
     // Set default style.
     if (this.disabled == true) {
         return  this._theme.getClassName("EDITABLE_FIELD_DISABLED","");
@@ -204,7 +204,7 @@ webui.@THEME_JS@.widget.editableField.prototype._getInputClassName = function() 
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME_JS@.widget.editableField.prototype.getProps = function() {
+@JS_NS@.widget.editableField.prototype.getProps = function() {
     var props = this._inherited("getProps", arguments);
 
     // Set properties.
@@ -221,7 +221,7 @@ webui.@THEME_JS@.widget.editableField.prototype.getProps = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.editableField.prototype._onEditCallback = function(event) {
+@JS_NS@.widget.editableField.prototype._onEditCallback = function(event) {
     if (event == null) {
         return false;
     }
@@ -259,7 +259,7 @@ webui.@THEME_JS@.widget.editableField.prototype._onEditCallback = function(event
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.editableField.prototype._postCreate = function () {
+@JS_NS@.widget.editableField.prototype._postCreate = function () {
     // Set Initial readOnly state.
     this._fieldNode.readOnly = true;
 
@@ -281,7 +281,7 @@ webui.@THEME_JS@.widget.editableField.prototype._postCreate = function () {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.editableField.prototype._setProps = function(props) {
+@JS_NS@.widget.editableField.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }

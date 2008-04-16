@@ -20,15 +20,15 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.hyperlink");
+@JS_NS@._dojo.provide("@JS_NS@.widget.hyperlink");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.anchorBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.anchorBase");
 
 /**
  * This function is used to construct a hyperlink widget.
  *
- * @name webui.@THEME_JS@.widget.hyperlink
- * @extends webui.@THEME_JS@.widget._base.anchorBase
+ * @name @JS_NS@.widget.hyperlink
+ * @extends @JS_NS@.widget._base.anchorBase
  * @class This class contains functions for the hyperlink widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -66,8 +66,8 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.anchorBase");
  * @config {String} title Provides a title for element.
  * @config {boolean} visible Hide or show element.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.hyperlink",
-        webui.@THEME_JS@.widget._base.anchorBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.hyperlink",
+        @JS_NS@.widget._base.anchorBase, {
     // Set defaults.
     _widgetType: "hyperlink" // Required for theme properties.
 });
@@ -81,18 +81,18 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.hyperlink",
  * </p>
  * @ignore
  */
-webui.@THEME_JS@.widget.hyperlink.event =
-        webui.@THEME_JS@.widget.hyperlink.prototype.event = {
+@JS_NS@.widget.hyperlink.event =
+        @JS_NS@.widget.hyperlink.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_hyperlink_event_refresh_begin",
+        beginTopic: "@JS_NS@_widget_hyperlink_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_hyperlink_event_refresh_end"
+        endTopic: "@JS_NS@_widget_hyperlink_event_refresh_end"
     },
 
     /**
@@ -101,10 +101,10 @@ webui.@THEME_JS@.widget.hyperlink.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_hyperlink_event_state_begin",
+        beginTopic: "@JS_NS@_widget_hyperlink_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_hyperlink_event_state_end"
+        endTopic: "@JS_NS@_widget_hyperlink_event_state_end"
     }
 };
 
@@ -117,7 +117,7 @@ webui.@THEME_JS@.widget.hyperlink.event =
  * @return {String} The outermost HTML element class name.
  * @private
  */
-webui.@THEME_JS@.widget.hyperlink.prototype._getClassName = function() {
+@JS_NS@.widget.hyperlink.prototype._getClassName = function() {
     // Set default style.
     var className = (this.disabled == true)
         ? this._theme.getClassName("HYPERLINK_DISABLED","")
@@ -135,7 +135,7 @@ webui.@THEME_JS@.widget.hyperlink.prototype._getClassName = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.hyperlink.prototype._onClickCallback = function(event) {
+@JS_NS@.widget.hyperlink.prototype._onClickCallback = function(event) {
     if (this.disabled == true) {
         event.preventDefault();
         return false;
@@ -171,7 +171,7 @@ webui.@THEME_JS@.widget.hyperlink.prototype._onClickCallback = function(event) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.hyperlink.prototype._postCreate = function () {
+@JS_NS@.widget.hyperlink.prototype._postCreate = function () {
     // If the href attribute does not exist, set "#" as the default value of the
     // DOM node.
     this._domNode.href = "#";
@@ -190,7 +190,7 @@ webui.@THEME_JS@.widget.hyperlink.prototype._postCreate = function () {
  * @return {boolean} false to cancel the JavaScript event.
  * @private
  */
-webui.@THEME_JS@.widget.hyperlink.prototype._submitFormData = function (formId, params) {
+@JS_NS@.widget.hyperlink.prototype._submitFormData = function (formId, params) {
     var theForm = document.getElementById(formId);
     var oldTarget = theForm.target;
     var oldAction = theForm.action;

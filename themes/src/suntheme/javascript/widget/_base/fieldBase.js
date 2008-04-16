@@ -20,21 +20,21 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget._base.fieldBase");
+@JS_NS@._dojo.provide("@JS_NS@.widget._base.fieldBase");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
+@JS_NS@._dojo.require("@JS_NS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.widgetBase");
 
 /**
  * This function is used to construct a base class.
  *
- * @name webui.@THEME_JS@.widget._base.fieldBase
- * @extends webui.@THEME_JS@.widget._base.widgetBase
+ * @name @JS_NS@.widget._base.fieldBase
+ * @extends @JS_NS@.widget._base.widgetBase
  * @class This class contains functions for widgets that extend fieldBase.
  * @constructor
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget._base.fieldBase",
-        webui.@THEME_JS@.widget._base.labeledBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget._base.fieldBase",
+        @JS_NS@.widget._base.labeledBase, {
     // Set defaults.
     constructor: function() {
 	this.disabled = false;
@@ -48,7 +48,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget._base.fieldBase",
  * @return {String} The HTML input element class name.
  * @private
  */
-webui.@THEME_JS@.widget._base.fieldBase.prototype._getInputClassName = function() {   
+@JS_NS@.widget._base.fieldBase.prototype._getInputClassName = function() {   
     return null; // Overridden by subclass.
 };
 
@@ -57,7 +57,7 @@ webui.@THEME_JS@.widget._base.fieldBase.prototype._getInputClassName = function(
  *
  * @return {Node} The HTML input element.
  */
-webui.@THEME_JS@.widget._base.fieldBase.prototype.getInputElement = function() {
+@JS_NS@.widget._base.fieldBase.prototype.getInputElement = function() {
     return this._fieldNode;
 };
 
@@ -70,7 +70,7 @@ webui.@THEME_JS@.widget._base.fieldBase.prototype.getInputElement = function() {
  * @return {Object} Key-Value pairs of properties.
  * @private
  */
-webui.@THEME_JS@.widget._base.fieldBase.prototype._getLabelProps = function() {
+@JS_NS@.widget._base.fieldBase.prototype._getLabelProps = function() {
     var props = this._inherited("_getLabelProps", arguments);
 
     props.htmlFor = this._fieldNode.id;
@@ -83,7 +83,7 @@ webui.@THEME_JS@.widget._base.fieldBase.prototype._getLabelProps = function() {
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME_JS@.widget._base.fieldBase.prototype.getProps = function() {
+@JS_NS@.widget._base.fieldBase.prototype.getProps = function() {
     var props = this._inherited("getProps", arguments);
     
     // Set properties.
@@ -117,7 +117,7 @@ webui.@THEME_JS@.widget._base.fieldBase.prototype.getProps = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget._base.fieldBase.prototype._postCreate = function () {
+@JS_NS@.widget._base.fieldBase.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
         this._fieldNode.id = this.id + "_field";
@@ -127,7 +127,7 @@ webui.@THEME_JS@.widget._base.fieldBase.prototype._postCreate = function () {
     // Set public functions.
 
     /** @ignore */
-    this._domNode.getInputElement = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).getInputElement(); };
+    this._domNode.getInputElement = function() { return @JS_NS@.widget.common.getWidget(this.id).getInputElement(); };
     
     return this._inherited("_postCreate", arguments);
 };
@@ -142,7 +142,7 @@ webui.@THEME_JS@.widget._base.fieldBase.prototype._postCreate = function () {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget._base.fieldBase.prototype._setProps = function(props) {
+@JS_NS@.widget._base.fieldBase.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -182,7 +182,7 @@ webui.@THEME_JS@.widget._base.fieldBase.prototype._setProps = function(props) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget._base.fieldBase.prototype._submitFormData = function(event) {
+@JS_NS@.widget._base.fieldBase.prototype._submitFormData = function(event) {
     if (event == null) {
         return false;
     }

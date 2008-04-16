@@ -20,17 +20,17 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._html.addRemove");
+@JS_NS@._dojo.provide("@JS_NS@._html.addRemove");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.proto");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._html.listbox"); // Required by renderer.
+@JS_NS@._dojo.require("@JS_NS@._base.proto");
+@JS_NS@._dojo.require("@JS_NS@._html.listbox"); // Required by renderer.
 
 /** 
  * @class This class contains functions for addRemove components.
  * @static
  * @private
  */
-webui.@THEME_JS@._html.addRemove = {
+@JS_NS@._html.addRemove = {
     /**
      * This function is used to initialize HTML element properties with Object 
      * literals.
@@ -117,12 +117,12 @@ webui.@THEME_JS@._html.addRemove = {
                 || (new Boolean(props.moveButtons).valueOf() == true
                     && (domNode.moveUpButton == null || domNode.moveDownButton == null))) {
             return setTimeout(function() {
-                webui.@THEME_JS@._html.addRemove._init(props);
+                @JS_NS@._html.addRemove._init(props);
             }, 10);
         }
 
         // Set given properties on domNode.
-        webui.@THEME_JS@._base.proto._extend(domNode, props, false);
+        @JS_NS@._base.proto._extend(domNode, props, false);
 
         // Calculate the value indices
         if (itemString != null) {
@@ -139,21 +139,21 @@ webui.@THEME_JS@._html.addRemove = {
         domNode.selectedOptions = domNode.selectedList.options;
 
         // Set public functions.
-        domNode.add = webui.@THEME_JS@._html.addRemove.add;
-        domNode.addAll = webui.@THEME_JS@._html.addRemove.addAll;
-        domNode.remove = webui.@THEME_JS@._html.addRemove.remove;
-        domNode.removeAll = webui.@THEME_JS@._html.addRemove.removeAll;
-        domNode.moveUp = webui.@THEME_JS@._html.addRemove.moveUp;
-        domNode.moveDown = webui.@THEME_JS@._html.addRemove.moveDown;
-        domNode.updateButtons = webui.@THEME_JS@._html.addRemove.updateButtons;
+        domNode.add = @JS_NS@._html.addRemove.add;
+        domNode.addAll = @JS_NS@._html.addRemove.addAll;
+        domNode.remove = @JS_NS@._html.addRemove.remove;
+        domNode.removeAll = @JS_NS@._html.addRemove.removeAll;
+        domNode.moveUp = @JS_NS@._html.addRemove.moveUp;
+        domNode.moveDown = @JS_NS@._html.addRemove.moveDown;
+        domNode.updateButtons = @JS_NS@._html.addRemove.updateButtons;
 
         // Set private functions.
-        domNode.calculateIndex = webui.@THEME_JS@._html.addRemove.calculateIndex;
-        domNode.moveOption = webui.@THEME_JS@._html.addRemove.moveOption;
-        domNode.updateValue = webui.@THEME_JS@._html.addRemove.updateValue;
-        domNode.allowMultipleAdditions = webui.@THEME_JS@._html.addRemove.allowMultipleAdditions;
-        domNode.availableOnChange = webui.@THEME_JS@._html.addRemove.availableOnChange;
-        domNode.selectedOnChange = webui.@THEME_JS@._html.addRemove.selectedOnChange;
+        domNode.calculateIndex = @JS_NS@._html.addRemove.calculateIndex;
+        domNode.moveOption = @JS_NS@._html.addRemove.moveOption;
+        domNode.updateValue = @JS_NS@._html.addRemove.updateValue;
+        domNode.allowMultipleAdditions = @JS_NS@._html.addRemove.allowMultipleAdditions;
+        domNode.availableOnChange = @JS_NS@._html.addRemove.availableOnChange;
+        domNode.selectedOnChange = @JS_NS@._html.addRemove.selectedOnChange;
 
         // Enable multiple buttons.
         if (new Boolean(props.duplicateSelections).valueOf() == true) {
@@ -637,8 +637,8 @@ webui.@THEME_JS@._html.addRemove = {
     allowMultipleAdditions: function() {
         // Replace the add and remove functions with functions which 
         // leave the available items as they are
-        this.add = webui.@THEME_JS@._html.addRemove._multipleAdd;
-        this.remove = webui.@THEME_JS@._html.addRemove._multipleRemove;
+        this.add = @JS_NS@._html.addRemove._multipleAdd;
+        this.remove = @JS_NS@._html.addRemove._multipleRemove;
         return true;
     },
 

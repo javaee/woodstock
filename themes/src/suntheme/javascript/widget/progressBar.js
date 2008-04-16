@@ -20,16 +20,16 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.progressBar");
+@JS_NS@._dojo.provide("@JS_NS@.widget.progressBar");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
+@JS_NS@._dojo.require("@JS_NS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.widgetBase");
 
 /**
  * This function is used to construct a progressBar widget.
  *
- * @name webui.@THEME_JS@.widget.progressBar
- * @extends webui.@THEME_JS@.widget._base.widgetBase
+ * @name @JS_NS@.widget.progressBar
+ * @extends @JS_NS@.widget._base.widgetBase
  * @class This class contains functions for the progressBar widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -53,8 +53,8 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
  * @config {boolean} visible Hide or show element.
  * @config {int} width 
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.progressBar",
-        webui.@THEME_JS@.widget._base.widgetBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.progressBar",
+        @JS_NS@.widget._base.widgetBase, {
     // Set defaults.
     constructor: function() {
         this.progress = 0;
@@ -79,7 +79,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.progressBar",
  *
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.progressBar.prototype.cancel = function() {
+@JS_NS@.widget.progressBar.prototype.cancel = function() {
     clearTimeout(this.timeoutId);
 
     this._hiddenFieldNode.value = this.canceled;
@@ -98,18 +98,18 @@ webui.@THEME_JS@.widget.progressBar.prototype.cancel = function() {
  * </p>
  * @ignore
  */
-webui.@THEME_JS@.widget.progressBar.event =
-        webui.@THEME_JS@.widget.progressBar.prototype.event = {
+@JS_NS@.widget.progressBar.event =
+        @JS_NS@.widget.progressBar.prototype.event = {
     /**
      * This closure is used to publish progress events.
      * @ignore
      */
     progress: {
         /** Progress event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_progressBar_event_progress_begin",
+        beginTopic: "@JS_NS@_widget_progressBar_event_progress_begin",
 
         /** Progress event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_progressBar_event_progress_end"
+        endTopic: "@JS_NS@_widget_progressBar_event_progress_end"
     },
 
     /**
@@ -118,10 +118,10 @@ webui.@THEME_JS@.widget.progressBar.event =
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_progressBar_event_refresh_begin",
+        beginTopic: "@JS_NS@_widget_progressBar_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_progressBar_event_refresh_end"
+        endTopic: "@JS_NS@_widget_progressBar_event_refresh_end"
     },
 
     /**
@@ -130,10 +130,10 @@ webui.@THEME_JS@.widget.progressBar.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_progressBar_event_state_begin",
+        beginTopic: "@JS_NS@_widget_progressBar_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_progressBar_event_state_end"
+        endTopic: "@JS_NS@_widget_progressBar_event_state_end"
     }
 };
 
@@ -143,7 +143,7 @@ webui.@THEME_JS@.widget.progressBar.event =
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME_JS@.widget.progressBar.prototype.getProps = function() {
+@JS_NS@.widget.progressBar.prototype.getProps = function() {
     var props = this._inherited("getProps", arguments);
 
     // Set properties.
@@ -181,7 +181,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.getProps = function() {
  * @return {String} The outermost HTML element class name.
  * @private
  */
-webui.@THEME_JS@.widget.progressBar.prototype._getClassName = function() {
+@JS_NS@.widget.progressBar.prototype._getClassName = function() {
     var key = "PROGRESSBAR"; 
 
     // Get theme property.
@@ -199,7 +199,7 @@ webui.@THEME_JS@.widget.progressBar.prototype._getClassName = function() {
  *
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.progressBar.prototype.isBottomControlVisible = function() {
+@JS_NS@.widget.progressBar.prototype.isBottomControlVisible = function() {
     return this._common._isVisibleElement(this._bottomControlsContainer);
 };
 
@@ -208,7 +208,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.isBottomControlVisible = function(
  *
 * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.progressBar.prototype.isFailedStateMessageVisible = function() {
+@JS_NS@.widget.progressBar.prototype.isFailedStateMessageVisible = function() {
     return this._common._isVisibleElement(this._failedStateContainer);
 };
 
@@ -217,7 +217,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.isFailedStateMessageVisible = func
  *
 * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.progressBar.prototype.isLogMsgVisible = function() {
+@JS_NS@.widget.progressBar.prototype.isLogMsgVisible = function() {
     return this._common._isVisibleElement(this._logContainer);
 };
 
@@ -226,7 +226,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.isLogMsgVisible = function() {
  *
 * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.progressBar.prototype.isOperationTextVisible = function() {
+@JS_NS@.widget.progressBar.prototype.isOperationTextVisible = function() {
     return this._common._isVisibleElement(this._topTextContainer);
 };
 
@@ -235,7 +235,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.isOperationTextVisible = function(
  *
 * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.progressBar.prototype.isProgressBarContainerVisible = function() {
+@JS_NS@.widget.progressBar.prototype.isProgressBarContainerVisible = function() {
     return this._common._isVisibleElement(this._barContainer);
 };
 
@@ -244,7 +244,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.isProgressBarContainerVisible = fu
  *
 * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.progressBar.prototype.isProgressBarVisible = function() {
+@JS_NS@.widget.progressBar.prototype.isProgressBarVisible = function() {
     return this._common._isVisibleElement(this); 
 };
 
@@ -253,7 +253,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.isProgressBarVisible = function() 
  *
 * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.progressBar.prototype.isRightControlVisible = function() {
+@JS_NS@.widget.progressBar.prototype.isRightControlVisible = function() {
     return this._common._isVisibleElement(this._rightControlsContainer);
 };
 
@@ -262,7 +262,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.isRightControlVisible = function()
  *
 * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.progressBar.prototype.isStatusTextVisible = function() {
+@JS_NS@.widget.progressBar.prototype.isStatusTextVisible = function() {
     return this._common._isVisibleElement(this._bottomTextContainer);
 };
 
@@ -271,7 +271,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.isStatusTextVisible = function() {
  *
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.progressBar.prototype.pause = function() {
+@JS_NS@.widget.progressBar.prototype.pause = function() {
     clearTimeout(this.timeoutId);
 
     this._hiddenFieldNode.value = this.paused;
@@ -291,7 +291,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.pause = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.progressBar.prototype._postCreate = function () {
+@JS_NS@.widget.progressBar.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
         this._barContainer.id = this.id + "_barContainer";
@@ -311,51 +311,51 @@ webui.@THEME_JS@.widget.progressBar.prototype._postCreate = function () {
     // Set public functions.
 
     /** @ignore */
-    this._domNode.cancel = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).cancel(); };
+    this._domNode.cancel = function() { return @JS_NS@.widget.common.getWidget(this.id).cancel(); };
     /** @ignore */
-    this._domNode.isBottomControlVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).isBottomControlVisible(); };
+    this._domNode.isBottomControlVisible = function() { return @JS_NS@.widget.common.getWidget(this.id).isBottomControlVisible(); };
     /** @ignore */
-    this._domNode.isFailedStateMessageVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).isFailedStateMessageVisible(); };
+    this._domNode.isFailedStateMessageVisible = function() { return @JS_NS@.widget.common.getWidget(this.id).isFailedStateMessageVisible(); };
     /** @ignore */
-    this._domNode.isLogMsgVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).isLogMsgVisible(); };
+    this._domNode.isLogMsgVisible = function() { return @JS_NS@.widget.common.getWidget(this.id).isLogMsgVisible(); };
     /** @ignore */
-    this._domNode.isOperationTextVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).isOperationTextVisible(); };
+    this._domNode.isOperationTextVisible = function() { return @JS_NS@.widget.common.getWidget(this.id).isOperationTextVisible(); };
     /** @ignore */
-    this._domNode.isProgressBarContainerVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).isProgressBarContainerVisible(); };
+    this._domNode.isProgressBarContainerVisible = function() { return @JS_NS@.widget.common.getWidget(this.id).isProgressBarContainerVisible(); };
     /** @ignore */
-    this._domNode.isProgressBarVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).isProgressBarVisible(); };
+    this._domNode.isProgressBarVisible = function() { return @JS_NS@.widget.common.getWidget(this.id).isProgressBarVisible(); };
     /** @ignore */
-    this._domNode.isRightControlVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).isRightControlVisible(); };
+    this._domNode.isRightControlVisible = function() { return @JS_NS@.widget.common.getWidget(this.id).isRightControlVisible(); };
     /** @ignore */
-    this._domNode.isStatusTextVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).isStatusTextVisible(); };
+    this._domNode.isStatusTextVisible = function() { return @JS_NS@.widget.common.getWidget(this.id).isStatusTextVisible(); };
     /** @ignore */
-    this._domNode.pause = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).pause(); };
+    this._domNode.pause = function() { return @JS_NS@.widget.common.getWidget(this.id).pause(); };
     /** @ignore */
-    this._domNode.resume = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).resume(); };
+    this._domNode.resume = function() { return @JS_NS@.widget.common.getWidget(this.id).resume(); };
     /** @ignore */
-    this._domNode.stop = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).stop(); };
+    this._domNode.stop = function() { return @JS_NS@.widget.common.getWidget(this.id).stop(); };
     /** @ignore */
-    this._domNode.setOnCancel = function(func) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setOnCancel(func); };
+    this._domNode.setOnCancel = function(func) { return @JS_NS@.widget.common.getWidget(this.id).setOnCancel(func); };
     /** @ignore */
-    this._domNode.setOnComplete = function(func) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setOnComplete(func); };
+    this._domNode.setOnComplete = function(func) { return @JS_NS@.widget.common.getWidget(this.id).setOnComplete(func); };
     /** @ignore */
-    this._domNode.setOnFail = function(func) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setOnFail(func); };
+    this._domNode.setOnFail = function(func) { return @JS_NS@.widget.common.getWidget(this.id).setOnFail(func); };
     /** @ignore */
-    this._domNode.setBottomControlVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setBottomControlVisible(show); };
+    this._domNode.setBottomControlVisible = function(show) { return @JS_NS@.widget.common.getWidget(this.id).setBottomControlVisible(show); };
     /** @ignore */
-    this._domNode.setFailedStateMessageVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setFailedStateMessageVisible(show); };
+    this._domNode.setFailedStateMessageVisible = function(show) { return @JS_NS@.widget.common.getWidget(this.id).setFailedStateMessageVisible(show); };
     /** @ignore */
-    this._domNode.setLogMsgVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setLogMsgVisible(show); };
+    this._domNode.setLogMsgVisible = function(show) { return @JS_NS@.widget.common.getWidget(this.id).setLogMsgVisible(show); };
     /** @ignore */
-    this._domNode.setOperationTextVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setOperationTextVisible(show); };
+    this._domNode.setOperationTextVisible = function(show) { return @JS_NS@.widget.common.getWidget(this.id).setOperationTextVisible(show); };
     /** @ignore */
-    this._domNode.setProgressBarContainerVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProgressBarContainerVisible(show); };
+    this._domNode.setProgressBarContainerVisible = function(show) { return @JS_NS@.widget.common.getWidget(this.id).setProgressBarContainerVisible(show); };
     /** @ignore */
-    this._domNode.setProgressBarVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProgressBarVisible(show); };
+    this._domNode.setProgressBarVisible = function(show) { return @JS_NS@.widget.common.getWidget(this.id).setProgressBarVisible(show); };
     /** @ignore */
-    this._domNode.setRightControlVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setRightControlVisible(show); };
+    this._domNode.setRightControlVisible = function(show) { return @JS_NS@.widget.common.getWidget(this.id).setRightControlVisible(show); };
     /** @ignore */
-    this._domNode.setStatusTextVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setStatusTextVisible(show); };
+    this._domNode.setStatusTextVisible = function(show) { return @JS_NS@.widget.common.getWidget(this.id).setStatusTextVisible(show); };
 
     if (this.busyImage == null) {
 	this.busyImage = {
@@ -372,7 +372,7 @@ webui.@THEME_JS@.widget.progressBar.prototype._postCreate = function () {
  *
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.progressBar.prototype.resume = function() {
+@JS_NS@.widget.progressBar.prototype.resume = function() {
     clearTimeout(this.timeoutId);
 
     this._hiddenFieldNode.value = this.resumed;
@@ -390,7 +390,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.resume = function() {
  * @param {boolean} show true to show the element, false to hide the element.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.progressBar.prototype.setBottomControlVisible = function(show) {
+@JS_NS@.widget.progressBar.prototype.setBottomControlVisible = function(show) {
     if (show == null) {
         return false;
     }
@@ -404,7 +404,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setBottomControlVisible = function
  * @param {boolean} show true to show the element, false to hide the element.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.progressBar.prototype.setFailedStateMessageVisible = function(show) {
+@JS_NS@.widget.progressBar.prototype.setFailedStateMessageVisible = function(show) {
     if (show == null) {
         return false;
     }
@@ -418,7 +418,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setFailedStateMessageVisible = fun
  * @param {boolean} show true to show the element, false to hide the element.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.progressBar.prototype.setLogMsgVisible = function(show) {
+@JS_NS@.widget.progressBar.prototype.setLogMsgVisible = function(show) {
     if (show == null) {
         return false;
     }
@@ -432,7 +432,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setLogMsgVisible = function(show) 
  * @param {Function} func The JavaScript function.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.progressBar.prototype.setOnCancel = function(func) {
+@JS_NS@.widget.progressBar.prototype.setOnCancel = function(func) {
     if (func) {
         this.funcCanceled = func;
     }
@@ -445,7 +445,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setOnCancel = function(func) {
  * @param {Function} func The JavaScript function.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.progressBar.prototype.setOnComplete = function(func) {
+@JS_NS@.widget.progressBar.prototype.setOnComplete = function(func) {
     if (func) {
         this.funcComplete = func;
     }
@@ -458,7 +458,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setOnComplete = function(func) {
  * @param {Function} func The JavaScript function.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.progressBar.prototype.setOnFail = function(func) {
+@JS_NS@.widget.progressBar.prototype.setOnFail = function(func) {
     if (func) {
         this.funcFailed = func;
     }
@@ -471,7 +471,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setOnFail = function(func) {
  * @param {boolean} show true to show the element, false to hide the element.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.progressBar.prototype.setOperationTextVisible = function(show) {
+@JS_NS@.widget.progressBar.prototype.setOperationTextVisible = function(show) {
     if (show == null) {
         return false;
     }
@@ -492,7 +492,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setOperationTextVisible = function
  * @config {String} type
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.progressBar.prototype.setProgress = function(props) {
+@JS_NS@.widget.progressBar.prototype.setProgress = function(props) {
     if (props == null) {
         return false;
     }
@@ -626,7 +626,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setProgress = function(props) {
  * @param {boolean} show true to show the element, false to hide the element.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.progressBar.prototype.setProgressBarContainerVisible = function(show) {
+@JS_NS@.widget.progressBar.prototype.setProgressBarContainerVisible = function(show) {
     if (show == null) {
         return false;
     }
@@ -645,7 +645,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setProgressBarContainerVisible = f
  * @param {boolean} show true to show the element, false to hide the element.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.progressBar.prototype.setProgressBarVisible = function(show) {
+@JS_NS@.widget.progressBar.prototype.setProgressBarVisible = function(show) {
     if (show == null) {
         return false;
     }
@@ -663,7 +663,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setProgressBarVisible = function(s
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.progressBar.prototype._setProps = function(props) {
+@JS_NS@.widget.progressBar.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -759,7 +759,7 @@ webui.@THEME_JS@.widget.progressBar.prototype._setProps = function(props) {
                 if (props.prefix) {               
                     props.busyImage.icon = null;     
                     props.busyImage.src = 
-                        webui.@THEME_JS@.widget.common._appendPrefix(props.prefix, props.progressImageUrl);               
+                        @JS_NS@.widget.common._appendPrefix(props.prefix, props.progressImageUrl);               
                 }    
             }
             this._widget._addFragment(this._busyImageContainer, props.busyImage);
@@ -793,7 +793,7 @@ webui.@THEME_JS@.widget.progressBar.prototype._setProps = function(props) {
  * @param {boolean} show true to show the element, false to hide the element.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.progressBar.prototype.setRightControlVisible = function(show) {
+@JS_NS@.widget.progressBar.prototype.setRightControlVisible = function(show) {
     if (show == null) {
         return false;
     }
@@ -807,7 +807,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setRightControlVisible = function(
  * @param {boolean} show true to show the element, false to hide the element.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.progressBar.prototype.setStatusTextVisible = function(show) {
+@JS_NS@.widget.progressBar.prototype.setStatusTextVisible = function(show) {
     if (show == null) {
         return false;
     }
@@ -822,7 +822,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setStatusTextVisible = function(sh
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.progressBar.prototype._start = function () {
+@JS_NS@.widget.progressBar.prototype._start = function () {
     if (typeof this._started == "undefined") {
         return false;
     }
@@ -836,7 +836,7 @@ webui.@THEME_JS@.widget.progressBar.prototype._start = function () {
  *
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.progressBar.prototype.stop = function() {
+@JS_NS@.widget.progressBar.prototype.stop = function() {
     clearTimeout(this.timeoutId);
 
     this._hiddenFieldNode.value = this.stopped;
@@ -853,11 +853,11 @@ webui.@THEME_JS@.widget.progressBar.prototype.stop = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.progressBar.prototype._updateProgress = function() {
+@JS_NS@.widget.progressBar.prototype._updateProgress = function() {
     // Publish event.
     if (this.refreshRate > 0) {
         // Publish an event for custom AJAX implementations to listen for.
-        this._publish(webui.@THEME_JS@.widget.progressBar.event.progress.beginTopic, [{
+        this._publish(@JS_NS@.widget.progressBar.event.progress.beginTopic, [{
             id: this.id
         }]);
     }
@@ -867,7 +867,7 @@ webui.@THEME_JS@.widget.progressBar.prototype._updateProgress = function() {
     this.timeoutId = setTimeout(function() {
         // New literals are created every time this function is called, and it's 
         // saved by closure magic.
-        webui.@THEME_JS@.widget.common.getWidget(_id)._updateProgress();
+        @JS_NS@.widget.common.getWidget(_id)._updateProgress();
     }, this.refreshRate);
     return true;
 };

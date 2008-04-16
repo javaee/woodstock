@@ -20,15 +20,15 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.radioButtonGroup");
+@JS_NS@._dojo.provide("@JS_NS@.widget.radioButtonGroup");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.checkedGroupBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.checkedGroupBase");
 
 /**
  * This function is used to construct a radioButtonGroup widget.
  *
- * @name webui.@THEME_JS@.widget.radioButtonGroup
- * @extends webui.@THEME_JS@.widget._base.checkedGroupBase
+ * @name @JS_NS@.widget.radioButtonGroup
+ * @extends @JS_NS@.widget._base.checkedGroupBase
  * @class This class contains functions for the radioButtonGroup widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -48,8 +48,8 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.checkedGroupBase")
  * @config {String} title Provides a title for element.
  * @config {boolean} visible Hide or show element.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.radioButtonGroup",
-        webui.@THEME_JS@.widget._base.checkedGroupBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.radioButtonGroup",
+        @JS_NS@.widget._base.checkedGroupBase, {
     // Set defaults.
     _widgetType: "radioButtonGroup" // Required for theme properties.
 });
@@ -63,18 +63,18 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.radioButtonGroup",
  * </p>
  * @ignore
  */
-webui.@THEME_JS@.widget.radioButtonGroup.event =
-        webui.@THEME_JS@.widget.radioButtonGroup.prototype.event = {
+@JS_NS@.widget.radioButtonGroup.event =
+        @JS_NS@.widget.radioButtonGroup.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_radioButtonGroup_event_refresh_begin",
+        beginTopic: "@JS_NS@_widget_radioButtonGroup_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for. */        
-        endTopic: "webui_@THEME_JS@_widget_radioButtonGroup_event_refresh_end"
+        endTopic: "@JS_NS@_widget_radioButtonGroup_event_refresh_end"
     },
 
     /**
@@ -83,10 +83,10 @@ webui.@THEME_JS@.widget.radioButtonGroup.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_radioButtonGroup_event_state_begin",
+        beginTopic: "@JS_NS@_widget_radioButtonGroup_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_radioButtonGroup_event_state_end"
+        endTopic: "@JS_NS@_widget_radioButtonGroup_event_state_end"
     }
 };
 
@@ -99,7 +99,7 @@ webui.@THEME_JS@.widget.radioButtonGroup.event =
  * @return {String} The outermost HTML element class name.
  * @private
  */
-webui.@THEME_JS@.widget.radioButtonGroup.prototype._getClassName = function() {
+@JS_NS@.widget.radioButtonGroup.prototype._getClassName = function() {
     // Set default style.
     var className = (this.columns > 1)
         ? this._theme.getClassName("RBGRP_HORIZ", "")

@@ -20,15 +20,15 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.alarm");
+@JS_NS@._dojo.provide("@JS_NS@.widget.alarm");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.widgetBase");
 
 /**
  * This function is used to construct an alarm widget.
  *
- * @name webui.@THEME_JS@.widget.alarm
- * @extends webui.@THEME_JS@.widget._base.widgetBase
+ * @name @JS_NS@.widget.alarm
+ * @extends @JS_NS@.widget._base.widgetBase
  * @class This class contains functions for the alarm widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -53,8 +53,8 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
  * @config {String} type Provides a title for element.
  * @config {boolean} visible Hide or show element.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.alarm",
-        webui.@THEME_JS@.widget._base.widgetBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.alarm",
+        @JS_NS@.widget._base.widgetBase, {
     _widgetType: "alarm" // Required for theme properties.
 });
 
@@ -67,18 +67,18 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.alarm",
  * </p>
  * @ignore
  */
-webui.@THEME_JS@.widget.alarm.event =
-        webui.@THEME_JS@.widget.alarm.prototype.event = {
+@JS_NS@.widget.alarm.event =
+        @JS_NS@.widget.alarm.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_alarm_event_refresh_begin",
+        beginTopic: "@JS_NS@_widget_alarm_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_alarm_event_refresh_end"
+        endTopic: "@JS_NS@_widget_alarm_event_refresh_end"
     },
 
     /**
@@ -87,10 +87,10 @@ webui.@THEME_JS@.widget.alarm.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_alarm_event_state_begin",
+        beginTopic: "@JS_NS@_widget_alarm_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_alarm_event_state_end"
+        endTopic: "@JS_NS@_widget_alarm_event_state_end"
     }
 };
 
@@ -100,7 +100,7 @@ webui.@THEME_JS@.widget.alarm.event =
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME_JS@.widget.alarm.prototype.getProps = function() {
+@JS_NS@.widget.alarm.prototype.getProps = function() {
     var props = this._inherited("getProps", arguments);
 
     // Set properties.
@@ -121,7 +121,7 @@ webui.@THEME_JS@.widget.alarm.prototype.getProps = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.alarm.prototype._postCreate = function () {
+@JS_NS@.widget.alarm.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
         this._rightText.id = this.id + "_rightText";
@@ -200,7 +200,7 @@ webui.@THEME_JS@.widget.alarm.prototype._postCreate = function () {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.alarm.prototype._setProps = function(props) {
+@JS_NS@.widget.alarm.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }

@@ -20,13 +20,13 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget._jsfx.table2RowGroup");
+@JS_NS@._dojo.provide("@JS_NS@.widget._jsfx.table2RowGroup");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.json");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._jsfx.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._jsfx.dynaFaces");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.table2RowGroup");
+@JS_NS@._dojo.require("@JS_NS@.json");
+@JS_NS@._dojo.require("@JS_NS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@.widget._jsfx.common");
+@JS_NS@._dojo.require("@JS_NS@.widget._jsfx.dynaFaces");
+@JS_NS@._dojo.require("@JS_NS@.widget.table2RowGroup");
 
 /**
  * @class This class contains functions to obtain data asynchronously using JSF
@@ -34,7 +34,7 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.table2RowGroup");
  * @static
  * @private
  */
-webui.@THEME_JS@.widget._jsfx.table2RowGroup = {
+@JS_NS@.widget._jsfx.table2RowGroup = {
     /**
      * This function is used to process scroll events with Object literals.
      *
@@ -57,7 +57,7 @@ webui.@THEME_JS@.widget._jsfx.table2RowGroup = {
             (domNode) ? domNode : document.forms[0], {
             execute: "none",
             render: props.id,
-            replaceElement: webui.@THEME_JS@.widget._jsfx.table2RowGroup._scrollCallback,
+            replaceElement: @JS_NS@.widget._jsfx.table2RowGroup._scrollCallback,
             xjson: {
                 id: props.id,
                 event: "scroll",
@@ -83,10 +83,10 @@ webui.@THEME_JS@.widget._jsfx.table2RowGroup = {
         }
 
         // Parse JSON text.
-        var props = webui.@THEME_JS@.json.parse(content);
+        var props = @JS_NS@.json.parse(content);
 
         // Reject duplicate AJAX requests.
-        var widget = webui.@THEME_JS@.widget.common.getWidget(id);
+        var widget = @JS_NS@.widget.common.getWidget(id);
         if (widget.first != xjson.first) {
             return false;
         }        
@@ -94,8 +94,8 @@ webui.@THEME_JS@.widget._jsfx.table2RowGroup = {
         widget.addRows(props.rows);
 
         // Publish an event for custom AJAX implementations to listen for.
-        webui.@THEME_JS@._dojo.publish(
-            webui.@THEME_JS@.widget.table2RowGroup.event.scroll.endTopic, [props]);
+        @JS_NS@._dojo.publish(
+            @JS_NS@.widget.table2RowGroup.event.scroll.endTopic, [props]);
         return true;
     },
     
@@ -121,7 +121,7 @@ webui.@THEME_JS@.widget._jsfx.table2RowGroup = {
             (domNode) ? domNode : document.forms[0], {
             execute: "none",
             render: props.id,
-            replaceElement: webui.@THEME_JS@.widget._jsfx.table2RowGroup._sortCallback,
+            replaceElement: @JS_NS@.widget._jsfx.table2RowGroup._sortCallback,
             xjson: {
                 id: props.id,                
                 event: "sort",
@@ -149,24 +149,24 @@ webui.@THEME_JS@.widget._jsfx.table2RowGroup = {
         }
 
         // Parse JSON text.
-        var props = webui.@THEME_JS@.json.parse(content);
+        var props = @JS_NS@.json.parse(content);
         // Reject duplicate AJAX requests.
-        var widget = webui.@THEME_JS@.widget.common.getWidget(id); 
+        var widget = @JS_NS@.widget.common.getWidget(id); 
         widget.setProps(props);
   
         // Publish an event for custom AJAX implementations to listen for.
-        webui.@THEME_JS@._dojo.publish(
-            webui.@THEME_JS@.widget.table2RowGroup.event.sort.endTopic, [props]);
+        @JS_NS@._dojo.publish(
+            @JS_NS@.widget.table2RowGroup.event.sort.endTopic, [props]);
         return true;
     }
 };
     
 // Listen for Dojo Widget events.
-webui.@THEME_JS@._dojo.subscribe(webui.@THEME_JS@.widget.table2RowGroup.event.refresh.beginTopic,
-    webui.@THEME_JS@.widget._jsfx.common, "_processRefreshEvent");
-webui.@THEME_JS@._dojo.subscribe(webui.@THEME_JS@.widget.table2RowGroup.event.scroll.beginTopic,
-    webui.@THEME_JS@.widget._jsfx.table2RowGroup, "_processScrollEvent");
-webui.@THEME_JS@._dojo.subscribe(webui.@THEME_JS@.widget.table2RowGroup.event.pagination.next.beginTopic,
-    webui.@THEME_JS@.widget._jsfx.table2RowGroup, "_processScrollEvent");
-webui.@THEME_JS@._dojo.subscribe(webui.@THEME_JS@.widget.table2RowGroup.event.sort.beginTopic,
-    webui.@THEME_JS@.widget._jsfx.table2RowGroup, "_processSortEvent");
+@JS_NS@._dojo.subscribe(@JS_NS@.widget.table2RowGroup.event.refresh.beginTopic,
+    @JS_NS@.widget._jsfx.common, "_processRefreshEvent");
+@JS_NS@._dojo.subscribe(@JS_NS@.widget.table2RowGroup.event.scroll.beginTopic,
+    @JS_NS@.widget._jsfx.table2RowGroup, "_processScrollEvent");
+@JS_NS@._dojo.subscribe(@JS_NS@.widget.table2RowGroup.event.pagination.next.beginTopic,
+    @JS_NS@.widget._jsfx.table2RowGroup, "_processScrollEvent");
+@JS_NS@._dojo.subscribe(@JS_NS@.widget.table2RowGroup.event.sort.beginTopic,
+    @JS_NS@.widget._jsfx.table2RowGroup, "_processSortEvent");

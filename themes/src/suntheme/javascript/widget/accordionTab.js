@@ -20,16 +20,16 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.accordionTab");
+@JS_NS@._dojo.provide("@JS_NS@.widget.accordionTab");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
+@JS_NS@._dojo.require("@JS_NS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.widgetBase");
 
 /**
  * This function is used to construct an accordionTab widget.
  *
- * @name webui.@THEME_JS@.widget.accordionTab
- * @extends webui.@THEME_JS@.widget._base.widgetBase
+ * @name @JS_NS@.widget.accordionTab
+ * @extends @JS_NS@.widget._base.widgetBase
  * @class This class contains functions for the accordionTab widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -42,8 +42,8 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
  * @config {String} title Provides a title for element.
  * @config {boolean} visible Hide or show element.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.accordionTab",
-        webui.@THEME_JS@.widget._base.widgetBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.accordionTab",
+        @JS_NS@.widget._base.widgetBase, {
     // Set defaults.
     constructor: function() {
         this.isContainer = true;
@@ -59,14 +59,14 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.accordionTab",
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.accordionTab.prototype._createOnKeyDownCallBack = function() {
+@JS_NS@.widget.accordionTab.prototype._createOnKeyDownCallBack = function() {
     var _id = this.id;
     return function(event) {
         var elem = document.getElementById(_id);
         if (elem == null) {
             return false;
         }
-        var common = webui.@THEME_JS@.widget.common;
+        var common = @JS_NS@.widget.common;
         var widget = common.getWidget(_id);
 
         event = common._getEvent(event);
@@ -94,18 +94,18 @@ webui.@THEME_JS@.widget.accordionTab.prototype._createOnKeyDownCallBack = functi
  * </p>
  * @ignore
  */
-webui.@THEME_JS@.widget.accordionTab.event =
-        webui.@THEME_JS@.widget.accordionTab.prototype.event = {
+@JS_NS@.widget.accordionTab.event =
+        @JS_NS@.widget.accordionTab.prototype.event = {
     /**
      * This object contains load event topics.
      * @ignore
      */
     load: {
         /** Load event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_accordionTab_event_load_begin",
+        beginTopic: "@JS_NS@_widget_accordionTab_event_load_begin",
 
         /** Load event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_accordionTab_event_load_end"
+        endTopic: "@JS_NS@_widget_accordionTab_event_load_end"
     },
 
     /**
@@ -114,10 +114,10 @@ webui.@THEME_JS@.widget.accordionTab.event =
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_accordionTab_event_refresh_begin",
+        beginTopic: "@JS_NS@_widget_accordionTab_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_accordionTab_event_refresh_end"
+        endTopic: "@JS_NS@_widget_accordionTab_event_refresh_end"
     },
 
     /**
@@ -126,10 +126,10 @@ webui.@THEME_JS@.widget.accordionTab.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_accordionTab_event_state_begin",
+        beginTopic: "@JS_NS@_widget_accordionTab_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_accordionTab_event_state_end"
+        endTopic: "@JS_NS@_widget_accordionTab_event_state_end"
     },
 
     /**
@@ -138,7 +138,7 @@ webui.@THEME_JS@.widget.accordionTab.event =
      */
     title: {
         /** Action event topic for custom AJAX implementations to listen for. */
-        selectedTopic: "webui_@THEME_JS@_widget_accordionTab_event_tab_selected"
+        selectedTopic: "@JS_NS@_widget_accordionTab_event_tab_selected"
     }
 };
 
@@ -151,9 +151,9 @@ webui.@THEME_JS@.widget.accordionTab.event =
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.accordionTab.prototype._loadContent = function(execute) {
+@JS_NS@.widget.accordionTab.prototype._loadContent = function(execute) {
     // Publish event.
-    this._publish(webui.@THEME_JS@.widget.accordionTab.event.load.beginTopic, [{
+    this._publish(@JS_NS@.widget.accordionTab.event.load.beginTopic, [{
         id: this.id
     }]);
     return true;
@@ -165,7 +165,7 @@ webui.@THEME_JS@.widget.accordionTab.prototype._loadContent = function(execute) 
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME_JS@.widget.accordionTab.prototype.getProps = function() {
+@JS_NS@.widget.accordionTab.prototype.getProps = function() {
     var props = this._inherited("getProps", arguments);
 
     // Set properties.
@@ -192,7 +192,7 @@ webui.@THEME_JS@.widget.accordionTab.prototype.getProps = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.accordionTab.prototype._onMenuClickCallback = function(event) {
+@JS_NS@.widget.accordionTab.prototype._onMenuClickCallback = function(event) {
     this._dojo.stopEvent(event);
     return true;
 };
@@ -208,8 +208,8 @@ webui.@THEME_JS@.widget.accordionTab.prototype._onMenuClickCallback = function(e
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.accordionTab.prototype._onTitleClickCallback = function (event) {
-    this._publish(webui.@THEME_JS@.widget.accordionTab.event.title.selectedTopic, [{
+@JS_NS@.widget.accordionTab.prototype._onTitleClickCallback = function (event) {
+    this._publish(@JS_NS@.widget.accordionTab.event.title.selectedTopic, [{
         id: this.id
     }]);
     if (this._titleContainer.focus) {
@@ -225,7 +225,7 @@ webui.@THEME_JS@.widget.accordionTab.prototype._onTitleClickCallback = function 
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.accordionTab.prototype._onTitleMouseOutCallback = function(event) {
+@JS_NS@.widget.accordionTab.prototype._onTitleMouseOutCallback = function(event) {
     if (this.selected) {
         this._titleContainer.className = this._theme.getClassName("ACCORDION_TABEXPANDED");
         this._turnerContainer.className = this._theme.getClassName("ACCORDION_DOWNTURNER");
@@ -246,7 +246,7 @@ webui.@THEME_JS@.widget.accordionTab.prototype._onTitleMouseOutCallback = functi
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.accordionTab.prototype._onTitleMouseOverCallback = function(event) {
+@JS_NS@.widget.accordionTab.prototype._onTitleMouseOverCallback = function(event) {
     if (this.selected) {
         this._turnerContainer.className = this._theme.getClassName("ACCORDION_DOWNTURNER");
     } else {
@@ -266,7 +266,7 @@ webui.@THEME_JS@.widget.accordionTab.prototype._onTitleMouseOverCallback = funct
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.accordionTab.prototype._onContentEndCallback = function(event) {
+@JS_NS@.widget.accordionTab.prototype._onContentEndCallback = function(event) {
     this.focusState = "end";
     return true;
 };
@@ -280,7 +280,7 @@ webui.@THEME_JS@.widget.accordionTab.prototype._onContentEndCallback = function(
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.accordionTab.prototype._postCreate = function () {
+@JS_NS@.widget.accordionTab.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
         this._domNode.id = this.id;
@@ -335,7 +335,7 @@ webui.@THEME_JS@.widget.accordionTab.prototype._postCreate = function () {
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.accordionTab.prototype.setProps = function(props, notify) {
+@JS_NS@.widget.accordionTab.prototype.setProps = function(props, notify) {
     if (props == null) {
         return false;
     }
@@ -359,7 +359,7 @@ webui.@THEME_JS@.widget.accordionTab.prototype.setProps = function(props, notify
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.accordionTab.prototype._setProps = function(props) {
+@JS_NS@.widget.accordionTab.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -427,7 +427,7 @@ webui.@THEME_JS@.widget.accordionTab.prototype._setProps = function(props) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.accordionTab.prototype._setSelected = function (isSelected) {
+@JS_NS@.widget.accordionTab.prototype._setSelected = function (isSelected) {
     if (this.selected) {
         this.selected = false;
     } else {
@@ -463,7 +463,7 @@ webui.@THEME_JS@.widget.accordionTab.prototype._setSelected = function (isSelect
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.accordionTab.prototype._setTabContent = function(content) {
+@JS_NS@.widget.accordionTab.prototype._setTabContent = function(content) {
     if (content) {
         for (var i = 0; i < content.length; i++) {
             this._widget._addFragment(this._contentNode, content[i], "last");
@@ -479,7 +479,7 @@ webui.@THEME_JS@.widget.accordionTab.prototype._setTabContent = function(content
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.accordionTab.prototype._setTitle = function (title) {
+@JS_NS@.widget.accordionTab.prototype._setTitle = function (title) {
     if (title) {
         // NOTE: If you set this value manually, text must be HTML escaped.
         this._widget._addFragment(this._titleNode, {
@@ -505,7 +505,7 @@ webui.@THEME_JS@.widget.accordionTab.prototype._setTitle = function (title) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.accordionTab.prototype._traverseMenu = function(keyCode, event, nodeId) {
+@JS_NS@.widget.accordionTab.prototype._traverseMenu = function(keyCode, event, nodeId) {
     // The focus can either be on the title or the content.
     // If tab is open and current focus is on the title, the focus should move
     // to the first element in the the open tab. Else it should simply move out 
@@ -596,7 +596,7 @@ webui.@THEME_JS@.widget.accordionTab.prototype._traverseMenu = function(keyCode,
             if (this._titleContainer.focus) {
                 this._titleContainer.focus();
             }
-            if (webui.@THEME_JS@._base.browser._isIe5up()) {
+            if (@JS_NS@._base.browser._isIe5up()) {
                 window. event.cancelBubble = true;
                 window.event.returnValue = false;
             } else {

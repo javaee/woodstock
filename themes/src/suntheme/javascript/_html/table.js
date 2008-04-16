@@ -20,11 +20,11 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._html.table");
+@JS_NS@._dojo.provide("@JS_NS@._html.table");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.proto");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@._base.common");
+@JS_NS@._dojo.require("@JS_NS@._base.proto");
+@JS_NS@._dojo.require("@JS_NS@.widget.common");
 
 /** 
  * @class This class contains functions for table components.
@@ -42,7 +42,7 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
  * @static
  * @private
  */
-webui.@THEME_JS@._html.table = {
+@JS_NS@._html.table = {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // DOM functions
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -357,7 +357,7 @@ webui.@THEME_JS@._html.table = {
         }
 
         // Set given properties on domNode.
-        webui.@THEME_JS@._base.proto._extend(domNode, props, false);
+        @JS_NS@._base.proto._extend(domNode, props, false);
 
         // Misc properties.
         domNode.SEPARATOR = ":";   // NamingContainer separator.
@@ -380,40 +380,40 @@ webui.@THEME_JS@._html.table = {
         domNode.deleteSelectionsMsg = props.deleteSelectionsMsg.replace(/\\n/g, "\n");
 
         // Private functions.
-        domNode._getGroupSelectedRowsCount = webui.@THEME_JS@._html.table._getGroupSelectedRowsCount;
-        domNode._getGroupHiddenSelectedRowsCount = webui.@THEME_JS@._html.table._getGroupHiddenSelectedRowsCount;
-        domNode._getGroupRenderedSelectedRowsCount = webui.@THEME_JS@._html.table._getGroupRenderedSelectedRowsCount;
-        domNode._getSelectElement = webui.@THEME_JS@._html.table._getSelectElement;
-        domNode._initGroupRows = webui.@THEME_JS@._html.table._initGroupRows;
-        domNode._initPrimarySortOrderMenu = webui.@THEME_JS@._html.table._initPrimarySortOrderMenu;
-        domNode._initPrimarySortOrderMenuToolTip = webui.@THEME_JS@._html.table._initPrimarySortOrderMenuToolTip;
-        domNode._initSecondarySortOrderMenu = webui.@THEME_JS@._html.table._initSecondarySortOrderMenu;
-        domNode._initSecondarySortOrderMenuToolTip = webui.@THEME_JS@._html.table._initSecondarySortOrderMenuToolTip;
-        domNode._initSortColumnMenus = webui.@THEME_JS@._html.table._initSortColumnMenus;
-        domNode._initSortOrderMenu = webui.@THEME_JS@._html.table._initSortOrderMenu;
-        domNode._initSortOrderMenus = webui.@THEME_JS@._html.table._initSortOrderMenus;
-        domNode._initSortOrderMenuToolTip = webui.@THEME_JS@._html.table._initSortOrderMenuToolTip;
-        domNode._initTertiarySortOrderMenu = webui.@THEME_JS@._html.table._initTertiarySortOrderMenu;
-        domNode._initTertiarySortOrderMenuToolTip = webui.@THEME_JS@._html.table._initTertiarySortOrderMenuToolTip;
-        domNode._menuChanged = webui.@THEME_JS@._html.table._menuChanged;
-        domNode._resetFilterMenu = webui.@THEME_JS@._html.table._resetFilterMenu;
-        domNode._selectAllRows = webui.@THEME_JS@._html.table._selectAllRows;
-        domNode._selectGroupRows = webui.@THEME_JS@._html.table._selectGroupRows;
-        domNode._toggleGroupPanel = webui.@THEME_JS@._html.table._toggleGroupPanel;
-        domNode._togglePanel = webui.@THEME_JS@._html.table._togglePanel;
-        domNode._toggleSortPanel = webui.@THEME_JS@._html.table._toggleSortPanel;
-        domNode._validateSortPanel = webui.@THEME_JS@._html.table._validateSortPanel;
+        domNode._getGroupSelectedRowsCount = @JS_NS@._html.table._getGroupSelectedRowsCount;
+        domNode._getGroupHiddenSelectedRowsCount = @JS_NS@._html.table._getGroupHiddenSelectedRowsCount;
+        domNode._getGroupRenderedSelectedRowsCount = @JS_NS@._html.table._getGroupRenderedSelectedRowsCount;
+        domNode._getSelectElement = @JS_NS@._html.table._getSelectElement;
+        domNode._initGroupRows = @JS_NS@._html.table._initGroupRows;
+        domNode._initPrimarySortOrderMenu = @JS_NS@._html.table._initPrimarySortOrderMenu;
+        domNode._initPrimarySortOrderMenuToolTip = @JS_NS@._html.table._initPrimarySortOrderMenuToolTip;
+        domNode._initSecondarySortOrderMenu = @JS_NS@._html.table._initSecondarySortOrderMenu;
+        domNode._initSecondarySortOrderMenuToolTip = @JS_NS@._html.table._initSecondarySortOrderMenuToolTip;
+        domNode._initSortColumnMenus = @JS_NS@._html.table._initSortColumnMenus;
+        domNode._initSortOrderMenu = @JS_NS@._html.table._initSortOrderMenu;
+        domNode._initSortOrderMenus = @JS_NS@._html.table._initSortOrderMenus;
+        domNode._initSortOrderMenuToolTip = @JS_NS@._html.table._initSortOrderMenuToolTip;
+        domNode._initTertiarySortOrderMenu = @JS_NS@._html.table._initTertiarySortOrderMenu;
+        domNode._initTertiarySortOrderMenuToolTip = @JS_NS@._html.table._initTertiarySortOrderMenuToolTip;
+        domNode._menuChanged = @JS_NS@._html.table._menuChanged;
+        domNode._resetFilterMenu = @JS_NS@._html.table._resetFilterMenu;
+        domNode._selectAllRows = @JS_NS@._html.table._selectAllRows;
+        domNode._selectGroupRows = @JS_NS@._html.table._selectGroupRows;
+        domNode._toggleGroupPanel = @JS_NS@._html.table._toggleGroupPanel;
+        domNode._togglePanel = @JS_NS@._html.table._togglePanel;
+        domNode._toggleSortPanel = @JS_NS@._html.table._toggleSortPanel;
+        domNode._validateSortPanel = @JS_NS@._html.table._validateSortPanel;
 
         // Public functions.
-        domNode.confirmDeleteSelectedRows = webui.@THEME_JS@._html.table.confirmDeleteSelectedRows;
-        domNode.confirmSelectedRows = webui.@THEME_JS@._html.table.confirmSelectedRows;
-        domNode.filterMenuChanged = webui.@THEME_JS@._html.table.filterMenuChanged;
-        domNode.getAllSelectedRowsCount = webui.@THEME_JS@._html.table.getAllSelectedRowsCount;
-        domNode.getAllHiddenSelectedRowsCount = webui.@THEME_JS@._html.table.getAllHiddenSelectedRowsCount;
-        domNode.getAllRenderedSelectedRowsCount = webui.@THEME_JS@._html.table.getAllRenderedSelectedRowsCount;
-        domNode.initAllRows = webui.@THEME_JS@._html.table.initAllRows;
-        domNode.toggleFilterPanel = webui.@THEME_JS@._html.table.toggleFilterPanel;
-        domNode.togglePreferencesPanel = webui.@THEME_JS@._html.table.togglePreferencesPanel;
+        domNode.confirmDeleteSelectedRows = @JS_NS@._html.table.confirmDeleteSelectedRows;
+        domNode.confirmSelectedRows = @JS_NS@._html.table.confirmSelectedRows;
+        domNode.filterMenuChanged = @JS_NS@._html.table.filterMenuChanged;
+        domNode.getAllSelectedRowsCount = @JS_NS@._html.table.getAllSelectedRowsCount;
+        domNode.getAllHiddenSelectedRowsCount = @JS_NS@._html.table.getAllHiddenSelectedRowsCount;
+        domNode.getAllRenderedSelectedRowsCount = @JS_NS@._html.table.getAllRenderedSelectedRowsCount;
+        domNode.initAllRows = @JS_NS@._html.table.initAllRows;
+        domNode.toggleFilterPanel = @JS_NS@._html.table.toggleFilterPanel;
+        domNode.togglePreferencesPanel = @JS_NS@._html.table.togglePreferencesPanel;
 
         return true;
     },
@@ -521,7 +521,7 @@ webui.@THEME_JS@._html.table = {
      * @return {Node} a reference to the select element.
      */
     _getSelectElement: function(elementId) { 
-        var widget = webui.@THEME_JS@.widget.common.getWidget(elementId);
+        var widget = @JS_NS@.widget.common.getWidget(elementId);
         if (widget) {
             return widget.getSelectElement();
         }
@@ -577,11 +577,11 @@ webui.@THEME_JS@._html.table = {
                 this.SEPARATOR + rowIds[k]);
             var props = select.getProps();
             if (select.getProps().checked == true) {
-                webui.@THEME_JS@._base.common._addStyleClass(row, 
+                @JS_NS@._base.common._addStyleClass(row, 
                     this.selectRowStyleClass);
                 selected = true;
             } else {
-                webui.@THEME_JS@._base.common._stripStyleClass(row, 
+                @JS_NS@._base.common._stripStyleClass(row, 
                     this.selectRowStyleClass);
                 checked = false;
             }
@@ -603,7 +603,7 @@ webui.@THEME_JS@._html.table = {
 
         // Get flag indicating groupis collapsed.
         var prefix = groupId + this.SEPARATOR;
-        var collapsed = !webui.@THEME_JS@._base.common._isVisible(prefix + rowIds[0]);
+        var collapsed = !@JS_NS@._base.common._isVisible(prefix + rowIds[0]);
 
         // Set next warning image.
         var image = document.getElementById(prefix + this.warningIconId);
@@ -990,7 +990,7 @@ webui.@THEME_JS@._html.table = {
      * @return {boolean} true if successful; otherwise, false.
      */
     _menuChanged: function(elementId) {         
-        var widget = webui.@THEME_JS@.widget.common.getWidget(elementId);
+        var widget = @JS_NS@.widget.common.getWidget(elementId);
         if (widget) {
             return widget._changed();
         }
@@ -1025,9 +1025,9 @@ webui.@THEME_JS@._html.table = {
         }
 
         // Set selected style.
-        if (webui.@THEME_JS@._base.common._isVisibleElement(div)) {
-            webui.@THEME_JS@._base.common._stripStyleClass(menu, this.basicFilterStyleClass);
-            webui.@THEME_JS@._base.common._addStyleClass(menu, this.customFilterStyleClass);
+        if (@JS_NS@._base.common._isVisibleElement(div)) {
+            @JS_NS@._base.common._stripStyleClass(menu, this.basicFilterStyleClass);
+            @JS_NS@._base.common._addStyleClass(menu, this.customFilterStyleClass);
         } else {
             // Reset default selected option.
             menu.selectedIndex = 0;
@@ -1037,8 +1037,8 @@ webui.@THEME_JS@._html.table = {
                     break;
                 }
             }
-            webui.@THEME_JS@._base.common._stripStyleClass(menu, this.customFilterStyleClass);
-            webui.@THEME_JS@._base.common._addStyleClass(menu, this.basicFilterStyleClass);
+            @JS_NS@._base.common._stripStyleClass(menu, this.customFilterStyleClass);
+            @JS_NS@._base.common._addStyleClass(menu, this.basicFilterStyleClass);
         }
         return true;
     },
@@ -1142,7 +1142,7 @@ webui.@THEME_JS@._html.table = {
 
         // Get flag indicating group is collapsed.
         var prefix = groupId + this.SEPARATOR;
-        var collapsed = !webui.@THEME_JS@._base.common._isVisible(prefix + rowIds[0]);
+        var collapsed = !@JS_NS@._base.common._isVisible(prefix + rowIds[0]);
 
         // Get the number of column headers and table column footers for all 
         // TableRowGroup children.
@@ -1173,7 +1173,7 @@ webui.@THEME_JS@._html.table = {
             if (document.getElementById(columnFooterId) == null) {
                 break;
             }
-            webui.@THEME_JS@._base.common._setVisible(columnFooterId, collapsed);
+            @JS_NS@._base.common._setVisible(columnFooterId, collapsed);
         }
 
         // Toggle column header only if multiple column headers are shown.
@@ -1185,7 +1185,7 @@ webui.@THEME_JS@._html.table = {
                 if (document.getElementById(columnHeaderId) == null) {
                     break;
                 }            
-                webui.@THEME_JS@._base.common._setVisible(columnHeaderId, collapsed);
+                @JS_NS@._base.common._setVisible(columnHeaderId, collapsed);
             }
         }
 
@@ -1198,7 +1198,7 @@ webui.@THEME_JS@._html.table = {
                 if (document.getElementById(tableColumnFooterId) == null) {
                     break;
                 }
-                webui.@THEME_JS@._base.common._setVisible(tableColumnFooterId, collapsed);
+                @JS_NS@._base.common._setVisible(tableColumnFooterId, collapsed);
             }
         }
 
@@ -1206,11 +1206,11 @@ webui.@THEME_JS@._html.table = {
         var rowId;
         for (var k = 0; k < rowIds.length; k++) {
             rowId = prefix + rowIds[k];
-            webui.@THEME_JS@._base.common._setVisible(rowId, collapsed);
+            @JS_NS@._base.common._setVisible(rowId, collapsed);
         }
 
         // Toggle group footers.
-        webui.@THEME_JS@._base.common._setVisible(prefix + this.groupFooterId, collapsed);
+        @JS_NS@._base.common._setVisible(prefix + this.groupFooterId, collapsed);
 
         // Set next toggle button image.
         var groupPanelToggleButtonId = prefix + this.groupPanelToggleButtonId;
@@ -1269,11 +1269,11 @@ webui.@THEME_JS@._html.table = {
                 // Set focus when panel is toggled -- bugtraq 6316565.
                 var focusElement = null;
 
-                if (webui.@THEME_JS@._base.common._isVisibleElement(div)) {
-                    webui.@THEME_JS@._base.common._setVisibleElement(div, false); // Hide panel.
+                if (@JS_NS@._base.common._isVisibleElement(div)) {
+                    @JS_NS@._base.common._setVisibleElement(div, false); // Hide panel.
                     focusElement = document.getElementById(panelFocusIdClose);
                 } else {
-                    webui.@THEME_JS@._base.common._setVisibleElement(div, true); // Show panel.
+                    @JS_NS@._base.common._setVisibleElement(div, true); // Show panel.
                     focusElement = document.getElementById(panelFocusIdOpen);
                 }
 
@@ -1283,7 +1283,7 @@ webui.@THEME_JS@._html.table = {
                 }
             } else {
                 // Panels are hidden by default.
-                webui.@THEME_JS@._base.common._setVisibleElement(div, false);
+                @JS_NS@._base.common._setVisibleElement(div, false);
             }
 
             // Get image from icon hyperlink component.
@@ -1293,7 +1293,7 @@ webui.@THEME_JS@._html.table = {
             }
 
             // Set image.
-            if (webui.@THEME_JS@._base.common._isVisibleElement(div)) {
+            if (@JS_NS@._base.common._isVisibleElement(div)) {
                 imgHyperlink.setProps({
                     enabledImage: {
                         src: this.panelToggleIconsOpen[i]

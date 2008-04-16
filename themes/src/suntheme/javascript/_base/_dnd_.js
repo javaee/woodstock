@@ -20,27 +20,27 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._base.dnd");
+@JS_NS@._dojo.provide("@JS_NS@._base.dnd");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._dojo.dnd"); // Replaced by build.
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._dojo.dnd.Manager");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._dojo.dnd.Source");
+@JS_NS@._dojo.require("@JS_NS@._dojo.dnd"); // Replaced by build.
+@JS_NS@._dojo.require("@JS_NS@._dojo.dnd.Manager");
+@JS_NS@._dojo.require("@JS_NS@._dojo.dnd.Source");
 
 /**
  * This function is used to construct a dnd manager.
  * 
- * @name webui.@THEME_JS@._base.dnd.Manager
- * @extends webui.@THEME_JS@._dojo.dnd.Manager
+ * @name @JS_NS@._base.dnd.Manager
+ * @extends @JS_NS@._dojo.dnd.Manager
  * @class This class supports additional features of Woodstock drag and drop.
  * @constructor
  * @private
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@._base.dnd.Manager",
-    webui.@THEME_JS@._dojo.dnd.Manager);
+@JS_NS@._dojo.declare("@JS_NS@._base.dnd.Manager",
+    @JS_NS@._dojo.dnd.Manager);
 
 // This function is not public and should not appear in the jsDoc.
 /** @ignore */
-webui.@THEME_JS@._base.dnd.Manager.prototype.startDrag = function () {
+@JS_NS@._base.dnd.Manager.prototype.startDrag = function () {
     this.inherited("startDrag", arguments);
     return this._startDrag();
 }
@@ -51,10 +51,10 @@ webui.@THEME_JS@._base.dnd.Manager.prototype.startDrag = function () {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@._base.dnd.Manager.prototype._startDrag = function(source, nodes, copy) {
-    webui.@THEME_JS@._dojo.forEach(nodes,
+@JS_NS@._base.dnd.Manager.prototype._startDrag = function(source, nodes, copy) {
+    @JS_NS@._dojo.forEach(nodes,
         function(node) {
-            webui.@THEME_JS@._dojo.addClass(node, "dojoDndWebuiItemDragged");
+            @JS_NS@._dojo.addClass(node, "dojoDndWebuiItemDragged");
         }
     );
     return true;
@@ -62,7 +62,7 @@ webui.@THEME_JS@._base.dnd.Manager.prototype._startDrag = function(source, nodes
 
 // This function is not public and should not appear in the jsDoc.
 /** @ignore */
-webui.@THEME_JS@._base.dnd.Manager.prototype.stopDrag = function () {
+@JS_NS@._base.dnd.Manager.prototype.stopDrag = function () {
     this.inherited("stopDrag", arguments);
     return this._stopDrag();
 }
@@ -73,10 +73,10 @@ webui.@THEME_JS@._base.dnd.Manager.prototype.stopDrag = function () {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@._base.dnd.Manager.prototype._stopDrag = function() {
-    webui.@THEME_JS@._dojo.forEach(this.nodes,
+@JS_NS@._base.dnd.Manager.prototype._stopDrag = function() {
+    @JS_NS@._dojo.forEach(this.nodes,
         function(node) {
-            webui.@THEME_JS@._dojo.removeClass(node, "dojoDndWebuiItemDragged");
+            @JS_NS@._dojo.removeClass(node, "dojoDndWebuiItemDragged");
         }
     );
     return true;
@@ -85,9 +85,9 @@ webui.@THEME_JS@._base.dnd.Manager.prototype._stopDrag = function() {
 /**
  * This function is used to construct a dnd source.
  *
- * @name webui.@THEME_JS@._base.dnd.Source
- * @extends webui.@THEME_JS@._dojo.dnd.Source
- * @class This class extends webui.@THEME_JS@._dojo.dnd.Source to support additional features of
+ * @name @JS_NS@._base.dnd.Source
+ * @extends @JS_NS@._dojo.dnd.Source
+ * @class This class extends @JS_NS@._dojo.dnd.Source to support additional features of
  * Woodstock drag and drop.
  * @constructor
  * @param {Node} node DOM node
@@ -112,19 +112,19 @@ webui.@THEME_JS@._base.dnd.Manager.prototype._stopDrag = function() {
  * signature function(source, nodes, copy){..}.
  * @private
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@._base.dnd.Source",
-        webui.@THEME_JS@._dojo.dnd.Source, {
+@JS_NS@._dojo.declare("@JS_NS@._base.dnd.Source",
+        @JS_NS@._dojo.dnd.Source, {
     constructor: function(node, props) {
         // Replace the drag manager
-        if (webui.@THEME_JS@._dojo.dnd._manager == null) {
-            webui.@THEME_JS@._dojo.dnd._manager = 
-                new webui.@THEME_JS@._base.dnd.Manager();
+        if (@JS_NS@._dojo.dnd._manager == null) {
+            @JS_NS@._dojo.dnd._manager = 
+                new @JS_NS@._base.dnd.Manager();
         }
 
         // Disable source functionality
         if (props.isSource && props.isSource == false) {
             this.isSource = false;
-            webui.@THEME_JS@._dojo.removeClass(node, "dojoDndSource");
+            @JS_NS@._dojo.removeClass(node, "dojoDndSource");
         }
 
         // Set user's onDrop function
@@ -137,7 +137,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@._base.dnd.Source",
 
 // This function is not public and should not appear in the jsDoc.
 /** @ignore */
-webui.@THEME_JS@._base.dnd.Manager.prototype.addItem = function () {
+@JS_NS@._base.dnd.Manager.prototype.addItem = function () {
     this.inherited("addItem", arguments);
     return this._addItem();
 }
@@ -160,7 +160,7 @@ webui.@THEME_JS@._base.dnd.Manager.prototype.addItem = function () {
  * @return {Node} The created node.
  * @private
  */
-webui.@THEME_JS@._base.dnd.Source.prototype._addItem = function(nodeContent,
+@JS_NS@._base.dnd.Source.prototype._addItem = function(nodeContent,
         dragType, dragData) {
     var t = this._normalizedCreator([nodeContent]);        
     this.setItem(t.node.id, {
@@ -184,9 +184,9 @@ webui.@THEME_JS@._base.dnd.Source.prototype._addItem = function(nodeContent,
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@._base.dnd.Source.prototype._makeNodeDraggable = function(node, dragType, dragData) {
-    if (webui.@THEME_JS@._dojo.byId(node)) {
-        node = webui.@THEME_JS@._dojo.byId(node);  
+@JS_NS@._base.dnd.Source.prototype._makeNodeDraggable = function(node, dragType, dragData) {
+    if (@JS_NS@._dojo.byId(node)) {
+        node = @JS_NS@._dojo.byId(node);  
     } else { 
         if (!node.nodeType) {
             // this is not a DOM node
@@ -194,14 +194,14 @@ webui.@THEME_JS@._base.dnd.Source.prototype._makeNodeDraggable = function(node, 
         }
     }
     if (!node.id) {
-        node.id = webui.@THEME_JS@._dojo.dnd.getUniqueId();    
+        node.id = @JS_NS@._dojo.dnd.getUniqueId();    
     }
     var type = dragType ? dragType : node.getAttribute("dndType");
     if (!type) {
         type = this.DEFAULT_TYPES;
     }
     type = (type instanceof Array) ? type : type = type.split(',');
-    webui.@THEME_JS@._dojo.forEach(type, this._trim);
+    @JS_NS@._dojo.forEach(type, this._trim);
 
     var data = dragData ? dragData : node.getAttribute("dndData");
     this.setItem(node.id, {
@@ -214,26 +214,26 @@ webui.@THEME_JS@._base.dnd.Source.prototype._makeNodeDraggable = function(node, 
 
 // This function is not public and should not appear in the jsDoc.
 /** @ignore */
-webui.@THEME_JS@._base.dnd.Manager.prototype.markupFactory = function () {
+@JS_NS@._base.dnd.Manager.prototype.markupFactory = function () {
     return this._markupFactory();
 }
 
 /** 
- * Makes use of webui.@THEME.dnd.Source for markup processing.
+ * Makes use of @JS_NS@._base.dnd.Source for markup processing.
  *
  * @param {Object} props Key-Value pairs of properties.
  * @param {Node} node The DOM node.
- * @return {webui.@THEME_JS@._base.dnd.Source} The Source object.
+ * @return {@JS_NS@._base.dnd.Source} The Source object.
  * @private
  */
-webui.@THEME_JS@._base.dnd.Source.prototype._markupFactory = function(props, node) {
+@JS_NS@._base.dnd.Source.prototype._markupFactory = function(props, node) {
     props._skipStartup = true;
-    return new webui.@THEME_JS@._base.dnd.Source(node, props);
+    return new @JS_NS@._base.dnd.Source(node, props);
 };
 
 // This function is not public and should not appear in the jsDoc.
 /** @ignore */
-webui.@THEME_JS@._base.dnd.Manager.prototype.onDndDrop = function () {
+@JS_NS@._base.dnd.Manager.prototype.onDndDrop = function () {
     this.inherited("onDndDrop", arguments);
     return this._onDndDrop();
 }
@@ -248,13 +248,13 @@ webui.@THEME_JS@._base.dnd.Manager.prototype.onDndDrop = function () {
  * @return {boolean} The result of user's onDropFunction.
  * @private
  */
-webui.@THEME_JS@._base.dnd.Source.prototype._onDndDrop = function(source, nodes, copy) {   
+@JS_NS@._base.dnd.Source.prototype._onDndDrop = function(source, nodes, copy) {   
     // We have to remove class onDndDrop here as well as in mgr
     // because _onDndDrop is called before mgr.stopDrag, and transparency 
     // needs to be removed before clone is made.
-    webui.@THEME_JS@._dojo.forEach(nodes,
+    @JS_NS@._dojo.forEach(nodes,
         function(node) {
-            webui.@THEME_JS@._dojo.removeClass(node, "dojoDndWebuiItemDragged");
+            @JS_NS@._dojo.removeClass(node, "dojoDndWebuiItemDragged");
         }
     );
 
@@ -281,16 +281,16 @@ webui.@THEME_JS@._base.dnd.Source.prototype._onDndDrop = function(source, nodes,
  * @return {Node} The created node.
  * @private
  */ 
-webui.@THEME_JS@._base.dnd.Source.prototype._normalizedCreator = function(data, hint) {
+@JS_NS@._base.dnd.Source.prototype._normalizedCreator = function(data, hint) {
     // Adds all necessary data to the output of user-supplied creator function.
     var t = (this.creator ? this.creator : this.defaultCreator)(data, hint);
-    if (!webui.@THEME_JS@._dojo.isArray(t.type)) {
+    if (!@JS_NS@._dojo.isArray(t.type)) {
         t.type = this.DEFAULT_TYPES;    
     }
     if (!t.node.id) {
-        t.node.id = webui.@THEME_JS@._dojo.dnd.getUniqueId();    
+        t.node.id = @JS_NS@._dojo.dnd.getUniqueId();    
     }
-    webui.@THEME_JS@._dojo.addClass(t.node, "dojoDndItem");           
+    @JS_NS@._dojo.addClass(t.node, "dojoDndItem");           
     return t;
 };
 
@@ -301,7 +301,7 @@ webui.@THEME_JS@._base.dnd.Source.prototype._normalizedCreator = function(data, 
  * @return {String} The trimmed string.
  * @private
  */    
-webui.@THEME_JS@._base.dnd.Source.prototype._trim = function(str){ 
+@JS_NS@._base.dnd.Source.prototype._trim = function(str){ 
     // TODO make a String.prototype in common.js out of this.
     str = str.replace(/^\s\s*/, '').replace(/\s\s*$/, ''); 
     return str;

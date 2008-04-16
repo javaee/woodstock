@@ -20,17 +20,17 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.bubble");
+@JS_NS@._dojo.provide("@JS_NS@.widget.bubble");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.browser");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
+@JS_NS@._dojo.require("@JS_NS@._base.browser");
+@JS_NS@._dojo.require("@JS_NS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.widgetBase");
 
 /**
  * This function is used to construct a bubble widget.
  *
- * @name webui.@THEME_JS@.widget.bubble
- * @extends webui.@THEME_JS@.widget._base.widgetBase
+ * @name @JS_NS@.widget.bubble
+ * @extends @JS_NS@.widget._base.widgetBase
  * @class This class contains functions for the bubble widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -44,8 +44,8 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
  * @config {int} width 
  * @config {boolean} visible Hide or show element.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.bubble",
-        webui.@THEME_JS@.widget._base.widgetBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.bubble",
+        @JS_NS@.widget._base.widgetBase, {
     // Set defaults.
     constructor: function() {
         this.defaultTime = 2000;
@@ -61,7 +61,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.bubble",
  *
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.bubble.prototype.close = function() {
+@JS_NS@.widget.bubble.prototype.close = function() {
     if (this.openTimerId != null) {
         clearTimeout(this.openTimerId);
     }
@@ -73,7 +73,7 @@ webui.@THEME_JS@.widget.bubble.prototype.close = function() {
     this.timerId = setTimeout(function() {
         // New literals are created every time this function is called, and it's 
         // saved by closure magic.
-        var getWidget = webui.@THEME_JS@.widget.common.getWidget;
+        var getWidget = @JS_NS@.widget.common.getWidget;
         getWidget(_id).setProps({visible: false});
         getWidget(_id).srcElm.focus();
     }, this.defaultTime);
@@ -90,18 +90,18 @@ webui.@THEME_JS@.widget.bubble.prototype.close = function() {
  * </p>
  * @ignore
  */
-webui.@THEME_JS@.widget.bubble.event =
-        webui.@THEME_JS@.widget.bubble.prototype.event = {
+@JS_NS@.widget.bubble.event =
+        @JS_NS@.widget.bubble.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_bubble_event_refresh_begin",
+        beginTopic: "@JS_NS@_widget_bubble_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_bubble_event_refresh_end"
+        endTopic: "@JS_NS@_widget_bubble_event_refresh_end"
     },
 
     /**
@@ -110,10 +110,10 @@ webui.@THEME_JS@.widget.bubble.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_bubble_event_state_begin",
+        beginTopic: "@JS_NS@_widget_bubble_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_bubble_event_state_end"
+        endTopic: "@JS_NS@_widget_bubble_event_state_end"
     }
 };
 
@@ -123,7 +123,7 @@ webui.@THEME_JS@.widget.bubble.event =
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME_JS@.widget.bubble.prototype.getProps = function() {
+@JS_NS@.widget.bubble.prototype.getProps = function() {
     var props = this._inherited("getProps", arguments);
 
     // Set properties.
@@ -148,7 +148,7 @@ webui.@THEME_JS@.widget.bubble.prototype.getProps = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.bubble.prototype._onClickCallback = function(event) {
+@JS_NS@.widget.bubble.prototype._onClickCallback = function(event) {
     // Close the popup if close button is clicked.
     event = this._widget._getEvent(event);
 
@@ -157,7 +157,7 @@ webui.@THEME_JS@.widget.bubble.prototype._onClickCallback = function(event) {
         : ((event.srcElement) 
             ? event.srcElement : null);
 
-    if (webui.@THEME_JS@._base.browser._isIe5up()) {
+    if (@JS_NS@._base.browser._isIe5up()) {
         if (window.event != null) {
             window.event.cancelBubble = true;
         }
@@ -179,7 +179,7 @@ webui.@THEME_JS@.widget.bubble.prototype._onClickCallback = function(event) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.bubble.prototype._onCloseCallback = function(event) {
+@JS_NS@.widget.bubble.prototype._onCloseCallback = function(event) {
     if (event == null) {
         return false;
     }
@@ -205,7 +205,7 @@ webui.@THEME_JS@.widget.bubble.prototype._onCloseCallback = function(event) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.bubble.prototype._onShiftTabCallback = function(event) {
+@JS_NS@.widget.bubble.prototype._onShiftTabCallback = function(event) {
     if (event == null) {
         return false;
     }
@@ -216,7 +216,7 @@ webui.@THEME_JS@.widget.bubble.prototype._onShiftTabCallback = function(event) {
         : ((event.srcElement) 
             ? event.srcElement : null);
     if (target == this._bubbleHeader) {                    
-        if (webui.@THEME_JS@._base.browser._isFirefox() && (event.shiftKey && (event.keyCode == 9))) {
+        if (@JS_NS@._base.browser._isFirefox() && (event.shiftKey && (event.keyCode == 9))) {
             if (this.focusId != null) {
                 document.getElementById(this.focusId).focus();        
             } else {                
@@ -236,7 +236,7 @@ webui.@THEME_JS@.widget.bubble.prototype._onShiftTabCallback = function(event) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.bubble.prototype._onTabCallback = function(event) {
+@JS_NS@.widget.bubble.prototype._onTabCallback = function(event) {
     if (event == null) {
         return false;
     }
@@ -246,7 +246,7 @@ webui.@THEME_JS@.widget.bubble.prototype._onTabCallback = function(event) {
         ? event.target 
         : ((event.srcElement) 
             ? event.srcElement : null);
-    if (webui.@THEME_JS@._base.browser._isFirefox()) {        
+    if (@JS_NS@._base.browser._isFirefox()) {        
         if (this._contentEnd == target) {
             this._bubbleHeader.focus();
         } else if (this._bubbleHeader == target && this.focusId != null && (event.keyCode == 9)) {
@@ -265,7 +265,7 @@ webui.@THEME_JS@.widget.bubble.prototype._onTabCallback = function(event) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.bubble.prototype._onMouseOverCallback = function(event) {
+@JS_NS@.widget.bubble.prototype._onMouseOverCallback = function(event) {
     clearTimeout(this.timerId);
     return true;
 };
@@ -277,7 +277,7 @@ webui.@THEME_JS@.widget.bubble.prototype._onMouseOverCallback = function(event) 
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.bubble.prototype._onMouseOutCallback = function(event) {
+@JS_NS@.widget.bubble.prototype._onMouseOutCallback = function(event) {
     if (this.autoClose == true) {
         clearTimeout(this.timerId);            
         this.close();            
@@ -291,7 +291,7 @@ webui.@THEME_JS@.widget.bubble.prototype._onMouseOutCallback = function(event) {
  * @param {Event} event The JavaScript event.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.bubble.prototype.open = function(event) {
+@JS_NS@.widget.bubble.prototype.open = function(event) {
     // Get the absolute position of the target.
     var evt = this._widget._getEvent(event);
     // A11Y - open the bubble if its Ctrl key + F1
@@ -324,16 +324,16 @@ webui.@THEME_JS@.widget.bubble.prototype.open = function(event) {
     
     var id = this.id; // Closure magic.
     this.openTimerId = setTimeout(function() {
-        var getWidget = webui.@THEME_JS@.widget.common.getWidget;
+        var getWidget = @JS_NS@.widget.common.getWidget;
 
         // Store the active bubble id to form element.
         // Check for the id if its available then close the pending bubble.
-        if (webui.@THEME_JS@.widget.bubble.activeBubbleId && webui.@THEME_JS@.widget.bubble.activeBubbleId != id) {                
-            clearTimeout(getWidget(webui.@THEME_JS@.widget.bubble.activeBubbleId).timerId);
-            getWidget(webui.@THEME_JS@.widget.bubble.activeBubbleId).setProps({visible: false});
-            webui.@THEME_JS@.widget.bubble.activeBubbleId = null;                
+        if (@JS_NS@.widget.bubble.activeBubbleId && @JS_NS@.widget.bubble.activeBubbleId != id) {                
+            clearTimeout(getWidget(@JS_NS@.widget.bubble.activeBubbleId).timerId);
+            getWidget(@JS_NS@.widget.bubble.activeBubbleId).setProps({visible: false});
+            @JS_NS@.widget.bubble.activeBubbleId = null;                
         }     
-        webui.@THEME_JS@.widget.bubble.activeBubbleId = id;            
+        @JS_NS@.widget.bubble.activeBubbleId = id;            
         getWidget(id).setProps({visible: true});
         getWidget(id)._setPosition();
     }, this.openDelayTime);           
@@ -353,7 +353,7 @@ webui.@THEME_JS@.widget.bubble.prototype.open = function(event) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.bubble.prototype._postCreate = function () {
+@JS_NS@.widget.bubble.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
         this._bottomLeftArrow.id = this.id + "_bottomLeftArrow";
@@ -365,9 +365,9 @@ webui.@THEME_JS@.widget.bubble.prototype._postCreate = function () {
     // Set public functions.
 
     /** @ignore */
-    this._domNode.close = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).close(); };
+    this._domNode.close = function() { return @JS_NS@.widget.common.getWidget(this.id).close(); };
     /** @ignore */
-    this._domNode.open = function(event) { return webui.@THEME_JS@.widget.common.getWidget(this.id).open(event); };
+    this._domNode.open = function(event) { return @JS_NS@.widget.common.getWidget(this.id).open(event); };
 
     // Set events.
 
@@ -412,7 +412,7 @@ webui.@THEME_JS@.widget.bubble.prototype._postCreate = function () {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.bubble.prototype._setPosition = function() {
+@JS_NS@.widget.bubble.prototype._setPosition = function() {
     // THIS CODE BLOCK IS NECESSARY WHEN THE PAGE FONT IS VERY SMALL,
     // AND WHICH OTHERWISE CAUSES THE PERCENTAGE OF THE HEADER WIDTH
     // ALLOCATED TO THE BUBBLE TITLE TO BE TOO LARGE SUCH THAT IT
@@ -557,7 +557,7 @@ webui.@THEME_JS@.widget.bubble.prototype._setPosition = function() {
     if (this.focusId != null) {
         document.getElementById(this.focusId).focus();        
     } else {
-        if (webui.@THEME_JS@._base.browser._isFirefox()) {
+        if (@JS_NS@._base.browser._isFirefox()) {
             this._bubbleHeader.focus();
         }
     }
@@ -579,7 +579,7 @@ webui.@THEME_JS@.widget.bubble.prototype._setPosition = function() {
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.bubble.prototype.setProps = function(props, notify) {
+@JS_NS@.widget.bubble.prototype.setProps = function(props, notify) {
     if (props == null) {
         return false;
     }
@@ -603,14 +603,14 @@ webui.@THEME_JS@.widget.bubble.prototype.setProps = function(props, notify) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.bubble.prototype._setProps = function(props) {
+@JS_NS@.widget.bubble.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
     //Cyclic focus behavior is supported for firefox browser only.
     //If tabIndex values are provided for elements inside bubble then developer needs to set a valid tabIndex 
     //value for bubble component to achieve cyclic focus behavior. 
-    if (webui.@THEME_JS@._base.browser._isFirefox()) {
+    if (@JS_NS@._base.browser._isFirefox()) {
         if (this.getProps().tabIndex >= 0) {
             this._contentEnd.tabIndex = this.getProps().tabIndex;
         } else {

@@ -20,15 +20,15 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.dropDown");
+@JS_NS@._dojo.provide("@JS_NS@.widget.dropDown");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.selectBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.selectBase");
 
 /**
  * This function is used to construct a dropDown widget.
  *
- * @name webui.@THEME_JS@.widget.dropDown
- * @extends webui.@THEME_JS@.widget._base.selectBase
+ * @name @JS_NS@.widget.dropDown
+ * @extends @JS_NS@.widget._base.selectBase
  * @class This class contains functions for the dropDown widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -64,8 +64,8 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.selectBase");
  * @config {String} title The a HTML title attribue for the <code>select</code> element.
  * @config {boolean} visible Hide or show element.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.dropDown",
-        webui.@THEME_JS@.widget._base.selectBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.dropDown",
+        @JS_NS@.widget._base.selectBase, {
     // Set defaults.
     //
     constructor : function() {
@@ -93,7 +93,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.dropDown",
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.dropDown.prototype._changed = function() {
+@JS_NS@.widget.dropDown.prototype._changed = function() {
 
     // A null submitForm is the same as a standard menu.
     //
@@ -132,18 +132,18 @@ webui.@THEME_JS@.widget.dropDown.prototype._changed = function() {
  * </p>
  * @ignore
  */
-webui.@THEME_JS@.widget.dropDown.event =
-        webui.@THEME_JS@.widget.dropDown.prototype.event = {
+@JS_NS@.widget.dropDown.event =
+        @JS_NS@.widget.dropDown.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for.*/
-        beginTopic: "webui_@THEME_JS@_widget_dropDown_event_refresh_begin",
+        beginTopic: "@JS_NS@_widget_dropDown_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for.*/
-        endTopic: "webui_@THEME_JS@_widget_dropDown_event_refresh_end"
+        endTopic: "@JS_NS@_widget_dropDown_event_refresh_end"
     },
 
     /**
@@ -152,10 +152,10 @@ webui.@THEME_JS@.widget.dropDown.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_dropDown_event_state_begin",
+        beginTopic: "@JS_NS@_widget_dropDown_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_dropDown_event_state_end"
+        endTopic: "@JS_NS@_widget_dropDown_event_state_end"
     },
 
     /**
@@ -167,13 +167,13 @@ webui.@THEME_JS@.widget.dropDown.event =
 	 * This topic is only valid if the <code>submitForm</code>
 	 * property is <code>true</code>
 	 */
-        beginTopic: "webui_@THEME_JS@_widget_dropDown_event_submit_begin",
+        beginTopic: "@JS_NS@_widget_dropDown_event_submit_begin",
 
         /** Submit event topic for custom AJAX implementations to listen for.
 	 * This topic is only valid if the <code>submitForm</code>
 	 * property is <code>true</code>
 	 */
-        endTopic: "webui_@THEME_JS@_widget_dropDown_event_submit_end"
+        endTopic: "@JS_NS@_widget_dropDown_event_submit_end"
     }
 };
 
@@ -186,7 +186,7 @@ webui.@THEME_JS@.widget.dropDown.event =
  * @return {String} The outermost HTML element class name.
  * @private
  */
-webui.@THEME_JS@.widget.dropDown.prototype._getClassName = function() {
+@JS_NS@.widget.dropDown.prototype._getClassName = function() {
     var cn = this._theme.getClassName("DROPDOWN", "");
     return (this.className) ? cn + " " + this.className : cn;
 };
@@ -209,7 +209,7 @@ webui.@THEME_JS@.widget.dropDown.prototype._getClassName = function() {
  * @return {Object} Key-Value pairs of properties.
  * @private
  */
-webui.@THEME_JS@.widget.dropDown.prototype._getLabelProps = function() {
+@JS_NS@.widget.dropDown.prototype._getLabelProps = function() {
 
     var props = this._inherited("_getLabelProps", arguments);
     props.level = this._theme.getMessage("dropDown.labelLevel", null, 2);
@@ -233,7 +233,7 @@ webui.@THEME_JS@.widget.dropDown.prototype._getLabelProps = function() {
  * @return {String} A CSS selector for the dropDown label.
  * @private
  */
-webui.@THEME_JS@.widget.dropDown.prototype._getLabelOnTopClassName = function(ontop) {
+@JS_NS@.widget.dropDown.prototype._getLabelOnTopClassName = function(ontop) {
     if (ontop != null && ontop == true) {
 	return null;
     }
@@ -277,7 +277,7 @@ webui.@THEME_JS@.widget.dropDown.prototype._getLabelOnTopClassName = function(on
  * @return {String} A CSS selector for the _listContainer HTML element.
  * @private
  */
-webui.@THEME_JS@.widget.dropDown.prototype._getListContainerClassName =
+@JS_NS@.widget.dropDown.prototype._getListContainerClassName =
         function(disabled, jumpmenu) {
     var key = "MENU_STANDARD";
     if (disabled == true) {
@@ -298,7 +298,7 @@ webui.@THEME_JS@.widget.dropDown.prototype._getListContainerClassName =
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME_JS@.widget.dropDown.prototype.getProps = function() {
+@JS_NS@.widget.dropDown.prototype.getProps = function() {
     var props = this._inherited("getProps", arguments);
 
     // Get properties.
@@ -347,7 +347,7 @@ webui.@THEME_JS@.widget.dropDown.prototype.getProps = function() {
  * @return {String} The HTML option element CSS class name.
  * @private
  */
-webui.@THEME_JS@.widget.dropDown.prototype._getOptionClassName = function(element) {
+@JS_NS@.widget.dropDown.prototype._getOptionClassName = function(element) {
 
     var jumpmenu = this.submitForm != null && this.submitForm == true;
 
@@ -403,7 +403,7 @@ webui.@THEME_JS@.widget.dropDown.prototype._getOptionClassName = function(elemen
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.dropDown.prototype._postCreate = function () {
+@JS_NS@.widget.dropDown.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
         this._submitterHiddenNode.id = this.id + "_submitter";
@@ -435,7 +435,7 @@ webui.@THEME_JS@.widget.dropDown.prototype._postCreate = function () {
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.dropDown.prototype.setProps = function(props, notify) {
+@JS_NS@.widget.dropDown.prototype.setProps = function(props, notify) {
     if (props == null) {
 	return this._inherited("setProps", arguments);
     }
@@ -484,7 +484,7 @@ webui.@THEME_JS@.widget.dropDown.prototype.setProps = function(props, notify) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.dropDown.prototype._setProps = function(props) {
+@JS_NS@.widget.dropDown.prototype._setProps = function(props) {
     // If props is null, create one to pass default theme values
     // to the superClass via props.
     //

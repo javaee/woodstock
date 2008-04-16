@@ -20,21 +20,19 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.common");
+@JS_NS@._dojo.provide("@JS_NS@.widget.common");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.config");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.browser");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.theme.common");
+@JS_NS@._dojo.require("@JS_NS@._base.browser");
+@JS_NS@._dojo.require("@JS_NS@.theme.common");
 
 /**
  * @class This class contains functions common to all widgets.
  * @static
  */
-webui.@THEME_JS@.widget.common = {
+@JS_NS@.widget.common = {
     /**
      * Object to temporarily store widget properties.
      * @private
-     * @ignore
      */
     _props: new Object(),
 
@@ -71,7 +69,7 @@ webui.@THEME_JS@.widget.common = {
         if (domNode == null || props == null) {
             return false;
         }
-        var common = webui.@THEME_JS@.widget.common;
+        var common = @JS_NS@.widget.common;
 
         // If position is null, remove existing nodes. The contents shall be
         // replaced by the newly created widget.
@@ -128,13 +126,13 @@ webui.@THEME_JS@.widget.common = {
             if (escape != null && new Boolean(escape).valueOf() == false) {
                 // Note: IE does not insert script tags via innerHTML.
                 common._appendHTML(domNode, 
-                    webui.@THEME_JS@._base.proto._stripScripts(props));
+                    @JS_NS@._base.proto._stripScripts(props));
 
                 // Evaluate JavaScript.
                 setTimeout(function() {
                     // Eval not required for Mozilla/Firefox, but consistent.
-                    webui.@THEME_JS@._base.proto._evalScripts(props);
-                    if (new Boolean(webui.@THEME_JS@._base.config.parseOnLoad).valueOf() == true) {
+                    @JS_NS@._base.proto._evalScripts(props);
+                    if (new Boolean(@JS_NS@._base.config.parseOnLoad).valueOf() == true) {
                         common._parseMarkup(domNode);
                     }
                     delete(common._props[domNode.id]); // Clean up.
@@ -144,7 +142,7 @@ webui.@THEME_JS@.widget.common = {
             } else {
                 // Static strings must be HTML escaped by default.
                 common._appendHTML(domNode,
-                    webui.@THEME_JS@._base.proto._escapeHTML(props));
+                    @JS_NS@._base.proto._escapeHTML(props));
             }
         } else if (props.fragment) {
             // Add fragment -- do not HTML escape.
@@ -229,7 +227,7 @@ webui.@THEME_JS@.widget.common = {
     _appendWidget: function(domNode, props) {
         // Set timeout to allow for progressive rendering.
         setTimeout(function() {
-            var common = webui.@THEME_JS@.widget.common;
+            var common = @JS_NS@.widget.common;
             common._createWidget(domNode, props, "last");
             delete(common._props[domNode.id]); // Clean up.
         }, 0);
@@ -247,7 +245,7 @@ webui.@THEME_JS@.widget.common = {
      * </p><p><pre>
      * &lt;span id="j_id1"&gt;&lt;/span&gt;
      * &lt;script type="text/javascript"&gt;
-     *   webui.@THEME_JS@.widget.common.createWidget('j_id1',{
+     *   @JS_NS@.widget.common.createWidget('j_id1',{
      *     "id": "form:image1",
      *     "height": "32px",
      *     "width": "32px",
@@ -276,13 +274,13 @@ webui.@THEME_JS@.widget.common = {
         if (elementId == null || props == null) {
             return false;
         }
-        var common = webui.@THEME_JS@.widget.common;
+        var common = @JS_NS@.widget.common;
 
         // Since there is only one window.onLoad event, the ajaxZone tag of JSF
         // Extensions cannot make use of the parseOnLoad feature while 
         // re-rendering widgets. In this case, we shall call 
         // document.getElementById() even though it is not as efficient.
-        if (new Boolean(webui.@THEME_JS@._base.config.parseOnLoad).valueOf() == false) {
+        if (new Boolean(@JS_NS@._base.config.parseOnLoad).valueOf() == false) {
             var domNode = document.getElementById(elementId);
             var widget = common._createWidget(domNode, props, "last");
             return (widget != null);
@@ -318,16 +316,16 @@ webui.@THEME_JS@.widget.common = {
         }
 
         // Destroy previously created widgets, events, etc.
-        var common = webui.@THEME_JS@.widget.common;
+        var common = @JS_NS@.widget.common;
         common.destroyWidget(props.id);
 
         // Retrieve required module.
-        var _widgetType = "webui.@THEME_JS@.widget."  + props.widgetType;
-        webui.@THEME_JS@._dojo.require(_widgetType);
+        var _widgetType = "@JS_NS@.widget."  + props.widgetType;
+        @JS_NS@._dojo.require(_widgetType);
         
         try {
             // Get widget object.
-            var obj = webui.@THEME_JS@._dojo.getObject(_widgetType);
+            var obj = @JS_NS@._dojo.getObject(_widgetType);
 
             // Instantiate widget. 
             // Note: Dojo mixes attributes, if domNode is provided.
@@ -369,7 +367,7 @@ webui.@THEME_JS@.widget.common = {
             return false;
         }
         // Destroy previously created widgets, events, etc.
-        var widget = webui.@THEME_JS@.widget.common.getWidget(id);
+        var widget = @JS_NS@.widget.common.getWidget(id);
         if (widget) {
             return widget.destroyRecursive();
         }
@@ -528,7 +526,7 @@ webui.@THEME_JS@.widget.common = {
         if (id == null) {
             return null;
         }
-        return webui.@THEME_JS@._dijit.byId(id);
+        return @JS_NS@._dijit.byId(id);
     },
 
     /**
@@ -555,7 +553,7 @@ webui.@THEME_JS@.widget.common = {
      * @private
      */
     _isHighContrastMode:  function() {
-        var config = webui.@THEME_JS@._base.config;
+        var config = @JS_NS@._base.config;
         if (config._isHighContrastMode != undefined) {
             return config._isHighContrastMode;
         }
@@ -569,11 +567,11 @@ webui.@THEME_JS@.widget.common = {
 
         // Currently high contrast mode check is supported for firefox and ie on
         // windows. High contrast mode is not supported for Safari.
-        if (webui.@THEME_JS@._base.browser._isSafari()) {
+        if (@JS_NS@._base.browser._isSafari()) {
             return false;            
         }
         // Get icon properties.
-        var props = webui.@THEME_JS@.theme.common.getImage("DOT");
+        var props = @JS_NS@.theme.common.getImage("DOT");
         if (props == null) {
             return false;
         }
@@ -588,7 +586,7 @@ webui.@THEME_JS@.widget.common = {
             'top: -999px;' +
             'background-image: url("' + props.src + '");';
 
-        var body = webui.@THEME_JS@._dojo.body();
+        var body = @JS_NS@._dojo.body();
         body.appendChild(domNode);
 
         // Detect the high contrast mode.
@@ -616,7 +614,7 @@ webui.@THEME_JS@.widget.common = {
      *
      * @private
      */
-    _keyCodes: webui.@THEME_JS@._dojo.keys,
+    _keyCodes: @JS_NS@._dojo.keys,
  
     /**
      * This function is used to parse HTML markup in order to create widgets
@@ -632,8 +630,8 @@ webui.@THEME_JS@.widget.common = {
         }
         // Note: Using document.getElementById() results in poor perfromance. 
         var nodes = domNode.getElementsByTagName("script");
-        var props = webui.@THEME_JS@.widget.common._props;
-        var appendWidget = webui.@THEME_JS@.widget.common._appendWidget;
+        var props = @JS_NS@.widget.common._props;
+        var appendWidget = @JS_NS@.widget.common._appendWidget;
         if (props == null) {
             return false;
         }
@@ -670,7 +668,7 @@ webui.@THEME_JS@.widget.common = {
      */
     publish: function(topic, props) {
         // Publish an event for custom AJAX implementations to listen for.
-        webui.@THEME_JS@._dojo.publish(topic, props);
+        @JS_NS@._dojo.publish(topic, props);
         return true;
     },
 
@@ -733,7 +731,7 @@ webui.@THEME_JS@.widget.common = {
      * @return {boolean} true if successful; otherwise, false.
      */
     subscribe: function(topic, obj, func) {
-        webui.@THEME_JS@._dojo.subscribe(topic, obj, func);
+        @JS_NS@._dojo.subscribe(topic, obj, func);
         return true;
     },
 
@@ -746,7 +744,7 @@ webui.@THEME_JS@.widget.common = {
      * does not exist, the widget object is instantiated via the _addFragment()
      * function -- all params are passed through.
      * </p><p>
-     * See webui.@THEME_JS@.widget.label._setProps for example.
+     * See @JS_NS@.widget.label._setProps for example.
      * </p>
      * @param {Node} domNode The DOM node used to add widget (default).
      * @param {String} id The id of the widget to update, if available.
@@ -761,7 +759,7 @@ webui.@THEME_JS@.widget.common = {
             return false;
         }
         // Ensure props is not a string.
-        var common = webui.@THEME_JS@.widget.common;
+        var common = @JS_NS@.widget.common;
         var widget = (typeof props != 'string') 
             ? common.getWidget(id) : null;
 

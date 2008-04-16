@@ -20,38 +20,64 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-// Initialize the webui name space.
-if (typeof webui == "undefined") {
-    this.webui = {};
-}
-
-// Initialize the webui.@THEME_JS@ name space.
-if (typeof webui.@THEME_JS@ == "undefined") {
-    this.webui.@THEME_JS@ = {};
-    this.webui.@THEME_JS@._base = {};
-
-    // Initialize the webui.@THEME_JS@ config variable. If this is not defined, 
-    // webui_@THEME@ will be used for backward compatibility without the 
-    // version number.
-    if (typeof webui_@THEME_JS@ == "undefined") {
-        this.webui_@THEME_JS@ = (typeof webui_@THEME@ != "undefined")
-          ? webui_@THEME@ : {};
-    }
+// Initialize the @JS_NS@ name space.
+if (typeof @JS_NS@ == "undefined") {
+    this.@JS_NS@ = {};
+    this.@JS_NS@._base = {};
 
     /**
      * @class This class contains functions to initialize the environment.
      * @static
      * @private
      */
-    webui.@THEME_JS@._base.bootstrap = {
+    @JS_NS@._base.bootstrap = {
         /**
          * This function is used to initialize the environment with Object
-         * literals. In particular, webui and dojo resource paths.
+         * literals. In particular, register the @JS_NS@ name space.
+         *
+         * @param {Object} props Key-Value pairs of properties.
+         * @config {String} modulePath The @JS_NS@ module path.
+         * @return {boolean} true if successful; otherwise, false.
+         * @private
+         */
+        _initModules: function(props) {
+            if (props == null || props.modulePath == null) {
+                console.debug("Cannot initialize @JS_NS@ module."); // See Firebug console.
+                return false;
+            }
+
+            // Register module path.
+            @JS_NS@._dojo.registerModulePath("@JS_NS@", props.modulePath);
+
+            // Map custom name space to @JS_NS@.
+            var config = @JS_NS@._base.config;
+            if (config.namespace && config.namespace != "") {
+                var ns = config.namespace.split(".");
+                var module;
+
+                // Ensure modules exist.
+                for (var i = 0; i < ns.length - 1; i++) {
+                    if (i == 0) {
+                        module = ns[i];
+                    } else {
+                        module += "." + ns[i];
+                    }
+                    eval("if (typeof " + module + " == 'undefined') {" + 
+                        module + "={};}");
+                }
+                eval(config.namespace + "=@JS_NS@");
+            }
+            return true;
+        },
+
+        /**
+         * This function is used to initialize the environment with Object
+         * literals. In particular, @JS_NS@ and dojo resource paths.
          *
          * @param {Object} props Key-Value pairs of properties.
          * @config {Object} _djConfig Dojo config properties.
          * @config {boolean} isDebug Flag indicating debug mode is enabled.
-         * @config {String} modulePath The webui module path.
+         * @config {String} modulePath The @JS_NS@ module path.
          * @config {Object} theme Key-Value pairs of theme properties.
          * @return {boolean} true if successful; otherwise, false.
          * @private
@@ -61,8 +87,9 @@ if (typeof webui.@THEME_JS@ == "undefined") {
                 // Cannot call console.debug before dojo has been loaded.
                 return false;
             }
+            var config = @JS_NS@._base.config;
 
-            // Find script tag and set default module path.
+            // Find script tag and set default module path.            
             if (props.modulePath == null) {
                 var scripts = document.getElementsByTagName("script");
                 for (var i = 0; i < scripts.length; i++) {
@@ -73,12 +100,12 @@ if (typeof webui.@THEME_JS@ == "undefined") {
                     var path = "@THEME_PATH@/javascript";
                     var index = src.indexOf(path);
                     if (index != -1) {
-                        // Set webui module path.
-                        props.modulePath = src.substring(0, index + path.length);
+                        // Set @JS_NS@ module path.
+                        config.modulePath = src.substring(0, index + path.length);
 
                         // Set debug path.
                         if (new Boolean(props.isDebug).valueOf() == true) {
-                            props.modulePath += "_uncompressed";
+                            config.modulePath += "_uncompressed";
                         }
                         break;
                     }
@@ -86,27 +113,25 @@ if (typeof webui.@THEME_JS@ == "undefined") {
             }
 
             // Set Dojo base URL.
-            if (props._djConfig == null) { props._djConfig = {}; }
             if (props._djConfig.baseUrl == null) {
-                props._djConfig.baseUrl = props.modulePath + "/_dojo";
+                config._djConfig.baseUrl = config.modulePath + "/_dojo";
             }
 
             // Set Dojo debug mode.
             if (props._djConfig.isDebug == null) {
-                props._djConfig.isDebug = new Boolean(props.isDebug).valueOf();
+                config._djConfig.isDebug = new Boolean(config.isDebug).valueOf();
             }
 
             // Set theme module path.
-            if (props.theme == null) { props.theme = {}; }
             if (props.theme.modulePath == null) {
-                props.theme.modulePath = props.modulePath + "/_theme";
+                config.theme.modulePath = config.modulePath + "/theme";
             }
 
             // Set application context.
             if (props.theme.prefix == null) {
                 index = props.modulePath.indexOf("@THEME_PATH@");
                 if (index != -1) {
-                    props.theme.prefix = props.modulePath.substring(0, index);
+                    config.theme.prefix = config.modulePath.substring(0, index);
                 }
             }
             return true;
@@ -119,8 +144,8 @@ if (typeof webui.@THEME_JS@ == "undefined") {
          * @param {Object} props Key-Value pairs of properties.
          * @config {boolean} isDebug Flag indicating debug mode is enabled.
          * @config {boolean} isStyleSheets Include style sheets.
-         * @config {boolean} webuiAll Include all webui functionality.
-         * @config {boolean} webuiJsfx Include all Ajax functionality based on JSF Extensions.
+         * @config {boolean} webuiAll Include all widgets.
+         * @config {boolean} webuiJsfx Include Ajax functionality based on JSF Extensions.
          * @return {boolean} true if successful; otherwise, false.
          * @private
          */
@@ -129,8 +154,8 @@ if (typeof webui.@THEME_JS@ == "undefined") {
                 console.debug("Cannot initialize resources."); // See Firebug console.
                 return false;
             }
-            var bootstrap = webui.@THEME_JS@._base.bootstrap;
-            var theme = webui.@THEME_JS@.theme.common;
+            var bootstrap = @JS_NS@._base.bootstrap;
+            var theme = @JS_NS@.theme.common;
             var isDebug = new Boolean(props.isDebug).valueOf();
             var webuiAll = new Boolean(props.webuiAll).valueOf();
             var webuiJsfx = new Boolean(props.webuiJsfx).valueOf();
@@ -167,30 +192,10 @@ if (typeof webui.@THEME_JS@ == "undefined") {
 
         /**
          * This function is used to initialize the environment with Object
-         * literals. In particular, register the webui name space.
-         *
-         * @param {Object} props Key-Value pairs of properties.
-         * @config {String} modulePath The webui module path.
-         * @return {boolean} true if successful; otherwise, false.
-         * @private
-         */
-        _initWebui: function(props) {
-            if (props == null || props.modulePath == null) {
-                console.debug("Cannot initialize webui module."); // See Firebug console.
-                return false;
-            }
-
-            // Register module path.
-            webui.@THEME_JS@._dojo.registerModulePath("webui.@THEME_JS@", props.modulePath);
-            return true;
-        },
-
-        /**
-         * This function is used to initialize the environment with Object
          * literals. In particular, the widget parseOnLoad functionality.
          *
          * @param {Object} props Key-Value pairs of properties.
-         * @config {boolean} parseOnLoad Initialize webui functionality on load.
+         * @config {boolean} parseOnLoad Initialize widgets on load.
          * @return {boolean} true if successful; otherwise, false.
          * @private
          */
@@ -201,18 +206,18 @@ if (typeof webui.@THEME_JS@ == "undefined") {
             }
 
             // Defer widget creation until the window.onLoad event.
-            webui.@THEME_JS@._dojo.addOnLoad(function() {
+            @JS_NS@._dojo.addOnLoad(function() {
                 if (new Boolean(props.parseOnLoad).valueOf() == true) {
-                    webui.@THEME_JS@.widget.common._parseMarkup(
-                        webui.@THEME_JS@._dojo.body());
+                    @JS_NS@.widget.common._parseMarkup(
+                        @JS_NS@._dojo.body());
                 }
                 // After the page has been parsed, there is no need to 
                 // perform this task again. Setting the parseOnLoad flag
                 // to false will allow the ajaxZone tag of JSF Extensions 
                 // to re-render widgets properly. That is, considering 
                 // there will only ever be one window.onLoad event.
-                webui.@THEME_JS@._base.bootstrap._onWidgetReady(function() {
-                    webui.@THEME_JS@._base.config.parseOnLoad = false;
+                @JS_NS@._base.bootstrap._onWidgetReady(function() {
+                    @JS_NS@._base.config.parseOnLoad = false;
                 });
             });
             return true;
@@ -276,7 +281,7 @@ if (typeof webui.@THEME_JS@ == "undefined") {
 
             // Set callback.
             if (callback) {
-                if (webui.@THEME_JS@._base.browser._isIe()) {
+                if (@JS_NS@._base.browser._isIe()) {
                     script.onreadystatechange = function () {
                         // IE 7 won't return 'complete', but 'loaded' works.
                         if (script.readyState == "loaded"
@@ -305,10 +310,10 @@ if (typeof webui.@THEME_JS@ == "undefined") {
                 console.debug("Cannot initialize stylesheets."); // See Firebug console.
                 return false;
             }
-            var bootstrap = webui.@THEME_JS@._base.bootstrap;
-            var browser = webui.@THEME_JS@._base.browser;
+            var bootstrap = @JS_NS@._base.bootstrap;
+            var browser = @JS_NS@._base.browser;
             var isDebug = new Boolean(props.isDebug).valueOf();
-            var theme = webui.@THEME_JS@.theme.common;
+            var theme = @JS_NS@.theme.common;
 
             // Load master style sheet(s).
             var files = theme._getStyleSheets((isDebug) ? "masterUncompressed" : "master");
@@ -355,7 +360,7 @@ if (typeof webui.@THEME_JS@ == "undefined") {
          * @private
          */
         _onWidgetReady: function(func) {        
-            var props = webui.@THEME_JS@.widget.common._props;
+            var props = @JS_NS@.widget.common._props;
             var count = 0;
 
             // Count stored widget properties. Object literals are deleted as 
@@ -367,7 +372,7 @@ if (typeof webui.@THEME_JS@ == "undefined") {
             if (count > 0) {
                 // Wait for widgets to complete.
                 setTimeout(function() {
-                    webui.@THEME_JS@._base.bootstrap._onWidgetReady(func);
+                    @JS_NS@._base.bootstrap._onWidgetReady(func);
                 }, 100);
                 return false;
             } else {
@@ -378,29 +383,23 @@ if (typeof webui.@THEME_JS@ == "undefined") {
         }
     };
 
-    // Initialize webui and dojo paths.
-    webui.@THEME_JS@._base.bootstrap._initPaths(webui_@THEME_JS@);
+@JS_NS@._dojo.require("@JS_NS@._base._config_"); // Replaced by build.
 
-// Note: The following require statements must be located at the beginning of 
-// each line in order to be replaced by the build.
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._dojo.dojo"); // Replaced by build.
+    // Initialize paths.
+    @JS_NS@._base.bootstrap._initPaths(@JS_NS@._base.config);
 
-    // Initialize webui module.
-    webui.@THEME_JS@._base.bootstrap._initWebui(webui_@THEME_JS@);
+@JS_NS@._dojo.require("@JS_NS@._dojo.dojo"); // Replaced by build.
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.browser"); // Replaced by build.
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.config"); // Replaced by build.
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.theme.common"); // Replaced by build.
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common"); // Replaced by build.
+    // Initialize modules.
+    @JS_NS@._base.bootstrap._initModules(@JS_NS@._base.config);
+
+@JS_NS@._dojo.require("@JS_NS@._base.browser"); // Replaced by build.
+@JS_NS@._dojo.require("@JS_NS@.theme.common"); // Replaced by build.
+@JS_NS@._dojo.require("@JS_NS@.widget.common"); // Replaced by build.
 
     // Initialize javascript and style sheet resources.
-    webui.@THEME_JS@._base.bootstrap._initResources(webui.@THEME_JS@._base.config);
+    @JS_NS@._base.bootstrap._initResources(@JS_NS@._base.config);
 
     // Initialize widget module.
-    webui.@THEME_JS@._base.bootstrap._initWidget(webui.@THEME_JS@._base.config);
-
-    // Map custom name space to webui.@THEME_JS@.
-    if (webui.@THEME_JS@._base.config.namespace) {
-        eval("this." + webui.@THEME_JS@._base.config.namespace + "=webui.@THEME_JS@");
-    }
+    @JS_NS@._base.bootstrap._initWidget(@JS_NS@._base.config);
 }

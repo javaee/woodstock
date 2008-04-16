@@ -20,16 +20,16 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.textField");
+@JS_NS@._dojo.provide("@JS_NS@.widget.textField");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.fieldBase");
+@JS_NS@._dojo.require("@JS_NS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.fieldBase");
 
 /**
  * This function is used to construct a textField widget.
  *
- * @name webui.@THEME_JS@.widget.textField
- * @extends webui.@THEME_JS@.widget._base.fieldBase
+ * @name @JS_NS@.widget.textField
+ * @extends @JS_NS@.widget._base.fieldBase
  * @class This class contains functions for the textField widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -66,8 +66,8 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.fieldBase");
  * @config {String} value Value of input.
  * @config {boolean} visible Hide or show element.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.textField",
-        webui.@THEME_JS@.widget._base.fieldBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.textField",
+        @JS_NS@.widget._base.fieldBase, {
     // Set defaults.
     constructor: function() {
         // Array of list values; may be empty; if null - then no autocomplete 
@@ -88,18 +88,18 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.textField",
  * </p>
  * @ignore
  */
-webui.@THEME_JS@.widget.textField.event =
-        webui.@THEME_JS@.widget.textField.prototype.event = {
+@JS_NS@.widget.textField.event =
+        @JS_NS@.widget.textField.prototype.event = {
   /**
    * This object contains filter event topics.
    * @ignore
    */
     autoComplete: {
         /** Filter event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_textField_event_autoComplete_begin",
+        beginTopic: "@JS_NS@_widget_textField_event_autoComplete_begin",
 
         /** Filter event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_textField_event_autoComplete_end"
+        endTopic: "@JS_NS@_widget_textField_event_autoComplete_end"
     },
     /**
      * This object contains refresh event topics.
@@ -107,10 +107,10 @@ webui.@THEME_JS@.widget.textField.event =
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_textField_event_refresh_begin",
+        beginTopic: "@JS_NS@_widget_textField_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_textField_event_refresh_end"
+        endTopic: "@JS_NS@_widget_textField_event_refresh_end"
     },
 
     /**
@@ -119,10 +119,10 @@ webui.@THEME_JS@.widget.textField.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_textField_event_state_begin",
+        beginTopic: "@JS_NS@_widget_textField_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_textField_event_state_end"
+        endTopic: "@JS_NS@_widget_textField_event_state_end"
     },
 
     /**
@@ -131,10 +131,10 @@ webui.@THEME_JS@.widget.textField.event =
      */
     submit: {
         /** Submit event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_textField_event_submit_begin",
+        beginTopic: "@JS_NS@_widget_textField_event_submit_begin",
 
         /** Submit event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_textField_event_submit_end"
+        endTopic: "@JS_NS@_widget_textField_event_submit_end"
     },
 
     /**
@@ -143,10 +143,10 @@ webui.@THEME_JS@.widget.textField.event =
      */
     validation: {
         /** Validation event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_textField_event_validation_begin",
+        beginTopic: "@JS_NS@_widget_textField_event_validation_begin",
 
         /** Validation event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_textField_event_validation_end"
+        endTopic: "@JS_NS@_widget_textField_event_validation_end"
     }
 };
 
@@ -157,7 +157,7 @@ webui.@THEME_JS@.widget.textField.event =
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.textField.prototype._adjustListGeometry = function () {
+@JS_NS@.widget.textField.prototype._adjustListGeometry = function () {
     this._listContainer.style.width = this._fieldNode.offsetWidth;
     this._listContainer.style.left = this._fieldNode.offsetLeft;
     this._listContainer.style.top = this._fieldNode.offsetTop + this._fieldNode.offsetHeight;
@@ -172,7 +172,7 @@ webui.@THEME_JS@.widget.textField.prototype._adjustListGeometry = function () {
  * @return {String} The HTML input element class name.
  * @private
  */
-webui.@THEME_JS@.widget.textField.prototype._getInputClassName = function() {          
+@JS_NS@.widget.textField.prototype._getInputClassName = function() {          
     // Set readOnly style.
     if (this._fieldNode.readOnly) {
         return this._theme.getClassName("TEXT_FIELD_READONLY", "");
@@ -195,7 +195,7 @@ webui.@THEME_JS@.widget.textField.prototype._getInputClassName = function() {
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME_JS@.widget.textField.prototype.getProps = function() {
+@JS_NS@.widget.textField.prototype.getProps = function() {
     var props = this._inherited("getProps", arguments);
 
     // Set properties.
@@ -215,7 +215,7 @@ webui.@THEME_JS@.widget.textField.prototype.getProps = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.textField.prototype._postCreate = function () {
+@JS_NS@.widget.textField.prototype._postCreate = function () {
     // Set events.
     if (this.autoValidate == true) {
         // Generate the following event ONLY when 'autoValidate' == true.
@@ -230,10 +230,10 @@ webui.@THEME_JS@.widget.textField.prototype._postCreate = function () {
  * @return {Function} The callback function.
  * @private
  */
-webui.@THEME_JS@.widget.textField.prototype._createCloseListCallback = function() {
+@JS_NS@.widget.textField.prototype._createCloseListCallback = function() {
     var _id = this.id;
     return function(event) { 
-        var widget = webui.@THEME_JS@.widget.common.getWidget(_id);
+        var widget = @JS_NS@.widget.common.getWidget(_id);
         if (widget == null) {
             return false;
         }
@@ -252,14 +252,14 @@ webui.@THEME_JS@.widget.textField.prototype._createCloseListCallback = function(
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.textField.prototype._filterOptions = function() {    
+@JS_NS@.widget.textField.prototype._filterOptions = function() {    
     // Publish the event for custom AJAX implementations to listen for.
     // The implementation of this Ajax call will retrieve the value of the filter
     // and will obtain an updated lookup list ( either locally, or by submit to the server)
     // Data returned from Ajax call will be pushed into this._listWidget 
     //
     // @see javascript.widget.jsfx.autoComplete for default Ajax implementation
-    this._publish(webui.@THEME_JS@.widget.textField.event.autoComplete.beginTopic, [{
+    this._publish(@JS_NS@.widget.textField.event.autoComplete.beginTopic, [{
         id: this.id
     }]);
     return true;        
@@ -275,7 +275,7 @@ webui.@THEME_JS@.widget.textField.prototype._filterOptions = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.textField.prototype._setProps = function(props) {
+@JS_NS@.widget.textField.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -290,15 +290,15 @@ webui.@THEME_JS@.widget.textField.prototype._setProps = function(props) {
         //create and populate props for listbox
         var listWidgetProps = {
            id: this.id + "_list",
-           onFocus: "webui.@THEME_JS@.widget.common.getWidget('" + this.id + 
+           onFocus: "@JS_NS@.widget.common.getWidget('" + this.id + 
                 "')._processFocusEvent(this.event);", 
-           onBlur: "webui.@THEME_JS@.widget.common.getWidget('" + this.id + 
+           onBlur: "@JS_NS@.widget.common.getWidget('" + this.id + 
                 "')._processBlurEvent(this.event);",
            widgetType: "listbox"
         };
 
         //?? use of event registration as in following disables field processing keys 
-        //onChange: "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "')._processListChange(this.event);"
+        //onChange: "@JS_NS@.widget.common.getWidget('" + this.id + "')._processListChange(this.event);"
 
         // Fix: Properties should be initialized via postCreate. Then, the list
         // can be updated here instead of recreating the widget each time.
@@ -384,7 +384,7 @@ webui.@THEME_JS@.widget.textField.prototype._setProps = function(props) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.textField.prototype._processBlurEvent = function(event) {    
+@JS_NS@.widget.textField.prototype._processBlurEvent = function(event) {    
     //clear timeout for list closing, thereby preventing list from being closed    
     if (this.closingTimerId) {
         clearTimeout(this.closingTimerId);
@@ -404,7 +404,7 @@ webui.@THEME_JS@.widget.textField.prototype._processBlurEvent = function(event) 
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.textField.prototype._processFieldKeyDownEvent = function(event) {
+@JS_NS@.widget.textField.prototype._processFieldKeyDownEvent = function(event) {
     event = this._widget._getEvent(event);
     if (event == null) {
         return false;
@@ -477,7 +477,7 @@ webui.@THEME_JS@.widget.textField.prototype._processFieldKeyDownEvent = function
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.textField.prototype._processFieldKeyUpEvent = function(event) {    
+@JS_NS@.widget.textField.prototype._processFieldKeyUpEvent = function(event) {    
     event = this._widget._getEvent(event);
 
     if (event != null &&
@@ -506,7 +506,7 @@ webui.@THEME_JS@.widget.textField.prototype._processFieldKeyUpEvent = function(e
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.textField.prototype._processFocusEvent = function(event) {
+@JS_NS@.widget.textField.prototype._processFocusEvent = function(event) {
     //clear timeout for list closing, thereby preventing list from being closed
     if (this.closingTimerId) {
         clearTimeout(this.closingTimerId);
@@ -523,7 +523,7 @@ webui.@THEME_JS@.widget.textField.prototype._processFocusEvent = function(event)
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.textField.prototype._processListChange = function(event) {    
+@JS_NS@.widget.textField.prototype._processListChange = function(event) {    
     event = this._widget._getEvent(event);
 
     if (event.type == "change") {               
@@ -554,7 +554,7 @@ webui.@THEME_JS@.widget.textField.prototype._processListChange = function(event)
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.textField.prototype._updateListView = function() {
+@JS_NS@.widget.textField.prototype._updateListView = function() {
     if ( this.showAutoComplete == true && this.autoCompleteOptions.length >= 1) {
         //TODO a place for optimization here - not to adjust geometry each time
         this._adjustListGeometry();    
@@ -588,9 +588,9 @@ webui.@THEME_JS@.widget.textField.prototype._updateListView = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.textField.prototype._validate = function(event) {
+@JS_NS@.widget.textField.prototype._validate = function(event) {
     // Publish an event for custom AJAX implementations to listen for.
-    this._publish(webui.@THEME_JS@.widget.textField.event.validation.beginTopic, [{
+    this._publish(@JS_NS@.widget.textField.event.validation.beginTopic, [{
         id: this.id
     }]);
     return true;

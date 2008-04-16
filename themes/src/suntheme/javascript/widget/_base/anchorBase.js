@@ -20,15 +20,15 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget._base.anchorBase");
+@JS_NS@._dojo.provide("@JS_NS@.widget._base.anchorBase");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.widgetBase");
 
 /**
  * This function is used to construct a base class.
  *
- * @name webui.@THEME_JS@.widget._base.anchorBase
- * @extends webui.@THEME_JS@.widget._base.widgetBase
+ * @name @JS_NS@.widget._base.anchorBase
+ * @extends @JS_NS@.widget._base.widgetBase
  * @class This class contains functions for widgets that extend anchorBase.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -64,8 +64,8 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
  * @config {String} title Provides a title for element.
  * @config {boolean} visible Hide or show element.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget._base.anchorBase",
-    webui.@THEME_JS@.widget._base.widgetBase);
+@JS_NS@._dojo.declare("@JS_NS@.widget._base.anchorBase",
+    @JS_NS@.widget._base.widgetBase);
 
 /**
  * Helper function to add children.
@@ -75,7 +75,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget._base.anchorBase",
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget._base.anchorBase.prototype._addContents = function(props) {
+@JS_NS@.widget._base.anchorBase.prototype._addContents = function(props) {
     if (props.contents == null) {
         return false;
     }
@@ -96,7 +96,7 @@ webui.@THEME_JS@.widget._base.anchorBase.prototype._addContents = function(props
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME_JS@.widget._base.anchorBase.prototype.getProps = function() {
+@JS_NS@.widget._base.anchorBase.prototype.getProps = function() {
     var props = this._inherited("getProps", arguments);
 
     // Set properties.
@@ -124,7 +124,7 @@ webui.@THEME_JS@.widget._base.anchorBase.prototype.getProps = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget._base.anchorBase.prototype._onClickCallback = function(event) {
+@JS_NS@.widget._base.anchorBase.prototype._onClickCallback = function(event) {
     if (this.disabled == true) {
         event.preventDefault();
         return false;
@@ -155,7 +155,7 @@ webui.@THEME_JS@.widget._base.anchorBase.prototype._onClickCallback = function(e
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget._base.anchorBase.prototype.setProps = function(props, notify) {
+@JS_NS@.widget._base.anchorBase.prototype.setProps = function(props, notify) {
     if (props == null) {
         return false;
     }
@@ -179,7 +179,7 @@ webui.@THEME_JS@.widget._base.anchorBase.prototype.setProps = function(props, no
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget._base.anchorBase.prototype._setProps = function(props) {
+@JS_NS@.widget._base.anchorBase.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -196,7 +196,7 @@ webui.@THEME_JS@.widget._base.anchorBase.prototype._setProps = function(props) {
             // context path already appended and if not, append it.
             if (this.prefix) {
                 props.href = 
-                    webui.@THEME_JS@.widget.common._appendPrefix(this.prefix, props.href);
+                    @JS_NS@.widget.common._appendPrefix(this.prefix, props.href);
             }
             this._domNode.href = props.href; 
         }

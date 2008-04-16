@@ -20,7 +20,7 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._base.proto");
+@JS_NS@._dojo.provide("@JS_NS@._base.proto");
 
 //
 // Prototype JavaScript framework, based on version 1.5.0_rc1 
@@ -35,7 +35,7 @@ webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._base.proto");
  * @static
  * @private
  */
-webui.@THEME_JS@._base.proto = {
+@JS_NS@._base.proto = {
     /** 
      * A RegExp pattern used to match scrip tags.
      * @private
@@ -64,7 +64,7 @@ webui.@THEME_JS@._base.proto = {
      * @private
      */
     _evalScripts: function(str) {
-        var proto = webui.@THEME_JS@._base.proto;
+        var proto = @JS_NS@._base.proto;
         return proto._map(proto._extractScripts(str), function(script) { 
             return eval(script);
         });
@@ -93,11 +93,11 @@ webui.@THEME_JS@._base.proto = {
 
         // If recursive is true and property is an non-null object, call this
         // function again.
-        var proto = webui.@THEME_JS@._base.proto;
+        var proto = @JS_NS@._base.proto;
+        var recurse = (recursive && new Boolean(recursive).valueOf() == true);
         for (var property in props) {
-            if (obj[property] && typeof obj[property] == "object" 
-                    && recursive != false) {
-                proto._extend(obj[property], props[property], recursive);
+            if (obj[property] && typeof obj[property] == "object" && recurse) {
+                proto._extend(obj[property], props[property], recurse);
             } else {
                 obj[property] = props[property];
             }
@@ -113,7 +113,7 @@ webui.@THEME_JS@._base.proto = {
      * @private
      */
     _extractScripts: function(str) {
-        var proto = webui.@THEME_JS@._base.proto;
+        var proto = @JS_NS@._base.proto;
         var matchAll = new RegExp(proto._scriptFragment, 'img');
         var matchOne = new RegExp(proto._scriptFragment, 'im');
 
@@ -158,7 +158,7 @@ webui.@THEME_JS@._base.proto = {
      * @private
      */
     _stripScripts: function(str) {
-        return str.replace(new RegExp(webui.@THEME_JS@._base.proto._scriptFragment, 'img'), ''); 
+        return str.replace(new RegExp(@JS_NS@._base.proto._scriptFragment, 'img'), ''); 
     },
 
     /**
@@ -181,7 +181,7 @@ webui.@THEME_JS@._base.proto = {
      */
     _unescapeHTML: function(str) {
         var div = document.createElement('div');
-        div.innerHTML = webui.@THEME_JS@._base.proto._stripTags(str);
+        div.innerHTML = @JS_NS@._base.proto._stripTags(str);
         return div.childNodes[0] ? div.childNodes[0].nodeValue : '';
     }
 };

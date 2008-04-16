@@ -20,15 +20,15 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.label");
+@JS_NS@._dojo.provide("@JS_NS@.widget.label");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.widgetBase");
 
 /**
  * This function is used to construct a label widget.
  *
- * @name webui.@THEME_JS@.widget.label
- * @extends webui.@THEME_JS@.widget._base.widgetBase
+ * @name @JS_NS@.widget.label
+ * @extends @JS_NS@.widget._base.widgetBase
  * @class This class contains functions for the label widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -60,8 +60,8 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
  * @config {String} value Value of input.
  * @config {boolean} visible Hide or show element.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.label",
-        webui.@THEME_JS@.widget._base.widgetBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.label",
+        @JS_NS@.widget._base.widgetBase, {
     // Set defaults.
     constructor: function() {
         this.level = this._theme.getMessage("label.level", null, 2);
@@ -80,18 +80,18 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.label",
  * </p>
  * @ignore
  */
-webui.@THEME_JS@.widget.label.event =
-        webui.@THEME_JS@.widget.label.prototype.event = {
+@JS_NS@.widget.label.event =
+        @JS_NS@.widget.label.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_label_event_refresh_begin",
+        beginTopic: "@JS_NS@_widget_label_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_label_event_refresh_end"
+        endTopic: "@JS_NS@_widget_label_event_refresh_end"
     },
 
     /**
@@ -100,10 +100,10 @@ webui.@THEME_JS@.widget.label.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_label_event_state_begin",
+        beginTopic: "@JS_NS@_widget_label_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_label_event_state_end"
+        endTopic: "@JS_NS@_widget_label_event_state_end"
     }
 };
 
@@ -116,7 +116,7 @@ webui.@THEME_JS@.widget.label.event =
  * @return {String} The outermost HTML element class name.
  * @private
  */
-webui.@THEME_JS@.widget.label.prototype._getClassName = function() {
+@JS_NS@.widget.label.prototype._getClassName = function() {
     var key = "LABEL_LEVEL_TWO_TEXT";
 
     if (this.valid == false) {
@@ -147,7 +147,7 @@ webui.@THEME_JS@.widget.label.prototype._getClassName = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.label.prototype._notify = function(props) {
+@JS_NS@.widget.label.prototype._notify = function(props) {
     if (props == null) {
         return false;
     }
@@ -165,7 +165,7 @@ webui.@THEME_JS@.widget.label.prototype._notify = function(props) {
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME_JS@.widget.label.prototype.getProps = function() {
+@JS_NS@.widget.label.prototype.getProps = function() {
     var props = this._inherited("getProps", arguments);
 
     // Set properties.
@@ -190,7 +190,7 @@ webui.@THEME_JS@.widget.label.prototype.getProps = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.label.prototype._postCreate = function () {
+@JS_NS@.widget.label.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
         this._contentsContainer.id = this.id + "_contentsContainer";
@@ -236,7 +236,7 @@ webui.@THEME_JS@.widget.label.prototype._postCreate = function () {
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.label.prototype.setProps = function(props, notify) {
+@JS_NS@.widget.label.prototype.setProps = function(props, notify) {
     if (props == null) {
         return false;
     }
@@ -260,7 +260,7 @@ webui.@THEME_JS@.widget.label.prototype.setProps = function(props, notify) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.label.prototype._setProps = function(props) {
+@JS_NS@.widget.label.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }

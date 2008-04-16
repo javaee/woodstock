@@ -20,18 +20,18 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._html.field");
+@JS_NS@._dojo.provide("@JS_NS@._html.field");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@.widget.common");
 
 /**
  * @class This class contains functions for field components.
  * @static
  *
- * @deprecated See webui.@THEME_JS@.widget.field
+ * @deprecated See @JS_NS@.widget.field
  * @private
  */
-webui.@THEME_JS@._html.field = {
+@JS_NS@._html.field = {
     /**
      * Use this function to get the HTML input or textarea element
      * associated with a TextField, PasswordField, HiddenField or TextArea
@@ -42,7 +42,7 @@ webui.@THEME_JS@._html.field = {
      * @deprecated Use document.getElementById(elementId).getInputElement()
      */
     getInputElement: function(elementId) {
-        var widget = webui.@THEME_JS@.widget.common.getWidget(elementId);
+        var widget = @JS_NS@.widget.common.getWidget(elementId);
         if (widget) {
             return widget.getInputElement();
         }
@@ -58,7 +58,7 @@ webui.@THEME_JS@._html.field = {
      * @deprecated Use document.getElementById(id).getProps().value;
      */
     getValue: function(elementId) {
-        var widget = webui.@THEME_JS@.widget.common.getWidget(elementId);
+        var widget = @JS_NS@.widget.common.getWidget(elementId);
         if (widget) {
             return widget.getProps().value;
         }
@@ -75,7 +75,7 @@ webui.@THEME_JS@._html.field = {
      * @deprecated Use document.getElementById(id).setProps({value: "text"});
      */
     setValue: function(elementId, newValue) {
-        var widget = webui.@THEME_JS@.widget.common.getWidget(elementId);
+        var widget = @JS_NS@.widget.common.getWidget(elementId);
         if (widget) {
             return widget.setProps({value: newValue});
         }
@@ -92,7 +92,7 @@ webui.@THEME_JS@._html.field = {
      * @deprecated Use document.getElementById(id).getProps().style;
      */
     getStyle: function(elementId) {
-        var widget = webui.@THEME_JS@.widget.common.getWidget(elementId);
+        var widget = @JS_NS@.widget.common.getWidget(elementId);
         if (widget) {
             return widget.getProps().style;
         }
@@ -109,7 +109,7 @@ webui.@THEME_JS@._html.field = {
      * @deprecated Use document.getElementById(id).setProps({style: newStyle});
      */
     setStyle: function(elementId, newStyle) { 
-        var widget = webui.@THEME_JS@.widget.common.getWidget(elementId);
+        var widget = @JS_NS@.widget.common.getWidget(elementId);
         if (widget) {
             return widget.setProps({style: newStyle});
         }
@@ -129,7 +129,7 @@ webui.@THEME_JS@._html.field = {
         if (newDisabled == null) {
             return null;
         }
-        var widget = webui.@THEME_JS@.widget.common.getWidget(elementId);
+        var widget = @JS_NS@.widget.common.getWidget(elementId);
         if (widget) {
             return widget.setProps({disabled: newDisabled});
         }
@@ -138,4 +138,4 @@ webui.@THEME_JS@._html.field = {
 };
 
 // Extend for backward compatibility with JSF based components.
-webui.@THEME_JS@.field = webui.@THEME_JS@._html.field;
+@JS_NS@.field = @JS_NS@._html.field;

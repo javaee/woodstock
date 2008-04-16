@@ -20,13 +20,13 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget._jsfx.accordionTab");
+@JS_NS@._dojo.provide("@JS_NS@.widget._jsfx.accordionTab");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.json");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.accordionTab");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._jsfx.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._jsfx.dynaFaces");
+@JS_NS@._dojo.require("@JS_NS@.json");
+@JS_NS@._dojo.require("@JS_NS@.widget.accordionTab");
+@JS_NS@._dojo.require("@JS_NS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@.widget._jsfx.common");
+@JS_NS@._dojo.require("@JS_NS@.widget._jsfx.dynaFaces");
 
 /**
  * @class This class contains functions to obtain data asynchronously using JSF
@@ -34,7 +34,7 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._jsfx.dynaFaces");
  * @static
  * @private
  */
-webui.@THEME_JS@.widget._jsfx.accordionTab = {
+@JS_NS@.widget._jsfx.accordionTab = {
     /**
      * This function is used to load a tab content asynchronously.
      *
@@ -56,7 +56,7 @@ webui.@THEME_JS@.widget._jsfx.accordionTab = {
             (domNode) ? domNode : document.forms[0], {
             execute: props.id, // Need to decode hidden field.
             render: props.id,
-            replaceElement: webui.@THEME_JS@.widget._jsfx.progressBar._loadContentCallback,
+            replaceElement: @JS_NS@.widget._jsfx.progressBar._loadContentCallback,
             xjson: {
                 id: props.id,
                 event: "loadContent"
@@ -81,20 +81,20 @@ webui.@THEME_JS@.widget._jsfx.accordionTab = {
         }
 
         // Parse JSON text.
-        var json = webui.@THEME_JS@.json.parse(content);
+        var json = @JS_NS@.json.parse(content);
 
         // Set progress.
-        var widget = webui.@THEME_JS@.widget.common.getWidget(id);
+        var widget = @JS_NS@.widget.common.getWidget(id);
         widget.setProps(json);
 
         // Publish an event for custom AJAX implementations to listen for.
-        webui.@THEME_JS@._dojo.publish(webui.@THEME_JS@.widget.accordionTab.event.load.endTopic, [json]);
+        @JS_NS@._dojo.publish(@JS_NS@.widget.accordionTab.event.load.endTopic, [json]);
         return true;
     }
 };
 
 // Listen for Dojo Widget events.
-webui.@THEME_JS@._dojo.subscribe(webui.@THEME_JS@.widget.accordionTab.event.load.beginTopic,
-    webui.@THEME_JS@.widget._jsfx.accordionTab, "_processLoadContentEvent");
-webui.@THEME_JS@._dojo.subscribe(webui.@THEME_JS@.widget.accordionTab.event.refresh.beginTopic,
-    webui.@THEME_JS@.widget._jsfx.common, "_processRefreshEvent");
+@JS_NS@._dojo.subscribe(@JS_NS@.widget.accordionTab.event.load.beginTopic,
+    @JS_NS@.widget._jsfx.accordionTab, "_processLoadContentEvent");
+@JS_NS@._dojo.subscribe(@JS_NS@.widget.accordionTab.event.refresh.beginTopic,
+    @JS_NS@.widget._jsfx.common, "_processRefreshEvent");

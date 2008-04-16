@@ -20,14 +20,14 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._base.browser");
+@JS_NS@._dojo.provide("@JS_NS@._base.browser");
 
 /**
  * @class This class contains functions for testing browser properties.
  * @static
  * @private
  */
-webui.@THEME_JS@._base.browser = {
+@JS_NS@._base.browser = {
     /**
      * Get user agent. 
      * <p>
@@ -71,7 +71,7 @@ webui.@THEME_JS@._base.browser = {
      * @private
      */
     _isLinux: function() {
-        var agent = webui.@THEME_JS@._base.browser._getAgent();
+        var agent = @JS_NS@._base.browser._getAgent();
         return (agent.indexOf("inux")!= -1);
     },
 
@@ -82,7 +82,7 @@ webui.@THEME_JS@._base.browser = {
      * @private
      */
     _isMac: function() {
-        var agent = webui.@THEME_JS@._base.browser._getAgent();
+        var agent = @JS_NS@._base.browser._getAgent();
         return (agent.indexOf("macintosh")!= -1);
     },
 
@@ -93,7 +93,7 @@ webui.@THEME_JS@._base.browser = {
      * @private
      */
     _isSun: function() {
-        var agent = webui.@THEME_JS@._base.browser._getAgent();
+        var agent = @JS_NS@._base.browser._getAgent();
         return (agent.indexOf("sunos")!= -1);
     },
 
@@ -104,7 +104,7 @@ webui.@THEME_JS@._base.browser = {
      * @private
      */
     _isWin: function() {
-        var agent = webui.@THEME_JS@._base.browser._getAgent();
+        var agent = @JS_NS@._base.browser._getAgent();
         return (agent.indexOf("win")!= -1 || agent.indexOf("16bit")!= -1);
     },
 
@@ -117,7 +117,7 @@ webui.@THEME_JS@._base.browser = {
      * @private
      */
     _isFirefox: function() {
-        var agent = webui.@THEME_JS@._base.browser._getAgent();
+        var agent = @JS_NS@._base.browser._getAgent();
         return (agent.indexOf("firefox") != -1);
     },
 
@@ -128,7 +128,7 @@ webui.@THEME_JS@._base.browser = {
      * @private
      */
     _isGecko: function() {
-        var agent = webui.@THEME_JS@._base.browser._getAgent();
+        var agent = @JS_NS@._base.browser._getAgent();
         return (agent.indexOf("gecko") != -1);
     },
 
@@ -139,7 +139,7 @@ webui.@THEME_JS@._base.browser = {
      * @private
      */
     _isMozilla: function() {
-        var agent = webui.@THEME_JS@._base.browser._getAgent();
+        var agent = @JS_NS@._base.browser._getAgent();
         return (agent.indexOf("gecko") != -1 && agent.indexOf("firefox") == -1
             && agent.indexOf("safari") == -1);
     },
@@ -153,7 +153,7 @@ webui.@THEME_JS@._base.browser = {
      * @private
      */
     _isIe: function() {
-        var agent = webui.@THEME_JS@._base.browser._getAgent();
+        var agent = @JS_NS@._base.browser._getAgent();
         return (agent.indexOf("msie") != -1 && agent.indexOf("opera") == -1);
     },
 
@@ -164,8 +164,8 @@ webui.@THEME_JS@._base.browser = {
      * @private
      */
     _isIe3: function() {
-        return (webui.@THEME_JS@._base.browser._isIe()
-            && webui.@THEME_JS@._base.browser._getMajor() < 4);
+        return (@JS_NS@._base.browser._isIe()
+            && @JS_NS@._base.browser._getMajor() < 4);
     },
 
     /**
@@ -175,9 +175,9 @@ webui.@THEME_JS@._base.browser = {
      * @private
      */
     _isIe4: function() {
-        var agent = webui.@THEME_JS@._base.browser._getAgent();
-        return (webui.@THEME_JS@._base.browser._isIe()
-            && webui.@THEME_JS@._base.browser._getMajor() == 4
+        var agent = @JS_NS@._base.browser._getAgent();
+        return (@JS_NS@._base.browser._isIe()
+            && @JS_NS@._base.browser._getMajor() == 4
             && agent.indexOf("msie 4") != -1);
     },
 
@@ -188,8 +188,8 @@ webui.@THEME_JS@._base.browser = {
      * @private
      */
     _isIe4up: function() {
-        return (webui.@THEME_JS@._base.browser._isIe()
-            && webui.@THEME_JS@._base.browser._getMajor() >= 4);
+        return (@JS_NS@._base.browser._isIe()
+            && @JS_NS@._base.browser._getMajor() >= 4);
     },
  
     /**
@@ -199,9 +199,9 @@ webui.@THEME_JS@._base.browser = {
      * @private
      */
     _isIe5: function() {
-        var agent = webui.@THEME_JS@._base.browser._getAgent();
-        return (webui.@THEME_JS@._base.browser._isIe()
-            && webui.@THEME_JS@._base.browser._getMajor() == 4
+        var agent = @JS_NS@._base.browser._getAgent();
+        return (@JS_NS@._base.browser._isIe()
+            && @JS_NS@._base.browser._getMajor() == 4
             && agent.indexOf("msie 5.0") != -1);
     },
 
@@ -212,9 +212,9 @@ webui.@THEME_JS@._base.browser = {
      * @private
      */
     _isIe5_5: function() {
-        var agent = webui.@THEME_JS@._base.browser._getAgent();
-        return (webui.@THEME_JS@._base.browser._isIe()
-            && webui.@THEME_JS@._base.browser._getMajor() == 4
+        var agent = @JS_NS@._base.browser._getAgent();
+        return (@JS_NS@._base.browser._isIe()
+            && @JS_NS@._base.browser._getMajor() == 4
             && agent.indexOf("msie 5.5") != -1);
     },
 
@@ -225,9 +225,9 @@ webui.@THEME_JS@._base.browser = {
      * @private
      */
     _isIe5up: function() {
-        return (webui.@THEME_JS@._base.browser._isIe() 
-            && !webui.@THEME_JS@._base.browser._isIe3()
-            && !webui.@THEME_JS@._base.browser._isIe4());
+        return (@JS_NS@._base.browser._isIe() 
+            && !@JS_NS@._base.browser._isIe3()
+            && !@JS_NS@._base.browser._isIe4());
     },
 
     /**
@@ -237,10 +237,10 @@ webui.@THEME_JS@._base.browser = {
      * @private
      */
     _isIe5_5up: function() {
-        return (webui.@THEME_JS@._base.browser._isIe()
-            && !webui.@THEME_JS@._base.browser._isIe3()
-            && !webui.@THEME_JS@._base.browser._isIe4()
-            && !webui.@THEME_JS@._base.browser._isIe5());
+        return (@JS_NS@._base.browser._isIe()
+            && !@JS_NS@._base.browser._isIe3()
+            && !@JS_NS@._base.browser._isIe4()
+            && !@JS_NS@._base.browser._isIe5());
     },
 
     /**
@@ -250,9 +250,9 @@ webui.@THEME_JS@._base.browser = {
      * @private
      */
     _isIe6: function() {
-        var agent = webui.@THEME_JS@._base.browser._getAgent();
-        return (webui.@THEME_JS@._base.browser._isIe()
-            && webui.@THEME_JS@._base.browser._getMajor() == 4
+        var agent = @JS_NS@._base.browser._getAgent();
+        return (@JS_NS@._base.browser._isIe()
+            && @JS_NS@._base.browser._getMajor() == 4
             && agent.indexOf("msie 6.") != -1);
     },
 
@@ -263,11 +263,11 @@ webui.@THEME_JS@._base.browser = {
      * @private
      */
     _isIe6up: function() {
-        return (webui.@THEME_JS@._base.browser._isIe()
-            && !webui.@THEME_JS@._base.browser._isIe3()
-            && !webui.@THEME_JS@._base.browser._isIe4()
-            && !webui.@THEME_JS@._base.browser._isIe5()
-            && !webui.@THEME_JS@._base.browser._isIe5_5());
+        return (@JS_NS@._base.browser._isIe()
+            && !@JS_NS@._base.browser._isIe3()
+            && !@JS_NS@._base.browser._isIe4()
+            && !@JS_NS@._base.browser._isIe5()
+            && !@JS_NS@._base.browser._isIe5_5());
     },
 
     /**
@@ -277,9 +277,9 @@ webui.@THEME_JS@._base.browser = {
      * @private
      */
     _isIe7: function() {
-        var agent = webui.@THEME_JS@._base.browser._getAgent();
-        return (webui.@THEME_JS@._base.browser._isIe()
-            && webui.@THEME_JS@._base.browser._getMajor() == 4
+        var agent = @JS_NS@._base.browser._getAgent();
+        return (@JS_NS@._base.browser._isIe()
+            && @JS_NS@._base.browser._getMajor() == 4
             && agent.indexOf("msie 7.") != -1);
     },
 
@@ -290,12 +290,12 @@ webui.@THEME_JS@._base.browser = {
      * @private
      */
     _isIe7up: function() {
-        return (webui.@THEME_JS@._base.browser._isIe()
-            && !webui.@THEME_JS@._base.browser._isIe3()
-            && !webui.@THEME_JS@._base.browser._isIe4()
-            && !webui.@THEME_JS@._base.browser._isIe5()
-            && !webui.@THEME_JS@._base.browser._isIe5_5()
-            && !webui.@THEME_JS@._base.browser._isIe6());
+        return (@JS_NS@._base.browser._isIe()
+            && !@JS_NS@._base.browser._isIe3()
+            && !@JS_NS@._base.browser._isIe4()
+            && !@JS_NS@._base.browser._isIe5()
+            && !@JS_NS@._base.browser._isIe5_5()
+            && !@JS_NS@._base.browser._isIe6());
     },
 
     // Navigator tests.
@@ -308,7 +308,7 @@ webui.@THEME_JS@._base.browser = {
      */
     _isNav: function() {
         // Note: Opera and WebTV spoof Navigator.
-        var agent = webui.@THEME_JS@._base.browser._getAgent();
+        var agent = @JS_NS@._base.browser._getAgent();
         return (agent.indexOf("mozilla") != -1
             && agent.indexOf("spoofer") == -1
             && agent.indexOf("compatible") == -1);
@@ -321,8 +321,8 @@ webui.@THEME_JS@._base.browser = {
      * @private
      */
     _isNavOnly: function() {
-        var agent = webui.@THEME_JS@._base.browser._getAgent();
-        return (webui.@THEME_JS@._base.browser._isNav()
+        var agent = @JS_NS@._base.browser._getAgent();
+        return (@JS_NS@._base.browser._isNav()
             && agent.indexOf(";nav") != -1
             || agent.indexOf("; nav") != -1);
     },
@@ -334,8 +334,8 @@ webui.@THEME_JS@._base.browser = {
      * @private
      */
     _isNav4: function() {
-        return (webui.@THEME_JS@._base.browser._isNav()
-            && webui.@THEME_JS@._base.browser._getMajor() == 4);
+        return (@JS_NS@._base.browser._isNav()
+            && @JS_NS@._base.browser._getMajor() == 4);
     },
 
     /**
@@ -345,8 +345,8 @@ webui.@THEME_JS@._base.browser = {
      * @private
      */
     _isNav4up: function() {
-        return (webui.@THEME_JS@._base.browser._isNav()
-            && webui.@THEME_JS@._base.browser._getMajor() >= 4);
+        return (@JS_NS@._base.browser._isNav()
+            && @JS_NS@._base.browser._getMajor() >= 4);
     },
 
     /**
@@ -356,8 +356,8 @@ webui.@THEME_JS@._base.browser = {
      * @private
      */
     _isNav6: function() {
-        return (webui.@THEME_JS@._base.browser._isNav()
-            && webui.@THEME_JS@._base.browser._getMajor() == 5);
+        return (@JS_NS@._base.browser._isNav()
+            && @JS_NS@._base.browser._getMajor() == 5);
     },
 
     /**
@@ -367,8 +367,8 @@ webui.@THEME_JS@._base.browser = {
      * @private
      */
     _isNav6up: function() {
-        return (webui.@THEME_JS@._base.browser._isNav()
-            && webui.@THEME_JS@._base.browser._getMajor() >= 5);
+        return (@JS_NS@._base.browser._isNav()
+            && @JS_NS@._base.browser._getMajor() >= 5);
     },
 
     // Safari tests.
@@ -380,7 +380,7 @@ webui.@THEME_JS@._base.browser = {
      * @private
      */
     _isSafari: function() {
-        var agent = webui.@THEME_JS@._base.browser._getAgent();
+        var agent = @JS_NS@._base.browser._getAgent();
         return (agent.indexOf("safari") != -1);
     }
 };
