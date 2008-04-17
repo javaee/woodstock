@@ -75,7 +75,6 @@ if (typeof @JS_NS@ == "undefined") {
          * literals. In particular, @JS_NS@ and dojo resource paths.
          *
          * @param {Object} props Key-Value pairs of properties.
-         * @config {Object} _djConfig Dojo config properties.
          * @config {boolean} isDebug Flag indicating debug mode is enabled.
          * @config {String} modulePath The @JS_NS@ module path.
          * @config {Object} theme Key-Value pairs of theme properties.
@@ -112,14 +111,12 @@ if (typeof @JS_NS@ == "undefined") {
                 }
             }
 
-            // Set Dojo base URL.
-            if (props._djConfig.baseUrl == null) {
-                config._djConfig.baseUrl = config.modulePath + "/_dojo";
-            }
-
             // Set Dojo debug mode.
-            if (props._djConfig.isDebug == null) {
-                config._djConfig.isDebug = new Boolean(config.isDebug).valueOf();
+            config._djConfig.isDebug = new Boolean(config.isDebug).valueOf();
+
+            // Set Dojo base URL.
+            if (config._djConfig.baseUrl == null) {
+                config._djConfig.baseUrl = config.modulePath + "/_dojo";
             }
 
             // Set theme module path.
