@@ -56,7 +56,7 @@
             (domNode) ? domNode : document.forms[0], {
             execute: props.id, // Need to decode hidden field.
             render: props.id,
-            replaceElement: @JS_NS@.widget._jsfx.progressBar._loadContentCallback,
+            replaceElement: @JS_NS@.widget._jsfx.accordionTab._loadContentCallback,
             xjson: {
                 id: props.id,
                 event: "loadContent"
