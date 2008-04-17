@@ -91,13 +91,12 @@
             return false;
         }      
 
-        // If recursive is true and property is an non-null object, call this
-        // function again.
+        // If recursive is true (default) and property is an non-null object,
+        // call this function again.
         var proto = @JS_NS@._base.proto;
-        var recurse = (recursive && new Boolean(recursive).valueOf() == true);
         for (var property in props) {
-            if (obj[property] && typeof obj[property] == "object" && recurse) {
-                proto._extend(obj[property], props[property], recurse);
+            if (obj[property] && typeof obj[property] == "object" && recursive != false) {
+                proto._extend(obj[property], props[property], recursive);
             } else {
                 obj[property] = props[property];
             }
