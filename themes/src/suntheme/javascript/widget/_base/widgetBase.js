@@ -21,7 +21,8 @@
  */
 
 @JS_NS@._dojo.provide("@JS_NS@.widget._base.widgetBase");
- 
+
+@JS_NS@._dojo.require("@JS_NS@._base.browser");
 @JS_NS@._dojo.require("@JS_NS@._base.common");
 @JS_NS@._dojo.require("@JS_NS@._base.proto");
 @JS_NS@._dojo.require("@JS_NS@.theme.common");
@@ -124,10 +125,27 @@
  * @private
  */
 @JS_NS@.widget._base.widgetBase.prototype._buildRendering = function () {
-    // Get default templates.
-    if (this.templatePath == null && this.templateString == null) {
+    // Get default template path.
+    if (this.templatePath) {
         this.templatePath = this._theme._getTemplatePath(this._widgetType);
-        this.templateString = this._theme._getTemplateString(this._widgetType);
+    }
+
+    // Get default template string.
+    if (this.templatePath == null && this.templateString == null) {
+        var browser = @JS_NS@._base.browser;
+
+        // Load browser specific template, if any.
+        if (browser._isSafari()) {
+            this.templateString = this._theme._getTemplateString(
+                this._widgetType + "_safari");
+        } else if (browser._isIe()) {
+            this.templateString = this._theme._getTemplateString(
+                this._widgetType + "_ie");
+        }
+        // Get default template.
+        if (this.templateString == null) {
+            this.templateString = this._theme._getTemplateString(this._widgetType);
+        }
     }
 
     // The templatePath should have precedence. Therefore, in order for the 
@@ -532,8 +550,13 @@
     // Extend widget object for later updates.
     this._proto._extend(this, props);
 
+    // Create a clone which can be safely modified in order to update 
+    // subwidgets more efficiently.
+    var _props = {};
+    this._proto._extend(_props, props);
+
     // Set properties.
-    this._setProps(props);
+    this._setProps(_props);
 
     // Notify listeners state has changed.
     if (new Boolean(notify).valueOf() == true &&
