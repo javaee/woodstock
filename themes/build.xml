@@ -80,7 +80,8 @@
     
     <property name="theme.name" value="suntheme"/>
     <property name="theme.src-dir" value="${src}/${theme.name}"/>
-    <property name="theme.package"  value="com.sun.webui.suntheme"/>
+    <property name="theme.src-package"  value="com.sun.webui.suntheme"/>
+    <property name="theme.package"  value="${js.name}${CacheThemeVersion}${CacheVersion}.suntheme"/>
     <property name="theme.build-dir" value="${build}/${theme.name}"/>
 
     <!-- Derive a package path -->
@@ -94,14 +95,14 @@
 	 and map out the basedir package -->
     <pathconvert property="theme.package-path" dirsep="/">
 	<path path="${theme.package}"/>
-	<unpackagemapper from="*" to="*${CacheThemeVersion}${CacheVersion}"/>
+	<unpackagemapper from="*" to="*"/>
 	<map from="${__basedir-pkg__}/" to=""/>
     </pathconvert>
 
     <!-- convert the package into a src file path
 	 and map out the basedir package -->
     <pathconvert property="theme.src-package-path" dirsep="/">
-	<path path="${theme.package}"/>
+	<path path="${theme.src-package}"/>
 	<unpackagemapper from="*" to="*"/>
 	<map from="${__basedir-pkg__}/" to=""/>
     </pathconvert>
@@ -397,8 +398,7 @@
                 <filter token="VERSION" value="${Version}"/>
 		<filter token="SWAED_VERSION" value="${SWAEDVersion}"/>
                 <filter token="THEME_VERSION" value="${theme.version}"/>
-                <filter token="THEME_PACKAGE" 
-		value="${theme.package}${CacheThemeVersion}${CacheVersion}"/>
+                <filter token="THEME_PACKAGE" value="${theme.package}"/>
             </filterset>
         </copy>
 
@@ -407,8 +407,7 @@
                 <include name="services/com.sun.webui.theme.ThemeService" /> 
             </fileset>
             <filterset>
-                <filter token="THEME_PACKAGE"
-		value="${theme.package}${CacheThemeVersion}${CacheVersion}"/>
+                <filter token="THEME_PACKAGE" value="${theme.package}"/>
                 <filter token="THEME_SERVICE_CLASS"
 			value="${theme.service-class}"/>
             </filterset>
@@ -1981,8 +1980,7 @@
 	<filterset id="_theme-service-filter_">
 	    <filter token="THEME" value="${theme.name}"/>
 	    <filter token="THEME_VERSION" value="${theme.version}"/>
-	    <filter token="THEME_PACKAGE"
-		value="${theme.package}${CacheThemeVersion}${CacheVersion}"/>
+	    <filter token="THEME_PACKAGE" value="${theme.package}"/>
 	    <filter token="THEME_SERVICE_CLASS" value="${theme.service-class}"/>
 	</filterset>
 

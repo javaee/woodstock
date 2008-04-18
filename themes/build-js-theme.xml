@@ -59,8 +59,9 @@
     <property name="_js-to-dir_" value="${basedir}/build/suntheme"/>
     <property name="_js-theme-jar_" 
 	value="${basedir}/dist/webui-jsf-suntheme.jar"/>
+    <property name="_js-name_" value="woodstock"/>
     <property name="_js-theme-name_" value="suntheme"/>
-    <property name="_js-theme-package_" value="com.sun.webui.suntheme"/>
+    <property name="_js-theme-package_" value="${_js.name_}${CacheThemeVersion}${CacheVersion}.suntheme"/>
     <property name="_js-l10n-dir_" value="${basedir}/dist"/>
 
     <!-- Need these paths defined at this scope for clean 
@@ -80,7 +81,7 @@
     <!-- convert the package into a file path -->
     <pathconvert property="__js-pkgpath__" dirsep="/">
 	<path path="${_js-theme-package_}"/>
-	<unpackagemapper from="*" to="*${CacheThemeVersion}${CacheVersion}"/>
+	<unpackagemapper from="*" to="*"/>
 	<map from="${__js-basedir-pkg__}/" to=""/>
     </pathconvert>
 
