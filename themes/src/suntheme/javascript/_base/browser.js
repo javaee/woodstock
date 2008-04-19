@@ -122,14 +122,15 @@
     },
 
     /**
-     * Test for Gecko.
+     * Test for Gecko based browsers such as Mozilla and Firefox.
      *
      * @return {boolean} true if Gecko.
      * @private
      */
     _isGecko: function() {
+        // Note: Safari is based on WebKit.
         var agent = @JS_NS@._base.browser._getAgent();
-        return (agent.indexOf("gecko") != -1);
+        return (agent.indexOf("gecko") != -1 && agent.indexOf("safari") == -1);
     },
 
     /**
