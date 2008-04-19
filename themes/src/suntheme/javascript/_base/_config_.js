@@ -92,6 +92,9 @@
         /** Theme bundle name. */
         bundle: (@JS_NS@Config.theme && @JS_NS@Config.theme.bundle)
             ? @JS_NS@Config.theme.bundle : "@THEME@",
+        /** An array identifying an application's javascript theme files. */
+        custom: (@JS_NS@Config.theme && @JS_NS@Config.theme.custom)
+            ? @JS_NS@Config.theme.custom : undefined,
         /** Theme locale. */
         locale: (@JS_NS@Config.theme && @JS_NS@Config.theme.locale)
             ? @JS_NS@Config.theme.locale : "en",

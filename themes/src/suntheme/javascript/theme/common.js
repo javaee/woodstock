@@ -60,7 +60,7 @@
      * @config {String} custom An array of basenames identifying an application's 
      * javascript theme files. The last segment of this "dot" separated 
      * string, is treated as the "bundle", and the initial segments are
-     * treated as the module path.
+     * treated as the module path (e.g., ["theme.testapp_theme"]).
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
@@ -79,11 +79,7 @@
 	}
 
         // Load the javascript theme.
-        //
-        // Note: Default to "ROOT" for base locales so multiple requests are not
-        // generated.
-        theme._requireLocalization(module, props.bundle, 
-            (props.locale == "en" || props.locale == "en-us") ? "ROOT" : props.locale);
+        theme._requireLocalization(module, props.bundle, props.locale);
 
         theme._baseTheme = @JS_NS@._dojo.i18n.getLocalization(module,
             props.bundle, props.locale);
@@ -609,7 +605,9 @@
         // Taken from @JS_NS@._dojo.js in order to override the callback function that is 
         // passed to loadPath, in to perform hierarchical "extension" of properties.
 
-        var targetLocale = @JS_NS@._dojo.i18n.normalizeLocale(locale);
+        // Default to "ROOT" for base locales to eliminate extra requests.
+        var targetLocale = @JS_NS@._dojo.i18n.normalizeLocale(
+            (locale == "en" || locale == "en-us") ? "ROOT" : locale);
         var bundlePackage = [moduleName, "nls", bundleName].join(".");
         
         // Find the best-match locale to load if we have available flat locales.
