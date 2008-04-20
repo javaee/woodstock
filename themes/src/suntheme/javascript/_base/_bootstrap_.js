@@ -199,14 +199,14 @@ if (typeof @JS_NS@ == "undefined") {
             }
 
             // Load webui file.
-            bootstrap._loadScript(theme._getJavaScript((isDebug)
+            bootstrap._writeScript(theme._getJavaScript((isDebug)
                 ? file + "Uncompressed" : file));
 
             // Load global scripts.
             var files = theme._getJavaScripts("Theme.javascript");
             if (files != null) {
                 for (i = 0; i < files.length; i++) {
-                    bootstrap._loadScript(files[i]);
+                    bootstrap._writeScript(files[i]);
                 }
             }
 
@@ -377,6 +377,25 @@ if (typeof @JS_NS@ == "undefined") {
                 func();
             }
             return true;
+        },
+
+        /**
+         * Write dynamic script tag.
+         *
+         * @param {String} url The script url to load.
+         * @return {boolean} true if successful; otherwise, false.
+         * @private
+         */
+        _writeScript: function(url) {
+            if (url == null || url.length == 0) {
+                console.debug("Error: Cannot write script: " + url);
+                return false;
+            }
+            // Note: Safari evaluates dynamic script after evaluating the
+            // document body, which creates timing issues. Therefore, the 
+            // following statement is used instead of appending a DOM node.
+            document.write('<script type="text/javascript" src="' + url + '"></script>' );
+            return true;
         }
     };
 
@@ -390,10 +409,8 @@ if (typeof @JS_NS@ == "undefined") {
     // Initialize modules.
     @JS_NS@._base.bootstrap._initModules(@JS_NS@._base.config);
 
-@JS_NS@._dojo.require("@JS_NS@._base.body"); // Replaced by build.
 @JS_NS@._dojo.require("@JS_NS@._base.browser"); // Replaced by build.
 @JS_NS@._dojo.require("@JS_NS@.theme.common"); // Replaced by build.
-@JS_NS@._dojo.require("@JS_NS@.widget.common"); // Replaced by build.
 
     // Initialize javascript and style sheet resources.
     @JS_NS@._base.bootstrap._initResources(@JS_NS@._base.config);
