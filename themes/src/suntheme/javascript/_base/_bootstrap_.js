@@ -72,6 +72,39 @@ if (typeof @JS_NS@ == "undefined") {
 
         /**
          * This function is used to initialize the environment with Object
+         * literals. In particular, the widget parseOnLoad functionality.
+         *
+         * @param {Object} props Key-Value pairs of properties.
+         * @config {boolean} parseOnLoad Initialize widgets on load.
+         * @return {boolean} true if successful; otherwise, false.
+         * @private
+         */
+        _initOnLoad: function(props) {
+            if (props == null || props.parseOnLoad == null) {
+                console.debug("Cannot initialize widget module."); // See Firebug console.
+                return false;
+            }
+
+            // Defer widget creation until the window.onLoad event.
+            @JS_NS@._dojo.addOnLoad(function() {
+                if (new Boolean(props.parseOnLoad).valueOf() == true) {
+                    @JS_NS@.widget.common._parseMarkup(
+                        @JS_NS@._dojo.body());
+                }
+                // After the page has been parsed, there is no need to 
+                // perform this task again. Setting the parseOnLoad flag
+                // to false will allow the ajaxZone tag of JSF Extensions 
+                // to re-render widgets properly. That is, considering 
+                // there will only ever be one window.onLoad event.
+                @JS_NS@._base.bootstrap._onWidgetReady(function() {
+                    @JS_NS@._base.config.parseOnLoad = false;
+                });
+            });
+            return true;
+        },
+
+        /**
+         * This function is used to initialize the environment with Object
          * literals. In particular, @JS_NS@ and dojo resource paths.
          *
          * @param {Object} props Key-Value pairs of properties.
@@ -184,39 +217,6 @@ if (typeof @JS_NS@ == "undefined") {
             if (new Boolean(props.isStyleSheet).valueOf() == true) {
                 bootstrap._loadStyleSheets(props);
             }
-            return true;
-        },
-
-        /**
-         * This function is used to initialize the environment with Object
-         * literals. In particular, the widget parseOnLoad functionality.
-         *
-         * @param {Object} props Key-Value pairs of properties.
-         * @config {boolean} parseOnLoad Initialize widgets on load.
-         * @return {boolean} true if successful; otherwise, false.
-         * @private
-         */
-        _initWidget: function(props) {
-            if (props == null || props.parseOnLoad == null) {
-                console.debug("Cannot initialize widget module."); // See Firebug console.
-                return false;
-            }
-
-            // Defer widget creation until the window.onLoad event.
-            @JS_NS@._dojo.addOnLoad(function() {
-                if (new Boolean(props.parseOnLoad).valueOf() == true) {
-                    @JS_NS@.widget.common._parseMarkup(
-                        @JS_NS@._dojo.body());
-                }
-                // After the page has been parsed, there is no need to 
-                // perform this task again. Setting the parseOnLoad flag
-                // to false will allow the ajaxZone tag of JSF Extensions 
-                // to re-render widgets properly. That is, considering 
-                // there will only ever be one window.onLoad event.
-                @JS_NS@._base.bootstrap._onWidgetReady(function() {
-                    @JS_NS@._base.config.parseOnLoad = false;
-                });
-            });
             return true;
         },
 
@@ -390,6 +390,7 @@ if (typeof @JS_NS@ == "undefined") {
     // Initialize modules.
     @JS_NS@._base.bootstrap._initModules(@JS_NS@._base.config);
 
+@JS_NS@._dojo.require("@JS_NS@._base.body"); // Replaced by build.
 @JS_NS@._dojo.require("@JS_NS@._base.browser"); // Replaced by build.
 @JS_NS@._dojo.require("@JS_NS@.theme.common"); // Replaced by build.
 @JS_NS@._dojo.require("@JS_NS@.widget.common"); // Replaced by build.
@@ -397,6 +398,6 @@ if (typeof @JS_NS@ == "undefined") {
     // Initialize javascript and style sheet resources.
     @JS_NS@._base.bootstrap._initResources(@JS_NS@._base.config);
 
-    // Initialize widget module.
-    @JS_NS@._base.bootstrap._initWidget(@JS_NS@._base.config);
+    // Initialize on load.
+    @JS_NS@._base.bootstrap._initOnLoad(@JS_NS@._base.config);
 }

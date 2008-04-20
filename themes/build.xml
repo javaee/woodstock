@@ -186,7 +186,6 @@
 
     <!-- The Javascript files that are commonly included. -->
     <patternset id="include-js-files">
-	<include name="_base/body.js" />
         <include name="_base/common.js" />
 	<include name="_html/table.js" />
         <include name="formElements.js" />
