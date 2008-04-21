@@ -46,11 +46,6 @@ public class RbCbSelector extends Selector implements NamingContainer,
      */
     public final static String IMAGE_FACET = "image"; //NOI18N
 
-    /**
-     * Label facet name.
-     */
-    public final static String LABEL_FACET = "label"; //NOI18N
-
     // This is the default value for selectedValue.
     // Because of the generation and alias of "items"
     // (Need to reconsider this inheritance)

@@ -59,12 +59,12 @@ abstract class SelectorGroupRenderer extends RendererBase {
 
         //alt
         //align
+        // title there is no title only toolTip
         
         "accessKey",
         "dir",
         "lang",
         "tabIndex",
-        "title",
         "onBlur",
         "onClick",
         "onChange",
@@ -92,10 +92,15 @@ abstract class SelectorGroupRenderer extends RendererBase {
     protected UIComponent getSelectorComponent(FacesContext context,
 	UIComponent component, String id, Option option) {
 
+        String componentId = component.getClientId(context);
+
+	// If component is a ComplexComponent then the "real" component
+	// id must be obtained.
+	//
 	Selector rbcbGrp = (Selector)component;        
-        String componentId = rbcbGrp.getClientId(context);
         if (rbcbGrp instanceof ComplexComponent) {
-            componentId = ((ComplexComponent) rbcbGrp).getLabeledElementId(context);
+            componentId = 
+		((ComplexComponent)rbcbGrp).getLabeledElementId(context);
         }
         
 	RbCbSelector rbcb = createSelectorComponent();
@@ -103,7 +108,14 @@ abstract class SelectorGroupRenderer extends RendererBase {
 	rbcb.setParent(component);
 
 	rbcb.setName(componentId);        
-	rbcb.setToolTip(option.getTooltip());
+	// Give the control the groups tooltip if it is not
+	// set explicitly.
+	//
+	String tooltip = option.getTooltip();
+	if (tooltip == null) {
+	    tooltip = rbcbGrp.getToolTip();
+	}
+	rbcb.setToolTip(tooltip);
 	rbcb.setImageURL(option.getImage());
 	rbcb.setSelectedValue(option.getValue());
 	rbcb.setLabel(option.getLabel());
@@ -112,6 +124,10 @@ abstract class SelectorGroupRenderer extends RendererBase {
         
         String[] names = SelectorGroupRenderer.attributes;
         
+	// I'm not sure why the group's "onXXX" attributes are
+	// placed on the individual controls and not the table.
+	// Most events bubble up.
+	//
         Map attributes = component.getAttributes();
         Map rbAttributes = rbcb.getAttributes();
         for (int i = 0; i < names.length; i++) {
@@ -202,7 +218,8 @@ abstract class SelectorGroupRenderer extends RendererBase {
         if (context == null || component == null) {
             throw new NullPointerException();
         }
-        if (ComponentUtilities.isDisabled(component)|| ComponentUtilities.isReadOnly(component)) {
+        if (ComponentUtilities.isDisabled(component)|| 
+		ComponentUtilities.isReadOnly(component)) {
             return;
         }
         setSubmittedValues(context, component);
@@ -223,18 +240,60 @@ abstract class SelectorGroupRenderer extends RendererBase {
         JSONObject json = new JSONObject();
         
         // Append label properties. 
-        json.put("label", WidgetUtilities.renderComponent(context, 
-            getLabelComponent(context, component)));
+
+        // Check if the page author has defined a label facet
+        //
+        UIComponent labelComponent = component.getFacet(component.LABEL_FACET);
+        if (labelComponent != null) {
+	    json.put("label", WidgetUtilities.renderComponent(context, 
+		labelComponent));
+        } else {
+	    // If we have a label property, add the miminal label properties
+	    //
+	    String label = component.getLabel();
+	    if (label != null) {
+		JSONObject jlabel = new JSONObject();
+		jlabel.put("value", label);
+		// Give the group's tooltip to the group label
+		//
+		String tooltip = component.getToolTip();
+		if (tooltip != null) {
+		    jlabel.put("title", tooltip);
+		}
+		int level = component.getLabelLevel();
+		if (level != Integer.MIN_VALUE) {
+		    jlabel.put("level", level);
+		}
+		json.put("label", jlabel);
+	    }
+        }
         
         // Set StyleClass
-        json.put("className", component.getStyleClass());
-        json.put("disabled", component.isDisabled());
-        json.put("multiple", component.isMultiple());
-        json.put("visible", component.isVisible());
-        json.put("style", component.getStyle());
+	//
+	String stringprop = component.getStyleClass();
+	if (stringprop != null && stringprop.length() != 0) {
+	    json.put("className", stringprop);
+	}
+
+	// boolean properties only need to be rendered if they 
+	// are different than the default or come from the theme.
+	// and possibly not even from the theme since the widget
+	// should also reference the theme as necessary.
+	//
+	boolean boolprop = component.isDisabled();
+	if (boolprop) {
+	    json.put("disabled", boolprop);
+	}
+	boolprop = component.isVisible();
+	if (!boolprop) {
+	    json.put("visible", boolprop);
+	}
+	stringprop = component.getStyle();
+	if (stringprop != null && stringprop.length() != 0) {
+	    json.put("style", stringprop);
+	}
         
-        Selector selector = (Selector)component;
-        Object selected = selector.getSelected();
+        Object selected = component.getSelected();
         
         // If the submittedValue is null record the rendered value
         // If the submittedValue is not null then it contains the
@@ -243,12 +302,13 @@ abstract class SelectorGroupRenderer extends RendererBase {
         // then nothing is selected. Assume that the component still
         // has the appropriate rendered state.
         //
-        if (selector.getSubmittedValue() == null) {
+        if (component.getSubmittedValue() == null) {
             ConversionUtilities.setRenderedValue(component, selected);
         }
         
-        // No other attributes to add, so no need to call JSONUtilities.addProperties
-
+        // No other attributes to add, so no need to call 
+	// JSONUtilities.addProperties
+	//
         setContents(context, component, json);
 
         return json;
@@ -276,7 +336,9 @@ abstract class SelectorGroupRenderer extends RendererBase {
         int itemN = 0;
 
         for (int i = 0; i < length; i++) {
-            UIComponent child = getChildComponent(context, component, itemN);
+	    String id = component.getId().concat("_") + itemN; //NOI18N
+	    UIComponent child = getSelectorComponent(context, component,
+		    id, items[itemN]);
             jArray.put(WidgetUtilities.renderComponent(context, child));
             ++itemN;            
         }          
@@ -285,20 +347,6 @@ abstract class SelectorGroupRenderer extends RendererBase {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    private UIComponent getChildComponent(FacesContext context,
-            UIComponent component,
-            int itemN) throws IOException {
-        Option[] items = getItems((Selector)component);
-        if (itemN >= items.length) {
-            return null;
-        }
-        
-        String id = component.getId().concat("_") + itemN; //NOI18N
-        UIComponent child = getSelectorComponent(context, component,
-                id, items[itemN]);
-        return child;
-    }
 
     // Should be in component
     //
@@ -323,81 +371,13 @@ abstract class SelectorGroupRenderer extends RendererBase {
                     }
     }
 
-    private UIComponent getLabelComponent(FacesContext context,
-            UIComponent component) throws IOException {
-        
-        // Check if the page author has defined a label facet
-        //
-        // What if the component is readonly ? Do we need to modify
-        // the facet to be readonly, disabled, or required ?
-        // What about styles, etc.
-        //
-        UIComponent labelComponent = component.getFacet("label"); //NOI18N
-        if (labelComponent != null) {
-            return labelComponent;
-        }
-        
-        // If we find a label, define a label component
-        //
-        String attrvalue =
-                (String)component.getAttributes().get("label"); //NOI18N
-        if (attrvalue == null || attrvalue.length() <= 0) {
-            return null;
-        }
-        
-        // This code should be in the component.
-        // But it is more complicated than that since the argument is
-        // "UIComponent" and not RadioButtonGroup or CheckboxGroup.
-        // Too much needs to be done so leave this way for now until
-        // we fix all renderers with similar problems.
-        //
-        Label label= (Label)ComponentUtilities.getPrivateFacet(component,
-                "label", true); //NOI18N
-        if (label == null) {
-            label= new Label();
-            label.setId(ComponentUtilities.createPrivateFacetId(
-                    component, "label")); //NOI18N
-            ComponentUtilities.putPrivateFacet(component, "label", //NOI18N
-                    label);
-        }
-        
-        label.setText(attrvalue);
-        
-        // Set the labeledComponent. This will eventually resolve to the 
-	// the first control.
-	// And the indicatorComponent.
-	//
-	label.setLabeledComponent(component); 
-	label.setIndicatorComponent(component); 
-        
-        // Give the group's tooltip to the group label
-        //
-        attrvalue =
-                (String)component.getAttributes().get("toolTip"); //NOI18N
-        if (attrvalue != null) {
-            label.setToolTip(attrvalue);
-        }
-        
-        Integer lblLvl = (Integer)
-        component.getAttributes().get("labelLevel"); //NOI18N
-        
-        // Need to synch up defaults
-        //
-        if (lblLvl == null) {
-            lblLvl = new Integer(2);
-        }
-        
-        label.setLabelLevel(lblLvl == null ? 2 : lblLvl.intValue());
-        
-        return label;
-    }
-
     private void setSubmittedValues(FacesContext context,
             UIComponent component) {
         
         String clientId = component.getClientId(context);
         if (component instanceof ComplexComponent) {
-            clientId = (((ComplexComponent)component).getLabeledElementId(context));
+            clientId = 
+		((ComplexComponent)component).getLabeledElementId(context);
         }
         
         Map requestParameterValuesMap = context.getExternalContext().

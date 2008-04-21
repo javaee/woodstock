@@ -56,6 +56,11 @@ public class Selector extends WebuiInput implements SelectorManager {
     private static final boolean DEBUG = false;
 
     /**
+     * Label facet name.
+     */
+    public final static String LABEL_FACET = "label"; //NOI18N
+
+    /**
      * Read only separator string
      */
     private static final String READ_ONLY_SEPARATOR = ", "; //NOI18N

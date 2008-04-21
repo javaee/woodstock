@@ -266,10 +266,18 @@
     }
 
     // Set properties.
-    if (props.htmlFor) { this._domNode.htmlFor = props.htmlFor; }
-    if (props.valid != null) { this.valid = new Boolean(props.valid).valueOf(); }
-    if (props.required != null) { this.required = new Boolean(props.required).valueOf(); }
-    if (props.value) { this._widget._addFragment(this._valueContainer, props.value); }
+    if (props.htmlFor != null) {
+	this._domNode.htmlFor = props.htmlFor;
+    }
+    if (props.valid != null) {
+	this.valid = new Boolean(props.valid).valueOf();
+    }
+    if (props.required != null) {
+	this.required = new Boolean(props.required).valueOf();
+    }
+    if (props.value != null) {
+	this._widget._addFragment(this._valueContainer, props.value);
+    }
 
     // Set error image properties.
     if (props.errorImage || props.valid != null) {
