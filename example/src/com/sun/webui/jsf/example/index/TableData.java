@@ -288,6 +288,15 @@ public class TableData {
                     "rating/results.jsp",
                     "rating/RatingBackingBean.java"}
 	),
+        new AppData("index_table2", "index_table2Concepts", "showTable2Index",
+                new String[] {
+                    "table2/index.jsp",
+                    "table2/table.jsp",
+                    "table2/sortTable.jsp",
+                    "table2/Table2Bean.java",
+                    "table2/util/Group.java",
+                    "table2/util/Name.java"}
+	),
     };    
     
     /** Default constructor */

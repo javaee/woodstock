@@ -327,6 +327,13 @@
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>     
 
+    <managed-bean>
+        <description>The backing bean for the Ajax Table example</description>
+        <managed-bean-name>Table2Bean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.table2.Table2Bean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean> 
+    
     <navigation-rule>    
       <from-view-id>/*</from-view-id>      
             
@@ -982,6 +989,33 @@
         <to-view-id>/login/index.jsp</to-view-id>
         <redirect/>
       </navigation-case>   
-   </navigation-rule>         
+   </navigation-rule>     
+   
+   <!-- Navigation Cases for Login Example -->     
+   <navigation-rule>
+      <navigation-case>
+        <from-outcome>showTable2Index</from-outcome>
+        <to-view-id>/table2/index.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>   
+   </navigation-rule>  
+   
+   <!-- Navigation Cases for Login Example -->     
+   <navigation-rule>
+      <navigation-case>
+        <from-outcome>showBasicTable2</from-outcome>
+        <to-view-id>/table2/table.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>   
+   </navigation-rule>
+   
+   <!-- Navigation Cases for Login Example -->     
+   <navigation-rule>
+      <navigation-case>
+        <from-outcome>showTable2Sort</from-outcome>
+        <to-view-id>/table2/sortTable.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>   
+   </navigation-rule> 
 
 </faces-config>
