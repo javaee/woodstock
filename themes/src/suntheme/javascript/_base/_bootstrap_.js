@@ -144,12 +144,35 @@ if (typeof @JS_NS@ == "undefined") {
                 }
             }
 
-            // Set Dojo debug mode.
-            config._djConfig.isDebug = new Boolean(config.isDebug).valueOf();
+            // Set application context.
+            if (props.theme.prefix) {
+                config.theme.prefix = props.theme.prefix;
 
-            // Set Dojo base URL.
-            if (config._djConfig.baseUrl == null) {
-                config._djConfig.baseUrl = config.modulePath + "/_dojo";
+                // Adjust module path, if needed.
+                if (config.modulePath.charAt(0) == "/" 
+                        && config.modulePath.indexOf(config.theme.prefix + "/") == -1) {
+                    config.modulePath = props.theme.prefix + config.modulePath;
+                }
+            } else {
+                index = props.modulePath.indexOf("@THEME_PATH@");
+                if (index != -1) {
+                    config.theme.prefix = config.modulePath.substring(0, index);
+                }
+            }
+
+            // Adjust custom theme module paths, if needed.
+            if (config.theme.custom instanceof Array) {
+                for (var i = 0; i < config.theme.custom.length; ++i) {
+                    var modulePath = config.theme.custom[i].modulePath;
+                    if (modulePath == null) {
+                        continue;
+                    }
+                    if (modulePath.charAt(0) == "/"
+                            && modulePath.indexOf(config.theme.prefix + "/") == -1) {
+                        config.theme.custom[i].modulePath = 
+                            config.theme.prefix + modulePath;
+                    }
+                }
             }
 
             // Set theme module path.
@@ -157,13 +180,13 @@ if (typeof @JS_NS@ == "undefined") {
                 config.theme.modulePath = config.modulePath + "/theme";
             }
 
-            // Set application context.
-            if (props.theme.prefix == null) {
-                index = props.modulePath.indexOf("@THEME_PATH@");
-                if (index != -1) {
-                    config.theme.prefix = config.modulePath.substring(0, index);
-                }
+            // Set Dojo base URL.
+            if (config._djConfig.baseUrl == null) {
+                config._djConfig.baseUrl = config.modulePath + "/_dojo";
             }
+
+            // Set Dojo debug mode.
+            config._djConfig.isDebug = new Boolean(config.isDebug).valueOf();
             return true;
         },
 
@@ -251,7 +274,7 @@ if (typeof @JS_NS@ == "undefined") {
         },
 
         /**
-         * Load JavaScript via script tag.
+         * Load JavaScript resource.
          *
          * @param {String} url The script url to load.
          * @param {Function} callback The JavaScript function to invoke on load.
@@ -380,7 +403,7 @@ if (typeof @JS_NS@ == "undefined") {
         },
 
         /**
-         * Write dynamic script tag.
+         * Write JavaScript resource.
          *
          * @param {String} url The script url to load.
          * @return {boolean} true if successful; otherwise, false.

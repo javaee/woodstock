@@ -53,14 +53,12 @@
     /**
      * This function is used to set widget properties with Object literals.
      *
-     * @param props Key-Value pairs of properties.
+     * @param {Object} props Key-Value pairs of properties.
      * @config {String} bundle The javascript theme basename "suntheme" for @THEME_JS@.js
      * @config {String} locale The theme locale formatted as <lang>-<country>-<variant>
-     * @config {String} modulePath A relative URL defining the root directory of the nls directory
-     * @config {String} custom An array of basenames identifying an application's 
-     * javascript theme files. The last segment of this "dot" separated 
-     * string, is treated as the "bundle", and the initial segments are
-     * treated as the module path (e.g., ["theme.testapp_theme"]).
+     * @config {String} modulePath A relative URL defining the root directory of
+     * the nls directory.
+     * @config {Object} custom Key-Value pairs of custom theme properties.
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
@@ -88,72 +86,51 @@
             for (var i = 0; i < props.custom.length; ++i) {
                 theme._extendBaseTheme(props.custom[i]);
             }
-        } else if (typeof(props.custom) == "string") {
-            theme._extendBaseTheme(props.custom);
         }
         return true;
     },
 
     /**
      * Merge the _baseTheme with an application's theme overrides.
-     * <p>
-     * Note: "themePackage" is a "dot" separated string. The "bundle"
-     * is the last segment and the prefix segments are the module.
-     * Return true if the base theme was extended else false.
-     * </p>
-     * @param {String} themePackage
+     * 
+     * @config {Object} props Key-Value pairs of properties.
+     * @config {String} bundle The javascript theme basename.
+     * @config {String} modulePath A relative URL defining the root directory of
+     * the nls directory.
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
-    _extendBaseTheme: function(themePackage) {
-        if (themePackage == null) {
+    _extendBaseTheme: function(props) {
+        if (props == null || props.bundle == null) {
+            console.debug("Cannot extend theme."); // See Firebug console.
             return false;
         }
         var config = @JS_NS@._base.config;
         var theme = @JS_NS@.theme.common;
-        var segments = themePackage.split(".");
-        var bundle = segments[segments.length - 1];
-        var module = segments.slice(0, segments.length - 1).join(".");
+        var module = "@JS_NS@.theme.common.custom";
+        var modulePath = (props.modulePath != null && props.modulePath != "")
+            ? props.modulePath : theme.getPrefix();
+
+        // Initialize the @JS_NS@.theme.common.custom name space.
+        theme.custom = {};
+
+        // Get custom resource.
+        @JS_NS@._dojo.registerModulePath(module, modulePath);
+        theme._requireLocalization(module, props.bundle, config.theme.locale);
 
         try {
-            // If there is no module, i.e. just a bundle segment
-            // create a module name in the theme namespace.
-            //
-	    var modulePath = theme.getPrefix();
-            if (module == null || module == "") {
-                theme.custom = {};
-                module = "@JS_NS@.theme.common.custom";
-            } else {
-		// Only do this if the application did provided a
-		// module. When the application does not provide
-		// a module then ""@JS_NS@.theme.common.custom"
-		// will be used as the module and then only
-		// the app context needs to be specified as the
-		// modulePath, the root of the resource files.
-		// Other wise the modulePath must include the
-		// appcontext and the module, since this is the
-		// root structure containing the resources.
-		//
-		var re = new RegExp("\\.", "g");
-		modulePath = modulePath + "/" + module.replace(re, "/");
-	    }
-            @JS_NS@._dojo.registerModulePath(module, modulePath);
-            theme._requireLocalization(module, bundle, config.theme.locale);
-        } catch(e) {
-	    return false;
-        }
-        var newTheme = null;
-        try {
-            newTheme = @JS_NS@._dojo.i18n.getLocalization(module, bundle, 
+            var newTheme = null;
+            newTheme = @JS_NS@._dojo.i18n.getLocalization(module, props.bundle, 
                 config.theme.locale);
+
+            // Not sure if we should do the "prototype" magic like
+            // dojo, vs. just replacing the orginal _baseTheme values.
+            //
+            if (newTheme != null) {
+                @JS_NS@._base.proto._extend(theme._baseTheme, newTheme);
+            }
         } catch(e) {
 	    return false;
-        }
-        // Not sure if we should do the "prototype" magic like
-        // dojo, vs. just replacing the orginal _baseTheme values.
-        //
-        if (newTheme != null) {
-            @JS_NS@._base.proto._extend(theme._baseTheme, newTheme);
         }
         return true;
     },

@@ -22,32 +22,61 @@
 
 /**
  * This optional variable contains config properties to initialize the 
- * environment.
+ * environment. For example:
  * <p><code><pre>
  *
  * @JS_NS@Config = {
- *    // Flag to enable debug mode.
- *    isDebug: false,
- *    // Flag to inlcude style sheet(s).
- *    isStyleSheet: true,
- *    // Custom name space to map as @JS_NS@.
- *    namespace: "foo",
- *    // Flag to parse HTML markup onLoad.
- *    parseOnLoad: true,
- *    // Theme config properties.
- *    theme: {
- *      // Theme locale.
- *      locale: "en"
- *    },
- *    // Flag to include all widgets.
- *    webuiAll: false,
- *    // Flag to include Ajax functionality based on JSF Extensions.
- *    webuiJsfx: false
+ *   // Ajax config properties.
+ *   ajax: {
+ *       // Flag allowing Ajax resources to be loaded in page.
+ *       isAjax: false,
+ *       // Flag allowing JSF Extensions to be loaded in page.
+ *       isJsfx: true,
+ *       // Ajax module.
+ *       module: "@JS_NS@.widget._jsfx"
+ *   },
+ *   // Flag to enable debug mode.
+ *   isDebug: false,
+ *   // Woodstock module path.
+ *   modulePath: "/example/resources/@JS_NS/@THEME@/javascript",
+ *   // Flag to inlcude style sheet(s).
+ *   isStyleSheet: true,
+ *   // Flag to parse HTML markup onLoad.
+ *   parseOnLoad: true,
+ *   // Custom name space to map as @JS_NS@.
+ *   namespace: "webui.@THEME@",
+ *   // Theme config properties.
+ *   theme: {
+ *       // Theme bundle name.
+ *       bundle: "@THEME@",
+ *       // An array of custom theme config properties.
+ *       custom: [{
+ *           /** Custom theme bundle name.
+ *           bundle: "myTheme",
+ *           /** Custom theme module path.
+ *           modulePath: "/example/resources/custom"
+ *       }],
+ *       // Theme locale.
+ *       locale: "en",
+ *       // Theme module path.
+ *       modulePath: "/example/resources/@JS_NS@/@THEME@/javascript/theme",
+ *       // App context.
+ *       prefix: "/example/resources"
+ *   },
+ *   // Flag to include all widgets.
+ *   webuiAll: false,
+ *   // Flag to include Ajax functionality based on JSF Extensions.
+ *   webuiJsfx: false
  * };
  *
  * </pre></code></p>
  * @name @JS_NS@Config
  */
+
+// Initialize the @JS_NS@Config variable.
+if (typeof @JS_NS@Config == "undefined") {
+    this.@JS_NS@Config = {};
+}
 
 /**
  * @class This class contains config properties to initialize the environment.
@@ -92,7 +121,7 @@
         /** Theme bundle name. */
         bundle: (@JS_NS@Config.theme && @JS_NS@Config.theme.bundle)
             ? @JS_NS@Config.theme.bundle : "@THEME@",
-        /** An array identifying an application's javascript theme files. */
+        /** An array of custom theme config properties. See @JS_NS@Config. */
         custom: (@JS_NS@Config.theme && @JS_NS@Config.theme.custom)
             ? @JS_NS@Config.theme.custom : undefined,
         /** Theme locale. */

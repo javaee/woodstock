@@ -452,27 +452,52 @@ public class JavaScriptUtilities {
 	//
 	ThemeContext themeContext = JSFThemeContext.getInstance(context);
 
-	// Fool getResourcePath into returning the prefix.
-	// by passing "", since we don't have path, we just want the
-	// prefix. This will have a trailing "/", so get rid of it.
-	//
-//	String themePrefix = themeContext.getResourcePath("");
-//        int lastSlash = themePrefix.lastIndexOf("/");
-//        if (lastSlash > 0) {
-//            themePrefix = themePrefix.substring(0, lastSlash);
-//        }
-
 	// Get the application's custom theme package(s).
 	//
-	JSONArray customThemes = null;
+        JSONArray customThemes = null;
 	String customThemeResources[] = themeContext.getThemeResources();
-	if (customThemeResources != null) {
-	    // Format this as a javascript array
-	    //
-	    customThemes = new JSONArray();
-	    for (int i = 0; i < customThemeResources.length; ++i) {
-		customThemes.put(i, customThemeResources[i]);
-	    }
+        if (customThemeResources != null) {
+            customThemes = new JSONArray(); 
+
+            // Fool getResourcePath into returning the prefix.
+            // by passing "", since we don't have path, we just want the
+            // prefix. This will have a trailing "/", so get rid of it.
+            //
+            String themePrefix = themeContext.getResourcePath("");
+            int lastSlash = themePrefix.lastIndexOf("/");
+            if (lastSlash > 0) {
+                themePrefix = themePrefix.substring(0, lastSlash);
+            }
+
+            // Parse the "THEME_RESOURCES" init param, which contains a space 
+            // separated list of basenames identifying an application's 
+            // javascript theme files. The last segment of this "dot" separated 
+            // string, is treated as the "bundle", and the initial segments are
+            // treated as the module path (e.g., "theme.testapp_theme"). 
+            for (int i = 0; i < customThemeResources.length; ++i) {
+                String themePackage = customThemeResources[i];
+                String segments[] = (themePackage != null)
+                    ? themePackage.split("\\.") : null;
+
+                // Get theme bundle and module path.
+                if (segments != null) {
+                    String bundle = segments[segments.length - 1];
+                    String modulePath = null;
+
+                    // Get module path, if any.
+                    if (segments.length > 1) {
+                        String path = themePackage.substring(0, 
+                            themePackage.length() - bundle.length());
+                        modulePath = themePrefix + "/" + path.replace('.', '/');
+                    }
+
+                    // Append properties.
+                    JSONObject json = new JSONObject();
+                    customThemes.put(json);
+                    json.put("bundle", bundle)
+                        .put("modulePath", modulePath);
+                }
+            }
 	}
 
         JSONObject json = new JSONObject();
@@ -480,7 +505,6 @@ public class JavaScriptUtilities {
             .put("custom", customThemes)
             .put("locale", themeLocale)
             .put("modulePath", themeModulePath);
-//            .put("prefix", themePrefix);
 
         return json;
     }
