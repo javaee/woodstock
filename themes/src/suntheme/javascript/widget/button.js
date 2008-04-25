@@ -195,13 +195,13 @@
     var props = this._inherited("getProps", arguments);
 
     // Set properties.
-    if (this.alt) { props.alt = this.alt; }
-    if (this.align) { props.align = this.align; }
+    if (this.alt != null) { props.alt = this.alt; }
+    if (this.align != null) { props.align = this.align; }
     if (this.disabled != null) { props.disabled = this.disabled; }
     if (this.escape != null) { props.escape = this.escape; }
     if (this.mini != null) { props.mini = this.mini; }
     if (this.primary != null) { props.primary = this.primary; }
-    if (this.value) { props.value = this.value; }
+    if (this.value != null) { props.value = this.value; }
 
     return props;
 };
@@ -316,16 +316,16 @@
     }
 
     // Set properties.
-    if (props.alt) { this._domNode.alt = props.alt; }
-    if (props.align) { this._domNode.align = props.align; }
+    if (props.alt != null) { this._domNode.alt = props.alt; }
+    if (props.align != null) { this._domNode.align = props.align; }
 
     // Set disabled.
     if (props.disabled != null) { 
         this._domNode.disabled = new Boolean(props.disabled).valueOf();
     }
 
-    // Set value (i.e., button text).
-    if (props.value) {
+    // Set value -- an empty string is valid.
+    if (props.value != null) {
         // If escape is true, we want the text to be displayed literally. To 
         // achieve this behavior, do nothing.
         //

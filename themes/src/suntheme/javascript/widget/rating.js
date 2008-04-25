@@ -172,48 +172,69 @@
 @JS_NS@.widget.rating.prototype.getProps = function() {
     var props = this._inherited("getProps", arguments);
 
-    if (this.autoSubmit != null)
+    if (this.autoSubmit != null) { 
         props.autoSubmit = this.autoSubmit;
-    if (this.includeText != null)
+    }
+    if (this.includeText != null) { 
         props.includeText = this.includeText;
-    if (this.includeNotInterested != null)
-        props.includeNotInterested = this.includeNotInterested;
-    if (this.includeClear != null)
+    }
+    if (this.includeNotInterested != null) {
+        props.includeNotInterested = this.includeNotInterested; 
+    }
+    if (this.includeClear != null) {
         props.includeClear = this.includeClear;
-    if (this.includeModeToggle != null)
+    }
+    if (this.includeModeToggle != null) {
         props.includeModeToggle = this.includeModeToggle;
-    if (this.inAverageMode != null)
+    }
+    if (this.inAverageMode != null) { 
         props.inAverageMode = this.inAverageMode;
-    if (this.grade != null)
+    }
+    if (this.grade != null) {
         props.grade = this.grade;
-    if (this.averageGrade != null)
+    }
+    if (this.averageGrade != null) {
         props.averageGrade = this.averageGrade;
-    if (this.maxGrade != null)
+    }
+    if (this.maxGrade != null) {
         props.maxGrade = this.maxGrade;
-    if (this.gradeReadOnly != null)
+    }
+    if (this.gradeReadOnly != null) {
         props.gradeReadOnly = this.gradeReadOnly;
-    if (this.modeReadOnly != null)
+    }
+    if (this.modeReadOnly != null) {
         props.modeReadOnly = this.modeReadOnly;
-    if (this.notInterestedHoverText != null)
+    }
+    if (this.notInterestedHoverText != null) {
         props.notInterestedHoverText = this.notInterestedHoverText;
-    if (this.gradeHoverTexts != null)
+    }
+    if (this.gradeHoverTexts != null) {
         props.gradeHoverTexts = this.gradeHoverTexts;
-    if (this.clearHoverText != null)
+    }
+    if (this.clearHoverText != null) {
         props.clearHoverText = this.clearHoverText;
-    if (this.modeToggleHoverTexts != null)
+    }
+    if (this.modeToggleHoverTexts != null) {
         props.modeToggleHoverTexts = this.modeToggleHoverTexts;
-    if (this.notInterestedAcknowledgedText != null)
+    }
+    if (this.notInterestedAcknowledgedText != null) {
         props.notInterestedAcknowledgedText = this.notInterestedAcknowledgedText;
-    if (this.gradeAcknowledgedText != null)
+    }
+    if (this.gradeAcknowledgedText != null) {
         props.gradeAcknowledgedText = this.gradeAcknowledgedText;
-    if (this.clearAcknowledgedText != null)
+    }
+    if (this.clearAcknowledgedText != null) {
         props.clearAcknowledgedText = this.clearAcknowledgedText;
-    if (this.modeToggleAcknowledgedTexts != null)
+    }
+    if (this.modeToggleAcknowledgedTexts != null) {
         props.modeToggleAcknowledgedTexts = this.modeToggleAcknowledgedTexts;
-    if (this.tabIndex != null)
+    }
+    if (this.tabIndex != null) {
         props.tabIndex = this.tabIndex;
-    if (this.style != null)
+    }
+    if (this.style != null) {
         props.style = this.style;
+    }
 
     return props;
 }; // getProps
@@ -228,8 +249,9 @@
  */
 @JS_NS@.widget.rating.prototype._setText = function(text) {
     if (this._textContainer != null) {
-        if (text != null && (text.replace(/^\s+/g, '').replace(/\s+$/g, '') == "" ))
+        if (text != null && (text.replace(/^\s+/g, '').replace(/\s+$/g, '') == "" )) {
             text = null;
+        }
         this._textContainer.innerHTML = (text == null ? "&nbsp;" : text);
         this._currentText = this._textContainer.innerHTML;
     }
@@ -255,8 +277,9 @@
     var className = null;
     var width = null;
 
-    if (grade == this._CODE_CLEAR)
+    if (grade == this._CODE_CLEAR) {
         grade = 0;
+    }
 
     if (averageMode == true) {
         // Compute the difference between the grade being displayed and the grade rank
@@ -310,11 +333,11 @@
     // Determine if we will be displaying average grade.
     //
     var displayingAvg = false;
-    if ((code == this._CODE_MODETOGGLE) && isMouseOver)
+    if ((code == this._CODE_MODETOGGLE) && isMouseOver) {
         // Moused over modeToggle control, so we will preview the inverse mode of
         // current display mode.
         displayingAvg = !this.inAverageMode;
-    else {
+    } else {
         // If mouseout from any control then we will preview what the
         // current display mode is.  This is akin to an "undo" of the preview state
         // from a previous mouseover of the modeToggle control.  Otherwise on a
@@ -332,19 +355,16 @@
         // from a previous mouseover.  The grade is either the average grade (if
         // in average mode) or the user's grade (if in normal mode).
         displayingGrade = this.inAverageMode ? this.averageGrade : this.grade;
-    }
-
-    else if (code == this._CODE_MODETOGGLE)
+    } else if (code == this._CODE_MODETOGGLE) {
         // Mouseover modeToggle.  Display either the average grade or the user's grade.
         displayingGrade = displayingAvg ? this.averageGrade : this.grade;
-
-    else if (code == this._CODE_CLEAR)
+    } else if (code == this._CODE_CLEAR) {
         // Mouseover clear, so no grade to display.
         displayingGrade = code;
-    else
+    } else {
         // Display the grade associated with the control on which the event occurred.
         displayingGrade = code;
-    
+    }
 
     var hoverClass = this._theme.getClassName("RATING_HOVER");
     var hoverText = null;
@@ -352,14 +372,15 @@
     // ModeToggle image
     if ((this.includeModeToggle == true) && (this._modeToggleNode != null)) {
         // Set style class for this image
-        if (displayingAvg)
+        if (displayingAvg) {
             this._modeToggleNode.className = this._theme.getClassName("RATING_MODE_AVERAGE_IMAGE");
-        else
+        } else {
             this._modeToggleNode.className = this._theme.getClassName("RATING_MODE_NORMAL_IMAGE");
-
+        }
         // Since we reset the className above, we may need to add back the hover class.
-        if (!this.modeReadOnly)
+        if (!this.modeReadOnly) {
             this._common._addStyleClass(this._modeToggleNode, hoverClass);
+        }
 
         // If mouseover on modeToggle, set the hover text to display
         if ((code == this._CODE_MODETOGGLE) && isMouseOver && (this.modeToggleHoverTexts != null)) {
@@ -372,46 +393,53 @@
     // Not interested image
     if ((this.includeNotInterested == true) && (this._notInterestedNode != null)) {
         // Set style class for this image
-        if (displayingGrade == this._CODE_NOTINTERESTED)
+        if (displayingGrade == this._CODE_NOTINTERESTED) {
             this._notInterestedNode.className = this._theme.getClassName("RATING_NOT_INTERESTED_ON_IMAGE");
-        else
+        } else {
             this._notInterestedNode.className = this._theme.getClassName("RATING_NOT_INTERESTED_OFF_IMAGE");
-
+        }
         // Since we reset the className above, we may need to add back the hover class.
-        if (!this.gradeReadOnly)
+        if (!this.gradeReadOnly) {
             this._common._addStyleClass(this._notInterestedNode, hoverClass);
-
+        }
         // If mouseover on notInterested, set the hover text to display
-        if (code == this._CODE_NOTINTERESTED && isMouseOver && this.notInterestedHoverText != null)
+        if (code == this._CODE_NOTINTERESTED && isMouseOver 
+                && this.notInterestedHoverText != null) {
             hoverText = this.notInterestedHoverText;
+        }
     }
 
     // Clear image
     if ((this.includeClear == true) && (this._clearNode != null)) {
-        if (displayingGrade == this._CODE_CLEAR)
+        if (displayingGrade == this._CODE_CLEAR) {
             this._clearNode.className = this._theme.getClassName("RATING_CLEAR_ON_IMAGE");
-        else
+        } else {
             this._clearNode.className = this._theme.getClassName("RATING_CLEAR_OFF_IMAGE");
+        }
 
         // Since we reset the className above, we may need to add back the hover class.
-        if (!this.gradeReadOnly)
+        if (!this.gradeReadOnly) {
             this._common._addStyleClass(this._clearNode, hoverClass);
+        }
 
         // If mouseover on clear, set the hover text to display
-        if (code == this._CODE_CLEAR && isMouseOver && this.clearHoverText != null)
+        if (code == this._CODE_CLEAR && isMouseOver && this.clearHoverText != null) {
             hoverText = this.clearHoverText;
+        }
     }
 
     // Grade images
     for (var i = 1; i <= this.maxGrade; i++) {
-        if (i > this._gradeNodes.length)
+        if (i > this._gradeNodes.length) {
             break;
+        }
 
         // If this grade image is the one moused over, then get it's hover text.
         if (isMouseOver && (code != this._CODE_MODETOGGLE) && 
                 (code != this._CODE_CLEAR) && (i == displayingGrade)) {
-            if ((this.gradeHoverTexts != null) && (i <= this.gradeHoverTexts.length))
+            if ((this.gradeHoverTexts != null) && (i <= this.gradeHoverTexts.length)) {
                 hoverText = this.gradeHoverTexts[i-1];
+            }
         }
 
         // Set appropriate class for this grade image
@@ -419,8 +447,9 @@
         this._gradeNodes[i-1].className = imageInfo[0];
 
         // Since we reset the className above, we may need to add back the hover class.
-        if (!this.gradeReadOnly)
+        if (!this.gradeReadOnly) {
             this._common._addStyleClass(this._gradeNodes[i-1], hoverClass);
+        }
     }
 
     // Set hover text in _textContainer.
@@ -454,19 +483,19 @@
         }
         this._setText(acknowledgedText);
 
-    }
-    else {
+    } else {
         // Normal (not average) mode
         this.inAverageMode = false;
 
         // Render acknowledged text for image clicked
         var acknowledgedText = null;
-        if (code == this._CODE_CLEAR)
+        if (code == this._CODE_CLEAR) {
             acknowledgedText = this.clearAcknowledgedText;
-        else if (code == this._CODE_NOTINTERESTED)
+        } else if (code == this._CODE_NOTINTERESTED) {
             acknowledgedText = this.notInterestedAcknowledgedText;
-        else
+        } else {
             acknowledgedText = this.gradeAcknowledgedText;
+        }
         this._setText(acknowledgedText);
 
         // Do nothing unless the grade is changing.
@@ -479,8 +508,9 @@
             this._hiddenFieldNode.value = this.grade;
 
             // If autoSubmit enabled, then submit
-            if (this.autoSubmit)
+            if (this.autoSubmit) {
                 this.submit();
+            }
         }
     }
     return true;
@@ -504,9 +534,10 @@
     //      (this occurs if we moused in to a grade control, but gradeReadOnly was true,
     //       or if we moused into the modeToggle control, but modeReadOnly was true)
     if ( (this.gradeReadOnly && (code != this._CODE_MODETOGGLE))
-        || (this.modeReadOnly && (code == this._CODE_MODETOGGLE)) ) {
-        if (isMouseOver || !this._mousedover)
+            || (this.modeReadOnly && (code == this._CODE_MODETOGGLE)) ) {
+        if (isMouseOver || !this._mousedover) {
             return true;
+        }
     }
 
     // Show a preview of the component state if the mouse would be clicked.
@@ -534,9 +565,10 @@
     //   2. clicked on modeTogglecontrol, but modeReadOnly is true, or
     //   3. We just processed a click and there's been no new mouse event
     if ( (this.gradeReadOnly && (code != this._CODE_MODETOGGLE)) 
-        || (this.modeReadOnly && (code == this._CODE_MODETOGGLE))
-        || this._clicked)
+            || (this.modeReadOnly && (code == this._CODE_MODETOGGLE))
+            || this._clicked) {
         return true;
+    }
 
     // Modify the component state permanently
     this._modifyState(code);
@@ -560,7 +592,6 @@
  */
 @JS_NS@.widget.rating.prototype._onFocusCallback = function(code) {
     // TBD
-//    console.log("_onFocusCallback: code=" + code);
     return true;
 }; // _onFocusCallback
 
@@ -749,44 +780,44 @@
     // onto the widget. At that point there is no difference between
     // "props" and "this".
     //
-    if (props.gradeReadOnly != null) {
-        if (props.gradeReadOnly != this.gradeReadOnly)
-            this._createGradeControls = true;
+    if (props.gradeReadOnly != null 
+            && props.gradeReadOnly != this.gradeReadOnly) {
+        this._createGradeControls = true;
     }
-    if (props.modeReadOnly != null) {
-        if (props.modeReadOnly != this.modeReadOnly)
-            this._createGradeControls = true;
+    if (props.modeReadOnly != null 
+            && props.modeReadOnly != this.modeReadOnly) {
+        this._createGradeControls = true;
     }
-    if (props.inAverageMode != null) {
-        if (props.inAverageMode != this.inAverageMode)
-            this._createGradeControls = true;
+    if (props.inAverageMode != null 
+            && props.inAverageMode != this.inAverageMode) {
+        this._createGradeControls = true;
     }
-    if (props.maxGrade != null) {
-        if (props.maxGrade != this.maxGrade)
-            this._createGradeControls = true;
+    if (props.maxGrade != null && props.maxGrade != this.maxGrade) {
+        this._createGradeControls = true;
     }
     if (props.averageGrade != null) {
         var f = parseFloat(props.averageGrade);
-        if (!isNaN(f) && (f != this.averageGrade))
+        if (!isNaN(f) && (f != this.averageGrade)) {
             this._createGradeControls = true;
+        }
     }
     if (props.grade != null) {
         var newGrade = this.grade;
-	if (props.grade == "notInterested")
+	if (props.grade == "notInterested") {
             newGrade = this._CODE_NOTINTERESTED;
-        else if (props.grade == "clear")
+        } else if (props.grade == "clear") {
             newGrade = this._CODE_CLEAR;
-        else {
+        } else {
             var n = parseInt(props.grade);
             if (!isNaN(n))
                 newGrade = n;
         }
-        if (newGrade != this.grade)
+        if (newGrade != this.grade) {
             this._createGradeControls = true;
+        }
     }
-    if (props.maxGrade != null) {
-        if (props.maxGrade != this.maxGrade)
-            this._createGradeControls = true;
+    if (props.maxGrade != null && props.maxGrade != this.maxGrade) {
+        this._createGradeControls = true;
     }
 
     // Extend widget object for later updates.
@@ -828,12 +859,14 @@
         var classNames = this._textContainer.className.split(" ");
         if (props.includeText == true) {
             // Remove hidden class
-            if (this._common._checkStyleClasses(classNames, hiddenClass))
+            if (this._common._checkStyleClasses(classNames, hiddenClass)) {
                 this._common._stripStyleClass(this._textContainer, hiddenClass);
+            }
         } else {
             // Add hidden class
-            if (!this._common._checkStyleClasses(classNames, hiddenClass))
+            if (!this._common._checkStyleClasses(classNames, hiddenClass)) {
                 this._common._addStyleClass(this._textContainer, hiddenClass);
+            }
         }
     }
 
@@ -848,29 +881,34 @@
             var notInterestedOn = this._theme.getClassName("RATING_NOT_INTERESTED_ON_IMAGE");
 
             // Remove hidden class
-            if (this._common._checkStyleClasses(classNames, hiddenClass))
+            if (this._common._checkStyleClasses(classNames, hiddenClass)) {
                 this._common._stripStyleClass(this._notInterestedNode, hiddenClass);
+            }
 
             if (this.grade == this._CODE_NOTINTERESTED) {
                 // Remove notInterested OFF class
-                if (this._common._checkStyleClasses(classNames, notInterestedOff))
+                if (this._common._checkStyleClasses(classNames, notInterestedOff)) {
                     this._common._stripStyleClass(this._notInterestedNode, notInterestedOff);
+                }
 
                 // Add notInterested ON class
-                if (!this._common._checkStyleClasses(classNames, notInterestedOn))
+                if (!this._common._checkStyleClasses(classNames, notInterestedOn)) {
                     this._common._addStyleClass(this._notInterestedNode, notInterestedOn);
+                }
 
                 // Get image width
                 imageWidth = parseInt(this._theme.getProperty("images", "RATING_NOT_INTERESTED_ON_WIDTH"));
 
             } else {
                 // Remove notInterested ON class
-                if (this._common._checkStyleClasses(classNames, notInterestedOn))
+                if (this._common._checkStyleClasses(classNames, notInterestedOn)) {
                     this._common._stripStyleClass(this._notInterestedNode, notInterestedOn);
+                }
 
                 // Add notInterested OFF class
-                if (!this._common._checkStyleClasses(classNames, notInterestedOff))
+                if (!this._common._checkStyleClasses(classNames, notInterestedOff)) {
                     this._common._addStyleClass(this._notInterestedNode, notInterestedOff);
+                }
 
                 // Get image width
                 imageWidth = parseInt(this._theme.getProperty("images", "RATING_NOT_INTERESTED_OFF_WIDTH"));
@@ -881,8 +919,9 @@
 
         } else {
             // Add hidden class
-            if (!this._common._checkStyleClasses(classNames, hiddenClass))
+            if (!this._common._checkStyleClasses(classNames, hiddenClass)) {
                 this._common._addStyleClass(this._notInterestedNode, hiddenClass);
+            }
         }
 
         // Record image width if changing and flag that control container width must be recomputed.
@@ -892,18 +931,20 @@
         }
     }
     if (this.includeNotInterested) {
-        if (this.gradeReadOnly)
+        if (this.gradeReadOnly) {
             this._common._stripStyleClass(this._notInterestedNode, hoverClass);
-        else
+        } else {
             this._common._addStyleClass(this._notInterestedNode, hoverClass);
+        }
     }
 
     // If creating grade controls, delete existing ones if they exist
     if (this._createGradeControls == true) {
         for (var i = 1; (this._gradeNodes != null) && (i <= this._gradeNodes.length); i++) {
             var node = this._gradeNodes[i-1];
-            if (node != null)
+            if (node != null) {
                 node.parentNode.removeChild(node);
+            }
         }
         this._gradeNodes = null;
         this.imageWidths["grades"] = 0;
@@ -921,15 +962,17 @@
 
             // Get image info for this grade control for the display mode
             var imageInfo = null;
-            if (this.inAverageMode)
+            if (this.inAverageMode) {
                 imageInfo = this._getGradeImageInfo(true, this.averageGrade, i);
-            else
+            } else {
                 imageInfo = this._getGradeImageInfo(false, this.grade, i);
+            }
 
             // Set class for this grade control
             clone.className = imageInfo[0];
-            if (!this.gradeReadOnly)
+            if (!this.gradeReadOnly) {
                 this._common._addStyleClass(clone, hoverClass);
+            }
 
             // Maintain running image width for grades
             imageWidths += (imageInfo[1] + gradeRightMargin);
@@ -967,44 +1010,41 @@
             var clearOn = this._theme.getClassName("RATING_CLEAR_ON_IMAGE");
 
             // Remove hidden class
-            if (this._common._checkStyleClasses(classNames, hiddenClass))
+            if (this._common._checkStyleClasses(classNames, hiddenClass)) {
                 this._common._stripStyleClass(this._clearNode, hiddenClass);
+            }
 
             if (this.grade == this._CODE_CLEAR) {
                 // Remove clear OFF class
-                if (this._common._checkStyleClasses(classNames, clearOff))
+                if (this._common._checkStyleClasses(classNames, clearOff)) {
                     this._common._stripStyleClass(this._clearNode, clearOff);
-
+                }
                 // Add clear ON class
-                if (!this._common._checkStyleClasses(classNames, clearOn))
+                if (!this._common._checkStyleClasses(classNames, clearOn)) {
                     this._common._addStyleClass(this._clearNode, clearOn);
-
+                }
                 // Get image width
                 imageWidth = parseInt(this._theme.getProperty("images", "RATING_CLEAR_ON_WIDTH"));
-
             } else {
-
                 // Remove clear ON class.
-                if (this._common._checkStyleClasses(classNames, clearOn))
+                if (this._common._checkStyleClasses(classNames, clearOn)) {
                     this._common._stripStyleClass(this._clearNode, clearOn);
-
+                }
                 // Add clear OFF class
-                if (!this._common._checkStyleClasses(classNames, clearOff))
+                if (!this._common._checkStyleClasses(classNames, clearOff)) {
                     this._common._addStyleClass(this._clearNode, clearOff);
-
+                }
                 // Get image width
                 imageWidth = parseInt(this._theme.getProperty("images", "RATING_CLEAR_OFF_WIDTH"));
             }
-
             // Add right margin
             imageWidth += gradeRightMargin;
-
         } else {
             // Add hidden class
-            if (!this._common._checkStyleClasses(classNames, hiddenClass))
+            if (!this._common._checkStyleClasses(classNames, hiddenClass)) {
                 this._common._addStyleClass(this._clearNode, hiddenClass);
+            }
         }
-
         // Record image width if changing and flag that control container width must be recomputed.
         if (imageWidth != this.imageWidths["clear"]) {
             this.imageWidths["clear"] = imageWidth;
@@ -1012,10 +1052,11 @@
         }
     }
     if (this.includeClear) {
-        if (this.gradeReadOnly)
+        if (this.gradeReadOnly) {
             this._common._stripStyleClass(this._clearNode, hoverClass);
-        else
+        } else {
             this._common._addStyleClass(this._clearNode, hoverClass);
+        }
     }
 
     // Mode toggle control
@@ -1029,60 +1070,61 @@
             var averageMode = this._theme.getClassName("RATING_MODE_AVERAGE_IMAGE");
 
             // Remove hidden class
-            if (this._common._checkStyleClasses(classNames, hiddenClass))
+            if (this._common._checkStyleClasses(classNames, hiddenClass)) {
                 this._common._stripStyleClass(this._modeToggleNode, hiddenClass);
-
+            }
             if (this.inAverageMode == true) {
                 // Remove normal mode class
-                if (this._common._checkStyleClasses(classNames, normalMode))
+                if (this._common._checkStyleClasses(classNames, normalMode)) {
                     this._common._stripStyleClass(this._modeToggleNode, normalMode);
-
+                }
                 // Add average mode class
-                if (!this._common._checkStyleClasses(classNames, averageMode))
+                if (!this._common._checkStyleClasses(classNames, averageMode)) {
                     this._common._addStyleClass(this._modeToggleNode, averageMode);
-
+                }
                 // Get image width
                 imageWidth = parseInt(this._theme.getProperty("images", "RATING_MODE_AVG_WIDTH"));
             }
             else {
                 // Remove average mode class
-                if (this._common._checkStyleClasses(classNames, averageMode))
+                if (this._common._checkStyleClasses(classNames, averageMode)) {
                     this._common._stripStyleClass(this._modeToggleNode, averageMode);
-
+                }
                 // Add normal mode class
-                if (!this._common._checkStyleClasses(classNames, normalMode))
+                if (!this._common._checkStyleClasses(classNames, normalMode)) {
                     this._common._addStyleClass(this._modeToggleNode, normalMode);
-
+                }
                 // Get image width
                 imageWidth = parseInt(this._theme.getProperty("images", "RATING_MODE_NORMAL_WIDTH"));
             }
-
         } else {
             // Add hidden class
-            if (!this._common._checkStyleClasses(classNames, hiddenClass))
+            if (!this._common._checkStyleClasses(classNames, hiddenClass)) {
                 this._common._addStyleClass(this._modeToggleNode, hiddenClass);
+            }
         }
-
-        // Record image width if changing and flag that control container width must be recomputed.
+        // Record image width if changing and flag that control container width
+        //  must be recomputed.
         if (imageWidth != this.imageWidths["modeToggle"]) {
             this.imageWidths["modeToggle"] = imageWidth;
             changeControlWidth = true;
         }
     }
     if (this.includeModeToggle) {
-        if (this.modeReadOnly)
+        if (this.modeReadOnly) {
             this._common._stripStyleClass(this._modeToggleNode, hoverClass);
-        else
+        } else {
             this._common._addStyleClass(this._modeToggleNode, hoverClass);
+        }
     }
 
     // Spacer between grade controls and clear/modeToggle controls
     var classNames = this._spacerNode.className.split(" ");
     if ((this.imageWidths["clear"] > 0) || (this.imageWidths["modeToggle"] > 0)) {
         // Remove hidden class
-        if (this._common._checkStyleClasses(classNames, hiddenClass))
+        if (this._common._checkStyleClasses(classNames, hiddenClass)) {
             this._common._stripStyleClass(this._spacerNode, hiddenClass);
-
+        }
         // Record spacer width if changing and flag that control container width must be recomputed.
         if (this.imageWidths["spacer"] == 0) {
             this.imageWidths["spacer"] = parseInt(this._theme.getMessage("rating.spacerWidth"));
@@ -1090,9 +1132,9 @@
         }
     } else {
         // Add hidden class
-        if (!this._common._checkStyleClasses(classNames, hiddenClass))
+        if (!this._common._checkStyleClasses(classNames, hiddenClass)) {
             this._common._addStyleClass(this._spacerNode, hiddenClass);
-
+        }
         // Record spacer width if changing and flag that control container width must be recomputed.
         if (this.imageWidths["spacer"] != 0) {
             this.imageWidths["spacer"] = 0;
@@ -1111,8 +1153,9 @@
 
     // Always contrain the width of the text container to be the same as
     // the control container.
-    if (this.includeText == true)
+    if (this.includeText == true) {
         this._textContainer.style.width = this._controlContainer.style.width;
+    }
     
     // Set more properties.
     this._setCommonProps(this._domNode, props);

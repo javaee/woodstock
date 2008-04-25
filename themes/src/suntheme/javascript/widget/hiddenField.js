@@ -105,8 +105,8 @@
 
     // Set properties.
     if (this.disabled != null) { props.disabled = this.disabled; }
-    if (this.name) { props.name = this.name; }
-    if (this.value) { props.value = this.value; }
+    if (this.name != null) { props.name = this.name; }
+    if (this.value != null) { props.value = this.value; }
 
     return props;
 };
@@ -127,8 +127,11 @@
     }
 
     // Set properties.
-    if (props.name) { this._domNode.name = props.name; }
-    if (props.value) { this._domNode.value = props.value; }
+    if (props.name != null) { this._domNode.name = props.name; }
+    if (props.value != null) {
+        // An empty string is valid.
+        this._domNode.value = props.value;
+    }
     if (props.disabled != null) { 
         this._domNode.disabled = new Boolean(props.disabled).valueOf();
     }

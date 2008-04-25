@@ -126,7 +126,7 @@
  */
 @JS_NS@.widget._base.widgetBase.prototype._buildRendering = function () {
     // Get default template path.
-    if (this.templatePath) {
+    if (this.templatePath == null) {
         this.templatePath = this._theme._getTemplatePath(this._widgetType);
     }
 
@@ -183,11 +183,11 @@
     var props = {};
 
     // Set properties.
-    if (this.accessKey) { props.accessKey = this.accessKey; }
-    if (this.dir) { props.dir = this.dir; }
-    if (this.lang) { props.lang = this.lang; }
-    if (this.tabIndex) { props.tabIndex = this.tabIndex; }
-    if (this.title) { props.title = this.title; }
+    if (this.accessKey != null) { props.accessKey = this.accessKey; }
+    if (this.dir != null) { props.dir = this.dir; }
+    if (this.lang != null) { props.lang = this.lang; }
+    if (this.tabIndex != null) { props.tabIndex = this.tabIndex; }
+    if (this.title != null) { props.title = this.title; }
 
     return props;
 };
@@ -203,9 +203,9 @@
     var props = {};
 
     // Set properties.
-    if (this.className) { props.className = this.className; }
-    if (this.id) { props.id = this.id; }
-    if (this.style) { props.style = this.style; }
+    if (this.className != null) { props.className = this.className; }
+    if (this.id != null) { props.id = this.id; }
+    if (this.style != null) { props.style = this.style; }
     if (this.visible != null) { props.visible = this.visible; }
 
     return props;
@@ -222,20 +222,20 @@
     var props = {};
 
     // Set properties.
-    if (this.onBlur) { props.onBlur = this.onBlur; }
-    if (this.onChange) { props.onChange = this.onChange; }
-    if (this.onClick) { props.onClick = this.onClick; }
-    if (this.onDblClick) { props.onDblClick = this.onDblClick; }
-    if (this.onFocus) { props.onFocus = this.onFocus; }
-    if (this.onKeyDown) { props.onKeyDown = this.onKeyDown; }
-    if (this.onKeyPress) { props.onKeyPress = this.onKeyPress; }
-    if (this.onKeyUp) { props.onKeyUp = this.onKeyUp; }
-    if (this.onMouseDown) { props.onMouseDown = this.onMouseDown; }
-    if (this.onMouseOut) { props.onMouseOut = this.onMouseOut; }
-    if (this.onMouseOver) { props.onMouseOver = this.onMouseOver; }
-    if (this.onMouseUp) { props.onMouseUp = this.onMouseUp; }
-    if (this.onMouseMove) { props.onMouseMove = this.onMouseMove; }
-    if (this.onSelect) { props.onSelect = this.onSelect; }
+    if (this.onBlur != null) { props.onBlur = this.onBlur; }
+    if (this.onChange != null) { props.onChange = this.onChange; }
+    if (this.onClick != null) { props.onClick = this.onClick; }
+    if (this.onDblClick != null) { props.onDblClick = this.onDblClick; }
+    if (this.onFocus != null) { props.onFocus = this.onFocus; }
+    if (this.onKeyDown != null) { props.onKeyDown = this.onKeyDown; }
+    if (this.onKeyPress != null) { props.onKeyPress = this.onKeyPress; }
+    if (this.onKeyUp != null) { props.onKeyUp = this.onKeyUp; }
+    if (this.onMouseDown != null) { props.onMouseDown = this.onMouseDown; }
+    if (this.onMouseOut != null) { props.onMouseOut = this.onMouseOut; }
+    if (this.onMouseOver != null) { props.onMouseOver = this.onMouseOver; }
+    if (this.onMouseUp != null) { props.onMouseUp = this.onMouseUp; }
+    if (this.onMouseMove != null) { props.onMouseMove = this.onMouseMove; }
+    if (this.onSelect != null) { props.onSelect = this.onSelect; }
 
     return props;
 };
@@ -371,19 +371,19 @@
     if (domNode == null || props == null) {
         return false;
     }
-    if (props.accessKey) { 
+    if (props.accessKey != null) { 
         domNode.accessKey = props.accessKey;
     }
-    if (props.dir) {
+    if (props.dir != null) {
         domNode.dir = props.dir;
     }
-    if (props.lang) {
+    if (props.lang != null) {
         domNode.lang = props.lang;
     }
     if (props.tabIndex > -1 && props.tabIndex < 32767) {
         domNode.tabIndex = props.tabIndex;
     }
-    if (props.title) {
+    if (props.title != null) {
         domNode.title = props.title;
     }
     return true;
@@ -411,13 +411,13 @@
     if (domNode == null || props == null) {
         return false;
     }
-    if (props.className) {
+    if (props.className != null) {
         domNode.className = props.className;
     }
-    if (props.id) { 
+    if (props.id != null) { 
         domNode.id = props.id;
     }
-    if (props.style) { 
+    if (props.style != null) { 
         domNode.style.cssText = props.style;
     }
     if (props.visible != null) {
@@ -456,72 +456,72 @@
 
     // Note: JSON strings are not recognized as JavaScript. In order for
     // events to work properly, an anonymous function must be created.
-    if (props.onBlur) { 
+    if (props.onBlur != null) { 
         domNode.onblur = (typeof props.onBlur == 'string')
             ? new Function("event", props.onBlur)
             : props.onBlur;
     }
-    if (props.onClick) {
+    if (props.onClick != null) {
         domNode.onclick = (typeof props.onClick == 'string')
             ? new Function("event", props.onClick)
             : props.onClick;
     }
-    if (props.onChange) {
+    if (props.onChange != null) {
         domNode.onchange = (typeof props.onChange == 'string')
             ? new Function("event", props.onChange)
             : props.onChange;
     }
-    if (props.onDblClick) {
+    if (props.onDblClick != null) {
         domNode.ondblclick = (typeof props.onDblClick == 'string')
             ? new Function("event", props.onDblClick)
             : props.onDblClick;
     }
-    if (props.onFocus) {
+    if (props.onFocus != null) {
         domNode.onfocus = (typeof props.onFocus == 'string')
             ? new Function("event", props.onFocus)
             : props.onFocus;
     }
-    if (props.onKeyDown) {
+    if (props.onKeyDown != null) {
         domNode.onkeydown = (typeof props.onKeyDown == 'string')
             ? new Function("event", props.onKeyDown)
             : props.onKeyDown;
     }
-    if (props.onKeyPress) {
+    if (props.onKeyPress != null) {
         domNode.onkeypress = (typeof props.onKeyPress == 'string')
             ? new Function("event", props.onKeyPress)
             : props.onKeyPress;
     }
-    if (props.onKeyUp) {
+    if (props.onKeyUp != null) {
         domNode.onkeyup = (typeof props.onKeyUp == 'string')
             ? new Function("event", props.onKeyUp)
             : props.onKeyUp;
     }
-    if (props.onMouseDown) {
+    if (props.onMouseDown != null) {
         domNode.onmousedown = (typeof props.onMouseDown == 'string')
             ? new Function("event", props.onMouseDown)
             : props.onMouseDown;
     }
-    if (props.onMouseOut) {
+    if (props.onMouseOut != null) {
         domNode.onmouseout = (typeof props.onMouseOut == 'string')
             ? new Function("event", props.onMouseOut)
             : props.onMouseOut;
     }
-    if (props.onMouseOver) {
+    if (props.onMouseOver != null) {
         domNode.onmouseover = (typeof props.onMouseOver == 'string')
             ? new Function("event", props.onMouseOver)
             : props.onMouseOver;
     }
-    if (props.onMouseUp) {
+    if (props.onMouseUp != null) {
         domNode.onmouseup = (typeof props.onMouseUp == 'string')
             ? new Function("event", props.onMouseUp)
             : props.onMouseUp;
     }
-    if (props.onMouseMove) {
+    if (props.onMouseMove != null) {
         domNode.onmousemove = (typeof props.onMouseMove == 'string')
             ? new Function("event", props.onMouseMove)
             : props.onMouseMove;
     }
-    if (props.onSelect) {
+    if (props.onSelect != null) {
         domNode.onselect = (typeof props.onSelect == 'string')
             ? new Function("event", props.onSelect)
             : props.onSelect;

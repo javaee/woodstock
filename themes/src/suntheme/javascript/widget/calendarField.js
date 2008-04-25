@@ -155,9 +155,9 @@
     var props = this._inherited("getProps", arguments);
 
     // Set properties.  
-    if (this.align) { props.align = this.align; }
-    if (this.calendar) { props.calendar = this.calendar; }  
-    if (this.patternHelp) { props.patternHelp = this.patternHelp; }   
+    if (this.align != null) { props.align = this.align; }
+    if (this.calendar != null) { props.calendar = this.calendar; }  
+    if (this.patternHelp != null) { props.patternHelp = this.patternHelp; }   
 
     return props;
 };

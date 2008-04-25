@@ -525,20 +525,20 @@
     var props = this._inherited("getProps", arguments);
     
     // Set properties.
-    if (this.todayDateMsg) { props.todayDateMsg = this.todayDateMsg; }
-    if (this.spacerImage) { props.spacerImage = this.spacerImage; }
-    if (this.topLeftImage) { props.topLeftImage = this.topLeftImage; }
-    if (this.topRightImage) { props.topRightImage = this.topRightImage; }
-    if (this.closeButtonLink) { props.closeButtonLink = this.closeButtonLink; }
-    if (this.increaseLink) { props.increaseLink = this.increaseLink; }
-    if (this.decreaseLink) { props.decreaseLink = this.decreaseLink; }
-    if (this.monthMenu) { props.monthMenu = this.monthMenu; }
-    if (this.yearMenu) { props.yearMenu = this.yearMenu; }   
-    if (this.firstDayOfWeek) { props.firstDayOfWeek = this.firstDayOfWeek; }
-    if (this.toggleLink) { props.toggleLink = this.toggleLink; }
-    if (this.weekDays) { props.weekDays = this.weekDays; }    
-    if (this.maxDate) { props.maxDate = this.maxDate; }
-    if (this.minDate) { props.minDate = this.minDate; }
+    if (this.todayDateMsg != null) { props.todayDateMsg = this.todayDateMsg; }
+    if (this.spacerImage != null) { props.spacerImage = this.spacerImage; }
+    if (this.topLeftImage != null) { props.topLeftImage = this.topLeftImage; }
+    if (this.topRightImage != null) { props.topRightImage = this.topRightImage; }
+    if (this.closeButtonLink != null) { props.closeButtonLink = this.closeButtonLink; }
+    if (this.increaseLink != null) { props.increaseLink = this.increaseLink; }
+    if (this.decreaseLink != null) { props.decreaseLink = this.decreaseLink; }
+    if (this.monthMenu != null) { props.monthMenu = this.monthMenu; }
+    if (this.yearMenu != null) { props.yearMenu = this.yearMenu; }   
+    if (this.firstDayOfWeek != null) { props.firstDayOfWeek = this.firstDayOfWeek; }
+    if (this.toggleLink != null) { props.toggleLink = this.toggleLink; }
+    if (this.weekDays != null) { props.weekDays = this.weekDays; }    
+    if (this.maxDate != null) { props.maxDate = this.maxDate; }
+    if (this.minDate != null) { props.minDate = this.minDate; }
     
     return props;
 };

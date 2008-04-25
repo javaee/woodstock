@@ -284,9 +284,9 @@
 @JS_NS@.widget._base.menuBase.prototype.getProps = function() {
     var props = this._inherited("getProps", arguments);
 
-    if (this.options) { props.options = this.options; }
-    if (this.formId) { props.formId = this.formId; }
-    if (this.submitForm) { props.submitForm = this.submitForm; }  
+    if (this.options != null) { props.options = this.options; }
+    if (this.formId != null) { props.formId = this.formId; }
+    if (this.submitForm != null) { props.submitForm = this.submitForm; }  
 
     return props;
 };
@@ -380,7 +380,7 @@
     // Functions may sometime return without a value in which case the value
     // of the boolean variable may become undefined. 
     if (changeResult != false) {
-        if (this.submitForm) {
+        if (this.submitForm == true) {
             this._submitFormData();
         }  
     }
@@ -415,7 +415,7 @@
     // Functions may sometime return without a value in which case the value
     // of the boolean variable may become undefined. 
     if (clickResult != false && changeResult != false) {
-        if (this.submitForm) {
+        if (this.submitForm == true) {
             this._submitFormData();
         }  
     }
@@ -526,7 +526,7 @@
     }    
 
     // Set title.
-    if (props.title) {
+    if (props.title != null) {
         optionNode.title = props.title;
     }
     

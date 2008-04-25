@@ -169,14 +169,14 @@
     var props = this._inherited("getProps", arguments);
 
     // Set properties.
-    if (this.contents) { props.contents = this.contents; }
-    if (this.errorImage) { props.errorImage = this.errorImage; }
-    if (this.htmlFor) { props.htmlFor = this.htmlFor; }
+    if (this.contents != null) { props.contents = this.contents; }
+    if (this.errorImage != null) { props.errorImage = this.errorImage; }
+    if (this.htmlFor != null) { props.htmlFor = this.htmlFor; }
     if (this.level != null) { props.level = this.level; }
     if (this.required != null) { props.required = this.required; }
     if (this.requiredImage) { props.requiredImage = this.requiredImage; }
     if (this.valid != null) { props.valid = this.valid; }
-    if (this.value) { props.value = this.value; }
+    if (this.value != null) { props.value = this.value; }
 
     return props;
 };
@@ -276,6 +276,7 @@
 	this.required = new Boolean(props.required).valueOf();
     }
     if (props.value != null) {
+        // An empty string is valid.
 	this._widget._addFragment(this._valueContainer, props.value);
     }
 

@@ -87,14 +87,14 @@
     var props = this._inherited("getProps", arguments);
     
     // Set properties.
-    if (this.alt) { props.alt = this.alt; }
+    if (this.alt != null) { props.alt = this.alt; }
     if (this.disabled != null) { props.disabled = this.disabled; }
     if (this.maxLength > 0) { props.maxLength = this.maxLength; }    
-    if (this.notify) { props.notify = this.notify; }
+    if (this.notify != null) { props.notify = this.notify; }
     if (this.submitForm != null) { props.submitForm = this.submitForm; }
     if (this.text != null) { props.text = this.text; }
     if (this.title != null) { props.title = this.title; }
-    if (this.type) { props.type= this.type; }
+    if (this.type != null) { props.type= this.type; }
     if (this.readOnly != null) { props.readOnly = this.readOnly; }
     if (this.size > 0) { props.size = this.size; }
     if (this.style != null) { props.style = this.style; }

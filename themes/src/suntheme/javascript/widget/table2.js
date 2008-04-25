@@ -115,19 +115,19 @@
     var props = this._inherited("getProps", arguments);
 
     // Set properties.
-    if (this.actions) { props.actions = this.actions; }
-    if (this.align) { props.align = this.align; }
-    if (this.bgColor) { props.bgColor = this.bgColor; }
-    if (this.border) { props.border = this.border; }
-    if (this.caption) { props.caption = this.caption; }
-    if (this.cellpadding) { props.cellpadding = this.cellpadding; }
-    if (this.cellspacing) { props.cellspacing = this.cellspacing; }
-    if (this.filterText) { props.filterText = this.filterText; }
-    if (this.frame) { props.frame = this.frame; }
-    if (this.rowGroups) { props.rowGroups = this.rowGroups; }
-    if (this.rules) { props.rules = this.rules; }
-    if (this.summary) { props.summary = this.summary; }
-    if (this.width) { props.width = this.width; }
+    if (this.actions != null) { props.actions = this.actions; }
+    if (this.align != null) { props.align = this.align; }
+    if (this.bgColor != null) { props.bgColor = this.bgColor; }
+    if (this.border != null) { props.border = this.border; }
+    if (this.caption != null) { props.caption = this.caption; }
+    if (this.cellpadding != null) { props.cellpadding = this.cellpadding; }
+    if (this.cellspacing != null) { props.cellspacing = this.cellspacing; }
+    if (this.filterText != null) { props.filterText = this.filterText; }
+    if (this.frame != null) { props.frame = this.frame; }
+    if (this.rowGroups != null) { props.rowGroups = this.rowGroups; }
+    if (this.rules != null) { props.rules = this.rules; }
+    if (this.summary != null) { props.summary = this.summary; }
+    if (this.width != null) { props.width = this.width; }
 
     return props;
 };
@@ -209,8 +209,8 @@
     props.tabIndex = null;
 
     // Set properties.
-    if (props.align) { this._domNode.align = props.align; }
-    if (props.width) { this._domNode.style.width = props.width; }
+    if (props.align != null) { this._domNode.align = props.align; }
+    if (props.width != null) { this._domNode.style.width = props.width; }
 
     // Add caption.
     if (props.caption || props.filterText && this.caption) {       

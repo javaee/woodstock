@@ -38,7 +38,7 @@
  * @config {String} id Uniquely identifies an element within a document.
  * @config {String} lang Specifies the language of attribute values and content.
  * @config {Array} indicators 
- * @config {String} moreInfo 
+ * @config {Object} moreInfo Key-Value pairs of properties for more info link.
  * @config {String} spacerImage 
  * @config {String} summary 
  * @config {String} type 
@@ -101,7 +101,8 @@
     if (this.summary != null) { props.summary = this.summary; }
     if (this.type != null) { props.type = this.type; }
     if (this.moreInfo != null) { props.moreInfo = this.moreInfo; }
-    if (this.spacerImage != null) { props.spacerImage = this.spacerImage; }    
+    if (this.spacerImage != null) { props.spacerImage = this.spacerImage; }
+
     return props;
 };
 
@@ -207,7 +208,7 @@
       this.indicators = defaultIndicators;     
     }
     
-    //spacer image
+    // spacer image
     if (this.spacerImage == null) {
         this.spacerImage = {
              icon: "DOT",
@@ -216,6 +217,7 @@
         };
     }
     // moreInfo link
+    // To do: Test isFragment instead.
     if (this.moreInfo != null && this.moreInfo.id == null 
             && this.moreInfo.widgetType == null) {
         this.moreInfo = {
@@ -252,16 +254,16 @@
     }
 
     // Set properties.
-    if (props.dir) { this._domNode.dir = props.dir; }
-    if (props.lang) { this._domNode.lang = props.lang; }    
+    if (props.dir != null) { this._domNode.dir = props.dir; }
+    if (props.lang != null) { this._domNode.lang = props.lang; }    
     
     // Set summary.
-    if (props.summary) {
+    if (props.summary != null) {
         this._widget._addFragment(this._summaryContainer, props.summary);
     }
 
     // Set detail.
-    if (props.detail) {
+    if (props.detail != null) {
         this._widget._addFragment(this._detailContainer, props.detail);
     }
 

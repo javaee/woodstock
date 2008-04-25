@@ -156,7 +156,7 @@
     var props = this._inherited("getProps", arguments);
 
     // Set properties.
-    if (this.src) { props.src = this.src; }
+    if (this.src != null) { props.src = this.src; }
 
     return props;
 };

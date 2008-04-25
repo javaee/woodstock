@@ -393,22 +393,22 @@
     var props = this._inherited("getProps", arguments);
 
     // Set properties.
-    if (this.align) { props.align = this.align; }
-    if (this.bgColor) { props.bgColor = this.bgColor; }
-//    if (this.char) { props.char = this.char; } // To do: Rename -- keyword is reserved.
-    if (this.charOff) { props.charOff = this.charOff; }
-    if (this.columns) { props.columns = this.columns; }
-    if (this.first) { props.first = this.first; }
-    if (this.headerText) { props.headerText = this.headerText; }
-    if (this.height) { props.height = this.height; }
-    if (this.maxRows) { props.maxRows = this.maxRows; }
-    if (this.rows) { props.rows = this.rows; }
-    if (this.totalRows) { props.totalRows = this.totalRows; }
-    if (this.valign) { props.valign = this.valign; }
+    if (this.align != null) { props.align = this.align; }
+    if (this.bgColor != null) { props.bgColor = this.bgColor; }
+//    if (this.char != null) { props.char = this.char; } // To do: Rename -- keyword is reserved.
+    if (this.charOff != null) { props.charOff = this.charOff; }
+    if (this.columns != null) { props.columns = this.columns; }
+    if (this.first != null) { props.first = this.first; }
+    if (this.headerText != null) { props.headerText = this.headerText; }
+    if (this.height != null) { props.height = this.height; }
+    if (this.maxRows != null) { props.maxRows = this.maxRows; }
+    if (this.rows != null) { props.rows = this.rows; }
+    if (this.totalRows != null) { props.totalRows = this.totalRows; }
+    if (this.valign != null) { props.valign = this.valign; }
     if (this.paginationControls != null) {props.paginationControls = this.paginationControls;}
-    if (this.paginationNextButton) {props.paginationNextButton = this.paginationNextButton;}
-    if (this.paginationPrevButton) {props.paginationPrevButton = this.paginationPrevButton;}
-    if (this.sortPopupMenu) {props.sortPopupMenu = this.sortPopupMenu;}
+    if (this.paginationNextButton != null) {props.paginationNextButton = this.paginationNextButton;}
+    if (this.paginationPrevButton != null) {props.paginationPrevButton = this.paginationPrevButton;}
+    if (this.sortPopupMenu != null) {props.sortPopupMenu = this.sortPopupMenu;}
 
     return props;
 };
@@ -662,19 +662,19 @@
  */
 @JS_NS@.widget.table2RowGroup.prototype._setColumnProps = function(domNode, props) {
     // Set properties.
-    if (this.abbr) { domNode.abbr = this.abbr; }
-    if (this.axis) { domNode.axis = this.axis; }
-    if (this.bgColor) { domNode.bgColor = this.bgColor; }
-//    if (this.char) { domNode.char = this.char; } // To do: Rename -- keyword is reserved.
-    if (this.charOff) { domNode.charoff = this.charOff; }
-    if (this.thisspan) { domNode.colspan = this.colspan; }
-    if (this.headers) { domNode.headers = this.headers; }
-    if (this.height) { domNode.height = this.height; }
-    if (this.noWrap) { domNode.nowrap = "nowrap"; }
-    if (this.rowSpan) { domNode.rowspan = this.rowSpan; }
-    if (this.scope) { domNode.scope = this.scope; }
-    if (this.valign) { domNode.valign = this.valign; }
-    if (this.width) { domNode.width = this.width; }
+    if (this.abbr != null) { domNode.abbr = this.abbr; }
+    if (this.axis != null) { domNode.axis = this.axis; }
+    if (this.bgColor != null) { domNode.bgColor = this.bgColor; }
+//    if (this.char != null) { domNode.char = this.char; } // To do: Rename -- keyword is reserved.
+    if (this.charOff != null) { domNode.charoff = this.charOff; }
+    if (this.colspan != null) { domNode.colspan = this.colspan; }
+    if (this.headers != null) { domNode.headers = this.headers; }
+    if (this.height != null) { domNode.height = this.height; }
+    if (this.noWrap != null) { domNode.nowrap = "nowrap"; }
+    if (this.rowSpan != null) { domNode.rowspan = this.rowSpan; }
+    if (this.scope != null) { domNode.scope = this.scope; }
+    if (this.valign != null) { domNode.valign = this.valign; }
+    if (this.width != null) { domNode.width = this.width; }
 
     // Set more properties.
     this._setCommonProps(domNode, props);
@@ -748,7 +748,7 @@
     }
 
     // Add header.
-    if (props.headerText) {
+    if (props.headerText != null) {
         this._widget._updateFragment(this._groupHeaderText, this._groupHeaderText.id, props.headerText);
         this._common._setVisibleElement(this.groupHeaderContainer, true);
     }

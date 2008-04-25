@@ -169,18 +169,18 @@
     var props = this._inherited("getProps", arguments);
 
     // Set properties.
-    if (this.selected) { props.selected = this.selected; }
-    if (this.title) { props.title = this.title; }
-    if (this.tabContent) { props.tabContent = this.tabContent; }
+    if (this.selected != null) { props.selected = this.selected; }
+    if (this.title != null) { props.title = this.title; }
+    if (this.tabContent != null) { props.tabContent = this.tabContent; }
     if (this.visible != null) { props.visible = this.visible; }
     if (this.actions != null) { props.actions = this.actions; }
     if (this.className != null) { props.className = this.className; }
     if (this.style != null) { props.style = this.style; }
     if (this.contentHeight != null) { props.contentHeight = this.contentHeight; }
-    if (this.id) { props.id = this.id; }
-    if (this.tabContent) { props.tabContent = this.tabContent; }
-    if (this.focusId) { props.focusId = this.focusId; }
-    if (this.type) { props.type = this.type; }
+    if (this.id != null) { props.id = this.id; }
+    if (this.tabContent != null) { props.tabContent = this.tabContent; }
+    if (this.focusId != null) { props.focusId = this.focusId; }
+    if (this.type != null) { props.type = this.type; }
 
     return props;
 };
@@ -380,7 +380,7 @@
         this._contentNode.style.height = props.contentHeight;
     }
 
-    if (props.title) {
+    if (props.title != null) {
         this._setTitle(props.title);
     }
 

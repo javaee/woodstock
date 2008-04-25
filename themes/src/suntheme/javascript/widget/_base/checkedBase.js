@@ -101,12 +101,12 @@
     var props = this._inherited("getProps", arguments);
 
     // Set properties.  
-    if (this.align) { props.align = this.align; }
+    if (this.align != null) { props.align = this.align; }
     if (this.disabled != null) { props.disabled = this.disabled; }   
-    if (this.image) { props.image = this.image; }
-    if (this.name) { props.name = this.name; }        
+    if (this.image != null) { props.image = this.image; }
+    if (this.name != null) { props.name = this.name; }        
     if (this.readOnly != null) { props.readOnly = this.readOnly; }
-    if (this.value) { props.value = this.value; }
+    if (this.value != null) { props.value = this.value; }
 
     // After widget has been initialized, get user's input.
     if (this._isInitialized() == true && this._inputNode.checked != null) {
@@ -191,7 +191,7 @@
     }
 
     // Set properties.
-    if (props.value) { 
+    if (props.value != null) { 
         this._inputNode.value = props.value;
     }
     if (props.readOnly != null) { 
@@ -204,7 +204,7 @@
     // Set HTML input element class name.
     this._inputNode.className = this._getInputClassName();
     
-    if (props.name) { 
+    if (props.name != null) { 
         // IE does not support the name attribute being set dynamically as 
         // documented at:
         //

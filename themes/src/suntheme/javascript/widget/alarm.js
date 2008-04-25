@@ -206,8 +206,8 @@
     }
 
     // Set properties.
-    if (props.dir) { this._domNode.dir = props.dir; }
-    if (props.lang) { this._domNode.lang = props.lang; }    
+    if (props.dir != null) { this._domNode.dir = props.dir; }
+    if (props.lang != null) { this._domNode.lang = props.lang; }    
     
     // Set right text.
     if (props.textPosition == "right" || props.textPosition == null && props.text != null) {

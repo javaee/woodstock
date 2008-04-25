@@ -227,11 +227,12 @@
     var props = this._inherited("getProps", arguments);
 
     // var props = @JS_NS@.widget.login.superclass.getProps.call(this);
-    if (this.loginState) {props.loginState = this.loginState; }    
-    if (this.autoStart != null) { props.autoStart = this.autoStart;}
-    if (this.tabIndex != null) { props.tabIndex = this.tabIndex;}
-    if (this.dotImage != null) {props.dotImage = this.dotImage;}
-    if (this.loginButton != null) {props.loginButton = this.loginButton;}
+    if (this.loginState != null) { props.loginState = this.loginState; }    
+    if (this.autoStart != null) { props.autoStart = this.autoStart; }
+    if (this.tabIndex != null) { props.tabIndex = this.tabIndex; }
+    if (this.dotImage != null) { props.dotImage = this.dotImage; }
+    if (this.loginButton != null) { props.loginButton = this.loginButton; }
+
     return props;
 };
 

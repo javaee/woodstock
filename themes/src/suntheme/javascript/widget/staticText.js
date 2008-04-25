@@ -107,8 +107,8 @@
     var props = this._inherited("getProps", arguments);
 
     // Set properties.
-    if (this.escape) { props.escape = this.escape; }
-    if (this.value) { props.value = this.value; }
+    if (this.escape != null) { props.escape = this.escape; }
+    if (this.value != null) { props.value = this.value; }
 
     return props;
 };
@@ -128,8 +128,8 @@
         return false;
     }
       
-    // Set text value.
-    if (props.value) {
+    // Set text value -- an empty string is valid.
+    if (props.value != null) {
         // NOTE: If you set this value manually, text must be HTML escaped.
         this._widget._addFragment(this._domNode, props.value, null, this.escape);
     }

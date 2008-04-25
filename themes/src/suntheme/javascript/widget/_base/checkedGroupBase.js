@@ -211,11 +211,11 @@
     var props = this._inherited("getProps", arguments);
 
     // Set properties.     
-    if (this.columns) { props.columns = this.columns; }
-    if (this.contents) { props.contents = this.contents; }    
+    if (this.columns != null) { props.columns = this.columns; }
+    if (this.contents != null) { props.contents = this.contents; }    
     if (this.disabled != null) { props.disabled = this.disabled; }   
-    if (this.id) { props.id = this.id; }
-    if (this.name) { props.name = this.name; }
+    if (this.id != null) { props.id = this.id; }
+    if (this.name != null) { props.name = this.name; }
     if (this.readOnly != null) { props.readOnly = this.readOnly; }  
 
     return props;

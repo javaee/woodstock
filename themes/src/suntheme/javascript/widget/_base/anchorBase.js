@@ -100,18 +100,18 @@
     var props = this._inherited("getProps", arguments);
 
     // Set properties.
-    if (this.hrefLang) { props.hrefLang = this.hrefLang; }
-    if (this.target) { props.target = this.target; }
-    if (this.type) { props.type = this.type; }
-    if (this.rev) { props.rev = this.rev; }
-    if (this.rel) { props.rel = this.rel; }
-    if (this.shape) { props.shape = this.shape; }
-    if (this.coords) { props.coords = this.coords; }
-    if (this.charset) { props.charset = this.charset; }
-    if (this.accessKey) { props.accesskey = this.accessKey; }
-    if (this.href) { props.href = this.href; }
-    if (this.name) { props.name = this.name; } 
-    if (this.contents) { props.contents = this.contents; }
+    if (this.hrefLang != null) { props.hrefLang = this.hrefLang; }
+    if (this.target != null) { props.target = this.target; }
+    if (this.type != null) { props.type = this.type; }
+    if (this.rev != null) { props.rev = this.rev; }
+    if (this.rel != null) { props.rel = this.rel; }
+    if (this.shape != null) { props.shape = this.shape; }
+    if (this.coords != null) { props.coords = this.coords; }
+    if (this.charset != null) { props.charset = this.charset; }
+    if (this.accessKey != null) { props.accesskey = this.accessKey; }
+    if (this.href != null) { props.href = this.href; }
+    if (this.name != null) { props.name = this.name; } 
+    if (this.contents != null) { props.contents = this.contents; }
     if (this.disabled != null) { props.disabled = this.disabled; }
 
     return props;
@@ -188,9 +188,9 @@
     this._addContents(props);
 
     // Set properties.
-    if (props.accessKey) { this._domNode.accesskey = props.accessKey; }
-    if (props.charset) { this._domNode.charset = props.charset; }
-    if (props.coords) { this._domNode.coords = props.coords; }
+    if (props.accessKey != null) { this._domNode.accesskey = props.accessKey; }
+    if (props.charset != null) { this._domNode.charset = props.charset; }
+    if (props.coords != null) { this._domNode.coords = props.coords; }
         if (props.href) {
             // If context path is provided, then check whether the image has
             // context path already appended and if not, append it.
@@ -200,16 +200,16 @@
             }
             this._domNode.href = props.href; 
         }
-    if (props.hrefLang) { this._domNode.hrefLang =  props.hrefLang; }
-    if (props.name) { this._domNode.name = props.name; }
-    if (props.rev) { this._domNode.rev = props.rev; }
-    if (props.rel) { this._domNode.rel = props.rel; }
-    if (props.shape) { this._domNode.shape = props.shape; }
-    if (props.target) { this._domNode.target = props.target; }
-    if (props.type) { this._domNode.type = props.type; }
+    if (props.hrefLang != null) { this._domNode.hrefLang =  props.hrefLang; }
+    if (props.name != null) { this._domNode.name = props.name; }
+    if (props.rev != null) { this._domNode.rev = props.rev; }
+    if (props.rel != null) { this._domNode.rel = props.rel; }
+    if (props.shape != null) { this._domNode.shape = props.shape; }
+    if (props.target != null) { this._domNode.target = props.target; }
+    if (props.type != null) { this._domNode.type = props.type; }
 
     // Set id -- anchors must have the same id and name on IE.
-    if (props.name) {
+    if (props.name != null) {
         props.id = props.name;
     }
 

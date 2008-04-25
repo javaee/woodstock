@@ -138,14 +138,14 @@
     
     // Set properties.
     if (this.dropTypes != null) { props.dropTypes= this.dropTypes; }
-    if (this.contents)          { props.contents = this.contents; }
-    if (this.contentsDragData)  { props.contentsDragData = this.contentsDragData; }
-    if (this.copyOnly != null)  { props.copyOnly = this.copyOnly; }
-    if (this.onDropFunc)        { props.onDropFunc = this.onDropFunc; }
-    if (this.onNodeCreateFunc)  { props.onNodeCreateFunc = this.onNodeCreateFunc; }
+    if (this.contents != null) { props.contents = this.contents; }
+    if (this.contentsDragData != null) { props.contentsDragData = this.contentsDragData; }
+    if (this.copyOnly != null) { props.copyOnly = this.copyOnly; }
+    if (this.onDropFunc != null) { props.onDropFunc = this.onDropFunc; }
+    if (this.onNodeCreateFunc != null) { props.onNodeCreateFunc = this.onNodeCreateFunc; }
     if (this.dragTypes != null) { props.dragTypes = this.dragTypes; }
-    if (this.style != null)     { props.style = this.style; }
-    if (this.title != null)     { this._dndContainer.title = this.title;}
+    if (this.style != null) { props.style = this.style; }
+    if (this.title != null) { this._dndContainer.title = this.title;}
     
     return props;
 };

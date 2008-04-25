@@ -150,7 +150,7 @@
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-@JS_NS@.widget._base.selectBase.prototype._changed = function(ev) {
+@JS_NS@.widget._base.selectBase.prototype._changed = function() {
     var options = this._listContainer.options;
 
     // IE allows disabled options to be selected. Ensure that

@@ -143,9 +143,9 @@
     var props = this._inherited("getProps", arguments);
 
     // Set properties.
-    if (this.enabledImage) { props.enabledImage = this.enabledImage; }
-    if (this.disabledImage) { props.disabledImage = this.disabledImage; }
-    if (this.imagePosition) { props.imagePosition = this.imagePosition; }
+    if (this.enabledImage != null) { props.enabledImage = this.enabledImage; }
+    if (this.disabledImage != null) { props.disabledImage = this.disabledImage; }
+    if (this.imagePosition != null) { props.imagePosition = this.imagePosition; }
 
     return props;
 };

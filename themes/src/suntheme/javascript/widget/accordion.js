@@ -237,13 +237,13 @@
     if (this.collapseAllImage != null) { props.collapseAllImage = this.collapseAllImage; }
     if (this.expandAllImage != null) { props.expandAllImage = this.expandAllImage; }
     if (this.isRefreshIcon != null) { props.isRefreshIcon = this.isRefreshIcon; }
-    if (this.loadOnSelect) { props.loadOnSelect = this.loadOnSelect; }
-    if (this.multipleSelect) { props.multipleSelect = this.multipleSelect; }
+    if (this.loadOnSelect != null) { props.loadOnSelect = this.loadOnSelect; }
+    if (this.multipleSelect != null) { props.multipleSelect = this.multipleSelect; }
     if (this.refreshImage != null) { props.refreshImage = this.refreshImage; }
     if (this.style != null) { props.style = this.style; }
     if (this.tabs != null) { props.tabs = this.tabs; }
-    if (this.toggleControls) { props.toggleControls = this.toggleControls; }
-    if (this.type) { props.type = this.type; }
+    if (this.toggleControls != null) { props.toggleControls = this.toggleControls; }
+    if (this.type != null) { props.type = this.type; }
  
     return props;
 };

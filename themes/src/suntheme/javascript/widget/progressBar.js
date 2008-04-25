@@ -147,27 +147,27 @@
     var props = this._inherited("getProps", arguments);
 
     // Set properties.
-    if (this.height) { props.height = this.height; }
-    if (this.width) { props.width = this.width; }
-    if (this.bottomText) { props.bottomText = this.bottomText; }
+    if (this.height != null) { props.height = this.height; }
+    if (this.width != null) { props.width = this.width; }
+    if (this.bottomText != null) { props.bottomText = this.bottomText; }
     if (this.busyImage != null) { props.busyImage = this.busyImage; }
     if (this.failedStateText != null) { props.failedStateText = this.failedStateText; }
-    if (this.id) { props.id = this.id; }
+    if (this.id != null) { props.id = this.id; }
     if (this.log != null) { props.log = this.log; }
-    if (this.logId) { props.logId = this.logId; }
-    if (this.logMessage) { props.logMessage = this.logMessage; }
+    if (this.logId != null) { props.logId = this.logId; }
+    if (this.logMessage != null) { props.logMessage = this.logMessage; }
     if (this.overlayAnimation != null) { props.overlayAnimation = this.overlayAnimation; }
-    if (this.percentChar) { props.percentChar = this.percentChar; }
+    if (this.percentChar != null) { props.percentChar = this.percentChar; }
     if (this.progress != null) { props.progress = this.progress; }
-    if (this.progressImageUrl) { props.progressImageUrl = this.progressImageUrl; }
+    if (this.progressImageUrl != null) { props.progressImageUrl = this.progressImageUrl; }
     if (this.progressControlBottom != null) { props.progressControlBottom = this.progressControlBottom; }
     if (this.progressControlRight != null) { props.progressControlRight = this.progressControlRight; }
-    if (this.refreshRate) { props.refreshRate = this.refreshRate; }
+    if (this.refreshRate != null) { props.refreshRate = this.refreshRate; }
     if (this.taskState != null) { props.taskState = this.taskState; }
-    if (this.toolTip) { props.toolTip = this.toolTip; }
-    if (this.topText) { props.topText = this.topText; }
-    if (this.type) { props.type = this.type; }
-    if (this.prefix) {props.prefix = this.prefix;}
+    if (this.toolTip != null) { props.toolTip = this.toolTip; }
+    if (this.topText != null) { props.topText = this.topText; }
+    if (this.type != null) { props.type = this.type; }
+    if (this.prefix != null) {props.prefix = this.prefix;}
 
     return props;
 };
@@ -669,18 +669,18 @@
     }
 
     // Set tool tip.
-    if (props.toolTip) {
+    if (props.toolTip != null) {
         this._barContainer.title = props.toolTip;
     }
 
     // Add top text.
-    if (props.topText) {
+    if (props.topText != null) {
         this._widget._addFragment(this._topTextContainer, props.topText); 
         this._common._setVisibleElement(this._topTextContainer, true);
     }
 
     // Add bottom text.
-    if (props.bottomText) {
+    if (props.bottomText != null) {
         this._widget._addFragment(this._bottomTextContainer, props.bottomText);
         this._common._setVisibleElement(this._bottomTextContainer, true);
     }

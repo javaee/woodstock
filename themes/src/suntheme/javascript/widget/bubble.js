@@ -65,7 +65,7 @@
     if (this.openTimerId != null) {
         clearTimeout(this.openTimerId);
     }
-    if (this.getProps().visible == false) {
+    if (this.visible == false) {
         return false;
     }
      
@@ -188,7 +188,7 @@
             || event.type == "click") {
         clearTimeout(this.timerId); 
         
-        if (this.srcElm != null && this.getProps().visible) {
+        if (this.srcElm != null && this.visible) {
             if (this.srcElm.focus) {
                 this.srcElm.focus();
             }
@@ -611,8 +611,8 @@
     //If tabIndex values are provided for elements inside bubble then developer needs to set a valid tabIndex 
     //value for bubble component to achieve cyclic focus behavior. 
     if (@JS_NS@._base.browser._isFirefox()) {
-        if (this.getProps().tabIndex >= 0) {
-            this._contentEnd.tabIndex = this.getProps().tabIndex;
+        if (this.tabIndex >= 0) {
+            this._contentEnd.tabIndex = this.tabIndex;
         } else {
             this._contentEnd.tabIndex = 0;
         }   

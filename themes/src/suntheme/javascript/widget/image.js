@@ -118,16 +118,16 @@
     var props = this._inherited("getProps", arguments);
 
     // Set properties.
-    if (this.alt) { props.alt = this.alt; }
-    if (this.icon) { props.icon = this.icon; }
-    if (this.align) { props.align = this.align; }
+    if (this.alt != null) { props.alt = this.alt; }
+    if (this.icon != null) { props.icon = this.icon; }
+    if (this.align != null) { props.align = this.align; }
     if (this.border != null) { props.border = this.border; }
-    if (this.height) { props.height = this.height; }
-    if (this.hspace) { props.hspace = this.hspace; }
-    if (this.longDesc) { props.longDesc = this.longDesc; }
-    if (this.src) { props.src = this.src; }
-    if (this.vspace) { props.vspace = this.vspace; }
-    if (this.width) { props.width = this.width; }
+    if (this.height != null) { props.height = this.height; }
+    if (this.hspace != null) { props.hspace = this.hspace; }
+    if (this.longDesc != null) { props.longDesc = this.longDesc; }
+    if (this.src != null) { props.src = this.src; }
+    if (this.vspace != null) { props.vspace = this.vspace; }
+    if (this.width != null) { props.width = this.width; }
 
     return props;
 };
@@ -200,15 +200,16 @@
                 }
             }
             // Assign icon properties, even if combined image is not used.
-            if (iconProps.alt) { this._domNode.alt = iconProps.alt; }
-            if (iconProps.height) { this._domNode.height = iconProps.height; }
+            if (iconProps.alt != null) { this._domNode.alt = iconProps.alt; }
+            if (iconProps.height != null) { this._domNode.height = iconProps.height; }
+            if (iconProps.width != null) { this._domNode.width = iconProps.width; }
             if (iconProps.src) { this._domNode.src = iconProps.src; }
-            if (iconProps.width) { this._domNode.width = iconProps.width; }
         }
     } else {
         // Icon properties take precedence.
-        if (props.alt) { this._domNode.alt = props.alt; }
-        if (props.height) { this._domNode.height = props.height; }
+        if (props.alt != null) { this._domNode.alt = props.alt; }
+        if (props.height != null) { this._domNode.height = props.height; }
+        if (props.width != null) { this._domNode.width = props.width; }
         if (props.src) {
                 
             // If context path is provided, then check whether the image has
@@ -218,14 +219,13 @@
                     @JS_NS@.widget.common._appendPrefix(this.prefix, props.src);                
             }
             this._domNode.src = props.src;  
-        } 
-        if (props.width) { this._domNode.width = props.width; }
+        }
     }
-    if (props.align) { this._domNode.align = props.align; }
+    if (props.align != null) { this._domNode.align = props.align; }
     if (props.border != null) { this._domNode.border = props.border; }
-    if (props.hspace) { this._domNode.hspace = props.hspace; }
-    if (props.longDesc) { this._domNode.longDesc = props.longDesc; }    
-    if (props.vspace) { this._domNode.vspace = props.vspace; }
+    if (props.hspace != null) { this._domNode.hspace = props.hspace; }
+    if (props.longDesc != null) { this._domNode.longDesc = props.longDesc; }    
+    if (props.vspace != null) { this._domNode.vspace = props.vspace; }
 
     // Set more properties.
     this._setEventProps(this._domNode, props);
