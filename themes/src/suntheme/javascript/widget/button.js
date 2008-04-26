@@ -24,14 +24,145 @@
 
 @JS_NS@._dojo.require("@JS_NS@.widget.common");
 @JS_NS@._dojo.require("@JS_NS@.widget._base.widgetBase");
- 
+
 /**
  * This function is used to construct a button widget.
- *
+ * 
+ * @constructor
  * @name @JS_NS@.widget.button
  * @extends @JS_NS@.widget._base.widgetBase
  * @class This class contains functions for the button widget.
- * @constructor
+ * <p>
+ * The button widget can render a button as a primary button or a secondary
+ * button. A primary button is intended to be used for buttons that are the most
+ * commonly used on a page or section of a page, and are rendered to be more
+ * visually prominent than secondary buttons. The primary attribute is false by
+ * default, which renders a secondary button.
+ * </p><p>
+ * <h3>Example 1: Create widget</h3>
+ * </p><p>
+ * This example shows how to create a widget using a span tag as a place holder 
+ * in the document. Minimally, the createWidget() function needs an id and 
+ * widgetType properties.
+ * </p><pre><code>
+ * &lt;span id="sp1">
+ *     &lt;script type="text/javascript">
+ *         @JS_NS@.widget.common.createWidget("sp1", {
+ *             id: "form1:btn1",
+ *             value: "This is a button",
+ *             widgetType: "button"
+ *         });
+ *     &lt;/script>
+ * &lt;/span>
+ * </code></pre><p>
+ * <h3>Example 2: Update client-side button properties using the getProps 
+ * and setProps functions</h3>
+ * </p><p>
+ * This example shows how to toggle the disabled state of a button client side
+ * using the getProps and setProps functions. When the user clicks the radio 
+ * button, the button is either disabled or enabled.
+ * </p><pre><code>
+ * &lt;span id="sp1">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp1", {
+ *       id: "form1:btn1",
+ *       value: "This is a button",
+ *       widgetType: "button"
+ *     });
+ *   &lt;/script>
+ * &lt;/span>
+ * &lt;span id="sp2">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp2", {
+ *       id: "form1:rb1",
+ *       name: "rb1",
+ *       label: { value: "Toggle Button Disabled" },
+ *       onClick="toggleDisabled()",
+ *       value: "This is a radio button",
+ *       widgetType: "radioButton"
+ *     });
+ *     function toggleDisabled() {
+ *       var domNode = document.getElementById("form1:btn1"); // Get button
+ *       return domNode.setProps({disabled: !domNode.getProps().disabled}); // Toggle disabled state
+ *     }
+ *   &lt;/script>
+ * &lt;/span>
+ * </code></pre><p>
+ * <h3>Example 3: Asynchronously update button using refresh function</h3>
+ * </p><p>
+ * This example shows how to asynchronously update a button using the refresh 
+ * function. When the user clicks on the radio button, the button is 
+ * asynchronously updated with new data.
+ * </p><pre><code>
+ * &lt;span id="sp1">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp1", {
+ *       id: "form1:btn1",
+ *       value: "This is a button",
+ *       widgetType: "button"
+ *     });
+ *   &lt;/script>
+ * &lt;/span>
+ * &lt;span id="sp2">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp2", {
+ *       id: "form1:rb1",
+ *       name: "rb1",
+ *       label: { value: "Toggle Button Disabled" },
+ *       onClick="refreshButton()",
+ *       value: "This is a radio button",
+ *       widgetType: "radioButton"
+ *     });
+ *     function refreshButton() {
+ *       var domNode = document.getElementById("form1:btn1"); // Get button
+ *       return domNode.refresh(); // Asynchronously refresh
+ *     }
+ *   &lt;/script>
+ * &lt;/span>
+ * </code></pre><p>
+ * Note that the refresh function can take an optional list of elements to 
+ * execute. Thus, a comma-separated list of ids can be provided to update 
+ * server-side components: refresh("id1,id2,..."). When no parameter is given, 
+ * the refresh function acts as a reset. That is, the widget will be redrawn 
+ * using values set server-side, but not updated.
+ * </p><p>
+ * <h3>Example 4: Asynchronously update button using refresh function</h3>
+ * </p><p>
+ * This example shows how to asynchronously update a button using the refresh
+ * function. The execute property of the refresh function is used to define the
+ * client id which is to be submitted and updated server-side. As the user types
+ * in the text field, the input value is updated server-side and the button text
+ * is updated client-side -- all without a page refresh.
+ * </p><pre><code>
+ * &lt;span id="sp1">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp1", {
+ *       id: "form1:btn1",
+ *       value: "This is a button",
+ *       widgetType: "button"
+ *     });
+ *   &lt;/script>
+ * &lt;/span>
+ * &lt;span id="sp2">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp2", {
+ *       id: "form1:field1",
+ *       label: { value: "Change Button Text" },
+ *       onKeyPress="setTimeout('refreshButton();', 0);",
+ *       value: "This is a text field",
+ *       widgetType: "textField"
+ *     });
+ *     function refreshButton() {
+ *       var domNode = document.getElementById("form1:btn1"); // Get button
+ *       return domNode.refresh("form1:field1"); // Asynchronously refresh while submitting field value
+ *     }
+ *   &lt;/script>
+ * &lt;/span>
+ * </code></pre><p>
+ * Note that the refresh function can optionally take a list of elements to 
+ * execute. Thus, a comma-separated list of ids can be provided to update 
+ * server-side components: refresh("id1,id2,...").
+ * </p>
  * @param {Object} props Key-Value pairs of properties.
  * @config {String} alt Alternate text for image input.
  * @config {String} align Alignment of image input.

@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-  <title>Woodstock JavaScript Library Documentation</title>
+  <title>Woodstock @THEME_VERSION@ JavaScript Library Documentation</title>
   <style type="text/css">
     .NavBarCell1    { background-color:#EEEEFF;}/* Light mauve */
     .NavBarCell1Rev { background-color:#00008B;}/* Dark Blue */
@@ -35,7 +35,7 @@
 </table>
 <hr>
 <center>
-<h2>Woodstock JavaScript Library Documentation<br>
+<h2>Woodstock @THEME_VERSION@ JavaScript Library Documentation<br>
 </h2>
 </center>
 <table border="1" cellpadding="3" cellspacing="0" width="100%">
@@ -44,14 +44,256 @@
       <td colspan="2"><font size="+2"><b>JavaScript Libraries</b></font></td>
     </tr>
     <tr class="TableRowColor" bgcolor="white" valign="top">
-      <td width="20%"><b><a target="_top" href="allclasses-frame.html">webui</a></b></td>
-      <td>The Woodstock JavaScript library is intended for use by
-Woodstock component developers. Please refer to the Woodstock Tag
-Library
-Documentation for public JavaScript APIs and examples, supported for
-web application usage.<i> </i></td>
+      <td width="20%"><b><a target="_top" href="allclasses-frame.html">@JS_NS@</a></b></td>
+      <td>Woodstock @THEME_VERSION@ JavaScript Library
+      <br>
+      </td>
     </tr>
   </tbody>
 </table>
+<h3>Using the Woodstock @THEME_VERSION@ JavaScript Library</h3>
+<ul>
+  <li><a href="#GETTING_STARTED">Getting Started</a></li>
+  <li><a href="#INTERFACES">Widget Interfaces<br>
+    </a></li>
+  <li><a href="#EVENTS">Widget Events</a></li>
+  <li><a href="#FORM_DATA">Widget Form Data</a><br>
+  </li>
+  <li><a href="#CUSTOM">Custom Widgets<br>
+    </a></li>
+</ul>
+<h3><a name="GETTING_STARTED"></a>Getting Started</h3>
+<p>
+The Woodstock JavaScript library must be installed in your web
+application
+so that its widget and themed resources are available to your web
+pages. In addition, the Woodstock object namespace should be
+established in the web page <code>&lt;head&gt;</code> tag and the
+JavaScript library bootstrap file included. Assuming you installed the
+JavaScript library into the web application directory
+$SRC/myapp/web/resources, the following code will load and initialize
+the JavaScript library in the page.<span style="font-family: monospace;"><br>
+</span></p>
+<pre><code>&lt;head&gt;<br>  &lt;script type="text/javascript"&gt;<br>    var @JS_NS@Config = {<br>      namespace: "woodstock"<br>    };<br>  &lt;/script&gt;<br>  &lt;script type="text/javascript" <br>   src="/myapp/resources@THEME_PATH@/javascript/bootstrap.js"&gt;&lt;/script&gt;<br>&lt;/head&gt;</code></pre>
+<p>The global <code>@JS_NS@Config</code> variable is defined to
+specify the a namespace path to the
+functions in the Woodstock JavaScript library. Each version of the
+JavaScript library contains a version number in its name space (this
+is necessary when using the JavaScript library in a portal web
+application). By defining the global variable, a new version of the
+JavaScript library could be used without changing the name space paths
+throughout the remainder of the web page.<br>
+</p>
+<p>Widgets are rendered in the web page by adding a
+<code>createWidget</code> function call in a JavaScript tag. Initial
+properties can be specified for the widget via a JavaScript object
+literal parameter. To create an instance of the staticText widget in
+the page, for example, add the following JavaScript tag to the <code>&lt;body&gt;</code>
+of the page at the point where the widget
+should be displayed.<br>
+</p>
+<pre><code>&lt;span id="sp1"&gt;<br>  &lt;script type="text/javascript"&gt;<br>    woodstock.widget.common.createWidget("sp1", {<br>      id: "text1",<br>      "value": "This is the text to be rendered."}, <br>      "widgetType": "staticText"<br>    });<br>  &lt;/script&gt;<br>&lt;/span&gt;</code></pre>
+<p></p>
+<p>Note that the <code>createWidget</code> function accepts two
+parameters. The first parameter specifies the identifier of a DOM
+element in the page at which the HTML generated will be positioned,
+when the widget is displayed by the browser. If the HTML element is a
+<code>&lt;span&gt;</code> that is the immediate parent of the
+<code>&lt;script&gt;</code> tag, a more efficient algorithm is used to
+locate and render the widget. The second parameter is a JavaScript
+object literal specifying inital values for the widget's
+properties. Each widget must be specified with a unique identifier and
+a widget type property. Additional properties are specific to the type
+of widget. For a staticText widget, we provide the initial value of
+the the text to be rendered. In many cases, the default value set for
+a property when the widget is created in the browser will be
+sufficient (so additional values do not need to be provided to the
+<code>createWidget</code> function).<br>
+</p>
+<h3><a name="INTERFACES"></a>Widget Interfaces</h3>
+Each widget provides several functional interfaces which can be used to
+retrieve and update widget properties, to cause widget events to be
+fired, or to execute helper functions specific to each widget. These
+functions are typically called from web application JavaScript written
+as event handlers on HTML elements; e.g., onClick, onMouseOver, etc.
+They may also be called by web application event handlers which make
+XMLHttpRequest calls to a server to read or update backend data stores,
+or to refresh the properties of the widget.<br>
+<br>
+With exception to the submit feature, most widgets define the following
+functions:<br>
+<br>
+<span style="font-weight: bold;">Object getProps()</span><br>
+<br>
+<div style="margin-left: 40px;">The getProps function is used to
+retrieve widget properties. Returns a JavaScript object literal
+containing the properties for the widget as name-value pairs.<br>
+</div>
+<br>
+<span style="font-weight: bold;">boolean setProps(props, notify)</span><br>
+<br>
+<div style="margin-left: 40px;">The setProps function sets widget
+properties using JavaScript Object literals. The props parameter
+contains name-value paris for only those properties to be updated (a
+sparse list).&nbsp;&nbsp; The notify parameter is a boolean indicating
+that with widget's state change event should be published after
+updating the properties. Event handler JavaScript functions on the page
+can subscribe to the event; e.g., to make an XMLHttpRequest to the
+server to keep the client-side state synchronized to the server-side
+state. Returns true if successful.<br>
+</div>
+<br>
+<span style="font-weight: bold;">boolean refresh(execute)</span><br>
+<br>
+<div style="margin-left: 40px;">Causes the widget to be refreshed. The
+widget publishes its refresh.beginTopic event to inform subscribing
+event handlers that an XMLHttpRequest call should be made to the server
+to obtain updated data for the widget.&nbsp; An event payload
+JavaScript object is provided that specifies the widget's identifier,
+an event topic to be published upon the server call return, and the
+optional list of other widget identifiers which are participating in
+the event (specified in the execute parameter). The event handler
+should obtain updated properties for the widget and reset those
+properties in the widget by calling its setProps function. After
+updating the widget's properties, the event handler should publish the
+event topic specified in the payload, informing other interested
+widgets of the refresh. Returns true if successful.<br>
+</div>
+<br>
+<span style="font-weight: bold;">boolean submit(execute)</span><br>
+<br>
+<div style="margin-left: 40px;">Causes the widget to publish an event
+indicating widget properties should be submitted. The widget publishes
+its submit.BeginTopic event to inform subscribing event handlers that
+an XMLHttpRequest call should be made to the server to submit the
+widget values. An event payload JavaScript object is provided that
+specifies the widget's identifier, an event topic to be published upon
+the server call return, and the optional list of other widget
+identifiers which are participating in the event (specified in the
+execute parameter). The event handler should submit the widget values
+and publish the event specified in the payload, informing other
+interested widgets of the submit. Returns true if successful.</div>
+<h3><a name="EVENTS"></a>Widget Events<br>
+</h3>
+Each widget defines event topics that are used to publish events for
+asynchronous processing on the page. Web application developers may
+provide event handler JavaScript functions in the page which subscribe
+to a widget's events. The event provides a JavaScript object literal as
+a payload, specifying name-value pairs of property information
+pertinent to the specific event topic. The "id" property indicating the
+identifier of the widget generating the event is always include in the
+payload object, and together with the event topic (being subscribed to)
+provides sufficient information for the event handler JavaScript to
+process data for the event.<br>
+<br>
+<code>&lt;script type="text/javascript"&gt;<br>
+&nbsp;&nbsp;&nbsp; var foo = {<br>
+&nbsp; &nbsp; &nbsp; &nbsp; /**<br>
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; * Process refresh event.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * @param {Object}
+props Key-Value pairs of properties.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; processRefreshEvent:
+function(props) {<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // Get the
+widget id.<br>
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if (props.id ==
+"text1") { // Do something... }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
+&nbsp;&nbsp;&nbsp;
+woodstock.widget.common.subscribe(woodstock.widget.staticText.event.refresh.endTopic,
+foo, "processRefreshEvent");<br>
+&lt;/script&gt;</code><br>
+<br>
+Most widget events are associated with asynchronous operations
+involving XMLHttpRequest calls to the server. For this type of event,
+the widget will publish a "beginTopic" event with a payload object that
+includes an associated "endTopic" event. The event handler is expected
+to extract relevant data from the payload object and/or the widget
+itself, format an XMLHttpRequest to the server, process any response
+data, and apply that data to the widget who published the event (for
+example, by calling the widget's setProps function to update properties
+with server data). The event handler should then publish the endTopic
+event to inform interested widgets on the page that the event has
+concluded.<br>
+<br>
+Most widgets define the following event topics:<br>
+<br>
+<span style="font-weight: bold;">event.refresh.beginTopic</span><br>
+<br>
+<div style="margin-left: 40px;">Inidicates that a widget needs its data
+to be refreshed from the server, and its properties updated. The event
+payload JavaScript object contains:<br>
+<br>
+<code>{id: "widget_identifier", endTopic: "event_name", execute:
+"list_of_widget_ids"}</code><br>
+<br>
+where list_of_widget_ids is a comma separated list of widget
+identifiers for other widgets participating in the refresh event and
+endTopic is the name of the event to publish when the event processing
+finishes.<br>
+</div>
+<br>
+<span style="font-weight: bold;">event.refresh.endTopic</span><br>
+<br>
+<div style="margin-left: 40px;">Indicates that a refresh event has been
+processed for a widget. The event handler publishing this event may add
+a JavaScript object literal payload to the event; for example,
+containing the name-value pairs of the properties that were updated in
+the widget that published the associated beginTopic event.<br>
+</div>
+<br>
+<span style="font-weight: bold;">event.state.beginTopic</span><br>
+<br>
+<div style="margin-left: 40px;">Indicates that the properties of a
+widget have been updated. This event is published when the widget's
+setProps function is called with the notify parameter set to
+true.&nbsp; The event payload JavaScript object contains:<br>
+<br>
+<code>{id: "widget_identifier", endTopic: "event_name", prop_1:
+"value_1", ...}</code><br>
+<br>
+where prop_1,&nbsp; ... are properties that have been updated, and
+endTopic is the name of the event to publish when the event processing
+finishes. The event handler is expected to communicate the state change
+to the server by making an XMLHttpRequest; that is, this event is used
+to synchronize state changes in the widget with the server side.<br>
+</div>
+<br>
+<span style="font-weight: bold;">event.state.endTopic</span><br>
+<br>
+<div style="margin-left: 40px;">Indicates that a state change event has
+been processed for a widget. The event handler publishing this event
+may add a JavaScript object literal payload to the event; for example,
+containing the name-value pairs of the properties that were changed in
+the widget that published the associated beginTopic event.&nbsp; Unlike
+the refresh event, the widget publishing the state change event is not
+updated with data from the server.<br>
+</div>
+<h3><a name="FORM_DATA"></a>Widget Form Data</h3>
+Since widgets are used to render HTML elements onto the web page,
+there may be form submitted values which occur from those rendered HTML
+elements. These values can be used by the server to obtain
+values that apply to the server code supporting the widget (for eample,
+in a server framework such as JSF). It is the responsibility of
+the server code to re-associate these submitted values with the
+corresponding widget information.<br>
+<h3><a name="CUSTOM"></a>Custom Widgets<br>
+</h3>
+<p>Interfaces marked with an '_' character are considered
+private and are intended to be used by Woodstock developers
+only. Since the Woodstock JavaScript library is open source, custom
+widget developers are free to take a snapshot at anytime. However,
+there are no guarantees that interfaces marked private will not change
+in the future. Such users must continue to use their snapshot if
+compatibility is a factor, or must port to a new snapshot. Before
+Woodstock can consider buying back a customized or new widget, it must
+conform to the current set of Woodstock APIs at the time
+of the buy back.<br>
+<br>
+</p>
 </body>
 </html>

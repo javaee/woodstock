@@ -1528,6 +1528,15 @@
           <arg line="${__files-to-doc__}"/>
 	</java>
 
+        <!-- Filter splash page. -->
+        <copy todir="${_to-dir_}" overwrite="true">
+            <fileset dir="${jsdoc.template}">
+                <include name="index.html" />
+                <include name="splash.html" />
+            </fileset>
+            <filterset refid="${theme.js-filter-set}"/>
+        </copy>
+
         <!-- JsDoc doesn't link source files correctly for subdirectories,
              so we'll just remove them for now. 
         -->
