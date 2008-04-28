@@ -27,10 +27,176 @@
 /**
  * This function is used to construct an anchor widget.
  *
+ * @constructor
  * @name @JS_NS@.widget.anchor
  * @extends @JS_NS@.widget._base.anchorBase
- * @class This class contains functions for the anchor widget.
- * @constructor
+ * @class This class contains functions for the anchor widget. 
+ * <p>
+ * The anchor widget creates an HTML anchor that traverses to the specified URL.
+ * Or, it can be used to Anchor a position in the page.
+ * </p><p>
+ * <h3>Example 1a: Create widget</h3>
+ * </p><p>
+ * This example shows how to create a widget using a span tag as a place holder 
+ * in the document. Minimally, the createWidget() function needs an id and 
+ * widgetType properties.
+ * </p><pre><code>
+ * &lt;span id="sp1">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp1", {
+ *       id: "anc1",
+ *       contents": ["Click me"],
+ *       href: "http://sun.com",
+ *       target: "_blank",
+ *       widgetType: "anchor"
+ *     });
+ *   &lt;/script>
+ * &lt;/span>
+ * </code></pre><p>
+ * <h3>Example 1b: Create widget</h3>
+ * </p><p>
+ * This example shows how to create a widget which outputs a named anchor.
+ * </p><pre><code>
+ * &lt;span id="sp1">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp1", {
+ *       id: "anc1",
+ *       name: "anchorName",
+ *       widgetType: "anchor"
+ *     });
+ *   &lt;/script>
+ * &lt;/span>
+ * </code></pre><p>
+ * <h3>Example 2: Update widget using the getProps and setProps functions</h3>
+ * </p><p>
+ * This example shows how to toggle the state of a widget using the
+ * getProps and setProps functions. When the user clicks the checkbox, the
+ * anchor is either disabled or enabled.
+ * </p><pre><code>
+ * &lt;span id="sp1">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp1", {
+ *       id: "anc1",
+ *       contents": ["Click me"],
+ *       href: "http://sun.com",
+ *       target: "_blank",
+ *       widgetType: "anchor"
+ *     });
+ *   &lt;/script>
+ * &lt;/span>
+ * &lt;span id="sp2">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp2", {
+ *       id: "cb1",
+ *       label: { value: "Toggle Anchor State" },
+ *       onKeyPress="setTimeout('updateWidget();', 0);",
+ *       widgetType: "checkbox"
+ *     });
+ *     function updateWidget() {
+ *       var widget = @JS_NS@.widget.common.getWidget("anc1"); // Get anchor
+ *       return widget.setProps({disabled: !domNode.getProps().disabled}); // Toggle state
+ *     }
+ *   &lt;/script>
+ * &lt;/span>
+ * </code></pre><p>
+ * <h3>Example 3a: Asynchronously update widget using refresh function</h3>
+ * </p><p>
+ * This example shows how to asynchronously update a widget using the refresh 
+ * function. When the user clicks on the checkbox, the anchor is 
+ * asynchronously updated with new data.
+ * </p><pre><code>
+ * &lt;span id="sp1">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp1", {
+ *       id: "anc1",
+ *       contents": ["Click me"],
+ *       href: "http://sun.com",
+ *       target: "_blank",
+ *       widgetType: "anchor"
+ *     });
+ *   &lt;/script>
+ * &lt;/span>
+ * &lt;span id="sp2">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp2", {
+ *       id: "cb1",
+ *       label: { value: "Refresh Anchor" },
+ *       onKeyPress="setTimeout('updateWidget();', 0);",
+ *       widgetType: "checkbox"
+ *     });
+ *     function updateWidget() {
+ *       var widget = @JS_NS@.widget.common.getWidget("anc1"); // Get anchor
+ *       return widget.refresh(); // Asynchronously refresh
+ *     }
+ *   &lt;/script>
+ * &lt;/span>
+ * </code></pre><p>
+ * Note that the refresh function can take an optional list of elements to 
+ * execute. Thus, a comma-separated list of ids can be provided to update 
+ * server-side components: refresh("id1,id2,..."). When no parameter is given, 
+ * the refresh function acts as a reset. That is, the widget will be redrawn 
+ * using values set server-side, but not updated.
+ * </p><p>
+ * <h3>Example 3b: Asynchronously update widget using refresh function</h3>
+ * </p><p>
+ * This example shows how to asynchronously update an anchor using the refresh
+ * function. The execute property of the refresh function is used to define the
+ * client id which is to be submitted and updated server-side. As the user types
+ * in the text field, the input value is updated server-side and the anchor text
+ * is updated client-side -- all without a page refresh.
+ * </p><pre><code>
+ * &lt;span id="sp1">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp1", {
+ *       id: "anc1",
+ *       contents": ["Click me"],
+ *       href: "http://sun.com",
+ *       target: "_blank",
+ *       widgetType: "anchor"
+ *     });
+ *   &lt;/script>
+ * &lt;/span>
+ * &lt;span id="sp2">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp2", {
+ *       id: "field1",
+ *       label: { value: "Change Anchor Text" },
+ *       onKeyPress="setTimeout('updateWidget();', 0);",
+ *       widgetType: "textField"
+ *     });
+ *     function updateWidget() {
+ *       var widget = @JS_NS@.widget.common.getWidget("anc1"); // Get anchor
+ *       return widget.refresh("field1"); // Asynchronously refresh while submitting field value
+ *     }
+ *   &lt;/script>
+ * &lt;/span>
+ * </code></pre><p>
+ * Note that the refresh function can optionally take a list of elements to 
+ * execute. Thus, a comma-separated list of ids can be provided to update 
+ * server-side components: refresh("id1,id2,...").
+ * </p><p>
+ * <h3>Example 4: Subscribing to event topics</h3>
+ * </p><p>
+ * When a widget is manipulated, some features may publish event topics for
+ * custom AJAX implementations to listen for. For example, you may listen for
+ * the refresh event topic using:
+ * </p><pre><code>
+ * &lt;script type="text/javascript">
+ *    var foo = {
+ *        // Process refresh event.
+ *        //
+ *        // @param {Object} props Key-Value pairs of properties.
+ *        processRefreshEvent: function(props) {
+ *            // Get the widget id.
+ *            if (props.id == "anc1") { // Do something... }
+ *        }
+ *    }
+ *    // Subscribe to refresh event.
+ *    woodstock.widget.common.subscribe(woodstock.widget.anchor.event.refresh.endTopic, 
+ *      foo, "processRefreshEvent");
+ * &lt;/script>
+ * </code></pre>
+ *
  * @param {Object} props Key-Value pairs of properties.
  * @config {String} accessKey
  * @config {String} charset
@@ -86,10 +252,33 @@
      * @ignore
      */
     refresh: {
-        /** Refresh event topic for custom AJAX implementations to listen for. */
+        /** 
+         * Refresh event topic for custom AJAX implementations to listen for.
+         * Key-Value pairs of properties to publish include:
+         * <ul><li>
+         * {String} execute Comma separated list of IDs to be processed server
+         * side along with this widget.
+         * </li><li>
+         * {String} id The widget ID to process the event for.
+         * </li></ul>
+         *
+         * @id @JS_NS@.widget.anchor.event.refresh.beginTopic
+         * @property {String} beginTopic
+         */
         beginTopic: "@JS_NS@_widget_anchor_event_refresh_begin",
-        
-        /** Refresh event topic for custom AJAX implementations to listen for. */
+
+        /** 
+         * Refresh event topic for custom AJAX implementations to listen for.
+         * Key-Value pairs of properties to publish include:
+         * <ul><li>
+         * {String} id The widget ID to process the event for.
+         * </li><li>
+         * Please see the constructor detail for additional properties.
+         * </li></ul>
+         *
+         * @id @JS_NS@.widget.anchor.event.refresh.endTopic
+         * @property {String} endTopic
+         */
         endTopic: "@JS_NS@_widget_anchor_event_refresh_end"
     },
 
@@ -98,10 +287,30 @@
      * @ignore
      */
     state: {
-        /** State event topic for custom AJAX implementations to listen for. */
+        /**
+         * State event topic for custom AJAX implementations to listen for.
+         * Key-Value pairs of properties to publish include:
+         * <ul><li>
+         * {String} id The widget ID to process the event for.
+         * </li><li>
+         * {Object} props Key-Value pairs of widget properties being updated.
+         * </li></ul>
+         *
+         * @id @JS_NS@.widget.anchor.event.submit.beginTopic
+         * @property {String} beginTopic
+         */
         beginTopic: "@JS_NS@_widget_anchor_event_state_begin",
-        
-        /** State event topic for custom AJAX implementations to listen for. */
+
+        /**
+         * State event topic for custom AJAX implementations to listen for.
+         * Key-Value pairs of properties to publish include:
+         * <ul><li>
+         * {String} id The widget ID to process the event for.
+         * </li></ul>
+         *
+         * @id @JS_NS@.widget.anchor.event.submit.endTopic
+         * @property {String} endTopic
+         */
         endTopic: "@JS_NS@_widget_anchor_event_state_end"
     }
 };

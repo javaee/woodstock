@@ -29,10 +29,252 @@
 /**
  * This function is used to construct an accordion widget.
  *
+ * @constructor
  * @name @JS_NS@.widget.accordion
  * @extends @JS_NS@.widget._base.widgetBase
- * @class This class contains functions for the accordion widget.
- * @constructor
+ * @class This class contains functions for the accordion widget. 
+ * <p>
+ * The accordion widget can be thought of as a vertical tab set. This set can
+ * contain one or more tabs each of which can contain virtually any HTML markup
+ * and have the following characteristics:
+ * <ul><li>
+ * Each tab contains links to different sections(tasks) of the application.
+ * </li><li>
+ * Only one accordion tab can be open at any given time.
+ * </li></ul>
+ * The accordion widget allows muliple tabs to be open simultaneously. Consider 
+ * using an alternate navigational component if the number of tabs in the 
+ * accordion exceeds ten. The accordion tag also supports "expandAll" and 
+ * "collapseAll" buttons. Unless otherwise specified the accordion dows not 
+ * display the expand all, collapse all and refresh icons. To display these 
+ * icons, set the toggleControls and refreshIcon attributes to true. Note that 
+ * an accordion can be refreshed if the application using it supports this 
+ * feature.
+ * </p><p>
+ * <h3>Example 1: Create widget</h3>
+ * </p><p>
+ * This example shows how to create a widget using a span tag as a place holder 
+ * in the document. Minimally, the createWidget() function needs an id and 
+ * widgetType properties.
+ * </p><pre><code>
+ * &lt;span id="sp1">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp1", {
+ *       id: "acc1",
+ *       toggleControls: true,
+ *       tabs: [{
+ *         id: "tab1",
+ *         contentHeight: "50px",
+ *         tabContent: [{
+ *           id: "st1",
+ *           value: "This is tab one",
+ *           widgetType: "staticText"
+ *         }],
+ *         title: "Tab One",
+ *         widgetType: "accordionTab"
+ *       }, {
+ *         id: "tab2",
+ *         contentHeight: "50px",
+ *         tabContent: [{
+ *           id: "st2",
+ *           value: "This is tab two",
+ *           widgetType: "staticText"
+ *         }],
+ *         title: "Tab Two",
+ *         widgetType: "accordionTab"
+ *       }],
+ *       widgetType: "accordion"
+ *     });
+ *   &lt;/script>
+ * &lt;/span>
+ * </code></pre><p>
+ * <h3>Example 2: Update widget using the getProps and setProps functions</h3>
+ * </p><p>
+ * This example shows how to toggle the state of a widget using the
+ * getProps and setProps functions. When the user clicks the checkbox, the
+ * multipleSelect state is either enabled or disabled.
+ * </p><pre><code>
+ * &lt;span id="sp1">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp1", {
+ *       id: "acc1",
+ *       toggleControls: true,
+ *       tabs: [{
+ *         id: "tab1",
+ *         contentHeight: "50px",
+ *         tabContent: [{
+ *           id: "st1",
+ *           value: "This is tab one",
+ *           widgetType: "staticText"
+ *         }],
+ *         title: "Tab One",
+ *         widgetType: "accordionTab"
+ *       }, {
+ *         id: "tab2",
+ *         contentHeight: "50px",
+ *         tabContent: [{
+ *           id: "st2",
+ *           value: "This is tab two",
+ *           widgetType: "staticText"
+ *         }],
+ *         title: "Tab Two",
+ *         widgetType: "accordionTab"
+ *       }],
+ *       widgetType: "accordion"
+ *     });
+ *   &lt;/script>
+ * &lt;/span>
+ * &lt;span id="sp2">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp2", {
+ *       id: "cb1",
+ *       label: { value: "Toggle Accordion State" },
+ *       onKeyPress="setTimeout('updateWidget();', 0);",
+ *       widgetType: "checkbox"
+ *     });
+ *     function updateWidget() {
+ *       var widget = @JS_NS@.widget.common.getWidget("acc1"); // Get accordion
+ *       return widget.setProps({multipleSelect: !domNode.getProps().multipleSelect}); // Toggle state
+ *     }
+ *   &lt;/script>
+ * &lt;/span>
+ * </code></pre><p>
+ * <h3>Example 3a: Asynchronously update widget using refresh function</h3>
+ * </p><p>
+ * This example shows how to asynchronously update a widget using the refresh 
+ * function. When the user clicks on the checkbox, the accordion is 
+ * asynchronously updated with new data.
+ * </p><pre><code>
+ * &lt;span id="sp1">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp1", {
+ *       id: "acc1",
+ *       toggleControls: true,
+ *       tabs: [{
+ *         id: "tab1",
+ *         contentHeight: "50px",
+ *         tabContent: [{
+ *           id: "st1",
+ *           value: "This is tab one",
+ *           widgetType: "staticText"
+ *         }],
+ *         title: "Tab One",
+ *         widgetType: "accordionTab"
+ *       }, {
+ *         id: "tab2",
+ *         contentHeight: "50px",
+ *         tabContent: [{
+ *           id: "st2",
+ *           value: "This is tab two",
+ *           widgetType: "staticText"
+ *         }],
+ *         title: "Tab Two",
+ *         widgetType: "accordionTab"
+ *       }],
+ *       widgetType: "accordion"
+ *     });
+ *   &lt;/script>
+ * &lt;/span>
+ * &lt;span id="sp2">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp2", {
+ *       id: "cb1",
+ *       label: { value: "Refresh Accordion" },
+ *       onKeyPress="setTimeout('updateWidget();', 0);",
+ *       widgetType: "checkbox"
+ *     });
+ *     function updateWidget() {
+ *       var widget = @JS_NS@.widget.common.getWidget("acc1"); // Get accordion
+ *       return widget.refresh(); // Asynchronously refresh
+ *     }
+ *   &lt;/script>
+ * &lt;/span>
+ * </code></pre><p>
+ * Note that the refresh function can take an optional list of elements to 
+ * execute. Thus, a comma-separated list of ids can be provided to update 
+ * server-side components: refresh("id1,id2,..."). When no parameter is given, 
+ * the refresh function acts as a reset. That is, the widget will be redrawn 
+ * using values set server-side, but not updated.
+ * </p><p>
+ * <h3>Example 3b: Asynchronously update widget using refresh function</h3>
+ * </p><p>
+ * This example shows how to asynchronously update a accordion using the refresh
+ * function. The execute property of the refresh function is used to define the
+ * client id which is to be submitted and updated server-side. As the user types
+ * in the text field, the input value is updated server-side and the accordion text
+ * is updated client-side -- all without a page refresh.
+ * </p><pre><code>
+ * &lt;span id="sp1">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp1", {
+ *       id: "acc1",
+ *       toggleControls: true,
+ *       tabs: [{
+ *         id: "tab1",
+ *         contentHeight: "50px",
+ *         tabContent: [{
+ *           id: "st1",
+ *           value: "This is tab one",
+ *           widgetType: "staticText"
+ *         }],
+ *         title: "Tab One",
+ *         widgetType: "accordionTab"
+ *       }, {
+ *         id: "tab2",
+ *         contentHeight: "50px",
+ *         tabContent: [{
+ *           id: "st2",
+ *           value: "This is tab two",
+ *           widgetType: "staticText"
+ *         }],
+ *         title: "Tab Two",
+ *         widgetType: "accordionTab"
+ *       }],
+ *       widgetType: "accordion"
+ *     });
+ *   &lt;/script>
+ * &lt;/span>
+ * &lt;span id="sp2">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp2", {
+ *       id: "field1",
+ *       label: { value: "Change Accordion Title" },
+ *       onKeyPress="setTimeout('updateWidget();', 0);",
+ *       widgetType: "textField"
+ *     });
+ *     function updateWidget() {
+ *       var widget = @JS_NS@.widget.common.getWidget("acc1"); // Get accordion
+ *       return widget.refresh("field1"); // Asynchronously refresh while submitting field value
+ *     }
+ *   &lt;/script>
+ * &lt;/span>
+ * </code></pre><p>
+ * Note that the refresh function can optionally take a list of elements to 
+ * execute. Thus, a comma-separated list of ids can be provided to update 
+ * server-side components: refresh("id1,id2,...").
+ * </p><p>
+ * <h3>Example 4: Subscribing to event topics</h3>
+ * </p><p>
+ * When a widget is manipulated, some features may publish event topics for
+ * custom AJAX implementations to listen for. For example, you may listen for
+ * the refresh event topic using:
+ * </p><pre><code>
+ * &lt;script type="text/javascript">
+ *    var foo = {
+ *        // Process refresh event.
+ *        //
+ *        // @param {Object} props Key-Value pairs of properties.
+ *        processRefreshEvent: function(props) {
+ *            // Get the widget id.
+ *            if (props.id == "acc1") { // Do something... }
+ *        }
+ *    }
+ *    // Subscribe to refresh event.
+ *    woodstock.widget.common.subscribe(woodstock.widget.accordion.event.refresh.endTopic, 
+ *      foo, "processRefreshEvent");
+ * &lt;/script>
+ * </code></pre>
+ *
  * @param {Object} props Key-Value pairs of properties.
  * @config {String} className CSS selector.
  * @config {Object} collapseAllImage Image associated with collapse all icon
@@ -164,10 +406,33 @@
      * @ignore
      */
     refresh: {
-        /** Refresh event topic for custom AJAX implementations to listen for. */
+        /** 
+         * Refresh event topic for custom AJAX implementations to listen for.
+         * Key-Value pairs of properties to publish include:
+         * <ul><li>
+         * {String} execute Comma separated list of IDs to be processed server
+         * side along with this widget.
+         * </li><li>
+         * {String} id The widget ID to process the event for.
+         * </li></ul>
+         *
+         * @id @JS_NS@.widget.accordion.event.refresh.beginTopic
+         * @property {String} beginTopic
+         */
         beginTopic: "@JS_NS@_widget_accordion_event_refresh_begin",
 
-        /** Refresh event topic for custom AJAX implementations to listen for. */
+        /** 
+         * Refresh event topic for custom AJAX implementations to listen for.
+         * Key-Value pairs of properties to publish include:
+         * <ul><li>
+         * {String} id The widget ID to process the event for.
+         * </li><li>
+         * Please see the constructor detail for additional properties.
+         * </li></ul>
+         *
+         * @id @JS_NS@.widget.accordion.event.refresh.endTopic
+         * @property {String} endTopic
+         */
         endTopic: "@JS_NS@_widget_accordion_event_refresh_end"
     },
 
@@ -176,10 +441,30 @@
      * @ignore
      */
     state: {
-        /** State event topic for custom AJAX implementations to listen for. */
+        /**
+         * State event topic for custom AJAX implementations to listen for.
+         * Key-Value pairs of properties to publish include:
+         * <ul><li>
+         * {String} id The widget ID to process the event for.
+         * </li><li>
+         * {Object} props Key-Value pairs of widget properties being updated.
+         * </li></ul>
+         *
+         * @id @JS_NS@.widget.accordion.event.submit.beginTopic
+         * @property {String} beginTopic
+         */
         beginTopic: "@JS_NS@_widget_accordion_event_state_begin",
 
-        /** State event topic for custom AJAX implementations to listen for. */
+        /**
+         * State event topic for custom AJAX implementations to listen for.
+         * Key-Value pairs of properties to publish include:
+         * <ul><li>
+         * {String} id The widget ID to process the event for.
+         * </li></ul>
+         *
+         * @id @JS_NS@.widget.accordion.event.submit.endTopic
+         * @property {String} endTopic
+         */
         endTopic: "@JS_NS@_widget_accordion_event_state_end"
     }
 };

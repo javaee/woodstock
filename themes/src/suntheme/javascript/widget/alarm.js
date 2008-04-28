@@ -34,10 +34,9 @@
  * <p>
  * Use the type property to specify the alarm severity, which determines the 
  * alarm to display. The Alarm also supports a set of indicators which allows 
- * custom types and associated images in addition to the default types. The text
- * property is used to specify the text to be displayed next to the alarm. The
- * textPosition property specifies whether the text should be displayed to the 
- * left or right of the alarm.
+ * custom types and associated images. The text property is used to specify the
+ * text to be displayed next to the alarm. The textPosition property specifies 
+ * whether the text should be displayed to the left or right of the alarm.
  * </p><p>
  * <h3>Example 1: Create widget</h3>
  * </p><p>
@@ -59,8 +58,8 @@
  * </code></pre><p>
  * <h3>Example 2: Update widget using the getProps and setProps functions</h3>
  * </p><p>
- * This example shows how to toggle the visible state of a widget using the
- * getProps and setProps functions. When the user clicks the radio button, the
+ * This example shows how to toggle the state of a widget using the
+ * getProps and setProps functions. When the user clicks the checkbox, the
  * alarm is either hidden or shown.
  * </p><pre><code>
  * &lt;span id="sp1">
@@ -77,23 +76,22 @@
  * &lt;span id="sp2">
  *   &lt;script type="text/javascript">
  *     @JS_NS@.widget.common.createWidget("sp2", {
- *       id: "rb1",
- *       name: "rb1",
- *       label: { value: "Toggle Alarm Visible" },
- *       onClick="toggleVisible()",
- *       widgetType: "radioButton"
+ *       id: "cb1",
+ *       label: { value: "Toggle Alarm State" },
+ *       onKeyPress="setTimeout('updateWidget();', 0);",
+ *       widgetType: "checkbox"
  *     });
- *     function toggleVisible() {
+ *     function updateWidget() {
  *       var widget = @JS_NS@.widget.common.getWidget("alarm1"); // Get alarm
- *       return widget.setProps({visible: !domNode.getProps().visible}); // Toggle visible state
+ *       return widget.setProps({visible: !domNode.getProps().visible}); // Toggle state
  *     }
  *   &lt;/script>
  * &lt;/span>
  * </code></pre><p>
- * <h3>Example 3: Asynchronously update widget using refresh function</h3>
+ * <h3>Example 3a: Asynchronously update widget using refresh function</h3>
  * </p><p>
  * This example shows how to asynchronously update a widget using the refresh 
- * function. When the user clicks on the radio button, the alarm is 
+ * function. When the user clicks on the checkbox, the alarm is 
  * asynchronously updated with new data.
  * </p><pre><code>
  * &lt;span id="sp1">
@@ -110,13 +108,12 @@
  * &lt;span id="sp2">
  *   &lt;script type="text/javascript">
  *     @JS_NS@.widget.common.createWidget("sp2", {
- *       id: "rb1",
- *       name: "rb1",
+ *       id: "cb1",
  *       label: { value: "Refresh Alarm" },
- *       onClick="refreshWidget()",
- *       widgetType: "radioButton"
+ *       onKeyPress="setTimeout('updateWidget();', 0);",
+ *       widgetType: "checkbox"
  *     });
- *     function refreshWidget() {
+ *     function updateWidget() {
  *       var widget = @JS_NS@.widget.common.getWidget("alarm1"); // Get alarm
  *       return widget.refresh(); // Asynchronously refresh
  *     }
@@ -129,7 +126,7 @@
  * the refresh function acts as a reset. That is, the widget will be redrawn 
  * using values set server-side, but not updated.
  * </p><p>
- * <h3>Example 4: Asynchronously update widget using refresh function</h3>
+ * <h3>Example 3b: Asynchronously update widget using refresh function</h3>
  * </p><p>
  * This example shows how to asynchronously update an alarm using the refresh
  * function. The execute property of the refresh function is used to define the
@@ -153,10 +150,10 @@
  *     @JS_NS@.widget.common.createWidget("sp2", {
  *       id: "field1",
  *       label: { value: "Change Alarm Text" },
- *       onKeyPress="setTimeout('refreshWidget();', 0);",
+ *       onKeyPress="setTimeout('updateWidget();', 0);",
  *       widgetType: "textField"
  *     });
- *     function refreshWidget() {
+ *     function updateWidget() {
  *       var widget = @JS_NS@.widget.common.getWidget("alarm1"); // Get alarm
  *       return widget.refresh("field1"); // Asynchronously refresh while submitting field value
  *     }
@@ -167,7 +164,7 @@
  * execute. Thus, a comma-separated list of ids can be provided to update 
  * server-side components: refresh("id1,id2,...").
  * </p><p>
- * <h3>Example 5: Subscribing to event topics</h3>
+ * <h3>Example 4: Subscribing to event topics</h3>
  * </p><p>
  * When a widget is manipulated, some features may publish event topics for
  * custom AJAX implementations to listen for. For example, you may listen for
@@ -268,7 +265,8 @@
      * @ignore
      */
     state: {
-        /** State event topic for custom AJAX implementations to listen for.
+        /**
+         * State event topic for custom AJAX implementations to listen for.
          * Key-Value pairs of properties to publish include:
          * <ul><li>
          * {String} id The widget ID to process the event for.
@@ -281,7 +279,8 @@
          */
         beginTopic: "@JS_NS@_widget_alarm_event_state_begin",
 
-        /** State event topic for custom AJAX implementations to listen for.
+        /**
+         * State event topic for custom AJAX implementations to listen for.
          * Key-Value pairs of properties to publish include:
          * <ul><li>
          * {String} id The widget ID to process the event for.
