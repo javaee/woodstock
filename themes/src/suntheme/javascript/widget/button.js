@@ -55,17 +55,16 @@
  *     &lt;/script>
  * &lt;/span>
  * </code></pre><p>
- * <h3>Example 2: Update client-side button properties using the getProps 
- * and setProps functions</h3>
+ * <h3>Example 2: Update widget using the getProps and setProps functions</h3>
  * </p><p>
- * This example shows how to toggle the disabled state of a button client side
- * using the getProps and setProps functions. When the user clicks the radio 
- * button, the button is either disabled or enabled.
+ * This example shows how to toggle the disabled state of a widget using the
+ * getProps and setProps functions. When the user clicks the radio button, the
+ * button is either disabled or enabled.
  * </p><pre><code>
  * &lt;span id="sp1">
  *   &lt;script type="text/javascript">
  *     @JS_NS@.widget.common.createWidget("sp1", {
- *       id: "form1:btn1",
+ *       id: "btn1",
  *       value: "This is a button",
  *       widgetType: "button"
  *     });
@@ -74,7 +73,7 @@
  * &lt;span id="sp2">
  *   &lt;script type="text/javascript">
  *     @JS_NS@.widget.common.createWidget("sp2", {
- *       id: "form1:rb1",
+ *       id: "rb1",
  *       name: "rb1",
  *       label: { value: "Toggle Button Disabled" },
  *       onClick="toggleDisabled()",
@@ -82,22 +81,22 @@
  *       widgetType: "radioButton"
  *     });
  *     function toggleDisabled() {
- *       var domNode = document.getElementById("form1:btn1"); // Get button
- *       return domNode.setProps({disabled: !domNode.getProps().disabled}); // Toggle disabled state
+ *       var widget = @JS_NS@.widget.common.getWidget("btn1"); // Get button
+ *       return widget.setProps({disabled: !domNode.getProps().disabled}); // Toggle disabled state
  *     }
  *   &lt;/script>
  * &lt;/span>
  * </code></pre><p>
- * <h3>Example 3: Asynchronously update button using refresh function</h3>
+ * <h3>Example 3: Asynchronously update widget using refresh function</h3>
  * </p><p>
- * This example shows how to asynchronously update a button using the refresh 
+ * This example shows how to asynchronously update a widget using the refresh 
  * function. When the user clicks on the radio button, the button is 
  * asynchronously updated with new data.
  * </p><pre><code>
  * &lt;span id="sp1">
  *   &lt;script type="text/javascript">
  *     @JS_NS@.widget.common.createWidget("sp1", {
- *       id: "form1:btn1",
+ *       id: "btn1",
  *       value: "This is a button",
  *       widgetType: "button"
  *     });
@@ -106,7 +105,7 @@
  * &lt;span id="sp2">
  *   &lt;script type="text/javascript">
  *     @JS_NS@.widget.common.createWidget("sp2", {
- *       id: "form1:rb1",
+ *       id: "rb1",
  *       name: "rb1",
  *       label: { value: "Toggle Button Disabled" },
  *       onClick="refreshButton()",
@@ -114,8 +113,8 @@
  *       widgetType: "radioButton"
  *     });
  *     function refreshButton() {
- *       var domNode = document.getElementById("form1:btn1"); // Get button
- *       return domNode.refresh(); // Asynchronously refresh
+ *       var widget = @JS_NS@.widget.common.getWidget("btn1"); // Get button
+ *       return widget.refresh(); // Asynchronously refresh
  *     }
  *   &lt;/script>
  * &lt;/span>
@@ -126,7 +125,7 @@
  * the refresh function acts as a reset. That is, the widget will be redrawn 
  * using values set server-side, but not updated.
  * </p><p>
- * <h3>Example 4: Asynchronously update button using refresh function</h3>
+ * <h3>Example 4: Asynchronously update widget using refresh function</h3>
  * </p><p>
  * This example shows how to asynchronously update a button using the refresh
  * function. The execute property of the refresh function is used to define the
@@ -137,7 +136,7 @@
  * &lt;span id="sp1">
  *   &lt;script type="text/javascript">
  *     @JS_NS@.widget.common.createWidget("sp1", {
- *       id: "form1:btn1",
+ *       id: "btn1",
  *       value: "This is a button",
  *       widgetType: "button"
  *     });
@@ -146,15 +145,15 @@
  * &lt;span id="sp2">
  *   &lt;script type="text/javascript">
  *     @JS_NS@.widget.common.createWidget("sp2", {
- *       id: "form1:field1",
+ *       id: "field1",
  *       label: { value: "Change Button Text" },
  *       onKeyPress="setTimeout('refreshButton();', 0);",
  *       value: "This is a text field",
  *       widgetType: "textField"
  *     });
  *     function refreshButton() {
- *       var domNode = document.getElementById("form1:btn1"); // Get button
- *       return domNode.refresh("form1:field1"); // Asynchronously refresh while submitting field value
+ *       var widget = @JS_NS@.widget.common.getWidget("btn1"); // Get button
+ *       return widget.refresh("field1"); // Asynchronously refresh while submitting field value
  *     }
  *   &lt;/script>
  * &lt;/span>
@@ -162,7 +161,29 @@
  * Note that the refresh function can optionally take a list of elements to 
  * execute. Thus, a comma-separated list of ids can be provided to update 
  * server-side components: refresh("id1,id2,...").
- * </p>
+ * </p><p>
+ * <h3>Example 5: Subscribing to event topics</h3>
+ * </p><p>
+ * When a widget is manipulated, some features may publish event topics for
+ * custom AJAX implementations to listen for. For example, you may listen for
+ * the refresh event topic using:
+ * </p><pre><code>
+ * &lt;script type="text/javascript">
+ *    var foo = {
+ *        // Process refresh event.
+ *        //
+ *        // @param {Object} props Key-Value pairs of properties.
+ *        processRefreshEvent: function(props) {
+ *            // Get the widget id.
+ *            if (props.id == "btn1") { // Do something... }
+ *        }
+ *    }
+ *    // Subscribe to refresh event.
+ *    woodstock.widget.common.subscribe(woodstock.widget.button.event.refresh.endTopic, 
+ *      foo, "processRefreshEvent");
+ * &lt;/script>
+ * </code></pre>
+ *
  * @param {Object} props Key-Value pairs of properties.
  * @config {String} alt Alternate text for image input.
  * @config {String} align Alignment of image input.
@@ -222,16 +243,29 @@
     refresh: {
         /** 
          * Refresh event topic for custom AJAX implementations to listen for.
-         * 
-         * @id @JS_NS@.widget.button.event.beginTopic
+         * Key-Value pairs of properties to publish include:
+         * <ul><li>
+         * {String} execute Comma separated list of IDs to be processed server
+         * side along with this widget.
+         * </li><li>
+         * {String} id The widget ID to process the event for.
+         * </li></ul>
+         *
+         * @id @JS_NS@.widget.button.event.refresh.beginTopic
          * @property {String} beginTopic
          */
         beginTopic: "@JS_NS@_widget_button_event_refresh_begin",
 
         /** 
          * Refresh event topic for custom AJAX implementations to listen for.
-         * 
-         * @id @JS_NS@.widget.button.event.endTopic
+         * Key-Value pairs of properties to publish include:
+         * <ul><li>
+         * {String} id The widget ID to process the event for.
+         * </li><li>
+         * Please see the constructor detail for additional properties.
+         * </li></ul>
+         *
+         * @id @JS_NS@.widget.button.event.refresh.endTopic
          * @property {String} endTopic
          */
         endTopic: "@JS_NS@_widget_button_event_refresh_end"
@@ -242,10 +276,28 @@
      * @ignore
      */
     state: {
-        /** State event topic for custom AJAX implementations to listen for. */
+        /** State event topic for custom AJAX implementations to listen for.
+         * Key-Value pairs of properties to publish include:
+         * <ul><li>
+         * {String} id The widget ID to process the event for.
+         * </li><li>
+         * {Object} props Key-Value pairs of widget properties being updated.
+         * </li></ul>
+         *
+         * @id @JS_NS@.widget.button.event.submit.beginTopic
+         * @property {String} beginTopic
+         */
         beginTopic: "@JS_NS@_widget_button_event_state_begin",
 
-        /** State event topic for custom AJAX implementations to listen for. */
+        /** State event topic for custom AJAX implementations to listen for.
+         * Key-Value pairs of properties to publish include:
+         * <ul><li>
+         * {String} id The widget ID to process the event for.
+         * </li></ul>
+         *
+         * @id @JS_NS@.widget.button.event.submit.endTopic
+         * @property {String} endTopic
+         */
         endTopic: "@JS_NS@_widget_button_event_state_end"
     }
 };
