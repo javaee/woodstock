@@ -46,13 +46,13 @@
  * widgetType properties.
  * </p><pre><code>
  * &lt;span id="sp1">
- *     &lt;script type="text/javascript">
- *         @JS_NS@.widget.common.createWidget("sp1", {
- *             id: "form1:btn1",
- *             value: "This is a button",
- *             widgetType: "button"
- *         });
- *     &lt;/script>
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp1", {
+ *       id: "btn1",
+ *       value: "This is a button",
+ *       widgetType: "button"
+ *     });
+ *   &lt;/script>
  * &lt;/span>
  * </code></pre><p>
  * <h3>Example 2: Update widget using the getProps and setProps functions</h3>
@@ -77,7 +77,6 @@
  *       name: "rb1",
  *       label: { value: "Toggle Button Disabled" },
  *       onClick="toggleDisabled()",
- *       value: "This is a radio button",
  *       widgetType: "radioButton"
  *     });
  *     function toggleDisabled() {
@@ -107,12 +106,11 @@
  *     @JS_NS@.widget.common.createWidget("sp2", {
  *       id: "rb1",
  *       name: "rb1",
- *       label: { value: "Toggle Button Disabled" },
- *       onClick="refreshButton()",
- *       value: "This is a radio button",
+ *       label: { value: "Refresh Button" },
+ *       onClick="refreshWidget()",
  *       widgetType: "radioButton"
  *     });
- *     function refreshButton() {
+ *     function refreshWidget() {
  *       var widget = @JS_NS@.widget.common.getWidget("btn1"); // Get button
  *       return widget.refresh(); // Asynchronously refresh
  *     }
@@ -147,11 +145,10 @@
  *     @JS_NS@.widget.common.createWidget("sp2", {
  *       id: "field1",
  *       label: { value: "Change Button Text" },
- *       onKeyPress="setTimeout('refreshButton();', 0);",
- *       value: "This is a text field",
+ *       onKeyPress="setTimeout('refreshWidget();', 0);",
  *       widgetType: "textField"
  *     });
- *     function refreshButton() {
+ *     function refreshWidget() {
  *       var widget = @JS_NS@.widget.common.getWidget("btn1"); // Get button
  *       return widget.refresh("field1"); // Asynchronously refresh while submitting field value
  *     }

@@ -27,14 +27,173 @@
 /**
  * This function is used to construct an alarm widget.
  *
+ * @constructor
  * @name @JS_NS@.widget.alarm
  * @extends @JS_NS@.widget._base.widgetBase
  * @class This class contains functions for the alarm widget.
- * @constructor
+ * <p>
+ * Use the type property to specify the alarm severity, which determines the 
+ * alarm to display. The Alarm also supports a set of indicators which allows 
+ * custom types and associated images in addition to the default types. The text
+ * property is used to specify the text to be displayed next to the alarm. The
+ * textPosition property specifies whether the text should be displayed to the 
+ * left or right of the alarm.
+ * </p><p>
+ * <h3>Example 1: Create widget</h3>
+ * </p><p>
+ * This example shows how to create a widget using a span tag as a place holder 
+ * in the document. Minimally, the createWidget() function needs an id and 
+ * widgetType properties.
+ * </p><pre><code>
+ * &lt;span id="sp1">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp1", {
+ *       id: "alarm1",
+ *       text: "This is an alarm",
+ *       textPosition: "right",
+ *       type: "critical"
+ *       widgetType: "alarm"
+ *     });
+ *   &lt;/script>
+ * &lt;/span>
+ * </code></pre><p>
+ * <h3>Example 2: Update widget using the getProps and setProps functions</h3>
+ * </p><p>
+ * This example shows how to toggle the visible state of a widget using the
+ * getProps and setProps functions. When the user clicks the radio button, the
+ * alarm is either hidden or shown.
+ * </p><pre><code>
+ * &lt;span id="sp1">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp1", {
+ *       id: "alarm1",
+ *       text: "This is an alarm",
+ *       textPosition: "right",
+ *       type: "critical"
+ *       widgetType: "alarm"
+ *     });
+ *   &lt;/script>
+ * &lt;/span>
+ * &lt;span id="sp2">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp2", {
+ *       id: "rb1",
+ *       name: "rb1",
+ *       label: { value: "Toggle Alarm Visible" },
+ *       onClick="toggleVisible()",
+ *       widgetType: "radioButton"
+ *     });
+ *     function toggleVisible() {
+ *       var widget = @JS_NS@.widget.common.getWidget("alarm1"); // Get alarm
+ *       return widget.setProps({visible: !domNode.getProps().visible}); // Toggle visible state
+ *     }
+ *   &lt;/script>
+ * &lt;/span>
+ * </code></pre><p>
+ * <h3>Example 3: Asynchronously update widget using refresh function</h3>
+ * </p><p>
+ * This example shows how to asynchronously update a widget using the refresh 
+ * function. When the user clicks on the radio button, the alarm is 
+ * asynchronously updated with new data.
+ * </p><pre><code>
+ * &lt;span id="sp1">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp1", {
+ *       id: "alarm1",
+ *       text: "This is an alarm",
+ *       textPosition: "right",
+ *       type: "critical"
+ *       widgetType: "alarm"
+ *     });
+ *   &lt;/script>
+ * &lt;/span>
+ * &lt;span id="sp2">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp2", {
+ *       id: "rb1",
+ *       name: "rb1",
+ *       label: { value: "Refresh Alarm" },
+ *       onClick="refreshWidget()",
+ *       widgetType: "radioButton"
+ *     });
+ *     function refreshWidget() {
+ *       var widget = @JS_NS@.widget.common.getWidget("alarm1"); // Get alarm
+ *       return widget.refresh(); // Asynchronously refresh
+ *     }
+ *   &lt;/script>
+ * &lt;/span>
+ * </code></pre><p>
+ * Note that the refresh function can take an optional list of elements to 
+ * execute. Thus, a comma-separated list of ids can be provided to update 
+ * server-side components: refresh("id1,id2,..."). When no parameter is given, 
+ * the refresh function acts as a reset. That is, the widget will be redrawn 
+ * using values set server-side, but not updated.
+ * </p><p>
+ * <h3>Example 4: Asynchronously update widget using refresh function</h3>
+ * </p><p>
+ * This example shows how to asynchronously update an alarm using the refresh
+ * function. The execute property of the refresh function is used to define the
+ * client id which is to be submitted and updated server-side. As the user types
+ * in the text field, the input value is updated server-side and the alarm text
+ * is updated client-side -- all without a page refresh.
+ * </p><pre><code>
+ * &lt;span id="sp1">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp1", {
+ *       id: "alarm1",
+ *       text: "This is an alarm",
+ *       textPosition: "right",
+ *       type: "critical"
+ *       widgetType: "alarm"
+ *     });
+ *   &lt;/script>
+ * &lt;/span>
+ * &lt;span id="sp2">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp2", {
+ *       id: "field1",
+ *       label: { value: "Change Alarm Text" },
+ *       onKeyPress="setTimeout('refreshWidget();', 0);",
+ *       widgetType: "textField"
+ *     });
+ *     function refreshWidget() {
+ *       var widget = @JS_NS@.widget.common.getWidget("alarm1"); // Get alarm
+ *       return widget.refresh("field1"); // Asynchronously refresh while submitting field value
+ *     }
+ *   &lt;/script>
+ * &lt;/span>
+ * </code></pre><p>
+ * Note that the refresh function can optionally take a list of elements to 
+ * execute. Thus, a comma-separated list of ids can be provided to update 
+ * server-side components: refresh("id1,id2,...").
+ * </p><p>
+ * <h3>Example 5: Subscribing to event topics</h3>
+ * </p><p>
+ * When a widget is manipulated, some features may publish event topics for
+ * custom AJAX implementations to listen for. For example, you may listen for
+ * the refresh event topic using:
+ * </p><pre><code>
+ * &lt;script type="text/javascript">
+ *    var foo = {
+ *        // Process refresh event.
+ *        //
+ *        // @param {Object} props Key-Value pairs of properties.
+ *        processRefreshEvent: function(props) {
+ *            // Get the widget id.
+ *            if (props.id == "btn1") { // Do something... }
+ *        }
+ *    }
+ *    // Subscribe to refresh event.
+ *    woodstock.widget.common.subscribe(woodstock.widget.alarm.event.refresh.endTopic, 
+ *      foo, "processRefreshEvent");
+ * &lt;/script>
+ * </code></pre>
+ *
  * @param {Object} props Key-Value pairs of properties.
  * @config {String} className CSS selector.
  * @config {String} id Uniquely identifies an element within a document.
- * @config {Array} indicators 
+ * @config {Array} indicators Array of Key-Value pairs, containing type and 
+ * image properties.
  * @config {String} lang Specifies the language of attribute values and content.
  * @config {String} onClick Mouse button is clicked on element.
  * @config {String} onDblClick Mouse button is double-clicked on element.
@@ -47,10 +206,10 @@
  * @config {String} onMouseUp Mouse button is released over element.
  * @config {String} onMouseMove Mouse is moved while over element.
  * @config {String} style Specify style rules inline.
- * @config {String} text 
- * @config {String} textPosition
+ * @config {String} text The text to display with alarm.
+ * @config {String} textPosition Display text left or right of alarm.
  * @config {String} title Provides a title for element.
- * @config {String} type Provides a title for element.
+ * @config {String} type The type of alarm to display.
  * @config {boolean} visible Hide or show element.
  */
 @JS_NS@._dojo.declare("@JS_NS@.widget.alarm",
@@ -74,10 +233,33 @@
      * @ignore
      */
     refresh: {
-        /** Refresh event topic for custom AJAX implementations to listen for. */
+        /** 
+         * Refresh event topic for custom AJAX implementations to listen for.
+         * Key-Value pairs of properties to publish include:
+         * <ul><li>
+         * {String} execute Comma separated list of IDs to be processed server
+         * side along with this widget.
+         * </li><li>
+         * {String} id The widget ID to process the event for.
+         * </li></ul>
+         *
+         * @id @JS_NS@.widget.alarm.event.refresh.beginTopic
+         * @property {String} beginTopic
+         */
         beginTopic: "@JS_NS@_widget_alarm_event_refresh_begin",
 
-        /** Refresh event topic for custom AJAX implementations to listen for. */
+        /** 
+         * Refresh event topic for custom AJAX implementations to listen for.
+         * Key-Value pairs of properties to publish include:
+         * <ul><li>
+         * {String} id The widget ID to process the event for.
+         * </li><li>
+         * Please see the constructor detail for additional properties.
+         * </li></ul>
+         *
+         * @id @JS_NS@.widget.alarm.event.refresh.endTopic
+         * @property {String} endTopic
+         */
         endTopic: "@JS_NS@_widget_alarm_event_refresh_end"
     },
 
@@ -86,10 +268,28 @@
      * @ignore
      */
     state: {
-        /** State event topic for custom AJAX implementations to listen for. */
+        /** State event topic for custom AJAX implementations to listen for.
+         * Key-Value pairs of properties to publish include:
+         * <ul><li>
+         * {String} id The widget ID to process the event for.
+         * </li><li>
+         * {Object} props Key-Value pairs of widget properties being updated.
+         * </li></ul>
+         *
+         * @id @JS_NS@.widget.alarm.event.submit.beginTopic
+         * @property {String} beginTopic
+         */
         beginTopic: "@JS_NS@_widget_alarm_event_state_begin",
 
-        /** State event topic for custom AJAX implementations to listen for. */
+        /** State event topic for custom AJAX implementations to listen for.
+         * Key-Value pairs of properties to publish include:
+         * <ul><li>
+         * {String} id The widget ID to process the event for.
+         * </li></ul>
+         *
+         * @id @JS_NS@.widget.alarm.event.submit.endTopic
+         * @property {String} endTopic
+         */
         endTopic: "@JS_NS@_widget_alarm_event_state_end"
     }
 };
