@@ -279,7 +279,7 @@
             <attach file="${upload.dir}/${artifact}/${artifact}_ja.jar" classifier="l10n_ja"/>
             <attach file="${upload.dir}/${artifact}/${artifact}_ko.jar" classifier="l10n_ko"/>
             <attach file="${upload.dir}/${artifact}/${artifact}_pt_BR.jar" classifier="l10n_pt_BR"/>
-            <attach file="${upload.dir}/${artifact}/${artifact}_sv.jar" classifier="l10n_sv"/>
+            <!-- <attach file="${upload.dir}/${artifact}/${artifact}_sv.jar" classifier="l10n_sv"/> -->
             <attach file="${upload.dir}/${artifact}/${artifact}_zh_CN.jar" classifier="l10n_zh_CN"/>
             <attach file="${upload.dir}/${artifact}/${artifact}_zh_HK.jar" classifier="l10n_zh_HK"/>
             <attach file="${upload.dir}/${artifact}/${artifact}_zh_TW.jar" classifier="l10n_zh_TW"/>
