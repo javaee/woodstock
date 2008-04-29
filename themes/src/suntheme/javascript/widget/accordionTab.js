@@ -423,7 +423,7 @@
          * @property {String} endTopic
          */
         endTopic: "@JS_NS@_widget_accordionTab_event_state_end"
-    }
+    },
 
     /**
      * This object contains title event topics.
