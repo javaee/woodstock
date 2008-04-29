@@ -709,9 +709,9 @@
 	<antcall target="create-l10n-jar">
 	    <param name="_l10n-locale_" value="pt_BR"/>
 	</antcall>
-	<antcall target="create-l10n-jar">
+	<!-- <antcall target="create-l10n-jar">
 	    <param name="_l10n-locale_" value="sv"/>
-	</antcall>
+	</antcall> -->
 	<antcall target="create-l10n-jar">
 	    <param name="_l10n-locale_" value="zh_CN"/>
 	</antcall>
