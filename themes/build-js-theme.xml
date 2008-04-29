@@ -278,11 +278,11 @@
 	    <param name="_l10n-nls-locale_" value="pt-br"/>
 	    <param name="_l10n-uptodate-prop_" value="pt_BR-uptodate"/>
 	</antcall>
-	<antcall target="localizeJSTheme">
+	<!-- <antcall target="localizeJSTheme">
 	    <param name="_l10n-locale_" value="sv"/>
 	    <param name="_l10n-nls-locale_" value="sv"/>
 	    <param name="_l10n-uptodate-prop_" value="sv-uptodate"/>
-	</antcall>
+	</antcall> -->
 	<antcall target="localizeJSTheme">
 	    <param name="_l10n-locale_" value="zh_CN"/>
 	    <param name="_l10n-nls-locale_" value="zh-cn"/>
