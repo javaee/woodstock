@@ -534,6 +534,7 @@
     if (this.sortPopupMenu == null) {
         this.sortPopupMenu = {
                     id: this.id + "_popupMenu",
+                    style: "width:210px;",
                     visible: false,
                     options: this._primarySortOptions,
                     widgetType: "popupMenu"
