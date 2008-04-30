@@ -23,6 +23,8 @@
 @JS_NS@._dojo.provide("@JS_NS@.widget.image");
 
 @JS_NS@._dojo.require("@JS_NS@._base.browser");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.refreshBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.stateBase");
 @JS_NS@._dojo.require("@JS_NS@.widget._base.widgetBase");
 
 /**
@@ -30,6 +32,8 @@
  *
  * @name @JS_NS@.widget.image
  * @extends @JS_NS@.widget._base.widgetBase
+ * @extends @JS_NS@.widget._base.refreshBase
+ * @extends @JS_NS@.widget._base.stateBase
  * @class This class contains functions for the image widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -62,8 +66,10 @@
  * @config {String} vspace
  * @config {String} width
  */
-@JS_NS@._dojo.declare("@JS_NS@.widget.image",
-        @JS_NS@.widget._base.widgetBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.image", [
+        @JS_NS@.widget._base.widgetBase,
+        @JS_NS@.widget._base.refreshBase, 
+        @JS_NS@.widget._base.stateBase], {
     // Set defaults.
     constructor: function() {
         this.border = 0;

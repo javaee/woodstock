@@ -23,12 +23,16 @@
 @JS_NS@._dojo.provide("@JS_NS@.widget.radioButtonGroup");
 
 @JS_NS@._dojo.require("@JS_NS@.widget._base.checkedGroupBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.refreshBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.stateBase");
 
 /**
  * This function is used to construct a radioButtonGroup widget.
  *
  * @name @JS_NS@.widget.radioButtonGroup
  * @extends @JS_NS@.widget._base.checkedGroupBase
+ * @extends @JS_NS@.widget._base.refreshBase
+ * @extends @JS_NS@.widget._base.stateBase
  * @class This class contains functions for the radioButtonGroup widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -48,8 +52,10 @@
  * @config {String} title Provides a title for element.
  * @config {boolean} visible Hide or show element.
  */
-@JS_NS@._dojo.declare("@JS_NS@.widget.radioButtonGroup",
-        @JS_NS@.widget._base.checkedGroupBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.radioButtonGroup", [
+        @JS_NS@.widget._base.checkedGroupBase,
+        @JS_NS@.widget._base.refreshBase, 
+        @JS_NS@.widget._base.stateBase], {
     // Set defaults.
     _widgetType: "radioButtonGroup" // Required for theme properties.
 });

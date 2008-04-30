@@ -22,6 +22,8 @@
 
 @JS_NS@._dojo.provide("@JS_NS@.widget.alert");
 
+@JS_NS@._dojo.require("@JS_NS@.widget._base.refreshBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.stateBase");
 @JS_NS@._dojo.require("@JS_NS@.widget._base.widgetBase");
 
 /**
@@ -30,6 +32,8 @@
  * @constructor
  * @name @JS_NS@.widget.alert
  * @extends @JS_NS@.widget._base.widgetBase
+ * @extends @JS_NS@.widget._base.refreshBase
+ * @extends @JS_NS@.widget._base.stateBase
  * @class This class contains functions for the alert widget.
  * <p>
  * The alert widget is comprised of an image, summary message, and an optional 
@@ -206,8 +210,10 @@
  * @config {String} type The type of alert to display.
  * @config {boolean} visible Hide or show element.
  */
-@JS_NS@._dojo.declare("@JS_NS@.widget.alert",
-        @JS_NS@.widget._base.widgetBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.alert", [
+        @JS_NS@.widget._base.widgetBase,
+        @JS_NS@.widget._base.refreshBase, 
+        @JS_NS@.widget._base.stateBase], {
     // Set defaults.
     _widgetType: "alert" // Required for theme properties.
 });

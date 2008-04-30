@@ -22,6 +22,8 @@
 
 @JS_NS@._dojo.provide("@JS_NS@.widget.anchor");
 
+@JS_NS@._dojo.require("@JS_NS@.widget._base.refreshBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.stateBase");
 @JS_NS@._dojo.require("@JS_NS@.widget._base.anchorBase");
 
 /**
@@ -30,6 +32,8 @@
  * @constructor
  * @name @JS_NS@.widget.anchor
  * @extends @JS_NS@.widget._base.anchorBase
+ * @extends @JS_NS@.widget._base.refreshBase
+ * @extends @JS_NS@.widget._base.stateBase
  * @class This class contains functions for the anchor widget. 
  * <p>
  * The anchor widget creates an HTML anchor that traverses to the specified URL.
@@ -230,8 +234,10 @@
  * @config {String} title Provides a title for element.
  * @config {boolean} visible Hide or show element.
  */
-@JS_NS@._dojo.declare("@JS_NS@.widget.anchor",
-        @JS_NS@.widget._base.anchorBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.anchor", [
+        @JS_NS@.widget._base.anchorBase,
+        @JS_NS@.widget._base.refreshBase, 
+        @JS_NS@.widget._base.stateBase], {
     // Set defaults.
     _widgetType: "anchor" // Required for theme properties.
 });

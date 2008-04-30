@@ -24,6 +24,8 @@
 
 @JS_NS@._dojo.require("@JS_NS@._base.browser");
 @JS_NS@._dojo.require("@JS_NS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.refreshBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.stateBase");
 @JS_NS@._dojo.require("@JS_NS@.widget._base.widgetBase");
 
 /**
@@ -32,6 +34,8 @@
  * @constructor
  * @name @JS_NS@.widget.bubble
  * @extends @JS_NS@.widget._base.widgetBase
+ * @extends @JS_NS@.widget._base.refreshBase
+ * @extends @JS_NS@.widget._base.stateBase
  * @class This class contains functions for the bubble widget.
  * <p>
  * The bubble widget displays a pop up window which appears on screen in 
@@ -264,8 +268,10 @@
  * @config {int} width 
  * @config {boolean} visible Hide or show element.
  */
-@JS_NS@._dojo.declare("@JS_NS@.widget.bubble",
-        @JS_NS@.widget._base.widgetBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.bubble", [
+        @JS_NS@.widget._base.widgetBase,
+        @JS_NS@.widget._base.refreshBase, 
+        @JS_NS@.widget._base.stateBase], {
     // Set defaults.
     constructor: function() {
         this.defaultTime = 2000;

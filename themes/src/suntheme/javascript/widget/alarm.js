@@ -22,6 +22,8 @@
 
 @JS_NS@._dojo.provide("@JS_NS@.widget.alarm");
 
+@JS_NS@._dojo.require("@JS_NS@.widget._base.refreshBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.stateBase");
 @JS_NS@._dojo.require("@JS_NS@.widget._base.widgetBase");
 
 /**
@@ -30,6 +32,8 @@
  * @constructor
  * @name @JS_NS@.widget.alarm
  * @extends @JS_NS@.widget._base.widgetBase
+ * @extends @JS_NS@.widget._base.refreshBase
+ * @extends @JS_NS@.widget._base.stateBase
  * @class This class contains functions for the alarm widget.
  * <p>
  * Use the type property to specify the alarm severity, which determines the 
@@ -209,8 +213,10 @@
  * @config {String} type The type of alarm to display.
  * @config {boolean} visible Hide or show element.
  */
-@JS_NS@._dojo.declare("@JS_NS@.widget.alarm",
-        @JS_NS@.widget._base.widgetBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.alarm", [
+        @JS_NS@.widget._base.widgetBase,
+        @JS_NS@.widget._base.refreshBase, 
+        @JS_NS@.widget._base.stateBase], {
     _widgetType: "alarm" // Required for theme properties.
 });
 

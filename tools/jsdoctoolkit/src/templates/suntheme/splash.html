@@ -45,8 +45,7 @@
     </tr>
     <tr class="TableRowColor" bgcolor="white" valign="top">
       <td width="20%"><b><a target="_top" href="allclasses-frame.html">@JS_NS@</a></b></td>
-      <td>Woodstock @THEME_VERSION@ JavaScript Library
-      <br>
+      <td>Woodstock @THEME_VERSION@ JavaScript Library <br>
       </td>
     </tr>
   </tbody>
@@ -92,7 +91,7 @@ the page, for example, add the following JavaScript tag to the <code>&lt;body&gt
 of the page at the point where the widget
 should be displayed.<br>
 </p>
-<pre><code>&lt;span id="sp1"&gt;<br>  &lt;script type="text/javascript"&gt;<br>    woodstock.widget.common.createWidget("sp1", {<br>      id: "text1",<br>      "value": "This is the text to be rendered."}, <br>      "widgetType": "staticText"<br>    });<br>  &lt;/script&gt;<br>&lt;/span&gt;</code></pre>
+<pre><code>&lt;span id="sp1"&gt;<br>  &lt;script type="text/javascript"&gt;<br>    woodstock.widget.common.createWidget("sp1", {<br>      id: "text1",<br>      value: "This is the text to be rendered.", <br>      widgetType: "staticText"<br>    });<br>  &lt;/script&gt;<br>&lt;/span&gt;</code></pre>
 <p></p>
 <p>Note that the <code>createWidget</code> function accepts two
 parameters. The first parameter specifies the identifier of a DOM

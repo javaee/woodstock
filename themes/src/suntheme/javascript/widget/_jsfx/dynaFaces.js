@@ -23,7 +23,7 @@
 @JS_NS@._dojo.provide("@JS_NS@.widget._jsfx.dynaFaces");
 
 @JS_NS@._dojo.require("@JS_NS@.theme.common");
-@JS_NS@._dojo.require("@JS_NS@.widget._base.eventBase");
+@JS_NS@._dojo.require("@JS_NS@.widget.common");
 
 /**
  * @class This class contains functions to obtain JSF Extensions resources.

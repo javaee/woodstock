@@ -22,6 +22,9 @@
 
 @JS_NS@._dojo.provide("@JS_NS@.widget.rating");
 
+@JS_NS@._dojo.require("@JS_NS@.widget._base.refreshBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.stateBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.submitBase");
 @JS_NS@._dojo.require("@JS_NS@.widget._base.widgetBase");
 
 /**
@@ -29,6 +32,9 @@
  *
  * @name @JS_NS@.widget.rating
  * @extends @JS_NS@.widget._base.widgetBase
+ * @extends @JS_NS@.widget._base.refreshBase
+ * @extends @JS_NS@.widget._base.stateBase
+ * @extends @JS_NS@.widget._base.submitBase
  * @class This class contains functions for the rating widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -93,8 +99,11 @@
  * @config {String} style CSS style or styles to be applied to the outermost 
  * HTML element when this component is rendered.
  */
-@JS_NS@._dojo.declare("@JS_NS@.widget.rating",
-        @JS_NS@.widget._base.widgetBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.rating", [
+        @JS_NS@.widget._base.widgetBase,
+        @JS_NS@.widget._base.refreshBase, 
+        @JS_NS@.widget._base.stateBase,
+        @JS_NS@.widget._base.submitBase], {
     // Set defaults.
     constructor: function() {
         // Set defaults for public properties that can be modified.
@@ -160,6 +169,18 @@
 
         /** Submit event topic for custom AJAX implementations to listen for. */
         endTopic: "@JS_NS@_widget_rating_event_submit_end"
+    },
+
+    /**
+     * This object contains state event topics.
+     * @ignore
+     */
+    state: {
+        /** State event topic for custom AJAX implementations to listen for. */
+        beginTopic: "@JS_NS@_widget_rating_event_state_begin",
+
+        /** State event topic for custom AJAX implementations to listen for. */
+        endTopic: "@JS_NS@_widget_rating_event_state_end"
     }
 };
 

@@ -24,6 +24,8 @@
 
 @JS_NS@._dojo.require("@JS_NS@.widget.accordionTab");
 @JS_NS@._dojo.require("@JS_NS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.refreshBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.stateBase");
 @JS_NS@._dojo.require("@JS_NS@.widget._base.widgetBase");
 
 /**
@@ -32,6 +34,8 @@
  * @constructor
  * @name @JS_NS@.widget.accordion
  * @extends @JS_NS@.widget._base.widgetBase
+ * @extends @JS_NS@.widget._base.refreshBase
+ * @extends @JS_NS@.widget._base.stateBase
  * @class This class contains functions for the accordion widget. 
  * <p>
  * The accordion widget can be thought of as a vertical tab set. This set can
@@ -288,8 +292,10 @@
  * @config {boolean} toggleControls Set to true if expand/collapse icons should be set.
  * @config {boolean} visible Hide or show element.
  */
-@JS_NS@._dojo.declare("@JS_NS@.widget.accordion",
-        @JS_NS@.widget._base.widgetBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.accordion", [
+        @JS_NS@.widget._base.widgetBase,
+        @JS_NS@.widget._base.refreshBase, 
+        @JS_NS@.widget._base.stateBase], {
     // Set defaults.
     constructor: function() {
         this.duration = 250;

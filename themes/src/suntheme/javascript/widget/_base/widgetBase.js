@@ -25,15 +25,16 @@
 @JS_NS@._dojo.require("@JS_NS@._base.browser");
 @JS_NS@._dojo.require("@JS_NS@._base.common");
 @JS_NS@._dojo.require("@JS_NS@._base.proto");
+@JS_NS@._dojo.require("@JS_NS@._dijit._Templated");
+@JS_NS@._dojo.require("@JS_NS@._dijit._Widget"); 
 @JS_NS@._dojo.require("@JS_NS@.theme.common");
 @JS_NS@._dojo.require("@JS_NS@.widget.common");
-@JS_NS@._dojo.require("@JS_NS@.widget._base.eventBase");
 
 /**
  * This function is used to construct a base class.
  *
+ * @constructor
  * @name @JS_NS@.widget._base.widgetBase
- * @extends @JS_NS@.widget._base.eventBase
  * @class This class contains functions used for base functionality in all 
  * widgets. 
  * <p>
@@ -89,10 +90,9 @@
  * error by calling appendChild(). Therefore, widget creation must be deferred
  * to the window.onLoad event. See http://trac.dojotoolkit.org/ticket/4631
  * </p>
- * @constructor
  */
-@JS_NS@._dojo.declare("@JS_NS@.widget._base.widgetBase", 
-        @JS_NS@.widget._base.eventBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget._base.widgetBase", [
+        @JS_NS@._dijit._Widget, @JS_NS@._dijit._Templated], {
     // Note: If your class contains arrays or other objects, they should be
     // declared in the constructor function so that each instance gets it's own
     // copy. Simple types (literal strings and numbers) are fine to declare in 
@@ -334,7 +334,6 @@
     var _id = this.id;
 
     // Set public functions.
-
     /** @ignore */
     this._domNode.getProps = function() { 
         return @JS_NS@.widget.common.getWidget(_id).getProps();
@@ -343,15 +342,48 @@
     this._domNode.setProps = function(props, notify) { 
         return @JS_NS@.widget.common.getWidget(_id).setProps(props, notify);
     };
+    /** @ignore */
+    this._domNode.subscribe = function(topic, obj, func) {
+        return @JS_NS@.widget.common.subscribe(topic, obj, func);
+    };
 
-    // Initialize public events and functions.
-    this._initEvents();
+    // Initialize public functions.
+    if (typeof this._initRefreshFunc == "function") {
+        this._initRefreshFunc();
+    }
+    if (typeof this._initSubmitFunc == "function") {
+        this._initSubmitFunc();
+    }
+
+    // Set event topics.
+    this._domNode.event = this.event;
 
     // Set properties.
     this._setProps(this.getProps());
 
     // All widget properties have been set.
     return this.initialized = true;
+};
+
+/**
+ * Publish an event topic.
+ * <p>
+ * Note: In order to obtain Ajax modules dynamically, this function shall be 
+ * overridden by a custom AJAX implementation.
+ * </p>
+ * @param {String} topic The event topic to publish.
+ * @param {Object} props Key-Value pairs of properties. This will be applied
+ * to each topic subscriber.
+ * @return {boolean} true if successful; otherwise, false.
+ * @private
+ */
+@JS_NS@.widget._base.widgetBase.prototype._publish = function(topic, props) {
+    // Obtain the Ajax module associated with this widget.
+    var config = @JS_NS@._base.config;
+    if (new Boolean(config.ajax.isAjax).valueOf() == true && config.ajax.module) {
+        @JS_NS@._dojo.require(config.ajax.module + "." + this._widgetType);
+    }
+    return @JS_NS@.widget.common.publish(topic, props);
 };
 
 /**

@@ -19,16 +19,18 @@
  * 
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
+
 @JS_NS@._dojo.provide("@JS_NS@.widget._base.checkedGroupBase");
+
 @JS_NS@._dojo.require("@JS_NS@.widget._base.labeledBase");
 
 /**
  * This function is used to construct a base class.
  *
+ * @constructor
  * @name @JS_NS@.widget._base.checkedGroupBase
  * @extends @JS_NS@.widget._base.labeledBase
  * @class This class contains functions for widgets that extend checkedGroupBase.
- * @constructor
  * @param {Object} props Key-Value pairs of properties.
  * @config {String} align Alignment of image input.
  * @config {String} className CSS selector.

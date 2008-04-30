@@ -31,6 +31,7 @@
 /**
  * This function is used to construct a base class.
  *
+ * @constructor
  * @name @JS_NS@.widget._base.selectBase
  * @extends @JS_NS@.widget._base.widgetBase
  * @class This class defines functions and properties for
@@ -117,7 +118,6 @@
  * @config {String} width This value will be assigned to the 
  * <code>_listContainer.style.width</code> attribute to set the width of the
  * select element.
- * @constructor
  */
 @JS_NS@._dojo.declare("@JS_NS@.widget._base.selectBase", 
 	@JS_NS@.widget._base.labeledBase, {

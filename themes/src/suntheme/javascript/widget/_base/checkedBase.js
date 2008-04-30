@@ -29,10 +29,10 @@
 /**
  * This function is used to construct a base class.
  *
+ * @constructor
  * @name @JS_NS@.widget._base.checkedBase
  * @extends @JS_NS@.widget._base.labeledBase
  * @class This class contains functions for widgets that extend checkedBase.
- * @constructor
  */
 @JS_NS@._dojo.declare("@JS_NS@.widget._base.checkedBase",
         @JS_NS@.widget._base.labeledBase, {

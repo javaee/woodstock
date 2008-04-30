@@ -24,12 +24,18 @@
 
 @JS_NS@._dojo.require("@JS_NS@.widget.common");
 @JS_NS@._dojo.require("@JS_NS@.widget._base.fieldBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.refreshBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.stateBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.submitBase");
 
 /**
  * This function is used to construct a textField widget.
  *
  * @name @JS_NS@.widget.textField
  * @extends @JS_NS@.widget._base.fieldBase
+ * @extends @JS_NS@.widget._base.refreshBase
+ * @extends @JS_NS@.widget._base.stateBase
+ * @extends @JS_NS@.widget._base.submitBase
  * @class This class contains functions for the textField widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -66,8 +72,11 @@
  * @config {String} value Value of input.
  * @config {boolean} visible Hide or show element.
  */
-@JS_NS@._dojo.declare("@JS_NS@.widget.textField",
-        @JS_NS@.widget._base.fieldBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.textField", [
+        @JS_NS@.widget._base.fieldBase,
+        @JS_NS@.widget._base.refreshBase, 
+        @JS_NS@.widget._base.stateBase,
+        @JS_NS@.widget._base.submitBase], {
     // Set defaults.
     constructor: function() {
         // Array of list values; may be empty; if null - then no autocomplete 

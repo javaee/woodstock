@@ -23,6 +23,8 @@
 @JS_NS@._dojo.provide("@JS_NS@.widget.accordionTab");
 
 @JS_NS@._dojo.require("@JS_NS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.refreshBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.stateBase");
 @JS_NS@._dojo.require("@JS_NS@.widget._base.widgetBase");
 
 /**
@@ -31,6 +33,8 @@
  * @constructor
  * @name @JS_NS@.widget.accordionTab
  * @extends @JS_NS@.widget._base.widgetBase
+ * @extends @JS_NS@.widget._base.refreshBase
+ * @extends @JS_NS@.widget._base.stateBase
  * @class This class contains functions for the accordionTab widget.
  * <p>
  * The accordionTab widget represents a container within which an arbitrary 
@@ -274,8 +278,10 @@
  * @config {String} title Provides a title for element.
  * @config {boolean} visible Hide or show element.
  */
-@JS_NS@._dojo.declare("@JS_NS@.widget.accordionTab",
-        @JS_NS@.widget._base.widgetBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.accordionTab", [
+        @JS_NS@.widget._base.widgetBase,
+        @JS_NS@.widget._base.refreshBase, 
+        @JS_NS@.widget._base.stateBase], {
     // Set defaults.
     constructor: function() {
         this.isContainer = true;

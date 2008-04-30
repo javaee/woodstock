@@ -23,6 +23,8 @@
 @JS_NS@._dojo.provide("@JS_NS@.widget.progressBar");
 
 @JS_NS@._dojo.require("@JS_NS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.refreshBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.stateBase");
 @JS_NS@._dojo.require("@JS_NS@.widget._base.widgetBase");
 
 /**
@@ -30,6 +32,8 @@
  *
  * @name @JS_NS@.widget.progressBar
  * @extends @JS_NS@.widget._base.widgetBase
+ * @extends @JS_NS@.widget._base.refreshBase
+ * @extends @JS_NS@.widget._base.stateBase
  * @class This class contains functions for the progressBar widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -53,8 +57,10 @@
  * @config {boolean} visible Hide or show element.
  * @config {int} width 
  */
-@JS_NS@._dojo.declare("@JS_NS@.widget.progressBar",
-        @JS_NS@.widget._base.widgetBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.progressBar", [
+        @JS_NS@.widget._base.widgetBase,
+        @JS_NS@.widget._base.refreshBase, 
+        @JS_NS@.widget._base.stateBase], {
     // Set defaults.
     constructor: function() {
         this.progress = 0;

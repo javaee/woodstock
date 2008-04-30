@@ -28,10 +28,10 @@
 /**
  * This function is used to construct a base class.
  *
+ * @constructor
  * @name @JS_NS@.widget._base.fieldBase
  * @extends @JS_NS@.widget._base.widgetBase
  * @class This class contains functions for widgets that extend fieldBase.
- * @constructor
  */
 @JS_NS@._dojo.declare("@JS_NS@.widget._base.fieldBase",
         @JS_NS@.widget._base.labeledBase, {

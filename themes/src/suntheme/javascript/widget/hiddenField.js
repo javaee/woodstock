@@ -22,6 +22,9 @@
 
 @JS_NS@._dojo.provide("@JS_NS@.widget.hiddenField");
 
+@JS_NS@._dojo.require("@JS_NS@.widget._base.selectBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.stateBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.submitBase");
 @JS_NS@._dojo.require("@JS_NS@.widget._base.widgetBase");
 
 /**
@@ -29,6 +32,9 @@
  *
  * @name @JS_NS@.widget.hiddenField
  * @extends @JS_NS@.widget._base.widgetBase
+ * @extends @JS_NS@.widget._base.refreshBase
+ * @extends @JS_NS@.widget._base.stateBase
+ * @extends @JS_NS@.widget._base.submitBase
  * @class This class contains functions for the hiddenField widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -37,8 +43,11 @@
  * @config {String} name
  * @config {String} value Value of input.
  */
-@JS_NS@._dojo.declare("@JS_NS@.widget.hiddenField",
-        @JS_NS@.widget._base.widgetBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.hiddenField", [
+        @JS_NS@.widget._base.widgetBase,
+        @JS_NS@.widget._base.refreshBase, 
+        @JS_NS@.widget._base.stateBase,
+        @JS_NS@.widget._base.submitBase], {
     // Set defaults.
     constructor: function() {
         this.disabled = false;

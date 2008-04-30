@@ -23,12 +23,18 @@
 @JS_NS@._dojo.provide("@JS_NS@.widget.checkbox");
 
 @JS_NS@._dojo.require("@JS_NS@.widget._base.checkedBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.refreshBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.stateBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.submitBase");
 
 /**
  * This function is used to construct a checkbox widget.
  *
  * @name @JS_NS@.widget.checkbox
  * @extends @JS_NS@.widget._base.checkedBase
+ * @extends @JS_NS@.widget._base.refreshBase
+ * @extends @JS_NS@.widget._base.stateBase
+ * @extends @JS_NS@.widget._base.submitBase
  * @class This class contains functions for the checkbox widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -63,8 +69,11 @@
  * @config {String} value Value of input.
  * @config {boolean} visible Hide or show element.
  */
-@JS_NS@._dojo.declare("@JS_NS@.widget.checkbox",
-        @JS_NS@.widget._base.checkedBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.checkbox", [
+        @JS_NS@.widget._base.checkedBase,
+        @JS_NS@.widget._base.refreshBase, 
+        @JS_NS@.widget._base.stateBase,
+        @JS_NS@.widget._base.submitBase], {
     // Set defaults.
     _idSuffix: "_cb",
     _widgetType: "checkbox" // Required for theme properties.

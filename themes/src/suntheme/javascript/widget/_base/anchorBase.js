@@ -27,10 +27,10 @@
 /**
  * This function is used to construct a base class.
  *
+ * @constructor
  * @name @JS_NS@.widget._base.anchorBase
  * @extends @JS_NS@.widget._base.widgetBase
  * @class This class contains functions for widgets that extend anchorBase.
- * @constructor
  * @param {Object} props Key-Value pairs of properties.
  * @config {String} accessKey
  * @config {String} charset

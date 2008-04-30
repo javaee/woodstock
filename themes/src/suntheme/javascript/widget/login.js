@@ -23,6 +23,8 @@
 @JS_NS@._dojo.provide("@JS_NS@.widget.login");
 
 @JS_NS@._dojo.require("@JS_NS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.refreshBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.stateBase");
 @JS_NS@._dojo.require("@JS_NS@.widget._base.widgetBase");
 
 /**
@@ -30,6 +32,8 @@
  *
  * @name @JS_NS@.widget.login
  * @extends @JS_NS@.widget._base.widgetBase
+ * @extends @JS_NS@.widget._base.refreshBase
+ * @extends @JS_NS@.widget._base.stateBase
  * @class This class contains functions for the login widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -42,8 +46,10 @@
  * @config {Object} userData JSON object containing user data that needs to be displayed as user prompt.
  * @config {Object} keys JSON object representing the key value mapping for user data fields.
  */
-@JS_NS@._dojo.declare("@JS_NS@.widget.login",
-        @JS_NS@.widget._base.widgetBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.login", [
+        @JS_NS@.widget._base.widgetBase,
+        @JS_NS@.widget._base.refreshBase, 
+        @JS_NS@.widget._base.stateBase], {
     // Set defaults.
     constructor: function() {
         this.loginState = "INIT";

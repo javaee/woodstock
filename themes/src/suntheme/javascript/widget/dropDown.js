@@ -22,13 +22,19 @@
 
 @JS_NS@._dojo.provide("@JS_NS@.widget.dropDown");
 
+@JS_NS@._dojo.require("@JS_NS@.widget._base.refreshBase");
 @JS_NS@._dojo.require("@JS_NS@.widget._base.selectBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.stateBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.submitBase");
 
 /**
  * This function is used to construct a dropDown widget.
  *
  * @name @JS_NS@.widget.dropDown
  * @extends @JS_NS@.widget._base.selectBase
+ * @extends @JS_NS@.widget._base.refreshBase
+ * @extends @JS_NS@.widget._base.stateBase
+ * @extends @JS_NS@.widget._base.submitBase
  * @class This class contains functions for the dropDown widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -64,8 +70,11 @@
  * @config {String} title The a HTML title attribue for the <code>select</code> element.
  * @config {boolean} visible Hide or show element.
  */
-@JS_NS@._dojo.declare("@JS_NS@.widget.dropDown",
-        @JS_NS@.widget._base.selectBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.dropDown", [
+        @JS_NS@.widget._base.selectBase,
+        @JS_NS@.widget._base.refreshBase, 
+        @JS_NS@.widget._base.stateBase,
+        @JS_NS@.widget._base.submitBase], {
     // Set defaults.
     //
     constructor : function() {

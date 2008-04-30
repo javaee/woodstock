@@ -24,6 +24,8 @@
 
 @JS_NS@._dojo.require("@JS_NS@._base.browser");
 @JS_NS@._dojo.require("@JS_NS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.refreshBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.stateBase");
 @JS_NS@._dojo.require("@JS_NS@.widget._base.widgetBase");
 @JS_NS@._dojo.require("@JS_NS@.theme.common");
 
@@ -32,6 +34,8 @@
  *
  * @name @JS_NS@.widget.table2RowGroup
  * @extends @JS_NS@.widget._base.widgetBase
+ * @extends @JS_NS@.widget._base.refreshBase
+ * @extends @JS_NS@.widget._base.stateBase
  * @class This class contains functions for the table2RowGroup widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -65,8 +69,10 @@
  * @config {String} valign 
  * @config {boolean} visible Hide or show element.
  */
-@JS_NS@._dojo.declare("@JS_NS@.widget.table2RowGroup",
-        @JS_NS@.widget._base.widgetBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.table2RowGroup", [
+        @JS_NS@.widget._base.widgetBase,
+        @JS_NS@.widget._base.refreshBase, 
+        @JS_NS@.widget._base.stateBase], {
     // Set defaults.
     constructor: function() {
         this.currentRow = 0; // Current row in view.

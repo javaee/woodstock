@@ -23,6 +23,8 @@
 @JS_NS@._dojo.provide("@JS_NS@.widget.table2");
 
 @JS_NS@._dojo.require("@JS_NS@.widget.common");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.refreshBase");
+@JS_NS@._dojo.require("@JS_NS@.widget._base.stateBase");
 @JS_NS@._dojo.require("@JS_NS@.widget._base.widgetBase");
 
 /**
@@ -30,6 +32,8 @@
  *
  * @name @JS_NS@.widget.table2
  * @extends @JS_NS@.widget._base.widgetBase
+ * @extends @JS_NS@.widget._base.refreshBase
+ * @extends @JS_NS@.widget._base.stateBase
  * @class This class contains functions for the table2 widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
@@ -63,8 +67,10 @@
  * @config {boolean} visible Hide or show element.
  * @config {String} width
  */
-@JS_NS@._dojo.declare("@JS_NS@.widget.table2",
-        @JS_NS@.widget._base.widgetBase, {
+@JS_NS@._dojo.declare("@JS_NS@.widget.table2", [
+        @JS_NS@.widget._base.widgetBase,
+        @JS_NS@.widget._base.refreshBase, 
+        @JS_NS@.widget._base.stateBase], {
     // Set defaults.
     _widgetType: "table2" // Required for theme properties.
 });

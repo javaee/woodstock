@@ -25,6 +25,7 @@
 /**
  * This function is used to construct a base class.
  *
+ * @constructor
  * @name @JS_NS@.widget._base.labeledBase
  * @extends @JS_NS@.widget._base.widgetBase
  * @class This class defines functions and properties 
@@ -71,7 +72,6 @@
  * input. If false an indicator will appear near the label.
  * @config {boolean} labelOnTop If true the label appears above the
  * widget that is labeled. Subclasses may or may not implement this property.
- * @constructor
  */
 @JS_NS@._dojo.declare("@JS_NS@.widget._base.labeledBase",
         @JS_NS@.widget._base.widgetBase, {
