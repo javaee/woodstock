@@ -79,9 +79,10 @@ specify the a namespace path to the
 functions in the Woodstock JavaScript library. Each version of the
 JavaScript library contains a version number in its name space (this
 is necessary when using the JavaScript library in a portal web
-application). By defining the global variable, a new version of the
+application). By defining the namespace, a new version of the
 JavaScript library could be used without changing the name space paths
-throughout the remainder of the web page.<br>
+throughout the remainder of the web page. If this global variable is
+not availble, <code>@JS_NAME@Config</code> will be used.
 </p>
 <p>Widgets are rendered in the web page by adding a
 <code>createWidget</code> function call in a JavaScript tag. Initial

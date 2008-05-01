@@ -123,6 +123,7 @@
     <!-- Not currently documented for cloning -->
     <property name="theme.master.css" value="css_master.css"/>
     <property name="theme.master-all.css" value="css_master-all.css"/>
+    <property name="theme.js-name" value="${js.name}"/>
     <property name="theme.js-module" value="${js.name}${CacheThemeVersion}"/>
     <property name="theme._bootstrap_.js" value="_base/_bootstrap_.js"/>
     <property name="theme.bootstrap.js" value="bootstrap.js"/>
@@ -165,6 +166,7 @@
 
     <!-- The default filter set for Javascript files. -->
     <filterset id="js-filter-set">
+        <filter token="JS_NAME" value="${theme.js-name}"/>
 	<filter token="JS_NS" value="${theme.js-module}"/>
         <filter token="THEME" value="${theme.name}"/>
 	<filter token="THEME_CSS" value="${theme.css-name}"/>
@@ -1841,6 +1843,7 @@
 	</copy>
 
 	<filterset id="_theme-filter_">
+            <filter token="JS_NAME" value="${theme.js-name}"/>
 	    <filter token="JS_NS" value="${theme.js-module}"/>
             <filter token="THEME" value="${theme.name}"/>
 	    <filter token="THEME_PATH" value="/${theme.package-path}"/>

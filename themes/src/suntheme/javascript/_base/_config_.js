@@ -24,7 +24,6 @@
  * This optional variable contains config properties to initialize the 
  * environment. For example:
  * <p><code><pre>
- *
  * @JS_NS@Config = {
  *   // Ajax config properties.
  *   ajax: {
@@ -68,14 +67,19 @@
  *   // Flag to include Ajax functionality based on JSF Extensions.
  *   webuiJsfx: false
  * };
- *
- * </pre></code></p>
+ * </pre></code></p><p>
+ * If this variable is not availble, @JS_NAME@Config will be used. However, in a
+ * portal environment, the version number must be used in order to support
+ * multiple versions of Woodstock in the same page.
+ * </p>
  * @name @JS_NS@Config
  */
 
 // Initialize the @JS_NS@Config variable.
 if (typeof @JS_NS@Config == "undefined") {
-    this.@JS_NS@Config = {};
+    this.@JS_NS@Config = (typeof @JS_NAME@Config != "undefined")
+        ? @JS_NAME@Config
+        : {};
 }
 
 /**
