@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Button Example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script type="text/javascript">
+      var woodstockConfig = {
+        namespace: "woodstock"
+      };
+    </script>
+    <script type="text/javascript"
+      src="/example-html/resources/woodstock4_3_dev/suntheme/javascript/bootstrap.js">
+    </script>
+  </head>
+  <body><br/>
+    <!-- breadcrumb -->
+    <span id="ww_id1_span"><script type="text/javascript">
+        woodstock.widget.common.createWidget("ww_id1_span", {
+            "contents": ["Example Application Index > "],
+            "href": "../index.html",
+            "id": "wwid_1",
+            "widgetType": "anchor"
+        });</script></span>
+    <span id="ww_id2_span"><script type="text/javascript">
+        woodstock.widget.common.createWidget("ww_id2_span", {
+            "id": "ww_id2",
+            "value": "Button",
+            "widgetType": "staticText"
+        });</script></span>
+    
+    <!-- Primary button -->
+    <br/><br/>
+    <span id="ww_id3_span"><script type="text/javascript">
+        woodstock.widget.common.createWidget("ww_id3_span", {
+            "id": "ww_id3",
+            "primary": true,
+            "value": "Primary",
+            "widgetType": "button"
+        });</script></span>
+  </body>
+</html>

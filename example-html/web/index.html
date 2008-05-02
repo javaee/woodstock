@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Example Application Index</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">       
+    <script type="text/javascript">
+      var woodstockConfig = {
+        namespace: "woodstock"
+      };
+    </script>
+    <script type="text/javascript"
+      src="/example-html/resources/woodstock4_3_dev/suntheme/javascript/bootstrap.js">
+    </script>
+  </head>
+  <body><br/>
+    <!-- Content Page Title -->
+    <span id="ww_id1_span"><script type="text/javascript">
+        woodstock.widget.common.createWidget("ww_id1_span", {
+            "id": "ww_id1",
+            "style": "font-size:17px",
+            "value": "Example Application Index",
+            "widgetType": "staticText"
+        });</script></span>
+
+    <!-- Help Text -->
+    <br/><br/>
+    <span id="ww_id2_span"><script type="text/javascript">
+        woodstock.widget.common.createWidget("ww_id2_span", {
+            "id": "ww_id2",
+            "value": "This example application demonstrates the Woodstock JavaScript Library.",
+            "widgetType": "staticText"
+        });</script></span>
+
+    <!-- Index Table -->
+    <br/><br/>
+    <span id="ww_id3_span"><script type="text/javascript">
+        woodstock.widget.common.createWidget("ww_id3_span",
+        {
+            "caption": "JavaScript Library Examples",
+            "id": "ww_id3",
+            "rowGroups": [{
+                    "columns": [
+                        {
+                            "headerText": "Example",
+                            "id": "ww_id3-group0-col1",
+                            "noWrap": false,
+                            "sort": false
+                        },
+                        {
+                            "headerText": "Description",
+                            "id": "ww_id3-group0-col2",
+                            "noWrap": false,
+                            "sort": false
+                        },
+                        {
+                            "headerText": "Files",
+                            "id": "ww_id3-group0-col3",
+                            "noWrap": false,
+                            "sort": false
+                        }
+                    ],
+                    "first": 0,
+                    "headerText": null,
+                    "id": "ww_id3-group0",
+                    "maxRows": 2,
+                    "paginationControls": false,
+                    "rows": [
+                        [
+                            {
+                                "id": "ww_id3-group0-0-col0",
+                                "contents": ["Button"],
+                                "href": "button/index.html",
+                                "widgetType": "anchor"
+                            },
+                            {
+                                "id": "ww_id3-group0-0-col1",
+                                "value": "Demonstration of button features, including the ability to dynamically enable and disable buttons.",
+                                "widgetType": "staticText"
+                            },
+                            {
+                                "id": "ww_id3-group0-0-col2",
+                                "contents": ["button/index.html"],
+                                "href": "button/index.html",
+                                "widgetType": "anchor"
+                            }
+                        ],
+                        [
+                            {
+                                "id": "ww_id3-group0-1-col0",
+                                "contents": ["Table"],
+                                "href": "table/index.html",
+                                "widgetType": "anchor"
+                            },
+                            {
+                                "id": "ww_id3-group0-1-col1",
+                                "value": "Demonstration of Table features.",
+                                "widgetType": "staticText"
+                            },
+                            {
+                                "id": "ww_id3-group0-1-col2",
+                                "contents": ["table/index.html"],
+                                "href": "table/index.html",
+                                "widgetType": "anchor"
+                            }
+                        ]
+                    ],
+                    "totalRows": 2,
+                    "widgetType": "table2RowGroup"
+                }],
+            "widgetType": "table2"
+        });</script></span>
+  </body>
+</html>
