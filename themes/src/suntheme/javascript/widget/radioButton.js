@@ -212,7 +212,7 @@
     // First see if the super class wants to contribute to the props.
     // Let selectBase add the htmlFor property
     //
-    var props = this.inherited("_getLabelProps", arguments);
+    var props = this._inherited("_getLabelProps", arguments);
     props.level = this._theme.getMessage("radioButton.labelLevel", null, 3);
     return props;
 };

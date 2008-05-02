@@ -70,7 +70,10 @@
  * </pre></code></p><p>
  * If this variable is not availble, @JS_NAME@Config will be used. However, in a
  * portal environment, the version number must be used in order to support
- * multiple versions of Woodstock in the same page.
+ * multiple versions of Woodstock in the same page. For example, portlet 'A'
+ * still uses an older version of Woodstock while portlet 'B' takes advantage of
+ * new features in the latest release. In this case, the same cofig properties
+ * may not apply to both Woodstock JavaScript libraries.
  * </p>
  * @name @JS_NS@Config
  */
@@ -78,8 +81,7 @@
 // Initialize the @JS_NS@Config variable.
 if (typeof @JS_NS@Config == "undefined") {
     this.@JS_NS@Config = (typeof @JS_NAME@Config != "undefined")
-        ? @JS_NAME@Config
-        : {};
+        ? @JS_NAME@Config : {};
 }
 
 /**
