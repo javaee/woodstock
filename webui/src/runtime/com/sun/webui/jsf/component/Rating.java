@@ -121,7 +121,7 @@ public class Rating extends WebuiInput {
     public Object getValue() {
         return super.getValue();
     }
-        
+
     /**
      * <p>CSS style or styles to be applied to the outermost HTML element when this 
      * component is rendered.</p>
@@ -390,8 +390,6 @@ public class Rating extends WebuiInput {
      */
     @Property(name="grade", displayName="Grade", category="Appearance", 
               editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
-    private int grade = CLEAR_GRADE;
-    private boolean grade_set = false;
 
     /**
      * <p>Return the grade (number of "stars") the user has assigned the item. 
@@ -399,18 +397,10 @@ public class Rating extends WebuiInput {
      * and for a "clear" grade the value returned is <code>Rating.CLEAR_GRADE</code>.</p>
      */
     public int getGrade() {
-        if (this.grade_set) {
-            return this.grade;
-        }
-        ValueBinding _vb = getValueBinding("grade");
-        if (_vb != null) {
-            Object _result = _vb.getValue(getFacesContext());
-            if (_result == null) {
-                return Integer.MIN_VALUE;
-            } else {
-                return ((Integer) _result).intValue();
-            }
-        }
+	Integer v = (Integer)getValue();
+	if (v != null)
+	    return v.intValue();
+
 	return CLEAR_GRADE;
     }
 
@@ -422,8 +412,7 @@ public class Rating extends WebuiInput {
      * 
      */
     public void setGrade(int grade) {
-        this.grade = grade;
-        this.grade_set = true;
+	setValue(new Integer(grade));
     }
 
     /**
@@ -1001,47 +990,45 @@ public class Rating extends WebuiInput {
         this.clearAcknowledgedText_set = ((Boolean) _values[8]).booleanValue();
 	this.clearHoverText = (String) _values[9];
         this.clearHoverText_set = ((Boolean) _values[10]).booleanValue();
-        this.grade = ((Integer) _values[11]).intValue();
-        this.grade_set = ((Boolean) _values[12]).booleanValue();
-	this.gradeAcknowledgedText = (String) _values[13];
-        this.gradeAcknowledgedText_set = ((Boolean) _values[14]).booleanValue();
-	this.gradeHoverTexts = (String[]) _values[15];
-        this.gradeHoverTexts_set = ((Boolean) _values[16]).booleanValue();
-        this.gradeReadOnly = ((Boolean) _values[17]).booleanValue();
-        this.gradeReadOnly_set = ((Boolean) _values[18]).booleanValue();
-        this.inAverageMode = ((Boolean) _values[19]).booleanValue();
-        this.inAverageMode_set = ((Boolean) _values[20]).booleanValue();
-        this.includeClear = ((Boolean) _values[21]).booleanValue();
-        this.includeClear_set = ((Boolean) _values[22]).booleanValue();
-        this.includeModeToggle = ((Boolean) _values[23]).booleanValue();
-        this.includeModeToggle_set = ((Boolean) _values[24]).booleanValue();
-        this.includeNotInterested = ((Boolean) _values[25]).booleanValue();
-        this.includeNotInterested_set = ((Boolean) _values[26]).booleanValue();
-        this.includeText = ((Boolean) _values[27]).booleanValue();
-        this.includeText_set = ((Boolean) _values[28]).booleanValue();
-        this.maxGrade = ((Integer) _values[29]).intValue();
-        this.maxGrade_set = ((Boolean) _values[30]).booleanValue();
-        this.modeReadOnly = ((Boolean) _values[31]).booleanValue();
-        this.modeReadOnly_set = ((Boolean) _values[32]).booleanValue();
-	this.modeToggleAcknowledgedTexts = (String[]) _values[33];
-        this.modeToggleAcknowledgedTexts_set = ((Boolean) _values[34]).booleanValue();
-	this.modeToggleHoverTexts = (String[]) _values[35];
-        this.modeToggleHoverTexts_set = ((Boolean) _values[36]).booleanValue();
-	this.notInterestedAcknowledgedText = (String) _values[37];
-        this.notInterestedAcknowledgedText_set = ((Boolean) _values[38]).booleanValue();
-	this.notInterestedHoverText = (String) _values[39];
-        this.notInterestedHoverText_set = ((Boolean) _values[40]).booleanValue();
-        this.tabIndex = ((Integer) _values[41]).intValue();
-        this.tabIndex_set = ((Boolean) _values[42]).booleanValue();
-        this.autoSubmit = ((Boolean) _values[43]).booleanValue();
-        this.autoSubmit_set = ((Boolean) _values[44]).booleanValue();
+	this.gradeAcknowledgedText = (String) _values[11];
+        this.gradeAcknowledgedText_set = ((Boolean) _values[12]).booleanValue();
+	this.gradeHoverTexts = (String[]) _values[13];
+        this.gradeHoverTexts_set = ((Boolean) _values[14]).booleanValue();
+        this.gradeReadOnly = ((Boolean) _values[15]).booleanValue();
+        this.gradeReadOnly_set = ((Boolean) _values[16]).booleanValue();
+        this.inAverageMode = ((Boolean) _values[17]).booleanValue();
+        this.inAverageMode_set = ((Boolean) _values[18]).booleanValue();
+        this.includeClear = ((Boolean) _values[19]).booleanValue();
+        this.includeClear_set = ((Boolean) _values[20]).booleanValue();
+        this.includeModeToggle = ((Boolean) _values[21]).booleanValue();
+        this.includeModeToggle_set = ((Boolean) _values[22]).booleanValue();
+        this.includeNotInterested = ((Boolean) _values[23]).booleanValue();
+        this.includeNotInterested_set = ((Boolean) _values[24]).booleanValue();
+        this.includeText = ((Boolean) _values[25]).booleanValue();
+        this.includeText_set = ((Boolean) _values[26]).booleanValue();
+        this.maxGrade = ((Integer) _values[27]).intValue();
+        this.maxGrade_set = ((Boolean) _values[28]).booleanValue();
+        this.modeReadOnly = ((Boolean) _values[29]).booleanValue();
+        this.modeReadOnly_set = ((Boolean) _values[30]).booleanValue();
+	this.modeToggleAcknowledgedTexts = (String[]) _values[31];
+        this.modeToggleAcknowledgedTexts_set = ((Boolean) _values[32]).booleanValue();
+	this.modeToggleHoverTexts = (String[]) _values[33];
+        this.modeToggleHoverTexts_set = ((Boolean) _values[34]).booleanValue();
+	this.notInterestedAcknowledgedText = (String) _values[35];
+        this.notInterestedAcknowledgedText_set = ((Boolean) _values[36]).booleanValue();
+	this.notInterestedHoverText = (String) _values[37];
+        this.notInterestedHoverText_set = ((Boolean) _values[38]).booleanValue();
+        this.tabIndex = ((Integer) _values[39]).intValue();
+        this.tabIndex_set = ((Boolean) _values[40]).booleanValue();
+        this.autoSubmit = ((Boolean) _values[41]).booleanValue();
+        this.autoSubmit_set = ((Boolean) _values[42]).booleanValue();
     }
     
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[45];
+        Object _values[] = new Object[43];
         _values[0] = super.saveState(_context);        
         _values[1] = this.style;
         _values[2] = this.styleClass;
@@ -1053,40 +1040,38 @@ public class Rating extends WebuiInput {
         _values[8] = this.clearAcknowledgedText_set ? Boolean.TRUE : Boolean.FALSE;
 	_values[9] = this.clearHoverText;
         _values[10] = this.clearHoverText_set ? Boolean.TRUE : Boolean.FALSE;
-	_values[11] = new Integer(this.grade);
-        _values[12] = this.grade_set ? Boolean.TRUE : Boolean.FALSE;
-	_values[13] = this.gradeAcknowledgedText;
-        _values[14] = this.gradeAcknowledgedText_set ? Boolean.TRUE : Boolean.FALSE;
-	_values[15] = this.gradeHoverTexts;
-        _values[16] = this.gradeHoverTexts_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[17] = this.gradeReadOnly ? Boolean.TRUE : Boolean.FALSE;
-        _values[18] = this.gradeReadOnly_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[19] = this.inAverageMode ? Boolean.TRUE : Boolean.FALSE;
-        _values[20] = this.inAverageMode_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[21] = this.includeClear ? Boolean.TRUE : Boolean.FALSE;
-        _values[22] = this.includeClear_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[23] = this.includeModeToggle ? Boolean.TRUE : Boolean.FALSE;
-        _values[24] = this.includeModeToggle_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[25] = this.includeNotInterested ? Boolean.TRUE : Boolean.FALSE;
-        _values[26] = this.includeNotInterested_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[27] = this.includeText ? Boolean.TRUE : Boolean.FALSE;
-        _values[28] = this.includeText_set ? Boolean.TRUE : Boolean.FALSE;
-	_values[29] = new Integer(this.maxGrade);
-        _values[30] = this.maxGrade_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[31] = this.modeReadOnly ? Boolean.TRUE : Boolean.FALSE;
-        _values[32] = this.modeReadOnly_set ? Boolean.TRUE : Boolean.FALSE;
-	_values[33] = this.modeToggleAcknowledgedTexts;
-        _values[34] = this.modeToggleAcknowledgedTexts_set ? Boolean.TRUE : Boolean.FALSE;
-	_values[35] = this.modeToggleHoverTexts;
-        _values[36] = this.modeToggleHoverTexts_set ? Boolean.TRUE : Boolean.FALSE;
-	_values[37] = this.notInterestedAcknowledgedText;
-        _values[38] = this.notInterestedAcknowledgedText_set ? Boolean.TRUE : Boolean.FALSE;
-	_values[39] = this.notInterestedHoverText;
-        _values[40] = this.notInterestedHoverText_set ? Boolean.TRUE : Boolean.FALSE;
-	_values[41] = new Integer(this.tabIndex);
-        _values[42] = this.tabIndex_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[43] = this.autoSubmit ? Boolean.TRUE : Boolean.FALSE;
-        _values[44] = this.autoSubmit_set ? Boolean.TRUE : Boolean.FALSE;
+	_values[11] = this.gradeAcknowledgedText;
+        _values[12] = this.gradeAcknowledgedText_set ? Boolean.TRUE : Boolean.FALSE;
+	_values[13] = this.gradeHoverTexts;
+        _values[14] = this.gradeHoverTexts_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[15] = this.gradeReadOnly ? Boolean.TRUE : Boolean.FALSE;
+        _values[16] = this.gradeReadOnly_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[17] = this.inAverageMode ? Boolean.TRUE : Boolean.FALSE;
+        _values[18] = this.inAverageMode_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[19] = this.includeClear ? Boolean.TRUE : Boolean.FALSE;
+        _values[20] = this.includeClear_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[21] = this.includeModeToggle ? Boolean.TRUE : Boolean.FALSE;
+        _values[22] = this.includeModeToggle_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[23] = this.includeNotInterested ? Boolean.TRUE : Boolean.FALSE;
+        _values[24] = this.includeNotInterested_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[25] = this.includeText ? Boolean.TRUE : Boolean.FALSE;
+        _values[26] = this.includeText_set ? Boolean.TRUE : Boolean.FALSE;
+	_values[27] = new Integer(this.maxGrade);
+        _values[28] = this.maxGrade_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[29] = this.modeReadOnly ? Boolean.TRUE : Boolean.FALSE;
+        _values[30] = this.modeReadOnly_set ? Boolean.TRUE : Boolean.FALSE;
+	_values[31] = this.modeToggleAcknowledgedTexts;
+        _values[32] = this.modeToggleAcknowledgedTexts_set ? Boolean.TRUE : Boolean.FALSE;
+	_values[33] = this.modeToggleHoverTexts;
+        _values[34] = this.modeToggleHoverTexts_set ? Boolean.TRUE : Boolean.FALSE;
+	_values[35] = this.notInterestedAcknowledgedText;
+        _values[36] = this.notInterestedAcknowledgedText_set ? Boolean.TRUE : Boolean.FALSE;
+	_values[37] = this.notInterestedHoverText;
+        _values[38] = this.notInterestedHoverText_set ? Boolean.TRUE : Boolean.FALSE;
+	_values[39] = new Integer(this.tabIndex);
+        _values[40] = this.tabIndex_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[41] = this.autoSubmit ? Boolean.TRUE : Boolean.FALSE;
+        _values[42] = this.autoSubmit_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 }

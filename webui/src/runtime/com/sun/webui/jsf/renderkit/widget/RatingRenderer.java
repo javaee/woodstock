@@ -89,7 +89,6 @@ public class RatingRenderer extends RendererBase {
 	try {
 	    Integer v = Integer.valueOf(value);
 	    rating.setSubmittedValue(v);
-	    rating.setGrade(v.intValue());
 	} catch (Exception e) {
 	}
     }
