@@ -9,105 +9,170 @@
       };
     </script>
     <script type="text/javascript"
-      src="/example-html/resources/woodstock4_3_dev/suntheme/javascript/bootstrap.js">
+      src="/example-html/resources/woodstock/woodstock4_3_dev/suntheme/javascript/bootstrap.js">
     </script>
   </head>
-  <body><br/>
-    <!-- Content Page Title -->
-    <span id="ww_id1_span"><script type="text/javascript">
-        woodstock.widget.common.createWidget("ww_id1_span", {
-            "id": "ww_id1",
-            "style": "font-size:17px",
-            "value": "Example Application Index",
-            "widgetType": "staticText"
-        });</script></span>
+  <body>
+    <!-- Masthead -->
+    <div class="MstDiv_sun4">
+      <div style="padding:6px 10px 4px;"></div>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0" class="MstTblBot_sun4" title="">
+        <tr>
+          <td class="MstTdTtl_sun4" width="99%">
+            <div class="MstDivUsr_sun4">
+              <span id="ww_id1_span"><script type="text/javascript">
+                 woodstock.widget.common.createWidget("ww_id1_span", {
+                     "id": "ww_id1",
+                     "class": "MstLbl_sun4",
+                     "value": "User:",
+                     "widgetType": "staticText"
+                 });</script></span>
+              <span id="ww_id2_span"><script type="text/javascript">
+                 woodstock.widget.common.createWidget("ww_id2_span", {
+                     "id": "ww_id2",
+                     "class": "MstTxt_sun4",
+                     "value": "test_user",
+                     "widgetType": "staticText"
+                 });</script></span>
+              <span id="ww_id3_span"><script type="text/javascript">
+                 woodstock.widget.common.createWidget("ww_id3_span", {
+                     "id": "ww_id3",
+                     "width": 14,
+                     "height": 14,
+                     "src": "/example-html/images/masthead-separator.gif",
+                     "widgetType": "image"
+                 });</script></span>
+              <span id="ww_id4_span"><script type="text/javascript">
+                 woodstock.widget.common.createWidget("ww_id4_span", {
+                     "id": "ww_id4",
+                     "class": "MstLbl_sun4",
+                     "value": "Server:",
+                     "widgetType": "staticText"
+                 });</script></span>
+              <span id="ww_id5_span"><script type="text/javascript">
+                 woodstock.widget.common.createWidget("ww_id5_span", {
+                     "id": "ww_id5",
+                     "class": "MstTxt_sun4",
+                     "value": "test_server",
+                     "widgetType": "staticText"
+                 });</script></span>
+            </div>
+            <div class="MstDivTtl_sun4" style="height:35px;margin:5px 0px 0px 0px;">
+              <span id="ww_id6_span"><script type="text/javascript">
+                 woodstock.widget.common.createWidget("ww_id6_span", {
+                     "id": "ww_id6",
+                     "style": "font-size:18px;color:#FFFFFF;",
+                     "value": "JavaScript Library Examples",
+                     "widgetType": "staticText"
+                 });</script></span>
+            </div>
+          </td>
+        </tr>
+        <tr><td><div class="hrule_sun4"></div></td></tr>
+      </table>
+    </div>
 
-    <!-- Help Text -->
-    <br/><br/>
-    <span id="ww_id2_span"><script type="text/javascript">
-        woodstock.widget.common.createWidget("ww_id2_span", {
-            "id": "ww_id2",
-            "value": "This example application demonstrates the Woodstock JavaScript Library.",
-            "widgetType": "staticText"
-        });</script></span>
+    <!-- Body Margin -->
+    <div class="ConMgn_sun4">
 
-    <!-- Index Table -->
-    <br/><br/>
-    <span id="ww_id3_span"><script type="text/javascript">
-        woodstock.widget.common.createWidget("ww_id3_span",
-        {
-            "caption": "JavaScript Library Examples",
-            "id": "ww_id3",
-            "rowGroups": [{
-                    "columns": [
-                        {
-                            "headerText": "Example",
-                            "id": "ww_id3-group0-col1",
-                            "noWrap": false,
-                            "sort": false
-                        },
-                        {
-                            "headerText": "Description",
-                            "id": "ww_id3-group0-col2",
-                            "noWrap": false,
-                            "sort": false
-                        },
-                        {
-                            "headerText": "Files",
-                            "id": "ww_id3-group0-col3",
-                            "noWrap": false,
-                            "sort": false
-                        }
-                    ],
-                    "first": 0,
-                    "headerText": null,
-                    "id": "ww_id3-group0",
-                    "maxRows": 2,
-                    "paginationControls": false,
-                    "rows": [
-                        [
-                            {
-                                "id": "ww_id3-group0-0-col0",
-                                "contents": ["Button"],
-                                "href": "button/index.html",
-                                "widgetType": "anchor"
-                            },
-                            {
-                                "id": "ww_id3-group0-0-col1",
-                                "value": "Demonstration of button features, including the ability to dynamically enable and disable buttons.",
-                                "widgetType": "staticText"
-                            },
-                            {
-                                "id": "ww_id3-group0-0-col2",
-                                "contents": ["button/index.html"],
-                                "href": "button/index.html",
-                                "widgetType": "anchor"
-                            }
-                        ],
-                        [
-                            {
-                                "id": "ww_id3-group0-1-col0",
-                                "contents": ["Table"],
-                                "href": "table/index.html",
-                                "widgetType": "anchor"
-                            },
-                            {
-                                "id": "ww_id3-group0-1-col1",
-                                "value": "Demonstration of Table features.",
-                                "widgetType": "staticText"
-                            },
-                            {
-                                "id": "ww_id3-group0-1-col2",
-                                "contents": ["table/index.html"],
-                                "href": "table/index.html",
-                                "widgetType": "anchor"
-                            }
-                        ]
-                    ],
-                    "totalRows": 2,
-                    "widgetType": "table2RowGroup"
-                }],
-            "widgetType": "table2"
-        });</script></span>
+      <!-- Content Page Title -->
+      <br/>
+      <span id="ww_id7_span"><script type="text/javascript">
+          woodstock.widget.common.createWidget("ww_id7_span", {
+              "id": "ww_id7",
+              "style": "font-size:17px",
+              "value": "Example Application Index",
+              "widgetType": "staticText"
+          });</script></span>
+
+      <!-- Help Text -->
+      <br/><br/>
+      <span id="ww_id8_span"><script type="text/javascript">
+          woodstock.widget.common.createWidget("ww_id8_span", {
+              "id": "ww_id8",
+              "class": "inlinePageHelp_sun4",
+              "value": "This example application demonstrates the Woodstock JavaScript Library.",
+              "widgetType": "staticText"
+          });</script></span>
+
+      <!-- Index Table -->
+      <br/><br/>
+      <span id="ww_id10_span"><script type="text/javascript">
+          woodstock.widget.common.createWidget("ww_id10_span",
+          {
+             "caption": "JavaScript Library Examples",
+              "id": "ww_id10",
+              "rowGroups": [{
+                      "columns": [
+                          {
+                              "headerText": "Example",
+                              "id": "ww_id10-group0-col1",
+                              "noWrap": false,
+                              "sort": false
+                          },
+                          {
+                              "headerText": "Description",
+                              "id": "ww_id10-group0-col2",
+                              "noWrap": false,
+                              "sort": false
+                          },
+                          {
+                              "headerText": "Files",
+                              "id": "ww_id10-group0-col3",
+                              "noWrap": false,
+                              "sort": false
+                          }
+                      ],
+                      "first": 0,
+                      "headerText": null,
+                      "id": "ww_id10-group0",
+                      "maxRows": 2,
+                      "paginationControls": false,
+                      "rows": [
+                          [
+                              {
+                                  "id": "ww_id10-group0-0-col0",
+                                  "contents": ["Button"],
+                                  "href": "button/index.html",
+                                  "widgetType": "anchor"
+                              },
+                              {
+                                  "id": "ww_id10-group0-0-col1",
+                                  "value": "Demonstration of button features, including the ability to dynamically enable and disable buttons.",
+                                  "widgetType": "staticText"
+                              },
+                              {
+                                  "id": "ww_id10-group0-0-col2",
+                                  "contents": ["button/index.html"],
+                                  "href": "button/index.html",
+                                  "widgetType": "anchor"
+                              }
+                          ],
+                          [
+                              {
+                                  "id": "ww_id10-group0-1-col0",
+                                  "contents": ["Table"],
+                                  "href": "table/index.html",
+                                  "widgetType": "anchor"
+                              },
+                              {
+                                  "id": "ww_id10-group0-1-col1",
+                                  "value": "Demonstration of Table features.",
+                                  "widgetType": "staticText"
+                              },
+                              {
+                                  "id": "ww_id10-group0-1-col2",
+                                  "contents": ["table/index.html"],
+                                  "href": "table/index.html",
+                                  "widgetType": "anchor"
+                              }
+                          ]
+                      ],
+                      "totalRows": 2,
+                      "widgetType": "table2RowGroup"
+                  }],
+              "widgetType": "table2"
+          });</script></span>
+    </div>
   </body>
 </html>

@@ -5,7 +5,12 @@
         <data xmlns="http://www.netbeans.org/ns/web-project/3">
             <name>example-html</name>
             <minimum-ant-version>1.6</minimum-ant-version>
-            <web-module-libraries/>
+            <web-module-libraries>
+                <library files="1">
+                    <file>${file.reference.json-2.jar}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
+            </web-module-libraries>
             <web-module-additional-libraries>
                 <library dirs="1">
                     <file>${file.reference.build-suntheme}</file>
