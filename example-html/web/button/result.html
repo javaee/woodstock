@@ -1,21 +1,20 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <title>Basic Table Example</title>
+    <title>Button Example</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">       
     <script type="text/javascript">
       var woodstockConfig = {
-        namespace: "woodstock",
-        webuiAll: true
+        namespace: "woodstock"
       };
     </script>
     <script type="text/javascript"
       src="/example-html/resources/woodstock/woodstock4_3_dev/suntheme/javascript/bootstrap.js">
     </script>
-    <script type="text/javascript" src="table.js"></script>
+    <script type="text/javascript" src="/example-html/button/button.js"></script>
   </head>
-  <body>
-    <form id="form1">
+  <body onLoad="init();">
+    <form id="form1" method="get" action="index.html">
 
       <!-- Masthead -->
       <div class="MstDiv_sun4">
@@ -42,7 +41,7 @@
                     woodstock.widget.common.createWidget("ww_id3_span", {
                         "id": "ww_id3",
                         "width": 14,
-                        "height": 14,
+                         "height": 14,
                         "src": "/example-html/images/masthead-separator.gif",
                         "widgetType": "image"
                     });</script></span>
@@ -90,15 +89,15 @@
             });</script></span>
         <span id="ww_id8_span"><script type="text/javascript">
             woodstock.widget.common.createWidget("ww_id8_span", {
-                "contents": ["Table Index > "],
+                "contents": ["Button > "],
                 "href": "index.html",
-                "id": "ww_id8",
+                "id": "ww_id_8",
                 "widgetType": "anchor"
             });</script></span>
         <span id="ww_id9_span"><script type="text/javascript">
             woodstock.widget.common.createWidget("ww_id9_span", {
                 "id": "ww_id9",
-                "value": "Basic Table",
+                "value": "Result",
                 "widgetType": "staticText"
             });</script></span>
 
@@ -107,14 +106,19 @@
         <span id="ww_id10_span"><script type="text/javascript">
             woodstock.widget.common.createWidget("ww_id10_span", {
                 "id": "ww_id10",
-                "style": "font-size:17px",
-                "value": "Basic Table Example",
-                "widgetType": "staticText"
+                "summary": "Element Selected",
+                "type": "information",
+                "widgetType": "alert"
             });</script></span>
 
-      <!-- Table -->
-      <br/><br/>
-      TBD...
+        <!-- Return to previous page-->
+        <br/><br/>
+        <span id="ww_id11_span"><script type="text/javascript">
+            woodstock.widget.common.createWidget("ww_id11_span", {
+                "id": "ww_id11",
+                "value": "Return",
+                "widgetType": "button"
+            });</script></span>
       </div>
     </form>
   </body>
