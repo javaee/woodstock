@@ -63,4 +63,12 @@
     nbproject/build-impl.xml file. 
 
     -->
+    <target name="-pre-dist">
+        <echo message="Copying source code from the example source tree..."/> 
+        <copy todir="${build.classes.dir}" includeemptydirs="false">
+            <fileset dir="${src.dir}">
+              <exclude name="**/CVS/*"/>
+            </fileset>
+        </copy>
+    </target>
 </project>

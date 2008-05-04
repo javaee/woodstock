@@ -1,11 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
-    <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
-    </session-config>
+<web-app version="2.5" 
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+    http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+    <!-- Button Servlet -->
+    <servlet>
+        <servlet-name>ButtonServlet</servlet-name>
+        <servlet-class>button.ButtonServlet</servlet-class>
+    </servlet>
+
+    <!-- Show Code Servlet -->
+    <servlet>
+        <servlet-name>ShowCodeServlet</servlet-name>
+        <servlet-class>index.ShowCodeServlet</servlet-class>
+    </servlet>
+
+    <!-- Table Servlet -->
+    <servlet>
+        <servlet-name>TableServlet</servlet-name>
+        <servlet-class>table.TableServlet</servlet-class>
+    </servlet>
+
+    <!-- Button Servlet Mapping -->
+    <servlet-mapping>
+        <servlet-name>ButtonServlet</servlet-name>
+        <url-pattern>/ButtonServlet</url-pattern>
+    </servlet-mapping>
+
+    <!-- Show Code Servlet Mapping -->
+    <servlet-mapping>
+        <servlet-name>ShowCodeServlet</servlet-name>
+        <url-pattern>/ShowCodeServlet</url-pattern>
+    </servlet-mapping>
+
+    <!-- Table Servlet Mapping -->
+    <servlet-mapping>
+        <servlet-name>TableServlet</servlet-name>
+        <url-pattern>/TableServlet</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
-        </welcome-file-list>
-    </web-app>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+</web-app>
