@@ -77,7 +77,8 @@
     constructor: function() {
         this.currentRow = 0; // Current row in view.
         this.first = 0; // Index used to obtain rows.
-        this.sortCount = 0; // sort count 
+        this.sortCount = 0; // Sort count.
+        this.totalRows = 0; // Total rows.
         this.colSortLevel = new Array(); // Array used to store sortLevel
     },
     // Default sorting options.
@@ -233,6 +234,15 @@
         return false;
     }
 
+    // Clear rows.
+    if (this.rows == null) {
+        this.rows = rows; // Save rows for getProps() function.
+        this.first = 0; // Reset index used to obtain rows.
+        this.currentRow = 0; // Reset current row in view.
+        this._tableContainer.scrollTop = 0; // Reset scroll position.
+        this._widget._removeChildNodes(this._tbody); // Clear template rows.
+    }
+
     // Get properties.
     var props = this.getProps();
     // Get className properties to alternate between rows.
@@ -279,8 +289,8 @@
             this._widget._addFragment(cellClone, cols[k], "last");
         }
 
-        // Save row for destroy() function.
-        if (this.first > 0) {
+        // Save rows for getProps() function.
+        if (this.first != 0) {
             this.rows[this.rows.length] = rows[i];
         }
     }
@@ -716,11 +726,6 @@
         this.columns = null;
     }
 
-    // Replace rows -- do not extend.
-    if (props.rows) {
-        this.rows = null;
-    }
-
     // Extend widget object for later updates.
     return this._inherited("setProps", arguments);
 };
@@ -789,7 +794,7 @@
         this.refreshCols = false;
     }
     
-    //update the sortLevel values client-side
+    // Update the sort level.
     if (props.columns) {        
         for (var i=0; i < this.colSortLevel.length; i++) {
             if (props.columns[i].sortLevel == null) {
@@ -800,11 +805,8 @@
 
     // Add rows.
     if (props.rows) {
-        this.first = 0; // Reset index used to obtain rows.
-        this.currentRow = 0; // Reset current row in view.
-        this._tableContainer.scrollTop = 0; 
-        // Clear rows.
-        this._widget._removeChildNodes(this._tbody);
+        // Replace rows -- do not extend.
+        this.rows = null;
         this.addRows(props.rows);
     }
    
@@ -819,7 +821,17 @@
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-@JS_NS@.widget.table2RowGroup.prototype._scroll = function(event) {
+@JS_NS@.widget.table2RowGroup.prototype._scroll = function(event) {    
+    var scrollTop = this._tableContainer.scrollTop;
+    var rowHeight =  document.getElementById(this.id + ":" + (this.currentRow + 1)).offsetTop -
+        document.getElementById(this.id + ":" + this.currentRow).offsetTop;
+    var moveScroll = scrollTop % rowHeight;
+    this.currentRow = Math.floor((this._tableContainer.scrollTop) / rowHeight);    
+    
+    if (moveScroll > (rowHeight / 2)) {
+        this.currentRow = this.currentRow + 1;   
+    }
+
     // Publish event to retrieve data.    
     if (this.first < this.totalRows
             && this.currentRow % this.maxRows == 0) {
@@ -828,16 +840,7 @@
             id: this.id,
             first: this.first
         }]);
-    }    
-    var scrollTop = this._tableContainer.scrollTop;
-    var rowHeight =  document.getElementById(this.id + ":" + (this.currentRow + 1)).offsetTop -
-                    document.getElementById(this.id + ":" + this.currentRow).offsetTop;
-    var moveScroll = scrollTop % rowHeight;
-    this.currentRow = Math.floor((this._tableContainer.scrollTop) / rowHeight);    
-    
-    if (moveScroll > (rowHeight / 2)) {
-        this.currentRow = this.currentRow + 1;   
-    }   
+    }
     // Set rows text.    
     return this._updateRowsText();
 };

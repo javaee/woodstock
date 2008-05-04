@@ -21,7 +21,7 @@ public class ButtonServlet extends HttpServlet {
     private static final String secondaryButtonId = "ww_id16";
 
     /** 
-     * Handles the HTTP <code>GET</code> method.
+     * Handles the HTTP <code>POST</code> method.
      * 
      * @param request servlet request
      * @param response servlet response

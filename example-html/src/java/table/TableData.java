@@ -31,7 +31,7 @@ public class TableData {
     /**
      * Get table data.
      * 
-     * @return An array of Name obejcts.
+     * @return An array of Name objects.
      */
     public Name[] getNames() {
         return names;
