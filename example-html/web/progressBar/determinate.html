@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+        <title>Determinate Progress Bar Example</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">       
+        <script type="text/javascript">
+            var woodstockConfig = {
+                namespace: "woodstock",
+                webuiAll: true
+            };
+        </script>
+        <script type="text/javascript"
+                src="/example-html/resources/woodstock/woodstock4_3_dev/suntheme/javascript/bootstrap.js">
+        </script>
+        <script type="text/javascript" src="/example-html/js/connection.js"></script>
+        <script type="text/javascript" src="/example-html/progressBar/progressBar.js"></script>
+    </head>
+    <body>
+        <form id="form1">
+            
+            <!-- Masthead -->
+            <div class="MstDiv_sun4">
+                <div style="padding:6px 10px 4px;"></div>
+                <table width="100%" border="0" cellpadding="0" cellspacing="0" class="MstTblBot_sun4" title="">
+                    <tr>
+                        <td class="MstTdTtl_sun4" width="99%">
+                            <div class="MstDivUsr_sun4">
+                                <span id="ww_id1_span"><script type="text/javascript">
+                                    woodstock.widget.common.createWidget("ww_id1_span", {
+                                        "id": "ww_id1",
+                                        "class": "MstLbl_sun4",
+                                        "value": "User:",
+                                        "widgetType": "staticText"
+                                    });</script></span>
+                                <span id="ww_id2_span"><script type="text/javascript">
+                                    woodstock.widget.common.createWidget("ww_id2_span", {
+                                        "id": "ww_id2",
+                                        "class": "MstTxt_sun4",
+                                        "value": "test_user",
+                                        "widgetType": "staticText"
+                                    });</script></span>
+                                <span id="ww_id3_span"><script type="text/javascript">
+                                    woodstock.widget.common.createWidget("ww_id3_span", {
+                                        "id": "ww_id3",
+                                        "width": 14,
+                                        "height": 14,
+                                        "src": "/example-html/images/masthead-separator.gif",
+                                        "widgetType": "image"
+                                    });</script></span>
+                                <span id="ww_id4_span"><script type="text/javascript">
+                                    woodstock.widget.common.createWidget("ww_id4_span", {
+                                        "id": "ww_id4",
+                                        "class": "MstLbl_sun4",
+                                        "value": "Server:",
+                                        "widgetType": "staticText"
+                                    });</script></span>
+                                <span id="ww_id5_span"><script type="text/javascript">
+                                    woodstock.widget.common.createWidget("ww_id5_span", {
+                                        "id": "ww_id5",
+                                        "class": "MstTxt_sun4",
+                                        "value": "test_server",
+                                        "widgetType": "staticText"
+                                    });</script></span>
+                            </div>
+                            <div class="MstDivTtl_sun4" style="height:35px;margin:5px 0px 0px 0px;">
+                                <span id="ww_id6_span"><script type="text/javascript">
+                                    woodstock.widget.common.createWidget("ww_id6_span", {
+                                        "id": "ww_id6",
+                                        "style": "font-size:18px;color:#FFFFFF;",
+                                        "value": "JavaScript Library Examples",
+                                        "widgetType": "staticText"
+                                    });</script></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr><td><div class="hrule_sun4"></div></td></tr>
+                </table>
+            </div>
+            
+            <!-- Content Margin -->
+            <div class="ConMgn_sun4">
+                
+                <!-- breadcrumb -->
+                <br/>
+                <span id="ww_id7_span"><script type="text/javascript">
+                    woodstock.widget.common.createWidget("ww_id7_span", {
+                        "contents": ["Example Application Index > "],
+                        "href": "../index.html",
+                        "id": "ww_id_7",
+                        "widgetType": "anchor"
+                    });</script></span>
+                <span id="ww_id8_span"><script type="text/javascript">
+                    woodstock.widget.common.createWidget("ww_id8_span", {
+                        "contents": ["Progress Bar Index > "],
+                        "href": "index.html",
+                        "id": "ww_id8",
+                        "widgetType": "anchor"
+                    });</script></span>
+                <span id="ww_id9_span"><script type="text/javascript">
+                    woodstock.widget.common.createWidget("ww_id9_span", {
+                        "id": "ww_id9",
+                        "value": "Progress Bar",
+                        "widgetType": "staticText"
+                    });</script></span>
+                
+                <!-- Content Page Title -->
+                <br/><br/>
+                <span id="ww_id10_span"><script type="text/javascript">
+                    woodstock.widget.common.createWidget("ww_id10_span", {
+                        "id": "ww_id10",
+                        "style": "font-size:17px",
+                        "value": "Progress Bar Example",
+                        "widgetType": "staticText"
+                    });</script></span>
+                
+                <!-- Progress Bar -->
+                <span id="ww_id11_span" >
+                    <script type="text/javascript">
+                        woodstock.widget.common.createWidget(
+                        'ww_id11_span',{
+                            "widgetType":"progressBar",
+                            "progress" : 0,
+                            "refreshRate" : 1000,
+                            "id":"ww_id11"});
+                    </script>
+                </span>
+                
+                
+            </div>
+        </form>
+    </body>
+</html>
