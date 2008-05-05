@@ -52,7 +52,7 @@
         var domNode = document.getElementById(props.id);
 
         // Generate AJAX request using the JSF Extensions library.
-        new DynaFaces.fireAjaxTransaction(
+        DynaFaces.fireAjaxTransaction(
             (domNode) ? domNode : document.forms[0], {
             execute: props.id, // Need to decode hidden field.
             render: props.id,
@@ -93,7 +93,7 @@
     }
 };
 
-// Listen for Dojo Widget events.
+// Listen for Widget events.
 @JS_NS@._dojo.subscribe(@JS_NS@.widget.accordionTab.event.load.beginTopic,
     @JS_NS@.widget._jsfx.accordionTab, "_processLoadContentEvent");
 @JS_NS@._dojo.subscribe(@JS_NS@.widget.accordionTab.event.refresh.beginTopic,

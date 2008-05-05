@@ -102,7 +102,7 @@
     }
 };
 
-// Listen for Dojo Widget events.
+// Listen for Widget events.
 @JS_NS@._dojo.subscribe(@JS_NS@.widget.progressBar.event.progress.beginTopic,
     @JS_NS@.widget._jsfx.progressBar, "_processProgressEvent");
 @JS_NS@._dojo.subscribe(@JS_NS@.widget.progressBar.event.refresh.beginTopic,

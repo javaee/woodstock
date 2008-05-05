@@ -25,7 +25,7 @@
 @JS_NS@._dojo.require("@JS_NS@.widget._jsfx.common");
 @JS_NS@._dojo.require("@JS_NS@.widget.radioButton");
 
-// Listen for Dojo Widget events.
+// Listen for Widget events.
 @JS_NS@._dojo.subscribe(@JS_NS@.widget.radioButton.event.refresh.beginTopic,
     @JS_NS@.widget._jsfx.common, "_processRefreshEvent");
 @JS_NS@._dojo.subscribe(@JS_NS@.widget.radioButton.event.submit.beginTopic,

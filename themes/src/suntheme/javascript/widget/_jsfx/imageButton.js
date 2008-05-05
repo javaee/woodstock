@@ -25,6 +25,6 @@
 @JS_NS@._dojo.require("@JS_NS@.widget._jsfx.common");
 @JS_NS@._dojo.require("@JS_NS@.widget.imageButton");
 
-// Listen for Dojo Widget events.
+// Listen for Widget events.
 @JS_NS@._dojo.subscribe(@JS_NS@.widget.imageButton.event.refresh.beginTopic,
     @JS_NS@.widget._jsfx.common, "_processRefreshEvent");

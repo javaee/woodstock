@@ -99,6 +99,6 @@
     }
 };
 
-// Listen for Dojo Widget events.
+// Listen for Widget events.
 @JS_NS@._dojo.subscribe(@JS_NS@.widget.login.event.authenticate.beginTopic,
     @JS_NS@.widget._jsfx.login, "_processLoginEvent");
