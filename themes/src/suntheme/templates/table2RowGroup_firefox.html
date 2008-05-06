@@ -15,7 +15,8 @@
       </tr> 
     </table> 
   </div>
-  <table  border="0" cellpadding="0" cellspacing="0">
+  <div dojoAttachPoint="_tableContainer" class="tableDiv@THEME_CSS@">
+    <table width="100%" dojoAttachPoint="_table" border="0" cellpadding="0" cellspacing="0">
       <!-- Column Headers -->
       <thead dojoAttachPoint="_thead">
         <tr dojoAttachPoint="_colHeaderRow" class="header@THEME_CSS@"> 
@@ -25,25 +26,20 @@
           </th>
         </tr> 
       </thead>
-  </table>
-  <div dojoAttachPoint="_tableContainer" class="tableScroller@THEME_CSS@">
-    <table dojoAttachPoint="_table" width="100%" border="0" cellpadding="0" cellspacing="0">
       
+      <!-- Column Footers -->
+      <tfoot dojoAttachPoint="_tfoot"> 
+        <tr dojoAttachPoint="_colFooterRow" class="footer@THEME_CSS@"> 
+          <th dojoAttachPoint="_colFooterCell" scope="col"></th>
+        </tr>
+      </tfoot>
       <!-- Rows -->
-      <tbody dojoAttachPoint="_tbody">
+      <tbody dojoAttachPoint="_tbody" class="tableScrollerTbody@THEME_CSS@">
         <tr dojoAttachPoint="_tableDataRow">
           <td dojoAttachPoint="_tableDataCell"></td>
         </tr>
       </tbody> 
     </table> 
   </div>
-  <table  border="0" cellpadding="0" cellspacing="0">
-       <!-- Column Footers -->
-      <tfoot dojoAttachPoint="_tfoot"> 
-        <tr dojoAttachPoint="_colFooterRow" class="footer@THEME_CSS@"> 
-          <th dojoAttachPoint="_colFooterCell" scope="col"></th>
-        </tr>
-      </tfoot>
-  </table> 
-  <div dojoAttachPoint="_sortMenu" ></div>     
+  <div dojoAttachPoint="_sortMenu" ></div>
 </div>

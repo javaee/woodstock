@@ -135,9 +135,12 @@
         var browser = @JS_NS@._base.browser;
 
         // Load browser specific template, if any.
-        if (browser._isGecko()) {
+        if (browser._isFirefox()) {
             this.templateString = this._theme._getTemplateString(
-                this._widgetType + "_gecko");
+                this._widgetType + "_firefox");
+        } else if (browser._isMozilla()) {
+            this.templateString = this._theme._getTemplateString(
+                this._widgetType + "_mozilla");
         } else if (browser._isIe()) {
             this.templateString = this._theme._getTemplateString(
                 this._widgetType + "_ie");

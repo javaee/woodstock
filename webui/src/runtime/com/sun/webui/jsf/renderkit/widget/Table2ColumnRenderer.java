@@ -26,8 +26,10 @@ import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.Table2Column;
 import com.sun.webui.jsf.util.JSONUtilities;
 
+import com.sun.webui.jsf.util.WidgetUtilities;
 import java.io.IOException;
 
+import java.util.Iterator;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
@@ -115,7 +117,9 @@ public class Table2ColumnRenderer extends RendererBase {
             .put("sort", col.getSort() != null ? true : false)
             .put("sortLevel", col.getSortLevel())
             .put("visible", col.isVisible());
-
+            
+        // multi level column headers
+        setColumnProperties(context, col, json); 
         // Add attributes.
         JSONUtilities.addStringProperties(stringAttributes, col, json);
         JSONUtilities.addIntegerProperties(intAttributes, col, json);
@@ -124,6 +128,30 @@ public class Table2ColumnRenderer extends RendererBase {
         return json;
     }    
     
+    /**
+     * Helper method to obtain column properties.
+     *
+     * @param context FacesContext for the current request.
+     * @param component Table2RowGroup to be rendered.
+     * @param json JSONObject to assign properties to.
+     */
+    protected void setColumnProperties(FacesContext context, Table2Column component,
+            JSONObject json) throws IOException, JSONException {
+        JSONArray jArray = null;     
+        // Add properties for each Table2Column child.
+        Iterator kids = component.getChildren().iterator();
+        if (kids.hasNext()) {
+            jArray = new JSONArray();
+            json.put("columns", jArray);
+        }
+        while (kids.hasNext()) {
+            UIComponent spanCol = (UIComponent) kids.next();
+            if (spanCol instanceof Table2Column)
+             if (spanCol.isRendered()) {
+                jArray.put(WidgetUtilities.renderComponent(context, spanCol));
+            }
+        }
+    }
 
     /**
      * Get the type of widget represented by this component.

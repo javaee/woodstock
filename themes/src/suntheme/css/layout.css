@@ -2528,7 +2528,7 @@ ul.MenuItems@THEME_CSS@ ul li .MenuItemDisabled@THEME_CSS@ .MenuItemLabel@THEME_
 /* Header and Footer */
 .table2@THEME_CSS@ .header@THEME_CSS@, .table2@THEME_CSS@ .footer@THEME_CSS@ {
 	clear:both;
-	position:absolute;
+	/*position:absolute;*/
 	border-left-style:solid;
 	border-left-width:1px;
 	margin:0 0 0 -1px;
@@ -2697,6 +2697,25 @@ ul.MenuItems@THEME_CSS@ ul li .MenuItemDisabled@THEME_CSS@ .MenuItemLabel@THEME_
 }
 .table2@THEME_CSS@ .paginationButtons@THEME_CSS@ {
 	margin:0 0 0 .5em;
+}
+.table2@THEME_CSS@ .tableDiv@THEME_CSS@ {	
+        border-left-style:solid;
+	border-left-width:1px;
+	border-bottom-width:1px;
+	border-bottom-style:solid;
+	border-top-width:1px;
+	border-top-style:solid; 
+        overflow:auto;          
+}
+
+.table2@THEME_CSS@ .tableDiv@THEME_CSS@ table {
+        clear:left;
+	float:left;
+	width:100%;
+}
+.table2@THEME_CSS@ .tableScrollerTbody@THEME_CSS@ {
+	overflow: auto; 
+	overflow-x:hidden;	
 }
 /* STYLES FOR SEARCH (Custom Filter) PANEL */
 /* We are dealing with a list of choices, so semantically speaking, an unordered list is the correct way to mark it up*/

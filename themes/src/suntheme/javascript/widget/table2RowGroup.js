@@ -75,11 +75,12 @@
         @JS_NS@.widget._base.stateBase], {
     // Set defaults.
     constructor: function() {
-        this.currentRow = 0; // Current row in view.
+        this._currentRow = 0; // Current row in view.
         this.first = 0; // Index used to obtain rows.
-        this.sortCount = 0; // Sort count.
-        this.totalRows = 0; // Total rows.
-        this.colSortLevel = new Array(); // Array used to store sortLevel
+        this._sortCount = 0; // sort count 
+        this._colSortLevel = new Array(); // Array used to store sortLevel
+        this._headerCount = 0;
+        this._leafColArray = new Array();
     },
     // Default sorting options.
     _primarySortOptions: [{
@@ -140,6 +141,33 @@
 });
 
 /**
+ * This function is used to calculate depth of column headers.
+ * @param {Object} col column object.
+ * @param {int} counter.
+ * @return {int} The column header depth.
+ * @private
+ */
+@JS_NS@.widget.table2RowGroup.prototype._getColumnHeaderRowCount = function(cols, count) {
+    // check for spanning col 
+    if (count == null) {
+        count = 1;
+    }
+    for (var i = 0; i < cols.length; i++) {
+        
+        var col = cols[i];
+        if (col.columns && col.columns.length > 0) {            
+            count++;
+            var temp = this._getColumnHeaderRowCount(col.columns, count);
+            
+            if (this._headerCount < count)
+                this._headerCount = count;    
+            count = 1;
+        } 
+    }
+    return this._headerCount;
+};
+
+/**
  * This function is used to set column headers and footers.
  *
  * @return {boolean} true if successful; otherwise, false.
@@ -152,35 +180,125 @@
 
     // Clone dojo attach points.
     var headerRowClone = this._colHeaderRow.cloneNode(false);
-    var footerRowClone = this._colFooterRow.cloneNode(false);
-
+    headerRowClone.id = this.id + "_colHeaderRow" + 0;
+    var footerRowClone = this._colFooterRow.cloneNode(false);    
     // Append row nodes.
     this._thead.appendChild(headerRowClone);
     this._tfoot.appendChild(footerRowClone);
-
+   
+    var headers = this._getColumnHeaderRowCount(this.columns);       
+    
     // Append cell nodes.
     for (var i = 0; i < this.columns.length; i++) {
         var col = this.columns[i];
-        var headerCellClone = this._colHeaderCell.cloneNode(false);
-        var footerCellClone = this._colFooterCell.cloneNode(true);
+        if (col.columns && col.columns.length == 0 ) {
+            col.rowSpan = headers;
+        }
+        if (col.columns && col.columns.length > 0 ) {
+            col.colSpan = this._getColumnHeaderRowCount(this.columns);
+        }    
+        this._setColumnHeaderProps(col, headerRowClone);
+        if (col.columns && col.columns.length > 0) {
+            this._addColumnHeaders(col, 1);            
+        }        
+    }
+    // get the leaf columns.
+    var leafColArray = this._getLeafColumns(this.columns);
+    // add footer text to leaf columns only    
+    
+    for (var j = 0; j < leafColArray.length; j++) {
+        this._addColumnFooters(leafColArray[j], footerRowClone);        
+    }    
+    this._groupHeaderCell.colSpan = leafColArray.length;
+    
+    return true;
+};
+
+/**
+ * This function is used to set column footers.
+ * @param {Object} col column object.
+ * @param {Node} footerRowClone dom element for the footer row column.
+ * @return {boolean} true if successful; otherwise, false.
+ * @private
+ */
+@JS_NS@.widget.table2RowGroup.prototype._addColumnFooters = function(col, footerRowClone) {               
         
+        var footerCellClone = this._colFooterCell.cloneNode(true);
+        footerCellClone.id = col.id + "_colFooter";
+        
+        if (col.width) {           
+            footerCellClone.style.width = col.width;
+        }
+        if (col.footerText) {
+            
+            this._widget._addFragment(footerCellClone, {
+                id: footerCellClone.id + "Text",
+                value: col.footerText,
+                widgetType: "staticText"
+            });            
+        }
+        if (footerRowClone && col.footerText) {
+            footerRowClone.appendChild(footerCellClone);
+        }
+};
+
+/**
+ * This function is used to add column headers.
+ * @param {Object} cols column object.
+ * @param {int} counter.
+ * @return {boolean} true if successful; otherwise, false.
+ * @private
+ */
+@JS_NS@.widget.table2RowGroup.prototype._addColumnHeaders = function(cols, count) {
+        // Clone dojo attach points.
+        var headerRowClone = this._colHeaderRow.cloneNode(false);
+        headerRowClone.id = this.id + "_colHeaderRow" + count;        
+        this._thead.appendChild(headerRowClone);        
+        this._headerCount = 0;
+        var headers = this._getColumnHeaderRowCount(cols.columns);                        
+        for (j = 0; j < cols.columns.length; j++ ) {
+            var col = cols.columns[j];
+            if (col.columns && col.columns.length > 0) {
+                col.colSpan = col.columns.length;
+                this._setColumnHeaderProps(col, headerRowClone);
+                count++;
+                this._addColumnHeaders(col, count);
+            }    
+            else {
+                col.rowSpan = headers;
+                this._setColumnHeaderProps(col, headerRowClone);
+            }    
+        }            
+};
+
+/**
+ * This function is used to update column headers.
+ * @param {Object} col column object.
+ * @param {Node} headerRowClone dom element for the header row column.
+ * @return {boolean} true if successful; otherwise, false.
+ * @private
+ */
+@JS_NS@.widget.table2RowGroup.prototype._setColumnHeaderProps = function(col, headerRowClone) {
+
+        var headerCellClone = this._colHeaderCell.cloneNode(false);       
         var colHeaderLink = this._colHeaderLink.cloneNode(false);
         colHeaderLink.id = col.id + "_colHeaderLink";
-
         // Set properties.
-        headerCellClone.id = col.id + "_colHeader";
-        footerCellClone.id = col.id + "_colFooter";
+        headerCellClone.id = col.id + "_colHeader";        
         headerCellClone.appendChild(colHeaderLink);
         if (col.width) {
-            headerCellClone.style.width = col.width;
-            footerCellClone.style.width = col.width;
+            headerCellClone.style.width = col.width;            
+        }
+        if (col.colSpan > 0) {
+            headerCellClone.colSpan = col.colSpan;
+        }
+        if (col.rowSpan > 0) {
+            headerCellClone.rowSpan = col.rowSpan;
         }
         if (!col.sortLevel) col.sortLevel = -1;
         // Add text.
         if (col.headerText && col.sort == true) {
-            // StaticText widget adds span to match styles.
-            //
-            // To do: Create utility to help create client-side widgets.                      
+                                
             if (colHeaderLink != null) {
                 this._widget._addFragment(colHeaderLink, {
                         id: headerCellClone.id + "_Text",
@@ -199,29 +317,11 @@
                         });
                 }    
             }
-        
-        if (col.footerText) {
-            // StaticText widget adds span to match styles.
-            //
-            // To do: Create utility to help create client-side widgets.
-            this._widget._addFragment(footerCellClone, {
-                id: footerCellClone.id + "Text",
-                value: col.footerText,
-                widgetType: "staticText"
-            });
-            footerVisible = true;
-        }
-
-        // Append nodes.
-        headerRowClone.appendChild(headerCellClone);
-        footerRowClone.appendChild(footerCellClone);
-
-        // Set colspan.
-        this._groupHeaderCell.colSpan = this.columns.length;
-    }
-    return true;
-};
  
+        // Append nodes.        
+        headerRowClone.appendChild(headerCellClone);        
+};
+
 /**
  * This function is used to add rows using the gieven array. Each row contains
  * an array of columns which holds table data.
@@ -234,16 +334,7 @@
         return false;
     }
 
-    // Clear rows.
-    if (this.rows == null) {
-        this.rows = rows; // Save rows for getProps() function.
-        this.first = 0; // Reset index used to obtain rows.
-        this.currentRow = 0; // Reset current row in view.
-        this._tableContainer.scrollTop = 0; // Reset scroll position.
-        this._widget._removeChildNodes(this._tbody); // Clear template rows.
-    }
-
-    // Get properties.
+   // Get properties.
     var props = this.getProps();
     // Get className properties to alternate between rows.
     var classNames = (this.className) ? this.className.split(",") : null;          
@@ -270,12 +361,17 @@
         this._setCoreProps(rowClone, props);
 
         // For each column found, clone the tableDataCell attach point.
-        for (var k = 0; k < cols.length; k++) {
-            var col = this.columns[k]; // Get current column.
-            var colId = col.id.replace(this.id, rowId); // Get col id.
+        this._leafColArray.length = 0;
+        var cellClone;
+        var colId;
+        var leafColArray = this._getLeafColumns(this.columns);
+        for (var k = 0; k < leafColArray.length; k++) {
+            
+            col = leafColArray[k];
+            colId = col.id.replace(this.id, rowId); // Get col id.
 
             // Clone node.
-            var cellClone = this._tableDataCell.cloneNode(true);
+            cellClone = this._tableDataCell.cloneNode(true);
             rowClone.appendChild(cellClone);
 
             // Set properties.
@@ -284,19 +380,19 @@
             if (col.sortLevel == 1) {
                 cellClone.className = this._theme.getClassName("TABLE2_PRIMARYSORT");            
             }
-
             // Add cell data.
-            this._widget._addFragment(cellClone, cols[k], "last");
-        }
-
-        // Save rows for getProps() function.
-        if (this.first != 0) {
+            this._widget._addFragment(cellClone, cols[k], "last"); 
+        }    
+        
+        // Save row for destroy() function.
+        if (this.first > 0) {
             this.rows[this.rows.length] = rows[i];
         }
     }
 
     // Set first row value.
     this.first += rows.length;
+
 
     // Adjust layout.
     var _id = this.id;
@@ -307,6 +403,27 @@
     }, 10);
     return true;
 };
+
+/**
+ * This function is used to get the array of leaf column headers.
+ *
+ * @param {Array} column objects.
+ * @return {Array} leaf column objects.
+ */
+@JS_NS@.widget.table2RowGroup.prototype._getLeafColumns = function(cols) {    
+    for (var i=0; i < cols.length; i++) {
+        var col = cols[i];
+        if (col.columns && col.columns.length > 0) {
+            this._getLeafColumns(col.columns);
+        } else {
+            if (this._leafColArray) {
+                this._leafColArray = this._leafColArray.concat(col);
+            }
+        }
+    }
+    return this._leafColArray;
+};
+
 
 /**
  * This object contains event topics.
@@ -438,7 +555,7 @@
  */
 @JS_NS@.widget.table2RowGroup.prototype._paginationNext = function(event) {
     // Publish event to retrieve data.
-    var currentPage = Math.floor(this.currentRow / this.maxRows) + 1;
+    var currentPage = Math.floor(this._currentRow / this.maxRows) + 1;
     var totalPage = Math.floor(this.totalRows / this.maxRows);
     if (this.first < this.totalRows
             && currentPage < totalPage) {
@@ -450,10 +567,15 @@
     }     
     if (currentPage < totalPage) {          
         // Calculate current row.          
-        this.currentRow = currentPage * this.maxRows;        
+        this._currentRow = currentPage * this.maxRows;        
         // set scroll position to make the current row completely visible
-        this._tableContainer.scrollTop =  
-            document.getElementById(this.id + ":" + this.currentRow).offsetTop;
+        if(@JS_NS@._base.browser._isFirefox()) {
+            this._tbody.scrollTop = 
+                document.getElementById(this.id + ":" + this._currentRow).offsetTop;       
+        } else {
+            this._tableContainer.scrollTop = 
+                document.getElementById(this.id + ":" + this._currentRow).offsetTop;        
+        }
     }       
     return this._updateRowsText();
 };
@@ -466,13 +588,18 @@
  * @private
  */
 @JS_NS@.widget.table2RowGroup.prototype._paginationPrevious = function(event) {
-    var currentPage = Math.ceil(this.currentRow / this.maxRows) + 1;
+    var currentPage = Math.ceil(this._currentRow / this.maxRows) + 1;
     var totalPage = Math.floor(this.totalRows / this.maxRows);
     if (currentPage > 1) {                 
-        this.currentRow = (currentPage - 2) * this.maxRows;
+        this._currentRow = (currentPage - 2) * this.maxRows;
         // set scroll position to make the current row completely visible
-        this._tableContainer.scrollTop = 
-            document.getElementById(this.id + ":" + this.currentRow).offsetTop;        
+        if (@JS_NS@._base.browser._isFirefox()) {
+            this._tbody.scrollTop = 
+                document.getElementById(this.id + ":" + this._currentRow).offsetTop;       
+        } else {
+            this._tableContainer.scrollTop = 
+                document.getElementById(this.id + ":" + this._currentRow).offsetTop;        
+        }     
     }    
     return this._updateRowsText();
 };
@@ -508,7 +635,11 @@
     }
 
     // Set events.
-    this._dojo.connect(this._tableContainer, "onscroll", this, "_scroll");
+    if (@JS_NS@._base.browser._isFirefox()) {
+        this._dojo.connect(this._tbody, "onscroll", this, "_scroll");
+    } else {
+        this._dojo.connect(this._tableContainer, "onscroll", this, "_scroll");
+    }
 
     // Set pagination controls.
     if (this.paginationPrevButton == null) {
@@ -549,8 +680,7 @@
  
     if (this.sortPopupMenu == null) {
         this.sortPopupMenu = {
-                    id: this.id + "_popupMenu",
-                    style: "width:210px;",
+                    id: this.id + "_popupMenu",                    
                     visible: false,
                     options: this._primarySortOptions,
                     widgetType: "popupMenu"
@@ -575,7 +705,7 @@
 
     // Get height offset of each row.
     var offset = 0;
-    for (var i = this.currentRow; i < this.currentRow + this.maxRows; i++) {
+    for (var i = this._currentRow; i < this._currentRow + this.maxRows; i++) {
         var tableDataRow = document.getElementById(this.id + ":" + i);
         if (tableDataRow != null) {
             offset += tableDataRow.offsetHeight;
@@ -586,59 +716,53 @@
 
     // Set the scrollable height.
     if (offset > 0) {
-        this._tableContainer.style.height = offset + "px";
+        if (@JS_NS@._base.browser._isFirefox()) {
+            this._tbody.style.height = offset + "px";
+        } else {
+            this._tableContainer.style.height = offset + "px";
+        }    
     }
 
     // Set width of each column header & footer.
     var rowId = this.id + ":0"; // ID of first row.
     for (var i = 0; i < this.columns.length; i++) {
         var col = this.columns[i]; // Get default column props.
-        var colId = col.id.replace(this.id, rowId);
-
-        // Get row node.
-        var tableDataCell = document.getElementById(colId);
-        if (tableDataCell == null) {
-            continue;
-        }
-
-        // Get nodes.
-        var colHeaderCell = document.getElementById(col.id + "_colHeader");
-        var colFooterCell = document.getElementById(col.id + "_colFooter");
-
-        // Set width.
-        if (colHeaderCell) {
-            // Column width plus offset for border.
-            colHeaderCell.style.width = (tableDataCell.offsetWidth - 1) + "px";
-        }
-        if (colFooterCell) {
-            // Column width plus offset for border.
-            colFooterCell.style.width = (tableDataCell.offsetWidth - 1) + "px";
-        }
-    }
-
-    // Update header & footer position.
-    var colHeaderRow = document.getElementById(this.id + "_colHeaderRow");
-    var colFooterRow = document.getElementById(this.id + "_colFooterRow");
-
-    var headerHeight = (colHeaderRow) ? colHeaderRow.offsetHeight : 0;
-    var footerHeight = (colFooterRow) ? colFooterRow.offsetHeight : 0;
-
-    this._tableContainer.style.marginTop = (headerHeight - 1) + 'px';
-    this._tableContainer.style.marginBottom = footerHeight + 'px';
-
-    // Column header height plus offset for border.
-    if (colHeaderRow) {
-        colHeaderRow.style.top = (this._tableContainer.offsetTop - 
-            headerHeight + 1) + 'px';
-    }
-
-    // Column footer height plus offset for border.
-    if (colFooterRow) {
-        colFooterRow.style.top = (this._tableContainer.offsetTop + 
-            this._tableContainer.offsetHeight - 1) + 'px';
-    }
+        this.currentColumnWidth = 0;
+        this._setColumnWidth(col, rowId);
+    } 
     return true;
 };
+
+/**
+ * This function sets the width for column headers and footers.
+ *
+ * @return {boolean} true if successful; otherwise, false.
+ * @private
+ */
+@JS_NS@.widget.table2RowGroup.prototype._setColumnWidth = function(col, rowId) {
+    if (col.columns && col.columns.length > 0) {
+        this.currentColumnWidth = 0;
+        for (var i=0; i < col.columns.length; i++) {
+            this._setColumnWidth(col.columns[i], rowId);
+        }    
+        // set width for parent column headers. no need to set width for footer here
+        // we do not support multi level footers 
+        var colHeaderCell = document.getElementById(col.id + "_colHeader");       
+        colHeaderCell.style.width = (this.currentColumnWidth) + "px";        
+    } else {
+        var colHeaderCell = document.getElementById(col.id + "_colHeader");
+        var tableDataCell = document.getElementById(col.id.replace(this.id, rowId));
+        if (!this.currentColumnWidth) this.currentColumnWidth = 0;
+        this.currentColumnWidth = this.currentColumnWidth + tableDataCell.offsetWidth - 1;
+        colHeaderCell.style.width = (tableDataCell.offsetWidth -1) + "px";        
+        // footer width
+        var colFooterCell = document.getElementById(col.id + "_colFooter");
+        if (colFooterCell && col.footerText) {
+            colFooterCell.style.width = (tableDataCell.offsetWidth - 1) + "px";
+            
+        }
+    }
+};    
 
 /**
  * This function is used to set column properties with Object literals.
@@ -794,11 +918,13 @@
         this.refreshCols = false;
     }
     
-    // Update the sort level.
-    if (props.columns) {        
-        for (var i=0; i < this.colSortLevel.length; i++) {
-            if (props.columns[i].sortLevel == null) {
-                props.columns[i].sortLevel = this.colSortLevel[i];
+    //update the sortLevel values client-side
+    if (props.columns) {  
+        this._leafColArray.length = 0;
+        var leafColArray = this._getLeafColumns(this.columns);
+        for (var i=0; i < this._colSortLevel.length; i++) {
+            if (leafColArray[i].sortLevel == null) {
+                leafColArray[i].sortLevel = this._colSortLevel[i];
             }  
         }    
     }
@@ -806,7 +932,12 @@
     // Add rows.
     if (props.rows) {
         // Replace rows -- do not extend.
-        this.rows = null;
+        //this.rows = null;
+        this.first = 0; // Reset index used to obtain rows.
+        this._currentRow = 0; // Reset current row in view.
+        this._tableContainer.scrollTop = 0; 
+        // Clear rows.
+        this._widget._removeChildNodes(this._tbody);
         this.addRows(props.rows);
     }
    
@@ -822,19 +953,25 @@
  * @private
  */
 @JS_NS@.widget.table2RowGroup.prototype._scroll = function(event) {    
-    var scrollTop = this._tableContainer.scrollTop;
-    var rowHeight =  document.getElementById(this.id + ":" + (this.currentRow + 1)).offsetTop -
-        document.getElementById(this.id + ":" + this.currentRow).offsetTop;
+    
+    var scrollTop = null;
+    if (@JS_NS@._base.browser._isFirefox()) {
+        scrollTop = this._tbody.scrollTop;
+    } else {
+        scrollTop = this._tableContainer.scrollTop;
+    }
+    var rowHeight =  document.getElementById(this.id + ":" + (this._currentRow + 1)).offsetTop -
+                    document.getElementById(this.id + ":" + this._currentRow).offsetTop;
     var moveScroll = scrollTop % rowHeight;
-    this.currentRow = Math.floor((this._tableContainer.scrollTop) / rowHeight);    
+    this._currentRow = Math.floor((scrollTop) / rowHeight);    
     
     if (moveScroll > (rowHeight / 2)) {
-        this.currentRow = this.currentRow + 1;   
-    }
+        this._currentRow = this._currentRow + 1;   
+    }   
 
     // Publish event to retrieve data.    
     if (this.first < this.totalRows
-            && this.currentRow % this.maxRows == 0) {
+            && this._currentRow % this.maxRows == 0) {
         // Publish an event for custom AJAX implementations to listen for.
         this._publish(@JS_NS@.widget.table2RowGroup.event.scroll.beginTopic, [{
             id: this.id,
@@ -857,12 +994,12 @@
         var domNodeNext = this._widget.getWidget(this.paginationNextButton.id);
 
         if (domNodePrev != null && domNodeNext != null) {
-            if (this.currentRow / this.maxRows == 0) {
+            if (this._currentRow / this.maxRows == 0) {
                 domNodePrev.setProps({disabled:true});              
             } else {
                 domNodePrev.setProps({disabled:false});  
             } 
-            if ((this.currentRow / this.maxRows) == (this.totalRows / this.maxRows) - 1) {
+            if ((this._currentRow / this.maxRows) == (this.totalRows / this.maxRows) - 1) {
                 domNodeNext.setProps({disabled:true});  
             } else {
                 domNodeNext.setProps({disabled:false});  
@@ -882,8 +1019,8 @@
  */
 @JS_NS@.widget.table2RowGroup.prototype._updateRowsText = function() {
     // Add title augment.
-    var firstRow = this.currentRow + 1;
-    var lastRow = Math.min(this.totalRows, this.currentRow + this.maxRows);
+    var firstRow = this._currentRow + 1;
+    var lastRow = Math.min(this.totalRows, this._currentRow + this.maxRows);
 
     // To do: Need to create a new rows message.
 
@@ -916,20 +1053,22 @@
 @JS_NS@.widget.table2RowGroup.prototype._openSortMenu = function(event, 
         colId, sortLevel) {    
     var menu = @JS_NS@.widget.common.getWidget(this.sortPopupMenu.id);    
-    for (var i = 0; i < this.columns.length; i++) {
-        var col = this.columns[i];
+    this._leafColArray.length = 0;
+    this._leafColArray = this._getLeafColumns(this.columns);
+    for (var i = 0; i < this._leafColArray.length; i++) {
+        var col = this._leafColArray[i];
         if (col.id == colId) {
             sortLevel = col.sortLevel;            
             break;
         }    
     }
     if (menu) {
-        if (sortLevel == -1 && this.sortCount == 0) {
+        if (sortLevel == -1 && this._sortCount == 0) {
             menu.setProps({options:this._primarySortOptions});
         } else if (sortLevel == 1) {
             var menuOptions = (this._primarySortOptions).concat(this._clearSortOptions);
             menu.setProps({options:menuOptions});
-        } else if ((sortLevel == -1 || sortLevel > 1) && this.sortCount >= 1) {
+        } else if ((sortLevel == -1 || sortLevel > 1) && this._sortCount >= 1) {
 	    var menuOptions = ((this._primarySortOptions).concat(
                  this._secondarySortOptions)).concat(this._clearSortOptions);
             menu.setProps({options:menuOptions});
@@ -959,24 +1098,25 @@
         table2colId: colId,
         sortOrder: menu.getSelectedValue()
     }]);
-
+    this._leafColArray.length = 0;
+    var leafColArray = this._getLeafColumns(this.columns);
     // Update sortCount and sortLevel values client-side    
     if ((value == "primaryAscending" || value == "primaryDescending")) {
         sortLevel = 1;
-        this.sortCount = 1;
+        this._sortCount = 1;
     } else if ((value == "ascending" || value == "descending")) {
-        this.sortCount++;
-        sortLevel = this.sortCount;
+        this._sortCount++;
+        sortLevel = this._sortCount;
     } else if (value == "clear") {
-        this.sortCount = 0;
-        for (var i = 0; i < this.columns.length; i++) {
-            var col = this.columns[i];
+        this._sortCount = 0;
+        for (var i = 0; i < leafColArray.length; i++) {
+            var col = leafColArray[i];
                 col.sortLevel = -1;                                            
         }
     } 
     // Update sortLevel value for column
-    for (var i = 0; i < this.columns.length; i++) {
-        var col = this.columns[i];
+    for (var i = 0; i < leafColArray.length; i++) {
+        var col = leafColArray[i];
         //clear other sort if primary sort is selected
         if (sortLevel == 1) {
             col.sortLevel = -1;
@@ -986,9 +1126,9 @@
             //break;
         }    
         if (col.sortLevel) {
-            this.colSortLevel[i] = col.sortLevel;
+            this._colSortLevel[i] = col.sortLevel;
         } else {
-            this.colSortLevel[i] = -1;
+            this._colSortLevel[i] = -1;
         }    
     }    
     return true;    

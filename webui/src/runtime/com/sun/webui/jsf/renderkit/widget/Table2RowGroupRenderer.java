@@ -211,9 +211,15 @@ public class Table2RowGroupRenderer extends RendererBase {
                     }
                     // Render Table2Column children.
                     Iterator grandKids = col.getChildren().iterator();
+                    UIComponent comp = null;
                     while (grandKids.hasNext()) {
-                        jsonCols.put(WidgetUtilities.renderComponent(context, 
-                            (UIComponent) grandKids.next()));
+                        comp = (UIComponent) grandKids.next(); 
+                        if (comp instanceof Table2Column) {
+                            getColumnChildren(context, comp, jsonCols);                            
+                        } else {
+                            jsonCols.put(WidgetUtilities.renderComponent(context,
+                            comp));
+                        }    
                     }
                 }
                 jsonRows.put(jsonCols);
@@ -230,4 +236,25 @@ public class Table2RowGroupRenderer extends RendererBase {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    
+    /**
+     * Helper method to render rows.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     */
+    private void getColumnChildren(FacesContext context, UIComponent comp,
+            JSONArray json) throws IOException, JSONException {
+        
+        Iterator grandColKids = comp.getChildren().iterator();
+            while (grandColKids.hasNext()) {
+                UIComponent col = (UIComponent)grandColKids.next();
+                if (col instanceof Table2Column) {
+                    getColumnChildren(context, col, json);
+                } else {    
+                    json.put(WidgetUtilities.renderComponent(context, col));
+                }
+        }
+        
+    }
 }
