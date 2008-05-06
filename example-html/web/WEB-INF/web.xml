@@ -19,11 +19,18 @@
         <servlet-class>table.TableServlet</servlet-class>
     </servlet>
 
-    <!-- Button Servlet Mapping -->
+    <!-- Bubble Servlet -->
+    <servlet>
+        <servlet-name>BubbleServlet</servlet-name>
+        <servlet-class>bubble.BubbleServlet</servlet-class>
+    </servlet>
+    
     <servlet>
         <servlet-name>ProgressServlet</servlet-name>
         <servlet-class>progressBar.ProgressServlet</servlet-class>
     </servlet>
+    
+    <!-- Button Servlet Mapping -->
     <servlet-mapping>
         <servlet-name>ButtonServlet</servlet-name>
         <url-pattern>/ButtonServlet</url-pattern>
@@ -42,9 +49,15 @@
     </servlet-mapping>
 
     <servlet-mapping>
+        <servlet-name>BubbleServlet</servlet-name>
+        <url-pattern>/BubbleServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
         <servlet-name>ProgressServlet</servlet-name>
         <url-pattern>/ProgressServlet</url-pattern>
     </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
