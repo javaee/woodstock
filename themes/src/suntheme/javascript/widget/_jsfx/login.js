@@ -42,8 +42,8 @@
      *
      * @param {String} elementId The HTML element Id.
      * @param {Object} content The content returned by the AJAX response.
-     * @param {Object} closure The closure argument provided to DynaFaces.fireAjaxTransaction.
-     * @param {Object} xjson The xjson argument provided to DynaFaces.fireAjaxTransaction.
+     * @param {Object} closure The closure argument provided to the Ajax transaction.
+     * @param {Object} xjson The xjson argument provided to the Ajax transaction.
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
