@@ -1201,6 +1201,7 @@
     // is automatically submitted, and so we don't need to explicitly include
     // the grade value in the props payload associated with beginTopic.
     //
+    this._hiddenFieldNode.value = this.grade;
     this._publish(@JS_NS@.widget.rating.event.submit.beginTopic, [{
         id: this.id,
         execute: execute,
