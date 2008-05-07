@@ -72,7 +72,7 @@ public class ThemeLinksRenderer extends javax.faces.render.Renderer {
         JavaScriptUtilities.setParseOnLoad(themeLinks.isParseOnLoad());
         JavaScriptUtilities.setStyleSheet(themeLinks.isStyleSheet());
         JavaScriptUtilities.setWebuiAll(themeLinks.isWebuiAll());
-        JavaScriptUtilities.setWebuiJsfx(themeLinks.isWebuiJsfx());
+        JavaScriptUtilities.setWebuiAjax(themeLinks.isWebuiAjax());
 
         // Master stylesheet link.
         Theme theme = ThemeUtilities.getTheme(context);

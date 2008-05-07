@@ -405,7 +405,7 @@ public class ThemeLinks extends UIComponentBase {
      * function, but additional requests may be generated to include more 
      * resources. Set the webuiAll property to true to include JavaScript 
      * resources when the page is loaded, using a single request. Use this 
-     * feature in combination with the webuiJsfx property to include default 
+     * feature in combination with the webuiAjax property to include default 
      * Ajax functionality based on JSF Extensions.
      * </p>
      */
@@ -452,17 +452,17 @@ public class ThemeLinks extends UIComponentBase {
      * this feature in combination with the webuiAll property to include all tag
      * library functionality. 
      * </p>
+     * @deprecated
      */
     @Property(name="webuiJsfx", displayName="Include Ajax Functionality", category="Javascript")
-    private boolean webuiJsfx = false; 
-    private boolean webuiJsfx_set = false; 
  
     /**
      * Test flag indicating to include default Ajax functionality.
+     * @deprecated
      */
     public boolean isWebuiJsfx() { 
-        if (this.webuiJsfx_set) {
-            return this.webuiJsfx;
+        if (this.webuiAjax_set) {
+            return this.webuiAjax;
         }
         ValueExpression _vb = getValueExpression("webuiJsfx");
         if (_vb != null) {
@@ -473,15 +473,59 @@ public class ThemeLinks extends UIComponentBase {
                 return ((Boolean) _result).booleanValue();
             }
         }
-        return this.webuiJsfx;
+        return this.webuiAjax;
+    } 
+
+    /**
+     * Set flag indicating to include default Ajax functionality.
+     * @deprecated
+     */
+    public void setWebuiJsfx(boolean webuiJsfx) {
+        setWebuiAjax(webuiJsfx);
+    }
+
+    /**
+     * Flag (true or false) indicating to include default Ajax functionality 
+     * based on JSF Extensions.
+     * <p>
+     * For better performance, Ajax functionality is not included in the page
+     * by default. Ajax features will continue to function, but additional 
+     * requests are lazily generated to retrieve JavaScript resources as needed, 
+     * including JSF Extensions. Set the webuiAjax property to true to include 
+     * JavaScript resources when the page is loaded, using a single request. Use
+     * this feature in combination with the webuiAll property to include all tag
+     * library functionality. 
+     * </p>
+     */
+    @Property(name="webuiAjax", displayName="Include Ajax Functionality", category="Javascript")
+    private boolean webuiAjax = false; 
+    private boolean webuiAjax_set = false; 
+ 
+    /**
+     * Test flag indicating to include default Ajax functionality.
+     */
+    public boolean isWebuiAjax() { 
+        if (this.webuiAjax_set) {
+            return this.webuiAjax;
+        }
+        ValueExpression _vb = getValueExpression("webuiAjax");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return this.webuiAjax;
     } 
 
     /**
      * Set flag indicating to include default Ajax functionality.
      */
-    public void setWebuiJsfx(boolean webuiJsfx) {
-        this.webuiJsfx = webuiJsfx;
-        this.webuiJsfx_set = true;
+    public void setWebuiAjax(boolean webuiAjax) {
+        this.webuiAjax = webuiAjax;
+        this.webuiAjax_set = true;
     }
 
     /**
@@ -506,8 +550,8 @@ public class ThemeLinks extends UIComponentBase {
         this.parseOnLoad_set = ((Boolean) _values[14]).booleanValue();
         this.webuiAll = ((Boolean) _values[15]).booleanValue();
         this.webuiAll_set = ((Boolean) _values[16]).booleanValue();
-        this.webuiJsfx = ((Boolean) _values[17]).booleanValue();
-        this.webuiJsfx_set = ((Boolean) _values[18]).booleanValue();
+        this.webuiAjax = ((Boolean) _values[17]).booleanValue();
+        this.webuiAjax_set = ((Boolean) _values[18]).booleanValue();
     }
 
     /**
@@ -532,8 +576,8 @@ public class ThemeLinks extends UIComponentBase {
         _values[14] = this.parseOnLoad_set ? Boolean.TRUE : Boolean.FALSE;
         _values[15] = this.webuiAll ? Boolean.TRUE : Boolean.FALSE;
         _values[16] = this.webuiAll_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[17] = this.webuiJsfx ? Boolean.TRUE : Boolean.FALSE;
-        _values[18] = this.webuiJsfx_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[17] = this.webuiAjax ? Boolean.TRUE : Boolean.FALSE;
+        _values[18] = this.webuiAjax_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 }

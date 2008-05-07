@@ -30,3 +30,10 @@ function toggleDisabled(id) {
         disabled: !widget.getProps().disabled
     });
 }
+
+// Function to update label.
+function updateLabel() {
+    // Get button.
+    var widget = woodstock.widget.common.getWidget("ww_id16");
+    widget.refresh("ww_id19"); // Refresh widget with text field value.
+}

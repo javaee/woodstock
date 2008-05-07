@@ -56,11 +56,11 @@ public class JavaScriptUtilities {
     // Key used to include style sheets.
     private static final String STYLESHEET_KEY = "com_sun_webui_jsf_util_styleSheet";
 
-    // Key used to include all tag library functionality.
+    // Key used to include all widgets.
     private static final String WEBUI_ALL_KEY = "com_sun_webui_jsf_util_webuiAll";
 
-    // Key used to include Ajax functionality based on JSF Extensions.
-    private static final String WEBUI_JSFX_KEY = "com_sun_webui_jsf_util_webuiJsfx";
+    // Key used to include Ajax functionality.
+    private static final String WEBUI_AJAX_KEY = "com_sun_webui_jsf_util_webuiAjax";
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Global methods
@@ -148,30 +148,30 @@ public class JavaScriptUtilities {
     }
 
     /**
-     * Set flag to include all tag library functionality.
+     * Set flag to include all widgets.
      *
-     * @param include Include all tag library functionality.
+     * @param include Include all widgets.
      */
     public static void setWebuiAll(boolean include) {
         getRequestMap().put(WEBUI_ALL_KEY, (include) ? Boolean.TRUE : Boolean.FALSE);
     }
 
     /**
-     * Test flag to include Ajax functionality based on JSF Extensions.
+     * Test flag to include Ajax functionality.
      * 
      * @return true if included.
      */
-    public static boolean isWebuiJsfx() {
-        return isEnabled(WEBUI_JSFX_KEY, "webuiJsfx");
+    public static boolean isWebuiAjax() {
+        return isEnabled(WEBUI_AJAX_KEY, "webuiAjax");
     }
 
     /**
-     * Set flag to include Ajax functionality based on JSF Extensions.
+     * Set flag to include Ajax functionality.
      *
-     * @param include Include Ajax functionality based on JSF Extensions.
+     * @param include Include Ajax functionality.
      */
-    public static void setWebuiJsfx(boolean include) {
-        getRequestMap().put(WEBUI_JSFX_KEY, (include) ? Boolean.TRUE : Boolean.FALSE);
+    public static void setWebuiAjax(boolean include) {
+        getRequestMap().put(WEBUI_AJAX_KEY, (include) ? Boolean.TRUE : Boolean.FALSE);
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -276,7 +276,7 @@ public class JavaScriptUtilities {
         renderBootstrapInclude(component, writer);
 
         // Render JSF Extensions include.
-        if (isJsfx() && isWebuiJsfx()) {
+        if (isJsfx() && isWebuiAjax()) {
             renderPrototypeInclude(component, writer);
             renderJsfxInclude(component, writer);
         }
@@ -369,7 +369,7 @@ public class JavaScriptUtilities {
      */
     private static JSONObject getAjaxConfig() throws JSONException {
         JSONObject json = new JSONObject();
-        json.put("module", getTheme().getPathToJSFile(ThemeJavascript.AJAX_MODULE))
+        json.put("module", getTheme().getJSString(ThemeJavascript.JSFX_MODULE))
             .put("isAjax", true) // Load Ajax resources.
             .put("isJsfx", isJsfx());
         return json;
@@ -397,7 +397,7 @@ public class JavaScriptUtilities {
             .put("theme", getThemeConfig(FacesContext.getCurrentInstance()))
             .put("isStyleSheet", isStyleSheet())
             .put("webuiAll", isWebuiAll())
-            .put("webuiJsfx", isWebuiJsfx());
+            .put("webuiAjax", isWebuiAjax());
 
         buff.append(JSONUtilities.getString(json))
             .append(";");

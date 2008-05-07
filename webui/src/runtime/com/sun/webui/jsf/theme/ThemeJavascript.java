@@ -30,11 +30,6 @@ package com.sun.webui.jsf.theme;
 
 public class ThemeJavascript {
     /**
-     * A key that defines the Ajax module.
-     */
-    public static final String AJAX_MODULE = "ajaxModule";
-
-    /**
      * A key that defines the bootstrap JavaScript file.
      */
     public static final String BOOTSTRAP = "bootstrap";
@@ -59,6 +54,11 @@ public class ThemeJavascript {
      * A key that defines the uncompressed JSF Extensions JavaScript file.
      */
     public static final String JSFX_UNCOMPRESSED = "jsfxUncompressed";
+
+    /**
+     * A key that defines the JSF Extensions module.
+     */
+    public static final String JSFX_MODULE = "jsfxModule";
 
     /**
      * A key that defines the path for the webui module.
@@ -154,6 +154,35 @@ public class ThemeJavascript {
      * default Ajax implementation based on JSF Extensions.
      */
     public static final String WEBUI_JSFX_ALL_UNCOMPRESSED = "webuiJsfxAllUncompressed";
+
+    /**
+     * A Javascript file that contains common webui functions and the default
+     * Ajax implementation based on XHR.
+     */
+    public static final String WEBUI_XHR = "webuiXhr";
+
+    /**
+     * A Javascript file that contains common uncompressed webui functions and 
+     * the default Ajax implementation based on XHR.
+     */
+    public static final String WEBUI_XHR_UNCOMPRESSED = "webuiXhrUncompressed";
+
+    /**
+     * A Javascript file that contains all webui functions and the default Ajax 
+     * implementation based on XHR.
+     */
+    public static final String WEBUI_XHR_ALL = "webuiXhrAll";
+
+    /**
+     * A Javascript file that contains all uncompressed webui functions and the
+     * default Ajax implementation based on XHR.
+     */
+    public static final String WEBUI_XHR_ALL_UNCOMPRESSED = "webuiXhrAllUncompressed";
+
+    /**
+     * A key that defines the XHR module.
+     */
+    public static final String XHR_MODULE = "xhrModule";
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Deprecations

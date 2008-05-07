@@ -51,6 +51,7 @@
  * @config {int} height
  * @config {String} id Uniquely identifies an element within a document.
  * @config {String} lang Specifies the language of attribute values and content.
+ * @config {boolean} autoStart Flag indicating to load data upon widget creation.
  * @config {int} maxRows 
  * @config {String} onClick Mouse button is clicked on element.
  * @config {String} onDblClick Mouse button is double-clicked on element.
@@ -75,12 +76,14 @@
         @JS_NS@.widget._base.stateBase], {
     // Set defaults.
     constructor: function() {
+        this.autoStart = false; // Start loading data.
+        this._colSortLevel = new Array(); // Array used to store sortLevel
         this._currentRow = 0; // Current row in view.
         this.first = 0; // Index used to obtain rows.
-        this._sortCount = 0; // sort count 
-        this._colSortLevel = new Array(); // Array used to store sortLevel
         this._headerCount = 0;
         this._leafColArray = new Array();
+        this._sortCount = 0; // sort count 
+        this.totalRows = 0; // Available rows.
     },
     // Default sorting options.
     _primarySortOptions: [{
@@ -222,7 +225,7 @@
  * @private
  */
 @JS_NS@.widget.table2RowGroup.prototype._addColumnFooters = function(col, footerRowClone) {               
-        
+        // Clone dojo attach points.
         var footerCellClone = this._colFooterCell.cloneNode(true);
         footerCellClone.id = col.id + "_colFooter";
         
@@ -334,7 +337,16 @@
         return false;
     }
 
-   // Get properties.
+    // Clear rows.
+    if (this.rows == null) {
+        this.rows = rows; // Save rows for getProps() function.
+        this.first = 0; // Reset index used to obtain rows.
+        this._currentRow = 0; // Reset current row in view.
+        this._tableContainer.scrollTop = 0; // Reset scroll position.
+        this._widget._removeChildNodes(this._tbody); // Clear template nodes.
+    }
+
+    // Get properties.
     var props = this.getProps();
     // Get className properties to alternate between rows.
     var classNames = (this.className) ? this.className.split(",") : null;          
@@ -384,7 +396,7 @@
             this._widget._addFragment(cellClone, cols[k], "last"); 
         }    
         
-        // Save row for destroy() function.
+        // Save row for getProps() function.
         if (this.first > 0) {
             this.rows[this.rows.length] = rows[i];
         }
@@ -392,7 +404,6 @@
 
     // Set first row value.
     this.first += rows.length;
-
 
     // Adjust layout.
     var _id = this.id;
@@ -544,6 +555,44 @@
     if (this.sortPopupMenu != null) {props.sortPopupMenu = this.sortPopupMenu;}
 
     return props;
+};
+
+/**
+ * This function is used to set sorting options.
+ * @param {Event} event The JavaScript event.
+ * @param {String} colId The column id for the sorted column.
+ * @param {int} sortLevel The sortLevel for column. 
+ * @return {boolean} true if successful; otherwise, false.
+ * @private
+ */
+@JS_NS@.widget.table2RowGroup.prototype._openSortMenu = function(event, 
+        colId, sortLevel) {    
+    var menu = @JS_NS@.widget.common.getWidget(this.sortPopupMenu.id);    
+    this._leafColArray.length = 0;
+    this._leafColArray = this._getLeafColumns(this.columns);
+    for (var i = 0; i < this._leafColArray.length; i++) {
+        var col = this._leafColArray[i];
+        if (col.id == colId) {
+            sortLevel = col.sortLevel;            
+            break;
+        }    
+    }
+    if (menu) {
+        if (sortLevel == -1 && this._sortCount == 0) {
+            menu.setProps({options:this._primarySortOptions});
+        } else if (sortLevel == 1) {
+            var menuOptions = (this._primarySortOptions).concat(this._clearSortOptions);
+            menu.setProps({options:menuOptions});
+        } else if ((sortLevel == -1 || sortLevel > 1) && this._sortCount >= 1) {
+	    var menuOptions = ((this._primarySortOptions).concat(
+                 this._secondarySortOptions)).concat(this._clearSortOptions);
+            menu.setProps({options:menuOptions});
+        }
+        menu.setProps({onClick: "@JS_NS@.widget.common.getWidget('" + 
+            this.id + "')._sort('" + colId + "');"});          
+        menu.open(event);        
+    }
+    return true;
 };
 
 /**
@@ -932,12 +981,7 @@
     // Add rows.
     if (props.rows) {
         // Replace rows -- do not extend.
-        //this.rows = null;
-        this.first = 0; // Reset index used to obtain rows.
-        this._currentRow = 0; // Reset current row in view.
-        this._tableContainer.scrollTop = 0; 
-        // Clear rows.
-        this._widget._removeChildNodes(this._tbody);
+        this.rows = null;
         this.addRows(props.rows);
     }
    
@@ -952,22 +996,25 @@
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-@JS_NS@.widget.table2RowGroup.prototype._scroll = function(event) {    
-    
+@JS_NS@.widget.table2RowGroup.prototype._scroll = function(event) {
     var scrollTop = null;
     if (@JS_NS@._base.browser._isFirefox()) {
         scrollTop = this._tbody.scrollTop;
     } else {
         scrollTop = this._tableContainer.scrollTop;
     }
-    var rowHeight =  document.getElementById(this.id + ":" + (this._currentRow + 1)).offsetTop -
-                    document.getElementById(this.id + ":" + this._currentRow).offsetTop;
-    var moveScroll = scrollTop % rowHeight;
-    this._currentRow = Math.floor((scrollTop) / rowHeight);    
-    
-    if (moveScroll > (rowHeight / 2)) {
-        this._currentRow = this._currentRow + 1;   
-    }   
+
+    // Set current row. Note: Nodes may not exist during refresh.
+    var curRow = document.getElementById(this.id + ":" + this._currentRow);
+    var nextRow = document.getElementById(this.id + ":" + (this._currentRow + 1));
+    if (curRow && nextRow) {
+        var rowHeight =  nextRow.offsetTop - curRow.offsetTop;
+        var moveScroll = scrollTop % rowHeight;
+        this._currentRow = Math.floor((scrollTop) / rowHeight);
+        if (moveScroll > (rowHeight / 2)) {
+            this._currentRow = this._currentRow + 1;   
+        }
+    }
 
     // Publish event to retrieve data.    
     if (this.first < this.totalRows
@@ -980,6 +1027,84 @@
     }
     // Set rows text.    
     return this._updateRowsText();
+};
+
+/**
+ * This function is used to publish event for sorting
+ * 
+ * @param {String} colId The column id for the sorted column.
+ * @return {boolean} true if successful; otherwise, false.
+ * @private
+ */
+@JS_NS@.widget.table2RowGroup.prototype._sort = function(colId) {          
+    var menu = @JS_NS@.widget.common.getWidget(this.sortPopupMenu.id);   
+    var value = menu.getSelectedValue();    
+    var sortLevel = -1;
+    
+    // Publish an event for custom AJAX implementations to listen for.
+    this._publish(@JS_NS@.widget.table2RowGroup.event.sort.beginTopic, [{
+        id: this.id,
+        table2colId: colId,
+        sortOrder: menu.getSelectedValue()
+    }]);
+    this._leafColArray.length = 0;
+    var leafColArray = this._getLeafColumns(this.columns);
+    // Update sortCount and sortLevel values client-side    
+    if ((value == "primaryAscending" || value == "primaryDescending")) {
+        sortLevel = 1;
+        this._sortCount = 1;
+    } else if ((value == "ascending" || value == "descending")) {
+        this._sortCount++;
+        sortLevel = this._sortCount;
+    } else if (value == "clear") {
+        this._sortCount = 0;
+        for (var i = 0; i < leafColArray.length; i++) {
+            var col = leafColArray[i];
+                col.sortLevel = -1;                                            
+        }
+    } 
+    // Update sortLevel value for column
+    for (var i = 0; i < leafColArray.length; i++) {
+        var col = leafColArray[i];
+        //clear other sort if primary sort is selected
+        if (sortLevel == 1) {
+            col.sortLevel = -1;
+        }
+        if (col.id == colId) {
+            col.sortLevel = sortLevel;            
+            //break;
+        }    
+        if (col.sortLevel) {
+            this._colSortLevel[i] = col.sortLevel;
+        } else {
+            this._colSortLevel[i] = -1;
+        }    
+    }    
+    return true;    
+};
+
+/**
+ * This function is used to "start" the widget, after the widget has been
+ * instantiated.
+ *
+ * @return {boolean} true if successful; otherwise, false.
+ * @private
+ */
+@JS_NS@.widget._base.widgetBase.prototype._start = function () {
+    if (typeof this._started == "undefined") {
+        return false;
+    }
+    if (new Boolean(this.autoStart).valueOf() == true) {
+        // Publish event to retrieve data.    
+        if (this.first == 0) {
+            // Publish an event for custom AJAX implementations to listen for.
+            this._publish(@JS_NS@.widget.table2RowGroup.event.scroll.beginTopic, [{
+                id: this.id,
+                first: this.first
+            }]);
+        }
+    }
+    return this._started = true;
 };
 
 /**
@@ -1040,96 +1165,4 @@
      //set disabled/enabled state
     this._updatePaginationControls(); 
     return true;
-};
-
-/**
- * This function is used to set sorting options.
- * @param {Event} event The JavaScript event.
- * @param {String} colId The column id for the sorted column.
- * @param {int} sortLevel The sortLevel for column. 
- * @return {boolean} true if successful; otherwise, false.
- * @private
- */
-@JS_NS@.widget.table2RowGroup.prototype._openSortMenu = function(event, 
-        colId, sortLevel) {    
-    var menu = @JS_NS@.widget.common.getWidget(this.sortPopupMenu.id);    
-    this._leafColArray.length = 0;
-    this._leafColArray = this._getLeafColumns(this.columns);
-    for (var i = 0; i < this._leafColArray.length; i++) {
-        var col = this._leafColArray[i];
-        if (col.id == colId) {
-            sortLevel = col.sortLevel;            
-            break;
-        }    
-    }
-    if (menu) {
-        if (sortLevel == -1 && this._sortCount == 0) {
-            menu.setProps({options:this._primarySortOptions});
-        } else if (sortLevel == 1) {
-            var menuOptions = (this._primarySortOptions).concat(this._clearSortOptions);
-            menu.setProps({options:menuOptions});
-        } else if ((sortLevel == -1 || sortLevel > 1) && this._sortCount >= 1) {
-	    var menuOptions = ((this._primarySortOptions).concat(
-                 this._secondarySortOptions)).concat(this._clearSortOptions);
-            menu.setProps({options:menuOptions});
-        }
-        menu.setProps({onClick: "@JS_NS@.widget.common.getWidget('" + 
-            this.id + "')._sort('" + colId + "');"});          
-        menu.open(event);        
-    }
-    return true;
-};
-
-/**
- * This function is used to publish event for sorting
- * 
- * @param {String} colId The column id for the sorted column.
- * @return {boolean} true if successful; otherwise, false.
- * @private
- */
-@JS_NS@.widget.table2RowGroup.prototype._sort = function(colId) {          
-    var menu = @JS_NS@.widget.common.getWidget(this.sortPopupMenu.id);   
-    var value = menu.getSelectedValue();    
-    var sortLevel = -1;
-    
-    // Publish an event for custom AJAX implementations to listen for.
-    this._publish(@JS_NS@.widget.table2RowGroup.event.sort.beginTopic, [{
-        id: this.id,
-        table2colId: colId,
-        sortOrder: menu.getSelectedValue()
-    }]);
-    this._leafColArray.length = 0;
-    var leafColArray = this._getLeafColumns(this.columns);
-    // Update sortCount and sortLevel values client-side    
-    if ((value == "primaryAscending" || value == "primaryDescending")) {
-        sortLevel = 1;
-        this._sortCount = 1;
-    } else if ((value == "ascending" || value == "descending")) {
-        this._sortCount++;
-        sortLevel = this._sortCount;
-    } else if (value == "clear") {
-        this._sortCount = 0;
-        for (var i = 0; i < leafColArray.length; i++) {
-            var col = leafColArray[i];
-                col.sortLevel = -1;                                            
-        }
-    } 
-    // Update sortLevel value for column
-    for (var i = 0; i < leafColArray.length; i++) {
-        var col = leafColArray[i];
-        //clear other sort if primary sort is selected
-        if (sortLevel == 1) {
-            col.sortLevel = -1;
-        }
-        if (col.id == colId) {
-            col.sortLevel = sortLevel;            
-            //break;
-        }    
-        if (col.sortLevel) {
-            this._colSortLevel[i] = col.sortLevel;
-        } else {
-            this._colSortLevel[i] = -1;
-        }    
-    }    
-    return true;    
 };

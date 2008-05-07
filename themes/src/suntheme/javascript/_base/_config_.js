@@ -27,12 +27,19 @@
  * @JS_NS@Config = {
  *   // Ajax config properties.
  *   ajax: {
- *       // Flag allowing Ajax resources to be loaded in page.
- *       isAjax: false,
- *       // Flag allowing JSF Extensions to be loaded in page.
+ *       // Flag allowing Ajax resources to be lazily loaded when the webuiAjax
+ *       // property is false.
+ *       isAjax: true,
+ *       // Flag allowing JSF Extensions to be loaded in page. If the webuiAjax 
+ *       // property is true, resources are loaded immediately. Otherwise, 
+ *       // resources are lazily loaded.
  *       isJsfx: true,
  *       // Ajax module.
- *       module: "@JS_NS@.widget._jsfx"
+ *       module: "@JS_NS@.widget._xhr",
+ *       // Ajax module path.
+ *       module: "/example/resources/@JS_NS@/@THEME@/javascript/widget/_xhr",
+ *       // URL used for Ajax transactions. Note: Not used by JSF Extensions.
+ *       url: "/example/ExampleServlet"
  *   },
  *   // Flag to enable debug mode.
  *   isDebug: false,
@@ -64,8 +71,9 @@
  *   },
  *   // Flag to include all widgets.
  *   webuiAll: false,
- *   // Flag to include Ajax functionality based on JSF Extensions.
- *   webuiJsfx: false
+ *   // Flag to include Ajax functionality. Used in conjunction with webuiAll. 
+ *   // Note: Not used with custom Ajax implementations.
+ *   webuiAjax: false
  * };
  * </pre></code></p><p>
  * If this variable is not availble, @JS_NAME@Config will be used. However, in a
@@ -93,15 +101,28 @@ if (typeof @JS_NS@Config == "undefined") {
 @JS_NS@._base.config = {
     /** Ajax config properties. */
     ajax: {
-        /** Flag allowing Ajax resources to be loaded in page. */
+        /**
+         * Flag allowing Ajax resources to be lazily loaded when the webuiAjax
+         * property is false.
+         */
         isAjax: (@JS_NS@Config.ajax && @JS_NS@Config.ajax.isAjax != null)
-            ? @JS_NS@Config.ajax.isAjax : false,
-        /** Flag allowing JSF Extensions to be loaded in page. */
+            ? @JS_NS@Config.ajax.isAjax : true,
+        /**
+         * Flag allowing JSF Extensions to be loaded in page. If the webuiAjax 
+         * property is true, resources are loaded immediately. Otherwise, 
+         * resources are lazily loaded.
+         */
         isJsfx: (@JS_NS@Config.ajax && @JS_NS@Config.ajax.isJsfx != null)
             ? @JS_NS@Config.ajax.isJsfx : true,
         /** Ajax module. */
         module: (@JS_NS@Config.ajax && @JS_NS@Config.ajax.module)
-            ? @JS_NS@Config.ajax.module : "@JS_NS@.widget._jsfx"
+            ? @JS_NS@Config.ajax.module : "@JS_NS@.widget._xhr",
+        /** Ajax module path. */
+        modulePath: (@JS_NS@Config.ajax && @JS_NS@Config.ajax.modulePath)
+            ? @JS_NS@Config.ajax.modulePath : undefined,
+        /** URL used for Ajax transactions. Note: Not used by JSF Extensions. */
+        url: (@JS_NS@Config.ajax && @JS_NS@Config.ajax.url)
+            ? @JS_NS@Config.ajax.url : undefined
     },
     /** Flag to enable debug mode. */
     isDebug: (@JS_NS@Config.isDebug != null) ? @JS_NS@Config.isDebug : false,
@@ -142,6 +163,9 @@ if (typeof @JS_NS@Config == "undefined") {
     },
     /** Flag to include all widgets. */
     webuiAll: (@JS_NS@Config.webuiAll != null) ? @JS_NS@Config.webuiAll : false,
-    /** Flag to include Ajax functionality based on JSF Extensions. */
-    webuiJsfx: (@JS_NS@Config.webuiJsfx != null) ? @JS_NS@Config.webuiJsfx : false
+    /**
+     * Flag to include Ajax functionality. Used in conjunction with webuiAll. 
+     * Note: Not used with custom Ajax implementations.
+     */
+    webuiAjax: (@JS_NS@Config.webuiAjax != null) ? @JS_NS@Config.webuiAjax : false
 };

@@ -20,11 +20,11 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-@JS_NS@._dojo.provide("@JS_NS@.widget._jsfx.common");
+@JS_NS@._dojo.provide("@JS_NS@.widget._xhr.common");
 
 @JS_NS@._dojo.require("@JS_NS@.json");
+@JS_NS@._dojo.require("@JS_NS@.xhr");
 @JS_NS@._dojo.require("@JS_NS@.widget.common");
-@JS_NS@._dojo.require("@JS_NS@.widget._jsfx.dynaFaces");
 
 /**
  * @class This class contains functions to obtain data asynchronously using JSF
@@ -32,7 +32,7 @@
  * @static
  * @private
  */
-@JS_NS@.widget._jsfx.common = {
+@JS_NS@.widget._xhr.common = {
     /**
      * This function is used to process refresh events with Object literals.
      *
@@ -50,22 +50,46 @@
             return false;
         }
 
-        // Dynamic Faces requires a DOM node as the source property.
-        var domNode = document.getElementById(props.id);
+        // Ensure URL has been provided.
+        if (@JS_NS@._base.config.ajax.url == null) {
+            console.error("URL for Ajax transaction not provided.");
+            return false
+        }
 
-        // Generate AJAX request using the JSF Extensions library.
-        DynaFaces.fireAjaxTransaction(
-            (domNode) ? domNode : document.forms[0], {
-            execute: (props.execute) ? props.execute : "none",
-            closure: {
-                endTopic: props.endTopic
+        // Get form.
+        var form = @JS_NS@.widget.common._getForm(
+            document.getElementById(props.id));
+        if (form == null) {
+            form = document.forms[0];
+        }
+
+        // Pass through variables.
+        var _id = props.id;
+        var closure = {
+            endTopic: props.endTopic
+        };
+        var xjson = {
+            id: props.id,
+            event: "refresh",
+            execute: (props.execute) ? props.execute : "none"
+        };
+
+        // Generate AJAX request.
+        @JS_NS@.xhr.get({
+            error: function(content, ioArgs) {
+                console.error("HTTP status code: ", ioArgs.xhr.status);
+                return content;
             },
-            render: props.id,
-            replaceElement: @JS_NS@.widget._jsfx.common._refreshCallback,
-            xjson: {
-                id: props.id,
-                event: "refresh"
-            }
+            form: form,
+            headers: {
+                "X-JSON": @JS_NS@.json.stringify(xjson)
+            },
+            load: function(content, ioArgs) {
+                @JS_NS@.widget._xhr.common._refreshCallback(_id, content, closure, xjson);
+                return content;
+            },
+            timeout: 5000, // Time in milliseconds
+            url: @JS_NS@._base.config.ajax.url
         });
         return true;
     },
@@ -85,23 +109,46 @@
             return false;
         }
 
-        // Dynamic Faces requires a DOM node as the source property.
-        var domNode = document.getElementById(props.id);
+        // Ensure URL has been provided.
+        if (@JS_NS@._base.config.ajax.url == null) {
+            console.error("URL for Ajax transaction not provided.");
+            return false
+        }
 
-        // Generate AJAX request using the JSF Extensions library.
-        DynaFaces.fireAjaxTransaction(
-            (domNode) ? domNode : document.forms[0], {
-            execute: "none",
-            closure: {
-                endTopic: props.endTopic
+        // Get form.
+        var form = @JS_NS@.widget.common._getForm(
+            document.getElementById(props.id));
+        if (form == null) {
+            form = document.forms[0];
+        }
+
+        // Pass through variables.
+        var _id = props.id;
+        var closure = {
+            endTopic: props.endTopic
+        };
+        var xjson = {
+            id: props.id,
+            event: "state",
+            execute: "none"
+        };
+
+        // Generate AJAX request.
+        @JS_NS@.xhr.get({
+            error: function(content, ioArgs) {
+                console.error("HTTP status code: ", ioArgs.xhr.status);
+                return content;
             },
-            render: props.id,
-            replaceElement: @JS_NS@.widget._jsfx.common._stateCallback,
-            xjson: {
-                id: props.id,
-                event: "state",
-                props: props.props // Widget properties to update.
-            }
+            form: form,
+            headers: {
+                "X-JSON": @JS_NS@.json.stringify(xjson)
+            },
+            load: function(content, ioArgs) {
+                @JS_NS@.widget._xhr.common._stateCallback(_id, content, closure, xjson);
+                return content;
+            },
+            timeout: 5000, // Time in milliseconds
+            url: @JS_NS@._base.config.ajax.url
         });
         return true;
     },
@@ -123,22 +170,46 @@
             return false;
         }
 
-        // Dynamic Faces requires a DOM node as the source property.
-        var domNode = document.getElementById(props.id);
+        // Ensure URL has been provided.
+        if (@JS_NS@._base.config.ajax.url == null) {
+            console.error("URL for Ajax transaction not provided.");
+            return false
+        }
 
-        // Generate AJAX request using the JSF Extensions library.
-        DynaFaces.fireAjaxTransaction(
-            (domNode) ? domNode : document.forms[0], {
-            execute: (props.execute) ? props.execute : props.id,
-            closure: {
-                endTopic: props.endTopic
+        // Get form.
+        var form = @JS_NS@.widget.common._getForm(
+            document.getElementById(props.id));
+        if (form == null) {
+            form = document.forms[0];
+        }
+
+        // Pass through variables.
+        var _id = props.id;
+        var closure = {
+            endTopic: props.endTopic
+        };
+        var xjson = {
+            id: props.id,
+            event: "submit",
+            execute: (props.execute) ? props.execute : props.id
+        };
+
+        // Generate AJAX request.
+        @JS_NS@.xhr.get({
+            error: function(content, ioArgs) {
+                console.error("HTTP status code: ", ioArgs.xhr.status);
+                return content;
             },
-            render: props.id,
-            replaceElement: @JS_NS@.widget._jsfx.common._submitCallback,
-            xjson: {
-                id: props.id,
-                event: "submit"
-            }
+            form: form,
+            headers: {
+                "X-JSON": @JS_NS@.json.stringify(xjson)
+            },
+            load: function(content, ioArgs) {
+                @JS_NS@.widget._xhr.common._submitCallback(_id, content, closure, xjson);
+                return content;
+            },
+            timeout: 5000, // Time in milliseconds
+            url: @JS_NS@._base.config.ajax.url
         });
         return true;
     }, 
@@ -146,10 +217,10 @@
     /**
      * This function is used to refresh widgets.
      *
-     * @param {String} elementId The HTML element Id.
+     * @param {String} id The HTML widget Id.
      * @param {String} content The content returned by the AJAX response.
      * @param {Object} closure The closure argument provided to the Ajax transaction.
-     * @param {Object} xjson The xjson argument provided to the Ajax transaction.
+     * @param {Object} xjson The xjson header provided to the Ajax transaction.
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
@@ -176,10 +247,10 @@
      * This function is a callback to respond to the end of state request.
      * It will only publish submit end event without updating the widget itself.
      *
-     * @param {String} elementId The HTML element Id.
+     * @param {String} id The HTML widget Id.
      * @param {String} content The content returned by the AJAX response.
      * @param {Object} closure The closure argument provided to the Ajax transaction.
-     * @param {Object} xjson The xjson argument provided to the Ajax transaction.
+     * @param {Object} xjson The xjson header provided to the Ajax transaction.
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
@@ -202,10 +273,10 @@
      * This function is a callback to respond to the end of submit request.
      * It will only publish submit end event without updating the widget itself.
      *
-     * @param {String} elementId The HTML element Id.
+     * @param {String} id The HTML widget Id.
      * @param {String} content The content returned by the AJAX response.
      * @param {Object} closure The closure argument provided to the Ajax transaction.
-     * @param {Object} xjson The xjson argument provided to the Ajax transaction.
+     * @param {Object} xjson The xjson header provided to the Ajax transaction.
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */

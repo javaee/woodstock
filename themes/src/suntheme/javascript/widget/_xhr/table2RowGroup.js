@@ -20,21 +20,21 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-@JS_NS@._dojo.provide("@JS_NS@.widget._jsfx.table2RowGroup");
+@JS_NS@._dojo.provide("@JS_NS@.widget._xhr.table2RowGroup");
 
 @JS_NS@._dojo.require("@JS_NS@.json");
+@JS_NS@._dojo.require("@JS_NS@.xhr");
 @JS_NS@._dojo.require("@JS_NS@.widget.common");
-@JS_NS@._dojo.require("@JS_NS@.widget._jsfx.common");
-@JS_NS@._dojo.require("@JS_NS@.widget._jsfx.dynaFaces");
+@JS_NS@._dojo.require("@JS_NS@.widget._xhr.common");
 @JS_NS@._dojo.require("@JS_NS@.widget.table2RowGroup");
 
 /**
- * @class This class contains functions to obtain data asynchronously using JSF
- * Extensions as the underlying transfer protocol.
+ * @class This class contains functions to obtain data asynchronously using XHR
+ * as the underlying transfer protocol.
  * @static
  * @private
  */
-@JS_NS@.widget._jsfx.table2RowGroup = {
+@JS_NS@.widget._xhr.table2RowGroup = {
     /**
      * This function is used to process scroll events with Object literals.
      *
@@ -49,24 +49,49 @@
             return false;
         }
 
-        // Dynamic Faces requires a DOM node as the source property.
-        var domNode = document.getElementById(props.id);
+        // Ensure URL has been provided.
+        if (@JS_NS@._base.config.ajax.url == null) {
+            console.error("URL for Ajax transaction not provided.");
+            return false
+        }
 
-        // Generate AJAX request using the JSF Extensions library.
-        DynaFaces.fireAjaxTransaction(
-            (domNode) ? domNode : document.forms[0], {
+        // Get form.
+        var form = @JS_NS@.widget.common._getForm(
+            document.getElementById(props.id));
+        if (form == null) {
+            form = document.forms[0];
+        }
+
+        // Pass through variables.
+        var _id = props.id;
+        var closure = {};
+        var xjson = {
+            id: props.id,
+            event: "scroll",
             execute: "none",
-            render: props.id,
-            replaceElement: @JS_NS@.widget._jsfx.table2RowGroup._scrollCallback,
-            xjson: {
-                id: props.id,
-                event: "scroll",
-                first: props.first
-            }
+            first: props.first
+        };
+
+        // Generate AJAX request.
+        @JS_NS@.xhr.get({
+            error: function(content, ioArgs) {
+                console.error("HTTP status code: ", ioArgs.xhr.status);
+                return content;
+            },
+            form: form,
+            headers: {
+                "X-JSON": @JS_NS@.json.stringify(xjson)
+            },
+            load: function(content, ioArgs) {
+                @JS_NS@.widget._xhr.table2RowGroup._scrollCallback(_id, content, closure, xjson);
+                return content;
+            },
+            timeout: 5000, // Time in milliseconds
+            url: @JS_NS@._base.config.ajax.url
         });
         return true;
     },
-
+    
     /**
      * This function is used to process scroll events with Object literals.
      *
@@ -81,32 +106,57 @@
             return false;
         }
 
-        // Dynamic Faces requires a DOM node as the source property.
-        var domNode = document.getElementById(props.id);
+        // Ensure URL has been provided.
+        if (@JS_NS@._base.config.ajax.url == null) {
+            console.error("URL for Ajax transaction not provided.");
+            return false
+        }
 
-        // Generate AJAX request using the JSF Extensions library.
-        DynaFaces.fireAjaxTransaction(
-            (domNode) ? domNode : document.forms[0], {
+        // Get form.
+        var form = @JS_NS@.widget.common._getForm(
+            document.getElementById(props.id));
+        if (form == null) {
+            form = document.forms[0];
+        }
+
+        // Pass through variables.
+        var _id = props.id;
+        var closure = {};
+        var xjson = {
+            id: props.id,
+            event: "sort",
             execute: "none",
-            render: props.id,
-            replaceElement: @JS_NS@.widget._jsfx.table2RowGroup._sortCallback,
-            xjson: {
-                id: props.id,                
-                event: "sort",
-                colId: props.table2colId,
-                sortOrder: props.sortOrder
-            }
-        });        
+            colId: props.table2colId,
+            sortOrder: props.sortOrder
+        };
+
+        // Generate AJAX request.
+        @JS_NS@.xhr.get({
+            error: function(content, ioArgs) {
+                console.error("HTTP status code: ", ioArgs.xhr.status);
+                return content;
+            },
+            form: form,
+            headers: {
+                "X-JSON": @JS_NS@.json.stringify(xjson)
+            },
+            load: function(content, ioArgs) {
+                @JS_NS@.widget._xhr.table2RowGroup._sortCallback(_id, content, closure, xjson);
+                return content;
+            },
+            timeout: 5000, // Time in milliseconds
+            url: @JS_NS@._base.config.ajax.url
+        });
         return true;
     },
 
     /**
      * This function is used to update widgets.
      *
-     * @param {String} elementId The HTML element Id.
+     * @param {String} id The HTML widget Id.
      * @param {String} content The content returned by the AJAX response.
      * @param {Object} closure The closure argument provided to the Ajax transaction.
-     * @param {Object} xjson The xjson argument provided to the Ajax transaction.
+     * @param {Object} xjson The xjson header provided to the Ajax transaction.
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
@@ -131,14 +181,14 @@
             @JS_NS@.widget.table2RowGroup.event.scroll.endTopic, [props]);
         return true;
     },
-    
+
     /**
      * This function is used to update widgets.
      *
-     * @param {String} elementId The HTML element Id.
+     * @param {String} id The HTML widget Id.
      * @param {String} content The content returned by the AJAX response.
      * @param {Object} closure The closure argument provided to the Ajax transaction.
-     * @param {Object} xjson The xjson argument provided to the Ajax transaction.
+     * @param {Object} xjson The xjson header provided to the Ajax transaction.
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
@@ -149,6 +199,7 @@
 
         // Parse JSON text.
         var props = @JS_NS@.json.parse(content);
+
         // Reject duplicate AJAX requests.
         var widget = @JS_NS@.widget.common.getWidget(id); 
         widget.setProps(props);
@@ -162,10 +213,10 @@
     
 // Listen for Widget events.
 @JS_NS@._dojo.subscribe(@JS_NS@.widget.table2RowGroup.event.refresh.beginTopic,
-    @JS_NS@.widget._jsfx.common, "_processRefreshEvent");
+    @JS_NS@.widget._xhr.common, "_processRefreshEvent");
 @JS_NS@._dojo.subscribe(@JS_NS@.widget.table2RowGroup.event.scroll.beginTopic,
-    @JS_NS@.widget._jsfx.table2RowGroup, "_processScrollEvent");
+    @JS_NS@.widget._xhr.table2RowGroup, "_processScrollEvent");
 @JS_NS@._dojo.subscribe(@JS_NS@.widget.table2RowGroup.event.pagination.next.beginTopic,
-    @JS_NS@.widget._jsfx.table2RowGroup, "_processScrollEvent");
+    @JS_NS@.widget._xhr.table2RowGroup, "_processScrollEvent");
 @JS_NS@._dojo.subscribe(@JS_NS@.widget.table2RowGroup.event.sort.beginTopic,
-    @JS_NS@.widget._jsfx.table2RowGroup, "_processSortEvent");
+    @JS_NS@.widget._xhr.table2RowGroup, "_processSortEvent");

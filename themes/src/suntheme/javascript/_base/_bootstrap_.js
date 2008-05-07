@@ -36,6 +36,7 @@ if (typeof @JS_NS@ == "undefined") {
          * literals. In particular, register the @JS_NS@ name space.
          *
          * @param {Object} props Key-Value pairs of properties.
+         * @config {Object} ajax Key-Value pairs of Ajax config properties
          * @config {String} modulePath The @JS_NS@ module path.
          * @return {boolean} true if successful; otherwise, false.
          * @private
@@ -48,6 +49,12 @@ if (typeof @JS_NS@ == "undefined") {
 
             // Register module path.
             @JS_NS@._dojo.registerModulePath("@JS_NS@", props.modulePath);
+
+            // Register Ajax module path.
+            if (props.ajax && props.ajax.module && props.ajax.modulePath) {
+                @JS_NS@._dojo.registerModulePath(props.ajax.module,
+                    props.ajax.modulePath);
+            }
 
             // Map custom name space to @JS_NS@.
             var config = @JS_NS@._base.config;
@@ -198,7 +205,7 @@ if (typeof @JS_NS@ == "undefined") {
          * @config {boolean} isDebug Flag indicating debug mode is enabled.
          * @config {boolean} isStyleSheets Include style sheets.
          * @config {boolean} webuiAll Include all widgets.
-         * @config {boolean} webuiJsfx Include Ajax functionality based on JSF Extensions.
+         * @config {boolean} webuiAjax Include Ajax functionality.
          * @return {boolean} true if successful; otherwise, false.
          * @private
          */
@@ -208,15 +215,20 @@ if (typeof @JS_NS@ == "undefined") {
                 return false;
             }
             var bootstrap = @JS_NS@._base.bootstrap;
+            var config = @JS_NS@._base.config;
             var theme = @JS_NS@.theme.common;
             var isDebug = new Boolean(props.isDebug).valueOf();
             var webuiAll = new Boolean(props.webuiAll).valueOf();
-            var webuiJsfx = new Boolean(props.webuiJsfx).valueOf();
+            var webuiAjax = new Boolean(props.webuiAjax).valueOf();
+            var jsfxModule = theme.getProperty("javascript", "jsfxModule");
+            var xhrModule = theme.getProperty("javascript", "xhrModule");
 
             // Get webui file.
-            var file;
-            if (webuiJsfx) {
+            var file;            
+            if (webuiAjax && config.ajax.module == jsfxModule) {
                 file = (webuiAll) ? "webuiJsfxAll" : "webuiJsfx";
+            } else if (webuiAjax && config.ajax.module == xhrModule) {
+                file = (webuiAll) ? "webuiXhrAll" : "webuiXhr";
             } else {
                 file = (webuiAll) ? "webuiAll" : "webui";
             }

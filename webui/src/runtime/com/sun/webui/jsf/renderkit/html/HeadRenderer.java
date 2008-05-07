@@ -126,7 +126,7 @@ public class HeadRenderer extends AbstractRenderer {
             JavaScriptUtilities.setParseOnLoad(head.isParseOnLoad());
             JavaScriptUtilities.setStyleSheet(head.isStyleSheet());
             JavaScriptUtilities.setWebuiAll(head.isWebuiAll());
-            JavaScriptUtilities.setWebuiJsfx(head.isWebuiJsfx());
+            JavaScriptUtilities.setWebuiAjax(head.isWebuiAjax());
 
             // Master stylesheet link.
             Theme theme = ThemeUtilities.getTheme(context);

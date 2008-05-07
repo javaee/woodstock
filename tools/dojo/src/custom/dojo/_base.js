@@ -11,7 +11,7 @@ dojo.requireIf(dojo.isBrowser, "dojo._base.event");
 dojo.requireIf(dojo.isBrowser, "dojo._base.html");
 //dojo.requireIf(dojo.isBrowser, "dojo._base.NodeList"); // Woodstock: Unused.
 dojo.requireIf(dojo.isBrowser, "dojo._base.query"); // Woodstock: Unused.
-//dojo.requireIf(dojo.isBrowser, "dojo._base.xhr"); // Woodstock: Unused.
+dojo.requireIf(dojo.isBrowser, "dojo._base.xhr"); // Woodstock: Unused.
 //dojo.requireIf(dojo.isBrowser, "dojo._base.fx"); // Woodstock: Unused.
 
 (function(){

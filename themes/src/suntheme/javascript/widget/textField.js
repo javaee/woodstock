@@ -99,10 +99,10 @@
  */
 @JS_NS@.widget.textField.event =
         @JS_NS@.widget.textField.prototype.event = {
-  /**
-   * This object contains filter event topics.
-   * @ignore
-   */
+    /**
+     * This object contains filter event topics.
+     * @ignore
+     */
     autoComplete: {
         /** Filter event topic for custom AJAX implementations to listen for. */
         beginTopic: "@JS_NS@_widget_textField_event_autoComplete_begin",
@@ -110,6 +110,7 @@
         /** Filter event topic for custom AJAX implementations to listen for. */
         endTopic: "@JS_NS@_widget_textField_event_autoComplete_end"
     },
+
     /**
      * This object contains refresh event topics.
      * @ignore
@@ -265,9 +266,7 @@
     // Publish the event for custom AJAX implementations to listen for.
     // The implementation of this Ajax call will retrieve the value of the filter
     // and will obtain an updated lookup list ( either locally, or by submit to the server)
-    // Data returned from Ajax call will be pushed into this._listWidget 
-    //
-    // @see javascript.widget.jsfx.autoComplete for default Ajax implementation
+    // Data returned from Ajax call will be pushed into this._listWidget.
     this._publish(@JS_NS@.widget.textField.event.autoComplete.beginTopic, [{
         id: this.id
     }]);

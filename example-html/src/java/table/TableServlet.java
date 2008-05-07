@@ -2,6 +2,7 @@ package table;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import util.AjaxUtil;
 
 /**
  * Servlet to retrieve table data.
@@ -33,17 +36,19 @@ public class TableServlet extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/xml;charset=UTF-8");
+        if (!AjaxUtil.isAjaxRequest(request)) {
+            return;
+        }
+        response.setContentType("text/x-json*;charset=UTF-8");
         response.setHeader("Cache-Control", "no-cache");
         PrintWriter out = response.getWriter();
 
         try {
             JSONObject json = null;
-            String event = request.getParameter("event");
-            if (event.equals("scroll")) {
+            if (AjaxUtil.isAjaxEvent(request, "scroll")) {
                 json = processScrollEvent(request);
-            } else if (event.equals("filter")) {
-                json = processFilterEvent(request);
+            } else if (AjaxUtil.isAjaxEvent(request, "refresh")) {
+                json = processRefreshEvent(request);
             }
             if (json != null) {
                 json.write(out);
@@ -83,24 +88,35 @@ public class TableServlet extends HttpServlet {
     }
 
     /** 
-     * Process filter events.
+     * Process refresh events.
      * 
      * @param request servlet request
      */
-    protected JSONObject processFilterEvent(HttpServletRequest request) 
+    protected JSONObject processRefreshEvent(HttpServletRequest request) 
             throws JSONException {
         Name[] names = data.getNames();
-        String id = request.getParameter("id");
-        String execute = request.getParameter("execute");
-        String filter = null;
+        String id = AjaxUtil.getAjaxString(request, "id");
+        String execute = AjaxUtil.getAjaxString(request, "execute");
+        String value = null;
         if (execute != null) {
+            // Only one ID is used for this example.
             String[] params = execute.split(",");
-            filter = request.getParameter(params[0]);
+
+            // Find input element ID for text field -- id + "_field".
+            Enumeration e = request.getParameterNames();
+            while (e.hasMoreElements()) {
+                String param = (String) e.nextElement();
+                if (param.indexOf(params[0]) != -1) {
+                    value = request.getParameter(param);
+                    break;
+                }
+            }
         }
 
+        // Filter all rows that do not match given value.
         JSONArray rows = new JSONArray();
         for (int i = 0; i < 10 && i < totalRows; i++) {
-            if (filter != null && names[i].getLast().indexOf(filter) != -1) {
+            if (value != null && names[i].getLast().indexOf(value) != -1) {
                 rows.put(getColumns(id, i));
             }
         }
@@ -119,8 +135,8 @@ public class TableServlet extends HttpServlet {
      */
     protected JSONObject processScrollEvent(HttpServletRequest request)
             throws JSONException {
-        String id = request.getParameter("id");
-        int first = new Integer(request.getParameter("first")).intValue();
+        String id = AjaxUtil.getAjaxString(request, "id");
+        int first = AjaxUtil.getAjaxInt(request, "first");
         int maxRows = first + 10;
 
         JSONArray rows = new JSONArray();

@@ -20,12 +20,12 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-@JS_NS@._dojo.provide("@JS_NS@.widget._jsfx.textField");
+@JS_NS@._dojo.provide("@JS_NS@.widget._xhr.textField");
 
 @JS_NS@._dojo.require("@JS_NS@.json");
+@JS_NS@._dojo.require("@JS_NS@.xhr");
 @JS_NS@._dojo.require("@JS_NS@.widget.common");
-@JS_NS@._dojo.require("@JS_NS@.widget._jsfx.common");
-@JS_NS@._dojo.require("@JS_NS@.widget._jsfx.dynaFaces");
+@JS_NS@._dojo.require("@JS_NS@.widget._xhr.common");
 @JS_NS@._dojo.require("@JS_NS@.widget.textField");
 
 /**
@@ -34,14 +34,14 @@
  * @static
  * @private
  */
-@JS_NS@.widget._jsfx.textField = {
+@JS_NS@.widget._xhr.textField = {
     /**
      * This function is used to update widgets with new autoComplete options list.
      *
-     * @param {String} elementId The HTML element Id.
+     * @param {String} id The HTML widget Id.
      * @param {String} content The content returned by the AJAX response.
      * @param {Object} closure The closure argument provided to the Ajax transaction.
-     * @param {Object} xjson The xjson argument provided to the Ajax transaction.
+     * @param {Object} xjson The xjson header provided to the Ajax transaction.
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
@@ -76,23 +76,48 @@
         if (props == null) {
             return false;
         }
-        
-        // Dynamic Faces requires a DOM node as the source property.
-        var domNode = document.getElementById(props.id);
-        
-        // Generate AJAX request using the JSF Extensions library.
-        DynaFaces.fireAjaxTransaction(
-            (domNode) ? domNode : document.forms[0], {
-            execute: props.id,
-            render: props.id,
-            replaceElement: @JS_NS@.widget._jsfx.textField._autoCompleteCallback,
-            xjson: {
-                id : props.id,
-                event: "autocomplete"
-            }
+
+        // Ensure URL has been provided.
+        if (@JS_NS@._base.config.ajax.url == null) {
+            console.error("URL for Ajax transaction not provided.");
+            return false
+        }
+
+        // Get form.
+        var form = @JS_NS@.widget.common._getForm(
+            document.getElementById(props.id));
+        if (form == null) {
+            form = document.forms[0];
+        }
+
+        // Pass through variables.
+        var _id = props.id;
+        var closure = {};
+        var xjson = {
+            id: props.id,
+            event: "autocomplete",
+            execute: props.id
+        };
+
+        // Generate AJAX request.
+        @JS_NS@.xhr.get({
+            error: function(content, ioArgs) {
+                console.error("HTTP status code: ", ioArgs.xhr.status);
+                return content;
+            },
+            form: form,
+            headers: {
+                "X-JSON": @JS_NS@.json.stringify(xjson)
+            },
+            load: function(content, ioArgs) {
+                @JS_NS@.widget._xhr.textField._autoCompleteCallback(_id, content, closure, xjson);
+                return content;
+            },
+            timeout: 5000, // Time in milliseconds
+            url: @JS_NS@._base.config.ajax.url
         });
         return true;
-    },
+    },  
 
     /**
      * This function is used to process validation events with Object literals.
@@ -106,20 +131,45 @@
         if (props == null) {
             return false;
         }
-        
-        // Dynamic Faces requires a DOM node as the source property.
-        var domNode = document.getElementById(props.id);
-        
-        // Generate AJAX request using the JSF Extensions library.
-        DynaFaces.fireAjaxTransaction(
-            (domNode) ? domNode : document.forms[0], {
-            execute: props.id,
-            render: props.id,
-            replaceElement: @JS_NS@.widget._jsfx.textField._validationCallback,
-            xjson: {
-                id : props.id,
-                event: "validate"
-            }
+
+        // Ensure URL has been provided.
+        if (@JS_NS@._base.config.ajax.url == null) {
+            console.error("URL for Ajax transaction not provided.");
+            return false
+        }
+
+        // Get form.
+        var form = @JS_NS@.widget.common._getForm(
+            document.getElementById(props.id));
+        if (form == null) {
+            form = document.forms[0];
+        }
+
+        // Pass through variables.
+        var _id = props.id;
+        var closure = {};
+        var xjson = {
+            id: props.id,
+            event: "validate",
+            execute: props.id
+        };
+
+        // Generate AJAX request.
+        @JS_NS@.xhr.get({
+            error: function(content, ioArgs) {
+                console.error("HTTP status code: ", ioArgs.xhr.status);
+                return content;
+            },
+            form: form,
+            headers: {
+                "X-JSON": @JS_NS@.json.stringify(xjson)
+            },
+            load: function(content, ioArgs) {
+                @JS_NS@.widget._xhr.textField._validationCallback(_id, content, closure, xjson);
+                return content;
+            },
+            timeout: 5000, // Time in milliseconds
+            url: @JS_NS@._base.config.ajax.url
         });
         return true;
     },  
@@ -127,10 +177,10 @@
     /**
      * This function is used to update widgets.
      *
-     * @param {String} elementId The HTML element Id.
+     * @param {String} id The HTML widget Id.
      * @param {String} content The content returned by the AJAX response.
      * @param {Object} closure The closure argument provided to the Ajax transaction.
-     * @param {Object} xjson The xjson argument provided to the Ajax transaction.
+     * @param {Object} xjson The xjson header provided to the Ajax transaction.
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
@@ -167,17 +217,17 @@
         @JS_NS@._dojo.publish(
             @JS_NS@.widget.textField.event.validation.endTopic, [props]);
         return true;
-    }    
+    }
 };
 
 // Listen for Widget events.
 @JS_NS@._dojo.subscribe(@JS_NS@.widget.textField.event.refresh.beginTopic,
-    @JS_NS@.widget._jsfx.common, "_processRefreshEvent");
+    @JS_NS@.widget._xhr.common, "_processRefreshEvent");
 @JS_NS@._dojo.subscribe(@JS_NS@.widget.textField.event.state.beginTopic,
-    @JS_NS@.widget._jsfx.common, "_processStateEvent");
+    @JS_NS@.widget._xhr.common, "_processStateEvent");
 @JS_NS@._dojo.subscribe(@JS_NS@.widget.textField.event.submit.beginTopic,
-    @JS_NS@.widget._jsfx.common, "_processSubmitEvent");
+    @JS_NS@.widget._xhr.common, "_processSubmitEvent");
 @JS_NS@._dojo.subscribe(@JS_NS@.widget.textField.event.validation.beginTopic,
-    @JS_NS@.widget._jsfx.textField, "_processValidationEvent");
+    @JS_NS@.widget._xhr.textField, "_processValidationEvent");
 @JS_NS@._dojo.subscribe(@JS_NS@.widget.textField.event.autoComplete.beginTopic,
-    @JS_NS@.widget._jsfx.textField, "_processAutoCompleteEvent");
+    @JS_NS@.widget._xhr.textField, "_processAutoCompleteEvent");

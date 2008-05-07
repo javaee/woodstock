@@ -137,6 +137,8 @@
     <property name="theme.webui-all.js" value="webui-all.js"/>
     <property name="theme.webui-jsfx.js" value="webui-jsfx.js"/>
     <property name="theme.webui-jsfx-all.js" value="webui-jsfx-all.js"/>
+    <property name="theme.webui-xhr.js" value="webui-xhr.js"/>
+    <property name="theme.webui-xhr-all.js" value="webui-xhr-all.js"/>
     <property name="theme.combined-image" value="combinedImage.png"/>
     <property name="theme.copyright" value="${doc}/copyright.txt"/>
     <property name="theme.bootstrap-js-files" value="bootstrap-js-files"/>
@@ -146,6 +148,9 @@
     <property name="theme.webui-jsfx-js-files" value="webui-jsfx-js-files"/>
     <property name="theme.webui-jsfx-all-js-files"
 	value="webui-jsfx-all-js-files"/>
+    <property name="theme.webui-xhr-js-files" value="webui-xhr-js-files"/>
+    <property name="theme.webui-xhr-all-js-files"
+	value="webui-xhr-all-js-files"/>
 
     <property name="theme.jar-manifest"
 	value="${theme.build-dir}/META-INF/manifest.mf"/>
@@ -153,6 +158,7 @@
     <property name="theme.exclude-js-files" value="exclude-js-files"/>
     <property name="theme.include-js-files" value="include-js-files"/>
     <property name="theme.include-jsfx-files" value="include-jsfx-files"/>
+    <property name="theme.include-xhr-files" value="include-xhr-files"/>
     <property name="theme.js-filter-set" value="js-filter-set"/>
     <property name="theme.jar-file-set" value="jar-file-set"/>
 
@@ -170,8 +176,8 @@
 	<filter token="JS_NS" value="${theme.js-module}"/>
         <filter token="THEME" value="${theme.name}"/>
 	<filter token="THEME_CSS" value="${theme.css-name}"/>
-	<filter token="THEME_VERSION" value="${theme.version}"/>
         <filter token="THEME_PATH" value="/${theme.package-path}"/>
+        <filter token="THEME_VERSION" value="${theme.version}"/>
     </filterset>
 
     <!-- The default file set for the theme jar. -->
@@ -237,6 +243,30 @@
 	<include name="widget/_jsfx/textField.js" />
     </patternset>
 
+    <!-- The XHR files that are commonly included. Additional files
+        may be included via dependencies. -->
+    <patternset id="include-xhr-files">
+	<include name="widget/_xhr/anchor.js" />
+        <include name="widget/_xhr/button.js" />
+	<include name="widget/_xhr/checkbox.js" />
+        <include name="widget/_xhr/checkboxGroup.js" />
+	<include name="widget/_xhr/dropDown.js" />
+	<include name="widget/_xhr/hiddenField.js" />
+	<include name="widget/_xhr/hyperlink.js" />
+	<include name="widget/_xhr/image.js" />
+        <include name="widget/_xhr/imageButton.js" />
+	<include name="widget/_xhr/imageHyperlink.js" />
+        <include name="widget/_xhr/label.js" />
+	<include name="widget/_xhr/listbox.js" />
+	<include name="widget/_xhr/passwordField.js" />
+        <include name="widget/_xhr/resetButton.js" />
+	<include name="widget/_xhr/radioButton.js" />
+        <include name="widget/_xhr/radioButtonGroup.js" />
+	<include name="widget/_xhr/staticText.js" />
+	<include name="widget/_xhr/textArea.js" />
+	<include name="widget/_xhr/textField.js" />
+    </patternset>
+
     <!-- The files that are commonly excluded. -->
     <patternset id="exclude-js-files">
         <exclude name="${theme._dnd_.js}" /> <!-- Temporary build file. -->
@@ -249,6 +279,8 @@
 	<exclude name="webui-all.js"/>
 	<exclude name="webui-jsfx.js"/>
 	<exclude name="webui-jsfx-all.js"/>
+	<exclude name="webui-xhr.js"/>
+	<exclude name="webui-xhr-all.js"/>
     </patternset>
 
     <!-- exclude files for compression dependencies -->
@@ -261,6 +293,8 @@
 	<exclude name="${theme.webui-all.js}"/>
 	<exclude name="${theme.webui-jsfx.js}"/>
 	<exclude name="${theme.webui-jsfx-all.js}"/>
+	<exclude name="${theme.webui-xhr.js}"/>
+	<exclude name="${theme.webui-xhr-all.js}"/>
     </patternset>
 
     <!-- The "compressJavascript" compressed files that need to be
@@ -276,6 +310,8 @@
 	<include name="${theme.webui-all.js}"/>
 	<include name="${theme.webui-jsfx.js}"/>
 	<include name="${theme.webui-jsfx-all.js}"/>
+	<include name="${theme.webui-xhr.js}"/>
+	<include name="${theme.webui-xhr-all.js}"/>
     </patternset>
 
     <!-- "bootstrap.js"
@@ -318,6 +354,7 @@
     <!-- "webui.js" -->
     <patternset id="webui-js-files">
 	<exclude name="widget/_jsfx/**" />
+        <exclude name="widget/_xhr/**" />
         <patternset refid="${theme.include-js-files}"/>
 	<patternset refid="${theme.exclude-js-files}"/>
     </patternset>
@@ -326,6 +363,7 @@
     <patternset id="webui-all-js-files">
         <include name="**/*.js"/>
         <exclude name="widget/_jsfx/**" />
+        <exclude name="widget/_xhr/**" />
 	<patternset refid="${theme.exclude-js-files}"/>
     </patternset>
 
@@ -339,6 +377,21 @@
     <!-- "webui-jsfx-all.js" -->
     <patternset id="webui-jsfx-all-js-files">
 	<include name="**/*.js"/>
+        <exclude name="widget/_xhr/**" />
+        <patternset refid="${theme.exclude-js-files}"/>
+    </patternset>
+
+    <!-- "webui-xhr.js" -->
+    <patternset id="webui-xhr-js-files">
+        <patternset refid="${theme.include-js-files}"/>
+        <patternset refid="${theme.include-xhr-files}"/>
+	<patternset refid="${theme.exclude-js-files}"/>
+    </patternset>
+
+    <!-- "webui-xhr-all.js" -->
+    <patternset id="webui-xhr-all-js-files">
+	<include name="**/*.js"/>
+        <exclude name="widget/_jsfx/**" />
         <patternset refid="${theme.exclude-js-files}"/>
     </patternset>
 
@@ -462,6 +515,8 @@
 	    theme.webui-all.js
 	    theme.webui-jsfx.js
 	    theme.webui-jsfx-all.js
+	    theme.webui-xhr.js
+	    theme.webui-xhr-all.js
 	-->
 	<property name="js-dest-uncmp"
 		location="${theme.build-package-path}/javascript_uncompressed"/>
@@ -504,7 +559,25 @@
 	    <param name="_combined-file_" 
 		value="${js-dest-uncmp}/${theme.webui-jsfx-all.js}"/>
 	</antcall>
-        
+	<antcall target="combineJavascript">
+	    <param name="_to-dir_" value="${js-dest-uncmp}"/>
+	    <param name="_from-dir_" value="${js-src}"/>
+	    <param name="_include-set_"
+		value="${theme.webui-xhr-js-files}"/>
+            <param name="_exclude-set_" value="combined-excludes"/>
+	    <param name="_combined-file_" 
+		value="${js-dest-uncmp}/${theme.webui-xhr.js}"/>
+	</antcall>
+	<antcall target="combineJavascript">
+	    <param name="_to-dir_" value="${js-dest-uncmp}"/>
+	    <param name="_from-dir_" value="${js-src}"/>
+	    <param name="_include-set_"
+		value="${theme.webui-xhr-all-js-files}"/>
+            <param name="_exclude-set_" value="combined-excludes"/>
+	    <param name="_combined-file_" 
+		value="${js-dest-uncmp}/${theme.webui-xhr-all.js}"/>
+	</antcall>
+
         <!-- Call combineJavascript once for theme.dnd.js -->
 	<antcall target="combineJavascript">
 	    <param name="_to-dir_" value="${js-dest-uncmp}"/>
@@ -537,6 +610,7 @@
 	<mkdir dir="${cmp-tmp}/widget"/>
         <mkdir dir="${cmp-tmp}/widget/_base"/>
 	<mkdir dir="${cmp-tmp}/widget/_jsfx"/>
+        <mkdir dir="${cmp-tmp}/widget/_xhr"/>
 
         <!-- Compress JavaScript without base62 encoding. -->
         <antcall target="compressJavascript">
@@ -1409,6 +1483,8 @@
                 <exclude name="${theme.webui-all.js}"/>
                 <exclude name="${theme.webui-jsfx.js}"/>
                 <exclude name="${theme.webui-jsfx-all.js}"/>
+                <exclude name="${theme.webui-xhr.js}"/>
+                <exclude name="${theme.webui-xhr-all.js}"/>
 		<depend targetdir="${__to-dir-loc__}">
 		    <mapper type="glob" from="*" to="*"/>
 		</depend>
@@ -1458,7 +1534,7 @@
 	<uptodate property="jsdoc-uptodate">
 	    <srcfiles dir="${theme.build-package-path}/javascript_uncompressed"
 		includes="**/*.js"
-		excludes="theme/nls/,_dojo/,${theme.bootstrap.js},${theme.dnd.js},${theme.webui.js},${theme.webui-all.js},${theme.webui-jsfx.js},${theme.webui-jsfx-all.js}"/>
+		excludes="theme/nls/,_dojo/,${theme.bootstrap.js},${theme.dnd.js},${theme.webui.js},${theme.webui-all.js},${theme.webui-jsfx.js},${theme.webui-jsfx-all.js}${theme.webui-xhr.js},${theme.webui-xhr-all.js}"/>
 	    <mergemapper to="${jsdocs}/index.html"/>
 	</uptodate>
     </target>
@@ -1484,6 +1560,8 @@
         ${theme.webui-all.js}
         ${theme.webui-jsfx.js}
         ${theme.webui-jsfx-all.js}
+        ${theme.webui-xhr.js}
+        ${theme.webui-xhr-all.js}
     -->
     <target name="jsdoc" if="build-jsdoc" depends="jsdoc-uptodate"
 	    unless="jsdoc-uptodate">
@@ -1511,6 +1589,8 @@
                 <exclude name="${theme.webui-all.js}"/>
                 <exclude name="${theme.webui-jsfx.js}"/>
                 <exclude name="${theme.webui-jsfx-all.js}"/>
+                <exclude name="${theme.webui-xhr.js}"/>
+                <exclude name="${theme.webui-xhr-all.js}"/>
 		<depend targetdir="${__to-dir-loc__}">
 		    <mapper type="glob" from="*" to="*"/>
 		</depend>
@@ -1587,6 +1667,7 @@
 	<touch file="${_js-dest-cmp_}/widget/${theme.everything.sdoc}"/>
         <touch file="${_js-dest-cmp_}/widget/_base/${theme.everything.sdoc}"/>
 	<touch file="${_js-dest-cmp_}/widget/_jsfx/${theme.everything.sdoc}"/>
+        <touch file="${_js-dest-cmp_}/widget/_xhr/${theme.everything.sdoc}"/>
 
         <!-- Create empty sdoc files to prevent NB editor from reading js files. -->
         <touch file="${_js-dest-uncmp_}/${theme.everything.sdoc}"/>
@@ -1598,6 +1679,7 @@
 	<touch file="${_js-dest-uncmp_}/widget/${theme.everything.sdoc}"/>
         <touch file="${_js-dest-uncmp_}/widget/_base/${theme.everything.sdoc}"/>
 	<touch file="${_js-dest-uncmp_}/widget/_jsfx/${theme.everything.sdoc}"/>
+        <touch file="${_js-dest-uncmp_}/widget/_xhr/${theme.everything.sdoc}"/>
     </target>
 
     <!-- ################ theme service targets ################# -->
@@ -1847,6 +1929,7 @@
 	    <filter token="JS_NS" value="${theme.js-module}"/>
             <filter token="THEME" value="${theme.name}"/>
 	    <filter token="THEME_PATH" value="/${theme.package-path}"/>
+            <filter token="THEME_VERSION" value="${theme.version}"/>
 	</filterset>
 
 	<condition property="__theme-filter__"

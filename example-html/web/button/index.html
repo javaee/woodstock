@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">       
     <script type="text/javascript">
       var woodstockConfig = {
+        ajax: { url: "/example-html/ButtonServlet" },
         namespace: "woodstock"
       };
     </script>
@@ -111,7 +112,6 @@
               <span id="ww_id10_span"><script type="text/javascript">
                   woodstock.widget.common.createWidget("ww_id10_span", {
                       "id": "ww_id10",
-                      "primary": true,
                       "value": "Image Button:",
                       "widgetType": "label"
                   });</script></span>
@@ -120,7 +120,6 @@
               <span id="ww_id11_span"><script type="text/javascript">
                   woodstock.widget.common.createWidget("ww_id11_span", {
                       "id": "ww_id11",
-                      "primary": true,
                       "src": "/example-html/images/check_all.gif",
                       "value": "Image Button",
                       "widgetType": "imageButton"
@@ -184,6 +183,25 @@
                       "widgetType": "checkbox"
                   });</script></span>
             </td>
+          </tr>
+          <tr>
+            <td>
+              <span id="ww_id18_span"><script type="text/javascript">
+                  woodstock.widget.common.createWidget("ww_id18_span", {
+                      "id": "ww_id18",
+                      "value": "Enter Dynamic Label:",
+                      "widgetType": "label"
+                  });</script></span>
+            </td>
+            <td>
+              <span id="ww_id19_span"><script type="text/javascript">
+                  woodstock.widget.common.createWidget("ww_id19_span", {
+                      "id": "ww_id19",
+                      "onKeyPress": "setTimeout('updateLabel();', 0);",
+                      "widgetType": "textField"
+                  });</script></span>
+            </td>
+            <td></td>
           </tr>
         </table>
 

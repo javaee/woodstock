@@ -2094,8 +2094,8 @@ if(!@JS_NS@._dojo._hasResource["@JS_NS@._dojo._base"]){ //_hasResource checks ad
  // Woodstock: Unused.
 
 
-//@JS_NS@._dojo.require("@JS_NS@._dojo._base.Deferred"); // Woodstock: Unused.
-//@JS_NS@._dojo.require("@JS_NS@._dojo._base.json"); // Woodstock: Unused.
+// // Woodstock: Unused.
+// // Woodstock: Unused.
  // Woodstock: Unused.
 //@JS_NS@._dojo.require("@JS_NS@._dojo._base.Color"); // Woodstock: Unused.
 
@@ -2103,7 +2103,7 @@ if(!@JS_NS@._dojo._hasResource["@JS_NS@._dojo._base"]){ //_hasResource checks ad
 
 // // Woodstock: Unused.
  // Woodstock: Unused.
-//@JS_NS@._dojo.requireIf(@JS_NS@._dojo.isBrowser, "@JS_NS@._dojo._base.xhr"); // Woodstock: Unused.
+ // Woodstock: Unused.
 //@JS_NS@._dojo.requireIf(@JS_NS@._dojo.isBrowser, "@JS_NS@._dojo._base.fx"); // Woodstock: Unused.
 
 (function(){
@@ -5329,6 +5329,1266 @@ if(!@JS_NS@._dojo._hasResource["@JS_NS@._dojo._base.query"]){ //_hasResource che
 		}
 		return tnl;
 	}
+})();
+
+}
+
+if(!@JS_NS@._dojo._hasResource["@JS_NS@._dojo._base.Deferred"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
+@JS_NS@._dojo._hasResource["@JS_NS@._dojo._base.Deferred"] = true;
+@JS_NS@._dojo.provide("@JS_NS@._dojo._base.Deferred");
+
+
+@JS_NS@._dojo.Deferred = function(/*Function?*/ canceller){
+	// summary:
+	//		Encapsulates a sequence of callbacks in response to a value that
+	//		may not yet be available.  This is modeled after the Deferred class
+	//		from Twisted <http://twistedmatrix.com>.
+	// description:
+	//		JavaScript has no threads, and even if it did, threads are hard.
+	//		Deferreds are a way of abstracting non-blocking events, such as the
+	//		final response to an XMLHttpRequest. Deferreds create a promise to
+	//		return a response a some point in the future and an easy way to
+	//		register your interest in receiving that response.
+	//
+	//		The most important methods for Deffered users are:
+	//
+	//			* addCallback(handler)
+	//			* addErrback(handler)
+	//			* callback(result)
+	//			* errback(result)
+	//
+	//		In general, when a function returns a Deferred, users then "fill
+	//		in" the second half of the contract by registering callbacks and
+	//		error handlers. You may register as many callback and errback
+	//		handlers as you like and they will be executed in the order
+	//		registered when a result is provided. Usually this result is
+	//		provided as the result of an asynchronous operation. The code
+	//		"managing" the Deferred (the code that made the promise to provide
+	//		an answer later) will use the callback() and errback() methods to
+	//		communicate with registered listeners about the result of the
+	//		operation. At this time, all registered result handlers are called
+	//		*with the most recent result value*.
+	//
+	//		Deferred callback handlers are treated as a chain, and each item in
+	//		the chain is required to return a value that will be fed into
+	//		successive handlers. The most minimal callback may be registered
+	//		like this:
+	//
+	//		|	var d = new @JS_NS@._dojo.Deferred();
+	//		|	d.addCallback(function(result){ return result; });
+	//
+	//		Perhaps the most common mistake when first using Deferreds is to
+	//		forget to return a value (in most cases, the value you were
+	//		passed).
+	//
+	//		The sequence of callbacks is internally represented as a list of
+	//		2-tuples containing the callback/errback pair.  For example, the
+	//		following call sequence:
+	//		
+	//		|	var d = new @JS_NS@._dojo.Deferred();
+	//		|	d.addCallback(myCallback);
+	//		|	d.addErrback(myErrback);
+	//		|	d.addBoth(myBoth);
+	//		|	d.addCallbacks(myCallback, myErrback);
+	//
+	//		is translated into a Deferred with the following internal
+	//		representation:
+	//
+	//		|	[
+	//		|		[myCallback, null],
+	//		|		[null, myErrback],
+	//		|		[myBoth, myBoth],
+	//		|		[myCallback, myErrback]
+	//		|	]
+	//
+	//		The Deferred also keeps track of its current status (fired).  Its
+	//		status may be one of three things:
+	//
+	//			* -1: no value yet (initial condition)
+	//			* 0: success
+	//			* 1: error
+	//	
+	//		A Deferred will be in the error state if one of the following three
+	//		conditions are met:
+	//
+	//			1. The result given to callback or errback is "instanceof" Error
+	//			2. The previous callback or errback raised an exception while
+	//			   executing
+	//			3. The previous callback or errback returned a value
+	//			   "instanceof" Error
+	//
+	//		Otherwise, the Deferred will be in the success state. The state of
+	//		the Deferred determines the next element in the callback sequence
+	//		to run.
+	//
+	//		When a callback or errback occurs with the example deferred chain,
+	//		something equivalent to the following will happen (imagine
+	//		that exceptions are caught and returned):
+	//
+	//		|	// d.callback(result) or d.errback(result)
+	//		|	if(!(result instanceof Error)){
+	//		|		result = myCallback(result);
+	//		|	}
+	//		|	if(result instanceof Error){
+	//		|		result = myErrback(result);
+	//		|	}
+	//		|	result = myBoth(result);
+	//		|	if(result instanceof Error){
+	//		|		result = myErrback(result);
+	//		|	}else{
+	//		|		result = myCallback(result);
+	//		|	}
+	//
+	//		The result is then stored away in case another step is added to the
+	//		callback sequence.	Since the Deferred already has a value
+	//		available, any new callbacks added will be called immediately.
+	//
+	//		There are two other "advanced" details about this implementation
+	//		that are useful:
+	//
+	//		Callbacks are allowed to return Deferred instances themselves, so
+	//		you can build complicated sequences of events with ease.
+	//
+	//		The creator of the Deferred may specify a canceller.  The canceller
+	//		is a function that will be called if Deferred.cancel is called
+	//		before the Deferred fires. You can use this to implement clean
+	//		aborting of an XMLHttpRequest, etc. Note that cancel will fire the
+	//		deferred with a CancelledError (unless your canceller returns
+	//		another kind of error), so the errbacks should be prepared to
+	//		handle that error for cancellable Deferreds.
+	// example:
+	//	|	var deferred = new @JS_NS@._dojo.Deferred();
+	//	|	setTimeout(function(){ deferred.callback({success: true}); }, 1000);
+	//	|	return deferred;
+	// example:
+	//		Deferred objects are often used when making code asynchronous. It
+	//		may be easiest to write functions in a synchronous manner and then
+	//		split code using a deferred to trigger a response to a long-lived
+	//		operation. For example, instead of register a callback function to
+	//		denote when a rendering operation completes, the function can
+	//		simply return a deferred:
+	//
+	//		|	// callback style:
+	//		|	function renderLotsOfData(data, callback){
+	//		|		var success = false
+	//		|		try{
+	//		|			for(var x in data){
+	//		|				renderDataitem(data[x]);
+	//		|			}
+	//		|			success = true;
+	//		|		}catch(e){ }
+	//		|		if(callback){
+	//		|			callback(success);
+	//		|		}
+	//		|	}
+	//
+	//		|	// using callback style
+	//		|	renderLotsOfData(someDataObj, function(success){
+	//		|		// handles success or failure
+	//		|		if(!success){
+	//		|			promptUserToRecover();
+	//		|		}
+	//		|	});
+	//		|	// NOTE: no way to add another callback here!!
+	// example:
+	//		Using a Deferred doesn't simplify the sending code any, but it
+	//		provides a standard interface for callers and senders alike,
+	//		providing both with a simple way to service multiple callbacks for
+	//		an operation and freeing both sides from worrying about details
+	//		such as "did this get called already?". With Deferreds, new
+	//		callbacks can be added at any time.
+	//
+	//		|	// Deferred style:
+	//		|	function renderLotsOfData(data){
+	//		|		var d = new @JS_NS@._dojo.Deferred();
+	//		|		try{
+	//		|			for(var x in data){
+	//		|				renderDataitem(data[x]);
+	//		|			}
+	//		|			d.callback(true);
+	//		|		}catch(e){ 
+	//		|			d.errback(new Error("rendering failed"));
+	//		|		}
+	//		|		return d;
+	//		|	}
+	//
+	//		|	// using Deferred style
+	//		|	renderLotsOfData(someDataObj).addErrback(function(){
+	//		|		promptUserToRecover();
+	//		|	});
+	//		|	// NOTE: addErrback and addCallback both return the Deferred
+	//		|	// again, so we could chain adding callbacks or save the
+	//		|	// deferred for later should we need to be notified again.
+	// example:
+	//		In this example, renderLotsOfData is syncrhonous and so both
+	//		versions are pretty artificial. Putting the data display on a
+	//		timeout helps show why Deferreds rock:
+	//
+	//		|	// Deferred style and async func
+	//		|	function renderLotsOfData(data){
+	//		|		var d = new @JS_NS@._dojo.Deferred();
+	//		|		setTimeout(function(){
+	//		|			try{
+	//		|				for(var x in data){
+	//		|					renderDataitem(data[x]);
+	//		|				}
+	//		|				d.callback(true);
+	//		|			}catch(e){ 
+	//		|				d.errback(new Error("rendering failed"));
+	//		|			}
+	//		|		}, 100);
+	//		|		return d;
+	//		|	}
+	//
+	//		|	// using Deferred style
+	//		|	renderLotsOfData(someDataObj).addErrback(function(){
+	//		|		promptUserToRecover();
+	//		|	});
+	//
+	//		Note that the caller doesn't have to change his code at all to
+	//		handle the asynchronous case.
+
+	this.chain = [];
+	this.id = this._nextId();
+	this.fired = -1;
+	this.paused = 0;
+	this.results = [null, null];
+	this.canceller = canceller;
+	this.silentlyCancelled = false;
+};
+
+@JS_NS@._dojo.extend(@JS_NS@._dojo.Deferred, {
+	/*
+	makeCalled: function(){
+		// summary:
+		//		returns a new, empty deferred, which is already in the called
+		//		state. Calling callback() or errback() on this deferred will
+		//		yeild an error and adding new handlers to it will result in
+		//		them being called immediately.
+		var deferred = new @JS_NS@._dojo.Deferred();
+		deferred.callback();
+		return deferred;
+	},
+
+	toString: function(){
+		var state;
+		if(this.fired == -1){
+			state = 'unfired';
+		}else{
+			state = this.fired ? 'success' : 'error';
+		}
+		return 'Deferred(' + this.id + ', ' + state + ')';
+	},
+	*/
+
+	_nextId: (function(){
+		var n = 1;
+		return function(){ return n++; };
+	})(),
+
+	cancel: function(){
+		// summary:	
+		//		Cancels a Deferred that has not yet received a value, or is
+		//		waiting on another Deferred as its value.
+		// description:
+		//		If a canceller is defined, the canceller is called. If the
+		//		canceller did not return an error, or there was no canceller,
+		//		then the errback chain is started.
+		var err;
+		if(this.fired == -1){
+			if(this.canceller){
+				err = this.canceller(this);
+			}else{
+				this.silentlyCancelled = true;
+			}
+			if(this.fired == -1){
+				if(!(err instanceof Error)){
+					var res = err;
+					err = new Error("Deferred Cancelled");
+					err.dojoType = "cancel";
+					err.cancelResult = res;
+				}
+				this.errback(err);
+			}
+		}else if(	(this.fired == 0) &&
+					(this.results[0] instanceof @JS_NS@._dojo.Deferred)
+		){
+			this.results[0].cancel();
+		}
+	},
+			
+
+	_resback: function(res){
+		// summary:
+		//		The private primitive that means either callback or errback
+		this.fired = ((res instanceof Error) ? 1 : 0);
+		this.results[this.fired] = res;
+		this._fire();
+	},
+
+	_check: function(){
+		if(this.fired != -1){
+			if(!this.silentlyCancelled){
+				throw new Error("already called!");
+			}
+			this.silentlyCancelled = false;
+			return;
+		}
+	},
+
+	callback: function(res){
+		// summary:	Begin the callback sequence with a non-error value.
+		
+		/*
+		callback or errback should only be called once on a given
+		Deferred.
+		*/
+		this._check();
+		this._resback(res);
+	},
+
+	errback: function(/*Error*/res){
+		// summary: 
+		//		Begin the callback sequence with an error result.
+		this._check();
+		if(!(res instanceof Error)){
+			res = new Error(res);
+		}
+		this._resback(res);
+	},
+
+	addBoth: function(/*Function||Object*/cb, /*Optional, String*/cbfn){
+		// summary:
+		//		Add the same function as both a callback and an errback as the
+		//		next element on the callback sequence.	This is useful for code
+		//		that you want to guarantee to run, e.g. a finalizer.
+		var enclosed = @JS_NS@._dojo.hitch(cb, cbfn);
+		if(arguments.length > 2){
+			enclosed = @JS_NS@._dojo.partial(enclosed, arguments, 2);
+		}
+		return this.addCallbacks(enclosed, enclosed);
+	},
+
+	addCallback: function(cb, cbfn){
+		// summary: 
+		//		Add a single callback to the end of the callback sequence.
+		var enclosed = @JS_NS@._dojo.hitch(cb, cbfn);
+		if(arguments.length > 2){
+			enclosed = @JS_NS@._dojo.partial(enclosed, arguments, 2);
+		}
+		return this.addCallbacks(enclosed, null);
+	},
+
+	addErrback: function(cb, cbfn){
+		// summary: 
+		//		Add a single callback to the end of the callback sequence.
+		var enclosed = @JS_NS@._dojo.hitch(cb, cbfn);
+		if(arguments.length > 2){
+			enclosed = @JS_NS@._dojo.partial(enclosed, arguments, 2);
+		}
+		return this.addCallbacks(null, enclosed);
+	},
+
+	addCallbacks: function(cb, eb){
+		// summary: 
+		//		Add separate callback and errback to the end of the callback
+		//		sequence.
+		this.chain.push([cb, eb])
+		if(this.fired >= 0){
+			this._fire();
+		}
+		return this;
+	},
+
+	_fire: function(){
+		// summary: 
+		//		Used internally to exhaust the callback sequence when a result
+		//		is available.
+		var chain = this.chain;
+		var fired = this.fired;
+		var res = this.results[fired];
+		var self = this;
+		var cb = null;
+		while(
+			(chain.length > 0) &&
+			(this.paused == 0)
+		){
+			// Array
+			var f = chain.shift()[fired];
+			if(!f){ continue; }
+			try{
+				res = f(res);
+				fired = ((res instanceof Error) ? 1 : 0);
+				if(res instanceof @JS_NS@._dojo.Deferred){
+					cb = function(res){
+						self._resback(res);
+						// inlined from _pause()
+						self.paused--;
+						if(
+							(self.paused == 0) && 
+							(self.fired >= 0)
+						){
+							self._fire();
+						}
+					}
+					// inlined from _unpause
+					this.paused++;
+				}
+			}catch(err){
+				console.debug(err);
+				fired = 1;
+				res = err;
+			}
+		}
+		this.fired = fired;
+		this.results[fired] = res;
+		if((cb)&&(this.paused)){
+			// this is for "tail recursion" in case the dependent
+			// deferred is already fired
+			res.addBoth(cb);
+		}
+	}
+});
+
+}
+
+if(!@JS_NS@._dojo._hasResource["@JS_NS@._dojo._base.json"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
+@JS_NS@._dojo._hasResource["@JS_NS@._dojo._base.json"] = true;
+@JS_NS@._dojo.provide("@JS_NS@._dojo._base.json");
+
+@JS_NS@._dojo.fromJson = function(/*String*/ json){
+	// summary:
+	// 		evaluates the passed string-form of a JSON object
+	// json: 
+	//		a string literal of a JSON item, for instance:
+	//			'{ "foo": [ "bar", 1, { "baz": "thud" } ] }'
+	// return:
+	//		An object, the result of the evaluation
+
+	// FIXME: should this accept mozilla's optional second arg?
+	try {
+		return eval("(" + json + ")");
+	}catch(e){
+		console.debug(e);
+		return json;
+	}
+}
+
+@JS_NS@._dojo._escapeString = function(/*String*/str){
+	//summary:
+	//		Adds escape sequences for non-visual characters, double quote and
+	//		backslash and surrounds with double quotes to form a valid string
+	//		literal.
+	return ('"' + str.replace(/(["\\])/g, '\\$1') + '"'
+		).replace(/[\f]/g, "\\f"
+		).replace(/[\b]/g, "\\b"
+		).replace(/[\n]/g, "\\n"
+		).replace(/[\t]/g, "\\t"
+		).replace(/[\r]/g, "\\r"); // string
+}
+
+@JS_NS@._dojo.toJsonIndentStr = "\t";
+@JS_NS@._dojo.toJson = function(/*Object*/ it, /*Boolean?*/ prettyPrint, /*String?*/ _indentStr){
+	// summary:
+	//		Create a JSON serialization of an object. 
+	//		Note that this doesn't check for infinite recursion, so don't do that!
+	//
+	// it:
+	//		an object to be serialized. Objects may define their own
+	//		serialization via a special "__json__" or "json" function
+	//		property. If a specialized serializer has been defined, it will
+	//		be used as a fallback.
+	//
+	// prettyPrint:
+	//		if true, we indent objects and arrays to make the output prettier.
+	//		The variable @JS_NS@._dojo.toJsonIndentStr is used as the indent string 
+	//		-- to use something other than the default (tab), 
+	//		change that variable before calling @JS_NS@._dojo.toJson().
+	//
+	// _indentStr:
+	//		private variable for recursive calls when pretty printing, do not use.
+	//		
+	// return:
+	//		a String representing the serialized version of the passed object.
+
+	_indentStr = _indentStr || "";
+	var nextIndent = (prettyPrint ? _indentStr + @JS_NS@._dojo.toJsonIndentStr : "");
+	var newLine = (prettyPrint ? "\n" : "");
+	var objtype = typeof(it);
+	if(objtype == "undefined"){
+		return "undefined";
+	}else if((objtype == "number")||(objtype == "boolean")){
+		return it + "";
+	}else if(it === null){
+		return "null";
+	}
+	if(@JS_NS@._dojo.isString(it)){ 
+		return @JS_NS@._dojo._escapeString(it); 
+	}
+	if(it.nodeType && it.cloneNode){ // isNode
+		return ""; // FIXME: would something like outerHTML be better here?
+	}
+	// recurse
+	var recurse = arguments.callee;
+	// short-circuit for objects that support "json" serialization
+	// if they return "self" then just pass-through...
+	var newObj;
+	if(typeof it.__json__ == "function"){
+		newObj = it.__json__();
+		if(it !== newObj){
+			return recurse(newObj, prettyPrint, nextIndent);
+		}
+	}
+	if(typeof it.json == "function"){
+		newObj = it.json();
+		if(it !== newObj){
+			return recurse(newObj, prettyPrint, nextIndent);
+		}
+	}
+	// array
+	if(@JS_NS@._dojo.isArray(it)){
+		var res = [];
+		for(var i = 0; i < it.length; i++){
+			var val = recurse(it[i], prettyPrint, nextIndent);
+			if(typeof(val) != "string"){
+				val = "undefined";
+			}
+			res.push(newLine + nextIndent + val);
+		}
+		return "[" + res.join(", ") + newLine + _indentStr + "]";
+	}
+	/*
+	// look in the registry
+	try {
+		window.o = it;
+		newObj = @JS_NS@._dojo.json.jsonRegistry.match(it);
+		return recurse(newObj, prettyPrint, nextIndent);
+	}catch(e){
+		// console.debug(e);
+	}
+	// it's a function with no adapter, skip it
+	*/
+	if(objtype == "function"){
+		return null;
+	}
+	// generic object code path
+	var output = [];
+	for(var key in it){
+		var keyStr;
+		if(typeof(key) == "number"){
+			keyStr = '"' + key + '"';
+		}else if(typeof(key) == "string"){
+			keyStr = @JS_NS@._dojo._escapeString(key);
+		}else{
+			// skip non-string or number keys
+			continue;
+		}
+		val = recurse(it[key], prettyPrint, nextIndent);
+		if(typeof(val) != "string"){
+			// skip non-serializable values
+			continue;
+		}
+		// FIXME: use += on Moz!!
+		//	 MOW NOTE: using += is a pain because you have to account for the dangling comma...
+		output.push(newLine + nextIndent + keyStr + ": " + val);
+	}
+	return "{" + output.join(", ") + newLine + _indentStr + "}";
+}
+
+}
+
+if(!@JS_NS@._dojo._hasResource["@JS_NS@._dojo._base.xhr"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
+@JS_NS@._dojo._hasResource["@JS_NS@._dojo._base.xhr"] = true;
+@JS_NS@._dojo.provide("@JS_NS@._dojo._base.xhr");
+
+
+
+
+
+(function(){
+	var _d = @JS_NS@._dojo;
+	function setValue(/*Object*/obj, /*String*/name, /*String*/value){
+		//summary:
+		//		For the nameed property in object, set the value. If a value
+		//		already exists and it is a string, convert the value to be an
+		//		array of values.
+		var val = obj[name];
+		if(_d.isString(val)){
+			obj[name] = [val, value];
+		}else if(_d.isArray(val)){
+			val.push(value);
+		}else{
+			obj[name] = value;
+		}
+	}
+
+	@JS_NS@._dojo.formToObject = function(/*DOMNode||String*/ formNode){
+		// summary:
+		//		@JS_NS@._dojo.formToObject returns the values encoded in an HTML form as
+		//		string properties in an object which it then returns. Disabled form
+		//		elements, buttons, and other non-value form elements are skipped.
+		//		Multi-select elements are returned as an array of string values.
+		// description:
+		//		This form:
+		//
+		//			<form id="test_form">
+		//				<input type="text" name="blah" value="blah">
+		//				<input type="text" name="no_value" value="blah" disabled>
+		//				<input type="button" name="no_value2" value="blah">
+		//				<select type="select" multiple name="multi" size="5">
+		//					<option value="blah">blah</option>
+		//					<option value="thud" selected>thud</option>
+		//					<option value="thonk" selected>thonk</option>
+		//				</select>
+		//			</form>
+		//
+		//		yields this object structure as the result of a call to
+		//		formToObject():
+		//
+		//			{ 
+		//				blah: "blah",
+		//				multi: [
+		//					"thud",
+		//					"thonk"
+		//				]
+		//			};
+	
+		var ret = {};
+		var iq = "input:not([type=file]):not([type=submit]):not([type=image]):not([type=reset]):not([type=button]), select, textarea";
+		_d.query(iq, formNode).filter(function(node){
+			return (!node.disabled);
+		}).forEach(function(item){
+			var _in = item.name;
+			var type = (item.type||"").toLowerCase();
+			if(type == "radio" || type == "checkbox"){
+				if(item.checked){ setValue(ret, _in, item.value); }
+			}else if(item.multiple){
+				ret[_in] = [];
+				_d.query("option", item).forEach(function(opt){
+					if(opt.selected){
+						setValue(ret, _in, opt.value);
+					}
+				});
+			}else{ 
+				setValue(ret, _in, item.value);
+				if(type == "image"){
+					ret[_in+".x"] = ret[_in+".y"] = ret[_in].x = ret[_in].y = 0;
+				}
+			}
+		});
+		return ret; // Object
+	}
+
+	@JS_NS@._dojo.objectToQuery = function(/*Object*/ map){
+		//	summary:
+		//		takes a key/value mapping object and returns a string representing
+		//		a URL-encoded version of that object.
+		//	example:
+		//		this object:
+		//
+		//		|	{ 
+		//		|		blah: "blah",
+		//		|		multi: [
+		//		|			"thud",
+		//		|			"thonk"
+		//		|		]
+		//		|	};
+		//
+		//	yeilds the following query string:
+		//	
+		//	|	"blah=blah&multi=thud&multi=thonk"
+
+
+		// FIXME: need to implement encodeAscii!!
+		var ec = encodeURIComponent;
+		var ret = "";
+		var backstop = {};
+		for(var x in map){
+			if(map[x] != backstop[x]){
+				if(_d.isArray(map[x])){
+					for(var y=0; y<map[x].length; y++){
+						ret += ec(x) + "=" + ec(map[x][y]) + "&";
+					}
+				}else{
+					ret += ec(x) + "=" + ec(map[x]) + "&";
+				}
+			}
+		}
+		if(ret.length && ret.charAt(ret.length-1) == "&"){
+			ret = ret.substr(0, ret.length-1);
+		}
+		return ret; // String
+	}
+
+	@JS_NS@._dojo.formToQuery = function(/*DOMNode||String*/ formNode){
+		// summary:
+		//		return URL-encoded string representing the form passed as either a
+		//		node or string ID identifying the form to serialize
+		return _d.objectToQuery(_d.formToObject(formNode)); // String
+	}
+
+	@JS_NS@._dojo.formToJson = function(/*DOMNode||String*/ formNode, /*Boolean?*/prettyPrint){
+		// summary:
+		//		return a serialized JSON string from a form node or string
+		//		ID identifying the form to serialize
+		return _d.toJson(_d.formToObject(formNode), prettyPrint); // String
+	}
+
+	@JS_NS@._dojo.queryToObject = function(/*String*/ str){
+		// summary:
+		//		returns an object representing a de-serialized query section of a
+		//		URL. Query keys with multiple values are returned in an array.
+		// description:
+		//		This string:
+		//
+		//			"foo=bar&foo=baz&thinger=%20spaces%20=blah&zonk=blarg&"
+		//		
+		//		returns this object structure:
+		//
+		//			{
+		//				foo: [ "bar", "baz" ],
+		//				thinger: " spaces =blah",
+		//				zonk: "blarg"
+		//			}
+		//	
+		//		Note that spaces and other urlencoded entities are correctly
+		//		handled.
+
+		// FIXME: should we grab the URL string if we're not passed one?
+		var ret = {};
+		var qp = str.split("&");
+		var dc = decodeURIComponent;
+		_d.forEach(qp, function(item){
+			if(item.length){
+				var parts = item.split("=");
+				var name = dc(parts.shift());
+				var val = dc(parts.join("="));
+				if(_d.isString(ret[name])){
+					ret[name] = [ret[name]];
+				}
+				if(_d.isArray(ret[name])){
+					ret[name].push(val);
+				}else{
+					ret[name] = val;
+				}
+			}
+		});
+		return ret; // Object
+	}
+
+	/*
+		from refactor.txt:
+
+		all bind() replacement APIs take the following argument structure:
+
+			{
+				url: "blah.html",
+
+				// all below are optional, but must be supported in some form by
+				// every IO API
+				timeout: 1000, // milliseconds
+				handleAs: "text", // replaces the always-wrong "mimetype"
+				content: { 
+					key: "value"
+				},
+
+				// browser-specific, MAY be unsupported
+				sync: true, // defaults to false
+				form: @JS_NS@._dojo.byId("someForm") 
+			}
+	*/
+
+	// need to block async callbacks from snatching this thread as the result
+	// of an async callback might call another sync XHR, this hangs khtml forever
+	// must checked by watchInFlight()
+
+	@JS_NS@._dojo._blockAsync = false;
+
+	@JS_NS@._dojo._contentHandlers = {
+		"text": function(xhr){ return xhr.responseText; },
+		"json": function(xhr){
+			if(!@JS_NS@._base.config._djConfig.usePlainJson){
+				console.debug("Consider using mimetype:text/json-comment-filtered"
+					+ " to avoid potential security issues with JSON endpoints"
+					+ " (use @JS_NS@._base.config._djConfig.usePlainJson=true to turn off this message)");
+			}
+			return _d.fromJson(xhr.responseText);
+		},
+		"json-comment-filtered": function(xhr){ 
+			// NOTE: we provide the json-comment-filtered option as one solution to
+			// the "JavaScript Hijacking" issue noted by Fortify and others. It is
+			// not appropriate for all circumstances.
+
+			var value = xhr.responseText;
+			var cStartIdx = value.indexOf("\/*");
+			var cEndIdx = value.lastIndexOf("*\/");
+			if(cStartIdx == -1 || cEndIdx == -1){
+				throw new Error("JSON was not comment filtered");
+			}
+			return _d.fromJson(value.substring(cStartIdx+2, cEndIdx));
+		},
+		"javascript": function(xhr){ 
+			// FIXME: try Moz and IE specific eval variants?
+			return _d.eval(xhr.responseText);
+		},
+		"xml": function(xhr){ 
+			if(_d.isIE && !xhr.responseXML){
+				_d.forEach(["MSXML2", "Microsoft", "MSXML", "MSXML3"], function(i){
+					try{
+						var doc = new ActiveXObject(prefixes[i]+".XMLDOM");
+						doc.async = false;
+						doc.loadXML(xhr.responseText);
+						return doc;	//	DOMDocument
+					}catch(e){ /* squelch */ };
+				});
+			}else{
+				return xhr.responseXML;
+			}
+		}
+	};
+
+	@JS_NS@._dojo._contentHandlers["json-comment-optional"] = function(xhr){
+		var handlers = _d._contentHandlers;
+		try{
+			return handlers["json-comment-filtered"](xhr);
+		}catch(e){
+			return handlers["json"](xhr);
+		}
+	};
+
+	/*=====
+	@JS_NS@._dojo.__ioArgs = function(kwArgs){
+		//	url: String
+		//		URL to server endpoint.
+		//	content: Object?
+		//		Contains properties with string values. These
+		//		properties will be serialized as name1=value2 and
+		//		passed in the request.
+		//	timeout: Integer?
+		//		Milliseconds to wait for the response. If this time
+		//		passes, the then error callbacks are called.
+		//	form: DOMNode?
+		//		DOM node for a form. Used to extract the form values
+		//		and send to the server.
+		//	preventCache: Boolean?
+		//		Default is false. If true, then a
+		//		"@JS_NS@._dojo.preventCache" parameter is sent in the request
+		//		with a value that changes with each request
+		//		(timestamp). Useful only with GET-type requests.
+		//	handleAs: String?
+		//		Acceptable values depend on the type of IO
+		//		transport (see specific IO calls for more information).
+		//	load: Function?
+		//		function(response, ioArgs){}. response is an Object, ioArgs
+		//		is of type @JS_NS@._dojo.__ioCallbackArgs. The load function will be
+		//		called on a successful response.
+		//	error: Function?
+		//		function(response, ioArgs){}. response is an Object, ioArgs
+		//		is of type @JS_NS@._dojo.__ioCallbackArgs. The error function will
+		//		be called in an error case. 
+		//	handle: Function
+		//		function(response, ioArgs){}. response is an Object, ioArgs
+		//		is of type @JS_NS@._dojo.__ioCallbackArgs. The handle function will
+		//		be called in either the successful or error case.  For
+		//		the load, error and handle functions, the ioArgs object
+		//		will contain the following properties: 
+	}
+	=====*/
+
+	/*=====
+	@JS_NS@._dojo.__ioCallbackArgs = function(kwArgs){
+		//	args: Object
+		//		the original object argument to the IO call.
+		//	xhr: XMLHttpRequest
+		//		For XMLHttpRequest calls only, the
+		//		XMLHttpRequest object that was used for the
+		//		request.
+		//	url: String
+		//		The final URL used for the call. Many times it
+		//		will be different than the original args.url
+		//		value.
+		//	query: String
+		//		For non-GET requests, the
+		//		name1=value1&name2=value2 parameters sent up in
+		//		the request.
+		//	handleAs: String
+		//		The final indicator on how the response will be
+		//		handled.
+		//	id: String
+		//		For @JS_NS@._dojo.io.script calls only, the internal
+		//		script ID used for the request.
+		//	canDelete: Boolean
+		//		For @JS_NS@._dojo.io.script calls only, indicates
+		//		whether the script tag that represents the
+		//		request can be deleted after callbacks have
+		//		been called. Used internally to know when
+		//		cleanup can happen on JSONP-type requests.
+		//	json: Object
+		//		For @JS_NS@._dojo.io.script calls only: holds the JSON
+		//		response for JSONP-type requests. Used
+		//		internally to hold on to the JSON responses.
+		//		You should not need to access it directly --
+		//		the same object should be passed to the success
+		//		callbacks directly.
+	}
+	=====*/
+
+
+
+	@JS_NS@._dojo._ioSetArgs = function(/*@JS_NS@._dojo.__ioArgs*/args,
+			/*Function*/canceller,
+			/*Function*/okHandler,
+			/*Function*/errHandler){
+		//	summary: 
+		//		sets up the Deferred and ioArgs property on the Deferred so it
+		//		can be used in an io call.
+		//	args:
+		//		The args object passed into the public io call. Recognized properties on
+		//		the args object are:
+		//	canceller:
+		//		The canceller function used for the Deferred object. The function
+		//		will receive one argument, the Deferred object that is related to the
+		//		canceller.
+		//	okHandler:
+		//		The first OK callback to be registered with Deferred. It has the opportunity
+		//		to transform the OK response. It will receive one argument -- the Deferred
+		//		object returned from this function.
+		//	errHandler:
+		//		The first error callback to be registered with Deferred. It has the opportunity
+		//		to do cleanup on an error. It will receive two arguments: error (the 
+		//		Error object) and dfd, the Deferred object returned from this function.
+
+		var ioArgs = {args: args, url: args.url};
+
+		//Get values from form if requestd.
+		var formObject = null;
+		if(args.form){ 
+			var form = _d.byId(args.form);
+			//IE requires going through getAttributeNode instead of just getAttribute in some form cases, 
+			//so use it for all.  See #2844
+			var actnNode = form.getAttributeNode("action");
+			ioArgs.url = ioArgs.url || (actnNode ? actnNode.value : null); 
+			formObject = _d.formToObject(form);
+		}
+
+		// set up the query params
+		var miArgs = [{}];
+	
+		if(formObject){
+			// potentially over-ride url-provided params w/ form values
+			miArgs.push(formObject);
+		}
+		if(args.content){
+			// stuff in content over-rides what's set by form
+			miArgs.push(args.content);
+		}
+		if(args.preventCache){
+			miArgs.push({"@JS_NS@._dojo.preventCache": new Date().valueOf()});
+		}
+		ioArgs.query = _d.objectToQuery(_d.mixin.apply(null, miArgs));
+	
+		// .. and the real work of getting the deferred in order, etc.
+		ioArgs.handleAs = args.handleAs || "text";
+		var d = new _d.Deferred(canceller);
+		d.addCallbacks(okHandler, function(error){
+			return errHandler(error, d);
+		});
+
+		//Support specifying load, error and handle callback functions from the args.
+		//For those callbacks, the "this" object will be the args object.
+		//The callbacks will get the deferred result value as the
+		//first argument and the ioArgs object as the second argument.
+		var ld = args.load;
+		if(ld && _d.isFunction(ld)){
+			d.addCallback(function(value){
+				return ld.call(args, value, ioArgs);
+			});
+		}
+		var err = args.error;
+		if(err && _d.isFunction(err)){
+			d.addErrback(function(value){
+				return err.call(args, value, ioArgs);
+			});
+		}
+		var handle = args.handle;
+		if(handle && _d.isFunction(handle)){
+			d.addBoth(function(value){
+				return handle.call(args, value, ioArgs);
+			});
+		}
+		
+		d.ioArgs = ioArgs;
+	
+		// FIXME: need to wire up the xhr object's abort method to something
+		// analagous in the Deferred
+		return d;
+	}
+
+	var _deferredCancel = function(/*Deferred*/dfd){
+		//summary: canceller function for @JS_NS@._dojo._ioSetArgs call.
+		
+		dfd.canceled = true;
+		var xhr = dfd.ioArgs.xhr;
+		var _at = (typeof xhr.abort);
+		if((_at == "function")||(_at == "unknown")){
+			xhr.abort();
+		}
+		var err = new Error("xhr cancelled");
+		err.dojoType = "cancel";
+		return err;
+	}
+	var _deferredOk = function(/*Deferred*/dfd){
+		//summary: okHandler function for @JS_NS@._dojo._ioSetArgs call.
+
+		return _d._contentHandlers[dfd.ioArgs.handleAs](dfd.ioArgs.xhr);
+	}
+	var _deferError = function(/*Error*/error, /*Deferred*/dfd){
+		//summary: errHandler function for @JS_NS@._dojo._ioSetArgs call.
+		
+		// console.debug("xhr error in:", dfd.ioArgs.xhr);
+		console.debug(error);
+		return error;
+	}
+
+	var _makeXhrDeferred = function(/*@JS_NS@._dojo.__xhrArgs*/args){
+		//summary: makes the Deferred object for this xhr request.
+		var dfd = _d._ioSetArgs(args, _deferredCancel, _deferredOk, _deferError);
+		//Pass the args to _xhrObj, to allow xhr iframe proxy interceptions.
+		dfd.ioArgs.xhr = _d._xhrObj(dfd.ioArgs.args);
+		return dfd;
+	}
+
+	// avoid setting a timer per request. It degrades performance on IE
+	// something fierece if we don't use unified loops.
+	var _inFlightIntvl = null;
+	var _inFlight = [];
+	var _watchInFlight = function(){
+		//summary: 
+		//		internal method that checks each inflight XMLHttpRequest to see
+		//		if it has completed or if the timeout situation applies.
+		
+		var now = (new Date()).getTime();
+		// make sure sync calls stay thread safe, if this callback is called
+		// during a sync call and this results in another sync call before the
+		// first sync call ends the browser hangs
+		if(!_d._blockAsync){
+			// we need manual loop because we often modify _inFlight (and therefore 'i') while iterating
+			// note: the second clause is an assigment on purpose, lint may complain
+			for(var i=0, tif; (i<_inFlight.length)&&(tif=_inFlight[i]); i++){
+				var dfd = tif.dfd;
+				try{
+					if(!dfd || dfd.canceled || !tif.validCheck(dfd)){
+						_inFlight.splice(i--, 1); 
+					}else if(tif.ioCheck(dfd)){
+						_inFlight.splice(i--, 1);
+						tif.resHandle(dfd);
+					}else if(dfd.startTime){
+						//did we timeout?
+						if(dfd.startTime + (dfd.ioArgs.args.timeout||0) < now){
+							_inFlight.splice(i--, 1);
+							var err = new Error("timeout exceeded");
+							err.dojoType = "timeout";
+							dfd.errback(err);
+							//Cancel the request so the io module can do appropriate cleanup.
+							dfd.cancel();
+						}
+					}
+				}catch(e){
+					// FIXME: make sure we errback!
+					console.debug(e);
+					dfd.errback(new Error("_watchInFlightError!"));
+				}
+			}
+		}
+
+		if(!_inFlight.length){
+			clearInterval(_inFlightIntvl);
+			_inFlightIntvl = null;
+			return;
+		}
+
+	}
+
+	@JS_NS@._dojo._ioCancelAll = function(){
+		//summary: Cancels all pending IO requests, regardless of IO type
+		//(xhr, script, iframe).
+		try{
+			_d.forEach(_inFlight, function(i){
+				i.dfd.cancel();
+			});
+		}catch(e){/*squelch*/}
+	}
+
+	//Automatically call cancel all io calls on unload
+	//in IE for trac issue #2357.
+	if(_d.isIE){
+		_d.addOnUnload(_d._ioCancelAll);
+	}
+
+	_d._ioWatch = function(/*Deferred*/dfd,
+		/*Function*/validCheck,
+		/*Function*/ioCheck,
+		/*Function*/resHandle){
+		//summary: watches the io request represented by dfd to see if it completes.
+		//dfd:
+		//		The Deferred object to watch.
+		//validCheck:
+		//		Function used to check if the IO request is still valid. Gets the dfd
+		//		object as its only argument.
+		//ioCheck:
+		//		Function used to check if basic IO call worked. Gets the dfd
+		//		object as its only argument.
+		//resHandle:
+		//		Function used to process response. Gets the dfd
+		//		object as its only argument.
+		if(dfd.ioArgs.args.timeout){
+			dfd.startTime = (new Date()).getTime();
+		}
+		_inFlight.push({dfd: dfd, validCheck: validCheck, ioCheck: ioCheck, resHandle: resHandle});
+		if(!_inFlightIntvl){
+			_inFlightIntvl = setInterval(_watchInFlight, 50);
+		}
+		_watchInFlight(); // handle sync requests
+	}
+
+	var _defaultContentType = "application/x-www-form-urlencoded";
+
+	var _validCheck = function(/*Deferred*/dfd){
+		return dfd.ioArgs.xhr.readyState; //boolean
+	}
+	var _ioCheck = function(/*Deferred*/dfd){
+		return 4 == dfd.ioArgs.xhr.readyState; //boolean
+	}
+	var _resHandle = function(/*Deferred*/dfd){
+		if(_d._isDocumentOk(dfd.ioArgs.xhr)){
+			dfd.callback(dfd);
+		}else{
+			dfd.errback(new Error("bad http response code:" + dfd.ioArgs.xhr.status));
+		}
+	}
+
+	var _doIt = function(/*String*/type, /*Deferred*/dfd){
+		// IE 6 is a steaming pile. It won't let you call apply() on the native function (xhr.open).
+		// workaround for IE6's apply() "issues"
+		var ioArgs = dfd.ioArgs;
+		var args = ioArgs.args;
+		ioArgs.xhr.open(type, ioArgs.url, args.sync !== true, args.user || undefined, args.password || undefined);
+		if(args.headers){
+			for(var hdr in args.headers){
+				if(hdr.toLowerCase() === "content-type" && !args.contentType){
+					args.contentType = args.headers[hdr];
+				}else{
+					ioArgs.xhr.setRequestHeader(hdr, args.headers[hdr]);
+				}
+			}
+		}
+		// FIXME: is this appropriate for all content types?
+		ioArgs.xhr.setRequestHeader("Content-Type", (args.contentType||_defaultContentType));
+		// FIXME: set other headers here!
+		try{
+			ioArgs.xhr.send(ioArgs.query);
+		}catch(e){
+			dfd.cancel();
+		}
+		_d._ioWatch(dfd, _validCheck, _ioCheck, _resHandle);
+		return dfd; //Deferred
+	}
+
+	@JS_NS@._dojo._ioAddQueryToUrl = function(/*@JS_NS@._dojo.__ioCallbackArgs*/ioArgs){
+		//summary: Adds query params discovered by the io deferred construction to the URL.
+		//Only use this for operations which are fundamentally GET-type operations.
+		if(ioArgs.query.length){
+			ioArgs.url += (ioArgs.url.indexOf("?") == -1 ? "?" : "&") + ioArgs.query;
+			ioArgs.query = null;
+		}		
+	}
+
+	/*=====
+	@JS_NS@._dojo.__xhrArgs = function(kwArgs){
+		//	summary:
+		//		In addition to the properties listed for the @JS_NS@._dojo.__ioArgs type,
+		//		the following properties are allowed for @JS_NS@._dojo.xhr* methods.
+		//	handleAs: 
+		//		String. Acceptable values are:
+		//			"text" (default)
+		//			"json"
+		//			"json-comment-optional"
+		//			"json-comment-filtered"
+		//			"javascript"
+		//			"xml"
+		//	sync:
+		//		Boolean. false is default. Indicates whether the request should
+		//		be a synchronous (blocking) request.
+		//	headers:
+		//		Object. Additional HTTP headers to send in the request.
+	}
+	=====*/
+
+	@JS_NS@._dojo.xhrGet = function(/*@JS_NS@._dojo.__xhrArgs*/ args){
+		//	summary: 
+		//		Sends an HTTP GET request to the server.
+		var dfd = _makeXhrDeferred(args);
+		_d._ioAddQueryToUrl(dfd.ioArgs);
+		return _doIt("GET", dfd); // @JS_NS@._dojo.Deferred
+	}
+
+	@JS_NS@._dojo.xhrPost = function(/*@JS_NS@._dojo.__xhrArgs*/ args){
+		//summary: 
+		//		Sends an HTTP POST request to the server.
+		return _doIt("POST", _makeXhrDeferred(args)); // @JS_NS@._dojo.Deferred
+	}
+
+	@JS_NS@._dojo.rawXhrPost = function(/*@JS_NS@._dojo.__xhrArgs*/ args){
+		//	summary:
+		//		Sends an HTTP POST request to the server. In addtion to the properties
+		//		listed for the @JS_NS@._dojo.__xhrArgs type, the following property is allowed:
+		//	postData:
+		//		String. The raw data to send in the body of the POST request.
+		var dfd = _makeXhrDeferred(args);
+		dfd.ioArgs.query = args.postData;
+		return _doIt("POST", dfd); // @JS_NS@._dojo.Deferred
+	}
+
+	@JS_NS@._dojo.xhrPut = function(/*@JS_NS@._dojo.__xhrArgs*/ args){
+		//	summary:
+		//		Sends an HTTP PUT request to the server.
+		return _doIt("PUT", _makeXhrDeferred(args)); // @JS_NS@._dojo.Deferred
+	}
+
+	@JS_NS@._dojo.rawXhrPut = function(/*@JS_NS@._dojo.__xhrArgs*/ args){
+		//	summary:
+		//		Sends an HTTP PUT request to the server. In addtion to the properties
+		//		listed for the @JS_NS@._dojo.__xhrArgs type, the following property is allowed:
+		//	putData:
+		//		String. The raw data to send in the body of the PUT request.
+		var dfd = _makeXhrDeferred(args);
+		var ioArgs = dfd.ioArgs;
+		if(args["putData"]){
+			ioArgs.query = args.putData;
+			args.putData = null;
+		}
+		return _doIt("PUT", dfd); // @JS_NS@._dojo.Deferred
+	}
+
+	@JS_NS@._dojo.xhrDelete = function(/*@JS_NS@._dojo.__xhrArgs*/ args){
+		//	summary:
+		//		Sends an HTTP DELETE request to the server.
+		var dfd = _makeXhrDeferred(args);
+		_d._ioAddQueryToUrl(dfd.ioArgs);
+		return _doIt("DELETE", dfd); // @JS_NS@._dojo.Deferred
+	}
+
+	/*
+	@JS_NS@._dojo.wrapForm = function(formNode){
+		//summary:
+		//		A replacement for FormBind, but not implemented yet.
+
+		// FIXME: need to think harder about what extensions to this we might
+		// want. What should we allow folks to do w/ this? What events to
+		// set/send?
+		throw new Error("@JS_NS@._dojo.wrapForm not yet implemented");
+	}
+	*/
 })();
 
 }

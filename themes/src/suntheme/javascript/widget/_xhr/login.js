@@ -20,12 +20,12 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-@JS_NS@._dojo.provide("@JS_NS@.widget._jsfx.login");
+@JS_NS@._dojo.provide("@JS_NS@.widget._xhr.login");
 
 @JS_NS@._dojo.require("@JS_NS@.json");
+@JS_NS@._dojo.require("@JS_NS@.xhr");
 @JS_NS@._dojo.require("@JS_NS@.widget.common");
 @JS_NS@._dojo.require("@JS_NS@.widget.login");
-@JS_NS@._dojo.require("@JS_NS@.widget._jsfx.dynaFaces");
 
 /**
  * @class This class contains functions to authenticate data asynchronously 
@@ -33,17 +33,17 @@
  * @static
  * @private
  */
-@JS_NS@.widget._jsfx.login =  {
+@JS_NS@.widget._xhr.login =  {
     /**
      * This function is used to pass on the authentication data sent from 
      * the server callback object to the client. It calls the appropriate 
      * function in the login widget that updates the DOM tree to reflect 
      * the result of the authentication process to the end user.
      *
-     * @param {String} elementId The HTML element Id.
-     * @param {Object} content The content returned by the AJAX response.
+     * @param {String} id The HTML widget Id.
+     * @param {String} content The content returned by the AJAX response.
      * @param {Object} closure The closure argument provided to the Ajax transaction.
-     * @param {Object} xjson The xjson argument provided to the Ajax transaction.
+     * @param {Object} xjson The xjson header provided to the Ajax transaction.
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
@@ -80,22 +80,47 @@
         if (props == null) {
             return false;
         }
-        var domNode = document.getElementById(props.id); 
 
-        // Generate AJAX request using the JSF Extensions library.
-        DynaFaces.fireAjaxTransaction(
-            (domNode) ? domNode : document.forms[0], {
-            execute: props.id,
-            closure: {
-                endTopic: props.endTopic
+        // Ensure URL has been provided.
+        if (@JS_NS@._base.config.ajax.url == null) {
+            console.error("URL for Ajax transaction not provided.");
+            return false
+        }
+
+        // Get form.
+        var form = @JS_NS@.widget.common._getForm(
+            document.getElementById(props.id));
+        if (form == null) {
+            form = document.forms[0];
+        }
+
+        // Pass through variables.
+        var _id = props.id;
+        var closure = {
+            endTopic: props.endTopic
+        };
+        var xjson = {
+            id: props.id,
+            loginState: props.loginState,
+            execute: props.id
+        };
+
+        // Generate AJAX request.
+        @JS_NS@.xhr.get({
+            error: function(content, ioArgs) {
+                console.error("HTTP status code: ", ioArgs.xhr.status);
+                return content;
             },
-            render: props.id,
-            replaceElement: @JS_NS@.widget._jsfx.login._loginCallback,
-            xjson: {
-                id: props.id,
-                loginState: props.loginState,
-                keys: (props.keys) ? props.keys : "none"
-            }
+            form: form,
+            headers: {
+                "X-JSON": @JS_NS@.json.stringify(xjson)
+            },
+            load: function(content, ioArgs) {
+                @JS_NS@.widget._xhr.login._loginCallback(_id, content, closure, xjson);
+                return content;
+            },
+            timeout: 5000, // Time in milliseconds
+            url: @JS_NS@._base.config.ajax.url
         });
         return true;
     }
@@ -103,4 +128,4 @@
 
 // Listen for Widget events.
 @JS_NS@._dojo.subscribe(@JS_NS@.widget.login.event.authenticate.beginTopic,
-    @JS_NS@.widget._jsfx.login, "_processLoginEvent");
+    @JS_NS@.widget._xhr.login, "_processLoginEvent");

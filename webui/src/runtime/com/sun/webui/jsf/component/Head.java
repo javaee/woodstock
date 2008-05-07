@@ -493,7 +493,7 @@ public class Head extends UIComponentBase {
      * function, but additional requests may be generated to include more 
      * resources. Set the webuiAll property to true to include JavaScript 
      * resources when the page is loaded, using a single request. Use this 
-     * feature in combination with the webuiJsfx property to include default 
+     * feature in combination with the webuiAjax property to include default 
      * Ajax functionality based on JSF Extensions.
      * </p>
      */
@@ -540,17 +540,17 @@ public class Head extends UIComponentBase {
      * this feature in combination with the webuiAll property to include all tag
      * library functionality. 
      * </p>
+     * @deprecated
      */
     @Property(name="webuiJsfx", displayName="Include Ajax Functionality", category="Javascript")
-    private boolean webuiJsfx = false; 
-    private boolean webuiJsfx_set = false; 
  
     /**
      * Test flag indicating to include default Ajax functionality.
+     * @deprecated
      */
     public boolean isWebuiJsfx() { 
-        if (this.webuiJsfx_set) {
-            return this.webuiJsfx;
+        if (this.webuiAjax_set) {
+            return this.webuiAjax;
         }
         ValueExpression _vb = getValueExpression("webuiJsfx");
         if (_vb != null) {
@@ -561,42 +561,42 @@ public class Head extends UIComponentBase {
                 return ((Boolean) _result).booleanValue();
             }
         }
-        return this.webuiJsfx;
+        return this.webuiAjax;
     } 
 
     /**
      * Set flag indicating to include default Ajax functionality.
+     * @deprecated
      */
     public void setWebuiJsfx(boolean webuiJsfx) {
-        this.webuiJsfx = webuiJsfx;
-        this.webuiJsfx_set = true;
+        setWebuiAjax(webuiJsfx);
     }
 
     /**
-     * Flag (true or false) indicating to initialize tag library functionality
-     * on load.
+     * Flag (true or false) indicating to include default Ajax functionality 
+     * based on JSF Extensions.
      * <p>
-     * The document.getElementById() function and Level 0 DOM syntax can be 
-     * expensive calls, especially for large HTML tables. For better 
-     * performance, initialization is deferred until the page has loaded. This
-     * allows for progressive HTML rendering. However, partially rendered HTML
-     * may be displayed before JavaScript widgets have been created. Set the 
-     * webuiOnLoad property to false to initialize tags as the page is read by 
-     * the browser.
+     * For better performance, Ajax functionality is not included in the page
+     * by default. Ajax features will continue to function, but additional 
+     * requests are lazily generated to retrieve JavaScript resources as needed, 
+     * including JSF Extensions. Set the webuiAjax property to true to include 
+     * JavaScript resources when the page is loaded, using a single request. Use
+     * this feature in combination with the webuiAll property to include all tag
+     * library functionality. 
      * </p>
      */
-    @Property(name="webuiOnLoad", displayName="Initialize Tag Library On Load", category="Javascript")
-    private boolean webuiOnLoad = true; 
-    private boolean webuiOnLoad_set = false; 
+    @Property(name="webuiAjax", displayName="Include Ajax Functionality", category="Javascript")
+    private boolean webuiAjax = false; 
+    private boolean webuiAjax_set = false; 
  
     /**
      * Test flag indicating to include default Ajax functionality.
      */
-    public boolean isWebuiOnLoad() { 
-        if (this.webuiOnLoad_set) {
-            return this.webuiOnLoad;
+    public boolean isWebuiAjax() { 
+        if (this.webuiAjax_set) {
+            return this.webuiAjax;
         }
-        ValueExpression _vb = getValueExpression("webuiOnLoad");
+        ValueExpression _vb = getValueExpression("webuiAjax");
         if (_vb != null) {
             Object _result = _vb.getValue(getFacesContext().getELContext());
             if (_result == null) {
@@ -605,15 +605,15 @@ public class Head extends UIComponentBase {
                 return ((Boolean) _result).booleanValue();
             }
         }
-        return this.webuiOnLoad;
+        return this.webuiAjax;
     } 
 
     /**
      * Set flag indicating to include default Ajax functionality.
      */
-    public void setWebuiOnLoad(boolean webuiOnLoad) {
-        this.webuiOnLoad = webuiOnLoad;
-        this.webuiOnLoad_set = true;
+    public void setWebuiAjax(boolean webuiAjax) {
+        this.webuiAjax = webuiAjax;
+        this.webuiAjax_set = true;
     }
 
     /**
@@ -640,8 +640,8 @@ public class Head extends UIComponentBase {
         this.parseOnLoad_set = ((Boolean) _values[16]).booleanValue();
         this.webuiAll = ((Boolean) _values[17]).booleanValue();
         this.webuiAll_set = ((Boolean) _values[18]).booleanValue();
-        this.webuiJsfx = ((Boolean) _values[19]).booleanValue();
-        this.webuiJsfx_set = ((Boolean) _values[20]).booleanValue();
+        this.webuiAjax = ((Boolean) _values[19]).booleanValue();
+        this.webuiAjax_set = ((Boolean) _values[20]).booleanValue();
         this.styleSheet = ((Boolean) _values[21]).booleanValue();
         this.styleSheet_set = ((Boolean) _values[22]).booleanValue();
     }
@@ -670,8 +670,8 @@ public class Head extends UIComponentBase {
         _values[16] = this.parseOnLoad_set ? Boolean.TRUE : Boolean.FALSE;
         _values[17] = this.webuiAll ? Boolean.TRUE : Boolean.FALSE;
         _values[18] = this.webuiAll_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[19] = this.webuiJsfx ? Boolean.TRUE : Boolean.FALSE;
-        _values[20] = this.webuiJsfx_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[19] = this.webuiAjax ? Boolean.TRUE : Boolean.FALSE;
+        _values[20] = this.webuiAjax_set ? Boolean.TRUE : Boolean.FALSE;
         _values[21] = this.styleSheet ? Boolean.TRUE : Boolean.FALSE;
         _values[22] = this.styleSheet_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;

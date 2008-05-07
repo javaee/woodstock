@@ -5,9 +5,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">       
     <script type="text/javascript">
       var woodstockConfig = {
-        isDebug: true,
-        namespace: "woodstock",
-        webuiAll: true
+        ajax: { url: "/example-html/TableServlet" },
+        namespace: "woodstock"
       };
     </script>
     <script type="text/javascript"
@@ -16,7 +15,7 @@
     <script type="text/javascript" src="/example-html/js/connection.js"></script>
     <script type="text/javascript" src="/example-html/table/table.js"></script>
   </head>
-  <body onLoad="init();">
+  <body>
     <form id="form1">
 
       <!-- Masthead -->
@@ -121,6 +120,7 @@
                 "caption": "Basic Table",
                 "id": "ww_id11",
                 "rowGroups": [{
+                    "autoStart": true,
                     "columns": [{
                         "headerText": "Last Name",
                         "id": "ww_id11-group0-col0",
@@ -138,7 +138,7 @@
                     "maxRows": 5,
                     "paginationControls": false,
                     "rows": null,
-                    "totalRows": 0,
+                    "totalRows": 20,
                     "widgetType": "table2RowGroup"
                 }],
                 "widgetType": "table2"
