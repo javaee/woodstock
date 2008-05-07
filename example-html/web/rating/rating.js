@@ -152,7 +152,6 @@ function OnSubmit(props) {
 
     // Set selected grade on rating average summary and submit so
     // cumulative average grade can be computed.
-    var sumProps = ratingSummaryNode.getProps();
     ratingSummaryNode.setProps({"grade": props.grade});
     ratingSummaryNode.submit();
 }
