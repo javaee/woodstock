@@ -1,0 +1,296 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!--
+  The contents of this file are subject to the terms
+  of the Common Development and Distribution License
+  (the License).  You may not use this file except in
+  compliance with the License.
+      
+  You can obtain a copy of the license at
+  https://woodstock.dev.java.net/public/CDDLv1.0.html.
+  See the License for the specific language governing
+  permissions and limitations under the License.
+      
+  When distributing Covered Code, include this CDDL
+  Header Notice in each file and include the License file
+  at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+  If applicable, add the following below the CDDL Header,
+  with the fields enclosed by brackets [] replaced by
+  you own identifying information:
+  "Portions Copyrighted [year] [name of copyright owner]"
+      
+  Copyright 2008 Sun Microsystems, Inc. All rights reserved.
+-->
+
+<html>
+  <head>
+    <title>Rating Example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">       
+    <script type="text/javascript">
+      var woodstockConfig = {
+        isDebug: true,
+        namespace: "woodstock",
+        webuiAll: true
+      };
+    </script>
+    <script type="text/javascript"
+      src="/example-html/resources/woodstock/woodstock4_3_dev/suntheme/javascript/bootstrap.js">
+    </script>
+     <script type="text/javascript" src="/example-html/js/connection.js"></script>
+     <script type="text/javascript" src="/example-html/rating/rating.js"></script>
+  </head>
+  <body onLoad="rating_init();">
+    <form id="form1">
+
+      <!-- Masthead -->
+      <div class="MstDiv_sun4">
+        <div style="padding:6px 10px 4px;"></div>
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="MstTblBot_sun4" title="">
+          <tr>
+            <td class="MstTdTtl_sun4" width="99%">
+              <div class="MstDivUsr_sun4">
+                <span id="ww_id1_span"><script type="text/javascript">
+                    woodstock.widget.common.createWidget("ww_id1_span", {
+                        "id": "ww_id1",
+                        "class": "MstLbl_sun4",
+                        "value": "User:",
+                        "widgetType": "staticText"
+                    });</script></span>
+                <span id="ww_id2_span"><script type="text/javascript">
+                    woodstock.widget.common.createWidget("ww_id2_span", {
+                        "id": "ww_id2",
+                        "class": "MstTxt_sun4",
+                        "value": "test_user",
+                        "widgetType": "staticText"
+                    });</script></span>
+                <span id="ww_id3_span"><script type="text/javascript">
+                    woodstock.widget.common.createWidget("ww_id3_span", {
+                        "id": "ww_id3",
+                        "width": 14,
+                        "height": 14,
+                        "src": "/example-html/images/masthead-separator.gif",
+                        "widgetType": "image"
+                    });</script></span>
+                <span id="ww_id4_span"><script type="text/javascript">
+                    woodstock.widget.common.createWidget("ww_id4_span", {
+                        "id": "ww_id4",
+                        "class": "MstLbl_sun4",
+                        "value": "Server:",
+                        "widgetType": "staticText"
+                    });</script></span>
+                <span id="ww_id5_span"><script type="text/javascript">
+                    woodstock.widget.common.createWidget("ww_id5_span", {
+                        "id": "ww_id5",
+                        "class": "MstTxt_sun4",
+                        "value": "test_server",
+                        "widgetType": "staticText"
+                    });</script></span>
+              </div>
+              <div class="MstDivTtl_sun4" style="height:35px;margin:5px 0px 0px 0px;">
+                <span id="ww_id6_span"><script type="text/javascript">
+                    woodstock.widget.common.createWidget("ww_id6_span", {
+                        "id": "ww_id6",
+                        "style": "font-size:18px;color:#FFFFFF;",
+                        "value": "JavaScript Library Examples",
+                        "widgetType": "staticText"
+                    });</script></span>
+              </div>
+            </td>
+          </tr>
+          <tr><td><div class="hrule_sun4"></div></td></tr>
+        </table>
+      </div>
+
+      <!-- Content Margin -->
+      <div class="ConMgn_sun4">
+
+        <!-- breadcrumb -->
+        <br/>
+        <span id="ww_id7_span"><script type="text/javascript">
+            woodstock.widget.common.createWidget("ww_id7_span", {
+                "contents": ["Example Application Index > "],
+                "href": "../index.html",
+                "id": "ww_id_7",
+                "widgetType": "anchor"
+            });</script></span>
+        <span id="ww_id8_span"><script type="text/javascript">
+            woodstock.widget.common.createWidget("ww_id8_span", {
+                "id": "ww_id8",
+                "value": "Rating",
+                "widgetType": "staticText"
+            });</script></span>
+
+        <!-- Content Page Title -->
+        <br/><br/>
+        <span id="ww_id9_span"><script type="text/javascript">
+            woodstock.widget.common.createWidget("ww_id9_span", {
+                "id": "ww_id9",
+                "style": "font-size:17px",
+                "value": "Rating Example",
+                "widgetType": "staticText"
+            });</script></span>
+
+        <br/>
+        <span id="ww_id10_span"><script type="text/javascript">
+            woodstock.widget.common.createWidget("ww_id10_span",{
+                "id": "ww_id10",
+                "widgetType": "staticText",
+                "visible": true,
+                "value": "This example shows how to use a rating widget to show the cumulative average between one or more other rating widgets.  The basic model is to pump the selected grade for each of these other widgets into the cumulative average widget.  All but the last widget will show the currently selected grade and the average grade for that widget.  When a grade is selected, it is sent to a servlet via an Ajax request where an average grade is computed and returned in the response.  A listener object for each widget subscribes to the submit event and is notified after the average grade is returned, at which point the average grade is then set as the value of the staticText field below the rating widget.  Additionally, the selected grade is then set as the value for the cumulative average rating widget and submitted.  An average rating is computed and returned, exactly as for the other rating widgets.  Another listener object which subscribes to submit events on the cumulative average rating widget is notified, at which point the cumulative average grade is then set as the value of the staticText field below the cumulative average rating widget.",
+                "escape": true
+            });</script></span>
+
+        <!-- Rating Example -->
+        <br/><br/>
+        <span id="rating1_span"><script type="text/javascript">
+            woodstock.widget.common.createWidget("rating1_span", {
+                "includeText": true,
+                "notInterestedHoverText": "Not Interested",
+                "includeModeToggle": false,
+                "clearAcknowledgedText": "Rating is cleared",
+                "clearHoverText": "Clear the rating",
+                "notInterestedAcknowledgedText": "Sorry to hear :(",
+                "maxGrade": 5,
+                "modeReadOnly": false,
+                "modeToggleAcknowledgedTexts": [
+                    "Displaying user's grade",
+                    "Displaying average grade"
+                ],
+                "gradeHoverTexts": [
+                    "Hate it",
+                    "Below Average",
+                    "Average",
+                    "Above Average",
+                    "Love it"
+                ],
+                "modeToggleHoverTexts": [
+                    "Switch to displaying user's grade",
+                    "Switch to displaying average grade"
+                ],
+                "id": "rating1",
+                "gradeReadOnly": false,
+                "autoSubmit": true,
+                "widgetType": "rating",
+                "gradeAcknowledgedText": "Thank you!",
+                "averageGrade": 0,
+                "includeNotInterested": true,
+                "grade": "clear",
+                "includeClear": true,
+                "inAverageMode": false
+            });</script></span>
+        <br/>
+        <span id="avglabel1_span"><script type="text/javascript">
+            woodstock.widget.common.createWidget("avglabel1_span",{
+                "widgetType": "staticText",
+                "value": "Average Rating",
+                "visible": true,
+                "className": "avgLabel",
+                "escape": true,
+                "id": "avglabel1"
+            });</script></span>
+        <span id="avgtext1_span"><script type="text/javascript">
+            woodstock.widget.common.createWidget("avgtext1_span",{
+                "widgetType": "staticText",
+                "value": "0.0",
+                "visible": true,
+                "className": "avgText",
+                "escape": true,
+                "id": "avgtext1"
+            });</script></span>
+
+        <br/><br/>
+        <span id="rating2_span"><script type="text/javascript">
+            woodstock.widget.common.createWidget("rating2_span", {
+                "includeText": true,
+                "notInterestedHoverText": "Not Interested",
+                "includeModeToggle": false,
+                "clearAcknowledgedText": "Rating is cleared",
+                "clearHoverText": "Clear the rating",
+                "notInterestedAcknowledgedText": "Sorry to hear :(",
+                "maxGrade": 5,
+                "modeReadOnly": false,
+                "modeToggleAcknowledgedTexts": [
+                    "Displaying user's grade",
+                    "Displaying average grade"
+                ],
+                "gradeHoverTexts": [
+                    "Hate it",
+                    "Below Average",
+                    "Average",
+                    "Above Average",
+                    "Love it"
+                ],
+                "modeToggleHoverTexts": [
+                    "Switch to displaying user's grade",
+                    "Switch to displaying average grade"
+                ],
+                "id": "rating2",
+                "gradeReadOnly": false,
+                "autoSubmit": true,
+                "widgetType": "rating",
+                "gradeAcknowledgedText": "Thank you!",
+                "averageGrade": 0,
+                "includeNotInterested": true,
+                "grade": "clear",
+                "includeClear": true,
+                "inAverageMode": false
+            });</script></span>
+        <br/>
+        <span id="avglabel2_span"><script type="text/javascript">
+            woodstock.widget.common.createWidget("avglabel2_span",{
+                "widgetType": "staticText",
+                "value": "Average Rating",
+                "visible": true,
+                "className": "avgLabel",
+                "escape": true,
+                "id": "avglabel2"
+            });</script></span>
+        <span id="avgtext2_span"><script type="text/javascript">
+            woodstock.widget.common.createWidget("avgtext2_span",{
+                "widgetType": "staticText",
+                "value": "0.0",
+                "visible": true,
+                "className": "avgText",
+                "escape": true,
+                "id": "avgtext2"
+            });</script></span>
+
+        <br/><br/></br>
+        <span id="ratingSummary_span"><script type="text/javascript">
+            woodstock.widget.common.createWidget("ratingSummary_span", {
+                "includeText": false,
+                "includeModeToggle": false,
+                "maxGrade": 5,
+                "modeReadOnly": true,
+                "id": "ratingSummary",
+                "gradeReadOnly": true,
+                "autoSubmit": true,
+                "widgetType": "rating",
+                "averageGrade": 0,
+                "includeNotInterested": false,
+                "grade": "clear",
+                "includeClear": false,
+                "inAverageMode": true
+            });</script></span>
+        <br/>
+        <span id="summarylabel_span"><script type="text/javascript">
+            woodstock.widget.common.createWidget("summarylabel_span",{
+                "widgetType": "staticText",
+                "value": "Cumulative Average Rating",
+                "visible": true,
+                "className": "avgLabel",
+                "escape": true,
+                "id": "summarylabel"
+            });</script></span>
+        <span id="summarytext_span"><script type="text/javascript">
+            woodstock.widget.common.createWidget("summarytext_span",{
+                "widgetType": "staticText",
+                "value": "0.0",
+                "visible": true,
+                "className": "avgText",
+                "escape": true,
+                "id": "textSummary"
+            });</script></span>
+      </div>
+    </form>
+  </body>
+</html>

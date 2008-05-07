@@ -25,6 +25,7 @@
         <servlet-class>bubble.BubbleServlet</servlet-class>
     </servlet>
     
+    <!-- ProgressBar Servlet -->
     <servlet>
         <servlet-name>ProgressServlet</servlet-name>
         <servlet-class>progressBar.ProgressServlet</servlet-class>
@@ -34,6 +35,12 @@
     <servlet>
         <servlet-name>HolidayServlet</servlet-name>
         <servlet-class>calendar.HolidayServlet</servlet-class>
+    </servlet>
+    
+    <!-- Rating Servlet -->
+    <servlet>
+        <servlet-name>RatingServlet</servlet-name>
+        <servlet-class>rating.RatingServlet</servlet-class>
     </servlet>
 
     <!-- Button Servlet Mapping -->
@@ -54,11 +61,13 @@
         <url-pattern>/TableServlet</url-pattern>
     </servlet-mapping>
 
+    <!-- Bubble Servlet Mapping -->
     <servlet-mapping>
         <servlet-name>BubbleServlet</servlet-name>
         <url-pattern>/BubbleServlet</url-pattern>
     </servlet-mapping>
 
+    <!-- ProgressBar Servlet Mapping -->
     <servlet-mapping>
         <servlet-name>ProgressServlet</servlet-name>
         <url-pattern>/ProgressServlet</url-pattern>
@@ -68,6 +77,12 @@
     <servlet-mapping>
         <servlet-name>HolidayServlet</servlet-name>
         <url-pattern>/HolidayServlet</url-pattern>
+    </servlet-mapping>
+
+    <!-- Rating servlet mapping -->
+    <servlet-mapping>
+        <servlet-name>RatingServlet</servlet-name>
+        <url-pattern>/RatingServlet</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>
