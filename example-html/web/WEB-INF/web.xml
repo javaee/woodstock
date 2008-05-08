@@ -1,10 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee      http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+<!--
+ The contents of this file are subject to the terms
+ of the Common Development and Distribution License
+ (the License). You may not use this file except in
+ compliance with the License.
+
+ You can obtain a copy of the license at
+ https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ See the License for the specific language governing
+ permissions and limitations under the License.
+ 
+ When distributing Covered Code, include this CDDL
+ Header Notice in each file and include the License file
+ at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ If applicable, add the following below the CDDL Header,
+ with the fields enclosed by brackets [] replaced by
+ you own identifying information:
+ "Portions Copyrighted [year] [name of copyright owner]"
+ 
+ Copyright 2008 Sun Microsystems, Inc. All rights reserved.
+ -->
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+    http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+    <!-- Bubble Servlet -->
+    <servlet>
+        <servlet-name>BubbleServlet</servlet-name>
+        <servlet-class>bubble.BubbleServlet</servlet-class>
+    </servlet>
 
     <!-- Button Servlet -->
     <servlet>
         <servlet-name>ButtonServlet</servlet-name>
         <servlet-class>button.ButtonServlet</servlet-class>
+    </servlet>
+
+    <!-- Holiday Servlet -->
+    <servlet>
+        <servlet-name>HolidayServlet</servlet-name>
+        <servlet-class>calendar.HolidayServlet</servlet-class>
+    </servlet>
+
+    <!-- ProgressBar Servlet -->
+    <servlet>
+        <servlet-name>ProgressServlet</servlet-name>
+        <servlet-class>progressBar.ProgressServlet</servlet-class>
+    </servlet>
+
+    <!-- Rating Servlet -->
+    <servlet>
+        <servlet-name>RatingServlet</servlet-name>
+        <servlet-class>rating.RatingServlet</servlet-class>
     </servlet>
 
     <!-- Show Code Servlet -->
@@ -19,34 +67,34 @@
         <servlet-class>table.TableServlet</servlet-class>
     </servlet>
 
-    <!-- Bubble Servlet -->
-    <servlet>
+    <!-- Bubble Servlet Mapping -->
+    <servlet-mapping>
         <servlet-name>BubbleServlet</servlet-name>
-        <servlet-class>bubble.BubbleServlet</servlet-class>
-    </servlet>
-    
-    <!-- ProgressBar Servlet -->
-    <servlet>
-        <servlet-name>ProgressServlet</servlet-name>
-        <servlet-class>progressBar.ProgressServlet</servlet-class>
-    </servlet>
-    
-    <!-- Holiday Servlet -->
-    <servlet>
-        <servlet-name>HolidayServlet</servlet-name>
-        <servlet-class>calendar.HolidayServlet</servlet-class>
-    </servlet>
-    
-    <!-- Rating Servlet -->
-    <servlet>
-        <servlet-name>RatingServlet</servlet-name>
-        <servlet-class>rating.RatingServlet</servlet-class>
-    </servlet>
+        <url-pattern>/BubbleServlet</url-pattern>
+    </servlet-mapping>
 
     <!-- Button Servlet Mapping -->
     <servlet-mapping>
         <servlet-name>ButtonServlet</servlet-name>
         <url-pattern>/ButtonServlet</url-pattern>
+    </servlet-mapping>
+
+    <!-- Holiday servlet mapping -->
+    <servlet-mapping>
+        <servlet-name>HolidayServlet</servlet-name>
+        <url-pattern>/HolidayServlet</url-pattern>
+    </servlet-mapping>
+
+    <!-- ProgressBar Servlet Mapping -->
+    <servlet-mapping>
+        <servlet-name>ProgressServlet</servlet-name>
+        <url-pattern>/ProgressServlet</url-pattern>
+    </servlet-mapping>
+
+    <!-- Rating servlet mapping -->
+    <servlet-mapping>
+        <servlet-name>RatingServlet</servlet-name>
+        <url-pattern>/RatingServlet</url-pattern>
     </servlet-mapping>
 
     <!-- Show Code Servlet Mapping -->
@@ -59,30 +107,6 @@
     <servlet-mapping>
         <servlet-name>TableServlet</servlet-name>
         <url-pattern>/TableServlet</url-pattern>
-    </servlet-mapping>
-
-    <!-- Bubble Servlet Mapping -->
-    <servlet-mapping>
-        <servlet-name>BubbleServlet</servlet-name>
-        <url-pattern>/BubbleServlet</url-pattern>
-    </servlet-mapping>
-
-    <!-- ProgressBar Servlet Mapping -->
-    <servlet-mapping>
-        <servlet-name>ProgressServlet</servlet-name>
-        <url-pattern>/ProgressServlet</url-pattern>
-    </servlet-mapping>
-
-    <!-- Holiday servlet mapping -->
-    <servlet-mapping>
-        <servlet-name>HolidayServlet</servlet-name>
-        <url-pattern>/HolidayServlet</url-pattern>
-    </servlet-mapping>
-
-    <!-- Rating servlet mapping -->
-    <servlet-mapping>
-        <servlet-name>RatingServlet</servlet-name>
-        <url-pattern>/RatingServlet</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>
