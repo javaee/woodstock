@@ -126,54 +126,57 @@ function OnSubmit(props) {
     if (props.id != this.ratingID)
         return;
 
-    // Get rating node
-    var ratingNode = document.getElementById(this.ratingID);
-    if (ratingNode == null)
+    // Get rating widget
+    var ratingWidget = woodstock.widget.common.getWidget(this.ratingID);
+    if (ratingWidget == null)
         return;
 
-    // Get properties for rating node
-    props = ratingNode.getProps();
+    // Get properties for rating widget
+    props = ratingWidget.getProps();
 
-    // Get associated text node and update with average grade.
-    var textNode = document.getElementById(this.textID);
-    if (textNode != null) {
+    // Get associated text widget and update with average grade.
+    var textWidget = woodstock.widget.common.getWidget(this.textID);
+    if (textWidget != null) {
         var s = props.averageGrade.toString();
-        textNode.setProps({"value": s});
+        textWidget.setProps({"value": s});
     }
 
     // Return if no rating average summary widget to forward selected grade.
     if (this.sumRatingID == null)
         return;
 
-    // Get rating node for rating average summary
-    var ratingSummaryNode = document.getElementById(this.sumRatingID);
-    if (ratingSummaryNode == null)
+    // Get rating widget for rating average summary
+    var ratingSummaryWidget = woodstock.widget.common.getWidget(this.sumRatingID);
+    if (ratingSummaryWidget == null)
         return;
 
     // Set selected grade on rating average summary and submit so
     // cumulative average grade can be computed.
-    ratingSummaryNode.setProps({"grade": props.grade});
-    ratingSummaryNode.submit();
+    ratingSummaryWidget.setProps({"grade": props.grade});
+    ratingSummaryWidget.submit();
 }
 RatingListener.prototype.onSubmit = OnSubmit;
 
 function rating_init() {
-    for (var i=1; i<=2; i++) {
-        var domNode = document.getElementById("rating" + i);
-        if (domNode == null || domNode.event == null) {
-            return setTimeout('rating_init();', 10);
-        }
-        var listener = new RatingListener("rating" + i, "avgtext" + i, "ratingSummary");
-        var props = domNode.getProps();
-
-        // Subscribe to post-submit event for this rating instance
-        domNode.subscribe(domNode.event.submit.endTopic, listener, listener.onSubmit);
+    var widget = woodstock.widget.common.getWidget("ratingSummary");
+    if (widget == null) {
+        return setTimeout('rating_init();', 10);
     }
 
     // Subscribe to post-submit event rating average summary widget
-    var domNode = document.getElementById("ratingSummary");
-    if (domNode != null) {
-         var listener = new RatingListener("ratingSummary", "textSummary", null);
-         domNode.subscribe(domNode.event.submit.endTopic, listener, listener.onSubmit);
+    var listener = new RatingListener("ratingSummary", "textSummary", null);
+    woodstock.widget.common.subscribe(
+        woodstock.widget.rating.event.submit.endTopic,
+        listener, listener.onSubmit);
+
+    for (var i=1; i<=2; i++) {
+        widget = woodstock.widget.common.getWidget("rating" + i);
+        if (widget == null)
+            continue;
+        var listener = new RatingListener("rating" + i, "avgtext" + i, "ratingSummary");
+        // Subscribe to post-submit event for this rating instance
+        woodstock.widget.common.subscribe(
+            woodstock.widget.rating.event.submit.endTopic,
+            listener, listener.onSubmit);
     }
 }
