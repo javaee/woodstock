@@ -49,12 +49,13 @@ public class HolidayServlet extends HttpServlet {
    
     // List of holiday selection options.  Must match options from the
     // drop down selection list.
-    private static final String[] OPTIONS = {"newyear", "king", "washington", "memorial", "independence",
-                        "labor", "columbus", "veteran", "thanksgiving", "christmas"};
+    private static final String[] OPTIONS = {"newyear", "king", "washington",
+        "memorial", "independence", "labor", "columbus", "veteran", 
+        "thanksgiving", "christmas"};
     
     // Matching list of holiday dates; position dependent.
-    private static final String[] DATES = {"01/01", "01/21", "02/18", "05/26", "07/04",
-                      "09/01", "10/13", "11/11", "11/27", "12/25"};
+    private static final String[] DATES = {"01/01", "01/21", "02/18", "05/26", 
+        "07/04", "09/01", "10/13", "11/11", "11/27", "12/25"};
     
     // Some defaults.
     private static final String YEAR = "2008";
@@ -63,9 +64,7 @@ public class HolidayServlet extends HttpServlet {
     private static final String TODAY_PROP = "today";
     
     public HolidayServlet() {
-        
         super();
-
     }
     
     /** 

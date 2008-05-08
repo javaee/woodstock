@@ -61,7 +61,7 @@ public class TableServlet extends HttpServlet {
         if (!AjaxUtil.isAjaxRequest(request)) {
             return;
         }
-        response.setContentType("text/x-json*;charset=UTF-8");
+        response.setContentType("text/x-json;charset=UTF-8");
         response.setHeader("Cache-Control", "no-cache");
         PrintWriter out = response.getWriter();
 
