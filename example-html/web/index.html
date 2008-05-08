@@ -25,6 +25,12 @@
     <title>Example Application Index</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">       
     <script type="text/javascript">
+
+      // A variable used to define unique id's for the examples
+      // in the table
+      //
+      var exid = 0;
+
       var woodstockConfig = {
         namespace: "woodstock"
       };
@@ -148,101 +154,117 @@
                     "rows": [
                         [
                             {
-                                "id": "ww_id10-group0-0-col0",
+                                "id": "ww_id10-group0-" + exid + "-col0",
                                 "contents": ["Bubble"],
                                 "href": "bubble/index.html",
                                 "widgetType": "anchor"
                             }, {
-                                "id": "ww_id10-group0-0-col1",
+                                "id": "ww_id10-group0-" + exid + "-col1",
                                 "value": "Demonstration of Bubble refresh feature.",
                                 "widgetType": "staticText"
                             }, {
-                                "id": "ww_id10-group0-0-col2",
+                                "id": "ww_id10-group0-" + exid++ + "-col2",
                                 "contents": ["bubble/BubbleServlet.java"],
                                 "href": "/example-html/ShowCodeServlet?source=bubble/BubbleServlet.java",
                                 "widgetType": "anchor"
                             }
                         ], [
                             {
-                                "id": "ww_id10-group0-1-col0",
+                                "id": "ww_id10-group0-" + exid + "-col0",
                                 "contents": ["Button"],
                                 "href": "button/index.html",
                                 "widgetType": "anchor"
                             }, {
-                                "id": "ww_id10-group0-1-col1",
+                                "id": "ww_id10-group0-" + exid + "-col1",
                                 "value": "Demonstration of button features, including the ability to dynamically enable and disable buttons.",
                                 "widgetType": "staticText"
                             }, {
-                                "id": "ww_id10-group0-1-col2",
+                                "id": "ww_id10-group0-" + exid++ + "-col2",
                                 "contents": ["button/ButtonServlet.java"],
                                 "href": "/example-html/ShowCodeServlet?source=button/ButtonServlet.java",
                                 "widgetType": "anchor"
                             }
                         ], [
                             {
-                                "id": "ww_id10-group0-2-col0",
+                                "id": "ww_id10-group0-" + exid + "-col0",
+                                "contents": ["Checkbox Refresh"],
+                                "href": "checkbox/index.html",
+                                "widgetType": "anchor"
+                            }, {
+                                "id": "ww_id10-group0-" + exid + "-col1",
+				"value": "Demonstration of refreshing a Checkbox.",
+                                "widgetType": "staticText"
+                            }, {
+                                "id": "ww_id10-group0-" + exid++ + "-col2",
+                                "contents": ["checkbox/CheckboxServlet.java"],
+                                "href": "/example-html/ShowCodeServlet?source=checkbox/CheckboxServlet.java",
+                                "widgetType": "anchor"
+                            }
+                        ], [
+                            {
+                                "id": "ww_id10-group0-" + exid + "-col0",
                                 "contents": ["Calendar"],
                                 "href": "calendar/index.html",
                                 "widgetType": "anchor"
                             }, {
-                                "id": "ww_id10-group0-2-col1",
+                                "id": "ww_id10-group0-" + exid + "-col1",
                                 "value": "Demonstration of dynamic Calendar update.",
                                 "widgetType": "staticText"
                             }, {
-                                "id": "ww_id10-group0-2-col2",
+                                "id": "ww_id10-group0-" + exid++ + "-col2",
                                 "contents": ["calendar/HolidayServlet.java"],
                                 "href": "/example-html/ShowCodeServlet?source=calendar/HolidayServlet.java",
                                 "widgetType": "anchor"
                             }
                         ], [
                             {
-                                "id": "ww_id10-group0-3-col0a",
+                                "id": "ww_id10-group0-" + exid + "-col0a",
                                 "contents": ["Progress Bar"],
                                 "href": "progressBar/index.html",
                                 "widgetType": "anchor"
                             }, {
-                                "id": "ww_id10-group0-3-col1a",
+                                "id": "ww_id10-group0-" + exid + "-col1a",
                                 "value": "Demonstration of progress bar features",
                                 "widgetType": "staticText"
                             }, {
-                                "id": "ww_id10-group0-3-col2a",
+                                "id": "ww_id10-group0-" + exid++ + "-col2a",
                                 "contents": ["progressBar/ProgressServlet.java"],
                                 "href": "/example-html/ShowCodeServlet?source=progressBar/ProgressServlet.java",
                                 "widgetType": "anchor"
                             }
                         ], [
                             {
-                                "id": "ww_id10-group0-4-col0",
+                                "id": "ww_id10-group0-" + exid + "-col0",
                                 "contents": ["Rating"],
                                 "href": "rating/index.html",
                                 "widgetType": "anchor"
                             }, {
-                                "id": "ww_id10-group0-4-col1",
+                                "id": "ww_id10-group0-" + exid + "-col1",
                                 "value": "Demonstration of Rating features.",
                                 "widgetType": "staticText"
                             }, {
-                                "id": "ww_id10-group0-4-col2",
+                                "id": "ww_id10-group0-" + exid++ + "-col2",
                                 "contents": ["rating/RatingServlet.java"],
                                 "href": "/example-html/ShowCodeServlet?source=rating/RatingServlet.java",
                                 "widgetType": "anchor"
                             }
                         ],  [
                             {
-                                "id": "ww_id10-group0-5-col0",
+                                "id": "ww_id10-group0-" + exid + "-col0",
                                 "contents": ["Table"],
                                 "href": "table/index.html",
                                 "widgetType": "anchor"
                             }, {
-                                "id": "ww_id10-group0-5-col1",
+                                "id": "ww_id10-group0-" + exid + "-col1",
                                 "value": "Demonstration of Table features.",
                                 "widgetType": "staticText"
                             }, {
-                                "id": "ww_id10-group0-5-col2",
+                                "id": "ww_id10-group0-" + exid++ + "-col2",
                                 "contents": ["table/TableServlet.java"],
                                 "href": "/example-html/ShowCodeServlet?source=table/TableServlet.java",
                                 "widgetType": "anchor"
                             }
-                        ]
+			]
                     ],
                     "totalRows": 6,
                     "widgetType": "table2RowGroup"

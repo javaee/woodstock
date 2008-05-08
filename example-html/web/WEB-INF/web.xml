@@ -37,6 +37,12 @@
         <servlet-class>button.ButtonServlet</servlet-class>
     </servlet>
 
+    <!-- Checkbox Servlet -->
+    <servlet>
+        <servlet-name>CheckboxServlet</servlet-name>
+        <servlet-class>checkbox.CheckboxServlet</servlet-class>
+    </servlet>
+
     <!-- Holiday Servlet -->
     <servlet>
         <servlet-name>HolidayServlet</servlet-name>
@@ -71,6 +77,12 @@
     <servlet-mapping>
         <servlet-name>BubbleServlet</servlet-name>
         <url-pattern>/BubbleServlet</url-pattern>
+    </servlet-mapping>
+
+    <!-- Checkbox Servlet Mapping -->
+    <servlet-mapping>
+        <servlet-name>CheckboxServlet</servlet-name>
+        <url-pattern>/CheckboxServlet</url-pattern>
     </servlet-mapping>
 
     <!-- Button Servlet Mapping -->
@@ -108,6 +120,7 @@
         <servlet-name>TableServlet</servlet-name>
         <url-pattern>/TableServlet</url-pattern>
     </servlet-mapping>
+
 
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
