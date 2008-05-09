@@ -47,9 +47,9 @@
  * @config {Object} keys JSON object representing the key value mapping for user data fields.
  */
 @JS_NS@._dojo.declare("@JS_NS@.widget.login", [
-        @JS_NS@.widget._base.widgetBase,
         @JS_NS@.widget._base.refreshBase, 
-        @JS_NS@.widget._base.stateBase], {
+        @JS_NS@.widget._base.stateBase,
+        @JS_NS@.widget._base.widgetBase ], {
     // Set defaults.
     constructor: function() {
         this.loginState = "INIT";

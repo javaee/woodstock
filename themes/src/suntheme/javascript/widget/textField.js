@@ -73,10 +73,10 @@
  * @config {boolean} visible Hide or show element.
  */
 @JS_NS@._dojo.declare("@JS_NS@.widget.textField", [
-        @JS_NS@.widget._base.fieldBase,
         @JS_NS@.widget._base.refreshBase, 
         @JS_NS@.widget._base.stateBase,
-        @JS_NS@.widget._base.submitBase], {
+        @JS_NS@.widget._base.submitBase,
+        @JS_NS@.widget._base.fieldBase ], {
     // Set defaults.
     constructor: function() {
         // Array of list values; may be empty; if null - then no autocomplete 

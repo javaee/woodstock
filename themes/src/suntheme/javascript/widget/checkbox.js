@@ -70,10 +70,10 @@
  * @config {boolean} visible Hide or show element.
  */
 @JS_NS@._dojo.declare("@JS_NS@.widget.checkbox", [
-        @JS_NS@.widget._base.checkedBase,
         @JS_NS@.widget._base.refreshBase, 
         @JS_NS@.widget._base.stateBase,
-        @JS_NS@.widget._base.submitBase], {
+        @JS_NS@.widget._base.submitBase,
+        @JS_NS@.widget._base.checkedBase ], {
     // Set defaults.
     _idSuffix: "_cb",
     _widgetType: "checkbox" // Required for theme properties.

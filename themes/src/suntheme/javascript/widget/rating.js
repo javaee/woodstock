@@ -100,10 +100,10 @@
  * HTML element when this component is rendered.
  */
 @JS_NS@._dojo.declare("@JS_NS@.widget.rating", [
-        @JS_NS@.widget._base.widgetBase,
         @JS_NS@.widget._base.refreshBase, 
         @JS_NS@.widget._base.stateBase,
-        @JS_NS@.widget._base.submitBase], {
+        @JS_NS@.widget._base.submitBase,
+        @JS_NS@.widget._base.widgetBase ], {
     // Set defaults.
     constructor: function() {
         // Set defaults for public properties that can be modified.

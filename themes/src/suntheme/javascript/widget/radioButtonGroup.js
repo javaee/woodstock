@@ -53,9 +53,9 @@
  * @config {boolean} visible Hide or show element.
  */
 @JS_NS@._dojo.declare("@JS_NS@.widget.radioButtonGroup", [
-        @JS_NS@.widget._base.checkedGroupBase,
         @JS_NS@.widget._base.refreshBase, 
-        @JS_NS@.widget._base.stateBase], {
+        @JS_NS@.widget._base.stateBase,
+        @JS_NS@.widget._base.checkedGroupBase ], {
     // Set defaults.
     _widgetType: "radioButtonGroup" // Required for theme properties.
 });

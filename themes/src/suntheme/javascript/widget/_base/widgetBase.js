@@ -348,10 +348,6 @@
         return @JS_NS@.widget.common.getWidget(_id).setProps(props, notify);
     };
     /** @ignore */
-    this._domNode.start = function() {
-        return @JS_NS@.widget.common.start();
-    };
-    /** @ignore */
     this._domNode.subscribe = function(topic, obj, func) {
         return @JS_NS@.widget.common.subscribe(topic, obj, func);
     };

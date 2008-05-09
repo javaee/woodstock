@@ -40,10 +40,10 @@
  * @constructor
  */
 @JS_NS@._dojo.declare("@JS_NS@.widget.popupMenu", [
-        @JS_NS@.widget._base.menuBase,
         @JS_NS@.widget._base.refreshBase, 
         @JS_NS@.widget._base.stateBase,
-        @JS_NS@.widget._base.submitBase], {
+        @JS_NS@.widget._base.submitBase,
+        @JS_NS@.widget._base.menuBase ], {
     // Set defaults.
     _widgetType: "popupMenu" // Required for theme properties.
 });

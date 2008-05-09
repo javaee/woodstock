@@ -44,10 +44,10 @@
  * @config {String} value Value of input.
  */
 @JS_NS@._dojo.declare("@JS_NS@.widget.hiddenField", [
-        @JS_NS@.widget._base.widgetBase,
         @JS_NS@.widget._base.refreshBase, 
         @JS_NS@.widget._base.stateBase,
-        @JS_NS@.widget._base.submitBase], {
+        @JS_NS@.widget._base.submitBase,
+        @JS_NS@.widget._base.widgetBase ], {
     // Set defaults.
     constructor: function() {
         this.disabled = false;

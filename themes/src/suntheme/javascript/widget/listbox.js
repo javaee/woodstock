@@ -72,12 +72,11 @@
  * @config {boolean} visible Hide or show element.
  */
 @JS_NS@._dojo.declare("@JS_NS@.widget.listbox", [
-	@JS_NS@.widget._base.selectBase,
         @JS_NS@.widget._base.refreshBase, 
         @JS_NS@.widget._base.stateBase,
-        @JS_NS@.widget._base.submitBase], {
+        @JS_NS@.widget._base.submitBase,
+        @JS_NS@.widget._base.selectBase ], {
     // Set defaults.
-    //
     constructor : function() {
 	this.labelOnTop = this._theme._getMessageBoolean("listbox.labelOnTop", false);
 	this.monospace = this._theme._getMessageBoolean("listbox.monospace", false);
