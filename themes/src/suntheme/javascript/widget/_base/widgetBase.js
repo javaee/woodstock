@@ -348,6 +348,10 @@
         return @JS_NS@.widget.common.getWidget(_id).setProps(props, notify);
     };
     /** @ignore */
+    this._domNode.start = function() {
+        return @JS_NS@.widget.common.start();
+    };
+    /** @ignore */
     this._domNode.subscribe = function(topic, obj, func) {
         return @JS_NS@.widget.common.subscribe(topic, obj, func);
     };
@@ -626,6 +630,12 @@
 
     // Set more properties.
     return this._setCoreProps(this._domNode, props);
+};
+
+// This function is not public and should not appear in the jsDoc.
+/** @ignore */
+@JS_NS@.widget._base.widgetBase.prototype.startup = function () {
+    return this._start();
 };
 
 /**
