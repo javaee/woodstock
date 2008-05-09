@@ -1741,12 +1741,12 @@ ul.MenuItems@THEME_CSS@ li .MenuItemDisabled@THEME_CSS@,       /* 1st-level menu
 ul.MenuItems@THEME_CSS@ ul li .MenuItemDisabled@THEME_CSS@ {   /* 2nd-level menu item in 1st-level optgroup */
     color: #7a7277;
 }
-ul.MenuItems@THEME_CSS@ li .MenuItem@THEME_CSS@:hover,     /* standard hover */
+ul.MenuItems@THEME_CSS@ li div.MenuItem@THEME_CSS@:hover,     /* standard hover */
 ul.MenuItems@THEME_CSS@ li .MenuItem@THEME_CSS@.MenuFocus@THEME_CSS@{  
     background-color: #90b7d0;
     color: #ffffff;
 }
-ul.MenuItems@THEME_CSS@ li .MenuItem@THEME_CSS@:hover{     /* standard hover */
+ul.MenuItems@THEME_CSS@ li div.MenuItem@THEME_CSS@:hover{     /* standard hover */
     cursor: pointer;
 }
 .NoMenuItemWidget@THEME_CSS@ {
