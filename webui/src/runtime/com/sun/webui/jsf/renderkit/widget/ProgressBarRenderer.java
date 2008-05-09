@@ -98,7 +98,8 @@ public class ProgressBarRenderer extends RendererBase {
             .put("type", progressBar.getType())
             .put("className", progressBar.getStyleClass())
             .put("prefix", prefix)
-            .put("refreshRate", progressBar.getRefreshRate())        
+            .put("refreshRate", progressBar.getRefreshRate())
+            .put("autoStart", progressBar.isAutoStart())        
             .put("visible", progressBar.isVisible());
        
         // Add attributes.

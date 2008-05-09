@@ -445,6 +445,41 @@ public class ProgressBar extends javax.faces.component.UIOutput
     }
     
     /**
+     * <p> Set to true to start the progressbar after widget creation. </p>   
+     */
+    @Property(name="autoStart", displayName="Auto Start", category="Advanced")
+    private boolean autoStart = false;
+    private boolean autoStart_set = false;
+    
+    /**
+     * <p>Set to true to start the progressbar after widget creation. </p>
+     */
+    public boolean isAutoStart() {
+        if (this.autoStart_set) {
+            return this.autoStart;
+        }
+        ValueBinding _vb = getValueBinding("autoStart");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return true;
+    }
+    
+    /**
+     * <p>Set to true to start the progressbar after widget creation. </p>
+     * @see #isAutoStart()
+     */
+    public void setautoStart(boolean autoStart) {
+        this.autoStart = autoStart;
+        this.autoStart_set = true;
+    }
+    
+    /**
      * <p>An integer that indicates the completion percentage of the task.</p>
      */
     @Property(name="progress", displayName="Progress", category="Appearance", 
@@ -927,13 +962,15 @@ public class ProgressBar extends javax.faces.component.UIOutput
         this.width = ((Integer) _values[23]).intValue();
         this.width_set = ((Boolean) _values[24]).booleanValue();
         this.htmlTemplate = (String) _values[25];
+        this.autoStart = ((Boolean) _values[26]).booleanValue();
+        this.autoStart_set = ((Boolean) _values[27]).booleanValue();
     }
     
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[26];
+        Object _values[] = new Object[28];
         _values[0] = super.saveState(_context);
         _values[1] = this.toolTip;
         _values[2] = this.description;
@@ -960,6 +997,8 @@ public class ProgressBar extends javax.faces.component.UIOutput
         _values[23] = new Integer(this.width);
         _values[24] = this.width_set ? Boolean.TRUE : Boolean.FALSE;
         _values[25] = this.htmlTemplate;
+        _values[26] = this.autoStart ? Boolean.TRUE : Boolean.FALSE;
+        _values[27] = this.autoStart_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 }
