@@ -72,6 +72,11 @@
         <servlet-name>TableServlet</servlet-name>
         <servlet-class>table.TableServlet</servlet-class>
     </servlet>
+    
+    <servlet>
+        <servlet-name>PopupMenuServlet</servlet-name>
+        <servlet-class>popupMenu.PopupMenuServlet</servlet-class>
+    </servlet>    
 
     <!-- Bubble Servlet Mapping -->
     <servlet-mapping>
@@ -121,7 +126,11 @@
         <url-pattern>/TableServlet</url-pattern>
     </servlet-mapping>
 
-
+    <servlet-mapping>
+        <servlet-name>PopupMenuServlet</servlet-name>
+        <url-pattern>/PopupMenuServlet</url-pattern>
+    </servlet-mapping>
+    
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
