@@ -245,16 +245,14 @@ public class Table2RowGroupRenderer extends RendererBase {
      */
     private void getColumnChildren(FacesContext context, UIComponent comp,
             JSONArray json) throws IOException, JSONException {
-        
         Iterator grandColKids = comp.getChildren().iterator();
-            while (grandColKids.hasNext()) {
-                UIComponent col = (UIComponent)grandColKids.next();
-                if (col instanceof Table2Column) {
-                    getColumnChildren(context, col, json);
-                } else {    
-                    json.put(WidgetUtilities.renderComponent(context, col));
-                }
+        while (grandColKids.hasNext()) {
+            UIComponent col = (UIComponent)grandColKids.next();
+            if (col instanceof Table2Column) {
+                getColumnChildren(context, col, json);
+            } else {    
+                json.put(WidgetUtilities.renderComponent(context, col));
+            }
         }
-        
     }
 }

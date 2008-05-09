@@ -76,7 +76,6 @@
         @JS_NS@.widget._base.stateBase], {
     // Set defaults.
     constructor: function() {
-        this.autoStart = false; // Start loading data.
         this._colSortLevel = new Array(); // Array used to store sortLevel
         this._currentRow = 0; // Current row in view.
         this.first = 0; // Index used to obtain rows.
@@ -151,12 +150,11 @@
  * @private
  */
 @JS_NS@.widget.table2RowGroup.prototype._getColumnHeaderRowCount = function(cols, count) {
-    // check for spanning col 
+    // Check for spanning column.
     if (count == null) {
         count = 1;
     }
     for (var i = 0; i < cols.length; i++) {
-        
         var col = cols[i];
         if (col.columns && col.columns.length > 0) {            
             count++;
@@ -184,7 +182,8 @@
     // Clone dojo attach points.
     var headerRowClone = this._colHeaderRow.cloneNode(false);
     headerRowClone.id = this.id + "_colHeaderRow" + 0;
-    var footerRowClone = this._colFooterRow.cloneNode(false);    
+    var footerRowClone = this._colFooterRow.cloneNode(false);
+
     // Append row nodes.
     this._thead.appendChild(headerRowClone);
     this._tfoot.appendChild(footerRowClone);
@@ -207,13 +206,12 @@
     }
     // get the leaf columns.
     var leafColArray = this._getLeafColumns(this.columns);
-    // add footer text to leaf columns only    
-    
+
+    // add footer text to leaf columns only.
     for (var j = 0; j < leafColArray.length; j++) {
         this._addColumnFooters(leafColArray[j], footerRowClone);        
     }    
     this._groupHeaderCell.colSpan = leafColArray.length;
-    
     return true;
 };
 
@@ -225,24 +223,23 @@
  * @private
  */
 @JS_NS@.widget.table2RowGroup.prototype._addColumnFooters = function(col, footerRowClone) {               
-        // Clone dojo attach points.
-        var footerCellClone = this._colFooterCell.cloneNode(true);
-        footerCellClone.id = col.id + "_colFooter";
+    // Clone dojo attach points.
+    var footerCellClone = this._colFooterCell.cloneNode(true);
+    footerCellClone.id = col.id + "_colFooter";
         
-        if (col.width) {           
-            footerCellClone.style.width = col.width;
-        }
-        if (col.footerText) {
-            
-            this._widget._addFragment(footerCellClone, {
-                id: footerCellClone.id + "Text",
-                value: col.footerText,
-                widgetType: "staticText"
-            });            
-        }
-        if (footerRowClone && col.footerText) {
-            footerRowClone.appendChild(footerCellClone);
-        }
+    if (col.width) {           
+        footerCellClone.style.width = col.width;
+    }
+    if (col.footerText) {
+        this._widget._addFragment(footerCellClone, {
+            id: footerCellClone.id + "Text",
+            value: col.footerText,
+            widgetType: "staticText"
+        });            
+    }
+    if (footerRowClone && col.footerText) {
+        footerRowClone.appendChild(footerCellClone);
+    }
 };
 
 /**
@@ -253,25 +250,25 @@
  * @private
  */
 @JS_NS@.widget.table2RowGroup.prototype._addColumnHeaders = function(cols, count) {
-        // Clone dojo attach points.
-        var headerRowClone = this._colHeaderRow.cloneNode(false);
-        headerRowClone.id = this.id + "_colHeaderRow" + count;        
-        this._thead.appendChild(headerRowClone);        
-        this._headerCount = 0;
-        var headers = this._getColumnHeaderRowCount(cols.columns);                        
-        for (j = 0; j < cols.columns.length; j++ ) {
-            var col = cols.columns[j];
-            if (col.columns && col.columns.length > 0) {
-                col.colSpan = col.columns.length;
-                this._setColumnHeaderProps(col, headerRowClone);
-                count++;
-                this._addColumnHeaders(col, count);
-            }    
-            else {
-                col.rowSpan = headers;
-                this._setColumnHeaderProps(col, headerRowClone);
-            }    
-        }            
+    // Clone dojo attach points.
+    var headerRowClone = this._colHeaderRow.cloneNode(false);
+    headerRowClone.id = this.id + "_colHeaderRow" + count;
+    this._thead.appendChild(headerRowClone);
+    this._headerCount = 0;
+    var headers = this._getColumnHeaderRowCount(cols.columns);
+
+    for (j = 0; j < cols.columns.length; j++ ) {
+        var col = cols.columns[j];
+        if (col.columns && col.columns.length > 0) {
+            col.colSpan = col.columns.length;
+            this._setColumnHeaderProps(col, headerRowClone);
+            count++;
+            this._addColumnHeaders(col, count);
+        } else {
+            col.rowSpan = headers;
+            this._setColumnHeaderProps(col, headerRowClone);
+        }    
+    }            
 };
 
 /**
@@ -282,47 +279,48 @@
  * @private
  */
 @JS_NS@.widget.table2RowGroup.prototype._setColumnHeaderProps = function(col, headerRowClone) {
+    var headerCellClone = this._colHeaderCell.cloneNode(false);       
+    var colHeaderLink = this._colHeaderLink.cloneNode(false);
+    colHeaderLink.id = col.id + "_colHeaderLink";
 
-        var headerCellClone = this._colHeaderCell.cloneNode(false);       
-        var colHeaderLink = this._colHeaderLink.cloneNode(false);
-        colHeaderLink.id = col.id + "_colHeaderLink";
-        // Set properties.
-        headerCellClone.id = col.id + "_colHeader";        
-        headerCellClone.appendChild(colHeaderLink);
-        if (col.width) {
-            headerCellClone.style.width = col.width;            
+    // Set properties.
+    headerCellClone.id = col.id + "_colHeader";        
+    headerCellClone.appendChild(colHeaderLink);
+    if (col.width) {
+        headerCellClone.style.width = col.width;            
+    }
+    if (col.colSpan > 0) {
+        headerCellClone.colSpan = col.colSpan;
+    }
+    if (col.rowSpan > 0) {
+        headerCellClone.rowSpan = col.rowSpan;
+    }
+    if (!col.sortLevel) {
+        col.sortLevel = -1;
+    }
+    // Add text.
+    if (col.headerText && col.sort == true) {
+        if (colHeaderLink != null) {
+            this._widget._addFragment(colHeaderLink, {
+                id: headerCellClone.id + "_Text",
+                onClick: "@JS_NS@.widget.common.getWidget('" + this.id +
+                    "')._openSortMenu(event, '" + col.id + "', '" + 
+                    col.sortLevel + "');",
+                value: col.headerText,
+                widgetType: "staticText"
+            }, "last");
         }
-        if (col.colSpan > 0) {
-            headerCellClone.colSpan = col.colSpan;
-        }
-        if (col.rowSpan > 0) {
-            headerCellClone.rowSpan = col.rowSpan;
-        }
-        if (!col.sortLevel) col.sortLevel = -1;
-        // Add text.
-        if (col.headerText && col.sort == true) {
-                                
-            if (colHeaderLink != null) {
-                this._widget._addFragment(colHeaderLink, {
-                        id: headerCellClone.id + "_Text",
-                        onClick: "@JS_NS@.widget.common.getWidget('" + this.id + "')._openSortMenu(event, '" + col.id + "', '" + col.sortLevel + "');",
-                        value: col.headerText,
-                        widgetType: "staticText"
-                    }, "last");
-            }        
-            
-            } else if(col.headerText && col.sort == false) {            
-                if (headerCellClone != null) {
-                    this._widget._updateFragment(headerCellClone, headerCellClone.id, {
-                            id: headerCellClone.id + "_Text",                    
-                            value: col.headerText,
-                            widgetType: "staticText"
-                        });
-                }    
-            }
- 
-        // Append nodes.        
-        headerRowClone.appendChild(headerCellClone);        
+    } else if(col.headerText && col.sort == false) {            
+        if (headerCellClone != null) {
+            this._widget._updateFragment(headerCellClone, headerCellClone.id, {
+                id: headerCellClone.id + "_Text",                    
+                value: col.headerText,
+                widgetType: "staticText"
+            });
+        }    
+    } 
+    // Append nodes.        
+    headerRowClone.appendChild(headerCellClone);        
 };
 
 /**
@@ -338,6 +336,9 @@
     }
 
     // Clear rows.
+    //
+    // Note: This cannot be done in setProps because the start function 
+    // publishes a scroll event which ultimately calls addRows.
     if (this.rows == null) {
         this.rows = rows; // Save rows for getProps() function.
         this.first = 0; // Reset index used to obtain rows.
@@ -434,7 +435,6 @@
     }
     return this._leafColArray;
 };
-
 
 /**
  * This object contains event topics.
@@ -801,14 +801,16 @@
     } else {
         var colHeaderCell = document.getElementById(col.id + "_colHeader");
         var tableDataCell = document.getElementById(col.id.replace(this.id, rowId));
-        if (!this.currentColumnWidth) this.currentColumnWidth = 0;
+        if (!this.currentColumnWidth) {
+            this.currentColumnWidth = 0;
+        }
         this.currentColumnWidth = this.currentColumnWidth + tableDataCell.offsetWidth - 1;
-        colHeaderCell.style.width = (tableDataCell.offsetWidth -1) + "px";        
+        colHeaderCell.style.width = (tableDataCell.offsetWidth -1) + "px";
+
         // footer width
         var colFooterCell = document.getElementById(col.id + "_colFooter");
         if (colFooterCell && col.footerText) {
             colFooterCell.style.width = (tableDataCell.offsetWidth - 1) + "px";
-            
         }
     }
 };    
@@ -852,19 +854,19 @@
  */
 @JS_NS@.widget.table2RowGroup.prototype._setColumnProps = function(domNode, props) {
     // Set properties.
-    if (this.abbr != null) { domNode.abbr = this.abbr; }
-    if (this.axis != null) { domNode.axis = this.axis; }
-    if (this.bgColor != null) { domNode.bgColor = this.bgColor; }
-//    if (this.char != null) { domNode.char = this.char; } // To do: Rename -- keyword is reserved.
-    if (this.charOff != null) { domNode.charoff = this.charOff; }
-    if (this.colspan != null) { domNode.colspan = this.colspan; }
-    if (this.headers != null) { domNode.headers = this.headers; }
-    if (this.height != null) { domNode.height = this.height; }
-    if (this.noWrap != null) { domNode.nowrap = "nowrap"; }
-    if (this.rowSpan != null) { domNode.rowspan = this.rowSpan; }
-    if (this.scope != null) { domNode.scope = this.scope; }
-    if (this.valign != null) { domNode.valign = this.valign; }
-    if (this.width != null) { domNode.width = this.width; }
+    if (props.abbr != null) { domNode.abbr = this.abbr; }
+    if (props.axis != null) { domNode.axis = this.axis; }
+    if (props.bgColor != null) { domNode.bgColor = this.bgColor; }
+//    if (props.char != null) { domNode.char = this.char; } // To do: Rename -- keyword is reserved.
+    if (props.charOff != null) { domNode.charoff = this.charOff; }
+    if (props.colspan != null) { domNode.colspan = this.colspan; }
+    if (props.headers != null) { domNode.headers = this.headers; }
+    if (props.height != null) { domNode.height = this.height; }
+    if (props.noWrap != null) { domNode.nowrap = "nowrap"; }
+    if (props.rowSpan != null) { domNode.rowspan = this.rowSpan; }
+    if (props.scope != null) { domNode.scope = this.scope; }
+    if (props.valign != null) { domNode.valign = this.valign; }
+    if (props.width != null) { domNode.width = this.width; }
 
     // Set more properties.
     this._setCommonProps(domNode, props);
@@ -937,7 +939,7 @@
         this._widget._updateFragment(this._groupHeaderText, this._groupHeaderText.id, props.headerText);
         this._common._setVisibleElement(this.groupHeaderContainer, true);
     }
-    // Add paginationControl.    
+    // Add paginationControls.    
     if (props.paginationPrevButton) {
         // set onclick for previous button.
         props.paginationPrevButton.onClick = 
@@ -953,9 +955,11 @@
     if (props.paginationControls != null) {        
         this.paginationControls = props.paginationControls;
     }
-    //set enabled/disabled state for pagination controls
-    this._updatePaginationControls(); 
-    //popup menu
+
+    // Set enabled/disabled state for pagination controls
+    this._updatePaginationControls();
+
+    // Add popup menu
     if (props.sortPopupMenu) {
         @JS_NS@.widget.common._updateFragment(this._sortMenu, props.sortPopupMenu.id, props.sortPopupMenu);
     }
@@ -967,7 +971,7 @@
         this.refreshCols = false;
     }
     
-    //update the sortLevel values client-side
+    // Update the sortLevel values.
     if (props.columns) {  
         this._leafColArray.length = 0;
         var leafColArray = this._getLeafColumns(this.columns);
@@ -1049,7 +1053,8 @@
     }]);
     this._leafColArray.length = 0;
     var leafColArray = this._getLeafColumns(this.columns);
-    // Update sortCount and sortLevel values client-side    
+
+    // Update sortCount and sortLevel values.
     if ((value == "primaryAscending" || value == "primaryDescending")) {
         sortLevel = 1;
         this._sortCount = 1;
@@ -1060,13 +1065,14 @@
         this._sortCount = 0;
         for (var i = 0; i < leafColArray.length; i++) {
             var col = leafColArray[i];
-                col.sortLevel = -1;                                            
+            col.sortLevel = -1;                                            
         }
-    } 
+    }
+
     // Update sortLevel value for column
     for (var i = 0; i < leafColArray.length; i++) {
         var col = leafColArray[i];
-        //clear other sort if primary sort is selected
+        // Clear other sorts if primary sort is selected.
         if (sortLevel == 1) {
             col.sortLevel = -1;
         }
@@ -1090,21 +1096,19 @@
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-@JS_NS@.widget._base.widgetBase.prototype._start = function () {
-    if (typeof this._started == "undefined") {
+@JS_NS@.widget.table2RowGroup.prototype.start = function () {
+    if (this._started == true) {
         return false;
     }
-    if (new Boolean(this.autoStart).valueOf() == true) {
-        // Publish event to retrieve data.    
-        if (this.first == 0) {
-            // Publish an event for custom AJAX implementations to listen for.
-            this._publish(@JS_NS@.widget.table2RowGroup.event.scroll.beginTopic, [{
-                id: this.id,
-                first: this.first
-            }]);
-        }
+    // Retrieve rows only if initial data has not been provided.
+    if (this.rows == null) {
+        // Publish an event for custom AJAX implementations to listen for.
+        this._publish(@JS_NS@.widget.table2RowGroup.event.scroll.beginTopic, [{
+            id: this.id,
+            first: this.first
+        }]);
     }
-    return this._started = true;
+    return this._inherited("start", arguments);
 };
 
 /**

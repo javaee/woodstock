@@ -397,8 +397,8 @@
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-@JS_NS@.widget.login.prototype._start = function () {
-    if (typeof this._started == "undefined") {
+@JS_NS@.widget.login.prototype.start = function () {
+    if (this._started == true) {
         return false;
     }
     // If widget set to "autoStart" fire up the authentication process.
@@ -411,7 +411,7 @@
             }, 10);    
         }
     }
-    return this._inherited("_start", arguments);
+    return this._inherited("start", arguments);
 };
 
 /**

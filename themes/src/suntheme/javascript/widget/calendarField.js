@@ -289,8 +289,8 @@
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-@JS_NS@.widget.calendarField.prototype._start = function () {
-    if (typeof this._started == "undefined") {
+@JS_NS@.widget.calendarField.prototype.start = function () {
+    if (this._started == true) {
         return false;
     }
 
@@ -301,7 +301,8 @@
     // been added to the DOM. So, offsetWidth would return zero. 
     var width = this._fieldNode.offsetWidth;
     this._inlineHelpNode.style.cssText = "width:" + width + "px;";
-    return this._inherited("_start", arguments);
+
+    return this._inherited("start", arguments);
 };
 
 /**

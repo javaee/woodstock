@@ -828,13 +828,13 @@
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-@JS_NS@.widget.progressBar.prototype._start = function () {
-    if (typeof this._started == "undefined") {
+@JS_NS@.widget.progressBar.prototype.start = function () {
+    if (this._started == true) {
         return false;
     }
     // Start a timer used to periodically publish progress events.
-    this._updateProgress();  
-    return this._inherited("_start", arguments);
+    this._updateProgress();
+    return this._inherited("start", arguments);
 };
 
 /**

@@ -78,7 +78,7 @@
  * contents property from the widget because that is something we do not want to
  * extend.
  * <p></p>
- * The startup() function is typically called after the widget has been 
+ * The start() function is typically called after the widget has been 
  * instantiated. For example, a progressBar might start a timer to periodically
  * refresh. 
  * <p></p>
@@ -90,15 +90,17 @@
  * error by calling appendChild(). Therefore, widget creation must be deferred
  * to the window.onLoad event. See http://trac.dojotoolkit.org/ticket/4631
  * </p>
+ * @param {boolean} autoStart Flag indicating to start widget post initialization.
  */
 @JS_NS@._dojo.declare("@JS_NS@.widget._base.widgetBase", [
-        @JS_NS@._dijit._Widget, @JS_NS@._dijit._Templated], {
+        @JS_NS@._dijit._Widget, @JS_NS@._dijit._Templated ], {
     // Note: If your class contains arrays or other objects, they should be
     // declared in the constructor function so that each instance gets it's own
     // copy. Simple types (literal strings and numbers) are fine to declare in 
     // the class directly. Also note that superclass constructors are always 
     // called automatically, and always before the subclass constructor.
     constructor: function() {
+        this.autoStart = true;
         this._started = false;
     },
 
@@ -116,7 +118,7 @@
     // Template must be set prior to calling "superclass".
     this._buildRendering();
     return this._inherited("buildRendering", arguments);
-}
+};
 
 /**
  * This function is used to render the widget from a template.
@@ -286,9 +288,9 @@
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-@JS_NS@.widget._base.widgetBase.prototype._inherited = function(name, args, newArgs){
+@JS_NS@.widget._base.widgetBase.prototype._inherited = function(name, args, newArgs) {
     return this.inherited(name, args, newArgs);
-}
+};
 
 /**
  * This function is used to test if widget has been initialized.
@@ -316,7 +318,7 @@
 /** @ignore */
 @JS_NS@.widget._base.widgetBase.prototype.postCreate = function () {
     return this._postCreate();
-}
+};
 
 /**
  * This is called after the _buildRendering() function.
@@ -626,21 +628,29 @@
     return this._setCoreProps(this._domNode, props);
 };
 
-// This function is not public and should not appear in the jsDoc.
-/** @ignore */
-@JS_NS@.widget._base.widgetBase.prototype.startup = function () {
-    return this._start();
-}
+/**
+ * This function is used to "start" the widget, after the widget has been
+ * instantiated. If the autoStart property is true, the public start function 
+ * will be called.
+ *
+ * @return {boolean} true if successful; otherwise, false.
+ * @private
+ */
+@JS_NS@.widget._base.widgetBase.prototype._start = function () {
+    if (new Boolean(this.autoStart).valueOf()) {
+        return this.start();
+    }
+    return false;
+};
 
 /**
  * This function is used to "start" the widget, after the widget has been
  * instantiated.
  *
  * @return {boolean} true if successful; otherwise, false.
- * @private
  */
-@JS_NS@.widget._base.widgetBase.prototype._start = function () {
-    if (typeof this._started == "undefined") {
+@JS_NS@.widget._base.widgetBase.prototype.start = function () {
+    if (this._started == true) {
         return false;
     }
     return this._started = true;
