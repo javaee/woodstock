@@ -397,7 +397,7 @@
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-@JS_NS@.widget.login.prototype.start = function () {
+@JS_NS@.widget.login.prototype._startup = function () {
     if (this._started == true) {
         return false;
     }
@@ -411,7 +411,7 @@
             }, 10);    
         }
     }
-    return this._inherited("start", arguments);
+    return this._inherited("_startup", arguments);
 };
 
 /**

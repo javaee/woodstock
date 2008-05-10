@@ -1096,7 +1096,7 @@
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-@JS_NS@.widget.table2RowGroup.prototype.start = function () {
+@JS_NS@.widget.table2RowGroup.prototype._startup = function () {
     if (this._started == true) {
         return false;
     }
@@ -1108,7 +1108,7 @@
             first: this.first
         }]);
     }
-    return this._inherited("start", arguments);
+    return this._inherited("_startup", arguments);
 };
 
 /**

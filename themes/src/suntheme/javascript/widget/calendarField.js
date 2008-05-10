@@ -289,7 +289,7 @@
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-@JS_NS@.widget.calendarField.prototype.start = function () {
+@JS_NS@.widget.calendarField.prototype._startup = function () {
     if (this._started == true) {
         return false;
     }
@@ -302,7 +302,7 @@
     var width = this._fieldNode.offsetWidth;
     this._inlineHelpNode.style.cssText = "width:" + width + "px;";
 
-    return this._inherited("start", arguments);
+    return this._inherited("_startup", arguments);
 };
 
 /**

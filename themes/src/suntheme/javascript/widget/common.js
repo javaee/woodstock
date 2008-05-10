@@ -349,7 +349,7 @@
             domNode.parentNode.replaceChild(widget._domNode, _domNode);
         }
         // Start widget.
-        widget._start();
+        widget._startup();
         return widget;
     },
 

@@ -90,7 +90,6 @@
  * error by calling appendChild(). Therefore, widget creation must be deferred
  * to the window.onLoad event. See http://trac.dojotoolkit.org/ticket/4631
  * </p>
- * @param {boolean} autoStart Flag indicating to start widget post initialization.
  */
 @JS_NS@._dojo.declare("@JS_NS@.widget._base.widgetBase", [
         @JS_NS@._dijit._Widget, @JS_NS@._dijit._Templated ], {
@@ -100,7 +99,6 @@
     // the class directly. Also note that superclass constructors are always 
     // called automatically, and always before the subclass constructor.
     constructor: function() {
-        this.autoStart = true;
         this._started = false;
     },
 
@@ -631,22 +629,7 @@
 // This function is not public and should not appear in the jsDoc.
 /** @ignore */
 @JS_NS@.widget._base.widgetBase.prototype.startup = function () {
-    return this._start();
-};
-
-/**
- * This function is used to "start" the widget, after the widget has been
- * instantiated. If the autoStart property is true, the public start function 
- * will be called.
- *
- * @return {boolean} true if successful; otherwise, false.
- * @private
- */
-@JS_NS@.widget._base.widgetBase.prototype._start = function () {
-    if (new Boolean(this.autoStart).valueOf()) {
-        return this.start();
-    }
-    return false;
+    return this._startup();
 };
 
 /**
@@ -655,7 +638,7 @@
  *
  * @return {boolean} true if successful; otherwise, false.
  */
-@JS_NS@.widget._base.widgetBase.prototype.start = function () {
+@JS_NS@.widget._base.widgetBase.prototype._startup = function () {
     if (this._started == true) {
         return false;
     }
