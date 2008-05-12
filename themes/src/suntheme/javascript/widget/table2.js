@@ -235,8 +235,10 @@
     }
 
     // Add actions.
-    if (props.actions) {
-        this._widget._addFragment(this._actionsNode, props.actions);
+    if (props.actions) {        
+        for (var i = 0; i < props.actions.length; i++) {
+          this._widget._addFragment(this._actionsNode, props.actions[i], "last");
+        }
         this._common._setVisibleElement(this._actionsContainer, true);
     }
 

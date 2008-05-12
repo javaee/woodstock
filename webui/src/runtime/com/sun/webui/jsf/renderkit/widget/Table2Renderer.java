@@ -166,8 +166,11 @@ public class Table2Renderer extends RendererBase {
             JSONObject json) throws IOException, JSONException {
         // Get actions facet.
         UIComponent facet = component.getFacet(Table2.ACTIONS_TOP_FACET);
+        JSONArray jArray = null; 
         if (facet != null && facet.isRendered()) {
-            json.put("actions", WidgetUtilities.renderComponent(context, facet));
+            jArray = new JSONArray();
+            json.put("actions", jArray);
+            jArray.put(WidgetUtilities.renderComponent(context, facet));
         }
     }
 
