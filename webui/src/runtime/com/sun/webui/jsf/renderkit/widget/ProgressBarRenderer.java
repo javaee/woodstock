@@ -138,14 +138,16 @@ public class ProgressBarRenderer extends RendererBase {
             ProgressBar.RIGHTTASK_CONTROL_FACET);
         UIComponent bottomButtonCon = component.getFacet(
             ProgressBar.BOTTOMTASK_CONTROL_FACET);
-
+        JSONArray jArray = null;    
         if (rightButtonCon != null) {
-            json.put("progressControlRight", WidgetUtilities.renderComponent(
-                context, rightButtonCon));
+            jArray = new JSONArray();
+            json.put("progressControlRight", jArray);
+            jArray.put(WidgetUtilities.renderComponent(context, rightButtonCon));
         }
         if (bottomButtonCon != null) {
-            json.put("progressControlBottom", WidgetUtilities.renderComponent(
-                context, bottomButtonCon));
+            jArray = new JSONArray();
+            json.put("progressControlBottom", jArray);
+            jArray.put(WidgetUtilities.renderComponent(context, bottomButtonCon));
         }
                 
         ProgressBar pb = (ProgressBar) component;

@@ -339,7 +339,7 @@
     /** @ignore */
     this._domNode.resume = function() { return @JS_NS@.widget.common.getWidget(this.id).resume(); };
     /** @ignore */
-    this._domNode.stop = function() { return @JS_NS@.widget.common.getWidget(this.id).stop(); };
+    this._domNode.stop = function() { return @JS_NS@.widget.common.getWidget(this.id).stop(); };     
     /** @ignore */
     this._domNode.setOnCancel = function(func) { return @JS_NS@.widget.common.getWidget(this.id).setOnCancel(func); };
     /** @ignore */
@@ -709,14 +709,18 @@
         }
 
         // Add right controls.
-        if (props.progressControlRight != null) {
-            this._widget._addFragment(this._rightControlsContainer, props.progressControlRight);
+        if (props.progressControlRight != null) {            
+            for (var i = 0; i < props.progressControlRight.length; i++) {
+              this._widget._addFragment(this._rightControlsContainer, props.progressControlRight[i], "last");
+            }
             this._common._setVisibleElement(this._rightControlsContainer, true);
         }
 
         // Add bottom controls.
         if (props.progressControlBottom != null) {
-            this._widget._addFragment(this._bottomControlsContainer, props.progressControlBottom);
+            for (var i = 0; i < props.progressControlBottom.length; i++) {
+              this._widget._addFragment(this._bottomControlsContainer, props.progressControlBottom[i], "last");
+            }
             this._common._setVisibleElement(this._bottomControlsContainer, true);
         }
     }
