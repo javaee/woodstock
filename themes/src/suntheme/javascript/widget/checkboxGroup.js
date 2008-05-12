@@ -29,12 +29,192 @@
 /**
  * This function is used to construct a checkboxGroup widget.
  *
+ * @constructor
  * @name @JS_NS@.widget.checkboxGroup
  * @extends @JS_NS@.widget._base.checkedGroupBase
  * @extends @JS_NS@.widget._base.refreshBase
  * @extends @JS_NS@.widget._base.stateBase
  * @class This class contains functions for the checkboxGroup widget.
- * @constructor
+ * <p>
+ * The widget is used to layout an array of checkboxes. To group checkboxes
+ * properly, each widget id must be unique, but the name property value is the
+ * same.
+ * </p><p>
+ * <h3>Example 1: Create widget</h3>
+ * </p><p>
+ * This example shows how to create a widget using a span tag as a place holder 
+ * in the document. Minimally, the createWidget() function needs an id and 
+ * widgetType properties.
+ * </p><pre><code>
+ * &lt;span id="sp1">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp1", {
+ *       id: "cbg1",
+ *       contents: [{ 
+ *         id: "cb1",
+ *         label: { value: "This is checkbox 1" },
+ *         widgetType: "checkbox"
+ *       }, {
+ *         id: "cb2",
+ *         label: { value: "This is checkbox 2" },
+ *         widgetType: "checkbox"
+ *       }],
+ *       label: { value: "This is a checkbox group" },
+ *       widgetType: "checkboxGroup"
+ *     });
+ *   &lt;/script>
+ * &lt;/span>
+ * </code></pre><p>
+ * <h3>Example 2: Update widget using the getProps and setProps functions</h3>
+ * </p><p>
+ * This example shows how to toggle the state of a widget using the
+ * getProps and setProps functions. When the user clicks the radio button, the
+ * checkbox group is either disabled or enabled.
+ * </p><pre><code>
+ * &lt;span id="sp1">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp1", {
+ *       id: "cbg1",
+ *       contents: [{ 
+ *         id: "cb1",
+ *         label: { value: "This is checkbox 1" },
+ *         widgetType: "checkbox"
+ *       }, {
+ *         id: "cb2",
+ *         label: { value: "This is checkbox 2" },
+ *         widgetType: "checkbox"
+ *       }],
+ *       label: { value: "This is a checkbox group" },
+ *       widgetType: "checkboxGroup"
+ *   &lt;/script>
+ * &lt;/span>
+ * &lt;span id="sp2">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp2", {
+ *       id: "rb1",
+ *       label: { value: "Toggle Checkbox Group State" },
+ *       onKeyPress="setTimeout('updateWidget();', 0);",
+ *       widgetType: "radioButton"
+ *     });
+ *     function updateWidget() {
+ *       var widget = @JS_NS@.widget.common.getWidget("cbg1"); // Get checkbox group
+ *       return widget.setProps({disabled: !domNode.getProps().disabled}); // Toggle state
+ *     }
+ *   &lt;/script>
+ * &lt;/span>
+ * </code></pre><p>
+ * <h3>Example 3a: Asynchronously update widget using refresh function</h3>
+ * </p><p>
+ * This example shows how to asynchronously update a widget using the refresh 
+ * function. When the user clicks on the radio button, the checkbox group is 
+ * asynchronously updated with new data.
+ * </p><pre><code>
+ * &lt;span id="sp1">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp1", {
+ *       id: "cbg1",
+ *       contents: [{ 
+ *         id: "cb1",
+ *         label: { value: "This is checkbox 1" },
+ *         widgetType: "checkbox"
+ *       }, {
+ *         id: "cb2",
+ *         label: { value: "This is checkbox 2" },
+ *         widgetType: "checkbox"
+ *       }],
+ *       label: { value: "This is a checkbox group" },
+ *       widgetType: "checkboxGroup"
+ *     });
+ *   &lt;/script>
+ * &lt;/span>
+ * &lt;span id="sp2">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp2", {
+ *       id: "rb1",
+ *       label: { value: "Refresh Checkbox Group" },
+ *       onKeyPress="setTimeout('updateWidget();', 0);",
+ *       widgetType: "radioButton"
+ *     });
+ *     function updateWidget() {
+ *       var widget = @JS_NS@.widget.common.getWidget("cb1"); // Get checkbox group
+ *       return widget.refresh(); // Asynchronously refresh
+ *     }
+ *   &lt;/script>
+ * &lt;/span>
+ * </code></pre><p>
+ * Note that the refresh function can take an optional list of elements to 
+ * execute. Thus, a comma-separated list of ids can be provided to update 
+ * server-side components: refresh("id1,id2,..."). When no parameter is given, 
+ * the refresh function acts as a reset. That is, the widget will be redrawn 
+ * using values set server-side, but not updated.
+ * </p><p>
+ * <h3>Example 3b: Asynchronously update widget using refresh function</h3>
+ * </p><p>
+ * This example shows how to asynchronously update a checkbox group using the 
+ * refresh function. The execute property of the refresh function is used to 
+ * define the client id which is to be submitted and updated server-side. As the
+ * user types in the text field, the input value is updated server-side and the 
+ * checkbox group label is updated client-side -- all without a page refresh.
+ * </p><pre><code>
+ * &lt;span id="sp1">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp1", {
+ *       id: "cbg1",
+ *       contents: [{ 
+ *         id: "cb1",
+ *         label: { value: "This is checkbox 1" },
+ *         widgetType: "checkbox"
+ *       }, {
+ *         id: "cb2",
+ *         label: { value: "This is checkbox 2" },
+ *         widgetType: "checkbox"
+ *       }],
+ *       label: { value: "This is a checkbox group" },
+ *       widgetType: "checkboxGroup"
+ *     });
+ *   &lt;/script>
+ * &lt;/span>
+ * &lt;span id="sp2">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp2", {
+ *       id: "field1",
+ *       label: { value: "Change Checkbox Group Label" },
+ *       onKeyPress="setTimeout('updateWidget();', 0);",
+ *       widgetType: "textField"
+ *     });
+ *     function updateWidget() {
+ *       var widget = @JS_NS@.widget.common.getWidget("cbg"); // Get checkbox group
+ *       return widget.refresh("field1"); // Asynchronously refresh while submitting field value
+ *     }
+ *   &lt;/script>
+ * &lt;/span>
+ * </code></pre><p>
+ * Note that the refresh function can optionally take a list of elements to 
+ * execute. Thus, a comma-separated list of ids can be provided to update 
+ * server-side components: refresh("id1,id2,...").
+ * </p><p>
+ * <h3>Example 4: Subscribing to event topics</h3>
+ * </p><p>
+ * When a widget is manipulated, some features may publish event topics for
+ * custom AJAX implementations to listen for. For example, you may listen for
+ * the refresh event topic using:
+ * </p><pre><code>
+ * &lt;script type="text/javascript">
+ *    var foo = {
+ *        // Process refresh event.
+ *        //
+ *        // @param {Object} props Key-Value pairs of properties.
+ *        processRefreshEvent: function(props) {
+ *            // Get the widget id.
+ *            if (props.id == "cbg") { // Do something... }
+ *        }
+ *    }
+ *    // Subscribe to refresh event.
+ *    woodstock.widget.common.subscribe(woodstock.widget.checkboxGroup.event.refresh.endTopic, 
+ *      foo, "processRefreshEvent");
+ * &lt;/script>
+ * </code></pre>
+ *
  * @param {Object} props Key-Value pairs of properties.
  * @config {String} align Alignment of image input.
  * @config {String} className CSS selector.

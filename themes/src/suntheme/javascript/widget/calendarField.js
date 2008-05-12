@@ -48,10 +48,7 @@
  *   &lt;script type="text/javascript">
  *     @JS_NS@.widget.common.createWidget("sp1", {
  *       id: "calField1",
- *       label: {
- *         level: 2,
- *         value: "Start Date: "
- *       },
+ *       label: { value: "Start Date: " },
  *       size: 20,
  *       widgetType: "calendarField",
  *       calendar: {
@@ -76,10 +73,7 @@
  *   &lt;script type="text/javascript">
  *     @JS_NS@.widget.common.createWidget("sp1", {
  *       id: "calField1",
- *       label: {
- *         level: 2,
- *         value: "Start Date: "
- *       },
+ *       label: { value: "Start Date: " },
  *       size: 20,
  *       widgetType: "calendarField",
  *       calendar: {
@@ -118,10 +112,7 @@
  *   &lt;script type="text/javascript">
  *     @JS_NS@.widget.common.createWidget("sp1", {
  *       id: "calField1",
- *       label: {
- *         level: 2,
- *         value: "Start Date: "
- *       },
+ *       label: { value: "Start Date: " },
  *       size: 20,
  *       widgetType: "calendarField",
  *       calendar: {
@@ -168,10 +159,7 @@
  *   &lt;script type="text/javascript">
  *     @JS_NS@.widget.common.createWidget("sp1", {
  *       id: "calField1",
- *       label: {
- *         level: 2,
- *         value: "Start Date: "
- *       },
+ *       label: { value: "Start Date: " },
  *       size: 20,
  *       widgetType: "calendarField",
  *       calendar: {

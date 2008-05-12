@@ -34,8 +34,8 @@
      * request object (XHR) the underlying protocol.
      *
      * @param {Object} props Key-Value pairs of properties.
-     * @config {Object} content Key-Value pairs of sring properties serialized as
-     * name1=value2 and passed in the request.
+     * @config {Object} content Key-Value pairs of sring properties to be 
+     * serialized as name1=value2 and passed in the request.
      * @config {Function} error The callback function called in an error case. 
      * @config {Node} form DOM node for a form. Used to extract the form values 
      * and send to the server.
@@ -63,8 +63,8 @@
      * request object (XHR) the underlying protocol.
      *
      * @param {Object} props Key-Value pairs of properties.
-     * @config {Object} content Key-Value pairs of sring properties serialized as
-     * name1=value2 and passed in the request.
+     * @config {Object} content Key-Value pairs of sring properties to be
+     * serialized as name1=value2 and passed in the request.
      * @config {Function} error The callback function called in an error case. 
      * @config {Node} form DOM node for a form. Used to extract the form values 
      * and send to the server.
