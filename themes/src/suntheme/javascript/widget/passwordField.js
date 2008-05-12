@@ -27,10 +27,62 @@
 /**
  * This function is used to construct a passwordField widget.
  *
+ * @constructor
  * @name @JS_NS@.widget.passwordField
  * @extends @JS_NS@.widget._base.fieldBase
  * @class This class contains functions for the passwordField widget.
- * @constructor
+ * <p>
+ * The passwordField widget create an HTML input field where the characters 
+ * entered are echoed back with a replacement character in order to mask the
+ * input.
+ * </p><p>
+ * <h3>Example 1: Create widget</h3>
+ * </p><p>
+ * This example shows how to create a widget using a span tag as a place holder 
+ * in the document. Minimally, the createWidget() function needs an id and 
+ * widgetType properties.
+ * </p><pre><code>
+ * &lt;span id="sp1">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp1", {
+ *       id: "field1",
+ *       value: "This is a password field",
+ *       widgetType: "passwordField"
+ *     });
+ *   &lt;/script>
+ * &lt;/span>
+ * </code></pre><p>
+ * <h3>Example 2: Update widget using the getProps and setProps functions</h3>
+ * </p><p>
+ * This example shows how to toggle the state of a widget using the
+ * getProps and setProps functions. When the user clicks the checkbox, the
+ * password field is either disabled or enabled.
+ * </p><pre><code>
+ * &lt;span id="sp1">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp1", {
+ *       id: "field1",
+ *       value: "This is a Password Field",
+ *       widgetType: "passwordField"
+ *     });
+ *   &lt;/script>
+ * &lt;/span>
+ * &lt;span id="sp2">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp2", {
+ *       id: "cb1",
+ *       label: { value: "Toggle Password Field State" },
+ *       onKeyPress="setTimeout('updateWidget();', 0);",
+ *       widgetType: "checkbox"
+ *     });
+ *     function updateWidget() {
+ *       var widget = @JS_NS@.widget.common.getWidget("field1"); // Get password field
+ *       return widget.setProps({disabled: !domNode.getProps().disabled}); // Toggle state
+ *     }
+ *   &lt;/script>
+ * &lt;/span>
+ * </code></pre>
+ *
  * @param {Object} props Key-Value pairs of properties.
  * @config {String} accesskey 
  * @config {String} className CSS selector.

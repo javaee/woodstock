@@ -100,7 +100,7 @@
  *   &lt;/script>
  * &lt;/span>
  * </code></pre><p>
- * <h3>Example 3: Asynchronously update widget using refresh function</h3>
+ * <h3>Example 3a: Asynchronously update widget using refresh function</h3>
  * </p><p>
  * This example shows how to asynchronously update a widget using the refresh 
  * function. When the user clicks on the checkbox, the calendar is 
@@ -138,6 +138,40 @@
  * the refresh function acts as a reset. That is, the widget will be redrawn 
  * using values set server-side, but not updated.
  * </p><p>
+ * <h3>Example 3b: Asynchronously update widget using refresh function</h3>
+ * </p><p>
+ * This example shows how to asynchronously update a button using the refresh
+ * function. The execute property of the refresh function is used to define the
+ * client id which is to be submitted and updated server-side. When the user 
+ * clicks on the checkbox, the input value is updated server-side and the 
+ * calendar is updated client-side -- all without a page refresh.
+ * </p><pre><code>
+ * &lt;span id="sp1">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp1", {
+ *       id: "cal1",
+ *       maxDate: "05/12/2108",
+ *       minDate: "05/12/1908",
+ *       todayDateMsg: "Today: May 12, 2008",
+ *       widgetType: "calendar"
+ *     });
+ *   &lt;/script>
+ * &lt;/span>
+ * &lt;span id="sp2">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp2", {
+ *       id: "cb1",
+ *       label: { value: "Change Calendar Date" },
+ *       onClick="setTimeout('updateWidget();', 0);",
+ *       widgetType: "checkbox"
+ *     });
+ *     function updateWidget() {
+ *       var widget = @JS_NS@.widget.common.getWidget("cal1"); // Get calendar
+ *       return widget.refresh("cb1"); // Asynchronously refresh while submitting checkbox value
+ *     }
+ *   &lt;/script>
+ * &lt;/span>
+ * </code></pre><p>
  * <h3>Example 4: Subscribing to event topics</h3>
  * </p><p>
  * When a widget is manipulated, some features may publish event topics for

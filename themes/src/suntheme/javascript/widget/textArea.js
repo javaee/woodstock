@@ -28,10 +28,155 @@
 /**
  * This function is used to construct a textArea widget.
  *
+ * @constructor
  * @name @JS_NS@.widget.textArea
  * @extends @JS_NS@.widget.textField
  * @class This class contains functions for the textArea widget.
- * @constructor
+ * <p>
+ * The autoSave property will submit the content of the modified text area for
+ * server side processing. The text area value will be submitted every autoSave
+ * milliseconds only if it has been modified within last interval. 
+ * </p><p>
+ * <h3>Example 1: Create widget</h3>
+ * </p><p>
+ * This example shows how to create a widget using a span tag as a place holder 
+ * in the document. Minimally, the createWidget() function needs an id and 
+ * widgetType properties.
+ * </p><pre><code>
+ * &lt;span id="sp1">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp1", {
+ *       id: "field1",
+ *       value: "This is a text area",
+ *       widgetType: "textArea"
+ *     });
+ *   &lt;/script>
+ * &lt;/span>
+ * </code></pre><p>
+ * <h3>Example 2: Update widget using the getProps and setProps functions</h3>
+ * </p><p>
+ * This example shows how to toggle the state of a widget using the
+ * getProps and setProps functions. When the user clicks the checkbox, the
+ * text area is either disabled or enabled.
+ * </p><pre><code>
+ * &lt;span id="sp1">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp1", {
+ *       id: "field1",
+ *       value: "This is a text area",
+ *       widgetType: "textArea"
+ *     });
+ *   &lt;/script>
+ * &lt;/span>
+ * &lt;span id="sp2">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp2", {
+ *       id: "cb1",
+ *       label: { value: "Toggle Text Area State" },
+ *       onKeyPress="setTimeout('updateWidget();', 0);",
+ *       widgetType: "checkbox"
+ *     });
+ *     function updateWidget() {
+ *       var widget = @JS_NS@.widget.common.getWidget("field1"); // Get text area
+ *       return widget.setProps({disabled: !domNode.getProps().disabled}); // Toggle state
+ *     }
+ *   &lt;/script>
+ * &lt;/span>
+ * </code></pre><p>
+ * <h3>Example 3a: Asynchronously update widget using refresh function</h3>
+ * </p><p>
+ * This example shows how to asynchronously update a widget using the refresh 
+ * function. When the user clicks on the checkbox, the text area is 
+ * asynchronously updated with new data.
+ * </p><pre><code>
+ * &lt;span id="sp1">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp1", {
+ *       id: "field1",
+ *       value: "This is a text area",
+ *       widgetType: "textArea"
+ *     });
+ *   &lt;/script>
+ * &lt;/span>
+ * &lt;span id="sp2">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp2", {
+ *       id: "cb1",
+ *       label: { value: "Refresh Text Area" },
+ *       onKeyPress="setTimeout('updateWidget();', 0);",
+ *       widgetType: "checkbox"
+ *     });
+ *     function updateWidget() {
+ *       var widget = @JS_NS@.widget.common.getWidget("field1"); // Get text area
+ *       return widget.refresh(); // Asynchronously refresh
+ *     }
+ *   &lt;/script>
+ * &lt;/span>
+ * </code></pre><p>
+ * Note that the refresh function can take an optional list of elements to 
+ * execute. Thus, a comma-separated list of ids can be provided to update 
+ * server-side components: refresh("id1,id2,..."). When no parameter is given, 
+ * the refresh function acts as a reset. That is, the widget will be redrawn 
+ * using values set server-side, but not updated.
+ * </p><p>
+ * <h3>Example 3b: Asynchronously update widget using refresh function</h3>
+ * </p><p>
+ * This example shows how to asynchronously update a text area using the 
+ * refresh function. The execute property of the refresh function is used to
+ * define the client id which is to be submitted and updated server-side. When
+ * the user clicks on the checkbox, the input value is updated server-side and 
+ * the text area is updated client-side -- all without a page refresh.
+ * </p><pre><code>
+ * &lt;span id="sp1">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp1", {
+ *       id: "field1",
+ *       value: "This is a text area",
+ *       widgetType: "textArea"
+ *     });
+ *   &lt;/script>
+ * &lt;/span>
+ * &lt;span id="sp2">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp2", {
+ *       id: "cb1",
+ *       label: { value: "Change Text Area Value" },
+ *       onClick="setTimeout('updateWidget();', 0);",
+ *       widgetType: "checkbox"
+ *     });
+ *     function updateWidget() {
+ *       var widget = @JS_NS@.widget.common.getWidget("field1"); // Get text area
+ *       return widget.refresh("cb1"); // Asynchronously refresh while submitting checkbox value
+ *     }
+ *   &lt;/script>
+ * &lt;/span>
+ * </code></pre><p>
+ * Note that the refresh function can optionally take a list of elements to 
+ * execute. Thus, a comma-separated list of ids can be provided to update 
+ * server-side components: refresh("id1,id2,...").
+ * </p><p>
+ * <h3>Example 4: Subscribing to event topics</h3>
+ * </p><p>
+ * When a widget is manipulated, some features may publish event topics for
+ * custom AJAX implementations to listen for. For example, you may listen for
+ * the refresh event topic using:
+ * </p><pre><code>
+ * &lt;script type="text/javascript">
+ *    var foo = {
+ *        // Process refresh event.
+ *        //
+ *        // @param {Object} props Key-Value pairs of properties.
+ *        processRefreshEvent: function(props) {
+ *            // Get the widget id.
+ *            if (props.id == "field1") { // Do something... }
+ *        }
+ *    }
+ *    // Subscribe to refresh event.
+ *    woodstock.widget.common.subscribe(woodstock.widget.textArea.event.refresh.endTopic, 
+ *      foo, "processRefreshEvent");
+ * &lt;/script>
+ * </code></pre>
+ *
  * @param {Object} props Key-Value pairs of properties.
  * @config {String} accesskey 
  * @config {boolean} autoSave 

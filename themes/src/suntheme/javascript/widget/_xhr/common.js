@@ -130,7 +130,8 @@
         var xjson = {
             id: props.id,
             event: "state",
-            execute: "none"
+            execute: "none",
+            props: props.props // Widget properties to update.
         };
 
         // Generate AJAX request.

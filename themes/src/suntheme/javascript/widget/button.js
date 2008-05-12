@@ -130,8 +130,8 @@
  * This example shows how to asynchronously update a button using the refresh
  * function. The execute property of the refresh function is used to define the
  * client id which is to be submitted and updated server-side. As the user types
- * in the text field, the input value is updated server-side and the button text
- * is updated client-side -- all without a page refresh.
+ * in the text field, the input value is updated server-side and the button
+ * label is updated client-side -- all without a page refresh.
  * </p><pre><code>
  * &lt;span id="sp1">
  *   &lt;script type="text/javascript">
@@ -146,7 +146,7 @@
  *   &lt;script type="text/javascript">
  *     @JS_NS@.widget.common.createWidget("sp2", {
  *       id: "field1",
- *       label: { value: "Change Button Text" },
+ *       label: { value: "Change Button Label" },
  *       onKeyPress="setTimeout('updateWidget();', 0);",
  *       widgetType: "textField"
  *     });
