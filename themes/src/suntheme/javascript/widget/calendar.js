@@ -31,12 +31,135 @@
 /**
  * This function is used to construct a calendar widget.
  *
+ * @constructor
  * @name @JS_NS@.widget.calendar
  * @extends @JS_NS@.widget._base.widgetBase
  * @extends @JS_NS@.widget._base.refreshBase
  * @extends @JS_NS@.widget._base.stateBase
  * @class This class contains functions for the calendar widget.
- * @constructor
+ * <p>
+ * The calendar widget displays an icon that displays a small calendar when 
+ * clicked. Typically, this is used in conjuction with the calendarField widget
+ * or a text field used to input a date. The user can either type directly into
+ * the text field or select a date from the calendar display.
+ * </p><p>
+ * By default, the calendar widget accepts dates between the current date and 
+ * hundred years out. The years shown in the calendar reflect this range. To
+ * specify a different range of date, use the minDate and maxDate properties.
+ * </p><p>
+ * </p><p>
+ * <h3>Example 1: Create widget</h3>
+ * </p><p>
+ * This example shows how to create a widget using a span tag as a place holder 
+ * in the document. Minimally, the createWidget() function needs an id and 
+ * widgetType properties.
+ * </p><pre><code>
+ * &lt;span id="sp1">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp1", {
+ *       dateFormat: "MM/dd/yyyy",
+ *       id: "cal1",
+ *       maxDate: "05/12/2108",
+ *       minDate: "05/12/1908",
+ *       todayDateMsg: "Today: May 12, 2008",
+ *       widgetType: "calendar"
+ *     });
+ *   &lt;/script>
+ * &lt;/span>
+ * </code></pre><p>
+ * <h3>Example 2: Update widget using the getProps and setProps functions</h3>
+ * </p><p>
+ * This example shows how to toggle the state of a widget using the
+ * getProps and setProps functions. When the user clicks the checkbox, the
+ * calendar is either disabled or enabled.
+ * </p><pre><code>
+ * &lt;span id="sp1">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp1", {
+ *       dateFormat: "MM/dd/yyyy",
+ *       id: "cal1",
+ *       maxDate: "05/12/2108",
+ *       minDate: "05/12/1908",
+ *       todayDateMsg: "Today: May 12, 2008",
+ *       widgetType: "calendar"
+ *     });
+ *   &lt;/script>
+ * &lt;/span>
+ * &lt;span id="sp2">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp2", {
+ *       id: "cb1",
+ *       label: { value: "Toggle Calendar State" },
+ *       onKeyPress="setTimeout('updateWidget();', 0);",
+ *       widgetType: "checkbox"
+ *     });
+ *     function updateWidget() {
+ *       var widget = @JS_NS@.widget.common.getWidget("cal1"); // Get calendar
+ *       return widget.setProps({disabled: !domNode.getProps().disabled}); // Toggle state
+ *     }
+ *   &lt;/script>
+ * &lt;/span>
+ * </code></pre><p>
+ * <h3>Example 3: Asynchronously update widget using refresh function</h3>
+ * </p><p>
+ * This example shows how to asynchronously update a widget using the refresh 
+ * function. When the user clicks on the checkbox, the calendar is 
+ * asynchronously updated with new data.
+ * </p><pre><code>
+ * &lt;span id="sp1">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp1", {
+ *       id: "cal1",
+ *       maxDate: "05/12/2108",
+ *       minDate: "05/12/1908",
+ *       todayDateMsg: "Today: May 12, 2008",
+ *       widgetType: "calendar"
+ *     });
+ *   &lt;/script>
+ * &lt;/span>
+ * &lt;span id="sp2">
+ *   &lt;script type="text/javascript">
+ *     @JS_NS@.widget.common.createWidget("sp2", {
+ *       id: "cb1",
+ *       label: { value: "Refresh Calendar" },
+ *       onKeyPress="setTimeout('updateWidget();', 0);",
+ *       widgetType: "checkbox"
+ *     });
+ *     function updateWidget() {
+ *       var widget = @JS_NS@.widget.common.getWidget("cal1"); // Get calendar
+ *       return widget.refresh(); // Asynchronously refresh
+ *     }
+ *   &lt;/script>
+ * &lt;/span>
+ * </code></pre><p>
+ * Note that the refresh function can take an optional list of elements to 
+ * execute. Thus, a comma-separated list of ids can be provided to update 
+ * server-side components: refresh("id1,id2,..."). When no parameter is given, 
+ * the refresh function acts as a reset. That is, the widget will be redrawn 
+ * using values set server-side, but not updated.
+ * </p><p>
+ * <h3>Example 4: Subscribing to event topics</h3>
+ * </p><p>
+ * When a widget is manipulated, some features may publish event topics for
+ * custom AJAX implementations to listen for. For example, you may listen for
+ * the refresh event topic using:
+ * </p><pre><code>
+ * &lt;script type="text/javascript">
+ *    var foo = {
+ *        // Process refresh event.
+ *        //
+ *        // @param {Object} props Key-Value pairs of properties.
+ *        processRefreshEvent: function(props) {
+ *            // Get the widget id.
+ *            if (props.id == "cal1") { // Do something... }
+ *        }
+ *    }
+ *    // Subscribe to refresh event.
+ *    woodstock.widget.common.subscribe(woodstock.widget.calendar.event.refresh.endTopic, 
+ *      foo, "processRefreshEvent");
+ * &lt;/script>
+ * </code></pre>
+ *
  * @param {Object} props Key-Value pairs of properties.
  * @config {String} className CSS selector.
  * @config {Object} closeButtonLink 
@@ -45,6 +168,8 @@
  * @config {Object} decreaseLink 
  * @config {String} id Uniquely identifies an element within a document.
  * @config {Object} increaseLink 
+ * @config {Object} maxDate
+ * @config {Object} minDate
  * @config {Object} monthMenu
  * @config {String} style Specify style rules inline.
  * @config {Object} todayDateMsg
