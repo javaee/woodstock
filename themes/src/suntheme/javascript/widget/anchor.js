@@ -49,7 +49,7 @@
  *   &lt;script type="text/javascript">
  *     @JS_NS@.widget.common.createWidget("sp1", {
  *       id: "anc1",
- *       contents": ["Click me"],
+ *       contents: ["Click me"],
  *       href: "http://sun.com",
  *       target: "_blank",
  *       widgetType: "anchor"
@@ -81,7 +81,7 @@
  *   &lt;script type="text/javascript">
  *     @JS_NS@.widget.common.createWidget("sp1", {
  *       id: "anc1",
- *       contents": ["Click me"],
+ *       contents: ["Click me"],
  *       href: "http://sun.com",
  *       target: "_blank",
  *       widgetType: "anchor"
@@ -113,7 +113,7 @@
  *   &lt;script type="text/javascript">
  *     @JS_NS@.widget.common.createWidget("sp1", {
  *       id: "anc1",
- *       contents": ["Click me"],
+ *       contents: ["Click me"],
  *       href: "http://sun.com",
  *       target: "_blank",
  *       widgetType: "anchor"
@@ -153,7 +153,7 @@
  *   &lt;script type="text/javascript">
  *     @JS_NS@.widget.common.createWidget("sp1", {
  *       id: "anc1",
- *       contents": ["Click me"],
+ *       contents: ["Click me"],
  *       href: "http://sun.com",
  *       target: "_blank",
  *       widgetType: "anchor"
