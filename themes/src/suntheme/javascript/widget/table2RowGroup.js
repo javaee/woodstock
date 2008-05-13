@@ -78,9 +78,7 @@
     constructor: function() {
         this._colSortLevel = new Array(); // Array used to store sortLevel
         this._currentRow = 0; // Current row in view.
-        this.first = 0; // Index used to obtain rows.
-        this._headerCount = 0;
-        this._leafColArray = new Array();
+        this.first = 0; // Index used to obtain rows.                
         this._sortCount = 0; // sort count 
         this.totalRows = 0; // Available rows.
     },
@@ -150,22 +148,22 @@
  * @private
  */
 @JS_NS@.widget.table2RowGroup.prototype._getColumnHeaderRowCount = function(cols, count) {
-    // Check for spanning column.
+    
     if (count == null) {
-        count = 1;
+        count = 1; // at least one row.
     }
     for (var i = 0; i < cols.length; i++) {
         var col = cols[i];
-        if (col.columns && col.columns.length > 0) {            
-            count++;
+        // Look at col span header depth.
+        if (col.columns && col.columns.length > 0) {
+            count++; // at least one more row.
             var temp = this._getColumnHeaderRowCount(col.columns, count);
-            
-            if (this._headerCount < count)
-                this._headerCount = count;    
-            count = 1;
-        } 
+            if (temp > count) {
+                count = temp;
+            }
+        }
     }
-    return this._headerCount;
+    return count;    
 };
 
 /**
@@ -253,8 +251,7 @@
     // Clone dojo attach points.
     var headerRowClone = this._colHeaderRow.cloneNode(false);
     headerRowClone.id = this.id + "_colHeaderRow" + count;
-    this._thead.appendChild(headerRowClone);
-    this._headerCount = 0;
+    this._thead.appendChild(headerRowClone);    
     var headers = this._getColumnHeaderRowCount(cols.columns);
 
     for (j = 0; j < cols.columns.length; j++ ) {
@@ -373,8 +370,7 @@
         this._setEventProps(rowClone, props);
         this._setCoreProps(rowClone, props);
 
-        // For each column found, clone the tableDataCell attach point.
-        this._leafColArray.length = 0;
+        // For each column found, clone the tableDataCell attach point.        
         var cellClone;
         var colId;
         var leafColArray = this._getLeafColumns(this.columns);
@@ -420,20 +416,23 @@
  * This function is used to get the array of leaf column headers.
  *
  * @param {Array} column objects.
+ * @param {Array} leaf column objects.
  * @return {Array} leaf column objects.
  */
-@JS_NS@.widget.table2RowGroup.prototype._getLeafColumns = function(cols) {    
+@JS_NS@.widget.table2RowGroup.prototype._getLeafColumns = function(cols, leafColArray) {
+    if (leafColArray == null) {
+        leafColArray = new Array();
+    }
     for (var i=0; i < cols.length; i++) {
         var col = cols[i];
         if (col.columns && col.columns.length > 0) {
-            this._getLeafColumns(col.columns);
-        } else {
-            if (this._leafColArray) {
-                this._leafColArray = this._leafColArray.concat(col);
-            }
+            leafColArray = this._getLeafColumns(col.columns, leafColArray);
+            continue;
+        } else {             
+                leafColArray = leafColArray.concat(col);                
         }
     }
-    return this._leafColArray;
+    return leafColArray;
 };
 
 /**
@@ -567,11 +566,10 @@
  */
 @JS_NS@.widget.table2RowGroup.prototype._openSortMenu = function(event, 
         colId, sortLevel) {    
-    var menu = @JS_NS@.widget.common.getWidget(this.sortPopupMenu.id);    
-    this._leafColArray.length = 0;
-    this._leafColArray = this._getLeafColumns(this.columns);
-    for (var i = 0; i < this._leafColArray.length; i++) {
-        var col = this._leafColArray[i];
+    var menu = @JS_NS@.widget.common.getWidget(this.sortPopupMenu.id);        
+    var leafColArray = this._getLeafColumns(this.columns);
+    for (var i = 0; i < leafColArray.length; i++) {
+        var col = leafColArray[i];
         if (col.id == colId) {
             sortLevel = col.sortLevel;            
             break;
@@ -972,8 +970,7 @@
     }
     
     // Update the sortLevel values.
-    if (props.columns) {  
-        this._leafColArray.length = 0;
+    if (props.columns) {          
         var leafColArray = this._getLeafColumns(this.columns);
         for (var i=0; i < this._colSortLevel.length; i++) {
             if (leafColArray[i].sortLevel == null) {
@@ -1051,7 +1048,7 @@
         table2colId: colId,
         sortOrder: menu.getSelectedValue()
     }]);
-    this._leafColArray.length = 0;
+    
     var leafColArray = this._getLeafColumns(this.columns);
 
     // Update sortCount and sortLevel values.
