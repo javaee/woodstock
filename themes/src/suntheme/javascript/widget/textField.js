@@ -314,10 +314,10 @@
  * @private
  */
 @JS_NS@.widget.textField.prototype._adjustListGeometry = function () {
-    this._listContainer.style.width = this._fieldNode.offsetWidth;
-    this._listContainer.style.left = this._fieldNode.offsetLeft;
-    this._listContainer.style.top = this._fieldNode.offsetTop + this._fieldNode.offsetHeight;
-    this._listNode.style.width = this._fieldNode.offsetWidth;
+    this._listContainer.style.width = this._fieldNode.offsetWidth +"px";
+    this._listContainer.style.left = this._fieldNode.offsetLeft +"px";
+    this._listContainer.style.top = this._fieldNode.offsetTop + this._fieldNode.offsetHeight+"px";
+    this._listNode.style.width = this._fieldNode.offsetWidth+"px";
     this._listContainer.style.zIndex = "999";
     return true;
 };
