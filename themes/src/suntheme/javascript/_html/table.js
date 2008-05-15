@@ -373,11 +373,16 @@
         domNode.TERTIARY  = 2;
 
         // Replace extra backslashes, JSON escapes new lines (e.g., \\n).
-	domNode.hiddenSelectionsMsg = props.hiddenSelectionsMsg.replace(/\\n/g, "\n");
-        domNode.totalSelectionsMsg = props.totalSelectionsMsg.replace(/\\n/g, "\n");
-	domNode.missingSelectionMsg = props.missingSelectionMsg.replace(/\\n/g, "\n");
-	domNode.duplicateSelectionMsg = props.duplicateSelectionMsg.replace(/\\n/g, "\n");
-        domNode.deleteSelectionsMsg = props.deleteSelectionsMsg.replace(/\\n/g, "\n");
+	domNode.hiddenSelectionsMsg = (props.hiddenSelectionsMsg != null)
+            ? props.hiddenSelectionsMsg.replace(/\\n/g, "\n") : "";
+        domNode.totalSelectionsMsg = (props.totalSelectionsMsg != null)
+            ? props.totalSelectionsMsg.replace(/\\n/g, "\n") : "";
+	domNode.missingSelectionMsg = (props.missingSelectionMsg != null)
+            ? props.missingSelectionMsg.replace(/\\n/g, "\n") : "";
+	domNode.duplicateSelectionMsg = (props.duplicateSelectionMsg != null)
+            ? props.duplicateSelectionMsg.replace(/\\n/g, "\n") : "";
+        domNode.deleteSelectionsMsg = (props.deleteSelectionsMsg != null)
+            ? props.deleteSelectionsMsg.replace(/\\n/g, "\n") : "";
 
         // Private functions.
         domNode._getGroupSelectedRowsCount = @JS_NS@._html.table._getGroupSelectedRowsCount;
@@ -504,7 +509,11 @@
             var select = document.getElementById(
                 this.groupIds[i] + this.SEPARATOR + rowIds[k] + 
                 this.SEPARATOR + selectId);
-            if (select != null && select.getProps().checked) {
+            if (select == null) {
+                continue;
+            }
+            var props = select.getProps();
+            if (props.disabled != true && props.checked == true) {
                 count++;
             }
         }
@@ -529,7 +538,7 @@
     },
 
     /**
-     * This function is used to initialize rows for the given groupwhen the state
+     * This function is used to initialize rows for the given group when the state
      * of selected components change (i.e., checkboxes or radiobuttons used to
      * de/select rows of the table). This functionality requires the selectId
      * property of the tableColumn component to be set.
@@ -562,7 +571,7 @@
         }
 
         // Update the select component for each row.
-        var checked = true; // Checked state of multiple select button.
+        var checked = true; // Checked state of multiple select toggle button.
         var selected = false; // At least one component is selected.
         for (var k = 0; k < rowIds.length; k++) {
             var select = document.getElementById(
@@ -576,7 +585,11 @@
             var row = document.getElementById(this.groupIds[i] + 
                 this.SEPARATOR + rowIds[k]);
             var props = select.getProps();
-            if (select.getProps().checked == true) {
+            if (props.disabled == true) {
+                // Don't highlight row or set checked/selected properties.
+                @JS_NS@._base.common._stripStyleClass(row, 
+                    this.selectRowStyleClass);
+            } else if (props.checked == true) {
                 @JS_NS@._base.common._addStyleClass(row, 
                     this.selectRowStyleClass);
                 selected = true;
@@ -587,7 +600,7 @@
             }
         }
 
-        // Set multiple select button state.
+        // Set multiple select toggle button state.
         var title;
         var checkbox = document.getElementById(groupId + this.SEPARATOR + 
             this.selectMultipleToggleButtonId);
@@ -1104,7 +1117,7 @@
         for (var k = 0; k < rowIds.length; k++) {
             var select = document.getElementById(
                 this.groupIds[i] + this.SEPARATOR + rowIds[k] + this.SEPARATOR + selectId);
-            if (select == null) {
+            if (select == null || select.getProps().disabled == true) {
                 continue;
             }
             select.setProps({checked: new Boolean(selected).valueOf()});

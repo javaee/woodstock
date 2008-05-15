@@ -2688,6 +2688,42 @@ public abstract class TableRowGroupBase extends WebuiComponent
     }
 
     /**
+     * Scripting code that is executed when the user clicks the select multiple 
+     * toggle button. You should use the JavaScript <code>setTimeout()</code> 
+     * function to invoke the script to ensure that checkboxes are deselected 
+     * immediately, instead of waiting for the script to complete.
+     */
+    @Property(name="selectMultipleToggleButtonOnClick", displayName="Select Multiple Toggle Click Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    private String selectMultipleToggleButtonOnClick = null;   
+
+    /**
+     * Scripting code that is executed when the user clicks the select multiple 
+     * toggle button. You should use the JavaScript <code>setTimeout()</code> 
+     * function to invoke the script to ensure that checkboxes are deselected 
+     * immediately, instead of waiting for the script to complete.
+     */
+    public String getSelectMultipleToggleButtonOnClick() {
+        if (this.selectMultipleToggleButtonOnClick != null) {
+            return this.selectMultipleToggleButtonOnClick;
+        }
+        ValueExpression _vb = getValueExpression("selectMultipleToggleButtonOnClick");
+        if (_vb != null) {
+            return (String) _vb.getValue(getFacesContext().getELContext());
+        }
+        return null;
+    }
+
+    /**
+     * Scripting code that is executed when the user clicks the select multiple 
+     * toggle button. You should use the JavaScript <code>setTimeout()</code> 
+     * function to invoke the script to ensure that checkboxes are deselected 
+     * immediately, instead of waiting for the script to complete.
+     */
+    public void setSelectMultipleToggleButtonOnClick(String selectMultipleToggleButtonOnClick) {
+        this.selectMultipleToggleButtonOnClick = selectMultipleToggleButtonOnClick;
+    }
+
+    /**
      * Flag indicating that the current row is selected. If the value is set to true, 
      * the row will appear highlighted.
      */
@@ -3118,24 +3154,25 @@ public abstract class TableRowGroupBase extends WebuiComponent
         this.rows_set = ((Boolean) _values[24]).booleanValue();
         this.selectMultipleToggleButton = ((Boolean) _values[25]).booleanValue();
         this.selectMultipleToggleButton_set = ((Boolean) _values[26]).booleanValue();
-        this.selected = ((Boolean) _values[27]).booleanValue();
-        this.selected_set = ((Boolean) _values[28]).booleanValue();
-        this.sourceData = (TableDataProvider) _values[29];
-        this.sourceVar = (String) _values[30];
-        this.styleClasses = (String) _values[31];
-        this.tableDataFilter = (TableDataFilter) _values[32];
-        this.tableDataSorter = (TableDataSorter) _values[33];
-        this.toolTip = (String) _values[34];
-        this.valign = (String) _values[35];
-        this.visible = ((Boolean) _values[36]).booleanValue();
-        this.visible_set = ((Boolean) _values[37]).booleanValue();
+        this.selectMultipleToggleButtonOnClick = (String) _values[27];
+        this.selected = ((Boolean) _values[28]).booleanValue();
+        this.selected_set = ((Boolean) _values[29]).booleanValue();
+        this.sourceData = (TableDataProvider) _values[30];
+        this.sourceVar = (String) _values[31];
+        this.styleClasses = (String) _values[32];
+        this.tableDataFilter = (TableDataFilter) _values[33];
+        this.tableDataSorter = (TableDataSorter) _values[34];
+        this.toolTip = (String) _values[35];
+        this.valign = (String) _values[36];
+        this.visible = ((Boolean) _values[37]).booleanValue();
+        this.visible_set = ((Boolean) _values[38]).booleanValue();
     }
 
     /**
      * Save the state of this component.
      */
     private Object _saveState(FacesContext _context) {
-        Object _values[] = new Object[38];
+        Object _values[] = new Object[39];
         _values[0] = super.saveState(_context);
         _values[1] = this.align;
         _values[2] = this.bgColor;
@@ -3163,17 +3200,18 @@ public abstract class TableRowGroupBase extends WebuiComponent
         _values[24] = this.rows_set ? Boolean.TRUE : Boolean.FALSE;
         _values[25] = this.selectMultipleToggleButton ? Boolean.TRUE : Boolean.FALSE;
         _values[26] = this.selectMultipleToggleButton_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[27] = this.selected ? Boolean.TRUE : Boolean.FALSE;
-        _values[28] = this.selected_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[29] = this.sourceData;
-        _values[30] = this.sourceVar;
-        _values[31] = this.styleClasses;
-        _values[32] = this.tableDataFilter;
-        _values[33] = this.tableDataSorter;
-        _values[34] = this.toolTip;
-        _values[35] = this.valign;
-        _values[36] = this.visible ? Boolean.TRUE : Boolean.FALSE;
-        _values[37] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[27] = this.selectMultipleToggleButtonOnClick;
+        _values[28] = this.selected ? Boolean.TRUE : Boolean.FALSE;
+        _values[29] = this.selected_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[30] = this.sourceData;
+        _values[31] = this.sourceVar;
+        _values[32] = this.styleClasses;
+        _values[33] = this.tableDataFilter;
+        _values[34] = this.tableDataSorter;
+        _values[35] = this.toolTip;
+        _values[36] = this.valign;
+        _values[37] = this.visible ? Boolean.TRUE : Boolean.FALSE;
+        _values[38] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 }

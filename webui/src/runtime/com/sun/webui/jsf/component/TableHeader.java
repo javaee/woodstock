@@ -359,6 +359,11 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
         // Set JS to display table preferences panel.
         StringBuffer buff = new StringBuffer(128);
         if (table != null && group != null) {
+            String onClick = group.getSelectMultipleToggleButtonOnClick();
+            if (onClick != null) {
+                buff.append(onClick)
+                    .append(";");
+            }
             buff.append("document.getElementById('") //NOI18N
                 .append(table.getClientId(getFacesContext()))
                 .append("')._selectGroupRows('") //NOI18N
