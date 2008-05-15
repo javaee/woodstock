@@ -40,7 +40,7 @@
      * function in the login widget that updates the DOM tree to reflect 
      * the result of the authentication process to the end user.
      *
-     * @param {String} elementId The HTML element Id.
+     * @param {String} id The widget id.
      * @param {Object} content The content returned by the AJAX response.
      * @param {Object} closure The closure argument provided to the Ajax transaction.
      * @param {Object} xjson The xjson argument provided to the Ajax transaction.
@@ -69,7 +69,7 @@
      * JAAS authentication is taking place.
      *
      * @param {Object} props Key-Value pairs of properties.
-     * @config {String} id The HTML element Id.
+     * @config {String} id The widget id.
      * @config {String} loginState
      * @config {String} endTopic
      * @config {String} keys

@@ -38,7 +38,7 @@
     /**
      * This function is used to update widgets with new autoComplete options list.
      *
-     * @param {String} elementId The HTML element Id.
+     * @param {String} id The widget id.
      * @param {String} content The content returned by the AJAX response.
      * @param {Object} closure The closure argument provided to the Ajax transaction.
      * @param {Object} xjson The xjson argument provided to the Ajax transaction.
@@ -68,7 +68,7 @@
      * This function is used to process autoComplete events.
      *
      * @param props Key-Value pairs of properties.
-     * @config {String} id The HTML element Id.
+     * @config {String} id The widget id.
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
@@ -98,7 +98,7 @@
      * This function is used to process validation events with Object literals.
      *
      * @param props Key-Value pairs of properties.
-     * @config {String} id The HTML element Id.
+     * @config {String} id The widget id.
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
@@ -127,7 +127,7 @@
     /**
      * This function is used to update widgets.
      *
-     * @param {String} elementId The HTML element Id.
+     * @param {String} id The widget id.
      * @param {String} content The content returned by the AJAX response.
      * @param {Object} closure The closure argument provided to the Ajax transaction.
      * @param {Object} xjson The xjson argument provided to the Ajax transaction.

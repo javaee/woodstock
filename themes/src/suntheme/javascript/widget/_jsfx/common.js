@@ -37,7 +37,7 @@
      * This function is used to process refresh events with Object literals.
      *
      * @param props Key-Value pairs of properties.
-     * @config {String} id The HTML element Id.
+     * @config {String} id The widget id.
      * @config {String} endTopic The event topic to publish.
      * @config {String} execute The string containing a comma separated list 
      * of client ids against which the execute portion of the request 
@@ -74,7 +74,7 @@
      * This function is used to process state change events with Object literals.
      *
      * @param props Key-Value pairs of properties.
-     * @config {String} id The HTML element Id.
+     * @config {String} id The widget id.
      * @config {String} endTopic The event topic to publish.
      * @config {Object} props Key-Value pairs of widget properties to update.
      * @return {boolean} true if successful; otherwise, false.
@@ -110,7 +110,7 @@
      * This function is used to process submit events with Object literals.
      *
      * @param props Key-Value pairs of properties.
-     * @config {String} id The HTML element Id.
+     * @config {String} id The widget id.
      * @config {String} endTopic The event topic to publish.
      * @config {String} execute The string containing a comma separated list 
      * of client ids against which the execute portion of the request 
@@ -146,7 +146,7 @@
     /**
      * This function is used to refresh widgets.
      *
-     * @param {String} elementId The HTML element Id.
+     * @param {String} id The widget id.
      * @param {String} content The content returned by the AJAX response.
      * @param {Object} closure The closure argument provided to the Ajax transaction.
      * @param {Object} xjson The xjson argument provided to the Ajax transaction.
@@ -176,7 +176,7 @@
      * This function is a callback to respond to the end of state request.
      * It will only publish submit end event without updating the widget itself.
      *
-     * @param {String} elementId The HTML element Id.
+     * @param {String} id The widget id.
      * @param {String} content The content returned by the AJAX response.
      * @param {Object} closure The closure argument provided to the Ajax transaction.
      * @param {Object} xjson The xjson argument provided to the Ajax transaction.
@@ -202,7 +202,7 @@
      * This function is a callback to respond to the end of submit request.
      * It will only publish submit end event without updating the widget itself.
      *
-     * @param {String} elementId The HTML element Id.
+     * @param {String} id The widget id.
      * @param {String} content The content returned by the AJAX response.
      * @param {Object} closure The closure argument provided to the Ajax transaction.
      * @param {Object} xjson The xjson argument provided to the Ajax transaction.

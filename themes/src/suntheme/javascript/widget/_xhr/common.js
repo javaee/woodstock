@@ -23,7 +23,6 @@
 @JS_NS@._dojo.provide("@JS_NS@.widget._xhr.common");
 
 @JS_NS@._dojo.require("@JS_NS@.json");
-@JS_NS@._dojo.require("@JS_NS@.xhr");
 @JS_NS@._dojo.require("@JS_NS@.widget.common");
 
 /**
@@ -33,6 +32,66 @@
  * @private
  */
 @JS_NS@.widget._xhr.common = {
+    /**
+     * This function is used to generate a request using the XMLHTTP 
+     * request object (XHR) the underlying protocol.
+     *
+     * Note: Unlike the @JS_NS@.xhr._doRequest function, the generated request
+     * is always a "GET" and form data is submitted.
+     *
+     * @param {Object} props Key-Value pairs of properties.
+     * @param {String} id The widget Id.
+     * @param {String} content The content returned by the AJAX response.
+     * @param {Object} closure The closure object provided to the callback function.
+     * @param {Object} xjson The xjson header provided to the Ajax transaction.
+     * @private
+     */
+    _doRequest: function(props) {
+        if (props == null || props.id == null) {
+            return false;
+        }
+        // Ensure URL has been provided.
+        if (@JS_NS@._base.config.ajax.url == null) {
+            console.error("URL for Ajax transaction not provided.");
+            return false;
+        }
+
+        // Get properties for JavaScript closures.
+        var _callback = props.callback ? props.callback : null;
+        var _closure = props.closure ? props.closure : null;
+        var _id = props.id ? props.id : null;
+        var _xjson = props.xjson ? props.xjson : null;
+
+        // Get form.
+        var _form = @JS_NS@.widget.common._getForm(
+            document.getElementById(props.id));
+        if (_form == null) {
+            _form = document.forms[0];
+        }
+
+        // Generate AJAX request.
+        @JS_NS@._dojo.xhrGet({
+            error: function(content, ioArgs) {
+                console.error("HTTP status code: ", ioArgs.xhr.status);
+                return content;
+            },
+            form: _form,
+            headers: {
+                "X-JSON": @JS_NS@.json.stringify(_xjson),
+                "X-Requested-With": "XMLHttpRequest",
+                "X-Woodstock-Version": "@THEME_VERSION@"
+            },
+            load: function(content, ioArgs) {
+                if (typeof _callback == "function") {
+                    _callback(_id, content, _closure, _xjson);
+                }
+                return content;
+            },
+            timeout: 5000, // Time in milliseconds
+            url: @JS_NS@._base.config.ajax.url
+        });
+    },
+
     /**
      * This function is used to process refresh events with Object literals.
      *
@@ -50,46 +109,18 @@
             return false;
         }
 
-        // Ensure URL has been provided.
-        if (@JS_NS@._base.config.ajax.url == null) {
-            console.error("URL for Ajax transaction not provided.");
-            return false
-        }
-
-        // Get form.
-        var form = @JS_NS@.widget.common._getForm(
-            document.getElementById(props.id));
-        if (form == null) {
-            form = document.forms[0];
-        }
-
-        // Pass through variables.
-        var _id = props.id;
-        var closure = {
-            endTopic: props.endTopic
-        };
-        var xjson = {
-            id: props.id,
-            event: "refresh",
-            execute: (props.execute) ? props.execute : "none"
-        };
-
         // Generate AJAX request.
-        @JS_NS@.xhr.get({
-            error: function(content, ioArgs) {
-                console.error("HTTP status code: ", ioArgs.xhr.status);
-                return content;
+        @JS_NS@.widget._xhr.common._doRequest({
+            id: props.id,
+            callback: @JS_NS@.widget._xhr.common._refreshCallback,
+            closure: {
+                endTopic: props.endTopic
             },
-            form: form,
-            headers: {
-                "X-JSON": @JS_NS@.json.stringify(xjson)
-            },
-            load: function(content, ioArgs) {
-                @JS_NS@.widget._xhr.common._refreshCallback(_id, content, closure, xjson);
-                return content;
-            },
-            timeout: 5000, // Time in milliseconds
-            url: @JS_NS@._base.config.ajax.url
+            xjson: {
+                id: props.id,
+                event: "refresh",
+                execute: (props.execute) ? props.execute : "none"
+            }
         });
         return true;
     },
@@ -109,47 +140,19 @@
             return false;
         }
 
-        // Ensure URL has been provided.
-        if (@JS_NS@._base.config.ajax.url == null) {
-            console.error("URL for Ajax transaction not provided.");
-            return false
-        }
-
-        // Get form.
-        var form = @JS_NS@.widget.common._getForm(
-            document.getElementById(props.id));
-        if (form == null) {
-            form = document.forms[0];
-        }
-
-        // Pass through variables.
-        var _id = props.id;
-        var closure = {
-            endTopic: props.endTopic
-        };
-        var xjson = {
-            id: props.id,
-            event: "state",
-            execute: "none",
-            props: props.props // Widget properties to update.
-        };
-
         // Generate AJAX request.
-        @JS_NS@.xhr.get({
-            error: function(content, ioArgs) {
-                console.error("HTTP status code: ", ioArgs.xhr.status);
-                return content;
+        @JS_NS@.widget._xhr.common._doRequest({
+            id: props.id,
+            callback: @JS_NS@.widget._xhr.common._stateCallback,
+            closure: {
+                endTopic: props.endTopic
             },
-            form: form,
-            headers: {
-                "X-JSON": @JS_NS@.json.stringify(xjson)
-            },
-            load: function(content, ioArgs) {
-                @JS_NS@.widget._xhr.common._stateCallback(_id, content, closure, xjson);
-                return content;
-            },
-            timeout: 5000, // Time in milliseconds
-            url: @JS_NS@._base.config.ajax.url
+            xjson: {
+                id: props.id,
+                event: "state",
+                execute: "none",
+                props: props.props // Widget properties to update.
+            }
         });
         return true;
     },
@@ -171,46 +174,18 @@
             return false;
         }
 
-        // Ensure URL has been provided.
-        if (@JS_NS@._base.config.ajax.url == null) {
-            console.error("URL for Ajax transaction not provided.");
-            return false
-        }
-
-        // Get form.
-        var form = @JS_NS@.widget.common._getForm(
-            document.getElementById(props.id));
-        if (form == null) {
-            form = document.forms[0];
-        }
-
-        // Pass through variables.
-        var _id = props.id;
-        var closure = {
-            endTopic: props.endTopic
-        };
-        var xjson = {
-            id: props.id,
-            event: "submit",
-            execute: (props.execute) ? props.execute : props.id
-        };
-
         // Generate AJAX request.
-        @JS_NS@.xhr.get({
-            error: function(content, ioArgs) {
-                console.error("HTTP status code: ", ioArgs.xhr.status);
-                return content;
+        @JS_NS@.widget._xhr.common._doRequest({
+            id: props.id,
+            callback: @JS_NS@.widget._xhr.common._submitCallback,
+            closure: {
+                endTopic: props.endTopic
             },
-            form: form,
-            headers: {
-                "X-JSON": @JS_NS@.json.stringify(xjson)
-            },
-            load: function(content, ioArgs) {
-                @JS_NS@.widget._xhr.common._submitCallback(_id, content, closure, xjson);
-                return content;
-            },
-            timeout: 5000, // Time in milliseconds
-            url: @JS_NS@._base.config.ajax.url
+            xjson: {
+                id: props.id,
+                event: "submit",
+                execute: (props.execute) ? props.execute : props.id
+            }
         });
         return true;
     }, 

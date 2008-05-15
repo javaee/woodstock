@@ -41,7 +41,7 @@
      * </p>
      *
      * @param props Key-Value pairs of properties.
-     * @config {String} id The HTML element Id.
+     * @config {String} id The widget id.
      * @config {String} endTopic The event topic to publish.
      * @config {String} execute The string containing a comma separated list 
      * of client ids against which the execute portion of the request 

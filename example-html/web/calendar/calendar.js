@@ -46,12 +46,14 @@ function updateCalendar(id) {
 	    option = "newyear";
         }
     }
-    var params = "holiday=" + option;
+    var params = "?holiday=" + option;
 
     // Make the XHR call, specifying the target URL, the
     // get data query parameters, and our callback function.
-    return connection.asyncRequest(url, updateCalendarCallback, params);
-
+    return woodstock.xhr.get({
+        onReady: updateCalendarCallback,
+        url: url + params
+    });
 }
 
 /**
@@ -65,7 +67,6 @@ function updateCalendar(id) {
  * resetting its properties. 
  */
 function updateCalendarCallback(response) {
-
     if (response == null) {
 	return false;
     }

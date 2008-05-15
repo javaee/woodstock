@@ -26,7 +26,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">       
     <script type="text/javascript">
       var woodstockConfig = {
-        webuiAll: true,
         namespace: "woodstock"
       };
     </script>
@@ -34,7 +33,6 @@
       src="/example-html/resources/woodstock/woodstock4_3_dev/suntheme/javascript_uncompressed/bootstrap.js">
     </script>
     <script type="text/javascript" src="/example-html/calendar/calendar.js"></script>
-    <script type="text/javascript" src="/example-html/js/connection.js"></script>
   </head>
   <body>
     <form id="form1">
@@ -141,7 +139,7 @@
             id: "list",
             label: {level: 2, value: "Holiday:   "},
             labelOnTop: false,
-            onClick: "updateCalendar(); return false;",
+            onChange: "updateCalendar(); return false;",
             options: [
                 {label: "New Year's Day", value: "newyear"},
                 {label: "Martin Luther King Birthday", value: "king"},

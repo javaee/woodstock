@@ -621,6 +621,8 @@
 
     // Set style class -- must be set before calling _setCoreProps().
     props.className = this._getClassName();
+    // The visible selector must be set otherwise, className may wipe it out.
+    props.visible = (props.visible != null) ? props.visible : this.visible;
 
     // Set more properties.
     return this._setCoreProps(this._domNode, props);

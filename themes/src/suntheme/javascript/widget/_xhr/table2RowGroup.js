@@ -23,10 +23,9 @@
 @JS_NS@._dojo.provide("@JS_NS@.widget._xhr.table2RowGroup");
 
 @JS_NS@._dojo.require("@JS_NS@.json");
-@JS_NS@._dojo.require("@JS_NS@.xhr");
 @JS_NS@._dojo.require("@JS_NS@.widget.common");
-@JS_NS@._dojo.require("@JS_NS@.widget._xhr.common");
 @JS_NS@._dojo.require("@JS_NS@.widget.table2RowGroup");
+@JS_NS@._dojo.require("@JS_NS@.widget._xhr.common");
 
 /**
  * @class This class contains functions to obtain data asynchronously using XHR
@@ -49,45 +48,16 @@
             return false;
         }
 
-        // Ensure URL has been provided.
-        if (@JS_NS@._base.config.ajax.url == null) {
-            console.error("URL for Ajax transaction not provided.");
-            return false
-        }
-
-        // Get form.
-        var form = @JS_NS@.widget.common._getForm(
-            document.getElementById(props.id));
-        if (form == null) {
-            form = document.forms[0];
-        }
-
-        // Pass through variables.
-        var _id = props.id;
-        var closure = {};
-        var xjson = {
-            id: props.id,
-            event: "scroll",
-            execute: "none",
-            first: props.first
-        };
-
         // Generate AJAX request.
-        @JS_NS@.xhr.get({
-            error: function(content, ioArgs) {
-                console.error("HTTP status code: ", ioArgs.xhr.status);
-                return content;
-            },
-            form: form,
-            headers: {
-                "X-JSON": @JS_NS@.json.stringify(xjson)
-            },
-            load: function(content, ioArgs) {
-                @JS_NS@.widget._xhr.table2RowGroup._scrollCallback(_id, content, closure, xjson);
-                return content;
-            },
-            timeout: 5000, // Time in milliseconds
-            url: @JS_NS@._base.config.ajax.url
+        @JS_NS@.widget._xhr.common._doRequest({
+            id: props.id,
+            callback: @JS_NS@.widget._xhr.table2RowGroup._scrollCallback,
+            xjson: {
+                id: props.id,
+                event: "scroll",
+                execute: "none",
+                first: props.first
+            }
         });
         return true;
     },
@@ -106,46 +76,17 @@
             return false;
         }
 
-        // Ensure URL has been provided.
-        if (@JS_NS@._base.config.ajax.url == null) {
-            console.error("URL for Ajax transaction not provided.");
-            return false
-        }
-
-        // Get form.
-        var form = @JS_NS@.widget.common._getForm(
-            document.getElementById(props.id));
-        if (form == null) {
-            form = document.forms[0];
-        }
-
-        // Pass through variables.
-        var _id = props.id;
-        var closure = {};
-        var xjson = {
-            id: props.id,
-            event: "sort",
-            execute: "none",
-            colId: props.table2colId,
-            sortOrder: props.sortOrder
-        };
-
         // Generate AJAX request.
-        @JS_NS@.xhr.get({
-            error: function(content, ioArgs) {
-                console.error("HTTP status code: ", ioArgs.xhr.status);
-                return content;
-            },
-            form: form,
-            headers: {
-                "X-JSON": @JS_NS@.json.stringify(xjson)
-            },
-            load: function(content, ioArgs) {
-                @JS_NS@.widget._xhr.table2RowGroup._sortCallback(_id, content, closure, xjson);
-                return content;
-            },
-            timeout: 5000, // Time in milliseconds
-            url: @JS_NS@._base.config.ajax.url
+        @JS_NS@.widget._xhr.common._doRequest({
+            id: props.id,
+            callback: @JS_NS@.widget._xhr.table2RowGroup._sortCallback,
+            xjson: {
+                id: props.id,
+                event: "sort",
+                execute: "none",
+                colId: props.table2colId,
+                sortOrder: props.sortOrder
+            }
         });
         return true;
     },

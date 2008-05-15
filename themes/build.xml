@@ -198,6 +198,7 @@
         <include name="_base/common.js" />
 	<include name="_html/table.js" />
         <include name="formElements.js" />
+        <include name="json.js" />
 	<include name="widget/anchor.js" />
 	<include name="widget/button.js" />
 	<include name="widget/checkbox.js" />
@@ -217,6 +218,7 @@
 	<include name="widget/staticText.js" />
 	<include name="widget/textArea.js" />
 	<include name="widget/textField.js" />
+        <include name="xhr.js" />
     </patternset>
 
     <!-- The JSF Extension files that are commonly included. Additional files

@@ -43,7 +43,7 @@
      * </p>
      *
      * @param props Key-Value pairs of properties.
-     * @config {String} id The HTML element Id.
+     * @config {String} id The widget id.
      * @config {String} endTopic The event topic to publish.
      * @config {String} execute The string containing a comma separated list 
      * of client ids against which the execute portion of the request 
@@ -79,7 +79,7 @@
     /**
      * This function is a callback to respond to the end of submit request.
      *
-     * @param {String} elementId The HTML element Id.
+     * @param {String} id The widget id.
      * @param {String} content The content returned by the AJAX response.
      * @param {Object} closure The closure argument provided to the Ajax transaction.
      * @param {Object} xjson The xjson argument provided to the Ajax transaction.
