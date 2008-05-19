@@ -36,6 +36,12 @@
         <servlet-name>ButtonServlet</servlet-name>
         <servlet-class>button.ButtonServlet</servlet-class>
     </servlet>
+    
+  <!-- Radio Button Servlet -->
+    <servlet>
+        <servlet-name>RadioButtonServlet</servlet-name>
+        <servlet-class>radioButton.RadioButtonServlet</servlet-class>
+    </servlet>    
 
     <!-- Checkbox Servlet -->
     <servlet>
@@ -88,6 +94,12 @@
     <servlet-mapping>
         <servlet-name>CheckboxServlet</servlet-name>
         <url-pattern>/CheckboxServlet</url-pattern>
+    </servlet-mapping>
+    
+    <!-- RadioButton Servlet Mapping -->
+    <servlet-mapping>
+        <servlet-name>RadioButtonServlet</servlet-name>
+        <url-pattern>/RadioButtonServlet</url-pattern>
     </servlet-mapping>
 
     <!-- Button Servlet Mapping -->
