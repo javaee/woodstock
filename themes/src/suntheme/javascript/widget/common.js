@@ -268,7 +268,7 @@
      * @param {Object} props Key-Value pairs of properties.
      * @config {String} id The ID of the widget to create.
      * @config {String} widgetType The widget type to create.
-     * @return {boolean} true if successful; otherwise, false.
+     * @return {Object} The widget object if parseOnLoad is false; otherwise, null.
      */
     createWidget: function(elementId, props) {
         if (elementId == null || props == null) {
@@ -282,12 +282,11 @@
         // document.getElementById() even though it is not as efficient.
         if (new Boolean(@JS_NS@._base.config.parseOnLoad).valueOf() == false) {
             var domNode = document.getElementById(elementId);
-            var widget = common._createWidget(domNode, props, "last");
-            return (widget != null);
+            return common._createWidget(domNode, props, "last");
         }
         // Store widget properties for window.onLoad event.
         common._props[elementId] = props;
-        return true;
+        return null;
     },
 
     /**
