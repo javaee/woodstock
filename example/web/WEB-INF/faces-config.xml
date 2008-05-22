@@ -53,6 +53,13 @@
         <validator-class>com.sun.webui.jsf.example.chooseruploader.ChooserUploaderValidator</validator-class>
     </validator>
     
+    <managed-bean>
+        <description>The backing bean for the Java Help component</description>
+        <managed-bean-name>JavaHelpBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.bean.HelpBackingBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
     <managed-bean>    
         <description>The backing bean for the index page</description>
         <managed-bean-name>IndexBean</managed-bean-name>
@@ -334,6 +341,13 @@
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean> 
     
+    <managed-bean>
+        <description>The backing bean for the new tree example</description>
+        <managed-bean-name>TestTreeBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.tree2.TestTreeBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>  
+     
     <navigation-rule>    
       <from-view-id>/*</from-view-id>      
             
@@ -991,7 +1005,7 @@
       </navigation-case>   
    </navigation-rule>     
    
-   <!-- Navigation Cases for Login Example -->     
+   <!-- Navigation Cases for table2 Example -->     
    <navigation-rule>
       <navigation-case>
         <from-outcome>showTable2Index</from-outcome>
@@ -1000,7 +1014,7 @@
       </navigation-case>   
    </navigation-rule>  
    
-   <!-- Navigation Cases for Login Example -->     
+   <!-- Navigation Cases for table2 Example -->     
    <navigation-rule>
       <navigation-case>
         <from-outcome>showBasicTable2</from-outcome>
@@ -1009,11 +1023,20 @@
       </navigation-case>   
    </navigation-rule>
    
-   <!-- Navigation Cases for Login Example -->     
+   <!-- Navigation Cases for table2 Example -->     
    <navigation-rule>
       <navigation-case>
         <from-outcome>showTable2Sort</from-outcome>
         <to-view-id>/table2/sortTable.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>   
+   </navigation-rule> 
+   
+   <!-- Navigation Cases for Tree2 Example -->     
+   <navigation-rule>
+      <navigation-case>
+        <from-outcome>showTree2Index</from-outcome>
+        <to-view-id>/tree2/index.jsp</to-view-id>
         <redirect/>
       </navigation-case>   
    </navigation-rule> 
