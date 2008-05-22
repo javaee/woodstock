@@ -101,6 +101,7 @@
         <ant dir="${webui}" target="clean" inheritAll="false"/>
         <ant dir="${themes}" target="clean" inheritAll="false"/>
         <ant dir="${themeDoc}" target="clean" inheritAll="false"/>
+	<ant dir="${example-html}" target="clean" inheritAll="false"/>
     </target>
 
      <!-- ========== webui ========== -->
@@ -148,6 +149,12 @@
      <!-- This builds the example app   -->
     <target name="example">
         <ant dir="${example}" inheritAll="false" />
+    </target>
+
+    <!-- ========== example-html ========== -->
+     <!-- This builds the example-html app	-->
+    <target name="example-html">
+	<ant dir="${example-html}" inheritAll="false" />
     </target>
 
      <!-- set "result" to true if "property" isset and is false -->
@@ -319,7 +326,7 @@
     <target name="all" depends="clean, ship">
     </target>
 
-    <target name="ship" depends="webui, themes, extralibs, doc, buildsdk, example, themeDoc, l10n">
+    <target name="ship" depends="webui, themes, extralibs, doc, buildsdk, example, themeDoc, example-html, l10n">
     </target>
     
     <target name="l10n" depends="webui, themes" if="build-l10n">
