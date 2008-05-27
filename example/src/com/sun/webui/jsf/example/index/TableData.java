@@ -297,6 +297,18 @@ public class TableData {
                     "table2/util/Group.java",
                     "table2/util/Name.java"}
 	),
+        new AppData("index_tree2", "index_tree2Concepts", "showTree2Index",
+                new String[] {
+                    "tree2/index.jsp",
+                    "tree2/example1.jsp",
+                    "tree2/example2.jsp",
+                    "tree2/example3.jsp",
+                    "tree2/example4.jsp",
+                    "tree2/example5.jsp",
+                    "tree2/example6.jsp",
+                    "tree2/example7.jsp",
+                    "tree2/TestTreeBean.java"}
+	),
     };    
     
     /** Default constructor */
