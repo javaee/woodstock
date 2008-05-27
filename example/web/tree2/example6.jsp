@@ -39,7 +39,8 @@
 		<f:facet name="image">
 		    <webuijsf:image id="image" icon="TREE_FOLDER_ALARM_CRITICAL" />
 		</f:facet>
-		<webuijsf:treeNode2 id="node0" expanded="true" label="Node with action as Constant MB">
+                <webuijsf:treeNode2 id="node0" selected="true" expanded="true"
+                        label="Node with action as Constant MB">
 		    <f:facet name="image">
 			<webuijsf:image id="image" icon="TREE_FOLDER_ALARM_CRITICAL" />
 		    </f:facet>
@@ -87,7 +88,7 @@
 			</f:facet>
 		    </webuijsf:treeNode2>
 		</webuijsf:treeNode2>
-		<webuijsf:treeNode2 id="node5" expanded="true" label="Building 4" url="#">
+		<webuijsf:treeNode2 id="node5" label="Building 4" url="#">
 		    <f:facet name="image">
 			<webuijsf:image id="image" icon="TREE_FOLDER_ALARM_MAJOR" />
 		    </f:facet>
@@ -106,10 +107,8 @@
 	    <!-- End Tree Example 1 -->
 	</td>
         <td>
-            <webuijsf:button text="Submit"/>
-            <p> Select one or more nodes and expand a few others. Click on the
-            button to submit the form. Once the page reloads the tree should 
-        reflect the same state it was in when the form was submitted.</p>
+            <webuijsf:button text="#{msgs.tree2_example6_submit}"/>
+            <webuijsf:staticText text="#{msgs.tree2_example6_msg}"/>
         </td>
     </tr>
 </table>

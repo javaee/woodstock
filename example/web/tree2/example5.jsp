@@ -54,7 +54,7 @@
             </webuijsf:tree2>	
             
 	    <br/>
-            <webuijsf:label text="Selected Node" labelLevel="2"/>
+            <webuijsf:label text="#{msgs.tree2_example_selected_nodes}" labelLevel="2"/>
 	    <webuijsf:staticText id="text1" binding="#{TestTreeBean.statictext}" />
             </webuijsf:markup>
 

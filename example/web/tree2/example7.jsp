@@ -35,7 +35,7 @@
         <webuijsf:textField tabIndex="1" />
         
         <br/>
-	    <!-- Tree Example 1... -->
+	    
 	    <webuijsf:tree2 style="width:30em;" id="TreeExample1"
                 label="Dynamic Tree" url="#">
 		<f:facet name="image">

@@ -208,7 +208,7 @@
                                 "id": "form:tree1:DynamicTree:Node41Image"
                             },
                             "label": "Node 41",
-                            "id": "form1:tree1:node1:node41"
+                            "id": "form1:tree1:node4:node41"
                             }
                         ],
                         "label": "Node 4",
@@ -228,18 +228,18 @@
 </td>
 <td>
     <webuijsf:hyperlink id="link1"
-                        onClick="addChild(); return false;">Add Node</webuijsf:hyperlink>
-       <p>Click on button to add a node.</p>
+        onClick="addChild(); return false;" text="#{msgs.tree2_example1_addNode}"/>
+    <webuijsf:staticText text="#{msgs.tree2_example1_addNode_msg}" />
     <br/>
     <webuijsf:hyperlink id="link2" 
-        onClick="deleteSelectedNodes(); return false;">Delete Node</webuijsf:hyperlink> 
-    <p> Select a node and click on button to delete it.</p>
+        onClick="deleteSelectedNodes(); return false;" text="#{msgs.tree2_example1_deleteNode}" />
+    <webuijsf:staticText text="#{msgs.tree2_example1_deleteNode_msg}" />
      <br/>
     <webuijsf:hyperlink id="link3" 
-                        onClick="listSelectedNodes(); return false;">List</webuijsf:hyperlink> 
-    <p> Click on button to list selected nodes.</p>  
+                        onClick="listSelectedNodes(); return false;" text="#{msgs.tree2_example1_selectNode}" />
+    <webuijsf:staticText text="#{msgs.tree2_example1_selectNode_msg}" />
    
-    
+    <br/>
     <div id="stxt1"></div>
     
 </td>
