@@ -92,8 +92,9 @@ public class Tree2Renderer extends TreeNode2Renderer {
             // set the new set of selected nodes
             StringTokenizer st = new StringTokenizer(selectedNodes, "\n");
             while (st.hasMoreTokens()) {
-                String nodeId = st.nextToken();
-                TreeNode2 node = TreeNode2.findChildNode(tree, nodeId);
+                String clientId = st.nextToken();
+                clientId = clientId.trim();
+                TreeNode2 node = TreeNode2.findChildNode(context, tree, clientId);
                 if (node != null) {
                     if (node.isSelected()) {
                         node.setSelected(false);
@@ -110,8 +111,9 @@ public class Tree2Renderer extends TreeNode2Renderer {
             // set the new set of selected nodes
             StringTokenizer st = new StringTokenizer(toggledNodes, "\n");
             while (st.hasMoreTokens()) {
-                String nodeId = st.nextToken();
-                TreeNode2 node = TreeNode2.findChildNode(tree, nodeId);
+                String clientId = st.nextToken();
+                clientId = clientId.trim();
+                TreeNode2 node = TreeNode2.findChildNode(context, tree, clientId);
                 if (node != null) {
                     if (node.isExpanded()) {
                         node.setExpanded(false);

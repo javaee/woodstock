@@ -168,6 +168,10 @@ public class TreeNode2Renderer extends RendererBase {
             json.put("visible", attr);
         } 
         
+        attr = String.valueOf(node.isExpanded());
+        if (attr != null && attr.length() != 0) {
+            json.put("expanded", attr);
+        } 
         json.put("parent", node.getParent().getClientId(context));
         
         Object mex = node.getAttributes().get("nodeSelectedActionListenerExpression");

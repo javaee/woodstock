@@ -661,12 +661,15 @@ public class TreeNode2 extends WebuiComponent implements NamingContainer {
     public void setToolTip(String toolTip) {
         this.toolTip = toolTip;
     }
-
+    
     /**
-     * Returns the node with the id specified that is a child of the node specified. If
-     * no such descendant node exists, returns null. If the node specified contains more
-     * than one node with the same id, the node returned will be the first encountered
-     * in document order.
+     * Given the ID of the node and the root of the sub tree where it exists
+     * this method returns the TreeNode2 object representing the node.
+     * @param context The FacesContext
+     * @param node  The node representing the root of the subtree where the 
+     *      child node should be searched for.
+     * @param nodeID The ID of the child node.
+     * @return The TreeNode2 object representing the node.
      */
     public static TreeNode2 findChildNode(TreeNode2 node, String nodeId) {
         if (node == null || nodeId == null) {
@@ -716,21 +719,63 @@ public class TreeNode2 extends WebuiComponent implements NamingContainer {
     }
     
     /**
-     * Returns the root node of the tree. The assumption is that
-     * each tree will have atmost one node.
+     * Given the client ID of the node and the root of the sub tree where it exists
+     * this method returns the TreeNode2 object representing the node.
+     * @param context The FacesContext
+     * @param node  The node representing the root of the subtree where the 
+     *      child node should be searched for.
+     * @param clientId The clientID of the child node.
+     * @return The TreeNode2 object representing the node.
      */
-    /*public UIComponent getRoot() {
-        
-        UIComponent node = this.getParent();
-        while ((node != null) && (node instanceof TreeNode2)) {
-            node = node.getParent();
-        }
-        if (node instanceof TreeNode2) {
-            return node;
-        } else {
+    public static TreeNode2 findChildNode(FacesContext context,
+            TreeNode2 node, String clientId) {
+        if (node == null || clientId == null) {
             return null;
         }
-    }*/
+        
+        if (node.getChildCount() == 0) {
+            return null;
+        }
+        
+        for (UIComponent child : node.getChildren()) {
+            TreeNode2 foundNode = findNode(context, (TreeNode2)child, clientId);
+            if (foundNode != null) {
+                return foundNode;
+            }
+        }
+        
+        if (clientId.equals(node.getClientId(context))) {
+            return node;
+        }
+        
+        return null;
+    }
+    
+    /**
+     * Recursively finds a child node with a given client ID. 
+     * 
+     */
+    private static TreeNode2 findNode(FacesContext context, 
+        TreeNode2 node, String clientId) {
+        
+        if (clientId.equals(node.getClientId(context))) {
+            return node;
+        }
+        
+        if (node.getChildCount() == 0) {
+            return null;
+        }
+        
+        for (UIComponent child : node.getChildren()) {
+            TreeNode2 tnb = (TreeNode2)child;
+            TreeNode2 foundNode = findNode(context, tnb, clientId);
+            if (foundNode != null) {
+                return foundNode;
+            }
+        }
+        return null;
+    }
+    
 
     /**
      * Returns true if the node is a leaf.
