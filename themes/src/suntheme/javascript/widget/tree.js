@@ -280,7 +280,7 @@
     if (this.parentNode != null) { props.parentNode = this.parentNode; }
     if (this.expanded != null && this.expanded !== undefined) { props.expanded = this.expanded; }
     if (this.loadOnExpand != null) { props.loadOnExpand = this.loadOnExpand; }
-    if (this.selectedNodeId != null) { props.selected = this.selectedNodeId; }
+    if (this.submittedValue.selectedNodes != null) { props.selected = this.submittedValue.selectedNodes; }
     if (this.style != null) { props.style = this.style; }
     if (this.hasChildren != null) { props.hasChildren = this.hasChildren; }
     if (this.childNodes != null) { props.childNodes = this.childNodes; }
@@ -305,8 +305,8 @@
         var pNode = treeNode.parentNode;
         nodeProps.parentNodeId = pNode.id;
         nodeProps.expanded = treeNode.expanded;
-        if (nodeId == this.selectedNodeId) {
-            nodeProps.selected = "true";
+        if (this.isNodeSelected(nodeId)) {
+            nodeProps.selected = true;
         }
         var imgWidget = this._widget.getWidget(nodeId + "_image");
         nodeProps.image = imgWidget.getProps();
@@ -641,16 +641,6 @@
  */
 @JS_NS@.widget.tree.prototype.selectNode = function(nodeId) {
     
-    if (this.selectedNodeId == undefined) {
-        this.selectedNodeId = nodeId;
-    } else if (this.selectedNodeId != nodeId) {
-        var treeNode = document.getElementById(this.selectedNodeId);
-        if (treeNode) {
-          treeNode.className = this._theme.getClassName("TREE_ROW");
-        }
-        this.selectedNodeId = nodeId;
-    }
-    
     var treeNode = document.getElementById(nodeId);
     if (treeNode) {
         treeNode.className = this._theme.getClassName("TREE_SELECTED_ROW");
@@ -658,14 +648,6 @@
     
     // invoke treeBase to set selection information
     this._inherited("selectNode", arguments);
-    
-    // Specify the flag indicating whether the developer wanted the 
-    // node selection event to be propagated to the server. 
-    this._publish(@JS_NS@.widget.tree.event.nodeSelection.beginTopic, [{
-            submitSelection: treeNode.publishSelection, id: this.rootNode, 
-            nodeId: nodeId , submittedValue: this.submittedValue}]);
-    
-    
     return true;
 };
 
@@ -678,11 +660,21 @@
  */
 @JS_NS@.widget.tree.prototype._updateSelection = function(nodeId) {
     
-    if (this.isNodeSelected(nodeId)) {
-        this.deSelectNode(nodeId);
+    if (this.multipleSelect) {
+        if (this.isNodeSelected(nodeId)) {
+            this.deSelectNode(nodeId);
+        } else {
+            this.selectNode(nodeId);
+        }
     } else {
-        this.selectNode(nodeId);
+        if (this.submittedValue.selectedNodes[0] == undefined) {
+            this.selectNode(nodeId);
+        } else {
+          this.deSelectNode(this.submittedValue.selectedNodes[0]);
+          this.selectNode(nodeId);
+        }
     }
+    return true;
 };
 
 
@@ -880,9 +872,11 @@
         this._widget._removeChildNodes(this._childrenContainer);
     }
     
+    var firstTime = false;
     if (props.parent == undefined) {
         if (this.rootNode == undefined) {
             this.rootNode = props.id;
+            firstTime = true;
         } else {
             return false;  // cannot add a node without a parent.
         }
@@ -896,11 +890,6 @@
         }        
         
         if (props.label) {
-            /*if ((props.label.value != null)
-              && !this._widget._isFragment(props.label)) {
-                props.label.id = props.id + "_label";
-                props.label.widgetType = "label";
-            } */
             this._widget._addFragment(this._rootContentContainer, 
                 props.label, "last");
         }
@@ -921,7 +910,7 @@
     if (props.childNodes) {
         var cc = this._childrenContainer.cloneNode(false);
         cc.id = props.id + "_children";
-        if (props.expanded == undefined || props.expanded == "true") {
+        if (props.expanded == undefined || props.expanded == "true" || firstTime) {
             this._childrenContainer.style.display = "block";
         } else {
             this._childrenContainer.style.display = "none";
@@ -970,13 +959,22 @@
     }    
     var nc = this._nodeContainer.cloneNode(false);
     nc.id = props.id;
-    if (this.loadOnExpand == "true") {
-        nc.loadOnExpand = "true";
+    if (this.loadOnExpand) {
+        nc.loadOnExpand = true;
         if (props.onToggleNodeClick) {
             nc.onToggleNodeClick = props.onToggleNodeClick;
         }
     }
-    nc.className = this._theme.getClassName("TREE_ROW");
+    if (props.selected == undefined) {
+        nc.className = this._theme.getClassName("TREE_ROW");
+    } else {
+        if (props.selected == "true") {
+            this._updateSelection(props.id);
+            nc.className = this._theme.getClassName("TREE_SELECTED_ROW");
+        } else {
+            nc.className = this._theme.getClassName("TREE_ROW");
+        }
+    }
     if (props.publishSelectionEvent) {
       nc.publishSelection = props.publishSelectionEvent;
     } else {
@@ -1002,7 +1000,9 @@
     
     if (props.childNodes) {
         var toggleProps;
-        if (props.expanded == undefined) {
+        if (props.expanded == "true") {
+            props.expanded = true;
+        } else {
             props.expanded = false;
         }
         var toggleImgIcon;
@@ -1065,6 +1065,9 @@
           this._dojo.connect(imageWidget._domNode, "onclick", function(_nodeId) {
             var widget = @JS_NS@.widget.common.getWidget(_id);
             widget._updateSelection(props.id);
+            widget._publish(@JS_NS@.widget.tree.event.nodeSelection.beginTopic, [{
+            submitSelection: nc.publishSelection, id: _id, 
+            nodeId: _nodeId , submittedValue: widget.submittedValue}]);
             return false;
           });
       }
@@ -1072,13 +1075,10 @@
     nc.appendChild(imageDiv);
 
     // add node data properties
-    // if (props.label) {
+    // canot add a label widget inside the tree as it messes up the layout 
+    // completely. Reverting to default label as a some text surrounded by
+    // style selectors.
     if (props.label) {
-      /*if ((props.label.value != null)
-        && !this._widget._isFragment(props.label)) {
-        props.label.id = props.id + "_label";
-        props.label.widgetType = "label";
-      } */
             
       var contentDiv = this._contentContainer.cloneNode(false);
       contentDiv.id = props.id + "_contentNode";
@@ -1087,6 +1087,9 @@
       this._dojo.connect(contentDiv, "onclick", function(_nodeId) {
             var widget = @JS_NS@.widget.common.getWidget(_id);
             widget._updateSelection(props.id);
+            widget._publish(@JS_NS@.widget.tree.event.nodeSelection.beginTopic, [{
+            submitSelection: nc.publishSelection, id: _id, 
+            nodeId: _nodeId , submittedValue: widget.submittedValue}]);
             return false;
       });
       this._widget._addFragment(contentDiv, props.label);
