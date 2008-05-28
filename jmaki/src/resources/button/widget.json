@@ -1,0 +1,28 @@
+{
+   'name': 'button',
+   'type': '@JS_NAME@',
+   'version': '@JS_VERSION@',
+   'jmakiVersion': '1.0',
+   'description': 'Woodstock button widget',
+   'value': {
+      'required': true,
+      'type': 'OBJECT',
+      'defaultValue': {
+         'value': 'Button',
+         'primary': true,
+         'mini': false,
+         'submitForm': false,
+         'escape': true
+       }
+    },
+    'config': {
+       'type': {
+          'id': '@JS_NAME@.button',
+          'libs': [
+             '@JS_PATH@/bootstrap.js'
+             ],
+          'preload': 'if (typeof @JS_NS@Config == \"undefined\") var @JS_NS@Config = {isDebug: true, parseOnLoad: false, namespace: \"woodstock\", theme: {locale: \"en\"}, webuiAjax: false, webuiAll: true};',
+          'resources': [ '../resources/' ] 
+        }
+    }
+}

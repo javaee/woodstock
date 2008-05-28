@@ -1,0 +1,300 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!--
+ The contents of this file are subject to the terms
+ of the Common Development and Distribution License
+ (the License). You may not use this file except in
+ compliance with the License.
+ 
+ You can obtain a copy of the license at
+ https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ See the License for the specific language governing
+ permissions and limitations under the License.
+ 
+ When distributing Covered Code, include this CDDL
+ Header Notice in each file and include the License file
+ at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ If applicable, add the following below the CDDL Header,
+ with the fields enclosed by brackets [] replaced by
+ you own identifying information:
+ "Portions Copyrighted [year] [name of copyright owner]"
+ 
+ Copyright 2008 Sun Microsystems, Inc. All rights reserved.
+-->
+
+<project name="themes" default="all" basedir=".">
+    
+    <tstamp>
+        <format property="BuildNumber" pattern="yyyyMMddHHmm"/>
+    </tstamp>
+
+    <property file="../build.properties"/>
+    <property file="build.properties"/>
+
+    <condition property="theme.name" value="${theme.name}" else="suntheme">
+	<isset property="theme.name"/>
+    </condition>
+    <condition property="js.name" value="${js.name}" else="woodstock">
+	<isset property="js.name"/>
+    </condition>
+
+    <!-- Default directories -->
+    <property name="dist" value="${basedir}/dist"/>
+    <property name="build" value="${basedir}/build"/>
+    <property name="src" value="${basedir}/src"/>
+    <property name="themes" value="${basedir}/../themes"/>
+
+    <!-- JavaScript values -->
+    <condition property="js-name" value="${js.name}" else="woodstock">
+	<isset property="js-name"/>
+    </condition>
+    <property name="js.name" value="${js-name}"/>
+    <property name="js.module" value="${js.name}${CacheThemeVersion}"/>
+    <property name="js.path" value="../resources/libs/${js.module}${CacheVersion}/${theme.name}/javascript_uncompressed"/>
+
+    <!-- JMaki values. -->    
+    <property name="jmaki.name" value="jmaki-woodstock"/>
+    <property name="jmaki.module" value="jmaki.widgets.woodstock"/>
+    <property name="jmaki.build-dir" value="${build}/${jmaki.name}"/>
+    <property name="jmaki.src-dir" value="${src}"/>
+    <property name="jmaki.zip" value="${dist}/${jmaki.name}.zip"/>
+    <property name="jmaki.properties-dest-dir" value="${jmaki.build-dir}"/>
+    <property name="jmaki.properties-src-dir" value="${jmaki.src-dir}/properties"/>
+    <property name="jmaki.resources-dest-dir" value="${jmaki.build-dir}/resources/${js.name}"/>
+    <property name="jmaki.resources-src-dir" value="${jmaki.src-dir}/resources"/>
+    <property name="jmaki.templates-dest-dir" value="${jmaki.build-dir}/templates/${js.name}"/>
+    <property name="jmaki.templates-src-dir" value="${jmaki.src-dir}/templates"/>
+    <property name="jmaki.libs-dest-dir" value="${jmaki.resources-dest-dir}/resources/libs"/>
+    <property name="jmaki.libs-src-dir" value="${themes}/build/${theme.name}"/>
+    <property name="jmaki.libs-files" value="theme-files"/>
+    <property name="jmaki.js-filter-set" value="js-filter-set"/>
+
+    <!-- The default filter set for jMaki files. -->
+    <filterset id="js-filter-set">
+        <filter token="JMAKI_NS" value="${jmaki.module}"/>
+        <filter token="JS_NAME" value="${js.name}"/>
+	<filter token="JS_NS" value="${js.module}"/>
+        <filter token="JS_PATH" value="${js.path}"/>
+        <filter token="JS_VERSION" value="${ThemeVersion}"/>
+    </filterset>
+
+    <!-- Theme files -->
+    <patternset id="theme-files">
+        <include name="**/*"/>
+        <exclude name="**/*.class" />
+        <exclude name="**/*.java" />
+        <exclude name="**/*.properties" />
+        <exclude name="**/META-INF/**" />
+        <exclude name="**/messages/**" />
+        <exclude name="**/properties/**" />
+        <exclude name="**/templates/**" />
+    </patternset>
+
+    <!-- Public Targets -->
+
+    <!-- ========== all ========== -->
+    <target name="all" depends="buildLibrary" />
+
+    <!-- Build Woodstock Library. -->
+    <target name="buildLibrary" description="Build Woodstock Library.">
+        <mkdir dir="${jmaki.build-dir}" />
+
+        <!-- Copy theme files. -->
+        <antcall target="copyThemeFiles">
+	    <param name="_from-dir_" value="${jmaki.libs-src-dir}" />
+	    <param name="_to-dir_" value="${jmaki.libs-dest-dir}" />
+        </antcall>
+
+        <!-- Copy resource files. -->
+        <antcall target="copyResourceFiles">
+	    <param name="_from-dir_" value="${jmaki.resources-src-dir}" />
+	    <param name="_to-dir_" value="${jmaki.resources-dest-dir}" />
+        </antcall>
+
+        <!-- Copy template files. -->
+        <antcall target="copyTemplateFiles">
+	    <param name="_from-dir_" value="${jmaki.templates-src-dir}" />
+	    <param name="_to-dir_" value="${jmaki.templates-dest-dir}" />
+        </antcall>
+
+        <!-- Copy property files. -->
+        <antcall target="copyPropertyFiles">
+	    <param name="_from-dir_" value="${jmaki.properties-src-dir}" />
+	    <param name="_to-dir_" value="${jmaki.properties-dest-dir}" />
+        </antcall>
+
+        <!-- Create zip. -->
+        <antcall target="createLibraryZip"/>
+    </target>
+
+    <!-- Sets the "libraryzip-uptodate" property if
+	 files in "${_from-dir_}/*" are older than files in "${_to-dir_}/*". 
+
+	 Assumes properties
+
+	 _to-dir_ - destinatiotn directory of "**/*" files
+	 _from-dir_ - source directory of "**/*" files
+    -->
+    <target name="libraryzip-uptodate">
+	<uptodate property="libraryzip-uptodate">
+	    <srcfiles dir="${jmaki.build-dir}"/>
+	    <mergemapper to="${jmaki.zip}"/>
+	</uptodate>
+    </target>
+
+    <!-- Create the library zip -->
+    <target name="createLibraryZip" depends="libraryzip-uptodate"
+	    unless="libraryzip-uptodate">
+        <mkdir dir="${dist}" />
+        <zip destfile="${jmaki.zip}" basedir="${jmaki.build-dir}"/>
+    </target>
+
+    <!-- Sets the "properties-uptodate" property if
+	 files in "${_from-dir_}/*" are older than files in "${_to-dir_}/*". 
+
+	 Assumes properties
+
+	 _to-dir_ - destinatiotn directory of "**/*" files
+	 _from-dir_ - source directory of "**/*" files
+    -->
+    <target name="properties-uptodate">
+	<uptodate property="properties-uptodate">
+	    <srcfiles dir="${_from-dir_}" includes="**/*" />
+	    <mapper type="glob" from="*" to="${_to-dir_}/*"/>
+	</uptodate>
+    </target>
+
+    <!-- Copy and filter all property files to "${_to-dir_}"
+	 from "${_from-dir_}" if the "properties-uptodate" property is set.
+
+	 Parameters
+
+	 _to-dir_ - destination directory of "**/*"
+	 _from-dir_ - source directory of "**/*"
+
+    -->
+    <target name="copyPropertyFiles" depends="properties-uptodate" unless="properties-uptodate">
+	<mkdir dir="${_to-dir_}"/>
+
+	<!-- Copy and filter javascript files into _to-dir_ -->
+	<copy todir="${_to-dir_}">
+	    <fileset dir="${_from-dir_}">
+		<exclude name="**/CVS/**" />
+	    </fileset>
+            <filterset refid="${jmaki.js-filter-set}"/>
+	</copy>
+    </target>
+
+    <!-- Sets the "resources-uptodate" property if
+	 files in "${_from-dir_}/*" are older than files in "${_to-dir_}/*". 
+
+	 Assumes properties
+
+	 _to-dir_ - destinatiotn directory of "**/*" files
+	 _from-dir_ - source directory of "**/*" files
+    -->
+    <target name="resources-uptodate">
+	<uptodate property="resources-uptodate">
+	    <srcfiles dir="${_from-dir_}" includes="**/*" />
+	    <mapper type="glob" from="*" to="${_to-dir_}/*"/>
+	</uptodate>
+    </target>
+
+    <!-- Copy and filter all resource files to "${_to-dir_}"
+	 from "${_from-dir_}" if the "resources-uptodate" property is set.
+
+	 Parameters
+
+	 _to-dir_ - destination directory of "**/*"
+	 _from-dir_ - source directory of "**/*"
+
+    -->
+    <target name="copyResourceFiles" depends="resources-uptodate" unless="resources-uptodate">
+	<mkdir dir="${_to-dir_}"/>
+
+	<!-- Copy and filter javascript files into _to-dir_ -->
+	<copy todir="${_to-dir_}">
+	    <fileset dir="${_from-dir_}">
+		<exclude name="**/CVS/**" />
+	    </fileset>
+            <filterset refid="${jmaki.js-filter-set}"/>
+	</copy>
+    </target>
+
+    <!-- Sets the "templates-uptodate" property if
+	 files in "${_from-dir_}/*" are older than files in "${_to-dir_}/*". 
+
+	 Assumes properties
+
+	 _to-dir_ - destinatiotn directory of "**/*" files
+	 _from-dir_ - source directory of "**/*" files
+    -->
+    <target name="templates-uptodate">
+	<uptodate property="templates-uptodate">
+	    <srcfiles dir="${_from-dir_}" includes="**/*" />
+	    <mapper type="glob" from="*" to="${_to-dir_}/*"/>
+	</uptodate>
+    </target>
+
+    <!-- Copy and filter all template files to "${_to-dir_}"
+	 from "${_from-dir_}" if the "templates-uptodate" property is set.
+
+	 Parameters
+
+	 _to-dir_ - destination directory of "**/*"
+	 _from-dir_ - source directory of "**/*"
+
+    -->
+    <target name="copyTemplateFiles" depends="templates-uptodate" unless="templates-uptodate">
+	<mkdir dir="${_to-dir_}"/>
+
+	<!-- Copy and filter javascript files into _to-dir_ -->
+	<copy todir="${_to-dir_}">
+	    <fileset dir="${_from-dir_}">
+		<exclude name="**/CVS/**" />
+	    </fileset>
+            <filterset refid="${jmaki.js-filter-set}"/>
+	</copy>
+    </target>
+
+    <!-- Sets the "theme-uptodate" property if
+	 files in "${_from-dir_}/*" are older than files in "${_to-dir_}/*". 
+
+	 Assumes properties
+
+	 _to-dir_ - destinatiotn directory of "**/*" files
+	 _from-dir_ - source directory of "**/*" files
+    -->
+    <target name="theme-uptodate">
+	<uptodate property="theme-uptodate">
+	    <srcfiles dir="${_from-dir_}" includes="**/*" 
+                excludes="**/META-INF/**,**/templates/**,**/*.properties,**/*.java,**/*.class"/>
+	    <mapper type="glob" from="*" to="${_to-dir_}/*"/>
+	</uptodate>
+    </target>
+
+    <!-- Copy all theme files to "${_to-dir_}"
+	 from "${_from-dir_}" if the "theme-uptodate" property is set.
+
+	 Parameters
+
+	 _to-dir_ - destination directory of "**/*"
+	 _from-dir_ - source directory of "**/*"
+
+    -->
+    <target name="copyThemeFiles" depends="theme-uptodate" unless="theme-uptodate">
+	<mkdir dir="${_to-dir_}"/>
+
+	<!-- Copy and filter javascript files into _to-dir_ -->
+	<copy todir="${_to-dir_}">
+	    <fileset dir="${_from-dir_}">
+		<patternset refid="${jmaki.libs-files}"/>
+	    </fileset>
+	</copy>
+    </target>
+
+    <target name="clean">
+        <delete dir="${build}" />
+        <delete dir="${dist}" />
+    </target>
+
+</project>
