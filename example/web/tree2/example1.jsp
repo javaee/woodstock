@@ -86,7 +86,7 @@
           <script type="text/javascript">
 
             toggleClicked = function () {
-                console.debug("toggle node clicked");
+                alert("toggle node clicked");
             }
                 
             woodstock4_3.widget.common.createWidget('tree1_holder', {
