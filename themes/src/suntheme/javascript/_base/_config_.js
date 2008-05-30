@@ -43,7 +43,7 @@
  *   },
  *   // Flag to enable debug mode.
  *   isDebug: false,
- *   // Woodstock module path.
+ *   // Woodstock module path -- absolute or relative to javascript directory.
  *   modulePath: "/example/resources/@JS_NS/@THEME@/javascript",
  *   // Flag to inlcude style sheet(s).
  *   isStyleSheet: true,
@@ -59,12 +59,12 @@
  *       custom: [{
  *           /** Custom theme bundle name.
  *           bundle: "myTheme",
- *           /** Custom theme module path.
+ *           /** Custom theme module path -- absolute or relative to javascript directory.
  *           modulePath: "/example/resources/custom"
  *       }],
  *       // Theme locale.
  *       locale: "en",
- *       // Theme module path.
+ *       // Theme module path -- absolute or relative to javascript directory.
  *       modulePath: "/example/resources/@JS_NS@/@THEME@/javascript/theme",
  *       // App context.
  *       prefix: "/example/resources"
@@ -112,12 +112,13 @@ if (typeof @JS_NS@Config == "undefined") {
          * property is true, resources are loaded immediately. Otherwise, 
          * resources are lazily loaded.
          */
-        isJsfx: (@JS_NS@Config.ajax && @JS_NS@Config.ajax.isJsfx != null)
-            ? @JS_NS@Config.ajax.isJsfx : true,
+        isJsfx: @JS_NS@._base.bootstrap._getBooleanParameter("jsfx",
+            (@JS_NS@Config.ajax && @JS_NS@Config.ajax.isJsfx != null) 
+                ? @JS_NS@Config.ajax.isJsfx : true),
         /** Ajax module. */
         module: (@JS_NS@Config.ajax && @JS_NS@Config.ajax.module)
             ? @JS_NS@Config.ajax.module : "@JS_NS@.widget._xhr",
-        /** Ajax module path. */
+        /** Ajax module path -- absolute or relative to javascript directory. */
         modulePath: (@JS_NS@Config.ajax && @JS_NS@Config.ajax.modulePath)
             ? @JS_NS@Config.ajax.modulePath : undefined,
         /** URL used for Ajax transactions. Note: Not used by JSF Extensions. */
@@ -125,7 +126,8 @@ if (typeof @JS_NS@Config == "undefined") {
             ? @JS_NS@Config.ajax.url : undefined
     },
     /** Flag to enable debug mode. */
-    isDebug: (@JS_NS@Config.isDebug != null) ? @JS_NS@Config.isDebug : false,
+    isDebug: @JS_NS@._base.bootstrap._getBooleanParameter("debug",
+        (@JS_NS@Config.isDebug != null) ? @JS_NS@Config.isDebug : false),
     /** Flag to enable high contrast mode. */
     _isHighContrastMode: undefined,
     /** Dojo config properties. */
@@ -135,12 +137,14 @@ if (typeof @JS_NS@Config == "undefined") {
         /** Flag to enable dojo debug mode. */
         isDebug: false
     },
-    /** Woodstock module path. */
-    modulePath: (@JS_NS@Config.modulePath) ? @JS_NS@Config.modulePath : undefined,
+    /** Woodstock module path -- absolute or relative to javascript directory. */
+    modulePath: (@JS_NS@Config.modulePath) ? @JS_NS@Config.modulePath : ".",
     /** Flag to inlcude style sheet(s). */
-    isStyleSheet: (@JS_NS@Config.isStyleSheet != null) ? @JS_NS@Config.isStyleSheet : true,
+    isStyleSheet: @JS_NS@._base.bootstrap._getBooleanParameter("styleSheet",
+        (@JS_NS@Config.isStyleSheet != null) ? @JS_NS@Config.isStyleSheet : true),
     /** Flag to parse HTML markup onLoad. */
-    parseOnLoad: (@JS_NS@Config.parseOnLoad != null) ? @JS_NS@Config.parseOnLoad : true,
+    parseOnLoad: @JS_NS@._base.bootstrap._getBooleanParameter("parseOnLoad",
+        (@JS_NS@Config.parseOnLoad != null) ? @JS_NS@Config.parseOnLoad : false),
     /** Custom name space to map as @JS_NS@. */
     namespace: (@JS_NS@Config.namespace) ? @JS_NS@Config.namespace : "webui.@THEME@",
     /** Theme config properties. */
@@ -153,19 +157,23 @@ if (typeof @JS_NS@Config == "undefined") {
             ? @JS_NS@Config.theme.custom : undefined,
         /** Theme locale. */
         locale: (@JS_NS@Config.theme && @JS_NS@Config.theme.locale)
-            ? @JS_NS@Config.theme.locale : "en",
-        /** Theme module path. */
+            ? @JS_NS@Config.theme.locale
+            : (navigator.userLanguage 
+                ? navigator.userLanguage : navigator.language).toLowerCase(),
+        /** Theme module path -- absolute or relative to javascript directory. */
         modulePath: (@JS_NS@Config.theme && @JS_NS@Config.theme.modulePath)
-            ? @JS_NS@Config.theme.modulePath : undefined,
+            ? @JS_NS@Config.theme.modulePath : "theme",
         /** App context. */
         prefix: (@JS_NS@Config.theme && @JS_NS@Config.theme.prefix)
             ? @JS_NS@Config.theme.prefix : undefined
     },
     /** Flag to include all widgets. */
-    webuiAll: (@JS_NS@Config.webuiAll != null) ? @JS_NS@Config.webuiAll : false,
+    webuiAll: @JS_NS@._base.bootstrap._getBooleanParameter("webuiAll",
+        (@JS_NS@Config.webuiAll != null) ? @JS_NS@Config.webuiAll : false),
     /**
      * Flag to include Ajax functionality. Used in conjunction with webuiAll. 
      * Note: Not used with custom Ajax implementations.
      */
-    webuiAjax: (@JS_NS@Config.webuiAjax != null) ? @JS_NS@Config.webuiAjax : false
+    webuiAjax: @JS_NS@._base.bootstrap._getBooleanParameter("webuiAjax", 
+        (@JS_NS@Config.webuiAjax != null) ? @JS_NS@Config.webuiAjax : false)
 };

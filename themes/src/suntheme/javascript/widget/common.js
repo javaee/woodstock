@@ -643,13 +643,18 @@
             }
             // Match span id with props.
             for (var i = 0; i < nodes.length; i++) {
-                appendWidget(nodes[i], props[nodes[i].id]);
+                // Ensure a value exists for parent id.
+                var parent = nodes[i];
+                if (parent && props[parent.id] != null) {
+                    appendWidget(parent, props[parent.id]);
+                }
             }
         } else {
             // Match script parent id with props.
             for (var i = 0; i < nodes.length; i++) {
+                // Ensure a value exists for parent id.
                 var parent = nodes[i].parentNode;
-                if (parent && parent.tagName.toLowerCase() == "span") {
+                if (parent && props[parent.id] != null) {
                     appendWidget(parent, props[parent.id]);
                 }
             }

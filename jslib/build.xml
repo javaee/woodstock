@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!--
+ The contents of this file are subject to the terms
+ of the Common Development and Distribution License
+ (the License). You may not use this file except in
+ compliance with the License.
+ 
+ You can obtain a copy of the license at
+ https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ See the License for the specific language governing
+ permissions and limitations under the License.
+ 
+ When distributing Covered Code, include this CDDL
+ Header Notice in each file and include the License file
+ at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ If applicable, add the following below the CDDL Header,
+ with the fields enclosed by brackets [] replaced by
+ you own identifying information:
+ "Portions Copyrighted [year] [name of copyright owner]"
+ 
+ Copyright 2008 Sun Microsystems, Inc. All rights reserved.
+-->
+
+<project name="jslib" default="all" basedir=".">
+    
+    <tstamp>
+        <format property="BuildNumber" pattern="yyyyMMddHHmm"/>
+    </tstamp>
+
+    <property file="../themes/build.properties"/>
+    <property file="build.properties"/>
+
+    <condition property="theme.name" value="${theme.name}" else="suntheme">
+	<isset property="theme.name"/>
+    </condition>
+    <condition property="js.name" value="${js.name}" else="woodstock">
+	<isset property="js.name"/>
+    </condition>
+
+    <!-- Default directories -->
+    <property name="dist" value="${basedir}/dist"/>
+    <property name="build" value="${basedir}/build"/>
+    <property name="src" value="${basedir}/src"/>
+    <property name="themes" value="${basedir}/../themes"/>
+
+    <!-- JavaScript values -->
+    <condition property="js-name" value="${js.name}" else="woodstock">
+	<isset property="js-name"/>
+    </condition>
+    <property name="js.name" value="${js-name}"/>
+    <property name="js.module" value="${js.name}${CacheThemeVersion}"/>
+    <property name="js.path" value="/${js.name}/${js.module}${CacheVersion}/${theme.name}/javascript"/>
+
+    <!-- jslib values. -->    
+    <property name="jslib.name" value="woodstock"/>
+    <property name="jslib.build-dir" value="${build}/${jslib.name}"/>
+    <property name="jslib.src-dir" value="${src}"/>
+    <property name="jslib.zip" value="${dist}/${jslib.name}.zip"/>
+    <property name="jslib.theme-src-dir" value="${themes}/build/${theme.name}"/>
+    <property name="jslib.theme-files" value="theme-files"/>
+
+    <!-- Theme files -->
+    <patternset id="theme-files">
+        <include name="**/*"/>
+        <exclude name="**/*.class" />
+        <exclude name="**/*.java" />
+        <exclude name="**/*.properties" />
+        <exclude name="**/messages/**" />
+        <exclude name="**/properties/**" />
+    </patternset>
+
+    <!-- Public Targets -->
+
+    <!-- ========== all ========== -->
+    <target name="all" depends="buildLibrary" />
+
+    <!-- Build Woodstock Library. -->
+    <target name="buildLibrary" description="Build Woodstock Library.">
+        <mkdir dir="${jslib.build-dir}" />
+
+        <!-- Copy theme files. -->
+        <antcall target="copyThemeFiles">
+	    <param name="_from-dir_" value="${jslib.theme-src-dir}/${js.module}${CacheVersion}" />
+	    <param name="_to-dir_" value="${jslib.build-dir}/${js.module}${CacheVersion}" />
+        </antcall>
+
+        <!-- Copy translated files. -->
+        <antcall target="copyTranslatedFiles">
+	    <param name="_from-dir_" value="${jslib.theme-src-dir}/translatedFiles/${js.module}${CacheVersion}" />
+	    <param name="_to-dir_" value="${jslib.build-dir}/${js.module}${CacheVersion}" />
+        </antcall>
+
+        <!-- Create zip. -->
+        <antcall target="createJslibZip"/>
+    </target>
+
+    <!-- Sets the "libraryzip-uptodate" property if
+	 files in "${_from-dir_}/*" are older than files in "${_to-dir_}/*". 
+
+	 Assumes properties
+
+	 _to-dir_ - destinatiotn directory of "**/*" files
+	 _from-dir_ - source directory of "**/*" files
+    -->
+    <target name="jslibZip-uptodate">
+	<uptodate property="jslibZip-uptodate">
+	    <srcfiles dir="${build}"/>
+	    <mergemapper to="${jslib.zip}"/>
+	</uptodate>
+    </target>
+
+    <!-- Create the library zip -->
+    <target name="createJslibZip" depends="jslibZip-uptodate"
+	    unless="jslibZip-uptodate">
+        <mkdir dir="${dist}" />
+        <zip destfile="${jslib.zip}" basedir="${build}"/>
+    </target>
+
+    <!-- Sets the "theme-uptodate" property if
+	 files in "${_from-dir_}/*" are older than files in "${_to-dir_}/*". 
+
+	 Assumes properties
+
+	 _to-dir_ - destinatiotn directory of "**/*" files
+	 _from-dir_ - source directory of "**/*" files
+    -->
+    <target name="theme-uptodate">
+	<uptodate property="theme-uptodate">
+	    <srcfiles dir="${_from-dir_}" includes="**/*" 
+                excludes="**/templates/**,**/*.properties,**/*.java,**/*.class"/>
+	    <mapper type="glob" from="*" to="${_to-dir_}/*"/>
+	</uptodate>
+    </target>
+
+    <!-- Copy all theme files to "${_to-dir_}"
+	 from "${_from-dir_}" if the "theme-uptodate" property is set.
+
+	 Parameters
+
+	 _to-dir_ - destination directory of "**/*"
+	 _from-dir_ - source directory of "**/*"
+
+    -->
+    <target name="copyThemeFiles" depends="theme-uptodate" unless="theme-uptodate">
+	<mkdir dir="${_to-dir_}"/>
+
+	<!-- Copy and filter javascript files into _to-dir_ -->
+	<copy todir="${_to-dir_}">
+	    <fileset dir="${_from-dir_}">
+		<patternset refid="${jslib.theme-files}"/>
+	    </fileset>
+	</copy>
+    </target>
+
+    <!-- Sets the "translated-uptodate" property if
+	 files in "${_from-dir_}/*" are older than files in "${_to-dir_}/*". 
+
+	 Assumes properties
+
+	 _to-dir_ - destinatiotn directory of "**/*" files
+	 _from-dir_ - source directory of "**/*" files
+    -->
+    <target name="translated-uptodate">
+	<uptodate property="translated-uptodate">
+	    <srcfiles dir="${_from-dir_}" includes="**/*" 
+                excludes="**/templates/**,**/*.properties,**/*.java,**/*.class"/>
+	    <mapper type="glob" from="*" to="${_to-dir_}/*"/>
+	</uptodate>
+    </target>
+
+    <!-- Copy all translated files to "${_to-dir_}"
+	 from "${_from-dir_}" if the "translated-uptodate" property is set.
+
+	 Parameters
+
+	 _to-dir_ - destination directory of "**/*"
+	 _from-dir_ - source directory of "**/*"
+
+    -->
+    <target name="copyTranslatedFiles" if="build-l10n" 
+            depends="translated-uptodate" unless="translated-uptodate">
+	<mkdir dir="${_to-dir_}"/>
+
+	<!-- Copy and filter javascript files into _to-dir_ -->
+	<copy todir="${_to-dir_}">
+	    <fileset dir="${_from-dir_}">
+                <patternset refid="${jslib.theme-files}"/>
+	    </fileset>
+	</copy>
+    </target>
+
+    <target name="clean">
+        <delete dir="${build}" />
+        <delete dir="${dist}" />
+    </target>
+
+</project>

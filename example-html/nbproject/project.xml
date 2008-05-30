@@ -13,8 +13,8 @@
             </web-module-libraries>
             <web-module-additional-libraries>
                 <library dirs="1">
-                    <file>${file.reference.build-suntheme}</file>
-                    <path-in-war>resources/woodstock</path-in-war>
+                    <file>${file.reference.jslib-build}</file>
+                    <path-in-war>resources</path-in-war>
                 </library>
             </web-module-additional-libraries>
             <source-roots>

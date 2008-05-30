@@ -32,6 +32,42 @@ if (typeof @JS_NS@ == "undefined") {
      */
     @JS_NS@._base.bootstrap = {
         /**
+         * Get a parameter from the request.
+         * 
+         * @param {String} name The name of the parameter to retrieve.
+         * @param {boolean} defaultValue The value to return if "name" is not defined.
+         * @return {boolean} The parameter value.
+         * @private
+         */
+        _getBooleanParameter: function(name, defaultValue) {
+            var results = @JS_NS@._base.bootstrap._getParameter(name, defaultValue);
+            if (typeof results == "string") {
+                results = (results.toLowerCase() == "true") ? true : false;
+            }
+            return results;
+        },
+
+        /**
+         * Get a parameter from the request.
+         * 
+         * @param {String} name The name of the parameter to retrieve.
+         * @param {Object} defaultValue The value to return if "name" is not defined.
+         * @return {Object} The parameter value.
+         * @private
+         */
+        _getParameter: function(name, defaultValue) {
+            var _defaultValue = (defaultValue != null) ? defaultValue : null;
+            if (name == null) {
+                return _defaultValue;
+            }
+            var _name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+            var regexS = "[\\?&]" + _name + "=([^&#]*)";
+            var regex = new RegExp(regexS);
+            var results = regex.exec(window.location.href);
+            return (results != null) ? unescape(results[1]) : _defaultValue;
+        },
+        
+        /**
          * This function is used to initialize the environment with Object
          * literals. In particular, register the @JS_NS@ name space.
          *
@@ -115,6 +151,7 @@ if (typeof @JS_NS@ == "undefined") {
          * literals. In particular, @JS_NS@ and dojo resource paths.
          *
          * @param {Object} props Key-Value pairs of properties.
+         * @config {Object} _djConfig Dojo config properties.
          * @config {boolean} isDebug Flag indicating debug mode is enabled.
          * @config {String} modulePath The @JS_NS@ module path.
          * @config {Object} theme Key-Value pairs of theme properties.
@@ -128,8 +165,11 @@ if (typeof @JS_NS@ == "undefined") {
             }
             var config = @JS_NS@._base.config;
 
-            // Find script tag and set default module path.            
-            if (props.modulePath == null) {
+            // Set Dojo debug mode.
+            config._djConfig.isDebug = new Boolean(config.isDebug).valueOf();
+
+            // Find script tag and set base url.            
+            if (props._djConfig.baseUrl == null) {
                 var scripts = document.getElementsByTagName("script");
                 for (var i = 0; i < scripts.length; i++) {
                     var src = scripts[i].getAttribute("src");
@@ -139,34 +179,49 @@ if (typeof @JS_NS@ == "undefined") {
                     var path = "@THEME_PATH@/javascript";
                     var index = src.indexOf(path);
                     if (index != -1) {
-                        // Set @JS_NS@ module path.
-                        config.modulePath = src.substring(0, index + path.length);
+                        // Set base url.
+                        config._djConfig.baseUrl = src.substring(0, index + path.length);
 
                         // Set debug path.
                         if (new Boolean(props.isDebug).valueOf() == true) {
-                            config.modulePath += "_uncompressed";
+                            config._djConfig.baseUrl += "_uncompressed";
                         }
                         break;
                     }
                 }
             }
 
-            // Set application context.
+            // Set theme prefix.
             if (props.theme.prefix) {
                 config.theme.prefix = props.theme.prefix;
-
-                // Adjust module path, if needed.
-                if (config.modulePath.charAt(0) == "/" 
-                        && config.modulePath.indexOf(config.theme.prefix + "/") == -1) {
-                    config.modulePath = props.theme.prefix + config.modulePath;
-                }
             } else {
-                index = props.modulePath.indexOf("@THEME_PATH@");
+                index = config._djConfig.baseUrl.indexOf("@THEME_PATH@");
                 if (index != -1) {
-                    config.theme.prefix = config.modulePath.substring(0, index);
+                    config.theme.prefix = config._djConfig.baseUrl.substring(0, index);
                 }
             }
 
+            // Adjust base url, if needed.
+            var prefix = config.theme.prefix;
+            if (config._djConfig.baseUrl.charAt(0) == "/" 
+                    && config._djConfig.baseUrl.indexOf(prefix + "/") == -1) {
+                config._djConfig.baseUrl = prefix + config._djConfig.baseUrl;
+            }
+            // Adjust module path, if needed.
+            if (config.modulePath && config.modulePath.charAt(0) == "/" 
+                    && config.modulePath.indexOf(prefix + "/") == -1) {
+                config.modulePath = prefix + config.modulePath;
+            }
+            // Adjust ajax module path, if needed.
+            if (config.ajax.modulePath && config.ajax.modulePath.charAt(0) == "/" 
+                    && config.ajax.modulePath.indexOf(prefix + "/") == -1) {
+                config.ajax.modulePath = prefix + config.ajax.modulePath;
+            }
+            // Adjust theme module path, if needed.
+            if (config.theme.modulePath && config.theme.modulePath.charAt(0) == "/" 
+                    && config.theme.modulePath.indexOf(prefix + "/") == -1) {
+                config.theme.modulePath = prefix + config.theme.modulePath;
+            }
             // Adjust custom theme module paths, if needed.
             if (config.theme.custom instanceof Array) {
                 for (var i = 0; i < config.theme.custom.length; ++i) {
@@ -175,25 +230,11 @@ if (typeof @JS_NS@ == "undefined") {
                         continue;
                     }
                     if (modulePath.charAt(0) == "/"
-                            && modulePath.indexOf(config.theme.prefix + "/") == -1) {
-                        config.theme.custom[i].modulePath = 
-                            config.theme.prefix + modulePath;
+                            && modulePath.indexOf(prefix + "/") == -1) {
+                        config.theme.custom[i].modulePath = prefix + modulePath;
                     }
                 }
             }
-
-            // Set theme module path.
-            if (props.theme.modulePath == null) {
-                config.theme.modulePath = config.modulePath + "/theme";
-            }
-
-            // Set Dojo base URL.
-            if (config._djConfig.baseUrl == null) {
-                config._djConfig.baseUrl = config.modulePath + "/_dojo";
-            }
-
-            // Set Dojo debug mode.
-            config._djConfig.isDebug = new Boolean(config.isDebug).valueOf();
             return true;
         },
 

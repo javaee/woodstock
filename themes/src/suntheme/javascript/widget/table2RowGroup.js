@@ -860,7 +860,7 @@
     if (props.colspan != null) { domNode.colspan = this.colspan; }
     if (props.headers != null) { domNode.headers = this.headers; }
     if (props.height != null) { domNode.height = this.height; }
-    if (props.noWrap != null) { domNode.nowrap = "nowrap"; }
+    if (props.noWrap != null) { domNode.setAttribute("nowrap", "nowrap"); }
     if (props.rowSpan != null) { domNode.rowspan = this.rowSpan; }
     if (props.scope != null) { domNode.scope = this.scope; }
     if (props.valign != null) { domNode.valign = this.valign; }

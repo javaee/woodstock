@@ -277,17 +277,20 @@ if(typeof @JS_NS@._dojo == "undefined"){
 (function(){
 	var d = @JS_NS@._dojo;
 
+        // Woodstock: Path must not be modified by custom build.
+        var prefix = "_do" + "jo";
+
 	@JS_NS@._dojo.mixin(@JS_NS@._dojo, {
 		_loadedModules: {},
 		_inFlightCount: 0,
 		_hasResource: {},
 
-		// FIXME: it should be possible to pull module prefixes in from djConfig
+		// FIXME: it should be possible to pull module prefixes in from djConfig               
 		_modulePrefixes: {
 			// Woodstock: Added quotes around keys to support dot syntax.
-			"@JS_NS@._dojo": {name: "@JS_NS@._dojo", value: "."},
-			"doh": {name: "doh", value: "../util/doh"},
-			"tests": {name: "tests", value: "tests"}
+			"@JS_NS@._dojo": {name: "@JS_NS@._dojo", value: prefix},
+			"doh": {name: "doh", value: prefix + "/util/doh"},
+			"tests": {name: "tests", value: prefix + "/tests"}
 		},
 
 		_moduleHasPrefix: function(/*String*/module){

@@ -21,13 +21,13 @@
  Copyright 2008 Sun Microsystems, Inc. All rights reserved.
 -->
 
-<project name="themes" default="all" basedir=".">
+<project name="jmaki" default="all" basedir=".">
     
     <tstamp>
         <format property="BuildNumber" pattern="yyyyMMddHHmm"/>
     </tstamp>
 
-    <property file="../build.properties"/>
+    <property file="../themes/build.properties"/>
     <property file="build.properties"/>
 
     <condition property="theme.name" value="${theme.name}" else="suntheme">
@@ -41,7 +41,7 @@
     <property name="dist" value="${basedir}/dist"/>
     <property name="build" value="${basedir}/build"/>
     <property name="src" value="${basedir}/src"/>
-    <property name="themes" value="${basedir}/../themes"/>
+    <property name="jslib" value="${basedir}/../jslib"/>
 
     <!-- JavaScript values -->
     <condition property="js-name" value="${js.name}" else="woodstock">
@@ -49,7 +49,7 @@
     </condition>
     <property name="js.name" value="${js-name}"/>
     <property name="js.module" value="${js.name}${CacheThemeVersion}"/>
-    <property name="js.path" value="../resources/libs/${js.module}${CacheVersion}/${theme.name}/javascript_uncompressed"/>
+    <property name="js.path" value="../resources/libs/${js.module}${CacheVersion}/${theme.name}/javascript"/>
 
     <!-- JMaki values. -->    
     <property name="jmaki.name" value="jmaki-woodstock"/>
@@ -63,9 +63,8 @@
     <property name="jmaki.resources-src-dir" value="${jmaki.src-dir}/resources"/>
     <property name="jmaki.templates-dest-dir" value="${jmaki.build-dir}/templates/${js.name}"/>
     <property name="jmaki.templates-src-dir" value="${jmaki.src-dir}/templates"/>
-    <property name="jmaki.libs-dest-dir" value="${jmaki.resources-dest-dir}/resources/libs"/>
-    <property name="jmaki.libs-src-dir" value="${themes}/build/${theme.name}"/>
-    <property name="jmaki.libs-files" value="theme-files"/>
+    <property name="jmaki.jslib-dest-dir" value="${jmaki.resources-dest-dir}/resources/libs"/>
+    <property name="jmaki.jslib-src-dir" value="${jslib}/build/${js.name}"/>
     <property name="jmaki.js-filter-set" value="js-filter-set"/>
 
     <!-- The default filter set for jMaki files. -->
@@ -77,31 +76,19 @@
         <filter token="JS_VERSION" value="${ThemeVersion}"/>
     </filterset>
 
-    <!-- Theme files -->
-    <patternset id="theme-files">
-        <include name="**/*"/>
-        <exclude name="**/*.class" />
-        <exclude name="**/*.java" />
-        <exclude name="**/*.properties" />
-        <exclude name="**/META-INF/**" />
-        <exclude name="**/messages/**" />
-        <exclude name="**/properties/**" />
-        <exclude name="**/templates/**" />
-    </patternset>
-
     <!-- Public Targets -->
 
     <!-- ========== all ========== -->
     <target name="all" depends="buildLibrary" />
 
     <!-- Build Woodstock Library. -->
-    <target name="buildLibrary" description="Build Woodstock Library.">
+    <target name="buildLibrary" description="Build jMaki Library.">
         <mkdir dir="${jmaki.build-dir}" />
 
         <!-- Copy theme files. -->
-        <antcall target="copyThemeFiles">
-	    <param name="_from-dir_" value="${jmaki.libs-src-dir}" />
-	    <param name="_to-dir_" value="${jmaki.libs-dest-dir}" />
+        <antcall target="copyJslibFiles">
+	    <param name="_from-dir_" value="${jmaki.jslib-src-dir}/${js.module}${CacheVersion}" />
+	    <param name="_to-dir_" value="${jmaki.jslib-dest-dir}/${js.module}${CacheVersion}" />
         </antcall>
 
         <!-- Copy resource files. -->
@@ -175,7 +162,7 @@
     <target name="copyPropertyFiles" depends="properties-uptodate" unless="properties-uptodate">
 	<mkdir dir="${_to-dir_}"/>
 
-	<!-- Copy and filter javascript files into _to-dir_ -->
+	<!-- Copy and filter property files into _to-dir_ -->
 	<copy todir="${_to-dir_}">
 	    <fileset dir="${_from-dir_}">
 		<exclude name="**/CVS/**" />
@@ -211,7 +198,7 @@
     <target name="copyResourceFiles" depends="resources-uptodate" unless="resources-uptodate">
 	<mkdir dir="${_to-dir_}"/>
 
-	<!-- Copy and filter javascript files into _to-dir_ -->
+	<!-- Copy and filter resource files into _to-dir_ -->
 	<copy todir="${_to-dir_}">
 	    <fileset dir="${_from-dir_}">
 		<exclude name="**/CVS/**" />
@@ -247,7 +234,7 @@
     <target name="copyTemplateFiles" depends="templates-uptodate" unless="templates-uptodate">
 	<mkdir dir="${_to-dir_}"/>
 
-	<!-- Copy and filter javascript files into _to-dir_ -->
+	<!-- Copy and filter template files into _to-dir_ -->
 	<copy todir="${_to-dir_}">
 	    <fileset dir="${_from-dir_}">
 		<exclude name="**/CVS/**" />
@@ -256,7 +243,7 @@
 	</copy>
     </target>
 
-    <!-- Sets the "theme-uptodate" property if
+    <!-- Sets the "jslib-uptodate" property if
 	 files in "${_from-dir_}/*" are older than files in "${_to-dir_}/*". 
 
 	 Assumes properties
@@ -264,16 +251,15 @@
 	 _to-dir_ - destinatiotn directory of "**/*" files
 	 _from-dir_ - source directory of "**/*" files
     -->
-    <target name="theme-uptodate">
-	<uptodate property="theme-uptodate">
-	    <srcfiles dir="${_from-dir_}" includes="**/*" 
-                excludes="**/META-INF/**,**/templates/**,**/*.properties,**/*.java,**/*.class"/>
+    <target name="jslib-uptodate">
+	<uptodate property="jslib-uptodate">
+	    <srcfiles dir="${_from-dir_}" includes="**/*" />
 	    <mapper type="glob" from="*" to="${_to-dir_}/*"/>
 	</uptodate>
     </target>
 
     <!-- Copy all theme files to "${_to-dir_}"
-	 from "${_from-dir_}" if the "theme-uptodate" property is set.
+	 from "${_from-dir_}" if the "jslib-uptodate" property is set.
 
 	 Parameters
 
@@ -281,13 +267,13 @@
 	 _from-dir_ - source directory of "**/*"
 
     -->
-    <target name="copyThemeFiles" depends="theme-uptodate" unless="theme-uptodate">
+    <target name="copyJslibFiles" depends="jslib-uptodate" unless="jslib-uptodate">
 	<mkdir dir="${_to-dir_}"/>
 
-	<!-- Copy and filter javascript files into _to-dir_ -->
+	<!-- Copy theme files into _to-dir_ -->
 	<copy todir="${_to-dir_}">
 	    <fileset dir="${_from-dir_}">
-		<patternset refid="${jmaki.libs-files}"/>
+		<include name="**/*"/>
 	    </fileset>
 	</copy>
     </target>
