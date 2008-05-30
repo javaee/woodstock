@@ -101,6 +101,8 @@
         <ant dir="${webui}" target="clean" inheritAll="false"/>
         <ant dir="${themes}" target="clean" inheritAll="false"/>
         <ant dir="${themeDoc}" target="clean" inheritAll="false"/>
+	<ant dir="${jslib}" target="clean" inheritAll="false"/>
+	<ant dir="${jmaki}" target="clean" inheritAll="false"/>
 	<ant dir="${example-html}" target="clean" inheritAll="false"/>
     </target>
 
@@ -127,8 +129,20 @@
         </ant> 
     </target>
 
+    <!-- ========== jslib ========== -->
+    <!-- This builds the jslib module -->
+    <target name="jslib" depends="themes">
+	<ant dir="${jslib}" inheritAll="false" />
+    </target>
+
+    <!-- ========== jmaki ========== -->
+    <!-- This builds the jmaki module -->
+    <target name="jmaki" depends="jslib">
+	<ant dir="${jmaki}" inheritAll="false" />
+    </target>
+
     <!-- ========== docs ========== -->
-     <!-- This copies any documentation into the kit  -->
+    <!-- This copies any documentation into the kit  -->
     <target name="doc">
         <!-- readme -->
         <copy todir="${ship}" >
@@ -145,15 +159,15 @@
         </copy>
     </target>
 
-     <!-- ========== example ========== -->
-     <!-- This builds the example app   -->
+    <!-- ========== example ========== -->
+    <!-- This builds the example app -->
     <target name="example">
         <ant dir="${example}" inheritAll="false" />
     </target>
 
     <!-- ========== example-html ========== -->
-     <!-- This builds the example-html app	-->
-    <target name="example-html">
+    <!-- This builds the example-html app -->
+    <target name="example-html" depends="jslib">
 	<ant dir="${example-html}" inheritAll="false" />
     </target>
 
@@ -326,7 +340,7 @@
     <target name="all" depends="clean, ship">
     </target>
 
-    <target name="ship" depends="webui, themes, extralibs, doc, buildsdk, example, themeDoc, example-html, l10n">
+    <target name="ship" depends="webui, themes, jslib, jmaki, extralibs, doc, buildsdk, example, themeDoc, example-html, l10n">
     </target>
     
     <target name="l10n" depends="webui, themes" if="build-l10n">
