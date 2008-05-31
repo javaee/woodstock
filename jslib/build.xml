@@ -27,8 +27,9 @@
         <format property="BuildNumber" pattern="yyyyMMddHHmm"/>
     </tstamp>
 
-    <property file="../themes/build.properties"/>
+    <property file="../build.properties"/>
     <property file="build.properties"/>
+    <property file="../themes/build.properties"/>
 
     <condition property="theme.name" value="${theme.name}" else="suntheme">
 	<isset property="theme.name"/>

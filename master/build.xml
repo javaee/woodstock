@@ -132,13 +132,17 @@
     <!-- ========== jslib ========== -->
     <!-- This builds the jslib module -->
     <target name="jslib" depends="themes">
-	<ant dir="${jslib}" inheritAll="false" />
+	<ant dir="${jslib}" inheritAll="false">
+            <property name="buildnumber" value="${buildnumber}"/> 
+        </ant> 
     </target>
 
     <!-- ========== jmaki ========== -->
     <!-- This builds the jmaki module -->
     <target name="jmaki" depends="jslib">
-	<ant dir="${jmaki}" inheritAll="false" />
+	<ant dir="${jmaki}" inheritAll="false">
+            <property name="buildnumber" value="${buildnumber}"/> 
+        </ant> 
     </target>
 
     <!-- ========== docs ========== -->
