@@ -507,7 +507,7 @@ or ant -Dj2ee.platform.classpath=&lt;server_classpath&gt; (where no properties f
         <basename file="${file.reference.json-2.jar}" property="included.lib.file.reference.json-2.jar"/>
         <copy-ear-war file="${file.reference.json-2.jar}" propname="included.lib.file.reference.json-2.jar.X"/>
         <copy todir="${build.web.dir}/resources">
-            <fileset dir="${file.reference.jslib-build}" includes="**/*"/>
+            <fileset dir="${file.reference.build-suntheme}" includes="**/*"/>
         </copy>
         <mkdir dir="${build.web.dir}/META-INF"/>
         <manifest file="${build.web.dir}/META-INF/MANIFEST.MF" mode="update">
@@ -518,7 +518,7 @@ or ant -Dj2ee.platform.classpath=&lt;server_classpath&gt; (where no properties f
     <target depends="init" name="library-inclusion-in-archive" unless="dist.ear.dir">
         <copy file="${file.reference.json-2.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copy todir="${build.web.dir}/resources">
-            <fileset dir="${file.reference.jslib-build}" includes="**/*"/>
+            <fileset dir="${file.reference.build-suntheme}" includes="**/*"/>
         </copy>
     </target>
     <target depends="init,compile,compile-jsps,-pre-dist,library-inclusion-in-manifest" name="do-ear-dist">

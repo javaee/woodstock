@@ -13,7 +13,7 @@
             </web-module-libraries>
             <web-module-additional-libraries>
                 <library dirs="1">
-                    <file>${file.reference.jslib-build}</file>
+                    <file>${file.reference.build-suntheme}</file>
                     <path-in-war>resources</path-in-war>
                 </library>
             </web-module-additional-libraries>
