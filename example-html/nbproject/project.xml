@@ -10,10 +10,14 @@
                     <file>${file.reference.json-2.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
+                <library files="1">
+                    <file>${file.reference.javaee.jar}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
             </web-module-libraries>
             <web-module-additional-libraries>
                 <library dirs="1">
-                    <file>${file.reference.build-suntheme}</file>
+                    <file>${file.reference.jslib-build}</file>
                     <path-in-war>resources</path-in-war>
                 </library>
             </web-module-additional-libraries>
