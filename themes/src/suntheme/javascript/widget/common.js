@@ -31,7 +31,19 @@
  */
 @JS_NS@.widget.common = {
     /**
-     * Object to temporarily store widget properties.
+     * Object used to store onLoad functions.
+     * @private
+     */
+    _loaders: [],
+
+    /**
+     * Object used to store private onLoad functions.
+     * @private
+     */
+    _preLoaders: [],
+
+    /**
+     * Object used to store widget properties.
      * @private
      */
     _props: new Object(),
@@ -155,6 +167,66 @@
     },
 
     /**
+     * Register a function to be called after the DOM has finished loading 
+     * and widgets declared in markup have been instantiated.
+     * <p>
+     * Functions are called after widgets have been instantiated, but before
+     * loaders set via the public addOnLoad function. This ensures JavaScript
+     * APIs are available for JSF components (e.g., file chooser).
+     * </p>
+     * @param {Function|Object} obj A Function or Object containing the
+     * given function name.
+     * @param {String} name The function name to call in the given Object.
+     * @return {boolean} true if successful; otherwise, false.
+     * @private
+     */
+    _addOnLoad: function(obj, name) {
+        if (obj == null) {
+            return false;
+        }
+
+        var common = @JS_NS@.widget.common;
+        if (arguments.length == 1){
+            common._preLoaders.push(obj);
+        } else if (arguments.length > 1){
+            common._preLoaders.push(function(){
+                obj[name]();
+            });
+        }
+        return true;
+    },
+ 
+    /**
+     * Register a function to be called after the DOM has finished loading 
+     * and widgets declared in markup have been instantiated.
+     * <p><pre>
+     * 
+     * @JS_NS@.widget.common.addOnLoad(functionPointer);
+     * @JS_NS@.widget.common.addOnLoad(object, "functionName");
+     *
+     * </pre></p>
+     * @param {Function|Object} obj A Function or Object containing the
+     * given function name.
+     * @param {String} name The function name to call in the given Object.
+     * @return {boolean} true if successful; otherwise, false.
+     */
+    addOnLoad: function(obj, name) {
+        if (obj == null) {
+            return false;
+        }
+
+        var common = @JS_NS@.widget.common;
+        if (arguments.length == 1){
+            common._loaders.push(obj);
+        } else if (arguments.length > 1){
+            common._loaders.push(function(){
+                obj[name]();
+            });
+        }
+        return true;
+    },
+ 
+    /**
      * This function is used to append HTML strings to the innerHTML property of
      * the given domNode.
      * <p>
@@ -228,8 +300,15 @@
         // Set timeout to allow for progressive rendering.
         setTimeout(function() {
             var common = @JS_NS@.widget.common;
-            common._createWidget(domNode, props, "last");
+            common._createWidget(domNode, props, "last"); // Create the widget.
             delete(common._props[domNode.id]); // Clean up.
+
+            // Test remaining widget properties.
+            for (var property in common._props) {
+                return; // At least one widget has not been created.
+            }
+            // Call after all widgets have been created.
+            common._loaded();
         }, 0);
         return true;
     },
@@ -615,6 +694,35 @@
      */
     _keyCodes: @JS_NS@._dojo.keys,
  
+     /**
+     * This fnction is called after the DOM has finished loading and widgets
+     * declared in markup have been instantiated.
+     *
+     * @return {boolean} true if successful; otherwise, false.
+     * @private
+     */
+    _loaded: function() {
+        // After the page has been parsed, there is no need to perform this task
+        // again. Setting the parseOnLoad flag to false will allow the ajaxZone
+        // tag of JSF Extensions, for example, to re-render widgets properly. 
+        // That is, considering there will only ever be one window.onLoad event.
+        @JS_NS@._base.config.parseOnLoad = false;
+
+        // Call loaders set via private addOnLoad function.
+        var common = @JS_NS@.widget.common;
+        for(var i = 0; i < common._preLoaders.length; i++){
+            common._preLoaders[i]();
+        }
+        common._preLoaders = []; // Clean up.
+
+        // Call loaders set via public addOnLoad function.
+        for(var i = 0; i < common._loaders.length; i++){
+            common._loaders[i]();
+        }
+        common._loaders = []; // Clean up.
+        return true;
+    },
+
     /**
      * This function is used to parse HTML markup in order to create widgets
      * more efficiently. See the createWidget() function.
@@ -776,3 +884,15 @@
         return true;
     }
 };
+
+// Initialize widgets.
+@JS_NS@._dojo.addOnLoad(function() {
+    var common = @JS_NS@.widget.common;
+
+    // Defer widget creation until the window.onLoad event.
+    if (new Boolean(@JS_NS@._base.config.parseOnLoad).valueOf() == true) {
+        common._parseMarkup(@JS_NS@._dojo.body());
+    } else {
+        common._loaded(); // Widgets created in-line.
+    }
+});

@@ -139,6 +139,7 @@ public class HeadRenderer extends AbstractRenderer {
             if (head.isJavaScript()) {
                 try {
                     JavaScriptUtilities.renderBootstrap(component, writer);
+                    JavaScriptUtilities.renderOnLoad(component, writer, head.getOnLoad());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

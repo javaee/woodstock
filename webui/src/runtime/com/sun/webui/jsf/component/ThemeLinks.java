@@ -272,6 +272,36 @@ public class ThemeLinks extends UIComponentBase {
     }
 
     /**
+     * Register a function to be called after the DOM has finished loading and
+     * widgets declared in markup have been instantiated.
+     */
+    @Property(name="onLoad", displayName="Load Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    private String onLoad = null;
+
+    /**
+     * Get a function to be called after the DOM has finished loading and
+     * widgets declared in markup have been instantiated.
+     */
+    public String getOnLoad() {
+        if (this.onLoad != null) {
+            return this.onLoad;
+        }
+        ValueExpression _vb = getValueExpression("onLoad");
+        if (_vb != null) {
+            return (String) _vb.getValue(getFacesContext().getELContext());
+        }
+        return null;
+    }
+
+    /**
+     * Register a function to be called after the DOM has finished loading and
+     * widgets declared in markup have been instantiated.
+     */
+    public void setOnLoad(String onLoad) {
+        this.onLoad = onLoad;
+    }
+
+    /**
      * Flag (true or false) indicating to parse HTML markup.
      * <p>
      * For better performance, HTML markup is parsed in order to create widgets 
@@ -452,13 +482,13 @@ public class ThemeLinks extends UIComponentBase {
      * this feature in combination with the webuiAll property to include all tag
      * library functionality. 
      * </p>
-     * @deprecated
+     * @deprecated Use webuiAjax
      */
     @Property(name="webuiJsfx", displayName="Include Ajax Functionality", category="Javascript")
  
     /**
      * Test flag indicating to include default Ajax functionality.
-     * @deprecated
+     * @deprecated Use isWebuiAjax
      */
     public boolean isWebuiJsfx() { 
         if (this.webuiAjax_set) {
@@ -478,7 +508,7 @@ public class ThemeLinks extends UIComponentBase {
 
     /**
      * Set flag indicating to include default Ajax functionality.
-     * @deprecated
+     * @deprecated Use setWebuiAjax
      */
     public void setWebuiJsfx(boolean webuiJsfx) {
         setWebuiAjax(webuiJsfx);
@@ -546,19 +576,20 @@ public class ThemeLinks extends UIComponentBase {
         this.debug_set = ((Boolean) _values[10]).booleanValue();
         this.dijitAll = ((Boolean) _values[11]).booleanValue();
         this.dijitAll_set = ((Boolean) _values[12]).booleanValue();
-        this.parseOnLoad = ((Boolean) _values[13]).booleanValue();
-        this.parseOnLoad_set = ((Boolean) _values[14]).booleanValue();
-        this.webuiAll = ((Boolean) _values[15]).booleanValue();
-        this.webuiAll_set = ((Boolean) _values[16]).booleanValue();
-        this.webuiAjax = ((Boolean) _values[17]).booleanValue();
-        this.webuiAjax_set = ((Boolean) _values[18]).booleanValue();
+        this.onLoad = (String) _values[13];
+        this.parseOnLoad = ((Boolean) _values[14]).booleanValue();
+        this.parseOnLoad_set = ((Boolean) _values[15]).booleanValue();
+        this.webuiAll = ((Boolean) _values[16]).booleanValue();
+        this.webuiAll_set = ((Boolean) _values[17]).booleanValue();
+        this.webuiAjax = ((Boolean) _values[18]).booleanValue();
+        this.webuiAjax_set = ((Boolean) _values[19]).booleanValue();
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[19];
+        Object _values[] = new Object[20];
         _values[0] = super.saveState(_context);
         _values[1] = this.javaScript ? Boolean.TRUE : Boolean.FALSE;
         _values[2] = this.javaScript_set ? Boolean.TRUE : Boolean.FALSE;
@@ -572,12 +603,13 @@ public class ThemeLinks extends UIComponentBase {
         _values[10] = this.debug_set ? Boolean.TRUE : Boolean.FALSE;
         _values[11] = this.dijitAll ? Boolean.TRUE : Boolean.FALSE;
         _values[12] = this.dijitAll_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[13] = this.parseOnLoad ? Boolean.TRUE : Boolean.FALSE;
-        _values[14] = this.parseOnLoad_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[15] = this.webuiAll ? Boolean.TRUE : Boolean.FALSE;
-        _values[16] = this.webuiAll_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[17] = this.webuiAjax ? Boolean.TRUE : Boolean.FALSE;
-        _values[18] = this.webuiAjax_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[13] = this.onLoad;
+        _values[14] = this.parseOnLoad ? Boolean.TRUE : Boolean.FALSE;
+        _values[15] = this.parseOnLoad_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[16] = this.webuiAll ? Boolean.TRUE : Boolean.FALSE;
+        _values[17] = this.webuiAll_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[18] = this.webuiAjax ? Boolean.TRUE : Boolean.FALSE;
+        _values[19] = this.webuiAjax_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 }

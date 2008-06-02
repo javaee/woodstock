@@ -85,6 +85,7 @@ public class ThemeLinksRenderer extends javax.faces.render.Renderer {
         if (themeLinks.isJavaScript()) {
             try {
                 JavaScriptUtilities.renderBootstrap(component, writer);
+                JavaScriptUtilities.renderOnLoad(component, writer, themeLinks.getOnLoad());
             } catch (JSONException e) {
                 e.printStackTrace();
             }

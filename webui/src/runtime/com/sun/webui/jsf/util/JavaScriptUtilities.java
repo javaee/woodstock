@@ -338,8 +338,8 @@ public class JavaScriptUtilities {
             // the DOM has loaded but before all of the page elements have 
             // loaded, which means your script doesn't have to wait for images 
             // and other large resources before it manipulates page structure.
-            writer.write(getModuleName("_dojo"));
-            writer.write(".addOnLoad(function() {");
+            writer.write(getModuleName("widget.common"));
+            writer.write("._addOnLoad(function() {");
         }
     }
 
@@ -358,6 +358,24 @@ public class JavaScriptUtilities {
             writer.write("});");
         }
         writer.endElement("script");
+    }
+
+    /**
+     * Render onLoad JavaScript.
+     *
+     * @param component UIComponent to be rendered.
+     * @param writer ResponseWriter to which the component should be rendered.
+     * @param js The JavaScript string to render.
+     *
+     * @exception IOException if an input/output error occurs.
+     */
+    public static void renderOnLoad(UIComponent component,
+            ResponseWriter writer, String js) throws IOException {
+        if (js == null) {
+            return;
+        }
+        renderJavaScript(component, writer, getModuleName("widget.common") + 
+            ".addOnLoad(function() {" + js + "});");
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -383,9 +401,12 @@ public class JavaScriptUtilities {
         JSONObject json = new JSONObject();
 
         StringBuffer buff = new StringBuffer(256);
-        buff.append("var ")
-            .append(getModuleName(null))
-            .append("Config=");
+        String configVar = getModuleName(null) + "Config";
+        buff.append("if (typeof ")
+            .append(configVar)
+            .append(" == \"undefined\") { this.")
+            .append(configVar)
+            .append(" = ");
 
         // Add config properties.
         json.put("ajax", getAjaxConfig())
@@ -400,7 +421,7 @@ public class JavaScriptUtilities {
             .put("webuiAjax", isWebuiAjax());
 
         buff.append(JSONUtilities.getString(json))
-            .append(";");
+            .append(";}");
         return buff.toString();
     }
 
