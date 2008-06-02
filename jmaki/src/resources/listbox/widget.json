@@ -1,18 +1,10 @@
 {
-    "name": "button",
+    "name": "listbox",
     "type": "@JS_NAME@",
     "version": "@JS_VERSION@",
     "jmakiVersion": "1.8",
-    "description": "Woodstock button widget.",
+    "description": "Woodstock listbox widget.",
     "args": [
-      {"alt": {
-         "type": "STRING",
-         "description": "Alternate text for image input.",
-         "defaultValue": ""}},
-      {"align": {
-         "type": "STRING",
-         "description": "Alignment of image input.",
-         "defaultValue": ""}},
       {"className": {
          "type": "STRING",
          "description": "CSS selector.",
@@ -25,25 +17,37 @@
          "type": "BOOLEAN",
          "description": "Disable element.",
          "defaultValue": ""}},
-      {"escape": {
-         "type": "STRING",
-         "description": "HTML escape value (default).",
-         "defaultValue": ""}},
       {"id": {
          "type": "STRING",
          "description": "Uniquely identifies an element within a document.",
+         "defaultValue": ""}},
+      {"label": {
+         "type": "OBJECT",
+         "description": "Defines the widget and its properties to use for a",
+         "defaultValue": ""}},
+      {"labelOnTop": {
+         "type": "STRING",
+         "description": "If true the label appears above the listbox.",
          "defaultValue": ""}},
       {"lang": {
          "type": "STRING",
          "description": "Specifies the language of attribute values and content.",
          "defaultValue": ""}},
-      {"mini": {
+      {"multiple": {
          "type": "BOOLEAN",
-         "description": "Set button as mini if true.",
+         "description": "If true allow multiple selections",
+         "defaultValue": ""}},
+      {"monospace": {
+         "type": "BOOLEAN",
+         "description": "If true use monospace font styling.",
          "defaultValue": ""}},
       {"onBlur": {
          "type": "STRING",
          "description": "Element lost focus.",
+         "defaultValue": ""}},
+      {"onChange": {
+         "type": "STRING",
+         "description": "Option selection is changed.",
          "defaultValue": ""}},
       {"onClick": {
          "type": "STRING",
@@ -89,9 +93,17 @@
          "type": "STRING",
          "description": "Mouse is moved while over element.",
          "defaultValue": ""}},
-      {"primary": {
-         "type": "BOOLEAN",
-         "description": "Set button as primary if true.",
+      {"onSelect": {
+         "type": "STRING",
+         "description": "Option text is highlighted.",
+         "defaultValue": ""}},
+      {"options": {
+         "type": "UNKNOWN",
+         "description": "See selectBase._setOptions or selectBase overview",
+         "defaultValue": ""}},
+      {"size": {
+         "type": "INT",
+         "description": "The number of option rows to display.",
          "defaultValue": ""}},
       {"style": {
          "type": "STRING",
@@ -105,13 +117,41 @@
          "type": "STRING",
          "description": "Provides a title for element.",
          "defaultValue": ""}},
-      {"value": {
-         "type": "STRING",
-         "description": "Value of input.",
-         "defaultValue": ""}},
       {"visible": {
          "type": "BOOLEAN",
          "description": "Hide or show element.",
+         "defaultValue": ""}},
+      {"separator": {
+         "type": "BOOLEAN",
+         "description": "If true, element is a option separator.",
+         "defaultValue": ""}},
+      {"group": {
+         "type": "BOOLEAN",
+         "description": "If true the element is a optGroup instance.",
+         "defaultValue": ""}},
+      {"disabled": {
+         "type": "BOOLEAN",
+         "description": "If true the element is disabled.",
+         "defaultValue": ""}},
+      {"selected": {
+         "type": "BOOLEAN",
+         "description": "If true the element is selected.",
+         "defaultValue": ""}},
+      {"multiple": {
+         "type": "BOOLEAN",
+         "description": "If true allow multiple selections",
+         "defaultValue": ""}},
+      {"monospace": {
+         "type": "BOOLEAN",
+         "description": " If true the <code>LIST_MONOSPACE</code> and",
+         "defaultValue": ""}},
+      {"size": {
+         "type": "INT",
+         "description": "The number of rows to display.",
+         "defaultValue": ""}},
+      {"labelOnTop": {
+         "type": "BOOLEAN",
+         "description": "If true render the label on top of the",
          "defaultValue": ""}}
     ],
     "config": {
@@ -123,5 +163,10 @@
         "preload": "var @JS_NS@Config = {isDebug: true, parseOnLoad: false, namespace: \"woodstock\", theme: {locale: \"en\"}, webuiAjax: false, webuiAll: true};",
         "resources": [ "../resources/" ]
         }
+    },
+    "topicInfo": {
+        "type": "publish",
+        "topicName": "/@JS_NS@/listbox/onSelect",
+        "description": "Published when an option is selected."
     }
 }
