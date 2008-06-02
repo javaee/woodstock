@@ -104,7 +104,7 @@ jmaki.namespace("@JMAKI_NS@.listbox");
 		for (var i = 0; i < props.options.length; i++) {
 		    var opt = props.options[i];
 		    if (opt.group == null || opt.group == false) {
-			if (opt.value == payload.value) {
+			if (opt.value == val) {
 			    widget.setSelectedIndex(i);
 			    break;
 			}

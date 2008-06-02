@@ -44,7 +44,9 @@ jmaki.namespace("@JMAKI_NS@.button");
     props.widgetType = "button";
     if (! props.submitForm) {
 	props.widgetType="resetButton";
-	props.onClick="return false;";
+	if (typeof props.onClick == "undefined") {
+	    props.onClick="return false;";
+	}
     }
 
     // Create the Woodstock button widget.
