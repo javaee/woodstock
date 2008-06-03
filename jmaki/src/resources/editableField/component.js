@@ -38,7 +38,6 @@ jmaki.namespace("@JMAKI_NS@.editableField");
         props.required = false;
         props.submitForm = false;
         props.autoValidate = false;
-        props.autoComplete = false;
     }
 
     // Add our widget id and type.
