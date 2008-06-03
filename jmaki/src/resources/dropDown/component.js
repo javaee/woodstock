@@ -1,20 +1,20 @@
-jmaki.namespace("@JMAKI_NS@.listbox");
+jmaki.namespace("@JMAKI_NS@.dropDown");
 
 /*
- * jMaki wrapper for Woodstock Listbox widget.
+ * jMaki wrapper for Woodstock DropDown widget.
  *
  * This widget wrapper looks for the following properties in
  * the "wargs" parameter:
  *
  * value:     Initial data following the jMaki ComboBox data model,
- *            mapped onto the listbox "options" property.
+ *            mapped onto the dropDown "options" property.
  * args:      Additional widget properties from the code snippet,
  *            these properties are assumed to be underlying widget
- *            properties and are passed through to the listbox widget.
+ *            properties and are passed through to the dropDown widget.
  * publish:   Topic to publish jMaki events to; if not specified, the
- *            default topic is "/woodstock/listbox".
+ *            default topic is "/woodstock/dropDown".
  * subscribe: Topic to subscribe to for data model events; if not
- *            specified, the default topic is "/woodstock/listbox".
+ *            specified, the default topic is "/woodstock/dropDown".
  * args.id:   User specified widget identifier; if not specified, the
  *            jMaki auto-generated identifier is used.
  * 
@@ -29,17 +29,17 @@ jmaki.namespace("@JMAKI_NS@.listbox");
  *            Be aware that this widget can define multiple selected
  *            items in its onSelect event!
  */
-@JMAKI_NS@.listbox.Widget = function(wargs) {
+@JMAKI_NS@.dropDown.Widget = function(wargs) {
 
     // Turn on jMaki debugging (development only)
     // jmaki.debug = true;
     // jmaki.debugGlue = true;
-    // jmaki.log("Entering woodstock listbox Widget function...");
+    // jmaki.log("Entering woodstock dropDown Widget function...");
 
     // Initialize basic wrapper properties.
     var _widget = this;
-    var subscribe = ["/@JS_NAME@/listbox"];
-    var publish = "/@JS_NAME@/listbox";
+    var subscribe = ["/@JS_NAME@/dropDown"];
+    var publish = "/@JS_NAME@/dropDown";
     var wid = wargs.uuid;
     var span_id = wargs.uuid + "_span";
     if (wargs.publish) {
@@ -56,13 +56,13 @@ jmaki.namespace("@JMAKI_NS@.listbox");
         }
     }
 
-    // Get the jMaki wrapper properties for a Woodstock listbox.
+    // Get the jMaki wrapper properties for a Woodstock dropDown.
     var props;
     if (wargs.args) {
-	// Properties in the "args" property must be listbox properties!
+	// Properties in the "args" property must be dropDown properties!
 	props = wargs.args;
     } else {
-	// No data. Define minimalist listbox.
+	// No data. Define minimalist dropDown.
 	props = {};
     }
     if (wargs.value && wargs.value instanceof Array) {
@@ -78,7 +78,7 @@ jmaki.namespace("@JMAKI_NS@.listbox");
     } else {
 	wid = props.id;
     }
-    props.widgetType = "listbox";
+    props.widgetType = "dropDown";
 
     // =============================================================
     // Event topic callback functions...
@@ -86,7 +86,7 @@ jmaki.namespace("@JMAKI_NS@.listbox");
     // Callback function to handle jMaki select topic.
     // Event payload contains:
     //    {value: <item_value>}
-    // Update listbox widget to select option with matching value.
+    // Update dropDown widget to select option with matching value.
     this._selectCallback = function(payload) {
 
 	if (payload) {
@@ -117,7 +117,7 @@ jmaki.namespace("@JMAKI_NS@.listbox");
     // Callback function to handle jMaki setValues topic.
     // Event payload contains:
     //    {value: [<data model>]}
-    // Update listbox widget to replace options array.
+    // Update dropDown widget to replace options array.
     this._valuesCallback = function(payload) {
 
 	if (payload) {
@@ -131,9 +131,9 @@ jmaki.namespace("@JMAKI_NS@.listbox");
 
     };
 
-    // Callback function to handle Woodstock listbox onSelect event.
+    // Callback function to handle Woodstock dropDown onSelect event.
     // Event payload contains:
-    //    Listbox widget identifier
+    //    dropDown widget identifier
     // Publish jMaki onSelect event.
     this._selectedCallback = function() {
 
@@ -188,13 +188,13 @@ jmaki.namespace("@JMAKI_NS@.listbox");
     // ============================================================
     // Create the Woodstock widget...
 
-    // Hook the listbox widget onChange UI event so we can
+    // Hook the dropDown widget onChange UI event so we can
     // publish the jMaki onSelect topic.
     props.onChange = function(event) {
 	    _widget._selectedCallback();
         }
 
-    // Create the Woodstock listbox widget.
+    // Create the Woodstock dropDown widget.
     @JS_NS@.widget.common.createWidget(span_id, props);
 
 };

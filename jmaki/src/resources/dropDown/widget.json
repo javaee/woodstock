@@ -1,9 +1,9 @@
 {
-    "name": "listbox",
+    "name": "dropDown",
     "type": "@JS_NAME@",
     "version": "@JS_VERSION@",
     "jmakiVersion": "1.8",
-    "description": "Woodstock listbox widget.",
+    "description": "Woodstock dropDown widget.",
     "args": [
       {"className": {
          "type": "STRING",
@@ -23,23 +23,15 @@
          "defaultValue": ""}},
       {"label": {
          "type": "OBJECT",
-         "description": "Defines the widget and its properties to use for a",
+         "description": "Defines the widget and its properties to use for",
          "defaultValue": ""}},
       {"labelOnTop": {
-         "type": "STRING",
-         "description": "If true the label appears above the listbox.",
+         "type": "BOOLEAN",
+         "description": "If true the label appears above the dropdown.",
          "defaultValue": ""}},
       {"lang": {
          "type": "STRING",
          "description": "Specifies the language of attribute values and content.",
-         "defaultValue": ""}},
-      {"multiple": {
-         "type": "BOOLEAN",
-         "description": "If true allow multiple selections",
-         "defaultValue": ""}},
-      {"monospace": {
-         "type": "BOOLEAN",
-         "description": "If true use monospace font styling.",
          "defaultValue": ""}},
       {"onBlur": {
          "type": "STRING",
@@ -99,7 +91,7 @@
          "defaultValue": ""}},
       {"options": {
          "type": "UNKNOWN",
-         "description": "See selectBase._setOptions or selectBase overview",
+         "description": "See <code>selectBase._setOptions</code> or",
          "defaultValue": ""}},
       {"size": {
          "type": "INT",
@@ -109,13 +101,17 @@
          "type": "STRING",
          "description": "Specify style rules inline.",
          "defaultValue": ""}},
+      {"submitForm": {
+         "type": "BOOLEAN",
+         "description": "If true the dropDown performs like a",
+         "defaultValue": ""}},
       {"tabIndex": {
          "type": "INT",
          "description": "Position in tabbing order.",
          "defaultValue": ""}},
       {"title": {
          "type": "STRING",
-         "description": "Provides a title for element.",
+         "description": "The a HTML title attribue for the <code>select</code> element.",
          "defaultValue": ""}},
       {"visible": {
          "type": "BOOLEAN",
@@ -136,22 +132,6 @@
       {"selected": {
          "type": "BOOLEAN",
          "description": "If true the element is selected.",
-         "defaultValue": ""}},
-      {"multiple": {
-         "type": "BOOLEAN",
-         "description": "If true allow multiple selections",
-         "defaultValue": ""}},
-      {"monospace": {
-         "type": "BOOLEAN",
-         "description": " If true the <code>LIST_MONOSPACE</code> and",
-         "defaultValue": ""}},
-      {"size": {
-         "type": "INT",
-         "description": "The number of rows to display.",
-         "defaultValue": ""}},
-      {"labelOnTop": {
-         "type": "BOOLEAN",
-         "description": "If true render the label on top of the",
          "defaultValue": ""}}
     ],
     "config": {
@@ -165,7 +145,7 @@
     },
     "topicInfo": {
         "type": "publish",
-        "topicName": "/@JS_NS@/listbox/onSelect",
+        "topicName": "/@JS_NS@/dropDown/onSelect",
         "description": "Published when an option is selected."
     }
 }
