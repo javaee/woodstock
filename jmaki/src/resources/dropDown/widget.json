@@ -12,23 +12,23 @@
       {"dir": {
          "type": "STRING",
          "description": "Specifies the directionality of text.",
-         "defaultValue": ""}},
+         "defaultValue": "ltr"}},
       {"disabled": {
          "type": "BOOLEAN",
          "description": "Disable element.",
-         "defaultValue": ""}},
+         "defaultValue": false}},
       {"id": {
          "type": "STRING",
          "description": "Uniquely identifies an element within a document.",
          "defaultValue": ""}},
       {"label": {
          "type": "OBJECT",
-         "description": "Defines the widget and its properties to use for",
-         "defaultValue": ""}},
+         "description": "Defines the widget and its properties to use for a label",
+         "defaultValue": {"level": 2, "value": "Mylabel"}}},
       {"labelOnTop": {
          "type": "BOOLEAN",
          "description": "If true the label appears above the dropdown.",
-         "defaultValue": ""}},
+         "defaultValue": false}},
       {"lang": {
          "type": "STRING",
          "description": "Specifies the language of attribute values and content.",
@@ -90,13 +90,9 @@
          "description": "Option text is highlighted.",
          "defaultValue": ""}},
       {"options": {
-         "type": "UNKNOWN",
+         "type": "ARRAY",
          "description": "See <code>selectBase._setOptions</code> or",
-         "defaultValue": ""}},
-      {"size": {
-         "type": "INT",
-         "description": "The number of option rows to display.",
-         "defaultValue": ""}},
+         "defaultValue": []}},
       {"style": {
          "type": "STRING",
          "description": "Specify style rules inline.",
@@ -104,36 +100,43 @@
       {"submitForm": {
          "type": "BOOLEAN",
          "description": "If true the dropDown performs like a",
-         "defaultValue": ""}},
+         "defaultValue": false}},
       {"tabIndex": {
          "type": "INT",
          "description": "Position in tabbing order.",
-         "defaultValue": ""}},
+         "defaultValue": -1}},
       {"title": {
          "type": "STRING",
          "description": "The a HTML title attribue for the <code>select</code> element.",
-         "defaultValue": ""}},
+         "defaultValue": "Drop down widget"}},
       {"visible": {
          "type": "BOOLEAN",
          "description": "Hide or show element.",
-         "defaultValue": ""}},
+         "defaultValue": true}},
       {"separator": {
          "type": "BOOLEAN",
          "description": "If true, element is a option separator.",
-         "defaultValue": ""}},
+         "defaultValue": false}},
       {"group": {
          "type": "BOOLEAN",
          "description": "If true the element is a optGroup instance.",
-         "defaultValue": ""}},
+         "defaultValue": false}},
       {"disabled": {
          "type": "BOOLEAN",
          "description": "If true the element is disabled.",
-         "defaultValue": ""}},
+         "defaultValue": false}},
       {"selected": {
          "type": "BOOLEAN",
          "description": "If true the element is selected.",
-         "defaultValue": ""}}
+         "defaultValue": false}}
     ],
+    "value": {
+      "required": true,
+      "type": "ARRAY",
+      "defaultValue": [
+        {"label": "Option 1", "value": "opt1", "selected": true}],
+      "description": "Single option with default values."
+    },
     "config": {
       "type": {
         "id": "@JS_NAME@",

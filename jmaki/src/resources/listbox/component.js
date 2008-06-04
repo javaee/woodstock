@@ -1,4 +1,4 @@
-jmaki.namespace("jmaki.widgets.woodstock.listbox");
+jmaki.namespace("@JMAKI_NS@.listbox");
 
 /*
  * jMaki wrapper for Woodstock Listbox widget.
@@ -29,14 +29,11 @@ jmaki.namespace("jmaki.widgets.woodstock.listbox");
  *            Be aware that this widget can define multiple selected
  *            items in its onSelect event!
  */
-jmaki.widgets.woodstock.listbox.Widget = function(wargs) {
-    // Turn on jMaki debugging (development only)
-    // jmaki.debug = true;
-    // jmaki.log("Entering woodstock listbox Widget function...");
+@JMAKI_NS@.listbox.Widget = function(wargs) {
 
     // Initialize basic wrapper properties.
-    this._subscribe = ["/woodstock/listbox"];
-    this._publish = "/woodstock/listbox";
+    this._subscribe = ["/@JS_NAME@/listbox"];
+    this._publish = "/@JS_NAME@/listbox";
     this._subscriptions = [];
     this._wid = wargs.uuid;
 
@@ -69,7 +66,7 @@ jmaki.widgets.woodstock.listbox.Widget = function(wargs) {
 };
 
 // Create Woodstock widget.
-jmaki.widgets.woodstock.listbox.Widget.prototype._create = function(wargs) {
+@JMAKI_NS@.listbox.Widget.prototype._create = function(wargs) {
     // Get the jMaki wrapper properties for a Woodstock listbox.
     var props;
     if (wargs.args) {
@@ -78,8 +75,6 @@ jmaki.widgets.woodstock.listbox.Widget.prototype._create = function(wargs) {
     } else {
 	// No data. Define minimalist listbox.
 	props = {};
-	props.multiple = false;
-	props.size = 6;
     }
     if (wargs.value && wargs.value instanceof Array) {
 	props.options = wargs.value;
@@ -101,17 +96,16 @@ jmaki.widgets.woodstock.listbox.Widget.prototype._create = function(wargs) {
 
     // Hook the listbox widget onChange UI event so we can
     // publish the jMaki onSelect topic.
-    var wid = this._wid;
     props.onChange = this.hitch(this, "_selectedCallback");
 
     // Create the Woodstock listbox widget.
     var span_id = wargs.uuid + "_span";
-    woodstock4_3.widget.common.createWidget(span_id, props);
+    @JS_NS@.widget.common.createWidget(span_id, props);
 };
 
 // Destroy...
 // Unsubscribe from jMaki events
-jmaki.widgets.woodstock.listbox.Widget.prototype.destroy = function() {
+@JMAKI_NS@.listbox.Widget.prototype.destroy = function() {
     if (this._subscriptions) {
         for (var i = 0; i < this._subscriptions.length; i++) {
             jmaki.unsubscribe(this._subscriptions[i]);
@@ -120,7 +114,7 @@ jmaki.widgets.woodstock.listbox.Widget.prototype.destroy = function() {
 };
 
 // Call a function in given scope.
-jmaki.widgets.woodstock.listbox.Widget.prototype.hitch = function(scope, method) {
+@JMAKI_NS@.listbox.Widget.prototype.hitch = function(scope, method) {
     return function() {
         return scope[method].apply(scope, arguments || []);
     };
@@ -128,7 +122,7 @@ jmaki.widgets.woodstock.listbox.Widget.prototype.hitch = function(scope, method)
 
 // Warning: jMaki calls this function using a global scope. In order to
 // access variables and functions in "this" object, closures must be used.
-jmaki.widgets.woodstock.listbox.Widget.prototype.postLoad = function() {
+@JMAKI_NS@.listbox.Widget.prototype.postLoad = function() {
     // Do nothing...
 }
 
@@ -136,9 +130,9 @@ jmaki.widgets.woodstock.listbox.Widget.prototype.postLoad = function() {
 // Event payload contains:
 //    {value: <item_value>}
 // Update listbox widget to select option with matching value.
-jmaki.widgets.woodstock.listbox.Widget.prototype._selectCallback = function(payload) {
+@JMAKI_NS@.listbox.Widget.prototype._selectCallback = function(payload) {
     if (payload) {
-	var widget = woodstock4_3.widget.common.getWidget(this._wid);
+	var widget = @JS_NS@.widget.common.getWidget(this._wid);
 	if (widget) {
             var val = "";
             if (typeof payload.value == "string") {
@@ -165,9 +159,9 @@ jmaki.widgets.woodstock.listbox.Widget.prototype._selectCallback = function(payl
 // Event payload contains:
 //    Listbox widget identifier
 // Publish jMaki onSelect event.
-jmaki.widgets.woodstock.listbox.Widget.prototype._selectedCallback = function() {
+@JMAKI_NS@.listbox.Widget.prototype._selectedCallback = function() {
     if (this._wid) {
-        var widget = woodstock4_3.widget.common.getWidget(this._wid);
+        var widget = @JS_NS@.widget.common.getWidget(this._wid);
 	if (widget) {
             var val = widget.getSelectedValue();
             if (val) {
@@ -186,9 +180,9 @@ jmaki.widgets.woodstock.listbox.Widget.prototype._selectedCallback = function() 
 // Event payload contains:
 //    {value: [<data model>]}
 // Update listbox widget to replace options array.
-jmaki.widgets.woodstock.listbox.Widget.prototype._valuesCallback = function(payload) {
+@JMAKI_NS@.listbox.Widget.prototype._valuesCallback = function(payload) {
     if (payload) {
-        var widget = woodstock4_3.widget.common.getWidget(this._wid);
+        var widget = @JS_NS@.widget.common.getWidget(this._wid);
         if (widget) {
             if (payload.value && payload.value instanceof Array) {
                 widget.setProps({options: payload.value});

@@ -23,7 +23,7 @@
          "defaultValue": ""}},
       {"label": {
          "type": "OBJECT",
-         "description": "Defines the widget and its properties to use for a",
+         "description": "Defines the widget and its properties to use for a label",
          "defaultValue": {"level": 2, "value": "Mylabel"}}},
       {"labelOnTop": {
          "type": "BOOLEAN",
@@ -116,7 +116,7 @@
       {"title": {
          "type": "STRING",
          "description": "Provides a title for element.",
-         "defaultValue": ""}},
+         "defaultValue": "Listbox widget"}},
       {"visible": {
          "type": "BOOLEAN",
          "description": "Hide or show element.",
