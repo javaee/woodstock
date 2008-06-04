@@ -12,7 +12,11 @@
       {"autoValidate": {
          "type": "BOOLEAN",
          "description": "",
-         "defaultValue": ""}},
+         "defaultValue": false}},
+      {"autoSave": {
+        "type": "BOOLEAN",
+        "description": "",
+        "defaultValue": false}},
       {"className": {
          "type": "STRING",
          "description": "CSS selector.",
@@ -24,7 +28,7 @@
       {"disabled": {
          "type": "BOOLEAN",
          "description": "Disable element.",
-         "defaultValue": ""}},
+         "defaultValue": false}},
       {"id": {
          "type": "STRING",
          "description": "Uniquely identifies an element within a document.",
@@ -40,7 +44,7 @@
       {"maxLength": {
          "type": "INT",
          "description": "",
-         "defaultValue": ""}},
+         "defaultValue": 30}},
       {"notify": {
          "type": "UNKNOWN",
          "description": "",
@@ -96,27 +100,27 @@
       {"readOnly": {
          "type": "BOOLEAN",
          "description": "",
-         "defaultValue": ""}},
+         "defaultValue": false}},
       {"required": {
          "type": "BOOLEAN",
          "description": "",
-         "defaultValue": ""}},
+         "defaultValue": false}},
       {"size": {
          "type": "INT",
          "description": "",
-         "defaultValue": ""}},
+         "defaultValue": 30}},
       {"style": {
          "type": "STRING",
          "description": "Specify style rules inline.",
          "defaultValue": ""}},
       {"submitForm": {
          "type": "BOOLEAN",
-         "description": "",
-         "defaultValue": ""}},
+         "description": "Submit form on ENTER",
+         "defaultValue": false}},
       {"tabIndex": {
          "type": "INT",
          "description": "Position in tabbing order.",
-         "defaultValue": ""}},
+         "defaultValue": 1}},
       {"title": {
          "type": "STRING",
          "description": "Provides a title for element.",
@@ -124,7 +128,7 @@
       {"valid": {
          "type": "BOOLEAN",
          "description": "",
-         "defaultValue": ""}},
+         "defaultValue": true}},
       {"value": {
          "type": "STRING",
          "description": "Value of input.",
@@ -132,7 +136,7 @@
       {"visible": {
          "type": "BOOLEAN",
          "description": "Hide or show element.",
-         "defaultValue": ""}}
+         "defaultValue": true}}
     ],
     "config": {
       "type": {
