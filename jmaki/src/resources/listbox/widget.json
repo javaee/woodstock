@@ -12,11 +12,11 @@
       {"dir": {
          "type": "STRING",
          "description": "Specifies the directionality of text.",
-         "defaultValue": ""}},
+         "defaultValue": "ltr"}},
       {"disabled": {
          "type": "BOOLEAN",
          "description": "Disable element.",
-         "defaultValue": ""}},
+         "defaultValue": false}},
       {"id": {
          "type": "STRING",
          "description": "Uniquely identifies an element within a document.",
@@ -24,11 +24,11 @@
       {"label": {
          "type": "OBJECT",
          "description": "Defines the widget and its properties to use for a",
-         "defaultValue": ""}},
+         "defaultValue": {"level": 2, "value": "Mylabel"}}},
       {"labelOnTop": {
-         "type": "STRING",
+         "type": "BOOLEAN",
          "description": "If true the label appears above the listbox.",
-         "defaultValue": ""}},
+         "defaultValue": false}},
       {"lang": {
          "type": "STRING",
          "description": "Specifies the language of attribute values and content.",
@@ -36,11 +36,11 @@
       {"multiple": {
          "type": "BOOLEAN",
          "description": "If true allow multiple selections",
-         "defaultValue": ""}},
+         "defaultValue": true}},
       {"monospace": {
          "type": "BOOLEAN",
          "description": "If true use monospace font styling.",
-         "defaultValue": ""}},
+         "defaultValue": false}},
       {"onBlur": {
          "type": "STRING",
          "description": "Element lost focus.",
@@ -98,13 +98,13 @@
          "description": "Option text is highlighted.",
          "defaultValue": ""}},
       {"options": {
-         "type": "UNKNOWN",
+         "type": "ARRAY",
          "description": "See selectBase._setOptions or selectBase overview",
-         "defaultValue": ""}},
+         "defaultValue": []}},
       {"size": {
          "type": "INT",
          "description": "The number of option rows to display.",
-         "defaultValue": ""}},
+         "defaultValue": 12}},
       {"style": {
          "type": "STRING",
          "description": "Specify style rules inline.",
@@ -112,7 +112,7 @@
       {"tabIndex": {
          "type": "INT",
          "description": "Position in tabbing order.",
-         "defaultValue": ""}},
+         "defaultValue": -1}},
       {"title": {
          "type": "STRING",
          "description": "Provides a title for element.",
@@ -120,40 +120,31 @@
       {"visible": {
          "type": "BOOLEAN",
          "description": "Hide or show element.",
-         "defaultValue": ""}},
+         "defaultValue": true}},
       {"separator": {
          "type": "BOOLEAN",
          "description": "If true, element is a option separator.",
-         "defaultValue": ""}},
+         "defaultValue": false}},
       {"group": {
          "type": "BOOLEAN",
          "description": "If true the element is a optGroup instance.",
-         "defaultValue": ""}},
+         "defaultValue": false}},
       {"disabled": {
          "type": "BOOLEAN",
          "description": "If true the element is disabled.",
-         "defaultValue": ""}},
+         "defaultValue": false}},
       {"selected": {
          "type": "BOOLEAN",
          "description": "If true the element is selected.",
-         "defaultValue": ""}},
-      {"multiple": {
-         "type": "BOOLEAN",
-         "description": "If true allow multiple selections",
-         "defaultValue": ""}},
-      {"monospace": {
-         "type": "BOOLEAN",
-         "description": " If true the <code>LIST_MONOSPACE</code> and",
-         "defaultValue": ""}},
-      {"size": {
-         "type": "INT",
-         "description": "The number of rows to display.",
-         "defaultValue": ""}},
-      {"labelOnTop": {
-         "type": "BOOLEAN",
-         "description": "If true render the label on top of the",
-         "defaultValue": ""}}
+         "defaultValue": false}}
     ],
+    "value": {
+      "required": true,
+      "type": "ARRAY",
+      "defaultValue": [
+        {"label": "Option 1", "value": "opt1", "selected": true}],
+      "description": "Single option with default values."
+    },
     "config": {
       "type": {
         "id": "@JS_NAME@",
