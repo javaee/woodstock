@@ -243,10 +243,6 @@ body {
 	border-style:solid;
 	border-width:1px;
 }
-.Btn1@THEME_CSS@, .Btn1Hov@THEME_CSS@, .Btn1Mni@THEME_CSS@, .Btn1MniHov@THEME_CSS@, .Btn2Mni@THEME_CSS@, .Btn2MniHov@THEME_CSS@, .Btn2@THEME_CSS@, .Btn2Hov@THEME_CSS@ {
-	background-repeat:repeat-x;
-	background-position:center center;
-}
 .Btn1@THEME_CSS@, .Btn1Hov@THEME_CSS@, .Btn1Dis@THEME_CSS@, .Btn1Mni@THEME_CSS@, .Btn1MniHov@THEME_CSS@, .Btn1MniDis@THEME_CSS@, .Btn2@THEME_CSS@, .Btn2Hov@THEME_CSS@, .Btn2Dis@THEME_CSS@, .Btn2Mni@THEME_CSS@, .Btn2MniHov@THEME_CSS@, .Btn2MniDis@THEME_CSS@ {
 	padding:0 5px 1px 5px;
 	margin:0 2px 0 1px;
@@ -893,19 +889,16 @@ a.DatOthBldLnk@THEME_CSS@:link, a.DatOthBldLnk@THEME_CSS@:visited {
 	border: none;
 	border-width:0px;
 	padding:1px 0 0 2px;
-        background-color: #CCCCEE;        
 }
 .EdtFldDis@THEME_CSS@ {
 	border: none;
 	border-width:0px;
 	padding:1px 0 0 2px;
-        background-color: #CCCCEE;        
 }
 .EdtFld_ReadOnly@THEME_CSS@ {
 	border: none;
 	border-width:0px;
 	padding:1px 0 0 2px;
-        background-color: #DDDDDD;        
 }
 /*---*/
 
@@ -915,8 +908,6 @@ a.DatOthBldLnk@THEME_CSS@:link, a.DatOthBldLnk@THEME_CSS@:visited {
 	border-width:1px;
 	border-style:solid;
 }
-.MnuJmpOptSel@THEME_CSS@ {font-weight:normal;}
-.MnuJmpOptGrp@THEME_CSS@, .MnuStdOptGrp@THEME_CSS@ {font-weight:normal;font-style:normal;}
 /*---*/
 
 /* MASTHEAD */
@@ -977,14 +968,8 @@ span.MstAlmMajTxt@THEME_CSS@, span.MstAlmMinTxt@THEME_CSS@ {
 	line-height:1.0em;
 }
 a.MstLnk@THEME_CSS@:link, a.MstLnk@THEME_CSS@:visited {
-	background-repeat:repeat-x;
-	background-position:center center;
 	padding:2px 10px 1px;
 	vertical-align:middle
-}
-a.MstLnk@THEME_CSS@:hover,a.MstLnkLft@THEME_CSS@:hover, a.MstLnkRt@THEME_CSS@:hover, a.MstLnkCen@THEME_CSS@:hover {
-	background-repeat:repeat-x;
-	background-position:center center;
 }
 .MstSpcImg@THEME_CSS@ {
 	display:none;
@@ -1007,10 +992,6 @@ a.MstLnk@THEME_CSS@:hover,a.MstLnkLft@THEME_CSS@:hover, a.MstLnkRt@THEME_CSS@:ho
 .MstTblTop@THEME_CSS@ img {
 	vertical-align:middle;
 }
-.MstTblEnd@THEME_CSS@ {
-	background-repeat:repeat-x;
-	background-position:left top;
-}
 .MstTblEnd@THEME_CSS@  td {
 	padding:1px 0 2px 0;
 }
@@ -1027,9 +1008,9 @@ td.MstTblEnd@THEME_CSS@ {
 	vertical-align:top;
 	line-height:1.0em;
 }
-a.MstLnkLft@THEME_CSS@:link, a.MstLnkLft@THEME_CSS@:visited, a.MstLnkRt@THEME_CSS@:link, a.MstLnkRt@THEME_CSS@:visited, a.MstLnkCen@THEME_CSS@:link, a.MstLnkCen@THEME_CSS@:visited {
-	background-repeat:repeat-x;
-	background-position:center center;
+a.MstLnkLft@THEME_CSS@:link, a.MstLnkLft@THEME_CSS@:visited,
+a.MstLnkRt@THEME_CSS@:link, a.MstLnkRt@THEME_CSS@:visited, 
+a.MstLnkCen@THEME_CSS@:link, a.MstLnkCen@THEME_CSS@:visited {
 	padding:2px 10px 1px;
 	vertical-align:middle;
 	white-space:nowrap;
@@ -1056,23 +1037,19 @@ a.Tab1Lnk@THEME_CSS@:link, a.Tab1Lnk@THEME_CSS@:visited  {
 	border:none;
 }
 .Tab1Div@THEME_CSS@ td.Tab1TblSelTd@THEME_CSS@ {
-	background-repeat:repeat-x;
-	background-position:left top;
 	border-bottom:none;
 }
+/* deprecated */
 .Tab1Div@THEME_CSS@ .Tab1SelTxtLeft@THEME_CSS@ {
 	position: absolute;
 	width: 2px;
 	height: 2.8em;
-	background-position: top left;
-	background-repeat: no-repeat;
 }
+/* deprecated */
 .Tab1Div@THEME_CSS@ .Tab1SelTxtNew@THEME_CSS@ {
 	display:block;
 	padding:8px 13px 7px;
 	text-align:center;
-	background-position: top right;
-	background-repeat: no-repeat;
 }
 .Tab1Div@THEME_CSS@ td a.TabPad@THEME_CSS@ {
 	padding:8px 20px 7px;
@@ -1112,19 +1089,16 @@ a.Tab2Lnk@THEME_CSS@:link, a.Tab2Lnk@THEME_CSS@:visited {
 .Tab2Div@THEME_CSS@ table {
 	border-collapse:collapse;
 }
+/* deprecated */
 .Tab2Div@THEME_CSS@ .Tab2SelTxtLeft@THEME_CSS@ {
 	position: absolute;
 	width: 2px;
 	height: 2.1em;
-	background-position: top left;
-	background-repeat: no-repeat;
 }
 .Tab2Div@THEME_CSS@ .Tab2SelTxt@THEME_CSS@ {
 	display:block;
 	padding:5px 15px 4px;
 	text-align:center;
-	background-position: top right;
-	background-repeat: no-repeat;
 }
 .Tab2Div@THEME_CSS@ td.Tab2TblSelTd@THEME_CSS@ {
 	border-bottom:none;
@@ -1238,9 +1212,6 @@ table.Tbl@THEME_CSS@ td, table.Tbl@THEME_CSS@ th {
 /* Table Caption/Title */
 table.Tbl@THEME_CSS@ caption.TblTtlTxt@THEME_CSS@ {
 	text-align:left;
-	background-position:3px 3px;
-	-moz-border-radius-topleft:5px;
-	-moz-border-radius-topright:5px;
 	padding:3px 10px 2px 10px;
 }
 .TblTtlTxtSpn@THEME_CSS@ {
@@ -2451,13 +2422,14 @@ ul.MenuItems@THEME_CSS@ ul li .MenuItemDisabled@THEME_CSS@ .MenuItemLabel@THEME_
 	padding-top: 4px;
 	padding-bottom: 3px;
 }
-.commonTask_4@THEME_CSS@ .TskScnTskLftBtm@THEME_CSS@, .commonTask_4@THEME_CSS@ .TskScnTskLftTp@THEME_CSS@, .commonTask_4@THEME_CSS@ .TskScnTskRghtBtm@THEME_CSS@, .commonTask_4@THEME_CSS@ .TskScnTskRghtTp@THEME_CSS@ {
+.commonTask_4@THEME_CSS@ .TskScnTskLftBtm@THEME_CSS@, 
+.commonTask_4@THEME_CSS@ .TskScnTskLftTp@THEME_CSS@, 
+.commonTask_4@THEME_CSS@ .TskScnTskRghtBtm@THEME_CSS@, 
+.commonTask_4@THEME_CSS@ .TskScnTskRghtTp@THEME_CSS@ {
 	position: absolute;
 	width: 8px;
 	height: 11px;
 	cursor: pointer;
-	background-position: top left;
-	background-repeat: no-repeat;
 }
 .commonTask_4@THEME_CSS@ .TskScnTskLftBtm@THEME_CSS@ {
 	bottom: -1px;
@@ -2822,12 +2794,15 @@ span.rbcb@THEME_CSS@ input {
 .logHlp@THEME_CSS@ {margin:0px 15px 7px 10px}
 .logErr@THEME_CSS@ {margin:5px 15px 5px 0px}
 .logCpy@THEME_CSS@ {width :720px;margin:5px 0px 50px;vertical-align:top}
-.logTxtCpy@THEME_CSS@ {font-size:10px;color:#fff;vertical-align:top}
-.LogBdy@THEME_CSS@ {background-color:#4A5C69;margin:0px}
-.LogTopBnd@THEME_CSS@ {background-color:#4A5C69}
-.LogCntTd@THEME_CSS@ {background-color:#fff;padding-top:120px}
-.LogBotBnd@THEME_CSS@ {background-color:#4A5C69}
-.LogMidBnd@THEME_CSS@ {background-color:#D4DCE1}
+.logTxtCpy@THEME_CSS@ {
+    vertical-align:top
+}
+.LogBdy@THEME_CSS@ {
+    margin:0px;
+}
+.LogCntTd@THEME_CSS@ {
+    padding-top:120px;
+}
 /*---*/
 
 /* Rating */
@@ -2854,7 +2829,6 @@ span.rbcb@THEME_CSS@ input {
     width: 17px;
     height: 15px;
     border: none;
-    background-repeat: no-repeat;
 }
 
 .RatingModeNormalImage@THEME_CSS@, .RatingModeAverageImage@THEME_CSS@ {
@@ -2862,6 +2836,5 @@ span.rbcb@THEME_CSS@ input {
     width: 30px;
     height: 15px;
     border: none;
-    background-repeat: no-repeat;
 }
 /*---*/

@@ -442,3 +442,18 @@ ul.MenuItems@THEME_CSS@ li div.MenuItem@THEME_CSS@:hover{    /* standard hover *
 	font-size:.95em;
 }
 /*---*/
+/* MENUS */
+.MnuJmpOptSel@THEME_CSS@ {
+	font-weight:normal;
+}
+.MnuJmpOptGrp@THEME_CSS@, 
+.MnuStdOptGrp@THEME_CSS@ {
+	font-weight:normal;
+	font-style:normal;
+}
+/*---*/
+/* Login */
+.logTxtCpy@THEME_CSS@ {
+    font-size:10px;
+}
+/*---*/

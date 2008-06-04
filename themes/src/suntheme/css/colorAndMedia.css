@@ -21,7 +21,7 @@
  */
 
 body {
-	color:#000;
+	color:#000000;
 }
 a.Hyp@THEME_CSS@:link, a.Hyp@THEME_CSS@:visited, a.Anc@THEME_CSS@:link, a.Anc@THEME_CSS@:visited {
 	color:#003399;
@@ -52,23 +52,23 @@ a.HypDis@THEME_CSS@:hover, a.AncDis@THEME_CSS@:hover {
 
 /* ADDREMOVE */
 .AddRmvLbl@THEME_CSS@ {
-	color:#000;
+	color:#000000;
 }
 .AddRmvLbl2@THEME_CSS@ {
-	background: #f7f8fb url(../images/addremove/add-rem_header.gif) repeat-x top;
-	border-top: 1px solid #a4aaaf;
-	border-right: 1px solid #a4aaaf;
-	border-bottom: 1px solid #686b6e;
-	border-left: 1px solid #a4aaaf;
+	background: #F7F8FB url(../images/addremove/add-rem_header.gif) repeat-x top;
+	border-top: 1px solid #A4AAAF;
+	border-right: 1px solid #A4AAAF;
+	border-bottom: 1px solid #686B6E;
+	border-left: 1px solid #A4AAAF;
 }
 .AddRmvLbl2@THEME_CSS@, .AddRmvLbl2ReadOnly@THEME_CSS@ {
-	color:#000;
+	color:#000000;
 }
 /*---*/
 
 /* BREADCRUMBS */
 .BcmWhtDiv@THEME_CSS@ {
-	background-color:#FFF;
+	background-color:#FFFFFF;
 }
 .BcmGryDiv@THEME_CSS@ {
 	background-color:#E5E9ED;
@@ -149,7 +149,7 @@ a.BcmLnk@THEME_CSS@:hover {
  Container ( source or target) takes on this style when dragItem is dragged over it 
  */
 .dojoDndContainerOver {
-	 border:2px dotted #aaa; 
+	 border:2px dotted #AAAAAA; 
 }
 /**
  Horizontal container is marked with .dojoDndHorizontal 
@@ -161,7 +161,7 @@ a.BcmLnk@THEME_CSS@:hover {
  */
 /* This style is added to dojoDndItem when cursor is over the potential selectable item */
 .dojoDndItemOver {
-	background: #99ccff; 
+	background: #99CCFF; 
 }
 /**
  Item(s) selected within a source(container) are marked with this style.
@@ -189,19 +189,19 @@ a.BcmLnk@THEME_CSS@:hover {
  currently under the cursor. 
  */
 .dojoDndItemBefore {
-	border-top: 4px dotted #369;
+	border-top: 4px dotted #336699;
 }
 .dojoDndItemAfter {
-	border-bottom:  4px dotted #369;
+	border-bottom:  4px dotted #336699;
 }
 /* children of horizontal container present border differently */
 .dojoDndHorizontal > .dojoDndItemBefore {
-	border-left: 2px solid #369;
+	border-left: 2px solid #336699;
 	border-top: none;
 	border-bottom: none;
 }
 .dojoDndHorizontal > .dojoDndItemAfter {
-	border-right: 2px solid #369;
+	border-right: 2px solid #336699;
 	border-top: none;
 	border-bottom: none;
 }
@@ -211,16 +211,16 @@ a.BcmLnk@THEME_CSS@:hover {
  */
 /* avatar header */	
 .dojoDndAvatarHeader {
-	background: #aaa;
+	background: #AAAAAA;
 }
 /* avatar item */
 .dojoDndAvatarItem {
-	background: #fff;
-	border-bottom:1px solid #666;
+	background: #FFFFFF;
+	border-bottom:1px solid #666666;
 }
 /* avatar is ready to be dropped */
 .dojoDndAvatarCanDrop {
-	background: #aaf;
+	background: #AAAAFF;
 	
 }
 .dojoDndMove .dojoDndAvatarHeader	{background-image: url(../images/dnd/dndNoMove.png); background-repeat: no-repeat;}
@@ -235,7 +235,7 @@ a.BcmLnk@THEME_CSS@:hover {
 /* MASTHEAD */
 .MstDiv@THEME_CSS@ .Btn1@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn1Mni@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2Mni@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn1Hov@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn1MniHov@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2Hov@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2MniHov@THEME_CSS@,
 .mastheadButton_4@THEME_CSS@ a:link, .mastheadButton_4@THEME_CSS@ a:visited, .mastheadButton_4@THEME_CSS@ a:hover {
-	color:#FFF;
+	color:#FFFFFF;
 	vertical-align:middle;
 }.MstDiv@THEME_CSS@ .Btn1@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn1Mni@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2Mni@THEME_CSS@,
 .mastheadButton_4@THEME_CSS@ a:link, .mastheadButton_4@THEME_CSS@ a:visited {
@@ -249,10 +249,10 @@ a.BcmLnk@THEME_CSS@:hover {
 }
 .mastheadButton_4@THEME_CSS@ {
 	background-color:#374154;
-	border-top-color:#4a5467;
+	border-top-color:#4A5467;
 	border-right-color:#374154;
 	border-left-color:#374154;
-	border-bottom-color:#7ea0b8;
+	border-bottom-color:#7EA0B8;
 }
 /*---*/
 
@@ -293,17 +293,17 @@ a.BcmLnk@THEME_CSS@:hover {
 	color:#707277;
 }
 .DatLblTxt@THEME_CSS@ {
-	color:#666;
+	color:#666666;
 }
 a.DatLnk@THEME_CSS@:link, a.DatLnk@THEME_CSS@:visited {
 	color:#000000;
-	background-color:#fff;
+	background-color:#FFFFFF;
 	text-decoration:none;
-	border-color:#fff;
+	border-color:#FFFFFF;
 }
 a.DatLnk@THEME_CSS@:hover {
 	text-decoration:underline;
-	border-color:#fff;
+	border-color:#FFFFFF;
 }
 a.DatBldLnk@THEME_CSS@:link, a.DatBldLnk@THEME_CSS@:visited {
 	color:#000000;
@@ -318,17 +318,17 @@ a.DatBldLnk@THEME_CSS@:hover {
 	text-decoration:underline;
 }
 a.DatCurLnk@THEME_CSS@:link, a.DatCurLnk@THEME_CSS@:visited {
-	color:#000;
-	background-color:#fff;
+	color:#000000;
+	background-color:#FFFFFF;
 	text-decoration:none;
-	border-color:#fff;
+	border-color:#FFFFFF;
 }
 a.DatCurLnk@THEME_CSS@:hover {
 	text-decoration:underline;
-	border-color:#fff;
+	border-color:#FFFFFF;
 }
 a.DatOthLnk@THEME_CSS@ {
-	color:#000;
+	color:#000000;
 	background-color:#ECF0F3;
 	text-decoration:none;
 	border-color:#ECF0F3;
@@ -381,7 +381,7 @@ a.DatOthBldLnk@THEME_CSS@:hover {
 	background-color:#E5E9ED;
 }
 .CalPopDiv@THEME_CSS@ a.CalPopClsLnk@THEME_CSS@:link, .CalPopDiv@THEME_CSS@ a.CalPopClsLnk@THEME_CSS@:active {
-	color:#333;
+	color:#333333;
 	border-color:#A8B8C3;
 	text-decoration:none;
 }
@@ -392,7 +392,7 @@ a.DatOthBldLnk@THEME_CSS@:hover {
 	background:#EEF1F4 url(../images/calendar/calpop_footer_grad.gif) bottom left repeat-x;
 }
 .CalPopDiv@THEME_CSS@ .CurDayTxt@THEME_CSS@ {
-	color:#333;
+	color:#333333;
 }
 /*---*/
 
@@ -401,27 +401,27 @@ a.DatOthBldLnk@THEME_CSS@:hover {
 	color:#5F6466;
 }
 .ChoSrvTxt@THEME_CSS@ {
-	color:#333;
+	color:#333333;
 }
 .ChoHr@THEME_CSS@ {
-	background-color: #98a0a5;
+	background-color: #98A0A5;
 }
 .ChoLstHdr@THEME_CSS@ {
-	background: #f7f8fb url(../images/file-chooser/column_hdr_gradient.gif) repeat-x top;
-	border-top: 1px solid #9ca4aa;
-	border-bottom: 1px none #686b6e;
-	border-left: 1px solid #9ca4aa;
-	border-right: 1px solid #9ca4aa;
+	background: #F7F8FB url(../images/file-chooser/column_hdr_gradient.gif) repeat-x top;
+	border-top: 1px solid #9CA4AA;
+	border-bottom: 1px none #686B6E;
+	border-left: 1px solid #9CA4AA;
+	border-right: 1px solid #9CA4AA;
 }
 .ChoLstHdr@THEME_CSS@ .ChoSizeHdr@THEME_CSS@ {
-	border-right: 1px solid #ced0d3;
-	border-left: 1px solid #ced0d3;
+	border-right: 1px solid #CED0D3;
+	border-left: 1px solid #CED0D3;
 }
 /*---*/
 
 /* PAGE ALERT */
 .FulAlrtHdrTxt@THEME_CSS@, .FulAlrtMsgTxt@THEME_CSS@ {
-	color:#000;
+	color:#000000;
 }
 /*---*/
 
@@ -469,7 +469,7 @@ a.DatOthBldLnk@THEME_CSS@:hover {
 
 /* HELP WINDOW */
 body.HlpBdy@THEME_CSS@ {
-	background-color:#FFF;
+	background-color:#FFFFFF;
 	color:#000000;
 	border-left-color:#A8B0B5;
 }
@@ -568,7 +568,7 @@ body.HlpBdy@THEME_CSS@ {
 	border-left-color:#CDCDCF;
 }
 .Lst@THEME_CSS@, .LstOpt@THEME_CSS@, .LstOptSel@THEME_CSS@, .LstOptGrp@THEME_CSS@, .LstMno@THEME_CSS@, .LstMno@THEME_CSS@ .LstOptGrp@THEME_CSS@ {
-	color:#333;
+	color:#333333;
 }
 .LstOptSep@THEME_CSS@, .LstOptDis@THEME_CSS@ {
 	color:#848687;
@@ -581,31 +581,31 @@ body.HlpBdy@THEME_CSS@ {
 
 /* MESSAGE AND MESSAGE GROUPS */
 .MsgFldSumTxt@THEME_CSS@ {
-    color:#C00;
+    color:#CC0000;
 }
 .MsgFldTxt@THEME_CSS@ {
-    color:#C00;
+    color:#CC0000;
 }
 .MsgGrpTbl@THEME_CSS@ {
-    border:solid 1px #C00;
+    border:solid 1px #CC0000;
     margin-top:10px;
 }
 .MsgGrpTbl@THEME_CSS@ td {
     background-color:#FAEDED;
 }
 .MsgGrpTblTtl@THEME_CSS@ {
-    color:#000;
+    color:#000000;
     background-color:#FAEDED;
 }
 .MsgGrpDiv@THEME_CSS@ ul {
-    color:#C00;
+    color:#CC0000;
     list-style-type:square;
 }
 .MsgGrpSumTxt@THEME_CSS@ {
-    color:#000;
+    color:#000000;
 }
 .MsgGrpTxt@THEME_CSS@ {
-    color:#333;
+    color:#333333;
 }
 /*---*/
 
@@ -623,10 +623,10 @@ body.HlpBdy@THEME_CSS@ {
 	color:#707277;
 }
 .ConErrLblTxt@THEME_CSS@ {
-	color:#C00;
+	color:#CC0000;
 }
 .ConWrnLblTxt@THEME_CSS@ {
-	color:#C90;
+	color:#CC9900;
 }
 a.JmpLnk@THEME_CSS@, a.JmpTopLnk@THEME_CSS@ {
 	color:#003399;
@@ -652,7 +652,7 @@ a.JmpTopLnk@THEME_CSS@:hover {
 	background-color:#81939B;
 }
 span.TtlTxt@THEME_CSS@, h1.TtlTxt@THEME_CSS@ {
-	color:#000;
+	color:#000000;
 }
 .TtlVewLbl@THEME_CSS@ {
 	color:#5F6466;
@@ -660,11 +660,26 @@ span.TtlTxt@THEME_CSS@, h1.TtlTxt@THEME_CSS@ {
 /*---*/
 
 /* TABSET */
+/* These two selectors came from "layout.css", but it is not clear that
+   they are still needed. Defining them early so that they will be 
+   overridden just like when they were defined in "layout.css"
+*/
+/* deprecated */
+.Tab1Div@THEME_CSS@ .Tab1SelTxtLeft@THEME_CSS@ {
+	background-position: top left;
+	background-repeat: no-repeat;
+}
+/* deprecated */
+.Tab1Div@THEME_CSS@ .Tab1SelTxtNew@THEME_CSS@ {
+	background-position: top right;
+	background-repeat: no-repeat;
+}
+/**/
 .Tab1Div@THEME_CSS@, .Tab1Div@THEME_CSS@ .Tab1TblSpcTd@THEME_CSS@ {
 	background:#E5E9ED url(../images/tabs/background_border_bottom.gif) left bottom repeat-x;
 } 
 a.Tab1Lnk@THEME_CSS@:link, a.Tab1Lnk@THEME_CSS@:visited  {
-	color:#000;
+	color:#000000;
 	text-decoration:none;
 }
 a.Tab1Lnk@THEME_CSS@:hover {
@@ -673,9 +688,13 @@ a.Tab1Lnk@THEME_CSS@:hover {
 .Tab1Div@THEME_CSS@ td {
 	border-color: #80929B;
 	background:#FCFFFF url(../images/tabs/level1_deselect.jpg) left top repeat-x;
-}.Tab1Tbl2New@THEME_CSS@ .Tab1SelTxtLeft@THEME_CSS@ {
+}
+/* deprecated */
+.Tab1Tbl2New@THEME_CSS@ .Tab1SelTxtLeft@THEME_CSS@ {
 	background-image:url(../images/tabs/level1_selected-left.jpg);
-}.Tab1Tbl2New@THEME_CSS@ .Tab1SelTxtNew@THEME_CSS@{
+}
+/* deprecated */
+.Tab1Tbl2New@THEME_CSS@ .Tab1SelTxtNew@THEME_CSS@{
 	background-image:url(../images/tabs/level1_selected-right.jpg);
 }
 .Tab1TblNew@THEME_CSS@ .Tab1TblSelTd@THEME_CSS@ {
@@ -687,26 +706,47 @@ a.Tab1Lnk@THEME_CSS@:hover {
 	background-image:url(../images/tabs/level1_selected-middle.jpg);
 }
 /* LEVEL 2 TABS */
+/* These two selectors came from "layout.css", but it is not clear that
+   they are still needed. Defining them early so that they will be 
+   overridden just like when they were defined in "layout.css"
+*/
+/* deprecated */
+.Tab2Div@THEME_CSS@ .Tab2SelTxtLeft@THEME_CSS@ {
+	background-position: top left;
+	background-repeat: no-repeat;
+}
+
+.Tab2Div@THEME_CSS@ .Tab2SelTxt@THEME_CSS@ {
+	background-position: top right;
+	background-repeat: no-repeat;
+}
+/**/
 .Tab2Div@THEME_CSS@ {
 	background:#F1F3F6 url(../images/tabs/background_border_bottom.gif) left bottom repeat-x;
 }
 a.Tab2Lnk@THEME_CSS@:link, a.Tab2Lnk@THEME_CSS@:visited {
-	color:#000;
+	color:#000000;
 	text-decoration:none;
 }
 a.Tab2Lnk@THEME_CSS@:hover {
 	text-decoration:underline;
 }
+
 .Tab2Div@THEME_CSS@ td {
 	border-color:#80929B;
 	background:#FCFFFF url(../images/tabs/level2_deselect.jpg) left top repeat-x;
-}.Tab2Tbl3New@THEME_CSS@ .Tab2SelTxtLeft@THEME_CSS@ {
+}
+/* deprecated */
+.Tab2Tbl3New@THEME_CSS@ .Tab2SelTxtLeft@THEME_CSS@ {
 	background-image:url(../images/tabs/level2_selected-left.jpg);
-}.Tab2Tbl3New@THEME_CSS@ .Tab2SelTxt@THEME_CSS@ {
+}
+.Tab2Tbl3New@THEME_CSS@ .Tab2SelTxt@THEME_CSS@ {
 	background-image:url(../images/tabs/level2_selected-right.jpg);
-}.Tab2TblNew@THEME_CSS@ .Tab2TblSelTd@THEME_CSS@ {
+}
+.Tab2TblNew@THEME_CSS@ .Tab2TblSelTd@THEME_CSS@ {
 	border-color:#80929B;	background-image:url(../images/tabs/level2_selected.gif);
-}.Tab2Tbl3New@THEME_CSS@ .Tab2TblSelTd@THEME_CSS@ {
+}
+.Tab2Tbl3New@THEME_CSS@ .Tab2TblSelTd@THEME_CSS@ {
 	border-color:#80929B;
 	background:#F8F9FB url(../images/tabs/level2_selected-middle.jpg) left top repeat-x;
 }
@@ -730,7 +770,7 @@ a.Tab2Lnk@THEME_CSS@:hover {
 	border-collapse:collapse;
 }
 a.Tab3Lnk@THEME_CSS@:link,a.Tab3Lnk@THEME_CSS@:visited {
-	color:#000;
+	color:#000000;
 	text-decoration:none;
 }
 a.Tab3Lnk@THEME_CSS@:hover {
@@ -755,14 +795,14 @@ table.MniTabTbl@THEME_CSS@ td {
 	background:#FCFFFF url(../images/tabs/minitab_deselect.jpg) left top repeat-x;
 }
 a.MniTabLnk@THEME_CSS@:link,a.MniTabLnk@THEME_CSS@:visited {
-	color:#000;
+	color:#000000;
 	text-decoration:none;
 }
 a.MniTabLnk@THEME_CSS@:hover {
 	text-decoration:underline;
 }
 .MniTabSelTxt@THEME_CSS@ {
-	color:#000;
+	color:#000000;
 	text-decoration:none;
 }
 table.MniTabTbl@THEME_CSS@ td.MniTabTblSelTd@THEME_CSS@ {
@@ -805,8 +845,8 @@ table.MniTabTbl@THEME_CSS@ td.MniTabTblSelTd@THEME_CSS@ {
 /*---*/
 
 /* MENUS */
-.MnuJmpOptGrp@THEME_CSS@, .MnuStdOptGrp@THEME_CSS@ {color:#000;}
-.MnuStdOpt@THEME_CSS@, .MnuStdOptSel@THEME_CSS@, .MnuStd@THEME_CSS@ {color:#333;}
+.MnuJmpOptGrp@THEME_CSS@, .MnuStdOptGrp@THEME_CSS@ {color:#000000;}
+.MnuStdOpt@THEME_CSS@, .MnuStdOptSel@THEME_CSS@, .MnuStd@THEME_CSS@ {color:#333333;}
 .MnuJmpOpt@THEME_CSS@, .MnuJmpOpt@THEME_CSS@:hover, .MnuJmp@THEME_CSS@ {color:#0A3A9C;}
 .MnuJmpOptSep@THEME_CSS@, .MnuJmpOptDis@THEME_CSS@, .MnuStdOptSep@THEME_CSS@, .MnuStdOptDis@THEME_CSS@, .MnuJmpDis@THEME_CSS@, .MnuStdDis@THEME_CSS@ {
 	color:#848687;
@@ -841,6 +881,9 @@ a.MstUsrLnk@THEME_CSS@:link, a.MstUsrLnk@THEME_CSS@:visited, a.MstAlmLnk@THEME_C
 }
 .MstTblEnd@THEME_CSS@ {
 	background-color:#5B87A5;
+	/* Do we no longer use an image here ? */
+	background-repeat:repeat-x;
+	background-position:left top;
 }
 .MstTblBot@THEME_CSS@ .hrule@THEME_CSS@{
 	border-top-color:#3E637E;
@@ -858,20 +901,34 @@ a.MstUsrLnk@THEME_CSS@:link, a.MstUsrLnk@THEME_CSS@:visited, a.MstAlmLnk@THEME_C
 	background-color:#5B87A5;
 	border-color:#000000;
 }
-a.MstLnk@THEME_CSS@:hover, a.MstLnkLft@THEME_CSS@:hover, a.MstLnkRt@THEME_CSS@:hover, a.MstLnkCen@THEME_CSS@:hover {
+
+a.MstLnk@THEME_CSS@:link, a.MstLnk@THEME_CSS@:visited, a.MstLnk@THEME_CSS@:hover,
+a.MstLnkLft@THEME_CSS@:link, a.MstLnkLft@THEME_CSS@:visited, a.MstLnkLft@THEME_CSS@:hover,
+a.MstLnkRt@THEME_CSS@:link, a.MstLnkRt@THEME_CSS@:visited, a.MstLnkRt@THEME_CSS@:hover, 
+a.MstLnkCen@THEME_CSS@:link, a.MstLnkCen@THEME_CSS@:visited, a.MstLnkCen@THEME_CSS@:hover {
+	background-repeat:repeat-x;
+	background-position:center center;
+}
+
+a.MstLnk@THEME_CSS@:hover, a.MstLnkLft@THEME_CSS@:hover, 
+a.MstLnkRt@THEME_CSS@:hover, a.MstLnkCen@THEME_CSS@:hover {
 	background-color:#EAF9FF;
 	background-image:url(../images/masthead/masthead_link_roll.gif);
 }
-a.MstLnk@THEME_CSS@:link, a.MstLnk@THEME_CSS@:visited, a.MstLnkLft@THEME_CSS@:link, a.MstLnkLft@THEME_CSS@:visited, a.MstLnkRt@THEME_CSS@:link, a.MstLnkRt@THEME_CSS@:visited, a.MstLnkCen@THEME_CSS@:link, a.MstLnkCen@THEME_CSS@:visited {
+a.MstLnk@THEME_CSS@:link, a.MstLnk@THEME_CSS@:visited, 
+a.MstLnkLft@THEME_CSS@:link, a.MstLnkLft@THEME_CSS@:visited, 
+a.MstLnkRt@THEME_CSS@:link, a.MstLnkRt@THEME_CSS@:visited, 
+a.MstLnkCen@THEME_CSS@:link, a.MstLnkCen@THEME_CSS@:visited {
 	background-color:#D9E6EC;
 	background-image:url(../images/masthead/masthead_link_enabled.gif);
-	color:#000;
+	color:#000000;
 	text-decoration:none;
 	border-top-color:#2D3C46;
 	border-bottom-color:#0E1418;
 	border-left-color:#1C262D;
 }
-a.MstLnk@THEME_CSS@:link, a.MstLnk@THEME_CSS@:visited, a.MstLnkRt@THEME_CSS@:link, a.MstLnkRt@THEME_CSS@:visited {
+a.MstLnk@THEME_CSS@:link, a.MstLnk@THEME_CSS@:visited, 
+a.MstLnkRt@THEME_CSS@:link, a.MstLnkRt@THEME_CSS@:visited {
 	border-right-color:#1C262D;
 }
 /*---*/
@@ -881,24 +938,29 @@ a.MstLnk@THEME_CSS@:link, a.MstLnk@THEME_CSS@:visited, a.MstLnkRt@THEME_CSS@:lin
 	border-color:#8C8F91;
 	border-top-color:#35556A;
 	background-color:#E5E9ED;
-	color:#000;
+	color:#000000;
 }
 table.Tbl@THEME_CSS@ td, 
 table.Tbl@THEME_CSS@ th {
 	border-color:#CAD0D2;
-	background-color:#fff;
+	background-color:#FFFFFF;
 }
 /* Table Caption/Title */
 table.Tbl@THEME_CSS@ caption.TblTtlTxt@THEME_CSS@ {
-	color:#fff;
+	text-align:left;
+	background-position:3px 3px;
+	-moz-border-radius-topleft:5px;
+	-moz-border-radius-topright:5px;
+	color:#FFFFFF;
 	background:#36586F url(../images/table/table_titlebar_gradient.gif) bottom left repeat-x;
 }
+
 caption.TblTtlTxt@THEME_CSS@ span.TblTtlMsgSpn@THEME_CSS@ {
-	color:#fff;
+	color:#FFFFFF;
 }
 /* Action Bar */
 table.Tbl@THEME_CSS@ td.TblActTdLst@THEME_CSS@ {
-	border-top-color:#e5e5e5;
+	border-top-color:#E5E5E5;
 	background-color:#E5E9ED;
 }
 table.Tbl@THEME_CSS@ td.TblActTd@THEME_CSS@ {
@@ -909,18 +971,18 @@ table.Tbl@THEME_CSS@ th.TblColHdrSel@THEME_CSS@ {
 	border-top-color:#8C8F91;
 	border-left-color:#8C8F91;
 	border-bottom-color:#8C8F91;
-	background-color:#f8f8f9;
+	background-color:#F8F8F9;
 }
 table.Tbl@THEME_CSS@ th.TblColHdrSrtSel@THEME_CSS@ {
 	background:#E1E5E8  url(../images/table2/column_gradient.png) center top repeat-x;
-	border-top-color:#959aa5;
-	border-left-color:#959aa5;
-	border-bottom-color:#828da4;
+	border-top-color:#959AA5;
+	border-left-color:#959AA5;
+	border-bottom-color:#828DA4;
 }
 table.Tbl@THEME_CSS@ th.TblColHdrSel@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:link, 
 table.Tbl@THEME_CSS@ th.TblColHdrSel@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:visited, 
 table.Tbl@THEME_CSS@ th.TblColHdrSel@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:hover {
-	background-color:#fff;
+	background-color:#FFFFFF;
 	text-decoration:none;
 }
 table.Tbl@THEME_CSS@ th.TblColHdrSrtSel@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:link,
@@ -940,7 +1002,7 @@ table.Tbl@THEME_CSS@ th.TblColHdrSel@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:visited {
 	background:#E1E5E8 url(../images/table2/column_gradient.png) repeat-x center top;
 }
 table.Tbl@THEME_CSS@ th.TblColHdrSel@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:hover {
-	background:#f1f3f6 url(../images/table2/column_gradient.png) repeat-x center top;
+	background:#F1F3F6 url(../images/table2/column_gradient.png) repeat-x center top;
 }
 table.Tbl@THEME_CSS@ th.TblColHdrSrtSel@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:hover {
 	background-color:#E1E5E8;
@@ -971,7 +1033,7 @@ table.Tbl@THEME_CSS@ td.TblTdSel@THEME_CSS@ {
 	background-color:#FFFFFF;
 }
 table.Tbl@THEME_CSS@ td.TblTdSrtSel@THEME_CSS@ {
-	background-color:#e5e9ed;
+	background-color:#E5E9ED;
 }
 /* Regular Column Headers */
 table.Tbl@THEME_CSS@ th.TblColHdr@THEME_CSS@ {
@@ -999,7 +1061,7 @@ table.Tbl@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:visited {
 table.Tbl@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:hover {
 	color:#000000;
 	text-decoration:underline;
-	background-color:#f1f3f6; 
+	background-color:#F1F3F6; 
 	background-image:url(../images/table2/column_gradient.png);
 }
 table.Tbl@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:hover {
@@ -1022,7 +1084,7 @@ table.Tbl@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:visited {
 table.Tbl@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:hover {
 	color:#336699; 
 	background-image:url(../images/table2/column_gradient.png);
-	background-color:#f1f3f6;
+	background-color:#F1F3F6;
 }
 table.Tbl@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:hover {
 	background-repeat:repeat-x;
@@ -1097,13 +1159,13 @@ table.Tbl@THEME_CSS@ th.TblColHdrSrt@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:visite
 table.Tbl@THEME_CSS@ th.TblMultColHdr@THEME_CSS@ {
 	border-left-color:#81939B;
 	border-bottom-color:#81939B;
-	background-color:#fff;
+	background-color:#FFFFFF;
 }
 .TblMultHdrTxt@THEME_CSS@ {
 	color:#000000;
 }
 table.Tbl@THEME_CSS@ th.TblMultHdr@THEME_CSS@ {
-	background-color:#fff;
+	background-color:#FFFFFF;
 	border-top-color:#81939B;
 	border-left-color:#81939B;
 }
@@ -1148,17 +1210,17 @@ table.Tbl@THEME_CSS@ th.TblMultColHdrSrt@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:ho
 }
 /* Sorted Cells */
 table.Tbl@THEME_CSS@ .TblTdSrt@THEME_CSS@ {
-	background-color:#e5e9ed;
+	background-color:#E5E9ED;
 }
 table.Tbl@THEME_CSS@ .TblColFtrSpc@THEME_CSS@ {
 	border-bottom-color:#CAD0D2;
 	border-top-color:#E5E9ED;
-	background-color:#fff;}
+	background-color:#FFFFFF;}
  
 /* Spacer Colums */
 table.Tbl@THEME_CSS@ th.TblTdSpc@THEME_CSS@ {
 	border-color:#81939B;
-	background-color:#fff;
+	background-color:#FFFFFF;
 }
 /* Alarm Cells */
 table.Tbl@THEME_CSS@ .TblTdAlm@THEME_CSS@, 
@@ -1205,10 +1267,10 @@ table.Tbl@THEME_CSS@ .TblGrpMsgTxt@THEME_CSS@ {
 table.Tbl@THEME_CSS@ .TblColFtr@THEME_CSS@ {
 	border-bottom-color:#CAD0D2;
 	border-top-color:#E5E9ED;
-	background-color:#fff;}
+	background-color:#FFFFFF;}
  
 table.Tbl@THEME_CSS@ .TblColFtrSrt@THEME_CSS@ {
-	background-color:#e5e9ed;
+	background-color:#E5E9ED;
 	border-bottom-color:#CAD0D2;
 	border-top-color:#E5E9ED;
 }
@@ -1228,11 +1290,11 @@ table.Tbl@THEME_CSS@ .TblFtrLft@THEME_CSS@ {
 /*Table Group Column-Level Footer */
 table.Tbl@THEME_CSS@ .TblGrpColFtr@THEME_CSS@ {
 	border-bottom-color:#CAD0D2;
-	background-color:#fff;
+	background-color:#FFFFFF;
 }
 table.Tbl@THEME_CSS@ .TblGrpColFtrSrt@THEME_CSS@ {
 	border-bottom-color:#CAD0D2;
-	background-color:#e5e9ed;
+	background-color:#E5E9ED;
 }
 .TblGrpFtrRowTxt@THEME_CSS@ {
 	color:#000000;
@@ -1247,7 +1309,7 @@ table.Tbl@THEME_CSS@ td.TblPnlTd@THEME_CSS@ {
 .TblPnlShd3Div@THEME_CSS@ {}
 .TblPnlShd2Div@THEME_CSS@ {}
 .TblPnlShd1Div@THEME_CSS@ {
-	border-top-color:#4c4f53 ;
+	border-top-color:#4C4F53 ;
 	border-right-color:#76797C;
 	border-bottom-color:#8C8F91;
 	border-left-color:#76797C;
@@ -1285,7 +1347,7 @@ table.Tbl@THEME_CSS@ div.TblPnlDiv@THEME_CSS@ td {
 
 /* LIGHTWEIGHT TABLE DESIGN */
 table.TblLt@THEME_CSS@ {
-	background-color:#fff;
+	background-color:#FFFFFF;
 	color:#000000;
 }
 /* Table Caption/Title */
@@ -1299,11 +1361,11 @@ table.TblLt@THEME_CSS@ caption.TblTtlTxt@THEME_CSS@ span.TblTtlMsgSpn {
 /* Action Bar */
 table.TblLt@THEME_CSS@ td.TblActTd@THEME_CSS@ {
 	background-color:#E5E9ED;
-	border-color:#e5e5e5;
+	border-color:#E5E5E5;
 }
 table.TblLt@THEME_CSS@ td.TblActTdLst@THEME_CSS@ {
 	background-color:#E5E9ED;
-	border-color:#e5e5e5;
+	border-color:#E5E5E5;
 }
 /* Selection Column - Headers */
 table.TblLt@THEME_CSS@ th.TblColHdrSel@THEME_CSS@ {
@@ -1314,9 +1376,9 @@ table.TblLt@THEME_CSS@ th.TblColHdrSel@THEME_CSS@ {
 }
 table.TblLt@THEME_CSS@ th.TblColHdrSrtSel@THEME_CSS@ {
 	background-color:#E1E5E8;
-	border-top-color:#959aa5;
-	border-left-color:#959aa5;
-	border-bottom-color:#828da4; 
+	border-top-color:#959AA5;
+	border-left-color:#959AA5;
+	border-bottom-color:#828DA4; 
 	background-image:url(../images/table2/column_gradient.png);
 }
 table.TblLt@THEME_CSS@ th.TblColHdrSel@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:link {
@@ -1330,17 +1392,17 @@ table.TblLt@THEME_CSS@ th.TblColHdrSel@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:visited
 	background-position:center top;
 }
 table.TblLt@THEME_CSS@ th.TblColHdrSel@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:hover {
-	background-color:#f1f3f6; 
+	background-color:#F1F3F6; 
 	background-image:url(../images/table2/column_gradient.png);
 	background-position:center top;
 }
 table.TblLt@THEME_CSS@ th.TblColHdrSrtSel@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:hover {
-	background-color:#f1f3f7; 
+	background-color:#F1F3F7; 
 	background-image:url(../images/table2/column_gradient.png);
 	background-position:center top;
 }
 table.TblLt@THEME_CSS@ th.TblColHdrSrtSel@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:hover {
-	background-color:#f1f3f7; 
+	background-color:#F1F3F7; 
 	background-image:url(../images/table2/column_gradient.png);
 }
 /* Regular Column Headers */
@@ -1364,7 +1426,7 @@ table.TblLt@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:visited {
 table.TblLt@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:hover {
 	color:#000000;
 	text-decoration:underline;
-	background-color:#f1f3f6; 
+	background-color:#F1F3F6; 
 	background-image:url(../images/table2/column_gradient.png);
 	background-position:center top;
 }
@@ -1378,7 +1440,7 @@ table.TblLt@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:visited {
 	background-position:center top;
 }
 table.TblLt@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:hover {
-	background-color:#f1f3f6; 
+	background-color:#F1F3F6; 
 	color:#336699; 
 	background-image:url(../images/table2/column_gradient.png);
 	background-position:center top;
@@ -1407,7 +1469,7 @@ table.TblLt@THEME_CSS@ th.TblColHdrSrt@THEME_CSS@ {
 	background-image:url(../images/table2/column_gradient.png);
 }
 table.TblLt@THEME_CSS@ th.TblColHdrSrt@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:hover {
-	background-color:#f1f3f7; 
+	background-color:#F1F3F7; 
 	color:#000000;
 	text-decoration:underline; 
 	background-image:url(../images/table2/column_gradient.png);
@@ -1419,7 +1481,7 @@ table.Tbl@THEME_CSS@ th.TblColHdrSrt@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:visite
 	text-decoration:none;
 }
 table.TblLt@THEME_CSS@ th.TblColHdrSrt@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:hover {
-	background-color:#f1f3f7; 
+	background-color:#F1F3F7; 
 	color:#003399; 
 	background-image:url(../images/table2/column_gradient.png);
 }
@@ -1435,13 +1497,13 @@ table.TblLt@THEME_CSS@ th.TblMultHdr@THEME_CSS@ {
 	background-color:#E6EBEF;
 }
 table.TblLt@THEME_CSS@ th.TblMultColHdrSrt@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:hover {
-	background-color:#f1f3f7;
+	background-color:#F1F3F7;
 	color:#000000;
 	text-decoration:underline; 
 	background-image:url(../images/table2/column_gradient.png);
 }
 table.TblLt@THEME_CSS@ th.TblMultColHdrSrt@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:hover {
-	background-color:#f1f3f7;
+	background-color:#F1F3F7;
 	color:#003399; 
 	background-image:url(../images/table2/column_gradient.png);
 }
@@ -1454,34 +1516,34 @@ table.TblLt@THEME_CSS@ .TblGrpRow@THEME_CSS@ {
 }
 /* Table Footers */ 
 table.TblLt@THEME_CSS@ td.TblFtrRow@THEME_CSS@ {
-	background-color:#fff;
+	background-color:#FFFFFF;
 }
 table.TblLt@THEME_CSS@ .TblFtrRowTxt@THEME_CSS@ {
 	color:#5F6466;
 }
 table.TblLt@THEME_CSS@ .TblColFtr@THEME_CSS@ {
-	border-bottom-color:#a8b2b6;
+	border-bottom-color:#A8B2B6;
 	border-top-color:#A9ADB5;
-	background-color:#fff;}
+	background-color:#FFFFFF;}
  
 table.TblLt@THEME_CSS@ .TblColFtrSrt@THEME_CSS@ {
-	background-color:#e5e9ed;
-	border-bottom-color:#a8b2b6;
+	background-color:#E5E9ED;
+	border-bottom-color:#A8B2B6;
 	border-top-color:#A9ADB5;
 }
 table.TblLt@THEME_CSS@ .TblColFtrSpc@THEME_CSS@ {
-	border-bottom-color:#a8b2b6; 
+	border-bottom-color:#A8B2B6; 
 	border-top-color:#A9ADB5; 
-	background-color:#fff;
+	background-color:#FFFFFF;
 }
 /*---*/
 
 /* TREE */
 .TreTtl@THEME_CSS@ {
-	color:#000;
+	color:#000000;
 }
 .Tree@THEME_CSS@ {
-	background-color:#fff;
+	background-color:#FFFFFF;
 }
 a.TreeLink@THEME_CSS@:link, a.TreeLink@THEME_CSS@:visited {
 	color:#003399;
@@ -1500,24 +1562,24 @@ a.TreeParentLink@THEME_CSS@:hover {
 	text-decoration:underline;
 }
 a.TreeSelLink@THEME_CSS@:link, a.TreeSelLink@THEME_CSS@:visited {
-	color:#000;
+	color:#000000;
 	text-decoration:none;
 }
 a.TreeSelLink@THEME_CSS@:hover {
-	color:#000;
+	color:#000000;
 	text-decoration:underline;
 }
 .TreeRootRow@THEME_CSS@, .TreeRootRowHeader@THEME_CSS@ {
-	background-color:#e5e9ed;
+	background-color:#E5E9ED;
 }
 .TreeSelRow@THEME_CSS@, .TreeRootSelRow  {
-	background-color:#90b7d0;
+	background-color:#90B7D0;
 }
 .TreeSelText@THEME_CSS@ {
-	color:#000;
+	color:#000000;
 }
 .TreeContent@THEME_CSS@ a:link, .TreeContent@THEME_CSS@ a:visited {
-	color:#000;
+	color:#000000;
 	text-decoration:none;
 }
 /*---*/
@@ -1569,8 +1631,8 @@ a.WizStpLnk@THEME_CSS@:hover {
     border: 1px solid #BBBBBB;
 }
 .Bubble@THEME_CSS@ {
-    background: #ffffff; 
-    border: 1px solid #8c8f91; 
+    background: #FFFFFF; 
+    border: 1px solid #8C8F91; 
 }
 .BubbleShadow@THEME_CSS@, .Bubble@THEME_CSS@ {
     -moz-border-radius: 5px;
@@ -1588,13 +1650,13 @@ a.WizStpLnk@THEME_CSS@:hover {
     background-image: url(../images/bubble/topRightArrow.png);
 }
 .BubbleHeader@THEME_CSS@ {
-    background-color: #e1e5e8;
-    border-bottom: 1px solid #8c8f91;
+    background-color: #E1E5E8;
+    border-bottom: 1px solid #8C8F91;
     -moz-border-radius-topleft: 5px;
     -moz-border-radius-topright: 5px;
 }
 .BubbleTitle@THEME_CSS@ {
-    color: #36586f;
+    color: #36586F;
 }
 .BubbleCloseBtn@THEME_CSS@ {
     background-image: url(../images/bubble/dismiss_icon.png);
@@ -1606,13 +1668,13 @@ a.WizStpLnk@THEME_CSS@:hover {
 
 /* ACCORDION */
 .Accordion@THEME_CSS@ {
-    border-top: thin solid #8c8f91;
+    border-top: thin solid #8C8F91;
 }
 .AccdHeader@THEME_CSS@ {
-    border-color: #8c8f91;
+    border-color: #8C8F91;
     background-image: url(../images/accordion/tab_collapsed_gradient.png);
     background-repeat: repeat-x;
-    background-color: #e1e5e8;
+    background-color: #E1E5E8;
     background-position: top;
 }
 .AccdRefreshBtn@THEME_CSS@, .AccdOpenAllBtn@THEME_CSS@, .AccdCloseAllBtn@THEME_CSS@ {
@@ -1622,15 +1684,15 @@ a.WizStpLnk@THEME_CSS@:hover {
     background-color:#C7C8CA;
 }
 .AccdTabExpanded@THEME_CSS@, .AccdTabCollapsed@THEME_CSS@ {
-    border-color: #8c8f91;
+    border-color: #8C8F91;
     cursor: pointer;
 }
 .AccdTabExpanded@THEME_CSS@ {
-    background: #46708e url(../images/accordion/tab_expanded_gradient.png) repeat-x top;
+    background: #46708E url(../images/accordion/tab_expanded_gradient.png) repeat-x top;
     color: #FFFFFF;
 }
 .AccdTabCollapsed@THEME_CSS@ {
-    background: #e1e5e8 url(../images/accordion/tab_collapsed_gradient.png) repeat-x top;
+    background: #E1E5E8 url(../images/accordion/tab_collapsed_gradient.png) repeat-x top;
 }
 .AccdTabExpanded@THEME_CSS@ a:link,
 .AccdTabExpanded@THEME_CSS@ a:visited,
@@ -1643,10 +1705,10 @@ a.WizStpLnk@THEME_CSS@:hover {
     color: #333333; 
 }
 .AccdTabExpanded@THEME_CSS@ a:hover, .AccdTabExpanded_Focus@THEME_CSS@ {
-    background: #5b87a5 url(../images/accordion/tab_expanded_gradient.png) repeat-x top;
+    background: #5B87A5 url(../images/accordion/tab_expanded_gradient.png) repeat-x top;
 }
 .AccdTabCollapsed@THEME_CSS@ a:hover, .AccdTabCollapsed_Focus@THEME_CSS@ {
-    background: #f1f3f6 url(../images/accordion/tab_collapsed_gradient.png) repeat-x top;
+    background: #F1F3F6 url(../images/accordion/tab_collapsed_gradient.png) repeat-x top;
 }
 .AccdTabTitle@THEME_CSS@ a:link,
 .AccdTabTitle@THEME_CSS@ a:visited,
@@ -1681,7 +1743,7 @@ a.WizStpLnk@THEME_CSS@:hover {
 }
 .AccdTabContent@THEME_CSS@ {
     background-color: #FFFFFF;
-    border-color: #8c8f91;
+    border-color: #8C8F91;
 }
 /*---*/
 
@@ -1717,34 +1779,34 @@ a.WizStpLnk@THEME_CSS@:hover {
 
 /* MENU */
 .MenuShadow@THEME_CSS@ {
-    background:#bbb; 
-    border:1px solid #ddd;
+    background:#BBBBBB; 
+    border:1px solid #DDDDDD;
 }
 .Menu@THEME_CSS@ {
-    background: #fff; 
-    border: 1px solid #8c8f91; 
+    background: #FFFFFF; 
+    border: 1px solid #8C8F91; 
 }
 ul.MenuItems@THEME_CSS@ {
     background-color: #FFFFFF;
 }
 ul.MenuItems@THEME_CSS@ li .MenuItemSeparator@THEME_CSS@ {
-    border-top: 1px solid #cad0d2;
+    border-top: 1px solid #CAD0D2;
 }
 ul.MenuItems@THEME_CSS@ li .MenuItem@THEME_CSS@,       /* 1st-level menu item */
 ul.MenuItems@THEME_CSS@ ul li .MenuItem@THEME_CSS@ {   /* 2nd-level menu item in 1st-level optgroup */
     color: #003399;
 }
 ul.MenuItems@THEME_CSS@ li .MenuOptGroupHeader@THEME_CSS@ {  /* 1st-level optgroup header */
-    color: #000;
+    color: #000000;
 }
 ul.MenuItems@THEME_CSS@ li .MenuItemDisabled@THEME_CSS@,       /* 1st-level menu item */
 ul.MenuItems@THEME_CSS@ ul li .MenuItemDisabled@THEME_CSS@ {   /* 2nd-level menu item in 1st-level optgroup */
-    color: #7a7277;
+    color: #7A7277;
 }
 ul.MenuItems@THEME_CSS@ li div.MenuItem@THEME_CSS@:hover,     /* standard hover */
 ul.MenuItems@THEME_CSS@ li .MenuItem@THEME_CSS@.MenuFocus@THEME_CSS@{  
-    background-color: #90b7d0;
-    color: #ffffff;
+    background-color: #90B7D0;
+    color: #FFFFFF;
 }
 ul.MenuItems@THEME_CSS@ li div.MenuItem@THEME_CSS@:hover{     /* standard hover */
     cursor: pointer;
@@ -1800,7 +1862,7 @@ ul.MenuItems@THEME_CSS@ li div.MenuItem@THEME_CSS@:hover{     /* standard hover 
 }
 .commonTask_4@THEME_CSS@ a.TskScnTxtBg@THEME_CSS@:hover {
 	background:#4581B3 url(../images/commontaskssection/grad2.gif) right top repeat-x;
-	color:#FFF;
+	color:#FFFFFF;
 }
 .commonTask_4@THEME_CSS@ .infoPanel@THEME_CSS@ {
 	border-color: #AABCC8;
@@ -1821,6 +1883,14 @@ ul.MenuItems@THEME_CSS@ li div.MenuItem@THEME_CSS@:hover{     /* standard hover 
 .commonTask_4@THEME_CSS@ .infoPanel@THEME_CSS@ .header@THEME_CSS@ {
 	color:#666666;
 }
+.commonTask_4@THEME_CSS@ .TskScnTskLftBtm@THEME_CSS@, 
+.commonTask_4@THEME_CSS@ .TskScnTskLftTp@THEME_CSS@, 
+.commonTask_4@THEME_CSS@ .TskScnTskRghtBtm@THEME_CSS@, 
+.commonTask_4@THEME_CSS@ .TskScnTskRghtTp@THEME_CSS@ {
+	background-position: top left;
+	background-repeat: no-repeat;
+}
+
 .commonTask_4@THEME_CSS@ .TskScnTskLftBtm@THEME_CSS@ {
 	background-image: url(../images/commontaskssection/leftBottom.gif);
 }     
@@ -1992,6 +2062,14 @@ ul.MenuItems@THEME_CSS@ li div.MenuItem@THEME_CSS@:hover{     /* standard hover 
     background-image: url(../images/rating/notInterestedOff.gif);
 }
 
+.RatingGradeAvgFullImage@THEME_CSS@, .RatingGradeAvgHalfImage@THEME_CSS@,
+.RatingGradeFullImage@THEME_CSS@, .RatingGradeEmptyImage@THEME_CSS@,
+.RatingNotInterestedOnImage@THEME_CSS@,
+.RatingNotInterestedOffImage@THEME_CSS@,
+.RatingClearOnImage@THEME_CSS@, .RatingClearOffImage@THEME_CSS@ {
+    background-repeat: no-repeat;
+}
+
 .RatingGradeFullImage@THEME_CSS@ {
     background-image: url(../images/rating/starFull.gif);
 }
@@ -2003,6 +2081,10 @@ ul.MenuItems@THEME_CSS@ li div.MenuItem@THEME_CSS@:hover{     /* standard hover 
 }
 .RatingGradeAvgHalfImage@THEME_CSS@ {
     background-image: url(../images/rating/avgStarHalf.gif);
+}
+
+.RatingModeNormalImage@THEME_CSS@, .RatingModeAverageImage@THEME_CSS@ {
+    background-repeat: no-repeat;
 }
 
 .RatingModeNormalImage@THEME_CSS@ {
@@ -2024,3 +2106,35 @@ ul.MenuItems@THEME_CSS@ li div.MenuItem@THEME_CSS@:hover{     /* standard hover 
     cursor: pointer;
 }
 /*---*/
+/* EDITABLE FIELDS */
+.EdtFld_Edt@THEME_CSS@ {
+        background-color: #CCCCEE;        
+}
+.EdtFldDis@THEME_CSS@ {
+        background-color: #CCCCEE;        
+}
+.EdtFld_ReadOnly@THEME_CSS@ {
+        background-color: #DDDDDD;        
+}
+/*---*/
+
+/* Login */
+
+.logTxtCpy@THEME_CSS@ {
+    color:#FFFFFF;
+}
+.LogBdy@THEME_CSS@ {
+    background-color:#4A5C69;
+}
+.LogTopBnd@THEME_CSS@ {
+    background-color:#4A5C69;
+}
+.LogCntTd@THEME_CSS@ {
+    background-color:#FFFFFF;
+}
+.LogBotBnd@THEME_CSS@ {
+    background-color:#4A5C69;
+}
+.LogMidBnd@THEME_CSS@ {
+    background-color:#D4DCE1;
+}
