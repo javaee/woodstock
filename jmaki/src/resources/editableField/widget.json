@@ -144,7 +144,6 @@
         "libs": [
           "@JS_PATH@/bootstrap.js"
         ],
-        "preload": "var @JS_NS@Config = {isDebug: true, parseOnLoad: false, namespace: \"woodstock\", theme: {locale: \"en\"}, webuiAjax: false, webuiAll: true};",
         "resources": [ "../resources/" ]
         }
     }
