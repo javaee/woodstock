@@ -50,7 +50,7 @@
     </condition>
     <property name="js.name" value="${js-name}"/>
     <property name="js.module" value="${js.name}${CacheThemeVersion}"/>
-    <property name="js.path" value="../resources/libs/${js.module}${CacheVersion}/${theme.name}/javascript"/>
+    <property name="js.path" value="../resources/libs/${js.module}/${theme.name}/javascript"/>
 
     <!-- JMaki values. -->    
     <property name="jmaki.name" value="jmaki-woodstock"/>
@@ -88,8 +88,8 @@
 
         <!-- Copy theme files. -->
         <antcall target="copyJslibFiles">
-	    <param name="_from-dir_" value="${jmaki.jslib-src-dir}/${js.module}${CacheVersion}" />
-	    <param name="_to-dir_" value="${jmaki.jslib-dest-dir}/${js.module}${CacheVersion}" />
+	    <param name="_from-dir_" value="${jmaki.jslib-src-dir}/${js.module}" />
+	    <param name="_to-dir_" value="${jmaki.jslib-dest-dir}/${js.module}" />
         </antcall>
 
         <!-- Copy resource files. -->

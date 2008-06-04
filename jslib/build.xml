@@ -50,7 +50,7 @@
     </condition>
     <property name="js.name" value="${js-name}"/>
     <property name="js.module" value="${js.name}${CacheThemeVersion}"/>
-    <property name="js.path" value="/${js.name}/${js.module}${CacheVersion}/${theme.name}/javascript"/>
+    <property name="js.path" value="/${js.name}/${js.module}/${theme.name}/javascript"/>
 
     <!-- jslib values. -->    
     <property name="jslib.name" value="woodstock"/>
@@ -81,14 +81,14 @@
 
         <!-- Copy theme files. -->
         <antcall target="copyThemeFiles">
-	    <param name="_from-dir_" value="${jslib.theme-src-dir}/${js.module}${CacheVersion}" />
-	    <param name="_to-dir_" value="${jslib.build-dir}/${js.module}${CacheVersion}" />
+	    <param name="_from-dir_" value="${jslib.theme-src-dir}/${js.module}" />
+	    <param name="_to-dir_" value="${jslib.build-dir}/${js.module}" />
         </antcall>
 
-        <!-- Copy translated files. -->
-        <antcall target="copyTranslatedFiles">
-	    <param name="_from-dir_" value="${jslib.theme-src-dir}/translatedFiles/${js.module}${CacheVersion}" />
-	    <param name="_to-dir_" value="${jslib.build-dir}/${js.module}${CacheVersion}" />
+        <!-- Copy l10n files. -->
+        <antcall target="copyL10nFiles">
+	    <param name="_from-dir_" value="${jslib.theme-src-dir}/translatedFiles/${js.module}" />
+	    <param name="_to-dir_" value="${jslib.build-dir}/${js.module}" />
         </antcall>
 
         <!-- Create zip. -->
@@ -153,7 +153,7 @@
 	</copy>
     </target>
 
-    <!-- Sets the "translated-uptodate" property if
+    <!-- Sets the "l10n-uptodate" property if
 	 files in "${_from-dir_}/*" are older than files in "${_to-dir_}/*". 
 
 	 Assumes properties
@@ -161,16 +161,16 @@
 	 _to-dir_ - destinatiotn directory of "**/*" files
 	 _from-dir_ - source directory of "**/*" files
     -->
-    <target name="translated-uptodate">
-	<uptodate property="translated-uptodate">
+    <target name="l10n-uptodate">
+	<uptodate property="l10n-uptodate">
 	    <srcfiles dir="${_from-dir_}" includes="**/*" 
                 excludes="**/templates/**,**/*.properties,**/*.java,**/*.class"/>
 	    <mapper type="glob" from="*" to="${_to-dir_}/*"/>
 	</uptodate>
     </target>
 
-    <!-- Copy all translated files to "${_to-dir_}"
-	 from "${_from-dir_}" if the "translated-uptodate" property is set.
+    <!-- Copy all l10n files to "${_to-dir_}"
+	 from "${_from-dir_}" if the "l10n-uptodate" property is set.
 
 	 Parameters
 
@@ -178,8 +178,8 @@
 	 _from-dir_ - source directory of "**/*"
 
     -->
-    <target name="copyTranslatedFiles" if="build-l10n" 
-            depends="translated-uptodate" unless="translated-uptodate">
+    <target name="copyL10nFiles" if="build-l10n"
+            depends="l10n-uptodate" unless="l10n-uptodate">
 	<mkdir dir="${_to-dir_}"/>
 
 	<!-- Copy and filter javascript files into _to-dir_ -->

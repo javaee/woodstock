@@ -146,7 +146,7 @@ if (typeof @JS_NS@Config == "undefined") {
     parseOnLoad: @JS_NS@._base.bootstrap._getBooleanParameter("parseOnLoad",
         (@JS_NS@Config.parseOnLoad != null) ? @JS_NS@Config.parseOnLoad : false),
     /** Custom name space to map as @JS_NS@. */
-    namespace: (@JS_NS@Config.namespace) ? @JS_NS@Config.namespace : "webui.@THEME@",
+    namespace: (@JS_NS@Config.namespace) ? @JS_NS@Config.namespace : "woodstock",
     /** Theme config properties. */
     theme: {
         /** Theme bundle name. */

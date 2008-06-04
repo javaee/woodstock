@@ -391,8 +391,15 @@ public class ThemeServlet extends HttpServlet {
 
             // Set expires duration.
             if (duration != null) {
+                // Number of seconds defined via web.xml file.
                 expires.add(Calendar.SECOND, Integer.parseInt(duration));
             } else {
+                // "To mark a response as 'never expires', an origin server 
+                // sends an Expires date approximately one year from the time 
+                // the response is sent. HTTP/1.1 servers SHOULD NOT send 
+                // Expires dates more than one year in the future.
+                //
+                // http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
                 expires.add(Calendar.YEAR, 1);
             }
         }

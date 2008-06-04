@@ -110,6 +110,14 @@ if (typeof @JS_NS@ == "undefined") {
                 }
                 eval(config.namespace + "=@JS_NS@");
             }
+
+            // For backward compatibility, map old name space used by VWP.
+            if (typeof webui == "undefined") {
+                webui = {};
+            }
+            if (typeof webui.@THEME@ == "undefined") {
+                webui.@THEME@ = @JS_NS@;
+            }
             return true;
         },
 
