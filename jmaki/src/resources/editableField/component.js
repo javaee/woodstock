@@ -30,7 +30,9 @@ jmaki.namespace("@JMAKI_NS@.editableField");
     this._publish = "/@JS_NAME@/editableField";
     this._subscriptions = [];
     this._wid = wargs.uuid;
-
+    if (wargs.id) {
+        this._wid = wargs.id;
+    } 
     if (wargs.publish) {
 	// User supplied a specific topic to publish to.
 	this._publish = wargs.publish;
@@ -48,7 +50,7 @@ jmaki.namespace("@JMAKI_NS@.editableField");
     // Subscribe to jMaki events
     for (var i = 0; i < this._subscribe.length; i++) {
         var s = jmaki.subscribe(this._subscribe + "/setValues", 
-                this.hitch(this, "_valuesCallback"));
+        this.hitch(this, "_valuesCallback"));
         this._subscriptions.push(s);
     }
 
@@ -74,11 +76,8 @@ jmaki.namespace("@JMAKI_NS@.editableField");
     }
 
     // Add our widget id and type.
-    if (typeof props.id == "undefined") {
-	props.id = wargs.uuid;
-    } else {
-	this._wid = props.id;
-    }
+    props.id = this._wid;
+     
     props.widgetType = "editableField";
 
     // ============================================================

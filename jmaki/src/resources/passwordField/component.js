@@ -30,7 +30,10 @@ jmaki.namespace("@JMAKI_NS@.passwordField");
     this._publish = "/@JS_NAME@/passwordField";
     this._subscriptions = [];
     this._wid = wargs.uuid;
-
+    if (wargs.id) {
+        this._wid = wargs.id;
+    } 
+    
     if (wargs.publish) {
 	// User supplied a specific topic to publish to.
 	this._publish = wargs.publish;
@@ -74,11 +77,8 @@ jmaki.namespace("@JMAKI_NS@.passwordField");
     }
 
     // Add our widget id and type.
-    if (typeof props.id == "undefined") {
-	props.id = wargs.uuid;
-    } else {
-	this._wid = props.id;
-    }
+    props.id = this._wid;
+
     props.widgetType = "passwordField";
 
     // ============================================================
