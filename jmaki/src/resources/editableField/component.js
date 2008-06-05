@@ -3,48 +3,130 @@ jmaki.namespace("@JMAKI_NS@.editableField");
 /*
  * jMaki wrapper for Woodstock editableField widget.
  *
- * We expect the 'value' property in the wargs object and/or
- * the 'data' property in the widget.json to be a JSON object
- * containing valid Woodstock properties.  No property conversion
- * is done when creating the Woodstock widget from the jMaki
- * value/data properties.
+ * This widget wrapper looks for the following properties in
+ * the "wargs" parameter:
+ *
+ * value:     required (true/false) 
+ * args:      Additional widget properties from the code snippet,
+ *            these properties are assumed to be underlying widget
+ *            properties and are passed through to the widget.
+ * publish:   none
+ * subscribe: none
+ * args.id:   User specified widget identifier; if not specified, the
+ *            jMaki auto-generated identifier is used.
+ * 
+ * This widget subscribes to the following jMaki events:
+ *
+ * /@JS_NAME@/editableField/setValues
+ *
+ * This widget publishes the following jMaki events:
+ *
+ * none
  */
 @JMAKI_NS@.editableField.Widget = function(wargs) {
 
-    // Turn on jMaki debugging...
-    // jmaki.debug = true;
-    // jmaki.log("Entering woodstock editableField Widget function...");
+    // Initialize basic wrapper properties.
+    this._subscribe = ["/@JS_NAME@/editableField"];
+    this._publish = "/@JS_NAME@/editableField";
+    this._subscriptions = [];
+    this._wid = wargs.uuid;
 
-    var self = this;
-    var publishTopic;
-    var id = wargs.id;
-    if (typeof id == "undefined") {
-	id = wargs.uuid;
-    }
-    var span_id = wargs.uuid + "_span";
     if (wargs.publish) {
-	// User supplied a specific topic to publish.
-	publishTopic = wargs.publish;
+	// User supplied a specific topic to publish to.
+	this._publish = wargs.publish;
+    }
+    if (wargs.subscribe) {
+	// User supplied one or more specific topics to subscribe to.
+        if (typeof wargs.subscribe == "string") {
+            this._subscribe = [];
+            this._subscribe.push(wargs.subscribe);
+        } else {
+            this._subscribe = wargs.subscribe;
+        }
     }
 
-    // Get the jMaki properties for a Woodstock text field.
-    var props;
-    if (wargs.value) {
-	props = wargs.value;
+    // Subscribe to jMaki events
+    for (var i = 0; i < this._subscribe.length; i++) {
+        var s = jmaki.subscribe(this._subscribe + "/setValues", 
+                this.hitch(this, "_valuesCallback"));
+        this._subscriptions.push(s);
+    }
+
+    // Create Woodstock widget.
+    this._create(wargs);
+};
+
+// Create Woodstock widget.
+@JMAKI_NS@.editableField.Widget.prototype._create = function(wargs) {
+    // Get the jMaki wrapper properties for a Woodstock editableField.
+    var props = {};
+    if (wargs.args) {
+	// Properties in the "args" property must be editableField properties!
+        @JS_NS@._base.proto._extend(props, wargs.args);
+        
     } else {
-	props = {};
-	props.value = "";
-        props.readOnly = false;
-        props.required = false;
-        props.submitForm = false;
-        props.autoValidate = false;
+	// No data. Define minimalist editableField.
+    }
+    if (wargs.value) {
+        @JS_NS@._base.proto._extend(props, wargs.value);
+    } else {
+	// No data. Define single dummy options list.
     }
 
     // Add our widget id and type.
-    props.id = id;
+    if (typeof props.id == "undefined") {
+	props.id = wargs.uuid;
+    } else {
+	this._wid = props.id;
+    }
     props.widgetType = "editableField";
 
-    // Create the Woodstock editableField widget.
-    @JS_NS@.widget.common.createWidget(span_id, props);
+    // ============================================================
+    // Create the Woodstock widget...
 
+    // connect events
+    // 
+    //props.onChange = this.hitch(this, "_functionName");
+
+    // Create the Woodstock editableField widget.
+    var span_id = wargs.uuid + "_span";
+    @JS_NS@.widget.common.createWidget(span_id, props);
+};
+
+// Destroy...
+// Unsubscribe from jMaki events
+@JMAKI_NS@.editableField.Widget.prototype.destroy = function() {
+    if (this._subscriptions) {
+        for (var i = 0; i < this._subscriptions.length; i++) {
+            jmaki.unsubscribe(this._subscriptions[i]);
+	} // End of for
+    }
+};
+
+// Call a function in given scope.
+@JMAKI_NS@.editableField.Widget.prototype.hitch = function(scope, method) {
+    return function() {
+        return scope[method].apply(scope, arguments || []);
+    };
+};
+
+// Warning: jMaki calls this function using a global scope. In order to
+// access variables and functions in "this" object, closures must be used.
+@JMAKI_NS@.editableField.Widget.prototype.postLoad = function() {
+    // Do nothing...
+}
+// 
+// Callback function to handle jMaki setValues topic.
+// Event payload contains:
+//    {value: [<data model>]}
+// Update editableField widget to replace options array.
+@JMAKI_NS@.editableField.Widget.prototype._valuesCallback = function(payload) {
+    if (payload) {
+        var widget = @JS_NS@.widget.common.getWidget(this._wid);
+        if (widget) {
+            if (payload.value ) {
+                widget.setProps({value: payload.value});
+            }
+	}
+    }
 };

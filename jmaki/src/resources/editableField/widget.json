@@ -34,9 +34,9 @@
          "description": "Uniquely identifies an element within a document.",
          "defaultValue": ""}},
       {"label": {
-         "type": "STRING",
+         "type": "OBJECT",
          "description": "",
-         "defaultValue": ""}},
+         "defaultValue": {"level": 2, "value": "Mylabel"}}},
       {"lang": {
          "type": "STRING",
          "description": "Specifies the language of attribute values and content.",
@@ -138,6 +138,13 @@
          "description": "Hide or show element.",
          "defaultValue": true}}
     ],
+
+    "value": {
+      "required": false,
+      "type": "OBJECT",
+      "defaultValue": {},
+      "description": ""
+    },
     "config": {
       "type": {
         "id": "@JS_NAME@",
@@ -146,5 +153,5 @@
         ],
         "resources": [ "../resources/" ]
         }
-    }
+    }    
 }
