@@ -1,0 +1,157 @@
+{
+    "name": "passwordField",
+    "type": "@JS_NAME@",
+    "version": "@JS_VERSION@",
+    "jmakiVersion": "1.8",
+    "description": "Woodstock passwordField widget.",
+    "args": [
+      {"accesskey": {
+         "type": "STRING",
+         "description": "",
+         "defaultValue": ""}},
+      {"autoValidate": {
+         "type": "BOOLEAN",
+         "description": "",
+         "defaultValue": false}},
+      {"autoSave": {
+        "type": "BOOLEAN",
+        "description": "",
+        "defaultValue": false}},
+      {"className": {
+         "type": "STRING",
+         "description": "CSS selector.",
+         "defaultValue": ""}},
+      {"dir": {
+         "type": "STRING",
+         "description": "Specifies the directionality of text.",
+         "defaultValue": ""}},
+      {"disabled": {
+         "type": "BOOLEAN",
+         "description": "Disable element.",
+         "defaultValue": false}},
+      {"id": {
+         "type": "STRING",
+         "description": "Uniquely identifies an element within a document.",
+         "defaultValue": ""}},      
+      {"label": {
+         "type": "OBJECT",
+         "description": "Defines the widget and its properties to use for a label",
+         "defaultValue": {"level": 2, "value": "Mylabel"}}},
+      {"lang": {
+         "type": "STRING",
+         "description": "Specifies the language of attribute values and content.",
+         "defaultValue": ""}},
+      {"maxLength": {
+         "type": "INT",
+         "description": "",
+         "defaultValue": 30}},
+      {"notify": {
+         "type": "UNKNOWN",
+         "description": "",
+         "defaultValue": ""}},
+      {"onBlur": {
+         "type": "STRING",
+         "description": "Element lost focus.",
+         "defaultValue": ""}},
+      {"onClick": {
+         "type": "STRING",
+         "description": "Mouse button is clicked on element.",
+         "defaultValue": ""}},
+      {"onDblClick": {
+         "type": "STRING",
+         "description": "Mouse button is double-clicked on element.",
+         "defaultValue": ""}},
+      {"onFocus": {
+         "type": "STRING",
+         "description": "Element received focus.",
+         "defaultValue": ""}},
+      {"onKeyDown": {
+         "type": "STRING",
+         "description": "Key is pressed down over element.",
+         "defaultValue": ""}},
+      {"onKeyPress": {
+         "type": "STRING",
+         "description": "Key is pressed and released over element.",
+         "defaultValue": ""}},
+      {"onKeyUp": {
+         "type": "STRING",
+         "description": "Key is released over element.",
+         "defaultValue": ""}},
+      {"onMouseDown": {
+         "type": "STRING",
+         "description": "Mouse button is pressed over element.",
+         "defaultValue": ""}},
+      {"onMouseOut": {
+         "type": "STRING",
+         "description": "Mouse is moved away from element.",
+         "defaultValue": ""}},
+      {"onMouseOver": {
+         "type": "STRING",
+         "description": "Mouse is moved onto element.",
+         "defaultValue": ""}},
+      {"onMouseUp": {
+         "type": "STRING",
+         "description": "Mouse button is released over element.",
+         "defaultValue": ""}},
+      {"onMouseMove": {
+         "type": "STRING",
+         "description": "Mouse is moved while over element.",
+         "defaultValue": ""}},
+      {"readOnly": {
+         "type": "BOOLEAN",
+         "description": "",
+         "defaultValue": false}},
+      {"required": {
+         "type": "BOOLEAN",
+         "description": "",
+         "defaultValue": false}},
+      {"size": {
+         "type": "INT",
+         "description": "",
+         "defaultValue": 30}},
+      {"style": {
+         "type": "STRING",
+         "description": "Specify style rules inline.",
+         "defaultValue": ""}},
+      {"submitForm": {
+         "type": "BOOLEAN",
+         "description": "Submit form on ENTER",
+         "defaultValue": false}},
+      {"tabIndex": {
+         "type": "INT",
+         "description": "Position in tabbing order.",
+         "defaultValue": 1}},
+      {"title": {
+         "type": "STRING",
+         "description": "Provides a title for element.",
+         "defaultValue": ""}},
+      {"valid": {
+         "type": "BOOLEAN",
+         "description": "",
+         "defaultValue": true}},
+      {"value": {
+         "type": "STRING",
+         "description": "Value of input.",
+         "defaultValue": ""}},
+      {"visible": {
+         "type": "BOOLEAN",
+         "description": "Hide or show element.",
+         "defaultValue": true}}
+    ],
+
+    "value": {
+      "required": false,
+      "type": "OBJECT",
+      "defaultValue": {},
+      "description": ""
+    },
+    "config": {
+      "type": {
+        "id": "@JS_NAME@",
+        "libs": [
+          "@JS_PATH@/bootstrap.js"
+        ],
+        "resources": [ "../resources/" ]
+        }
+    }    
+}
