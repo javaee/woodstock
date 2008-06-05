@@ -205,8 +205,6 @@ public class ImageRenderer extends RendererBase {
         // If the image object is an Icon instance, then dont output url.
         if (image instanceof Icon) {
             json.put("icon", icon);
-        } else if (isPngAndIE(context, url)) {            
-            setPngProperties(json, width, height, getTheme(), style, url);
         } else {
             json.put("src", url); // Don't output when icon is used.
         }
@@ -261,6 +259,7 @@ public class ImageRenderer extends RendererBase {
      *
      * @exception IOException if an input/output error occurs
      * @exception JSONException if a key/value error occurs
+     * @deprecated This is done on the client side widget
      */
     protected void setPngProperties(JSONObject json, int width, int height, 
             Theme theme, String style, String url) throws JSONException, 
@@ -304,6 +303,7 @@ public class ImageRenderer extends RendererBase {
      * @param context The FacesContext instance.
      * @param url The path to the specified image instance.
      * @return A boolean value which indicates the image is of "png" type or not.
+     * @deprecated This is done on the client side widget
      */
     private boolean isPngAndIE(FacesContext context, String url) {
         ClientSniffer cs = ClientSniffer.getInstance(context);

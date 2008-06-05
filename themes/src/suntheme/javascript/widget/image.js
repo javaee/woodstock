@@ -139,6 +139,46 @@
 };
 
 /**
+ * Apply the src property on the dom element. If the image is an png image and the browser is IE 6 
+ * an IE6 specific fix needs to be applied and the style property has to be modified. If the png and IE6 combination
+ * is not true, then no modification is done for the src property of the image and the style property
+ * 
+ * @param {Object} props Key-Value pairs of properties.
+ * @return (String} styleProp Modified value of the style property if the image is a png image rendered on IE6
+ * @private
+ */
+@JS_NS@.widget.image.prototype._setSrcProperty = function(props) {    
+    
+    var styleProp = null;
+    //IE6 PNG fix to handle transparent PNGs.
+    if (props.src.indexOf(".png") > 0 && @JS_NS@._base.browser._isIe6()) {
+
+        var width = (props.width > 0)? props.width : this._theme.getMessage("Image.defaultWidth");
+        var height =(props.height > 0)? props.height : this._theme.getMessage("Image.defaultHeight"); 
+
+        var styleMsg = this._theme.getMessage("Image.IEPngCSSStyleQuirk",[width, height,props.src]);
+        this._domNode.src = this._theme.getImage("DOT").src;
+        if (props.style != null) {
+            styleProp = props.style +";"+ styleMsg;
+        } else {
+            styleProp = (this.style != null) ? this.style+";"+styleMsg : styleMsg;                                          
+        }
+    } else {
+
+        // While toggling between png and non-png type images need to adjust the 
+        // style set on the dom element, since that is the property that contains the
+        // source for png images.
+        if (@JS_NS@._base.browser._isIe6() && this._domNode.style.cssText.indexOf(".png")>0) {
+            styleProp = this.style;
+        }                
+
+        this._domNode.src = props.src;  
+    }
+    return styleProp;
+           
+};
+
+/**
  * This function is used to set widget properties. Please see the constructor 
  * detail for a list of supported properties.
  * <p>
@@ -205,11 +245,17 @@
                     iconProps.src = transImage['src'];
                 }
             }
+            
             // Assign icon properties, even if combined image is not used.
             if (iconProps.alt != null) { this._domNode.alt = iconProps.alt; }
             if (iconProps.height != null) { this._domNode.height = iconProps.height; }
-            if (iconProps.width != null) { this._domNode.width = iconProps.width; }
-            if (iconProps.src) { this._domNode.src = iconProps.src; }
+            if (iconProps.width != null) { this._domNode.width = iconProps.width; }            
+            if (iconProps.src) {
+                
+                // Apply IE6 specific fix for png images if needed and obtain the modified
+                // style
+                props.style = this._setSrcProperty(iconProps);                                                
+            }
         }
     } else {
         // Icon properties take precedence.
@@ -217,14 +263,18 @@
         if (props.height != null) { this._domNode.height = props.height; }
         if (props.width != null) { this._domNode.width = props.width; }
         if (props.src) {
-                
+            
             // If context path is provided, then check whether the image has
-            // context path already appended and if not, append it.
+            // context path already appended and if not, append it.            
             if (this.prefix) {
                 props.src = 
                     @JS_NS@.widget.common._appendPrefix(this.prefix, props.src);                
-            }
-            this._domNode.src = props.src;  
+            }                
+            
+            // Apply IE6 specific fix for png images if needed and obtain the modified
+            // style            
+            props.style = this._setSrcProperty(props);
+            
         }
     }
     if (props.align != null) { this._domNode.align = props.align; }
