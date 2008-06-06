@@ -141,7 +141,9 @@ public class ButtonRenderer extends RendererBase {
 	    throw new IllegalArgumentException(
                 "ButtonRenderer can only render Button components.");
         }
+        // Get type.
         Button button = (Button) component;
+        String type = getType(button);
 
         // Set properties.
         JSONObject json = new JSONObject();
@@ -150,10 +152,9 @@ public class ButtonRenderer extends RendererBase {
             .put("mini", button.isMini())
             .put("primary", button.isPrimary())
             .put("title", button.getToolTip())
+            .put("reset", type.equals(TYPE_RESET))
             .put("visible", button.isVisible());
 
-        // Get type.
-        String type = getType(button);
         if (type.equals(TYPE_ICON)) {
             setIconProperties(button, json);
         } else if (type.equals(TYPE_IMAGE)) {
@@ -175,20 +176,7 @@ public class ButtonRenderer extends RendererBase {
      * @param component UIComponent to be rendered.
      */
     protected String getWidgetType(FacesContext context, UIComponent component) {
-	if (!(component instanceof Button)) {
-	    throw new IllegalArgumentException(
-                "ButtonRenderer can only render Button components.");
-        }
-
-        // Get type.
-        String type = getType((Button) component);
-        if (type.equals(TYPE_ICON) || type.equals(TYPE_IMAGE)) {
-            return "imageButton";
-        } else if (type.equals(TYPE_RESET)) {
-            return "resetButton";
-        } else {
-            return "button";
-        }
+        return "button";
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -238,7 +226,6 @@ public class ButtonRenderer extends RendererBase {
      */
     private void setImageProperties(FacesContext context, Button component,
             JSONObject json) throws JSONException {
-        
         // Set properties.
         json.put("alt", component.getAlt())
             .put("prefix", context.getExternalContext().getRequestContextPath())

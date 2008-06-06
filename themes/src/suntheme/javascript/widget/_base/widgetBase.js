@@ -100,6 +100,7 @@
     // called automatically, and always before the subclass constructor.
     constructor: function() {
         this._started = false;
+        this._templateType = this._widgetType;
     },
 
     // Set defaults.
@@ -127,7 +128,7 @@
 @JS_NS@.widget._base.widgetBase.prototype._buildRendering = function () {
     // Get default template path.
     if (this.templatePath == null) {
-        this.templatePath = this._theme._getTemplatePath(this._widgetType);
+        this.templatePath = this._theme._getTemplatePath(this._templateType);
     }
 
     // Get default template string.
@@ -150,7 +151,7 @@
         }
         // Get default template.
         if (this.templateString == null) {
-            this.templateString = this._theme._getTemplateString(this._widgetType);
+            this.templateString = this._theme._getTemplateString(this._templateType);
         }
     }
 

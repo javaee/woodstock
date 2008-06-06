@@ -205,7 +205,10 @@
  * @config {String} onMouseOver Mouse is moved onto element.
  * @config {String} onMouseUp Mouse button is released over element.
  * @config {String} onMouseMove Mouse is moved while over element.
+ * @config {String} prefix The application context path of image.
  * @config {boolean} primary Set button as primary if true.
+ * @config {boolean} reset Set button as reset if true.
+ * @config {String} src Source for image (overrides reset, primary, and mini).
  * @config {String} style Specify style rules inline.
  * @config {int} tabIndex Position in tabbing order.
  * @config {String} title Provides a title for element.
@@ -222,9 +225,27 @@
         this.escape = true;
         this.mini = false;
         this.primary = true;
+        this.reset = false;
     },
     _widgetType: "button" // Required for theme properties.
 });
+
+/**
+ * This function is used to render the widget from a template.
+ *
+ * @return {boolean} true if successful; otherwise, false.
+ * @private
+ */
+@JS_NS@.widget.button.prototype._buildRendering = function () {
+    // On IE, the HTML input type property must be set when the DOM node is 
+    // created. Therefore, we're using HTML templates to define the type.
+    if (new Boolean(this.reset).valueOf() == true) {
+        this._templateType = "resetButton";
+    } else if (this.src != null) {
+        this._templateType = "imageButton";
+    }
+    return this._inherited("_buildRendering", arguments);
+}
 
 /**
  * This object contains event topics.
@@ -318,7 +339,14 @@
     var className = this._inherited("_getClassName", arguments);
     var key = null;
 
-    if (this.mini == true && this.primary == true) {
+    // If dealing with an image button, only the BUTTON3 selectors are used.
+    // Note that the "mini" and "primary" values can still be set but
+    // have no effect on image buttons by policy Vs by theme.
+    if (this.src != null) {
+        key = (this.disabled == true)
+            ? "BUTTON3_DISABLED"
+            : "BUTTON3";
+    } else if (this.mini == true && this.primary == true) {
         key = (this.disabled == true)
             ? "BUTTON1_MINI_DISABLED" // primaryMiniDisabledClassName
             : "BUTTON1_MINI";         // primaryMiniClassName;
@@ -357,7 +385,12 @@
     var className = @JS_NS@.widget.button.superclass._getClassName.apply(this, arguments);
     var key = null;
 
-    if (this.mini == true && this.primary == true) {
+    // If dealing with an image button, only the BUTTON3 selectors are used.
+    // Note that the "mini" and "primary" values can still be set but
+    // have no effect on image buttons by policy Vs by theme.
+    if (this.src != null) {
+        key = "BUTTON3_HOVER";
+    } else if (this.mini == true && this.primary == true) {
         key = "BUTTON1_MINI_HOVER"; 	// primaryMiniHovClassName;
     } else if (this.mini == true) {
         key = "BUTTON2_MINI_HOVER"; 	// secondaryMiniHovClassName;
@@ -390,6 +423,7 @@
     if (this.escape != null) { props.escape = this.escape; }
     if (this.mini != null) { props.mini = this.mini; }
     if (this.primary != null) { props.primary = this.primary; }
+    if (this.src != null) { props.src = this.src; }
     if (this.value != null) { props.value = this.value; }
 
     return props;
@@ -511,6 +545,17 @@
     // Set disabled.
     if (props.disabled != null) { 
         this._domNode.disabled = new Boolean(props.disabled).valueOf();
+    }
+
+    // Set image source.
+    if (props.src) {
+        // If context path is provided, then check whether the image has
+        // context path already appended and if not, append it.
+        if (this.prefix) {
+            props.src = 
+                @JS_NS@.widget.common._appendPrefix(this.prefix, props.src);                
+        }
+        this._domNode.src = props.src; 
     }
 
     // Set value -- an empty string is valid.

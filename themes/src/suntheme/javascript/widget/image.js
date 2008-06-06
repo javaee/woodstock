@@ -41,7 +41,7 @@
  * @config {String} align Alignment of image input.
  * @config {String} border
  * @config {String} className CSS selector.
- * @config {String} prefix The application context path of image
+ * @config {String} prefix The application context path of image.
  * @config {String} dir Specifies the directionality of text.
  * @config {String} height 
  * @config {String} hspace 
