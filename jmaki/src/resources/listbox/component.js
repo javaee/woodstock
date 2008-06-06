@@ -57,10 +57,10 @@ jmaki.namespace("@JMAKI_NS@.listbox");
     // Subscribe to jMaki events
     for (var i = 0; i < this._subscribe.length; i++) {
         var s1 = jmaki.subscribe(this._subscribe + "/select",
-            this.hitch(this, "_selectCallback"));
+            @JS_NS@.widget.common._hitch(this, "_selectCallback"));
         this._subscriptions.push(s1);
         var s2 = jmaki.subscribe(this._subscribe + "/setValues", 
-            this.hitch(this, "_valuesCallback"));
+            @JS_NS@.widget.common._hitch(this, "_valuesCallback"));
         this._subscriptions.push(s2);
     }
 
@@ -92,7 +92,7 @@ jmaki.namespace("@JMAKI_NS@.listbox");
 
     // Hook the listbox widget onChange UI event so we can
     // publish the jMaki onSelect topic.
-    props.onChange = this.hitch(this, "_selectedCallback");
+    props.onChange = @JS_NS@.widget.common._hitch(this, "_selectedCallback");
 
     // Create the Woodstock listbox widget.
     var span_id = wargs.uuid + "_span";
@@ -107,13 +107,6 @@ jmaki.namespace("@JMAKI_NS@.listbox");
             jmaki.unsubscribe(this._subscriptions[i]);
 	} // End of for
     }
-};
-
-// Call a function in given scope.
-@JMAKI_NS@.listbox.Widget.prototype.hitch = function(scope, method) {
-    return function() {
-        return scope[method].apply(scope, arguments || []);
-    };
 };
 
 // Warning: jMaki calls this function using a global scope. In order to

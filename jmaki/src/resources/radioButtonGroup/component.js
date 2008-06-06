@@ -57,10 +57,10 @@ jmaki.namespace("@JMAKI_NS@.radioButtonGroup");
     // Subscribe to jMaki events
     for (var i = 0; i < this._subscribe.length; i++) {
         var s1 = jmaki.subscribe(this._subscribe + "/select",
-            this.hitch(this, "_selectCallback"));
+            @JS_NS@.widget.common._hitch(this, "_selectCallback"));
         this._subscriptions.push(s1);
         var s2 = jmaki.subscribe(this._subscribe + "/setValues", 
-            this.hitch(this, "_valuesCallback"));
+            @JS_NS@.widget.common._hitch(this, "_valuesCallback"));
         this._subscriptions.push(s2);
     }
 
@@ -108,13 +108,6 @@ jmaki.namespace("@JMAKI_NS@.radioButtonGroup");
     }
 };
 
-// Call a function in given scope.
-@JMAKI_NS@.radioButtonGroup.Widget.prototype.hitch = function(scope, method) {
-    return function() {
-        return scope[method].apply(scope, arguments || []);
-    };
-};
-
 // Warning: jMaki calls this function using a global scope. In order to
 // access variables and functions in "this" object, closures must be used.
 @JMAKI_NS@.radioButtonGroup.Widget.prototype.postLoad = function() {
@@ -141,7 +134,8 @@ jmaki.namespace("@JMAKI_NS@.radioButtonGroup");
                 obj.id = id;
                 obj.widgetType = "radioButton";
 		obj.name =  name;
-		obj.onChange = this.hitch(this, "_selectedCallback");
+		obj.onChange = @JS_NS@.widget.common._hitch(this,
+			"_selectedCallback", id);
 		parr.push(obj);
 	    }
 	}				// End of outer for
@@ -154,13 +148,11 @@ jmaki.namespace("@JMAKI_NS@.radioButtonGroup");
 // Publish jMaki onSelect event with payload:
 //   {widgetId: <group_wid>,
 //    topic: {type: "onSelect", targetId: <radiobutton_value>, value: <checked>}}
-@JMAKI_NS@.radioButtonGroup.Widget.prototype._selectedCallback = function(evt) {
+@JMAKI_NS@.radioButtonGroup.Widget.prototype._selectedCallback = function(rbid) {
 
-    if (evt.target.id) {
-	var did = evt.target.id;
-	var cbid = did.substring(0, (did.length - 3));
-        var widget = @JS_NS@.widget.common.getWidget(cbid);
-        if (widget) {
+    if (rbid) {
+        var widget = @JS_NS@.widget.common.getWidget(rbid);
+        if (typeof widget == "object") {
             var props = widget.getProps();
             var val = props.value;
             var ckd = props.checked;

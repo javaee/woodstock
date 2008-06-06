@@ -61,7 +61,7 @@ jmaki.namespace("@JMAKI_NS@.radioButton");
     // Subscribe to jMaki events
     for (var i = 0; i < this._subscribe.length; i++) {
         var s1 = jmaki.subscribe(this._subscribe + "/setValues", 
-            this.hitch(this, "_valuesCallback"));
+            @JS_NS@.widget.common._hitch(this, "_valuesCallback"));
         this._subscriptions.push(s1);
     }
 
@@ -92,7 +92,7 @@ jmaki.namespace("@JMAKI_NS@.radioButton");
 
     // Hook the radioButton widget onChange UI event so we can
     // publish the jMaki onSelect topic.
-    props.onChange = this.hitch(this, "_selectedCallback");
+    props.onChange = @JS_NS@.widget.common._hitch(this, "_selectedCallback");
 
     // Create the Woodstock radioButton widget.
     var span_id = wargs.uuid + "_span";
@@ -107,13 +107,6 @@ jmaki.namespace("@JMAKI_NS@.radioButton");
             jmaki.unsubscribe(this._subscriptions[i]);
 	} // End of for
     }
-};
-
-// Call a function in given scope.
-@JMAKI_NS@.radioButton.Widget.prototype.hitch = function(scope, method) {
-    return function() {
-        return scope[method].apply(scope, arguments || []);
-    };
 };
 
 // Warning: jMaki calls this function using a global scope. In order to
