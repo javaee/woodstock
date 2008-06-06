@@ -1,0 +1,78 @@
+{
+    "name": "radioButtonGroup",
+    "type": "@JS_NAME@",
+    "version": "@JS_VERSION@",
+    "jmakiVersion": "1.8",
+    "description": "Woodstock radioButtonGroup widget.",
+    "args": [
+      {"align": {
+         "type": "STRING",
+         "description": "Alignment of label.",
+         "defaultValue": "right"}},
+      {"className": {
+         "type": "STRING",
+         "description": "CSS selector.",
+         "defaultValue": ""}},
+      {"columns": {
+         "type": "INT",
+         "description": "Number of columns in which to display radioButtons.",
+         "defaultValue": 1}},
+      {"contents": {
+         "type": "ARRAY",
+         "description": "List of radioButton widgets in group.",
+         "defaultValue": []}},
+      {"dir": {
+         "type": "STRING",
+         "description": "Specifies the directionality of text.",
+         "defaultValue": "ltr"}},
+      {"disabled": {
+         "type": "BOOLEAN",
+         "description": "Disable element.",
+         "defaultValue": false}},
+      {"label": {
+         "type": "OBJECT",
+         "description": "Label for radioButton group.",
+         "defaultValue": {value: 'RadioButton Group', level: 2}}},
+      {"lang": {
+         "type": "STRING",
+         "description": "Specifies the language of attribute values and content.",
+         "defaultValue": ""}},
+      {"name": {
+         "type": "STRING",
+         "description": "Common name used to identify the radio button in a page submit.",
+         "defaultValue": "rbgrp1"}},
+      {"style": {
+         "type": "STRING",
+         "description": "Specify style rules inline.",
+         "defaultValue": ""}},
+      {"tabIndex": {
+         "type": "INT",
+         "description": "Position in tabbing order.",
+         "defaultValue": -1}},
+      {"title": {
+         "type": "STRING",
+         "description": "Provides a title for element.",
+         "defaultValue": "RadioButton group"}},
+      {"visible": {
+         "type": "BOOLEAN",
+         "description": "Hide or show element.",
+         "defaultValue": true}}
+    ],
+    "value": {
+      "required": true,
+      "type": "ARRAY",
+      "defaultValue":[
+          {"label": {"value": "RadioButton 1", "level": 3}, "value": "rb1", "checked": false}
+          ]},
+      "description": "Array of radioButton widgets in the radioButton group."
+    },
+    "config": {
+      "type": {
+        "id": "@JS_NAME@",
+        "libs": [
+          "@JS_PATH@/bootstrap.js"
+        ],
+        "resources": [ "../resources/" ]
+        }
+    }
+}

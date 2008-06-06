@@ -37,6 +37,9 @@ jmaki.namespace("@JMAKI_NS@.listbox");
     this._subscriptions = [];
     this._wid = wargs.uuid;
 
+    if (wargs.id) {
+	this._wid = wargs.id;
+    }
     if (wargs.publish) {
 	// User supplied a specific topic to publish to.
 	this._publish = wargs.publish;
@@ -67,13 +70,13 @@ jmaki.namespace("@JMAKI_NS@.listbox");
 
 // Create Woodstock widget.
 @JMAKI_NS@.listbox.Widget.prototype._create = function(wargs) {
-    // Get the jMaki wrapper properties for a Woodstock listbox.
+
+    // Process the jMaki wrapper properties for a Woodstock listbox.
+    // Value must contain an array of Options objects.
     var props;
     if (wargs.args) {
-	// Properties in the "args" property must be listbox properties!
 	props = wargs.args;
     } else {
-	// No data. Define minimalist listbox.
 	props = {};
     }
     if (wargs.value && wargs.value instanceof Array) {
@@ -84,15 +87,8 @@ jmaki.namespace("@JMAKI_NS@.listbox");
     }
 
     // Add our widget id and type.
-    if (typeof props.id == "undefined") {
-	props.id = wargs.uuid;
-    } else {
-	this._wid = props.id;
-    }
+    props.id = this._wid;
     props.widgetType = "listbox";
-
-    // ============================================================
-    // Create the Woodstock widget...
 
     // Hook the listbox widget onChange UI event so we can
     // publish the jMaki onSelect topic.

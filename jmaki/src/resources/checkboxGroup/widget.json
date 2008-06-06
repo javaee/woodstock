@@ -1,0 +1,78 @@
+{
+    "name": "checkboxGroup",
+    "type": "@JS_NAME@",
+    "version": "@JS_VERSION@",
+    "jmakiVersion": "1.8",
+    "description": "Woodstock checkboxGroup widget.",
+    "args": [
+      {"align": {
+         "type": "STRING",
+         "description": "Alignment of image input.",
+         "defaultValue": "right"}},
+      {"className": {
+         "type": "STRING",
+         "description": "CSS selector.",
+         "defaultValue": ""}},
+      {"columns": {
+         "type": "INT",
+         "description": "Number of columns in which to display checkboxes.",
+         "defaultValue": 1}},
+      {"contents": {
+         "type": "ARRAY",
+         "description": "List of checkbox widgets in the group.",
+         "defaultValue": []}},
+      {"dir": {
+         "type": "STRING",
+         "description": "Specifies the directionality of text.",
+         "defaultValue": "ltr"}},
+      {"disabled": {
+         "type": "BOOLEAN",
+         "description": "Disable element.",
+         "defaultValue": false}},
+      {"label": {
+         "type": "OBJECT",
+         "description": "Label for the checkbox group",
+         "defaultValue": {value: 'Checkbox Group', level: 2}}},
+      {"lang": {
+         "type": "STRING",
+         "description": "Specifies the language of attribute values and content.",
+         "defaultValue": ""}},
+      {"name": {
+         "type": "STRING",
+         "description": "Common name for submitting checkbox values in the group.",
+         "defaultValue": "cbgrp1"}},
+      {"style": {
+         "type": "STRING",
+         "description": "Specify style rules inline.",
+         "defaultValue": ""}},
+      {"tabIndex": {
+         "type": "INT",
+         "description": "Position in tabbing order.",
+         "defaultValue": -1}},
+      {"title": {
+         "type": "STRING",
+         "description": "Provides a title for element.",
+         "defaultValue": "Checkbox group"}},
+      {"visible": {
+         "type": "BOOLEAN",
+         "description": "Hide or show element.",
+         "defaultValue": true}}
+    ],
+    "value": {
+      "required": true,
+      "type": "ARRAY",
+      "defaultValue":[
+          {"label": {"value": "Checkbox 1", "level": 3}, "value": "cb1", "checked": false}
+          ]},
+      "description": "Array of checkbox widgets in the checkbox group."
+    },
+    "config": {
+      "type": {
+        "id": "@JS_NAME@",
+        "libs": [
+          "@JS_PATH@/bootstrap.js"
+        ],
+        "resources": [ "../resources/" ]
+        }
+    }
+}
