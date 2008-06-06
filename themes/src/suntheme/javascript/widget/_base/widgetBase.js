@@ -172,7 +172,18 @@
  * @private
  */
 @JS_NS@.widget._base.widgetBase.prototype._getClassName = function() {
-    return this.className;
+    // Save template selector, if any.
+    if (typeof this._className == "undefined") {
+        this._className = this._domNode.className;
+    }
+    // Append template selector to given className property.
+    var newClassName = this.className;
+    if (this.className && this._className) {
+        newClassName += " " + this._className;
+    } else if (this._className) {
+        newClassName = this._className;
+    }
+    return newClassName;
 };
 
 /**

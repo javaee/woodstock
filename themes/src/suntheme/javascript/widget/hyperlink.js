@@ -278,14 +278,16 @@
  * @private
  */
 @JS_NS@.widget.hyperlink.prototype._getClassName = function() {
+    var className = this._inherited("_getClassName", arguments);
+
     // Set default style.
-    var className = (this.disabled == true)
+    var newClassName = (this.disabled == true)
         ? this._theme.getClassName("HYPERLINK_DISABLED","")
         : this._theme.getClassName("HYPERLINK","");
 
-    return (this.className)
-        ? className + " " + this.className
-        : className;
+    return (className)
+        ? newClassName + " " + className
+        : newClassName;
 };
 
 /**

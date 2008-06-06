@@ -373,8 +373,11 @@
  * @private
  */
 @JS_NS@.widget.dropDown.prototype._getClassName = function() {
-    var cn = this._theme.getClassName("DROPDOWN", "");
-    return (this.className) ? cn + " " + this.className : cn;
+    var className = this._inherited("_getClassName", arguments);
+    var newClassName = this._theme.getClassName("DROPDOWN", "");
+    return (className)
+        ? newClassName + " " + className
+        : newClassName;
 };
 
 /**

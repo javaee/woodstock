@@ -319,12 +319,14 @@
  * @private
  */
 @JS_NS@.widget.calendarField.prototype._getClassName = function() {
-    // Set default style.
-    var className = this._theme.getClassName("CALENDAR_ROOT_TABLE","");
+    var className = this._inherited("_getClassName", arguments);
 
-    return (this.className)
-        ? className + " " + this.className
-        : className;
+    // Set default style.
+    var newClassName = this._theme.getClassName("CALENDAR_ROOT_TABLE","");
+
+    return (className)
+        ? newClassName + " " + className
+        : newClassName;
 };
 
 /**

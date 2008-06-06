@@ -461,11 +461,14 @@
  * @private
  */
 @JS_NS@.widget.tree.prototype._getClassName = function() {
+    var className = this._inherited("_getClassName", arguments);
+
     // Get theme property.
-    var className = this._theme.getClassName("TREE_ROW");
-    return (this.className)
-        ? className + " " + this.className
-        : className;
+    var newClassName = this._theme.getClassName("TREE_ROW", "");
+
+    return (className)
+        ? newClassName + " " + className
+        : newClassName;
 };
 
 /**

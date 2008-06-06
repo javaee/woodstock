@@ -315,6 +315,7 @@
  * @private
  */
 @JS_NS@.widget.button.prototype._getClassName = function() {
+    var className = this._inherited("_getClassName", arguments);
     var key = null;
 
     if (this.mini == true && this.primary == true) {
@@ -335,10 +336,10 @@
             : "BUTTON2";	      // secondaryClassName
     }
 
-    var className = this._theme.getClassName(key, "");
-    return (this.className)
-        ? className + " " + this.className
-        : className;
+    var newClassName = this._theme.getClassName(key, "");
+    return (className)
+        ? newClassName + " " + className
+        : newClassName;
 };
 
 /**
@@ -352,6 +353,8 @@
  * @private
  */
 @JS_NS@.widget.button.prototype._getHoverClassName = function() {
+    // Cannot call this._inherited("_getClassName", arguments) here.
+    var className = @JS_NS@.widget.button.superclass._getClassName.apply(this, arguments);
     var key = null;
 
     if (this.mini == true && this.primary == true) {
@@ -364,10 +367,10 @@
         key = "BUTTON2_HOVER";		// secondaryHovClassName;
     }
 
-    var className = this._theme.getClassName(key, "");
-    return (this.className)
-        ? className + " " + this.className
-        : className;
+    var newClassName = this._theme.getClassName(key, "");
+    return (className)
+        ? newClassName + " " + className
+        : newClassName;
 };
     
 /**

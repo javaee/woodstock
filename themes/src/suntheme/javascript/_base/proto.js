@@ -171,6 +171,22 @@
         return str.replace(/<\/?[^>]+>/gi, '');
     },
 
+    /** 
+     * Convert given object to an array. 
+     * 
+     * @param {Object} obj The object used to create array. 
+     * @param {int} offset The index to start iterating from. 
+     * @return The resulting array. 
+     * @private 
+     */ 
+    _toArray: function(obj, offset) { 
+        var results = []; 
+        for (var i = offset || 0; i < obj.length; i++) { 
+            results.push(obj[i]); 
+        } 
+        return results;
+    },
+
     /**
      * This function is used to unescape HTML in given string.
      *

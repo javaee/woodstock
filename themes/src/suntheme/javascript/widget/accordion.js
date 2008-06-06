@@ -549,11 +549,11 @@
  * @private
  */
 @JS_NS@.widget.accordion.prototype._getClassName = function() {
-    // Get theme property.
-    var className = this._theme.getClassName("ACCORDION_DIV", "");
-    return (this.className)
-        ? className + " " + this.className
-        : className;
+    var className = this._inherited("_getClassName", arguments);
+    var newClassName = this._theme.getClassName("ACCORDION_DIV", "");
+    return (className)
+        ? newClassName + " " + className
+        : newClassName;
 };
 
 /**

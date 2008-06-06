@@ -23,6 +23,7 @@
 @JS_NS@._dojo.provide("@JS_NS@.widget.common");
 
 @JS_NS@._dojo.require("@JS_NS@._base.browser");
+@JS_NS@._dojo.require("@JS_NS@._base.proto");
 @JS_NS@._dojo.require("@JS_NS@.theme.common");
 
 /**
@@ -165,18 +166,51 @@
         }
         return true;
     },
-
+ 
     /**
+     * Register a function to be called after the DOM has finished loading 
+     * and widgets declared in markup have been instantiated.
+     * <p><pre>
+     * 
+     * @JS_NS@.widget.common.addOnLoad(function);
+     * @JS_NS@.widget.common.addOnLoad(object, "name", [arg1, arg2...]);
+     *
+     * </pre></p>
+     * @param {Object|Function} obj A Function or Object containing a function
+     * by the given name.
+     * @param {String} name The function name to call.
+     * @return {boolean} true if successful; otherwise, false.
+     */
+    addOnLoad: function(obj, name) {
+        if (obj == null) {
+            return false;
+        }
+
+        var common = @JS_NS@.widget.common;
+        if (arguments.length == 1){
+            common._loaders.push(obj);
+        } else if (arguments.length > 1){
+            common._loaders.push(common._hitch.apply(this, arguments));
+        }
+        return true;
+    },
+ 
+     /**
      * Register a function to be called after the DOM has finished loading 
      * and widgets declared in markup have been instantiated.
      * <p>
      * Functions are called after widgets have been instantiated, but before
      * loaders set via the public addOnLoad function. This ensures JavaScript
      * APIs are available for JSF components (e.g., file chooser).
-     * </p>
-     * @param {Function|Object} obj A Function or Object containing the
-     * given function name.
-     * @param {String} name The function name to call in the given Object.
+     * </p><p><pre>
+     * 
+     * @JS_NS@.widget.common._addOnLoad(function);
+     * @JS_NS@.widget.common._addOnLoad(object, "name", [arg1, arg2...]);
+     *
+     * </pre></p>
+     * @param {Object|Function} obj A Function or Object containing a function
+     * by the given name.
+     * @param {String} name The function name to call.
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
@@ -189,43 +223,11 @@
         if (arguments.length == 1){
             common._preLoaders.push(obj);
         } else if (arguments.length > 1){
-            common._preLoaders.push(function(){
-                obj[name]();
-            });
+            common._preLoaders.push(common._hitch.apply(this, arguments));
         }
         return true;
     },
- 
-    /**
-     * Register a function to be called after the DOM has finished loading 
-     * and widgets declared in markup have been instantiated.
-     * <p><pre>
-     * 
-     * @JS_NS@.widget.common.addOnLoad(functionPointer);
-     * @JS_NS@.widget.common.addOnLoad(object, "functionName");
-     *
-     * </pre></p>
-     * @param {Function|Object} obj A Function or Object containing the
-     * given function name.
-     * @param {String} name The function name to call in the given Object.
-     * @return {boolean} true if successful; otherwise, false.
-     */
-    addOnLoad: function(obj, name) {
-        if (obj == null) {
-            return false;
-        }
 
-        var common = @JS_NS@.widget.common;
-        if (arguments.length == 1){
-            common._loaders.push(obj);
-        } else if (arguments.length > 1){
-            common._loaders.push(function(){
-                obj[name]();
-            });
-        }
-        return true;
-    },
- 
     /**
      * This function is used to append HTML strings to the innerHTML property of
      * the given domNode.
@@ -607,11 +609,34 @@
         return @JS_NS@._dijit.byId(id);
     },
 
+    /**  
+     * Create a function call within the given scope. 
+     * <p><pre> 
+     *  
+     * _hitch(object, name, [arg1, arg2...]); 
+     * 
+     * </pre></p> 
+     * @param {Object} scope The scope in which to call the given method. 
+     * @param {String} name The function name to call. 
+     * @return {Function} The resulting function. 
+     * @private 
+     */ 
+    _hitch: function(scope, name) { 
+        // Save given arguments via closure magic. 
+        var pre = @JS_NS@._base.proto._toArray(arguments, 2); 
+        return function() { 
+            // Append new arguments, if any. 
+            var args = @JS_NS@._base.proto._toArray(arguments); 
+            return scope[name].apply(scope || this, pre.concat(args)); 
+        }; 
+    },
+
     /**
      * Return <code>true</code> if <code>props</code> defines a
      * widget fragment. A widget fragment is a string (typically of HTML)
      * or an object that defines the <code>widgetType</code> ort
      * <code>id</code> properties.
+     * 
      * @param {Object} props properties that may define a widget fragment.
      * @return {boolean} true of <code>props</code> is a widget fragment
      * else false. If <code>props</code> is null, false is returned.

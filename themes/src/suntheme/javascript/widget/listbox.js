@@ -145,8 +145,11 @@
  * @private
  */
 @JS_NS@.widget.listbox.prototype._getClassName = function() {
-    var cn = this._theme.getClassName("LISTBOX", "");
-    return (this.className) ? cn + " " + this.className : cn;
+    var className = this._inherited("_getClassName", arguments);
+    var newClassName = this._theme.getClassName("LISTBOX", "");
+    return (className)
+        ? newClassName + " " + className
+        : newClassName;
 };
 
 /**

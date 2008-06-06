@@ -112,6 +112,8 @@
  * @private
  */
 @JS_NS@.widget.imageButton.prototype._getClassName = function() {
+    var className = this._inherited("_getClassName", arguments);
+
     // If it is an image button, only the BUTTON3 selectors are used.
     // Note that the "mini" and "primary" values can still be set but
     // have no effect on image buttons by policy, vs by theme.
@@ -119,10 +121,10 @@
 	? "BUTTON3_DISABLED"
 	: "BUTTON3";
 
-    var className = this._theme.getClassName(key, "");
-    return (this.className)
-        ? className + " " + this.className
-        : className;
+    var newClassName = this._theme.getClassName(key, "");
+    return (className)
+        ? newClassName + " " + className
+        : newClassName;
 };
 
 /**

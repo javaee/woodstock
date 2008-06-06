@@ -283,14 +283,16 @@
  * @private
  */
 @JS_NS@.widget.radioButton.prototype._getClassName = function() {
+    var className = this._inherited("_getClassName", arguments);
+
     // Set default style.
-    var className = (this.disabled == true)
+    var newClassName = (this.disabled == true)
         ? this._theme.getClassName("RADIOBUTTON_SPAN_DISABLED", "")
         : this._theme.getClassName("RADIOBUTTON_SPAN", "");
 
-    return (this.className)
-        ? className + " " + this.className
-        : className;
+    return (className)
+        ? newClassName + " " + className
+        : newClassName;
 };
 
 /**

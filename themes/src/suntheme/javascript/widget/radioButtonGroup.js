@@ -286,12 +286,14 @@
  * @private
  */
 @JS_NS@.widget.radioButtonGroup.prototype._getClassName = function() {
+    var className = this._inherited("_getClassName", arguments);
+
     // Set default style.
-    var className = (this.columns > 1)
+    var newClassName = (this.columns > 1)
         ? this._theme.getClassName("RBGRP_HORIZ", "")
         : this._theme.getClassName("RBGRP_VERT", "");
 
-    return (this.className)
-        ? className + " " + this.className
-        : className;
+    return (className)
+        ? newClassName + " " + className
+        : newClassName;
 };

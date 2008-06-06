@@ -331,14 +331,16 @@
  * @private
  */
 @JS_NS@.widget.anchor.prototype._getClassName = function() {
+    var className = this._inherited("_getClassName", arguments);
+
     // Set default style.
-    var className = (this.href && this.disabled == false)
+    var newClassName = (this.href && this.disabled == false)
         ? this._theme.getClassName("ANCHOR","")
         : this._theme.getClassName("ANCHOR_DISABLED","");
 
-    return (this.className)
-        ? className + " " + this.className
-        : className;
+    return (className)
+        ? newClassName + " " + className
+        : newClassName;
 };
 
 /**

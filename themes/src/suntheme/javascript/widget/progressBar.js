@@ -188,16 +188,15 @@
  * @private
  */
 @JS_NS@.widget.progressBar.prototype._getClassName = function() {
+    var className = this._inherited("_getClassName", arguments);
     var key = "PROGRESSBAR"; 
 
     // Get theme property.
-    var className = this._theme.getClassName(key);
-    if (className == null || className.length == 0) {
-	return this.className;
-    }
-    return (this.className)
-        ? className + " " + this.className
-        : className;
+    var newClassName = this._theme.getClassName(key, "");
+        
+    return (className)
+        ? newClassName + " " + className
+        : newClassName;
 };
 
 /**
