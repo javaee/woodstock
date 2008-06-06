@@ -1,0 +1,64 @@
+{
+    "name": "alert",
+    "type": "@JS_NAME@",
+    "version": "@JS_VERSION@",
+    "jmakiVersion": "1.8",
+    "description": "Woodstock alert widget.",
+    "args": [
+      {"className": {
+         "type": "STRING",
+         "description": "CSS selector.",
+         "defaultValue": ""}},
+      {"detail": {
+         "type": "STRING",
+         "description": "The alert detail message.",
+         "defaultValue": ""}},
+      {"dir": {
+         "type": "STRING",
+         "description": "Specifies the directionality of text.",
+         "defaultValue": "ltr"}},
+      {"lang": {
+         "type": "STRING",
+         "description": "Specifies the language of attribute values and content.",
+         "defaultValue": ""}},
+      {"indicators": {
+         "type": "ARRAY",
+         "description": "Array of Key-Value pairs, containing type and value.",
+         "defaultValue": []}},
+      {"moreInfo": {
+         "type": "OBJECT",
+         "description": "Properties for more information link.",
+         "defaultValue": {}}},
+      {"spacerImage": {
+         "type": "STRING",
+         "description": "",
+         "defaultValue": ""}},
+      {"summary": {
+         "type": "STRING",
+         "description": "The alert summary message.",
+         "defaultValue": ""}},
+      {"type": {
+         "type": "STRING",
+         "description": "The type of alert to display.",
+         "defaultValue": "information"}},
+      {"visible": {
+         "type": "BOOLEAN",
+         "description": "Hide or show element.",
+         "defaultValue": false}}
+    ],
+    "value": {
+      "required": true,
+      "type": "OBJECT",
+      "defaultValue": {"type": "information", "summary": "Summary...", "detail": "Details...", "visible": "false"},
+      "description": "Simple information alert."
+    },
+    "config": {
+      "type": {
+        "id": "@JS_NAME@",
+        "libs": [
+          "@JS_PATH@/bootstrap.js"
+        ],
+        "resources": [ "../resources/" ]
+        }
+    }
+}
