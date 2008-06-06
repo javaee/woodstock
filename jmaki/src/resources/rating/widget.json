@@ -1,0 +1,117 @@
+{
+    "name": "rating",
+    "type": "woodstock",
+    "version": "4.3",
+    "jmakiVersion": "1.8",
+    "description": "Woodstock rating widget.",
+    "args": [
+      {"autoSubmit": {
+         "type": "BOOLEAN",
+         "description": "Indicates whether the grade is automatically",
+         "defaultValue": false}},
+      {"averageGrade": {
+         "type": "INT",
+         "description": "The average grade the general user population",
+         "defaultValue": 0}},
+      {"clearAcknowledgedText": {
+         "type": "STRING",
+         "description": "The acknowledged text for the clear",
+         "defaultValue": ""}},
+      {"clearHoverText": {
+         "type": "STRING",
+         "description": "The hover text for the clear control. There",
+         "defaultValue": ""}},
+      {"grade": {
+         "type": "INT",
+         "description": "The grade (number of stars) the user has assigned the",
+         "defaultValue": 1}},
+      {"gradeAcknowledgedText": {
+         "type": "STRING",
+         "description": "The text that is displayed after",
+         "defaultValue": ""}},
+      {"gradeHoverTexts": {
+         "type": "ARRAY",
+         "description": "The hover texts that will be used for the",
+         "defaultValue": []}},
+      {"gradeReadOnly": {
+         "type": "BOOLEAN",
+         "description": "Indicates whether the grade of this rating",
+         "defaultValue": false}},
+      {"inAverageMode": {
+         "type": "BOOLEAN",
+         "description": "Indicates whether the component will be",
+         "defaultValue": false}},
+      {"includeClear": {
+         "type": "BOOLEAN",
+         "description": "Indicates whether a control to clear the",
+         "defaultValue": false}},
+      {"includeModeToggle": {
+         "type": "BOOLEAN",
+         "description": "Indicates whether a control to toggle the",
+         "defaultValue": false}},
+      {"includeNotInterested": {
+         "type": "BOOLEAN",
+         "description": "Indicates whether a control to allow",
+         "defaultValue": false}},
+      {"includeText": {
+         "type": "BOOLEAN",
+         "description": "Indicates whether an area for hover or",
+         "defaultValue": false}},
+      {"maxGrade": {
+         "type": "INT",
+         "description": "The maximum grade (number of stars) this rating",
+         "defaultValue": 1}},
+      {"modeReadOnly": {
+         "type": "BOOLEAN",
+         "description": "Indicates whether the mode of this rating",
+         "defaultValue": false}},
+      {"modeToggleAcknowledgedTexts": {
+         "type": "ARRAY",
+         "description": "The acknowledged texts to be used",
+         "defaultValue": []}},
+      {"modeToggleHoverTexts": {
+         "type": "ARRAY",
+         "description": "The hover texts to be used for the mode",
+         "defaultValue": []}},
+      {"notInterestedAcknowledgedText": {
+         "type": "STRING",
+         "description": "The acknowledged text for the",
+         "defaultValue": ""}},
+      {"notInterestedHoverText": {
+         "type": "STRING",
+         "description": "The hover text for the not-interested",
+         "defaultValue": ""}},
+      {"style": {
+         "type": "STRING",
+         "description": "CSS style or styles to be applied to the outermost",
+         "defaultValue": ""}},
+      {"id": {
+         "type": "STRING",
+         "description": "The HTML element Id.",
+         "defaultValue": ""}}
+    ],
+    "value": {
+      "required": true,
+      "type": "OBJECT",
+      "defaultValue": {                
+                maxGrade:5,
+                gradeHoverTexts:['Hate It','Below Average','Average','Above Average','Love It'],
+                clearHoverText:'Clear Rating',
+                notInterestedHoverText:'Not Interested'
+      },
+      "description": ""
+    },
+
+    "config": {
+      "type": {
+        "id": "woodstock",
+        "libs": [
+          "../resources/libs/woodstock4_3/suntheme/javascript/bootstrap.js"
+        ],
+        "resources": [ "../resources/" ]
+        }
+    }
+}
+
+
+
