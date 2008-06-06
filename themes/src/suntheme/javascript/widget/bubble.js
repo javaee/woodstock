@@ -805,7 +805,10 @@
             else
                 this.arrow = topLeftArrow;
         }
-
+        // Adjust to account for parent container.
+        var parentPos = this._widget._getPosition(this._domNode.offsetParent);
+        bubbleLeft -= parentPos[0];
+        bubbleTop -= parentPos[1]; 
         // Set new bubble position.
         bubble.style.left = bubbleLeft + "px";
         bubble.style.top = bubbleTop + "px";
