@@ -1264,13 +1264,12 @@ public class WizardRenderer extends AbstractRenderer {
 	    UIComponent component, Theme theme, ResponseWriter writer)
 	    throws IOException {
 
-	String idandclass = theme.getStyleClass(ThemeStyles.WIZARD_BODY);
-
 	writer.startElement(DIV, component); // WizBdy DIV
 	writer.writeAttribute(ID, 
-	    component.getClientId(context).concat(USCORE).concat(idandclass),
+	    component.getClientId(context).concat(USCORE).concat("WizBdy"),
 	    null);
-	writer.writeAttribute(CLASS, idandclass, null);
+	writer.writeAttribute(CLASS, 
+	    theme.getStyleClass(ThemeStyles.WIZARD_BODY), null);
 
 	// The skip link anchor
 	//

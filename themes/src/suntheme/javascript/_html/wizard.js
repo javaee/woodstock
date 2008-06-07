@@ -221,21 +221,21 @@
      */
     resize_hack: function(helpid, stepsid, wizbdyid) {
         if (@JS_NS@._base.browser._isIe5up()) {
+
             var bdy = document.getElementById(wizbdyid);
-
             if (bdy != null) {
-                bdy.style.height = document.body.clientHeight - 145;
-
+		var newheight = document.documentElement.clientHeight;
+                bdy.style.height = newheight - 145;
                 if (helpid != null && helpid != '') {
                     var help = document.getElementById(helpid);
                     if (help != null) {
-                        help.style.height = document.body.clientHeight - 90;
+                        help.style.height = newheight - 90;
                     }
                 }
                 if (stepsid != null && stepsid != '') {
                     var steps = document.getElementById(stepsid);
                     if (steps != null) {
-                        steps.style.height = document.body.clientHeight - 90;
+                        steps.style.height = newheight - 90;
                     }
                 }
             }
