@@ -51,7 +51,7 @@ jmaki.namespace("@JMAKI_NS@.rating");
     // Subscribe to jMaki events
     for (var i = 0; i < this._subscribe.length; i++) {
         var s = jmaki.subscribe(this._subscribe + "/select", 
-        this.hitch(this, "_valuesCallback"));
+        @JS_NS@.widget.common._hitch(this, "_valuesCallback"));
         this._subscriptions.push(s);
     }
 
@@ -106,12 +106,6 @@ jmaki.namespace("@JMAKI_NS@.rating");
     }
 };
 
-// Call a function in given scope.
-@JMAKI_NS@.rating.Widget.prototype.hitch = function(scope, method) {
-    return function() {
-        return scope[method].apply(scope, arguments || []);
-    };
-};
 
 // Warning: jMaki calls this function using a global scope. In order to
 // access variables and functions in "this" object, closures must be used.

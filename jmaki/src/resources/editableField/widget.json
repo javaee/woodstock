@@ -142,7 +142,7 @@
     "value": {
       "required": false,
       "type": "OBJECT",
-      "defaultValue": {},
+      "defaultValue": {{required: false, label:{value:'Label:'}},
       "description": ""
     },
     "config": {

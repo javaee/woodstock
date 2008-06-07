@@ -140,9 +140,9 @@
     ],
 
     "value": {
-      "required": false,
+      "required": true,
       "type": "OBJECT",
-      "defaultValue": {},
+      "defaultValue": {required: true, label:{value:'Password:'}},
       "description": ""
     },
     "config": {

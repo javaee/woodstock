@@ -51,7 +51,7 @@ jmaki.namespace("@JMAKI_NS@.calendarField");
     // Subscribe to jMaki events
     for (var i = 0; i < this._subscribe.length; i++) {
         var s = jmaki.subscribe(this._subscribe + "/setValues", 
-        this.hitch(this, "_valuesCallback"));
+        @JS_NS@.widget.common._hitch(this, "_valuesCallback"));
         this._subscriptions.push(s);
     }
 
@@ -86,7 +86,7 @@ jmaki.namespace("@JMAKI_NS@.calendarField");
 
     // connect events
     // 
-    props.onBlur = this.hitch(this, "_blurCallBack");
+    props.onBlur = @JS_NS@.widget.common._hitch(this, "_blurCallBack");
 
     // Create the Woodstock calendarField widget.
     var span_id = wargs.uuid + "_span";
@@ -103,12 +103,7 @@ jmaki.namespace("@JMAKI_NS@.calendarField");
     }
 };
 
-// Call a function in given scope.
-@JMAKI_NS@.calendarField.Widget.prototype.hitch = function(scope, method) {
-    return function() {
-        return scope[method].apply(scope, arguments || []);
-    };
-};
+
 
 // Warning: jMaki calls this function using a global scope. In order to
 // access variables and functions in "this" object, closures must be used.
