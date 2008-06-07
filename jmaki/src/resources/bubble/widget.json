@@ -1,0 +1,68 @@
+{
+    "name": "bubble",
+    "type": "@JS_NAME@",
+    "version": "@JS_VERSION@",
+    "jmakiVersion": "1.8",
+    "description": "Woodstock bubble widget.",
+    "args": [
+      {"autoClose": {
+         "type": "BOOLEAN",
+         "description": "",
+         "defaultValue": false}},
+      {"closeButton": {
+         "type": "OBJECT",
+         "description": "",
+         "defaultValue": {}}},
+      {"contents": {
+         "type": "ARRAY",
+         "description": "",
+         "defaultValue": []}},
+      {"duration": {
+         "type": "INT",
+         "description": "",
+         "defaultValue": 1}},
+      {"id": {
+         "type": "STRING",
+         "description": "Uniquely identifies an element within a document.",
+         "defaultValue": ""}},
+      {"openDelay": {
+         "type": "INT",
+         "description": "",
+         "defaultValue": 1}},
+      {"title": {
+         "type": "STRING",
+         "description": "Provides a title for element.",
+         "defaultValue": ""}},
+      {"width": {
+         "type": "INT",
+         "description": "",
+         "defaultValue": 1}},
+      {"visible": {
+         "type": "BOOLEAN",
+         "description": "Hide or show element.",
+         "defaultValue": false}}
+    ],
+    "value": {
+      "required": true,
+      "type": "OBJECT",
+      "defaultValue": { 
+                'autoClose': false,
+                'visible':false,
+                'closeButton':true,
+                'title':'Bubble Help Title',
+                'contents':['Bubble contents...']
+      },
+      "description": "Bubble Popup"
+    },
+
+    "config": {
+      "type": {
+        "id": "@JS_NAME@",
+        "libs": [
+          "@JS_PATH@/bootstrap.js"
+        ],
+        "resources": [ "../resources/" ]
+        }
+    }
+}
+
