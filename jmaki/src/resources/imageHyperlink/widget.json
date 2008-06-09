@@ -1,0 +1,140 @@
+{
+    "name": "imageHyperlink",
+    "type": "@JS_NAME@",
+    "version": "@JS_VERSION@",
+    "jmakiVersion": "1.8",
+    "description": "Woodstock imageHyperlink widget.",
+    "args": [
+      {"accessKey": {
+         "type": "STRING",
+         "description": "Accessibility access key.",
+         "defaultValue": ""}},
+      {"charset": {
+         "type": "STRING",
+         "description": "",
+         "defaultValue": "Character encoding of the URL."}},
+      {"className": {
+         "type": "STRING",
+         "description": "CSS selector.",
+         "defaultValue": ""}},
+      {"dir": {
+         "type": "STRING",
+         "description": "Specifies the directionality of text.",
+         "defaultValue": "ltr"}},
+      {"disabled": {
+         "type": "BOOLEAN",
+         "description": "Disable the element.",
+         "defaultValue": false}},
+      {"disabledImage": {
+         "type": "OBJECT",
+         "description": "Image to render when in disabled state.",
+         "defaultValue": {"src": "image_url"}}},
+      {"href": {
+         "type": "STRING",
+         "description": "URL to the resource selected by this link.",
+         "defaultValue": ""}},
+      {"hrefLang": {
+         "type": "STRING",
+         "description": "The language of the URL.",
+         "defaultValue": ""}},
+      {"imagePosition": {
+         "type": "STRING",
+         "description": "The position of the image related to the text.",
+         "defaultValue": "left"}},
+      {"lang": {
+         "type": "STRING",
+         "description": "Specifies the language of attribute values and content.",
+         "defaultValue": ""}},
+      {"onBlur": {
+         "type": "STRING",
+         "description": "Element lost focus.",
+         "defaultValue": ""}},
+      {"onClick": {
+         "type": "STRING",
+         "description": "Mouse button is clicked on element.",
+         "defaultValue": ""}},
+      {"onDblClick": {
+         "type": "STRING",
+         "description": "Mouse button is double-clicked on element.",
+         "defaultValue": ""}},
+      {"onFocus": {
+         "type": "STRING",
+         "description": "Element received focus.",
+         "defaultValue": ""}},
+      {"onKeyDown": {
+         "type": "STRING",
+         "description": "Key is pressed down over element.",
+         "defaultValue": ""}},
+      {"onKeyPress": {
+         "type": "STRING",
+         "description": "Key is pressed and released over element.",
+         "defaultValue": ""}},
+      {"onKeyUp": {
+         "type": "STRING",
+         "description": "Key is released over element.",
+         "defaultValue": ""}},
+      {"onMouseDown": {
+         "type": "STRING",
+         "description": "Mouse button is pressed over element.",
+         "defaultValue": ""}},
+      {"onMouseOut": {
+         "type": "STRING",
+         "description": "Mouse is moved away from element.",
+         "defaultValue": ""}},
+      {"onMouseOver": {
+         "type": "STRING",
+         "description": "Mouse is moved onto element.",
+         "defaultValue": ""}},
+      {"onMouseUp": {
+         "type": "STRING",
+         "description": "Mouse button is released over element.",
+         "defaultValue": ""}},
+      {"onMouseMove": {
+         "type": "STRING",
+         "description": "Mouse is moved while over element.",
+         "defaultValue": ""}},
+      {"rel": {
+         "type": "STRING",
+         "description": "Forward link relationship with the destination link.",
+         "defaultValue": ""}},
+      {"rev": {
+         "type": "STRING",
+         "description": "Reverse linke relatinship with the destination link.",
+         "defaultValue": ""}},
+      {"style": {
+         "type": "STRING",
+         "description": "Specify style rules inline.",
+         "defaultValue": ""}},
+      {"tabIndex": {
+         "type": "INT",
+         "description": "Position in tabbing order.",
+         "defaultValue": -1}},
+      {"text": {
+         "type": "STRING",
+         "description": "Optional link text rendered with image.",
+         "defaultValue": ""}},
+      {"title": {
+         "type": "STRING",
+         "description": "Provides a title for element.",
+         "defaultValue": "ImageHyperlink widget"}},
+      {"visible": {
+         "type": "BOOLEAN",
+         "description": "Hide or show element.",
+         "defaultValue": false}},
+    ],
+    "value": {
+      "required": true,
+      "type": "OBJECT",
+      "defaultValue": {"href": "link_url", contents: [], enabledImage: {"src": "image_url"}},
+      "description": "Simple image hyperlink without text."
+    },
+    "config": {
+      "type": {
+        "id": "@JS_NAME@",
+        "libs": [
+          "@JS_PATH@/bootstrap.js"
+        ],
+        "resources": [ "../resources/" ]
+        }
+    }
+}
