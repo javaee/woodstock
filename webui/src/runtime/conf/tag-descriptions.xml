@@ -24185,6 +24185,14 @@ When the component is manipulated on the client side, some functions might publi
       </ul>
     </td>
   </tr>
+  <tr>
+    <td>&lt;Node&gt;.event.grade.selectedTopic</td>
+    <td>Event topic published after selecting a grade. Supported properties include:
+      <ul>
+        <li>id - The client id of the rating component</li>
+      </ul>
+    </td>
+  </tr>
 </tbody>
 </table>
 <h3>Code Examples</h3>

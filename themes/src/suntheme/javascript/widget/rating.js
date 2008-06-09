@@ -181,6 +181,15 @@
 
         /** State event topic for custom AJAX implementations to listen for. */
         endTopic: "@JS_NS@_widget_rating_event_state_end"
+    },
+
+    /**
+     * Thus object contains grade selection topics.
+     * @ignore
+     */
+    grade: {
+        /** Select event topic for custom AJAX implementations to listen for. */
+        selectedTopic: "@JS_NS@_widget_rating_event_grade_selected"
     }
 };
 
@@ -527,6 +536,11 @@
             // Post new grade to the hidden input field so it's available to be submitted 
             // for autoSubmit or when the page is submitted.
             this._hiddenFieldNode.value = this.grade;
+
+            // Publish a grade selection event
+            this._publish(@JS_NS@.widget.rating.event.grade.selectedTopic, [{
+                id: this.id
+            }]);
 
             // If autoSubmit enabled, then submit
             if (this.autoSubmit) {
