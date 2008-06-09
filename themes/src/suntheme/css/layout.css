@@ -1329,6 +1329,11 @@ table.Tbl@THEME_CSS@ td.TblTdSrtSel@THEME_CSS@ {
 	vertical-align:middle;
 	padding:0px 3px;
 }
+/* Override checkbox selectors when in property sheet */
+table.Tbl@THEME_CSS@ td.TblTdSel@THEME_CSS@ .CbSpn@THEME_CSS@ input[type=checkbox] {
+	vertical-align: middle;
+	margin-top: 0px;
+}
 /* Regular Column Headers */
 table.Tbl@THEME_CSS@ th.TblColHdr@THEME_CSS@ {
 	border-top-width:1px; 
