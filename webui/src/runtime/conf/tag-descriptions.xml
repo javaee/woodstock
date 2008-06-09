@@ -5666,6 +5666,7 @@ update components server-side: refresh("form1:id1,form2:id2,...")<br>
      <p>
      The list of displayed files is determined by the filesystem access rules 
      that are in place in the given environment.</p>
+     <!--
      <h4> The filechooser model </h4>
      <p>This tag can also be used to navigate and select resources other
      than files. One has to implement the 
@@ -5779,6 +5780,7 @@ update components server-side: refresh("form1:id1,form2:id2,...")<br>
  be selected. A folder chooser allows only folders to be selected.  
  With both types of choosers, you can open folders by selecting a folder 
  and clicking the Open Folder button, or by double-clicking the folder name.</p>
+     <!--
      <h3>Configuring the webuijsf:fileChooser tag</h3>
      <p>Use the <code>model</code>attribute to associate the model
      with the component. By default the FileChooser model described
@@ -5813,6 +5815,7 @@ update components server-side: refresh("form1:id1,form2:id2,...")<br>
  <p>By default, the initial sort order is ascending: A-Z, or smallest file size 
  first, or oldest file first. Set the <code>descending</code> attribute to true 
  to specify a descending sort order. </p>
+     <!--
      <p>The input to the fileChooser component is the model object. The
      output of this component is the list of selected files or folders.
      This is the value of the component. The backing bean associated with
@@ -6118,6 +6121,7 @@ update components server-side: refresh("form1:id1,form2:id2,...")<br>
      <p>This example shows a simple fileChooser. The page includes a 
      separate button that is used with the fileChooser's <code>setChooseButton</code> 
      function.
+      <!--
       &lt;webuijsf:fileChooser
        	id="_fc1" model="#{fileList.model}"
  	selected="#{fileList.fileSelected}"	
