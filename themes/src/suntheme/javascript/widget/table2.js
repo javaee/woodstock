@@ -44,8 +44,7 @@
  * @config {String} caption
  * @config {String} className CSS selector.
  * @config {String} dir Specifies the directionality of text.
- * @config {String} frame 
- * @config {String} filterText 
+ * @config {String} frame   
  * @config {String} id Uniquely identifies an element within a document.
  * @config {String} lang Specifies the language of attribute values and content.
  * @config {String} onClick Mouse button is clicked on element.
@@ -66,12 +65,23 @@
  * @config {String} title Provides a title for element.
  * @config {boolean} visible Hide or show element.
  * @config {String} width
+ * @config {String} tableTips Provides tips for table.
+ * @config {boolean} showTableControls Hide or show table controls button.
+ * @config {boolean} showTipsControl Hide or show table tips button.
+ * @config {Object} preferencesPanel 
+ * @config {Object} filterPanel 
+ * @config {Object} sortPanel
+ * @config (String) filterPanelFocusId focus id for the filter panel element.
  */
 @JS_NS@._dojo.declare("@JS_NS@.widget.table2", [
         @JS_NS@.widget._base.refreshBase, 
         @JS_NS@.widget._base.stateBase,
         @JS_NS@.widget._base.widgetBase ], {
-    // Set defaults.
+    // Set defaults.    
+    constructor: function() {
+        this.tableControls = false;
+        this.tableTips = false;        
+    },
     _widgetType: "table2" // Required for theme properties.
 });
 
@@ -134,7 +144,15 @@
     if (this.rules != null) { props.rules = this.rules; }
     if (this.summary != null) { props.summary = this.summary; }
     if (this.width != null) { props.width = this.width; }
-
+    if (this.filter != null) { props.filter = this.filter; }
+    if (this.filterPanel != null) { props.filterPanel = this.filterPanel; }
+    if (this.showTableControls != null) { props.showTableControls = this.showTableControls; }
+    if (this.showTipsControl != null) { props.showTipsControl = this.showTipsControl; }
+    if (this.tips != null) { props.tips = this.tips; }
+    if (this.preferencesPanel != null) { props.preferencesPanel = this.preferencesPanel; }
+    if (this.columnsPanel != null) { props.columnsPanel = this.columnsPanel; }
+    if (this.sortPanel != null) { props.sortPanel = this.sortPanel; }    
+    if (this.filterPanelFocusId != null) { props.filterPanelFocusId = this.filterPanelFocusId; }
     return props;
 };
 
@@ -157,7 +175,117 @@
         this._preferencesPanelContainer.id = this.id + "_preferencesPanelContainer";
         this._sortPanelContainer.id = this.id + "_sortPanelContainer";
         this._rowGroupsContainer.id = this.id + "_rowGroupsContainer";
-        this._captionContainer.id = this.id + "_captionContainer";
+        this._captionContainer.id = this.id + "_captionContainer";        
+        this._basicFilterPanel.id = this.id + "_basicFilterPanel";
+        this._customFilterPanel.id = this.id + "_customFilterPanel";
+        this._tableTipsContainer.id = this.id + "_tableTipsContainer";
+        this._tableTips.id = this.id + "_tableTips";
+        this._tableControlsContainer.id = this.id + "_tableControlsContainer";        
+        this._columnsPanelContainer.id = this.id + "_columnsPanelContainer";
+        this._searchContainer.id = this.id + "_searchContainer";
+    }
+    
+    if (this._tableControlBtn == null) {
+        this._tableControlBtn = {
+                    id: this.id + "_tableControlBtn",                      
+                    value: this._theme.getMessage("table2.button.tableControls"),  
+                    visible: this.tableControls,
+                    onClick: "@JS_NS@.widget.common.getWidget('" + this.id + "').toggleTableControls();return false;",
+                    widgetType: "button"
+        };
+    }
+    if (this._tableTipsBtn == null) {
+        this._tableTipsBtn = {
+                    id: this.id + "_tableTipsBtn",                                        
+                    value: this._theme.getMessage("table2.button.tableTips"),  
+                    visible: this.tableTips,
+                    onClick: "@JS_NS@.widget.common.getWidget('" + this.id + "').toggleTableTips();return false;",
+                    widgetType: "button"
+        };
+    }
+    if (this._tableTipsCloseBtn == null) {
+        this._tableTipsCloseBtn = {
+                    id: this.id + "_tableTipsCloseBtn",                                        
+                    value: this._theme.getMessage("table2.button.closeTips"),     
+                    onClick: "@JS_NS@.widget.common.getWidget('" + this.id + "').toggleTableTips();return false;",
+                    widgetType: "button"
+        };
+    }
+    if (this._preferencesBtn == null) {
+        this._preferencesBtn = {
+                    id: this.id + "_preferencesBtn",                                        
+                    value: this._theme.getMessage("table2.button.preferences"),     
+                    onClick: "@JS_NS@.widget.common.getWidget('" + this.id + "').togglePreferencesPanel();return false;",
+                    widgetType: "button"
+        };
+    }
+    if (this._multipleSortBtn == null) {
+        this._multipleSortBtn = {
+                    id: this.id + "_multipleSortBtn",                                        
+                    value: this._theme.getMessage("table2.button.sort"),     
+                    onClick: "@JS_NS@.widget.common.getWidget('" + this.id + "').toggleSortPanel();return false;",
+                    widgetType: "button"
+        };
+    }
+    if (this._columnsBtn == null) {
+        this._columnsBtn = {
+                    id: this.id + "_columnsBtn",                                        
+                    value: this._theme.getMessage("table2.button.columns"),     
+                    onClick: "@JS_NS@.widget.common.getWidget('" + this.id + "').toggleColumnsPanel();return false;",
+                    widgetType: "button"
+        };
+    }
+    if (this._searchBtn == null) {
+        this._searchBtn = {
+                    id: this.id + "_searchBtn",                                        
+                    value: this._theme.getMessage("table2.button.search"),     
+                    onClick: "@JS_NS@.widget.common.getWidget('" + this.id + "').toggleFilterPanel();return false;",
+                    widgetType: "button"
+        };
+    }
+    // Subscribe to the "filter" event present in the table2RowGroup widget.
+    this._widget.subscribe(@JS_NS@.widget.table2RowGroup.event.filter.filterTextTopic,
+        this, "_setFilterText");
+    /** @ignore */
+    this._domNode.toggleFilterPanel = function(show) { return @JS_NS@.widget.common.getWidget(this.id).toggleFilterPanel(show); };            
+    /** @ignore */
+    this._domNode.togglePreferencesPanel = function() { return @JS_NS@.widget.common.getWidget(this.id).togglePreferencesPanel(); };
+    /** @ignore */
+    this._domNode.toggleColumnsPanel = function() { return @JS_NS@.widget.common.getWidget(this.id).toggleColumnsPanel(); };
+    /** @ignore */
+    this._domNode.toggleSortPanel = function() { return @JS_NS@.widget.common.getWidget(this.id).toggleSortPanel(); };
+    /** @ignore */
+    this._domNode.toggleTableTips = function() { return @JS_NS@.widget.common.getWidget(this.id).toggleTableTips(); };
+    /** @ignore */
+    this._domNode.toggleTableControls = function() { return @JS_NS@.widget.common.getWidget(this.id).toggleTableControls(); };
+    
+    // Add search button
+    if (this._searchBtn) {               
+        this._widget._addFragment(this._searchContainer, this._searchBtn);                
+    }
+    //add prefrences button
+    if (this._preferencesBtn) {
+        this._widget._addFragment(this._tableControlsContainer, this._preferencesBtn, "last");
+    }    
+    //add columns button
+    if (this._columnsBtn) {
+        this._widget._addFragment(this._tableControlsContainer, this._columnsBtn, "last");
+    }    
+    // add multiple sort button
+    if (this._multipleSortBtn) {
+        this._widget._addFragment(this._tableControlsContainer, this._multipleSortBtn, "last");
+    }
+    // Add table control button.    
+    if (this._tableControlBtn) {        
+        this._widget._addFragment(this._controlsNode, this._tableControlBtn, "last");        
+    }    
+    // Add table tips button.    
+    if (this._tableTipsBtn) {        
+        this._widget._addFragment(this._controlsNode, this._tableTipsBtn, "last");
+    }    
+    // Add table tips close button.    
+    if (this._tableTipsCloseBtn) {        
+        this._widget._addFragment(this._tableTipsCloseBtnContainer, this._tableTipsCloseBtn);
     }
     return this._inherited("_postCreate", arguments);
 };
@@ -197,6 +325,123 @@
 };
 
 /**
+ * This function is used to set Table Controls section visible/hidden. 
+ * 
+ * @return {boolean} true if successful; otherwise, false.
+ */
+@JS_NS@.widget.table2.prototype.toggleTableControls = function() {
+    var domNodeControls = document.getElementById(this._filterPanelContainer.id); 
+    var domNodeTips = document.getElementById(this._tableTipsContainer.id);
+    if (domNodeTips) {
+        this._common._setVisibleElement(domNodeTips, false);
+    }
+    var flag = @JS_NS@._base.common._isVisibleElement(domNodeControls);
+    // toggle filter sections.
+    this._common._setVisibleElement(domNodeControls, !flag);
+    return true;    
+};
+
+/**
+ * This function is used to set Table tips section visible/hidden.
+ * 
+ * @return {boolean} true if successful; otherwise, false.
+ */
+@JS_NS@.widget.table2.prototype.toggleTableTips = function() {
+    var domNodeControls = document.getElementById(this._filterPanelContainer.id); 
+    var domNodeTips = document.getElementById(this._tableTipsContainer.id);
+    if (domNodeControls) {
+        this._common._setVisibleElement(domNodeControls, false);
+    }
+    var flag = @JS_NS@._base.common._isVisibleElement(domNodeTips);
+    // toggle tips sections.
+    this._common._setVisibleElement(domNodeTips, !flag);
+    return true;    
+};
+
+/**
+ * This function is use to set Custom Filter hidden/visible. 
+ * @param {boolean} show 
+ * @return {boolean} true if successful; 
+ */
+@JS_NS@.widget.table2.prototype.toggleFilterPanel = function(show) {
+    var domNode = document.getElementById(this._customFilterPanel.id);  
+    var flag = @JS_NS@._base.common._isVisibleElement(domNode);
+    if (show != null) {
+      this._common._setVisibleElement(domNode, show);
+    } else {
+      this._common._setVisibleElement(domNode, !flag);  
+    }  
+    if (flag == true) {
+      var filterPanelElement = document.getElementById(this.filterPanelFocusId);
+      if (filterPanelElement != null) {filterPanelElement.focus();}
+    }
+    return true;    
+};
+
+/**
+ * This function is use to set Preferences panel hidden/visible.  
+ *  
+ * @return {boolean} true if successful; 
+ */
+@JS_NS@.widget.table2.prototype.togglePreferencesPanel = function() {
+    var domNodePreferences = document.getElementById(this._preferencesPanelContainer.id); 
+    var domNodeSort = document.getElementById(this._sortPanelContainer.id); 
+    var domNodeColumns = document.getElementById(this._columnsPanelContainer.id); 
+    if (domNodeSort) {
+        this._common._setVisibleElement(domNodeSort, false);
+    }
+    if (domNodeColumns) {
+        this._common._setVisibleElement(domNodeColumns, false);
+    }
+    // toggle preferences section.
+    var flag = @JS_NS@._base.common._isVisibleElement(domNodePreferences);
+    this._common._setVisibleElement(domNodePreferences, !flag);
+    return true;    
+};
+
+/**
+ * This function is used to set Multiple Sort panel hidden/visible.  
+ * 
+ * @return {boolean} true if successful; 
+ */
+@JS_NS@.widget.table2.prototype.toggleSortPanel = function() {
+    var domNodePreferences = document.getElementById(this._preferencesPanelContainer.id); 
+    var domNodeSort = document.getElementById(this._sortPanelContainer.id); 
+    var domNodeColumns = document.getElementById(this._columnsPanelContainer.id); 
+    if (domNodePreferences) {
+        this._common._setVisibleElement(domNodePreferences, false);
+    }
+    if (domNodeColumns) {
+        this._common._setVisibleElement(domNodeColumns, false);
+    }    
+    // toggle multiple sort section.
+    var flag = @JS_NS@._base.common._isVisibleElement(domNodeSort);
+    this._common._setVisibleElement(domNodeSort, !flag);
+    return true;    
+};
+
+/**
+ * This function is used to set columns panel hidden/visible.  
+ * 
+ * @return {boolean} true if successful; 
+ */
+@JS_NS@.widget.table2.prototype.toggleColumnsPanel = function() {
+    var domNodePreferences = document.getElementById(this._preferencesPanelContainer.id); 
+    var domNodeSort = document.getElementById(this._sortPanelContainer.id); 
+    var domNodeColumns = document.getElementById(this._columnsPanelContainer.id); 
+    if (domNodePreferences) {
+        this._common._setVisibleElement(domNodePreferences, false);
+    }
+    if (domNodeSort) {
+        this._common._setVisibleElement(domNodeSort, false);
+    }       
+    // toggle columns panel section.
+    var flag = @JS_NS@._base.common._isVisibleElement(domNodeColumns);
+    this._common._setVisibleElement(domNodeColumns, !flag);
+    return true;    
+};
+
+/**
  * This function is used to set widget properties. Please see the constructor 
  * detail for a list of supported properties.
  * <p>
@@ -219,18 +464,11 @@
     if (props.width != null) { this._domNode.style.width = props.width; }
 
     // Add caption.
-    if (props.caption || props.filterText && this.caption) {       
-        var filterText = null;
-        if (props.filterText) {
-            filterText = this._theme.getMessage("table.title.filterApplied", [
-                props.filterText
-            ]);
-        }
-
-        // To do: Create a new title message.
+    //if (props.caption || props.filterText && this.caption) {   
+    if (props.caption) {
+        this.caption = props.caption;
         
-        this._widget._addFragment(this._captionContainer, (filterText) 
-            ? props.caption + filterText : props.caption);
+        this._widget._addFragment(this._captionContainer, props.caption);
         this._common._setVisibleElement(this._captionContainer, true);
     }
 
@@ -241,7 +479,65 @@
         }
         this._common._setVisibleElement(this._actionsContainer, true);
     }
-
+    // Add basic filter
+    if (props.filter) {               
+        this._widget._addFragment(this._basicFilterPanel, props.filter);                
+    }
+    
+    // Add custom filter
+    if (props.filterPanel) {               
+        this._widget._addFragment(this._customFilterPanel, props.filterPanel);                
+    }
+    //set table control button visible/hidden
+    if (props.showTableControls != null) {        
+        var tableControlBtn = @JS_NS@.widget.common.getWidget(this._tableControlBtn.id);
+        if (tableControlBtn) {
+            tableControlBtn.setProps({visible:props.showTableControls});            
+        }
+    }
+    //set table tips button visible/hidden
+    if (props.showTipsControl != null) {        
+        var tableTipsBtn = @JS_NS@.widget.common.getWidget(this._tableTipsBtn.id);
+        if (tableTipsBtn) {
+            tableTipsBtn.setProps({visible:props.showTipsControl});            
+        }
+    }
+    
+    // Add table tips
+    if (props.tips) {
+        this._widget._addFragment(this._tableTips, props.tips);
+    }
+    // Add preferences panel
+    if (props.preferencesPanel) {
+        var id = this.id + "_preferencesBtn";
+        var preferencesBtn = document.getElementById(id);
+        if (preferencesBtn) {
+            this._common._setVisibleElement(preferencesBtn, true);
+        }
+        this._widget._addFragment(this._preferencesPanelContainer, props.preferencesPanel);
+    }
+    // Add columns panel
+    if (props.columnsPanel) {
+        var id = this.id + "_columnsBtn";
+        var columnsBtn = document.getElementById(id);
+        if (columnsBtn) {
+            this._common._setVisibleElement(columnsBtn, true);
+        }
+        this._widget._addFragment(this._columnsPanelContainer, props.columnsPanel);
+    }
+    // Add multiple sort panel
+    if (props.sortPanel) {        
+        var id = this.id + "_multipleSortBtn";
+        var multipleSortBtn = document.getElementById(id);
+        if (multipleSortBtn) {
+            this._common._setVisibleElement(multipleSortBtn, true);
+        }
+        this._widget._addFragment(this._sortPanelContainer, props.sortPanel);
+    }
+    if (props.filterPanelFocusId) {
+        // update the this.filterPanelFocusId, will be used to set the filter panle element focus when visible. 
+        this.filterPanelFocusId = props.filterPanelFocusId;        
+    }
     // Add row groups.
     if (props.rowGroups) {
         // Remove child nodes.
@@ -259,20 +555,7 @@
                 summary: props.summary
             };
             this._widget._addFragment(this._rowGroupsContainer, props.rowGroups[i], "last");
-
-            // To do: Fix me.
-            // Actions my be rendered after column headers are positioned. When 
-            // this happens, older offsetTop properties are no longer valid and
-            // headers are off by one row, at least. We need a better way to 
-            // solve this (e.g., set a fixed action bar height), but we'll call
-            // resize() for now. Note that the addRows() function already calls
-            // this, but with a much shorter timeout.
-            var _id = props.rowGroups[i].id;
-            setTimeout(function() {
-                // New literals are created every time this function is called, 
-                // and it's saved by closure magic.
-                @JS_NS@.widget.common.getWidget(_id)._resize();
-            }, 2000);
+            
         }
     }
 
@@ -282,4 +565,33 @@
 
     // Set remaining properties.
     return this._inherited("_setProps", arguments);
+};
+
+/**
+ * This function is called when a day link is selected from the calendar.
+ * It updates the field with the value of the clicked date.
+ *
+ * @param props Key-Value pairs of properties.
+ * @config {String} id 
+ * @config {String} filterText
+ * @return {boolean} false to cancel JavaScript event.
+ * @private
+ */
+@JS_NS@.widget.table2.prototype._setFilterText = function(props) {
+    
+    if (props.filterText != null) {
+        var filterText = null;
+        if (props.filterText) {
+            filterText = this._theme.getMessage("table.title.filterApplied", [
+                props.filterText
+            ]);
+        }
+
+        // To do: Create a new title message.
+        
+        this._widget._addFragment(this._captionContainer, (filterText) 
+            ? this.caption + filterText : this.caption);
+        this._common._setVisibleElement(this._captionContainer, true);
+    }
+    return false;
 };

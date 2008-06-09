@@ -6,16 +6,39 @@
     <!-- Table actions -->
     <div dojoAttachPoint="_actionsContainer" class="actionBar@THEME_CSS@ hidden@THEME_CSS@">
         <div dojoAttachPoint="_actionsNode" class="actionList@THEME_CSS@"></div>
-        <div dojoAttachPoint="_controlsNode" class="controlsList@THEME_CSS@"></div>
+        <div dojoAttachPoint="_controlsNode" class="controlsList@THEME_CSS@">            
+        </div>
     </div>
+    
     <!-- Clear/Spacer for panels -->
-    <div class="clear@THEME_CSS@ spacer@THEME_CSS@ hidden@THEME_CSS@"></div>
-    <!-- Sort panel -->
-    <div dojoAttachPoint="_sortPanelContainer" class="hidden@THEME_CSS@"></div>
+    <div class="clear@THEME_CSS@ spacer@THEME_CSS@ hidden@THEME_CSS@"></div>    
     <!-- Filter panel -->
-    <div dojoAttachPoint="_filterPanelContainer" class="hidden@THEME_CSS@"></div>
-    <!-- Preferences panel -->
-    <div dojoAttachPoint="_preferencesPanelContainer" class="hidden@THEME_CSS@"></div>
+    <div dojoAttachPoint="_filterPanelContainer" class="hidden@THEME_CSS@">  
+    <div class="drawer@THEME_CSS@">
+        <div dojoAttachPoint="_basicFilterPanel" class="controlBucket1@THEME_CSS@">            
+        </div>
+        <div dojoAttachPoint="_searchContainer" class="controlBucket1@THEME_CSS@">            
+        </div>
+        <div dojoAttachPoint="_tableControlsContainer" class="controlBucket2@THEME_CSS@">            
+        </div>
+    </div>
+    <div class="drawer@THEME_CSS@">
+        <div dojoAttachPoint="_customFilterPanel" class="controlBucket1@THEME_CSS@ hidden@THEME_CSS@">
+        </div>           
+    </div>
+    </div>
+    <div class="drawer@THEME_CSS@">
+        <div dojoAttachPoint="_tableTipsContainer" class="drawer@THEME_CSS@ hidden@THEME_CSS@">
+        <div dojoAttachPoint="_tableTips"  class="tip@THEME_CSS@"></div>
+        <div class="buttonBar@THEME_CSS@" dojoAttachPoint="_tableTipsCloseBtnContainer"></div>
+        </div>
+    </div>
+    <!-- Preferences panel -->    
+    <div dojoAttachPoint="_preferencesPanelContainer" class="drawer@THEME_CSS@ hidden@THEME_CSS@"></div>    
+    <!-- Mutliple sort panel -->    
+    <div dojoAttachPoint="_sortPanelContainer" class="drawer@THEME_CSS@ hidden@THEME_CSS@"></div>    
+    <!-- Columns panel -->    
+    <div dojoAttachPoint="_columnsPanelContainer" class="drawer@THEME_CSS@ hidden@THEME_CSS@"></div>    
     <!-- Clear/Spacer for groups -->
     <div class="clear@THEME_CSS@ spacer@THEME_CSS@"></div>
     <!-- Row Groups -->

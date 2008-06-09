@@ -69,6 +69,7 @@
  * @config {int} totalRows 
  * @config {String} valign 
  * @config {boolean} visible Hide or show element.
+ * @config {String} filterText
  */
 @JS_NS@._dojo.declare("@JS_NS@.widget.table2RowGroup", [
         @JS_NS@.widget._base.refreshBase, 
@@ -328,19 +329,17 @@
  * @return {boolean} true if successful; otherwise, false.
  */
 @JS_NS@.widget.table2RowGroup.prototype.addRows = function(rows) {
-    if (rows == null) {
-        return false;
-    }
-
+    
     // Clear rows.
     //
     // Note: This cannot be done in setProps because the start function 
     // publishes a scroll event which ultimately calls addRows.
-    if (this.rows == null) {
+    if (this.rows == null) {        
         this.rows = rows; // Save rows for getProps() function.
         this.first = 0; // Reset index used to obtain rows.
         this._currentRow = 0; // Reset current row in view.
         this._tableContainer.scrollTop = 0; // Reset scroll position.
+        this._tbody.scrollTop = 0;
         this._widget._removeChildNodes(this._tbody); // Clear template nodes.
     }
 
@@ -348,7 +347,26 @@
     var props = this.getProps();
     // Get className properties to alternate between rows.
     var classNames = (this.className) ? this.className.split(",") : null;          
-
+    //empty table data
+    if (rows == null || rows.length == 0) {        
+        // Clone table data row without cells.
+        var rowClone = this._tableDataRow.cloneNode(false);
+        this._tbody.appendChild(rowClone);
+        // Clone node.
+        cellClone = this._tableDataCell.cloneNode(true);
+        rowClone.appendChild(cellClone);
+        var rowId = this.id + ":" + 0; // Get 1st row id.
+        var col = this.columns[0];
+        var colId = col.id.replace(this.id, rowId); // Get col id.
+        cellClone.id = colId; 
+        cellClone.colSpan = (this._getLeafColumns(this.columns)).length;        
+        // Add cell data.
+        this._widget._addFragment(cellClone, this.emptyTableRow, "last"); 
+        // remove footers for empty table data
+        this._widget._removeChildNodes(this._tfoot); 
+        return true;
+    }
+    
     // For each row found, clone the tableDataRow attach point.
     for (var i = 0; i < rows.length; i++) {
         var cols = rows[i]; // Get columns.
@@ -388,6 +406,11 @@
             cellClone.id = colId; // Override id set by _setCoreProps.
             if (col.sortLevel == 1) {
                 cellClone.className = this._theme.getClassName("TABLE2_PRIMARYSORT");            
+            }
+            // check for emptyCell attribute
+            if (col.emptyCell == true && cols[k].length == 0) {
+                this.emptyCell.id = cellClone.id + "_emptyCell";
+                cols[k] = this.emptyCell;
             }
             // Add cell data.
             this._widget._addFragment(cellClone, cols[k], "last"); 
@@ -446,6 +469,14 @@
  */
 @JS_NS@.widget.table2RowGroup.event =
         @JS_NS@.widget.table2RowGroup.prototype.event = {
+    /**
+     * This object contains day event topics.
+     * @ignore
+     */
+    filter: {
+        /** filterText topic for custom AJAX implementations to listen for. */
+        filterTextTopic: "@JS_NS@_widget_table2RowGroup_event_filterText"
+    },
     /**
      * This object contains refresh event topics.
      * @ignore
@@ -552,6 +583,7 @@
     if (this.paginationNextButton != null) {props.paginationNextButton = this.paginationNextButton;}
     if (this.paginationPrevButton != null) {props.paginationPrevButton = this.paginationPrevButton;}
     if (this.sortPopupMenu != null) {props.sortPopupMenu = this.sortPopupMenu;}
+    if (this.filterText != null) {props.filterText = this.filterText;}
 
     return props;
 };
@@ -603,7 +635,7 @@
 @JS_NS@.widget.table2RowGroup.prototype._paginationNext = function(event) {
     // Publish event to retrieve data.
     var currentPage = Math.floor(this._currentRow / this.maxRows) + 1;
-    var totalPage = Math.floor(this.totalRows / this.maxRows);
+    var totalPage = Math.ceil(this.totalRows / this.maxRows);
     if (this.first < this.totalRows
             && currentPage < totalPage) {
         // Publish an event for custom AJAX implementations to listen for.
@@ -612,13 +644,18 @@
             first: this.first 
         }]);
     }     
+    var tableDataRow = document.getElementById(this.id + ":" + 0); 
+    // For firefox, first table data row gives the offsetTop value 
+    // including header height.
+    // zero row gives the header height for firefox. Other browsers returns zero.
+    var headerHeight = tableDataRow.offsetTop;
     if (currentPage < totalPage) {          
         // Calculate current row.          
         this._currentRow = currentPage * this.maxRows;        
         // set scroll position to make the current row completely visible
         if(@JS_NS@._base.browser._isFirefox()) {
             this._tbody.scrollTop = 
-                document.getElementById(this.id + ":" + this._currentRow).offsetTop;       
+                document.getElementById(this.id + ":" + this._currentRow).offsetTop - headerHeight;       
         } else {
             this._tableContainer.scrollTop = 
                 document.getElementById(this.id + ":" + this._currentRow).offsetTop;        
@@ -637,12 +674,17 @@
 @JS_NS@.widget.table2RowGroup.prototype._paginationPrevious = function(event) {
     var currentPage = Math.ceil(this._currentRow / this.maxRows) + 1;
     var totalPage = Math.floor(this.totalRows / this.maxRows);
+    var tableDataRow = document.getElementById(this.id + ":" + 0); 
+    // For firefox, first table data row gives the offsetTop value 
+    // including header height.
+    // zero row gives the header height for firefox. Other browsers returns zero.
+    var headerHeight = tableDataRow.offsetTop;
     if (currentPage > 1) {                 
         this._currentRow = (currentPage - 2) * this.maxRows;
         // set scroll position to make the current row completely visible
         if (@JS_NS@._base.browser._isFirefox()) {
             this._tbody.scrollTop = 
-                document.getElementById(this.id + ":" + this._currentRow).offsetTop;       
+                document.getElementById(this.id + ":" + this._currentRow).offsetTop - headerHeight;       
         } else {
             this._tableContainer.scrollTop = 
                 document.getElementById(this.id + ":" + this._currentRow).offsetTop;        
@@ -733,6 +775,22 @@
                     widgetType: "popupMenu"
         };
     }
+    
+    if (this.emptyCell == null) {
+        this.emptyCell = {
+                    alt: this._theme.getMessage("table.emptyTableCell"),
+                    icon: "TABLE_EMPTY_CELL",
+                    widgetType: "image"
+        };
+    }
+    
+    if (this.emptyTableRow == null) {
+        this.emptyTableRow = {
+                    id: this.id + "_emptyTableRow",
+                    value: this._theme.getMessage("table.emptyData"),
+                    widgetType: "staticText"
+        };
+    }
     // Resize hack for Moz/Firefox.
     if (@JS_NS@._base.browser._isNav()) {
         this._dojo.connect(window, "onresize", this, "_resize");
@@ -772,11 +830,14 @@
 
     // Set width of each column header & footer.
     var rowId = this.id + ":0"; // ID of first row.
-    for (var i = 0; i < this.columns.length; i++) {
-        var col = this.columns[i]; // Get default column props.
-        this.currentColumnWidth = 0;
-        this._setColumnWidth(col, rowId);
-    } 
+    if (this.totalRows > 0) {
+    // don't need to set width for column headers if no rows are available.
+        for (var i = 0; i < this.columns.length; i++) {
+          var col = this.columns[i]; // Get default column props.
+          this.currentColumnWidth = 0;
+          this._setColumnWidth(col, rowId);
+      } 
+    }
     return true;
 };
 
@@ -802,12 +863,15 @@
         if (!this.currentColumnWidth) {
             this.currentColumnWidth = 0;
         }
-        this.currentColumnWidth = this.currentColumnWidth + tableDataCell.offsetWidth - 1;
-        colHeaderCell.style.width = (tableDataCell.offsetWidth -1) + "px";
+        if (tableDataCell != null) {
+          this.currentColumnWidth = this.currentColumnWidth + tableDataCell.offsetWidth - 1;
+          colHeaderCell.style.width = (tableDataCell.offsetWidth -1) + "px";
+        }
 
         // footer width
         var colFooterCell = document.getElementById(col.id + "_colFooter");
         if (colFooterCell && col.footerText) {
+            if (tableDataCell != null)
             colFooterCell.style.width = (tableDataCell.offsetWidth - 1) + "px";
         }
     }
@@ -986,6 +1050,12 @@
         this.addRows(props.rows);
     }
    
+    if (props.filterText != null) {
+        this._publish(@JS_NS@.widget.table2RowGroup.event.filter.filterTextTopic, [{
+          id: this.id,
+          filterText:props.filterText
+        }]);
+    }
     // Cannot call "superclass" here because properties are set on each row.
     return true;
 };
@@ -1000,23 +1070,12 @@
 @JS_NS@.widget.table2RowGroup.prototype._scroll = function(event) {
     var scrollTop = null;
     if (@JS_NS@._base.browser._isFirefox()) {
-        scrollTop = this._tbody.scrollTop;
+        scrollTop = this._tbody.scrollTop;        
     } else {
         scrollTop = this._tableContainer.scrollTop;
     }
 
-    // Set current row. Note: Nodes may not exist during refresh.
-    var curRow = document.getElementById(this.id + ":" + this._currentRow);
-    var nextRow = document.getElementById(this.id + ":" + (this._currentRow + 1));
-    if (curRow && nextRow) {
-        var rowHeight =  nextRow.offsetTop - curRow.offsetTop;
-        var moveScroll = scrollTop % rowHeight;
-        this._currentRow = Math.floor((scrollTop) / rowHeight);
-        if (moveScroll > (rowHeight / 2)) {
-            this._currentRow = this._currentRow + 1;   
-        }
-    }
-
+    var last = Math.min(this.totalRows, this.first + this.maxRows) - 1; // Last row in range. 
     // Publish event to retrieve data.    
     if (this.first < this.totalRows
             && this._currentRow % this.maxRows == 0) {
@@ -1026,6 +1085,40 @@
             first: this.first
         }]);
     }
+    var first = 0; // First row in range. 
+    var tableDataRow = document.getElementById(this.id + ":" + 0); 
+    // For firefox, first table data row gives the offsetTop value 
+    // including header height.
+    // zero row gives the header height for firefox. Other browsers returns zero.
+    var headerHeight = tableDataRow.offsetTop; 
+    var temp = 0; // temp variable
+    
+    while (first < last) { 
+        var mid = Math.floor((first + last) / 2); // Index of midpoint. 
+        var tableDataRow = document.getElementById(this.id + ":" + mid);         
+        temp = tableDataRow.offsetTop - headerHeight;
+        
+        if (tableDataRow == null) { 
+            break; 
+        }
+        // Test if scroll position matches row offset. 
+        if (scrollTop < temp) { 
+           last = mid; // Search left half. 
+        } else if (scrollTop >= temp) { 
+           first = mid + 1; // Search right half. 
+        }
+    }    
+    this._currentRow = Math.max(0, first - 1);
+    var curRow = document.getElementById(this.id + ":" + this._currentRow);
+    var nextRow = document.getElementById(this.id + ":" + (this._currentRow + 1));
+    if (curRow && nextRow) {
+        var rowHeight =  nextRow.offsetTop - curRow.offsetTop;
+        var moveScroll = scrollTop - (curRow.offsetTop - headerHeight);
+        if (moveScroll > (rowHeight / 2)) {
+            this._currentRow = this._currentRow + 1;   
+        }
+    }        
+        
     // Set rows text.    
     return this._updateRowsText();
 };
@@ -1098,7 +1191,7 @@
         return false;
     }
     // Retrieve rows only if initial data has not been provided.
-    if (this.rows == null) {
+    if (this.rows == null) {        
         // Publish an event for custom AJAX implementations to listen for.
         this._publish(@JS_NS@.widget.table2RowGroup.event.scroll.beginTopic, [{
             id: this.id,
@@ -1118,14 +1211,15 @@
     if (this.paginationPrevButton && this.paginationNextButton) {
         var domNodePrev = this._widget.getWidget(this.paginationPrevButton.id);
         var domNodeNext = this._widget.getWidget(this.paginationNextButton.id);
-
+        var currentPage = Math.ceil(this._currentRow / this.maxRows) + 1;
+        var totalPage = Math.ceil(this.totalRows / this.maxRows);
         if (domNodePrev != null && domNodeNext != null) {
             if (this._currentRow / this.maxRows == 0) {
                 domNodePrev.setProps({disabled:true});              
             } else {
                 domNodePrev.setProps({disabled:false});  
-            } 
-            if ((this._currentRow / this.maxRows) == (this.totalRows / this.maxRows) - 1) {
+            }            
+            if (currentPage == totalPage || totalPage == 0) {
                 domNodeNext.setProps({disabled:true});  
             } else {
                 domNodeNext.setProps({disabled:false});  
@@ -1151,6 +1245,10 @@
     // To do: Need to create a new rows message.
 
     // NOTE: If you set this value manually, text must be HTML escaped.
+    // check for emty table data case
+    if (this.totalRows == 0) {
+        firstRow = 0;
+    }
     var msg = this._theme.getMessage("table.title.paginated", [
         "", 
         firstRow, 
