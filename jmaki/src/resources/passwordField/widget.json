@@ -142,7 +142,7 @@
     "value": {
       "required": true,
       "type": "OBJECT",
-      "defaultValue": {required: true, label:{value:'Password:'}},
+      "defaultValue": {"required": true, "label":{"value":"Password:"}},
       "description": ""
     },
     "config": {
