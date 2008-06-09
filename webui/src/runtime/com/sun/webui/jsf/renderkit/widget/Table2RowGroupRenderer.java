@@ -25,6 +25,7 @@ package com.sun.webui.jsf.renderkit.widget;
 import com.sun.faces.annotation.Renderer;
 
 import com.sun.data.provider.RowKey;
+import com.sun.webui.jsf.component.Table2;
 import com.sun.webui.jsf.component.Table2Column;
 import com.sun.webui.jsf.component.Table2RowGroup;
 import com.sun.webui.jsf.util.JSONUtilities;
@@ -96,7 +97,10 @@ public class Table2RowGroupRenderer extends RendererBase {
         }
         Table2RowGroup group = (Table2RowGroup) component;
         String templatePath = group.getHtmlTemplate(); // Get HTML template.
-
+        String filterText = null;
+        if (group.getParent() instanceof Table2) {
+            filterText = ((Table2) (group.getParent())).getFilterText();
+        }
         JSONObject json = new JSONObject();
         json.put("className", group.getStyleClasses())
             .put("first", group.getFirst())
@@ -105,6 +109,7 @@ public class Table2RowGroupRenderer extends RendererBase {
             .put("title", group.getToolTip())
             .put("totalRows", group.getRowCount())
             .put("paginationControls",group.isPaginationControls())
+            .put("filterText", filterText)
             .put("visible", group.isVisible());
         
         // Add attributes.
@@ -174,6 +179,9 @@ public class Table2RowGroupRenderer extends RendererBase {
      */
     protected void setRowProperties(FacesContext context, Table2RowGroup component,
             JSONObject json) throws IOException, JSONException {
+        // Add rows.
+        JSONArray jsonRows = new JSONArray();
+        json.put("rows", jsonRows);
         // Render empty data message.
         if (component.getRowCount() == 0) {
             return;
@@ -187,11 +195,7 @@ public class Table2RowGroupRenderer extends RendererBase {
         RowKey[] rowKeys = component.getRenderedRowKeys();
         if (rowKeys == null) {
             return;
-        }
-
-        // Add rows.
-        JSONArray jsonRows = new JSONArray();
-        json.put("rows", jsonRows);
+        }        
 
         try {
             // Iterate over the rendered RowKey objects.
@@ -212,13 +216,18 @@ public class Table2RowGroupRenderer extends RendererBase {
                     // Render Table2Column children.
                     Iterator grandKids = col.getChildren().iterator();
                     UIComponent comp = null;
+                    boolean emptyCellFlag = col.isEmptyCell();
                     while (grandKids.hasNext()) {
                         comp = (UIComponent) grandKids.next(); 
                         if (comp instanceof Table2Column) {
                             getColumnChildren(context, comp, jsonCols);                            
                         } else {
+                            if (!emptyCellFlag) {
                             jsonCols.put(WidgetUtilities.renderComponent(context,
                             comp));
+                            } else {
+                                jsonCols.put("");
+                            }    
                         }    
                     }
                 }
@@ -246,12 +255,17 @@ public class Table2RowGroupRenderer extends RendererBase {
     private void getColumnChildren(FacesContext context, UIComponent comp,
             JSONArray json) throws IOException, JSONException {
         Iterator grandColKids = comp.getChildren().iterator();
+        boolean emptyCellFlag = ((Table2Column) comp).isEmptyCell();
         while (grandColKids.hasNext()) {
             UIComponent col = (UIComponent)grandColKids.next();
             if (col instanceof Table2Column) {
                 getColumnChildren(context, col, json);
-            } else {    
-                json.put(WidgetUtilities.renderComponent(context, col));
+            } else {  
+                if (!emptyCellFlag) {
+                    json.put(WidgetUtilities.renderComponent(context, col));
+                } else {
+                    json.put("");
+                }
             }
         }
     }

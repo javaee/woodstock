@@ -49,6 +49,9 @@ import javax.faces.context.FacesContext;
     tagRendererType="com.sun.webui.jsf.widget.Table2", 
     displayName="Table2", tagName="table2")
 public class Table2 extends TableBase {
+        
+    /** The facet name for the columns panel area. */
+    public static final String COLUMNS_PANEL_FACET = "columnsPanel"; //NOI18N
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Base methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -110,7 +113,101 @@ public class Table2 extends TableBase {
     public void setHtmlTemplate(String htmlTemplate) {
         this.htmlTemplate = htmlTemplate;
     }
+    
+    /**
+     * Text used for table tips.
+     */
+    @Property(name="tips", isAttribute=true, displayName="Table tips", category="Appearance")
+    private String tips = null;
 
+    /**
+     * text used for table tips.
+     */
+    public String getTips() {
+        if (this.tips != null) {
+            return this.tips;
+        }
+        ValueExpression _vb = getValueExpression("tips");
+        if (_vb != null) {
+            return (String) _vb.getValue(getFacesContext().getELContext());
+        }
+        return null;
+    }
+
+    /**
+     * Text used for table tips.
+     */
+    public void setTips(String tips) {
+        this.tips = tips;
+    }
+
+    /**
+     * Use the tableControls attribute to hide/display table controls button.
+     */
+    @Property(name="tableControls", displayName="table controls", category="Behavior")
+    private boolean tableControls = false;
+    private boolean tableControls_set = false;
+
+    /**
+     * Use the tableControls attribute to hide/display table controls button.
+     */
+    public boolean isTableControls() {
+        if (this.tableControls_set) {
+            return this.tableControls;
+        }
+        ValueExpression _vb = getValueExpression("visible");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Use the tableControls attribute to hide/display table controls button.
+     */
+    public void setTableControls(boolean tableControls) {
+        this.tableControls = tableControls;
+        this.tableControls_set = true;
+    }
+    
+    /**
+     * Use the tableControls attribute to hide/display table controls button.
+     */
+    @Property(name="tableTips", displayName="table tips", category="Behavior")
+    private boolean tableTips = false;
+    private boolean tableTips_set = false;
+
+    /**
+     * Use the tableControls attribute to hide/display table controls button.
+     */
+    public boolean isTableTips() {
+        if (this.tableTips_set) {
+            return this.tableTips;
+        }
+        ValueExpression _vb = getValueExpression("visible");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Use the tableControls attribute to hide/display table controls button.
+     */
+    public void setTableTips(boolean tableControls) {
+        this.tableTips = tableControls;
+        this.tableTips_set = true;
+    }
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // State methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -122,15 +219,26 @@ public class Table2 extends TableBase {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.htmlTemplate = (String) _values[1];
+        
+        this.tableControls = ((Boolean) _values[2]).booleanValue();
+        this.tableControls_set = ((Boolean) _values[3]).booleanValue();
+        this.tableTips = ((Boolean) _values[4]).booleanValue();
+        this.tableTips_set = ((Boolean) _values[5]).booleanValue();
+        this.tips = (String) _values[6];
     }
 
     /**
      * Save the state of this component.
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[2];
+        Object _values[] = new Object[7];
         _values[0] = super.saveState(_context);
         _values[1] = this.htmlTemplate;
+        _values[2] = this.tableControls ? Boolean.TRUE : Boolean.FALSE;
+        _values[3] = this.tableControls_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[4] = this.tableTips ? Boolean.TRUE : Boolean.FALSE;
+        _values[5] = this.tableTips_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[6] = this.tips;
         return _values;
     }
 

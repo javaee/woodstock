@@ -40,7 +40,14 @@ public abstract class TableBase extends WebuiComponent
         implements NamingContainer {
     /** The facet name for top actions area. */
     public static final String ACTIONS_TOP_FACET = "actionsTop"; //NOI18N
-
+    /** The facet name for the filter area. */
+    public static final String FILTER_FACET = "filter"; //NOI18N
+    /** The facet name for the filter panel. */
+    public static final String FILTER_PANEL_FACET = "filterPanel"; //NOI18N
+    /** The facet name for the preferences panel. */
+    public static final String PREFERENCES_PANEL_FACET = "preferencesPanel"; //NOI18N
+     /** The facet name for the sort panel. */
+    public static final String SORT_PANEL_FACET = "sortPanel"; //NOI18N
     // A List containing Table2RowGroup children. 
     private List tableRowGroupChildren = null;
 

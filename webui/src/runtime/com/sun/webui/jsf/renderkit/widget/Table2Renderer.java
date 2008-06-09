@@ -74,7 +74,8 @@ public class Table2Renderer extends RendererBase {
         "onMouseOver",
         "onMouseUp",
         "rules",
-        "summary"};
+        "summary",
+        "style"};
     
     /**
      * The set of int attributes to be rendered.
@@ -108,6 +109,11 @@ public class Table2Renderer extends RendererBase {
         JSONObject json = new JSONObject();
         json.put("className", table.getStyleClass())
             .put("title", table.getToolTip())
+            .put("showTableControls", table.isTableControls())
+            .put("showTipsControl", table.isTableTips())
+            .put("tips", table.getTips())
+            .put("filterText", table.getFilterText())
+            .put("filterPanelFocusId", table.getFilterPanelFocusId())
             .put("visible", table.isVisible());        
             
         // Add attributes.
@@ -115,8 +121,12 @@ public class Table2Renderer extends RendererBase {
         JSONUtilities.addIntegerProperties(intAttributes, table, json);
         
         setActionsProperties(context, table, json);
+        setFilterProperties(context, table, json);
         setCaptionProperties(context, table, json);
         setRowGroupProperties(context, table, json);
+        setPreferencesPanelProperties(context, table, json);
+        setSortPanelProperties(context, table, json);
+        setColumnsPanelProperties(context, table, json);
 
         return json;
     }
@@ -144,15 +154,8 @@ public class Table2Renderer extends RendererBase {
      */
     protected void setCaptionProperties(FacesContext context, Table2 component, 
             JSONObject json) throws IOException, JSONException {
-        // Get filter augment. 
-        String filterText = (component.getFilterText() != null) 
-            ? getTheme().getMessage("table.title.filterApplied",
-                new String[] {component.getFilterText()}) 
-            : null;
-
-        // Append component properties.
-        json.put("caption", component.getTitle())
-            .put("filterText", filterText);
+        
+        json.put("caption", component.getTitle());        
     }
 
     /** 
@@ -172,6 +175,79 @@ public class Table2Renderer extends RendererBase {
             json.put("actions", jArray);
             jArray.put(WidgetUtilities.renderComponent(context, facet));
         }
+    }
+    
+    /** 
+     * Helper method to obtain filter properties.
+     *
+     * @param context FacesContext for the current request.
+     * @param component Table2 to be rendered.
+     * @param json JSONObject to assign properties to.
+     */
+    protected void setFilterProperties(FacesContext context, Table2 component,
+            JSONObject json) throws IOException, JSONException {
+        // Get basic filter facet.
+        UIComponent filterFacet = component.getFacet(Table2.FILTER_FACET);        
+        if (filterFacet != null && filterFacet.isRendered()) {            
+            json.put("filter", WidgetUtilities.renderComponent(context, filterFacet));            
+        }
+        
+        // Get basic filter facet.
+        filterFacet = component.getFacet(Table2.FILTER_PANEL_FACET);        
+        if (filterFacet != null && filterFacet.isRendered()) {            
+            json.put("filterPanel", WidgetUtilities.renderComponent(context, filterFacet));            
+        }
+    }
+    
+    /** 
+     * Helper method to obtain preferences properties.
+     *
+     * @param context FacesContext for the current request.
+     * @param component Table2 to be rendered.
+     * @param json JSONObject to assign properties to.
+     */
+    protected void setPreferencesPanelProperties(FacesContext context, Table2 component,
+            JSONObject json) throws IOException, JSONException {
+        // Get basic filter facet.
+        UIComponent preferencesFacet = component.getFacet(Table2.PREFERENCES_PANEL_FACET);        
+        if (preferencesFacet != null && preferencesFacet.isRendered()) {            
+            json.put("preferencesPanel", WidgetUtilities.renderComponent(context, preferencesFacet));            
+        }       
+        
+    }
+    
+    /** 
+     * Helper method to obtain multiple sort properties.
+     *
+     * @param context FacesContext for the current request.
+     * @param component Table2 to be rendered.
+     * @param json JSONObject to assign properties to.
+     */
+    protected void setSortPanelProperties(FacesContext context, Table2 component,
+            JSONObject json) throws IOException, JSONException {
+        // Get multiple sort facet.
+        UIComponent multipleSortFacet = component.getFacet(Table2.SORT_PANEL_FACET);        
+        if (multipleSortFacet != null && multipleSortFacet.isRendered()) {            
+            json.put("sortPanel", WidgetUtilities.renderComponent(context, multipleSortFacet));            
+        }       
+        
+    }
+    
+    /** 
+     * Helper method to obtain columns panel properties.
+     *
+     * @param context FacesContext for the current request.
+     * @param component Table2 to be rendered.
+     * @param json JSONObject to assign properties to.
+     */
+    protected void setColumnsPanelProperties(FacesContext context, Table2 component,
+            JSONObject json) throws IOException, JSONException {
+        // Get columns panel facet.
+        UIComponent columnsFacet = component.getFacet(Table2.COLUMNS_PANEL_FACET);        
+        if (columnsFacet != null && columnsFacet.isRendered()) {            
+            json.put("columnsPanel", WidgetUtilities.renderComponent(context, columnsFacet));            
+        }       
+        
     }
 
     /** 

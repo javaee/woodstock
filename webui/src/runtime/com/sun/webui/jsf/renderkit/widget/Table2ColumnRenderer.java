@@ -116,6 +116,7 @@ public class Table2ColumnRenderer extends RendererBase {
             .put("title", col.getToolTip())
             .put("sort", col.getSort() != null ? true : false)
             .put("sortLevel", col.getSortLevel())
+            .put("emptyCell", col.isEmptyCell())
             .put("visible", col.isVisible());
             
         // multi level column headers

@@ -86,22 +86,10 @@ public class Table extends TableBase {
     public static final String EMBEDDED_PANELS_ID = "_embeddedPanels"; //NOI18N
 
     /** The facet name for embedded panels. */
-    public static final String EMBEDDED_PANELS_FACET = "embeddedPanels"; //NOI18N
-
-    /** The facet name for the filter area. */
-    public static final String FILTER_FACET = "filter"; //NOI18N
-
-    /** The facet name for the filter panel. */
-    public static final String FILTER_PANEL_FACET = "filterPanel"; //NOI18N
+    public static final String EMBEDDED_PANELS_FACET = "embeddedPanels"; //NOI18N    
 
     /** The facet name for the footer area. */
-    public static final String FOOTER_FACET = "footer"; //NOI18N
-
-    /** The facet name for the preferences panel. */
-    public static final String PREFERENCES_PANEL_FACET = "preferencesPanel"; //NOI18N
-
-    /** The facet name for the sort panel. */
-    public static final String SORT_PANEL_FACET = "sortPanel"; //NOI18N
+    public static final String FOOTER_FACET = "footer"; //NOI18N       
 
     /** The id for the table. */
     public static final String TABLE_ID = "_table"; //NOI18N
