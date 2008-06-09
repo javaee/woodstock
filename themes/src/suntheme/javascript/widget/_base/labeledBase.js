@@ -202,7 +202,9 @@
 
 	// Get subclass label preferences
 	//
-	this._proto._extend(this.label, this._getLabelProps());
+	var props = this._getLabelProps();
+	this._proto._extend(props, this.label);
+	this._proto._extend(this.label, props);
     }
     return this._inherited("_postCreate", arguments);
 };
