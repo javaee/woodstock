@@ -190,7 +190,7 @@
  * @return {String} A CSS selector for the listbox label.
  * @private
  */
-@JS_NS@.widget.listbox.prototype._getLabelClassName = function(ontop) {
+@JS_NS@.widget.listbox.prototype._getLabelOnTopClassName = function(ontop) {
     //var labelontop = ontop != null ? ontop : this.labelOnTop;
     //return labelontop == true
     return ontop != null && ontop == true

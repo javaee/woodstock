@@ -509,17 +509,33 @@ body.HlpBdy@THEME_CSS@ h2, body.HlpBdy@THEME_CSS@ h3, body.HlpBdy@THEME_CSS@ h4,
 /*---*/
 
 /* LISTS */
+/* Remove the border from around the span that contains dropdown
+   and select elements. When this element's class attribute contains
+   any of the "Lst" or "Mnu" selectors it gets the "border-widget: 1px"
+   appearance. It is only seen when the select element does not 
+   "sit ontop of the span". For example if the span has padding
+   offsets the span's border will be seen.
+*/
+span.Lst@THEME_CSS@,
+span.DrpDn@THEME_CSS@ {
+   border: none;
+}
+
 .Lst@THEME_CSS@, .LstDis@THEME_CSS@, .LstMno@THEME_CSS@, .LstMnoDis@THEME_CSS@ {
 	border-width:1px;
 	border-style:solid;
 }
 .LstAln@THEME_CSS@ {
 	vertical-align:top;
-	padding-right:5px;
 } 
 /* This is required for correct alignment on safari and
  * makes the look consistent across browsers.
  */
+span.LstBx@THEME_CSS@,
+span.DrpDn@THEME_CSS@ {
+    border:none;
+}
+
 .LstBx@THEME_CSS@ span,
 .DrpDn@THEME_CSS@ span {
     vertical-align: top;
@@ -530,11 +546,12 @@ body.HlpBdy@THEME_CSS@ h2, body.HlpBdy@THEME_CSS@ h3, body.HlpBdy@THEME_CSS@ h4,
 .LstBx@THEME_CSS@  img.LblReqImg@THEME_CSS@,
 .DrpDn@THEME_CSS@ img.LblReqImg@THEME_CSS@ {
     vertical-align: top;
-    margin-left: .25em
+    margin-left: .25em;
+    margin-right: .5em;
 }
 
 .LstBx@THEME_CSS@  img.LblInvImg@THEME_CSS@,
-.DrpDn@THEME_CSS@ img.LblReqImg@THEME_CSS@ {
+.DrpDn@THEME_CSS@ img.LblInvImg@THEME_CSS@ {
     vertical-align: top;
     margin-right: .25em;
 }
