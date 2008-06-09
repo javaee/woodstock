@@ -605,7 +605,8 @@ span.DrpDn@THEME_CSS@ {
 div.ConTblCl2Div@THEME_CSS@ input, div.ConTblCl2Div@THEME_CSS@ select {
 	vertical-align:middle;
 } 
-div.ConTblCl2Div@THEME_CSS@ .CbSpn@THEME_CSS@ input[type=checkbox] {
+div.ConTblCl2Div@THEME_CSS@ .CbSpn@THEME_CSS@ input[type=checkbox],
+div.ConTblCl2Div@THEME_CSS@ .CbSpnDis@THEME_CSS@ input[type=checkbox] {
 	 margin-top:-8px;
 }
 .ConFldSetLgdDiv@THEME_CSS@ {
