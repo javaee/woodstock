@@ -1,0 +1,90 @@
+{
+    "name": "calendar",
+    "type": "@JS_NAME@",
+    "version": "@JS_VERSION@",
+    "jmakiVersion": "1.8",
+    "description": "Woodstock calendar widget.",
+    "args": [
+      {"className": {
+         "type": "STRING",
+         "description": "CSS selector.",
+         "defaultValue": ""}},
+      {"closeButtonLink": {
+         "type": "OBJECT",
+         "description": "",
+         "defaultValue": {}}},
+      {"date": {
+         "type": "STRING",
+         "description": "",
+         "defaultValue": ""}},
+      {"dateFormat": {
+         "type": "STRING",
+         "description": "",
+         "defaultValue": "MM/dd/yyyy"}},
+      {"decreaseLink": {
+         "type": "OBJECT",
+         "description": "",
+         "defaultValue": {}}},
+      {"id": {
+         "type": "STRING",
+         "description": "Uniquely identifies an element within a document.",
+         "defaultValue": ""}},
+      {"increaseLink": {
+         "type": "OBJECT",
+         "description": "",
+         "defaultValue": {}}},
+      {"maxDate": {
+         "type": "OBJECT",
+         "description": "",
+         "defaultValue": {}}},
+      {"minDate": {
+         "type": "OBJECT",
+         "description": "",
+         "defaultValue": {}}},
+      {"monthMenu": {
+         "type": "OBJECT",
+         "description": "",
+         "defaultValue": {}}},
+      {"style": {
+         "type": "STRING",
+         "description": "Specify style rules inline.",
+         "defaultValue": ""}},
+      {"todayDateMsg": {
+         "type": "OBJECT",
+         "description": "",
+         "defaultValue": {}}},
+      {"toggleLink": {
+         "type": "OBJECT",
+         "description": "",
+         "defaultValue": {}}},
+      {"yearMenu": {
+         "type": "OBJECT",
+         "description": "",
+         "defaultValue": {}}},
+      {"visible": {
+         "type": "BOOLEAN",
+         "description": "Hide or show element.",
+         "defaultValue": false}}
+    ],
+    "value": {
+      "required": true,
+      "type": "OBJECT",
+      "defaultValue": {},
+      "description": ""
+    },
+    "config": {
+      "type": {
+        "id": "@JS_NAME@",
+        "libs": [
+          "@JS_PATH@/bootstrap.js"
+        ],
+        "resources": [ "../resources/" ]
+        }
+    },
+    "topicInfo": {
+        "type": "publish",
+        "topicName": "/@JS_NS@/calendar/onSelect",
+        "description": "Published when a date is selected."
+    }
+}
+
