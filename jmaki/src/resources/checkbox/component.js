@@ -155,7 +155,7 @@ jmaki.namespace("@JMAKI_NS@.checkbox");
 	props.label = {value: "Checkbox", level: 3};
     }
 
-}
+};
 
 // Callback function to handle Woodstock checkbox onSelect event.
 // Publish jMaki onSelect event with payload:
