@@ -364,6 +364,8 @@
         this._widget._addFragment(cellClone, this.emptyTableRow, "last"); 
         // remove footers for empty table data
         this._widget._removeChildNodes(this._tfoot); 
+        //update row text
+        this._updateRowsText();
         return true;
     }
     

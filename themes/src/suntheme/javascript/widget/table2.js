@@ -26,6 +26,7 @@
 @JS_NS@._dojo.require("@JS_NS@.widget._base.refreshBase");
 @JS_NS@._dojo.require("@JS_NS@.widget._base.stateBase");
 @JS_NS@._dojo.require("@JS_NS@.widget._base.widgetBase");
+@JS_NS@._dojo.require("@JS_NS@.widget.table2RowGroup");
 
 /**
  * This function is used to construct a table2 widget.
@@ -216,6 +217,7 @@
                     id: this.id + "_preferencesBtn",                                        
                     value: this._theme.getMessage("table2.button.preferences"),     
                     onClick: "@JS_NS@.widget.common.getWidget('" + this.id + "').togglePreferencesPanel();return false;",
+                    visible: false,
                     widgetType: "button"
         };
     }
@@ -224,6 +226,7 @@
                     id: this.id + "_multipleSortBtn",                                        
                     value: this._theme.getMessage("table2.button.sort"),     
                     onClick: "@JS_NS@.widget.common.getWidget('" + this.id + "').toggleSortPanel();return false;",
+                    visible: false,
                     widgetType: "button"
         };
     }
@@ -232,6 +235,7 @@
                     id: this.id + "_columnsBtn",                                        
                     value: this._theme.getMessage("table2.button.columns"),     
                     onClick: "@JS_NS@.widget.common.getWidget('" + this.id + "').toggleColumnsPanel();return false;",
+                    visible: false,
                     widgetType: "button"
         };
     }
@@ -477,7 +481,7 @@
         for (var i = 0; i < props.actions.length; i++) {
           this._widget._addFragment(this._actionsNode, props.actions[i], "last");
         }
-        this._common._setVisibleElement(this._actionsContainer, true);
+        this._common._setVisibleElement(this._actionsNode, true);
     }
     // Add basic filter
     if (props.filter) {               
