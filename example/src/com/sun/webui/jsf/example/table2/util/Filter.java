@@ -61,7 +61,7 @@ public class Filter {
     private String filterText = null; // Filter text.
     private Group group = null; // Group util.
     private String type = null;
-    private boolean customFilterApplied = false;
+    
     // Filter menu items.
     protected static final Option[] filterOptions = {
         new Option("FILTER0", MessageUtil.getMessage("table_filterAllItems")),
@@ -84,7 +84,7 @@ public class Filter {
     public void setBasicFilter(String value) {
         String text= null;
         basicFilter = value;
-        System.err.println(type+"basicFilter -type");
+        
         if (type != null && type.equals("basic")) {
             
             if (basicFilter.equals("FILTER1")) {
@@ -112,7 +112,7 @@ public class Filter {
                 group.getTableRowGroup().setFilterCriteria(
                     new FilterCriteria[] {criteria});
             }
-            System.err.println(basicFilter+"basicFilter1");
+            
         }
     }
 
@@ -123,10 +123,8 @@ public class Filter {
 
     // Set custom filter.
     public void setCustomFilter(String value) {
-        customFilter = value;
-        System.err.println(customFilter+"customFilterApplied0");
-        if (type != null && type.equals("custom")) {
-             System.err.println(customFilter+"customFilterApplied1");
+        customFilter = value;        
+        if (type != null && type.equals("custom")) {             
             if ((customFilter == null || customFilter.length() == 0)) {
                 group.getTableRowGroup().setFilterCriteria(null);
             } else {
@@ -137,25 +135,20 @@ public class Filter {
                 // Note: Table2RowGroup ensures pagination is reset per UI guidelines.
                 group.getTableRowGroup().setFilterCriteria(
                     new FilterCriteria[] {criteria});
-                filterText = "Custom";
-            customFilterApplied = true;
-            System.err.println(customFilter+"customFilterApplied2");
-            basicFilter = "SEARCH_RESULT";
+                filterText = "Custom";            
+                basicFilter = "SEARCH_RESULT";
             }
             
         }
     }
 
     // Get filter menu options.
-    public Option[] getFilterOptions() {
-        System.err.println(customFilterApplied+"customFilterApplied");
-        // Get filter options based on the selected filter menu option.
+    public Option[] getFilterOptions() {                
         return filterOptions;
     }
 
     // Get filter text.
-    public String getFilterText() {
-        System.err.println(filterText+"filterText");
+    public String getFilterText() {        
         return filterText;
     }
     // filter types
