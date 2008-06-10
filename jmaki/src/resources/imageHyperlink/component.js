@@ -125,7 +125,7 @@ jmaki.namespace("@JMAKI_NS@.imageHyperlink");
 	} else if (name == "disabledImage") {
 	    var obj2 = {};
 	    for (p in value.disabledImage) {
-		obj2[p] = value.enabledImage[p];
+		obj2[p] = value.disabledImage[p];
 	    }	// End of inner for
 	    obj2.id = this._wid + "_image_dis";
 	    obj2.widgetType = "image";
