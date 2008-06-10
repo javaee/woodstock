@@ -23,11 +23,11 @@ import java.util.List;
 public class Group {
     private Table2RowGroup tableRowGroup = null; // Table2RowGroup component.
     private TableDataProvider provider = null; // Data provider.
-    
+    private Filter filter = null; // Filter util.
 
     // Default constructor.
     public Group() {
-        
+        filter = new Filter(this);
     }
 
     // Construct an instance using given Object array.
@@ -57,4 +57,8 @@ public class Group {
         this.tableRowGroup = tableRowGroup;
     }
     
+    // Get Filter util.
+    public Filter getFilter() {
+        return filter;
+    }
 }

@@ -295,7 +295,8 @@ public class TableData {
                     "table2/sortTable.jsp",
                     "table2/Table2Bean.java",
                     "table2/util/Group.java",
-                    "table2/util/Name.java"}
+                    "table2/util/Name.java",
+                    "table2/util/Filter.java",}
 	),
         new AppData("index_tree2", "index_tree2Concepts", "showTree2Index",
                 new String[] {

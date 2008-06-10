@@ -57,7 +57,11 @@
                 <webuijsf:hyperlink id="sortTable"
                   text="#{msgs.table2_tableSortLink}"
                   actionExpression="showTable2Sort"                  
-                  />                
+                  />     
+                  <webuijsf:hyperlink id="filterTable"
+                  text="#{msgs.table2_tableFilterLink}"
+                  actionExpression="showTable2Filter"                  
+                  />
               </webuijsf:panelGroup>
             </webuijsf:contentPageTitle>
           </webuijsf:form>
