@@ -1,1 +1,1 @@
-<a:widget name="@JS_NAME@.hyperlink" value="{href: 'index.jsp', contents: [ 'anchor text' ]}" />
+<a:widget name="@JS_NAME@.hyperlink" value="{contents: [ 'anchor_text' ]}" />

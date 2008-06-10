@@ -7,11 +7,12 @@ jmaki.namespace("@JMAKI_NS@.hyperlink");
  * the "wargs" parameter:
  *
  * value:     Initial data with the following properties:
- *            {href: <hyperlink_URL>,
+ *            {formId: <form_identifier>,
  *             text: <hyperlink_text>}
- *            If the href property is omitted, the hyperlink will
- *            submit the page; that is, it acts as a hyperlink button.
- * args:      Additional widget properties from the code snippet,
+ *            The hyperlink widget acts as a form submitting anchor.
+ *            If formId is not specified, the form in which this wrapper
+ *            is contained is submitted.  
+ * argl:      Additional widget properties from the code snippet,
  *            these properties are assumed to be underlying widget
  *            properties and are passed through to the hyperlink widget.
  * publish:   Topic to publish jMaki events to; if not specified, the
@@ -73,7 +74,6 @@ jmaki.namespace("@JMAKI_NS@.hyperlink");
 	this._mapProperties(props, wargs.value);
     } else {
 	// No data. Define simple hyperlink.
-	props.name = this._wid;
 	props.contents = [ "Hyperlink: " + this._wid ];
     }
 

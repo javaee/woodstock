@@ -29,10 +29,6 @@
          "type": "STRING",
          "description": "The id of the HTML form element for page submit.",
          "defaultValue": ""}},
-      {"hrefLang": {
-         "type": "STRING",
-         "description": "The language of the URL.",
-         "defaultValue": ""}},
       {"lang": {
          "type": "STRING",
          "description": "Specifies the language of attribute values.",
@@ -91,16 +87,8 @@
          "defaultValue": ""}},
       {"params": {
          "type": "ARRAY",
-         "description": "The parameters to be passed in the link href.",
+         "description": "The query parameters to be passed in the page submit.",
          "defaultValue": []}},
-      {"rel": {
-         "type": "STRING",
-         "description": "Forward link relationship with the destination link.",
-         "defaultValue": ""}},
-      {"rev": {
-         "type": "STRING",
-         "description": "Reverse link relationship with the destination link.",
-         "defaultValue": ""}},
       {"style": {
          "type": "STRING",
          "description": "Specify style rules inline.",
@@ -121,8 +109,8 @@
     "value": {
       "required": true,
       "type": "OBJECT",
-      "defaultValue": {"href": "index.jsp", "contents": [ "link text" ]},
-      "description": "Simple hyperlink with text."
+      "defaultValue": {"formId": "form_identifier", "contents": [ "hyperlink text" ]},
+      "description": "Simple hyperlink form submit with text."
     },
     "config": {
       "type": {

@@ -21,6 +21,10 @@
          "type": "BOOLEAN",
          "description": "Disable the element.",
          "defaultValue": false}},
+      {"hrefLang": {
+         "type": "STRING",
+         "description": "The language of the URL.",
+         "defaultValue": ""}},
       {"lang": {
          "type": "STRING",
          "description": "Specifies the language of attribute values.",
@@ -75,7 +79,11 @@
          "defaultValue": ""}},
       {"rel": {
          "type": "STRING",
-         "description": "",
+         "description": "Forward link relationship with destination link.",
+         "defaultValue": ""}},
+      {"rev": {
+         "type": "STRING",
+         "description": "Reverse link relationship with the destination link.",
          "defaultValue": ""}},
       {"style": {
          "type": "STRING",
@@ -97,8 +105,8 @@
     "value": {
       "required": true,
       "type": "OBJECT",
-      "defaultValue": {"name": "${uuid}", "contents": [ "anchor text" ]},
-      "description": "Simple anchor with text."
+      "defaultValue": {"name": "", "href": "distination_url", "contents": [ "anchor text" ]},
+      "description": "Simple link anchor with text."
     },
     "config": {
       "type": {

@@ -8,9 +8,13 @@ jmaki.namespace("@JMAKI_NS@.anchor");
  *
  * value:     Initial data with the following properties:
  *            {name: <anchor_name>,
+ *             href: <link_url>,
  *             contents: [<anchor_text>]}
  *            If the name property is omitted, the widget identifier
- *            is used.
+ *            is used.  If the href property exists, the anchor acts
+ *            as a link; if its omitted, the anchor acts as an anchor
+ *            (a location to link to on the page identified by the
+ *            name property).
  * args:      Additional widget properties from the code snippet,
  *            these properties are assumed to be underlying widget
  *            properties and are passed through to the anchor widget.
@@ -71,7 +75,7 @@ jmaki.namespace("@JMAKI_NS@.anchor");
     if (wargs.value && typeof wargs.value == "object") {
 	this._mapProperties(props, wargs.value);
     } else {
-	// No data. Define simple anchor.
+	// No data. Define simple anchor without href.
 	props.name = this._wid;
 	props.contents = [ "Anchor: " + this._wid ];
     }

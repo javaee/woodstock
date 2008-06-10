@@ -29,13 +29,9 @@
          "type": "OBJECT",
          "description": "Image to render when in disabled state.",
          "defaultValue": {"src": "image_url"}}},
-      {"href": {
+      {"formId": {
          "type": "STRING",
-         "description": "URL to the resource selected by this link.",
-         "defaultValue": ""}},
-      {"hrefLang": {
-         "type": "STRING",
-         "description": "The language of the URL.",
+         "description": "The id of the HTML form element for page submit.",
          "defaultValue": ""}},
       {"imagePosition": {
          "type": "STRING",
@@ -93,14 +89,10 @@
          "type": "STRING",
          "description": "Mouse is moved while over element.",
          "defaultValue": ""}},
-      {"rel": {
-         "type": "STRING",
-         "description": "Forward link relationship with the destination link.",
-         "defaultValue": ""}},
-      {"rev": {
-         "type": "STRING",
-         "description": "Reverse linke relatinship with the destination link.",
-         "defaultValue": ""}},
+      {"params": {
+         "type": "ARRAY",
+         "description": "The query parameters to be passed in the page submit.",
+         "defaultValue": []}},
       {"style": {
          "type": "STRING",
          "description": "Specify style rules inline.",
@@ -125,8 +117,8 @@
     "value": {
       "required": true,
       "type": "OBJECT",
-      "defaultValue": {"href": "link_url", contents: [], enabledImage: {"src": "image_url"}},
-      "description": "Simple image hyperlink without text."
+      "defaultValue": {"formId": "form_identifier", "contents": [], "enabledImage": {"src": "image_url"}},
+      "description": "Simple image hyperlink form submit without text."
     },
     "config": {
       "type": {
