@@ -14290,7 +14290,7 @@ function for details on properties and their usage</li>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">&lt;Node&gt;.event.title.selectTopic</td>
+      <td style="vertical-align: top;">&lt;Node&gt;.event.title.selectedTopic</td>
       <td style="vertical-align: top;"> Event topic published when an accordionTab is 
 	selected. Supported properties include: <br>
       <ul>
