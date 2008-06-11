@@ -80,8 +80,8 @@
         @JS_NS@.widget._base.widgetBase ], {
     // Set defaults.    
     constructor: function() {
-        this.tableControls = false;
-        this.tableTips = false;        
+        this.showTableControls = false;
+        this.showTipsControl = false;        
     },
     _widgetType: "table2" // Required for theme properties.
 });
@@ -172,12 +172,12 @@
         this._actionsContainer.id = this.id + "_actionsContainer";
         this._actionsNode.id = this.id + "_actionsNode";
         this._controlsNode.id = this.id + "_controlsNode";
-        this._filterPanelContainer.id = this.id + "_filterPanelContainer";
+        this._controlsPanel.id = this.id + "_controlsPanel";
         this._preferencesPanelContainer.id = this.id + "_preferencesPanelContainer";
         this._sortPanelContainer.id = this.id + "_sortPanelContainer";
         this._rowGroupsContainer.id = this.id + "_rowGroupsContainer";
         this._captionContainer.id = this.id + "_captionContainer";        
-        this._basicFilterPanel.id = this.id + "_basicFilterPanel";
+        this._filterContainer.id = this.id + "_filterContainer";
         this._customFilterPanel.id = this.id + "_customFilterPanel";
         this._tableTipsContainer.id = this.id + "_tableTipsContainer";
         this._tableTips.id = this.id + "_tableTips";
@@ -190,7 +190,7 @@
         this._tableControlBtn = {
                     id: this.id + "_tableControlBtn",                      
                     value: this._theme.getMessage("table2.button.tableControls"),  
-                    visible: this.tableControls,
+                    visible: this.showTableControls,
                     onClick: "@JS_NS@.widget.common.getWidget('" + this.id + "').toggleTableControls();return false;",
                     widgetType: "button"
         };
@@ -199,7 +199,7 @@
         this._tableTipsBtn = {
                     id: this.id + "_tableTipsBtn",                                        
                     value: this._theme.getMessage("table2.button.tableTips"),  
-                    visible: this.tableTips,
+                    visible: this.showTipsControl,
                     onClick: "@JS_NS@.widget.common.getWidget('" + this.id + "').toggleTableTips();return false;",
                     widgetType: "button"
         };
@@ -334,7 +334,7 @@
  * @return {boolean} true if successful; otherwise, false.
  */
 @JS_NS@.widget.table2.prototype.toggleTableControls = function() {
-    var domNodeControls = document.getElementById(this._filterPanelContainer.id); 
+    var domNodeControls = document.getElementById(this._controlsPanel.id); 
     var domNodeTips = document.getElementById(this._tableTipsContainer.id);
     if (domNodeTips) {
         this._common._setVisibleElement(domNodeTips, false);
@@ -351,7 +351,7 @@
  * @return {boolean} true if successful; otherwise, false.
  */
 @JS_NS@.widget.table2.prototype.toggleTableTips = function() {
-    var domNodeControls = document.getElementById(this._filterPanelContainer.id); 
+    var domNodeControls = document.getElementById(this._controlsPanel.id); 
     var domNodeTips = document.getElementById(this._tableTipsContainer.id);
     if (domNodeControls) {
         this._common._setVisibleElement(domNodeControls, false);
@@ -477,15 +477,19 @@
     }
 
     // Add actions.
-    if (props.actions) {        
-        for (var i = 0; i < props.actions.length; i++) {
-          this._widget._addFragment(this._actionsNode, props.actions[i], "last");
+    if (props.actions) {       
+        if (props.actions instanceof Array) {
+            for (var i = 0; i < props.actions.length; i++) {
+              this._widget._addFragment(this._actionsNode, props.actions[i], "last");
+            }            
+        } else {
+            this._widget._addFragment(this._actionsNode, props.actions, "last");
         }
         this._common._setVisibleElement(this._actionsNode, true);
     }
     // Add basic filter
     if (props.filter) {               
-        this._widget._addFragment(this._basicFilterPanel, props.filter);                
+        this._widget._addFragment(this._filterContainer, props.filter);                
     }
     
     // Add custom filter
@@ -590,12 +594,19 @@
                 props.filterText
             ]);
         }
-
-        // To do: Create a new title message.
-        
-        this._widget._addFragment(this._captionContainer, (filterText) 
-            ? this.caption + filterText : this.caption);
-        this._common._setVisibleElement(this._captionContainer, true);
+        // check for the ids
+        var flag = false;
+        for (var i = 0; i < this.rowGroups.length; i++) {
+            if (this.rowGroups[i].id == props.id) {
+                flag = true;                
+                break;
+            }
+        }
+        if (flag == true) {        
+            this._widget._addFragment(this._captionContainer, (filterText) 
+                ? this.caption + filterText : this.caption);
+            this._common._setVisibleElement(this._captionContainer, true);
+        }
     }
     return false;
 };

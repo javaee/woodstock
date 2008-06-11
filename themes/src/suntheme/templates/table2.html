@@ -13,24 +13,24 @@
     <!-- Clear/Spacer for panels -->
     <div class="clear@THEME_CSS@ spacer@THEME_CSS@ hidden@THEME_CSS@"></div>    
     <!-- Filter panel -->
-    <div dojoAttachPoint="_filterPanelContainer" class="hidden@THEME_CSS@">  
-    <div class="drawer@THEME_CSS@">
-        <div dojoAttachPoint="_basicFilterPanel" class="controlBucket1@THEME_CSS@">            
+    <div dojoAttachPoint="_controlsPanel" class="hidden@THEME_CSS@">  
+        <div class="drawer@THEME_CSS@">
+            <div dojoAttachPoint="_filterContainer" class="controlBucket1@THEME_CSS@">            
+            </div>
+            <div dojoAttachPoint="_searchContainer" class="controlBucket1@THEME_CSS@">            
+            </div>
+            <div dojoAttachPoint="_tableControlsContainer" class="controlBucket2@THEME_CSS@">            
+            </div>
         </div>
-        <div dojoAttachPoint="_searchContainer" class="controlBucket1@THEME_CSS@">            
+        <div class="drawer@THEME_CSS@">
+            <div dojoAttachPoint="_customFilterPanel" class="controlBucket1@THEME_CSS@ hidden@THEME_CSS@">
+            </div>           
         </div>
-        <div dojoAttachPoint="_tableControlsContainer" class="controlBucket2@THEME_CSS@">            
-        </div>
-    </div>
-    <div class="drawer@THEME_CSS@">
-        <div dojoAttachPoint="_customFilterPanel" class="controlBucket1@THEME_CSS@ hidden@THEME_CSS@">
-        </div>           
-    </div>
     </div>
     <div class="drawer@THEME_CSS@">
         <div dojoAttachPoint="_tableTipsContainer" class="drawer@THEME_CSS@ hidden@THEME_CSS@">
-        <div dojoAttachPoint="_tableTips"  class="tip@THEME_CSS@"></div>
-        <div class="buttonBar@THEME_CSS@" dojoAttachPoint="_tableTipsCloseBtnContainer"></div>
+            <div dojoAttachPoint="_tableTips"  class="tip@THEME_CSS@"></div>
+            <div class="buttonBar@THEME_CSS@" dojoAttachPoint="_tableTipsCloseBtnContainer"></div>
         </div>
     </div>
     <!-- Preferences panel -->    
