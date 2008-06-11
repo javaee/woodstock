@@ -2,7 +2,14 @@
     value = '{
         "menu": [
             {
-                "label" : "action",
+                "label": "Visit Sun Microsystems",
+                "href": "http://www.sun.com",
+                "style": {
+                    "checked": true 
+                } 
+            },
+            {
+                "label" : "Send Action",
                 "action" : {
                     "topic" : "/foo",
                     "message" : {
@@ -10,20 +17,10 @@
                     } 
                 } 
             },        
+          
             {
-                "label": "Yahoo!",
-                "href" : "http://www.yahoo.com" 
-            },
-            {
-                "label": "Sun Microsystems",
-                "href": "http://www.sun.com",
-                "style": {
-                    "checked": true 
-                } 
-            },
-            {
-                "label": "Oracle",
-                "href": "http://www.oracle.com" 
+                "label": "Publish Event",
+                "topic": "/topic" 
             } 
         ]
     }' />

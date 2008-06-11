@@ -86,16 +86,15 @@ jmaki.namespace("@JMAKI_NS@.popupMenu");
     // ============================================================
     // Create the Woodstock widget...
   
+    // add event handling
+    
+    props.onChange = "@JMAKI_NS@.popupMenu.Widget.prototype._onClickCallback('" + props.id + "'); return false;";
+  
     // Create the Woodstock popupMenu widget.
     var span_id = wargs.uuid + "_span";
     woodstock4_3.widget.common.createWidget(span_id, props);
+       
     
-    // connect events    
-    // 
-    // disabled untill an event is available
-    // 
-    //woodstock4_3.widget.common.subscribe(woodstock4_3.widget.popupMenu.event.submit.beginTopic,  this, "_selectCallback");
-
     
 };
 
@@ -152,50 +151,17 @@ jmaki.namespace("@JMAKI_NS@.popupMenu");
 };
 
 
-// Callback function to handle Woodstock listbox onClick event.
-// Event payload contains:
-//    Listbox widget identifier
-// Publish jMaki onClick event.
-@JMAKI_NS@.popupMenu.Widget.prototype._selectCallback = function(props) {
-    if (this._wid && props) {
-        var widget = woodstock4_3.widget.common.getWidget(this._wid);
-	if (widget) {
-            var val = props.date;
-            if (val) {
-                // Format a jMaki event topic payload
-                // and publish the jMaki event.
-                var payload = {widgetId: this._wid, topic:
-                        {type: "onClick", targetId: this._wid, value: val}};
-		var selectedTopic = this._publish + "/onClick";
-		jmaki.publish(selectedTopic, payload);
-            }
-	}
-    }
-};
 
+@JMAKI_NS@.popupMenu.Widget.prototype.processAction = function(action, widgetId ) {
+    if (action && !(action instanceof Array)) {
+        var _m = {widgetId : widgetId};        
+        if (action.message && action.message.value) _m.value = action.message.value;
 
-@JMAKI_NS@.popupMenu.Widget.prototype.processActions = function(_t, _pid, _type, _value) {
-    if (_t) {
-        var _topic = publish;
-        var _m = {widgetId : wargs.uuid, type : _type, targetId : _pid};
-        if (typeof _value != "undefined") _m.value = _value;
-        var action = _t.action;
-        if (!action) _topic = _topic + "/" + _type;
-        if (action && action instanceof Array) {
-            for (var _a=0; _a < action.length; _a++) {
-                var payload = clone(_m);
-                if (action[_a].topic) payload.topic = action[_a].topic;
-                else payload.topic = publish;
-                if (action[_a].message) payload.message = action[_a].message;
-                jmaki.publish(payload.topic,payload);
-            }
-        } else {
-            if (action && action.topic) {
-                _topic = _m.topic = action.topic;
-            }
-            if (action && action.message) _m.message = action.message;               
-            jmaki.publish(_topic,_m);
-        }
+        var _topic = action.topic;
+        if (!_topic) _topic = _topic + "/defaultAction" ;
+       
+        if (action && action.message) _m.message = action.message;               
+        jmaki.publish(_topic,_m);
     }
 };
 
@@ -207,12 +173,45 @@ jmaki.namespace("@JMAKI_NS@.popupMenu");
     return obj;
 };
 
-@JMAKI_NS@.popupMenu.Widget.prototype._onClickCallback = function(e){
+@JMAKI_NS@.popupMenu.Widget.prototype._onClickCallback = function(widgetId){
+    var widget = woodstock4_3.widget.common.getWidget(widgetId);
+ 	
+    if (widget) {
+        var val = widget.getSelectedValue();
+        if (!val) {
+            return false;
+        }
+        if (typeof val == "object") {
+            //process action
+            @JMAKI_NS@.popupMenu.Widget.prototype.processAction(val);
+           
+        } else {
+        
+        
+            var sep = val.indexOf (':');
+            if (sep <= 0) {
+                return false;
+            }
+            var command = val.substring(0, sep);
+            var commandValue = val.substring(sep + 1);
+         
+            if (command == "href") {
+                window.location.href = commandValue;
+            } else if (command == "topic") {
+                // Format a jMaki event topic payload
+                // and publish the jMaki event.
+                var payload = {widgetId: widgetId, topic:
+                        {type: "onClick", targetId: widgetId, value: commandValue}};
+                var selectedTopic = "/" + commandValue;
+                jmaki.publish(selectedTopic, payload);
+            } 
+        }
+    }
     /*
     if (href) {
-        window.location.href = href;
+        
     }else if (menu[sp[0]].menu[sp[1]].action ) {
-        processActions(menu[sp[0]].menu[sp[1]], menu[sp[0]].menu[sp[1]].targetId);
+        
     }
      */
 };
@@ -225,7 +224,7 @@ jmaki.namespace("@JMAKI_NS@.popupMenu");
         props.visible = true;
     }
 
-
+    
     // convert menu items into 'options'
     this._createOptions(props.menu, props);
 
@@ -262,14 +261,13 @@ jmaki.namespace("@JMAKI_NS@.popupMenu");
 
                 // use option.value to store href, action, topic - they are considered to be a 
                 // mutually exclusive options
-                if (typeof menuRef[i].action != "undefined") {
-                    option.value = "action:" + menuRef[i].action;
-                }
-                if (typeof menuRef[i].topic != "undefined") {
-                    option.value = "topic:" + menuRef[i].topic;
-                }
+              
                 if (typeof menuRef[i].href != "undefined") {
                     option.value = "href:" + menuRef[i].href;
+                } else if (typeof menuRef[i].topic != "undefined") {
+                    option.value = "topic:" + menuRef[i].topic;
+                } else if (typeof menuRef[i].action != "undefined") {
+                    option.value = menuRef[i].action; // object, not string
                 }
             }
             optionsPlacement["options"].push(option);        
