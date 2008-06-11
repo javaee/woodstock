@@ -491,7 +491,7 @@
                 icon: handleIcon,
                 id: nodeId + "_turner_image"
             },
-            onClick: "@JS_NS@.widget.common.getWidget('" + this.id + "')._toggleNode('"+ nodeId + "');return false;",
+            onClick: "@JS_NS@.widget.common.getWidget('" + this.id + "').toggleNode('"+ nodeId + "');return false;",
             title: this._theme.getMessage("Tree.expandTxt")
           };
      return nodeProps;
@@ -504,7 +504,7 @@
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-@JS_NS@.widget.tree.prototype._toggleNode = function(nodeId) {
+@JS_NS@.widget.tree.prototype.toggleNode = function(nodeId) {
     
     var treeNode = document.getElementById(nodeId);
     var cc = document.getElementById(nodeId + "_children");
@@ -556,7 +556,7 @@
         }
     }
      // Extend widget object for later updates.
-    return this._inherited("_toggleNode", arguments);
+    return this._inherited("toggleNode", arguments);
     
     
 };

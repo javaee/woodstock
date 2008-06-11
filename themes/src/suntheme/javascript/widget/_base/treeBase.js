@@ -178,7 +178,7 @@
  * @param {String} id The id of the node that is to be expanded.
  * @return {boolean} true if successful; otherwise, false.
  */
-@JS_NS@.widget._base.treeBase.prototype._toggleNode = function(id) {
+@JS_NS@.widget._base.treeBase.prototype.toggleNode = function(id) {
     
     var stateInfo = "";
     for (var state in this.submittedValue.isExpanded) {
