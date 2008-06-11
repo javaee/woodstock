@@ -19,3 +19,11 @@
  * 
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
+/* Hide the decoration for upload input elements. Unfortunately
+   it doesn't have an "Upload" specific selector on its outer most
+   element. But since safari supports type selectors, we can 
+   match it that way.
+*/
+input[type=file] {
+    border: none;
+}
