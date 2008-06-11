@@ -708,18 +708,26 @@
         }
 
         // Add right controls.
-        if (props.progressControlRight != null) {            
-            for (var i = 0; i < props.progressControlRight.length; i++) {
-              this._widget._addFragment(this._rightControlsContainer, props.progressControlRight[i], "last");
-            }
+        if (props.progressControlRight != null) {
+            if (props.progressControlRight instanceof Array) {
+                for (var i = 0; i < props.progressControlRight.length; i++) {
+                    this._widget._addFragment(this._rightControlsContainer, props.progressControlRight[i], "last");
+                }
+            } else {
+                this._widget._addFragment(this._rightControlsContainer, props.progressControlRight, "last");
+            }             
             this._common._setVisibleElement(this._rightControlsContainer, true);
         }
 
         // Add bottom controls.
         if (props.progressControlBottom != null) {
-            for (var i = 0; i < props.progressControlBottom.length; i++) {
-              this._widget._addFragment(this._bottomControlsContainer, props.progressControlBottom[i], "last");
-            }
+            if (props.progressControlBottom instanceof Array) {
+                for (var i = 0; i < props.progressControlBottom.length; i++) {
+                    this._widget._addFragment(this._bottomControlsContainer, props.progressControlBottom[i], "last");
+                }
+            } else {
+                this._widget._addFragment(this._bottomControlsContainer, props.progressControlBottom, "last");
+            }            
             this._common._setVisibleElement(this._bottomControlsContainer, true);
         }
     }
