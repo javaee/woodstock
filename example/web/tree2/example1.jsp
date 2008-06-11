@@ -9,7 +9,7 @@
     <webuijsf:head  title="#{msgs.tree2_example1}" debug="true" webuiAll="true"
     jsfx="true">
     <webuijsf:script>       
-            
+            var count = 42;
             addChild = function() {
                 var nodeProps = 
                     {   "parent": "form1:tree1:node4",
@@ -17,16 +17,17 @@
                             "widgetType": "image",
                             "width": 19,
                             "height": 19,
-                            "title": "[Alarm:Down] Node 1",
+                            "title": "[Alarm:Down] Node " + count,
                             "icon": "TREE_FOLDER_ALARM_MINOR",
                             "visible": true,
                             "border": 0,
-                            "id": "form:tree1:DynamicTree:Node1Image"
+                            "id": "form:tree1:DynamicTree:Image:" + count
                         },
-                        "label": "Node 42",
-                        "id": "form1:tree1:node4:node42"
+                        "label": "Node " + count,
+                        "id": "form1:tree1:node4:node" + count
                     };
                 // invoke setProps on the tree
+                count++;
                 var widget = woodstock4_3.widget.common.getWidget("form1:tree1");
                 widget.addNodes(nodeProps);
                 return false;
