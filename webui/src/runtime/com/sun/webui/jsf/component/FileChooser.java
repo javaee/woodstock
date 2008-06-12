@@ -738,9 +738,10 @@ public class FileChooser extends WebuiInput implements NamingContainer {
 	// selection and it is a folder,then this is not set as the
 	// value and is the same as changing the look in field.
         
-        // no need to validate as validate is done in the getConvertedValue()
-        // method. If our value is valid, store the new value, erase the
+        // If our value is valid, store the new value, erase the
         // "submitted" value, and emit a ValueChangeEvent if appropriate
+	//
+	super.validateValue(context, newValue);
         
         if (isValid()) {
             Object previous = getValue();
