@@ -1,0 +1,175 @@
+{
+    "name": "progressBar",
+    "type": "@JS_NAME@",
+    "version": "@JS_VERSION@",
+    "jmakiVersion": "1.8",
+    "description": "Woodstock progressBar widget.",
+    "args": [
+      {"accessKey": {
+         "type": "STRING",
+         "description": "Shortcut key.",
+         "defaultValue": ""}},
+      {"bottomText": {
+         "type": "STRING",
+         "description": "Task status text displayed at bottom of progress animation.",
+         "defaultValue": ""}},
+      {"busyImage": {
+         "type": "OBJECT",
+         "description": "Overrides default image for busy progress animation.",
+         "defaultValue": {}}},
+      {"className": {
+         "type": "STRING",
+         "description": "CSS selector.",
+         "defaultValue": ""}},
+      {"dir": {
+         "type": "STRING",
+         "description": "Specifies the directionality of text.",
+         "defaultValue": "ltr"}},
+      {"failedStateText": {
+         "type": "STRING",
+         "description": "Text displayed when the task fails.",
+         "defaultValue": ""}},
+      {"lang": {
+         "type": "STRING",
+         "description": "Specifies the language of attribute values.",
+         "defaultValue": ""}},
+      {"log": {
+         "type": "OBJECT",
+         "description": "Specifies size of log text area for determinate progress bar.",
+         "defaultValue": {"cols": 32, "rows": 4}}},
+      {"logMessage": {
+         "type": "STRING",
+         "description": "Text message to display in log text area of determinate progress bar.",
+         "defaultValue": ""}},
+      {"onBlur": {
+         "type": "STRING",
+         "description": "Element lost focus.",
+         "defaultValue": ""}},
+      {"onChange": {
+         "type": "STRING",
+         "description": "Element value changed.",
+         "defaultValue": ""}},
+      {"onClick": {
+         "type": "STRING",
+         "description": "Mouse button is clicked on element.",
+         "defaultValue": ""}},
+      {"onDblClick": {
+         "type": "STRING",
+         "description": "Mouse button is double-clicked on element.",
+         "defaultValue": ""}},
+      {"onFocus": {
+         "type": "STRING",
+         "description": "Element received focus.",
+         "defaultValue": ""}},
+      {"onKeyDown": {
+         "type": "STRING",
+         "description": "Key is pressed down over element.",
+         "defaultValue": ""}},
+      {"onKeyPress": {
+         "type": "STRING",
+         "description": "Key is pressed and released over element.",
+         "defaultValue": ""}},
+      {"onKeyUp": {
+         "type": "STRING",
+         "description": "Key is released over element.",
+         "defaultValue": ""}},
+      {"onMouseDown": {
+         "type": "STRING",
+         "description": "Mouse button is pressed over element.",
+         "defaultValue": ""}},
+      {"onMouseOut": {
+         "type": "STRING",
+         "description": "Mouse is moved away from element.",
+         "defaultValue": ""}},
+      {"onMouseOver": {
+         "type": "STRING",
+         "description": "Mouse is moved onto element.",
+         "defaultValue": ""}},
+      {"onMouseUp": {
+         "type": "STRING",
+         "description": "Mouse button is released over element.",
+         "defaultValue": ""}},
+      {"onMouseMove": {
+         "type": "STRING",
+         "description": "Mouse is moved while over element.",
+         "defaultValue": ""}},
+      {"onSelect": {
+         "type": "STRING",
+         "description": "Element text selected.",
+         "defaultValue": ""}},
+      {"overlayAnimation": {
+         "type": "BOOLEAN",
+         "description": "If true, superimposes operation progress on animation.",
+         "defaultValue": false}},
+      {"percentChar": {
+         "type": "STRING",
+         "description": "Character to represent percentage in progress.",
+         "defaultValue": "%"}},
+      {"progressImageUrl": {
+         "type": "STRING",
+         "description": "Override default image for progress indicator.",
+         "defaultValue": ""}},
+      {"progressControl": {
+         "type": "STRING",
+         "description": "Add control button area to bottom or right.",
+         "defaultValue": ""}},
+      {"refreshRate": {
+         "type": "INT",
+         "description": "Number milliseconds between updates to the progress.",
+         "defaultValue": 1000}},
+      {"status": {
+         "type": "STRING",
+         "description": "Text to display indicating status of the operation.",
+         "defaultValue": ""}},
+      {"style": {
+         "type": "STRING",
+         "description": "Specify style rules inline.",
+         "defaultValue": ""}},
+      {"tabIndex": {
+         "type": "INT",
+         "description": "Position in tabbing order.",
+         "defaultValue": -1}},
+      {"taskState": {
+         "type": "STRING",
+         "description": "String value representing current state of the operation.",
+         "defaultValue": "not_started"}},
+      {"title": {
+         "type": "STRING",
+         "description": "Provides a title for main HTML element.",
+         "defaultValue": "ProgressBar widget"}},
+      {"toolTip": {
+         "type": "STRING",
+         "description": "Text displayed when mouse hovers over progress animation.",
+         "defaultValue": ""}},
+      {"topText": {
+         "type": "STRING",
+         "description": "Task description text displayed at top of progress animation.",
+         "defaultValue": ""}},
+      {"type": {
+         "type": "STRING",
+         "description": "Type of progress bar: DETERMINATE, INDETERMINATE, BUSY",
+         "defaultValue": "DETERMINATE"}},
+      {"visible": {
+         "type": "BOOLEAN",
+         "description": "Hide or show element.",
+         "defaultValue": true}},
+      {"width": {
+         "type": "INT",
+         "description": "Override width in pixels of progress animation.",
+         "defaultValue": 0}}
+    ],
+    "value": {
+      "required": true,
+      "type": "ARRAY",
+      "defaultValue": {"type": "DETERMINATE", "refreshRate": 1000, "topText": "Task progress", "bottomText": "Not started"}
+    },
+    "config": {
+      "type": {
+        "id": "@JS_NAME@",
+        "libs": [
+          "@JS_PATH@/bootstrap.js"
+        ],
+        "resources": [ "../resources/" ]
+        }
+    }
+}
