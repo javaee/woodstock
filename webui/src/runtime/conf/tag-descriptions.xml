@@ -5654,509 +5654,495 @@ update components server-side: refresh("form1:id1,form2:id2,...")<br>
  </pre> 
 ]]></description>
     </tag>
-
-    <tag>
-        <name>fileChooser</name>
-
-        <description><![CDATA[
- <p>
-     Use the <code>webuijsf:fileChooser</code> tag to display a component that shows files 
-     and folders in a local file system hierachy, and allows the web application 
-     user to select files and folders.</p>
-     <p>
-     The list of displayed files is determined by the filesystem access rules 
-     that are in place in the given environment.</p>
-     <!--
-     <h4> The filechooser model </h4>
-     <p>This tag can also be used to navigate and select resources other
-     than files. One has to implement the 
-     <code>com.sun.webui.jsf.model.ResourceModel</code>
-     for that purpose. A default implementation of this interface for 
-     File ojects in the local filesystem has been provided. The implementation
-     class is <code>com.sun.webui.jsf.model.FileChooserModel</code>.</p>
-     <p>The ResourceModel supplies an array of 
-     <code>com.sun.webui.jsf.model.ResourecItem</code> objects that are
-     consumed by the filechooser for displaying the list of selectable files.
-     If the component is being used for resources other than files an 
-     implementation of this interface should also be supplied.
-     In order to make the component behave as a folderchooser, where only
-     folders can be selected, invoke the <code>setFolderChooser(true)</code>
-     method on the model instance in your backing bean.
-     -->
-     <h3>HTML Elements and Layout</h3>
-     <p>The rendered fileChooser component is an XHTML &lt;table&gt; element that contains
-     several text fields, a drop-down, a listbox, and buttons. 
-     The layout is similar to the following:   </p>
-     <br>
- <table style="text-align: left; width: 100%;" border="1"
-  cellpadding="2" cellspacing="2">
-   <tbody>
-     <tr style="font-family: Helvetica,Arial,sans-serif;">
-       <td colspan="4" rowspan="1"><span
-  style="font-weight: bold;">Browse Server</span></td>
-     </tr>
-     <tr style="font-family: Helvetica,Arial,sans-serif;">
-       <td colspan="4" rowspan="1">&nbsp;</td>
-     </tr>
-     <tr>
-       <td style="font-family: Helvetica,Arial,sans-serif;"
-  colspan="4" rowspan="1"><span
-  style="font-weight: bold; color: rgb(102, 102, 102);">Server
- Name:</span> &nbsp;SomeServer &nbsp;<small><span
-  style="font-style: italic;">(static text)</span></small></td>
-     </tr>
-     <tr>
-       <td style="font-family: Helvetica,Arial,sans-serif;"><span
-  style="font-weight: bold; color: rgb(102, 102, 102);">Look
- In:</span></td>
-       <td style="font-family: Helvetica,Arial,sans-serif;"
-  colspan="2" rowspan="1">/some/directory &nbsp;<small><span
-  style="font-style: italic;">(text field)</span></small></td>
-       <td style="font-family: Helvetica,Arial,sans-serif;">&nbsp;</td>
-     </tr>
-     <tr>
-       <td style="font-family: Helvetica,Arial,sans-serif;"><span
-  style="font-weight: bold; color: rgb(102, 102, 102);">File
- Filter:</span></td>
-       <td style="font-family: Helvetica,Arial,sans-serif;">*
- &nbsp; &nbsp;&nbsp;<small><span
-  style="font-style: italic;">(text field)</span></small></td>
-       <td colspan="2" rowspan="1"
-  style="font-family: Helvetica,Arial,sans-serif;">&nbsp;</td>
-     </tr>
-     <tr>
-       <td style="font-family: Helvetica,Arial,sans-serif;">&nbsp;</td>
-       <td style="font-family: Helvetica,Arial,sans-serif;"><small>To
- apply a new field value, press Enter in that field</small></td>
-       <td colspan="2" rowspan="1"
-  style="font-family: Helvetica,Arial,sans-serif;">&nbsp;</td>
-     </tr>
-     <tr>
-       <td style="font-family: Helvetica,Arial,sans-serif;">&nbsp;</td>
-       <td style="font-family: Helvetica,Arial,sans-serif;">&nbsp;</td>
-       <td style="font-family: Helvetica,Arial,sans-serif;"><span
-  style="font-weight: bold; color: rgb(102, 102, 102);">Sort
- By:</span></td>
-       <td
-  style="font-family: Helvetica,Arial,sans-serif; vertical-align: top;"><small><span
-  style="font-style: italic;">(dropDown)</span></small></td>
-     </tr>
-     <tr style="font-family: Helvetica,Arial,sans-serif;">
-       <td rowspan="1" colspan="4">List of
- files/folders <span style="font-style: italic;">&nbsp;(list
- box)</span><br>
-       <br><br>
-       <br>
-       <br>
-       </td>
-     </tr>
-     <tr>
-       <td style="font-family: Helvetica,Arial,sans-serif;">&nbsp;</td>
-       <td style="font-family: Helvetica,Arial,sans-serif;">&nbsp;</td>
-       <td style="font-family: Helvetica,Arial,sans-serif;"><small>Up
- One Level<br>
-       <span style="font-style: italic;">(button)</span></small></td>
-       <td style="font-family: Helvetica,Arial,sans-serif;"><small>Open
- Folder<br>
-       <span style="font-style: italic;">(button)</span></small></td>
-     </tr>
-     <tr>
-       <td style="font-family: Helvetica,Arial,sans-serif;"><span
-  style="font-weight: bold; color: rgb(102, 102, 102);">Selected
- File:</span></td>
-       <td style="font-family: Helvetica,Arial,sans-serif;">some_filename
- &nbsp;<small> <span style="font-style: italic;">(text
- field)</span></small></td>
-       <td style="font-family: Helvetica,Arial,sans-serif;">&nbsp;</td>
-       <td style="font-family: Helvetica,Arial,sans-serif;">&nbsp;</td>
-     </tr>
-   </tbody>
- </table>
- <hr>    
- <p>The fileChooser component can be used to render a file chooser or a folder 
- chooser. A file chooser displays files and folders, and allows you to select 
- files and open folders, but not to select folders. A folder chooser also 
- displays files and folders, but the files are displayed as disabled and cannot 
- be selected. A folder chooser allows only folders to be selected.  
- With both types of choosers, you can open folders by selecting a folder 
- and clicking the Open Folder button, or by double-clicking the folder name.</p>
-     <!--
-     <h3>Configuring the webuijsf:fileChooser tag</h3>
-     <p>Use the <code>model</code>attribute to associate the model
-     with the component. By default the FileChooser model described
-     above will be used.</p>
-     -->
- <p>
- The fileChooser component displays files in the local filesystem only. 
- The directory whose files and folders should be displayed is specified with a 
- <code>webuijsf:fileChooser</code> tag's <code>lookin</code> attribute. The list of displayed files 
- is determined by the filesystem access rules that are in effect in the given 
- environment.</p>
- <p>
- By default, the component is
- rendered as a file chooser. To specify a folder chooser, set
- the <code>webuijsf:fileChooser</code> tag's <code>folderChooser</code> attribute to
- true. The folder chooser displays the labels Folder Filter and Selected Folders 
- instead of the file chooser's File Filter and Selected Files.</p>
-     <p>Use the <code>multiple</code> attribute to specify whether 
-     multiple resources (files or folders) can be selected. 
-     By default the <code>multiple</code> attribute is set to false.</p>
- <p>The web app user can sort the list of 
- files and folders shown in the file chooser by selecting a sort option
- from the "Sort By" dropdown menu. By default, the list is sorted 
- alphabetically. To specify which sort is used when the
- component is initially rendered, use the <code>sortField</code> attribute. 
- Valid <code>sortField</code> attribute values are:</p>
- <ul>
-   <li>"alphabetic" to sort alphabetically <br></li>
-   <li>"size" to sort by file size<br></li>
-   <li>"date" to sort by last modified date <br></li>
- </ul>
- <p>By default, the initial sort order is ascending: A-Z, or smallest file size 
- first, or oldest file first. Set the <code>descending</code> attribute to true 
- to specify a descending sort order. </p>
-     <!--
-     <p>The input to the fileChooser component is the model object. The
-     output of this component is the list of selected files or folders.
-     This is the value of the component. The backing bean associated with
-     <code>selected</code> attribute will be set with the value of the 
-     component after each submit.
-     -->
-     <p>The input to the fileChooser is the value of the <code>lookin</code> 
-     attribute. This attribute sets the initial value of the "Look In" text field 
-     which determines the initial contents of the chooser's list.</p>
-     <p>The output of the fileChooser component is the list of selected files or 
-     folders. This is the value of the component. The managed bean associated with
-     the <code>selected</code> attribute is updated with the value when
-     the <code>setChooseButton</code> JavaScript
-     function causes the form to be submitted or the form is submitted in
-     a non "immediate" manner. See the sections 
-     "Client-side JavaScript functions" and "Form Submit Behavior" for more details.
-     </p>
-    <p>The <code>webuijsf:fileChooser</code>
- tag supports several facets that you can use to replace the default
- content for some areas of the component. The facets are listed in the <a
-  href="#facets">Facets</a> section.</p>
-     <h3><a name="Submit"></a>Form Submit Behavior</h3>
-     <p>
-     The fileChooser's form submit behavior conforms to the JSF lifecycle, with 
-     respect to the fileChooser's value (assigned to the <code>selected</code> 
-     attribute), and 
-     the values of the fileChooser facets.  This means that the fileChooser's 
-     value and its facets' values are only updated if the form is submitted with 
-     the intent of updating the application's model values.</p>
-     <p>
-     In other words, the fileChooser elements that submit the form do so in an 
-     "immediate" JSF fashion, so that the submitted values
-     of the fileChooser and facets are validated, but the values are not updated. 
-     Only the local values are set.</p>
-     <p>
-     The fileChooser's <code>selected</code> value and the value of the facet 
-     components are updated only when the following actions occur on a page 
-     that uses the fileChooser component:</p>
-     <ul>
-     <li>A list box file entry is double clicked. (The value is updated only when 
-     the fileChooser component is in "file chooser" mode, where the 
-     folderChooser attribute is false.)</li>
-     <li>The Return key is pressed in the Selected File field.</li>
-     <li>The HTML element specified for the <code>setChooserButton</code> function 
-     is clicked or otherwise submits the page.</li>
-     <li>The form is submitted by an HTML element that is on the same page as
-     the file chooser, and the submit is not "immediate".</li>
-     </ul>
-     <h3><a name="facets"></a>Facets</h3>
-     <p>The fileChooser component supports the following facets. </p>
-      <p>
-     <em>Note</em> Specifying facets to replace the default components
-     rendered by the file chooser for facet roles, is an 
-     advanced use of this tag. This is especially true for the TextField
-     and Button facets such as lookinField, selectedField, filterField,
-     upButton, and openButton. The component specified for
-     a given facet role must take on the responsibilities expected
-     by the fileChooser. Not satisifying those responsibilities can cause
-     the fileChooser to function incorrectly.<p>
-     <table style="text-align: left; color: rgb(0, 0, 0); width: 100%;"
+<tag>
+<name>fileChooser</name>
+<description>
+<![CDATA[
+<p>
+Use the <code>webuijsf:fileChooser</code> tag to display a component
+ that shows files and folders in a local file system hierachy, 
+ and allows the web application user to select files and folders.
+</p>
+<p>
+The list of displayed files is determined by the filesystem access rules
+ that are in place in the given environment.
+</p>
+<!-- We have not made this property public yet.
+<h4>The filechooser model</h4>
+<p>
+This tag can also be used to navigate and select resources other
+ than files. One has to implement the
+ <code>com.sun.webui.jsf.model.ResourceModel</code>
+ for that purpose. A default implementation of this interface for
+ File objects in the local filesystem has been provided. The implementation
+ class is <code>com.sun.webui.jsf.model.FileChooserModel</code>.
+</p>
+<p>
+The ResourceModel supplies an array of
+ <code>com.sun.webui.jsf.model.ResourecItem</code> objects that are
+ consumed by the fileChooser for displaying the list of selectable files.
+ If the component is being used for resources other than files an
+ implementation of this interface should also be supplied.
+ In order to make the component behave as a folderChooser, where only
+ folders can be selected, invoke the <code>setFolderChooser(true)</code>
+ method on the model instance in the <code>ManagedBean</code>.
+-->
+<h3>HTML Elements and Layout</h3>
+<p>
+The fileChooser component is rendered as an XHTML &lt;table&gt; 
+ element that contains several <code>TextField</code>, <code>DropDown</code>,
+ <code>Listbox</code>, and <code>Button</code> components.
+ The layout is similar to the following:
+</p>
+<br>
+<table style="text-align: left; width: 100%;" border="1"
+cellpadding="2" cellspacing="2">
+<tbody>
+<tr style="font-family: Helvetica,Arial,sans-serif;">
+<td colspan="4" rowspan="1">
+<span style="font-weight: bold;">Browse Server</span></td>
+</tr>
+<tr style="font-family: Helvetica,Arial,sans-serif;">
+<td colspan="4" rowspan="1">&nbsp;</td>
+</tr>
+<tr>
+<td style="font-family: Helvetica,Arial,sans-serif;" colspan="4" rowspan="1">
+<span style="font-weight: bold; color: rgb(102, 102, 102);">Server Name:</span>
+&nbsp;SomeServer &nbsp;
+<small><span style="font-style: italic;">(static text)</span></small></td>
+</tr>
+<tr>
+<td style="font-family: Helvetica,Arial,sans-serif;">
+<span style="font-weight: bold; color: rgb(102, 102, 102);">Look In:</span></td>
+<td style="font-family: Helvetica,Arial,sans-serif;" colspan="2" rowspan="1">
+/some/directory &nbsp;
+<small><span style="font-style: italic;">(text field)</span></small></td>
+<td style="font-family: Helvetica,Arial,sans-serif;">&nbsp;</td>
+</tr>
+<tr>
+<td style="font-family: Helvetica,Arial,sans-serif;">
+<span style="font-weight: bold; color: rgb(102, 102, 102);">File Filter:</span>
+</td>
+<td style="font-family: Helvetica,Arial,sans-serif;">*&nbsp;&nbsp;&nbsp;<small>
+<span style="font-style: italic;">(text field)</span></small></td>
+<td colspan="2" rowspan="1" style="font-family: Helvetica,Arial,sans-serif;">
+&nbsp;</td>
+</tr>
+<tr>
+<td style="font-family: Helvetica,Arial,sans-serif;">&nbsp;</td>
+<td style="font-family: Helvetica,Arial,sans-serif;">
+<small>To apply a new field value, press Enter in that field</small></td>
+<td colspan="2" rowspan="1" style="font-family: Helvetica,Arial,sans-serif;">
+&nbsp;</td>
+</tr>
+<tr>
+<td style="font-family: Helvetica,Arial,sans-serif;">&nbsp;</td>
+<td style="font-family: Helvetica,Arial,sans-serif;">&nbsp;</td>
+<td style="font-family: Helvetica,Arial,sans-serif;">
+<span style="font-weight: bold; color: rgb(102, 102, 102);">Sort By:</span></td>
+<td style="font-family: Helvetica,Arial,sans-serif; vertical-align: top;">
+<small> <span style="font-style: italic;">(dropDown)</span></small></td>
+</tr>
+<tr style="font-family: Helvetica,Arial,sans-serif;">
+<td rowspan="1" 
+colspan="4">List of files/folders<span style="font-style:italic;">&nbsp;(list box)</span>
+<br><br><br><br><br></td>
+</tr>
+<tr>
+<td style="font-family: Helvetica,Arial,sans-serif;">&nbsp;</td>
+<td style="font-family: Helvetica,Arial,sans-serif;">&nbsp;</td>
+<td style="font-family: Helvetica,Arial,sans-serif;">
+<small>Up One Level<br><span style="font-style: italic;">(button)</span></small>
+</td>
+<td style="font-family: Helvetica,Arial,sans-serif;">
+<small>Open Folder<br><span style="font-style: italic;">(button)</span></small>
+</td>
+</tr>
+<tr>
+<td style="font-family: Helvetica,Arial,sans-serif;">
+<span style="font-weight:bold;color:rgb(102,102,102);">Selected File:</span>
+</td>
+<td style="font-family: Helvetica,Arial,sans-serif;">some filename&nbsp;<small>
+<span style="font-style:italic;">(text field)</span></small></td>
+<td style="font-family: Helvetica,Arial,sans-serif;">&nbsp;</td>
+<td style="font-family: Helvetica,Arial,sans-serif;">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>
+The fileChooser component can be used to render a file chooser or a folder
+ chooser. A file chooser displays files and folders, and allows you to select
+ files and open folders, but not to select folders. A folder chooser also
+ displays files and folders, but the files are displayed as disabled and cannot
+ be selected. A folder chooser allows only folders to be selected.
+ With both types of choosers, you can open folders by selecting a folder
+ and clicking the Open Folder button, or by double-clicking the folder name.
+</p>
+<!-- We have not made the model property public yet.
+<h3>Configuring the webuijsf:fileChooser tag</h3>
+<p>
+Use the <code>model</code> attribute to associate the model
+ with the component. By default the FileChooser model described
+ above will be used.
+</p>
+-->
+<p>
+The fileChooser component displays files in the local filesystem only.
+ The directory whose files and folders should be displayed is specified with a
+ <code>webuijsf:fileChooser</code> tag's <code>lookin</code>
+ attribute. The list of displayed files is determined by the filesystem 
+ access rules that are in effect in the given environment.
+</p>
+<p>
+By default, the component is rendered as a file chooser. To specify a 
+ folder chooser, set the <code>webuijsf:fileChooser</code> tag's 
+ <code>folderChooser</code> attribute to true. The folder chooser
+ displays the labels Folder Filter and Selected Folders
+ instead of the file chooser's File Filter and Selected Files.
+</p>
+<p>
+Use the <code>multiple</code> attribute to specify whether
+ multiple resources (files or folders) can be selected.
+ By default the <code>multiple</code> attribute is set to false.
+</p>
+<p>
+The web app user can sort the list of files and folders shown in the 
+ fileChooser by selecting a sort option from the "Sort By" drop down menu.
+ The list is sorted alphabetically by default. Use the <code>sortField</code>
+ attribute to configure the initial sort. Valid <code>sortField</code>
+ attribute values are:
+</p>
+<ul>
+<li>
+<code>alphabetic</code> to sort alphabetically
+</li>
+<li>
+<code>size</code> to sort by file size
+</li>
+<li>
+<code>date</code> to sort by last modified date
+</li>
+</ul>
+<p>
+The initial sort order is ascending; A-Z, smallest file size first,
+ oldest file first respectively. Set the <code>descending</code>
+ attribute to true to specify a descending sort order.
+</p>
+<!-- The model attribute has not been made public yet.
+<p>
+The input to the fileChooser component is the model object. The
+ output of this component is the list of selected files or folders.
+ This is the value of the component. The <code>ManagedBead</code>
+ associated with <code>selected</code>
+ attribute will be set with the value of the component after each submit.
+-->
+<p>
+The input to the fileChooser is the value of the <code>lookin</code>
+ attribute. This attribute sets the initial value of the "Look In" text field
+ which determines the initial contents of the chooser's list.
+</p>
+<p>
+The output of the fileChooser component is the list of selected files or
+ folders. This is the value of the component. The <code>selected</code>
+ attribute is updated with the value when the <code>setChooseButton</code>
+ JavaScript function causes the form to be submitted or the form is 
+ submitted in a non "immediate" manner. See the sections
+ <a href="#JS">Client-side JavaScript functions</a>
+ and <a href="#Submit">Form Submit Behavior</a> for more details.
+</p>
+<p>
+The <code>webuijsf:fileChooser</code> tag supports several facets that
+ you can use to replace the default component rendered for some
+ functionality of the component. The facets are listed in the
+ <a href="#facets">Facets</a> section.
+</p>
+<h3><a name="Submit"></a>Form Submit Behavior</h3>
+<p>
+The fileChooser's form submit behavior conforms to the JSF lifecycle, with
+ respect to the fileChooser's value (assigned to the <code>selected</code>
+ attribute), and the values of the fileChooser facets. This means that
+ the fileChooser's value and its facets' values are only updated if the
+ form is submitted with the intent of updating the application's model values.
+</p>
+<p>
+In other words, the fileChooser elements that submit the form do so in an
+ "immediate" JSF fashion, so that the submitted values
+ of the fileChooser and facets are validated, but the values are not updated.
+ Only the local values are set.
+</p>
+<p>
+The fileChooser's <code>selected</code> value and the value of the facet
+ components are updated only when the following actions occur on a page
+ that uses the fileChooser component:
+</p>
+<ul>
+<li>
+A list box file entry is double-clicked. (The value is updated only when
+ the fileChooser component is in "file chooser" mode, where the
+ folderChooser attribute is false.)
+</li>
+<li>
+The Return key is pressed in the Selected File field.
+</li>
+<li>
+The HTML element specified for the <code>setChooserButton</code>
+ function is clicked or otherwise submits the page.
+</li>
+<li>
+The form is submitted by an HTML element that is on the same page as
+ the file chooser, and the submit is not "immediate".
+</li>
+</ul>
+<h3><a name="facets"></a>Facets</h3>
+<p>
+The fileChooser component supports the following facets.
+</p>
+<p>
+<em>
+Note
+</em>
+Specifying facets to replace the default components
+ rendered by the file chooser for facet roles, is an
+ advanced use of this tag. This is especially true for the TextField
+ and Button facets such as lookinField, selectedField, filterField,
+ upButton, and openButton. The component specified for
+ a given facet role must take on the responsibilities expected
+ by the fileChooser. Not satisifying those responsibilities can cause
+ the fileChooser to function incorrectly.
+<p>
+<table style="text-align: left; color: rgb(0, 0, 0); width: 100%;"
   border="1" cellpadding="2" cellspacing="2">
-   <tbody>
-     <tr>
-       <td style="vertical-align: top;"><code>fileChooserLabel<br>
-       </code><br>
-       </td>
-       <td style="vertical-align: top;">Specify
- a custom label to replace the File Chooser&nbsp;component label. By
- default the label is a&nbsp;localized value meaning "Browse Server"
- in English.</td>
-     </tr>
-     <tr>
-       <td><code>serverLabel</code></td>
-       <td>Specify a custom component to replace
- the&nbsp;Server Name label.&nbsp;</td>
-     </tr>
-     <tr>
-       <td><code>serverNameText</code></td>
-       <td>Specify a custom component to replace the Server Name
- static text.</td>
-     </tr>
-     <tr>
-       <td style="vertical-align: top;"><code>lookinField</code></td>
-       <td style="vertical-align: top;">
-       <p>Specify a custom
- component for the Look In text field. The id attribute of the facet
- component should be set to
- the <code>webuijsf:fileChooser</code> tag's id attribute with <code>_lookinField</code>
- appended to the id. For example, if
- the <code>webuijsf:fileChooser</code> id is <code>fc1</code>,
- the facet
- component's id should be <code>fc1_lookinField</code>. </p>
-       <p>You should&nbsp;use the function <code>
- enterKeyPressed(this)</code> as the value of
- the <code>onKeyPress</code> attribute of the facet
- component. See <a href="#JS">Client-side
- JavaScript functions&nbsp;</a> for details.<br>
-       </p>
-       </td>
-     </tr>
-     <tr>
-       <td style="vertical-align: top;"><code>lookinLabel</code></td>
-       <td style="vertical-align: top;">Specify a custom
- label for the
- Look In field of the component.<br>
-       <code></code></td>
-     </tr>
-     <tr>
-       <td style="vertical-align: top;"><code>filterField</code></td>
-       <td style="vertical-align: top;">
-       <p>Specify a custom
- component to replace the File Filter or Folder Filter text
- field. The id attribute of the facet's component should
- be set to the <code>webuijsf:fileChooser</code> tag's id
- attribute, with <code>_filterField</code> appended to the
- id. For
- example, if
- the <code>webuijsf:fileChooser</code> id is <code>fc1</code>,
- the facet
- component's id should be <code>fc1_filterField</code>.<br>
-       </p>
-       <p>You should use the function <code>
- enterKeyPressed(this)</code> as the value of
- the <code>onKeyPress</code> attribute of the facet
- component. See <a href="#JS">Client-side
- JavaScript
- functions</a> for details.</p>
-       </td>
-     </tr>
-     <tr>
-       <td style="vertical-align: top;"><code>filterLabel</code></td>
-       <td style="vertical-align: top;">Specify
- a custom label for the&nbsp;File Filter or&nbsp;Folder Filter
- text field of the
- component.&nbsp; </td>
-     </tr>
-     <tr>
-       <td style="vertical-align: top;"><code>enterPressHelp</code></td>
-       <td> Specify a custom inline help message to describe the
+<tbody>
+<tr>
+<td style="vertical-align: top;"><code>fileChooserLabel</code></td>
+<td style="vertical-align: top;">Specifies a custom label to replace
+ the File Chooser component label. By default the label is a
+ localized value meaning "Browse Server" in English.</td>
+</tr>
+<tr>
+<td><code>serverLabel</code></td>
+<td>Specifies a custom component to replace the "Server Name" label.</td>
+</tr>
+<tr>
+<td><code>serverNameText</code>
+</td>
+<td>Specifies a custom component to replace the "Server Name" static text.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>lookinField</code></td>
+<td style="vertical-align: top;">Specifies a custom component for the
+ "Look In" text field. The <code>id</code> attribute of the facet
+ component should be set to the <code>webuijsf:fileChooser</code>
+ tag's <code>id</code> attribute with <code>_lookinField</code> appended
+ to the ID. For example, if the<code>webuijsf:fileChooser</code> ID is 
+ <code>fc1</code>, the facet component's ID should be
+ <code>fc1_lookinField</code>.<br/>
+ You should use the function <code>enterKeyPressed(this)</code>
+ as the value of the <code>onKeyPress</code>attribute of the facet
+ component. See <a href="#JS">Client-side JavaScript functions</a>
+ for details.<br></td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>lookinLabel</code></td>
+<td style="vertical-align: top;">Specifies a custom label for the
+ Look In field of the component.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>filterField</code></td>
+<td style="vertical-align: top;">Specifies a custom
+ component to replace the "File Filter" or "Folder Filter" text
+ field. The <code>id</code> attribute of the facet's component should
+ be set to the <code>webuijsf:fileChooser</code> tag's <code>id</code>
+ attribute, with <code>_filterField</code> appended to the ID. For
+ example, if the <code>webuijsf:fileChooser</code> ID is <code>fc1</code>,
+ the facet component's id should be <code>fc1_filterField</code>.<br>
+ You should use the function <code>enterKeyPressed(this)</code>
+ as the value of the <code>onKeyPress</code> attribute of the facet
+ component. See <a href="#JS">Client-side JavaScript functions</a>
+ for details.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>filterLabel</code></td>
+<td style="vertical-align: top;">Specifies
+ a custom label for the "File Filter" or "Folder Filter" text field of the
+ component.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>enterPressHelp</code></td>
+<td>Specifies a custom inline help message to describe the
  effect of pressing the Enter key after entering data in the "Look In"
  and "Filter On" fields. By default the following inline help message is
- displayed: <br>
+ displayed:<br>
  "To apply a new field value, press Enter in that field."</td>
-     </tr>
-     <tr>
-       <td><code>multiSelectHelp</code> </td>
-       <td>Specify a custom inline help message about choosing
+</tr>
+<tr>
+<td><code>multiSelectHelp</code></td>
+<td>Specifies a custom inline help message about choosing
  multiple files. By default the following inline help message is
  displayed:<br>
  "To select multiple items, use Shift-click or Control-click."</td>
-     </tr>
-     <tr>
-       <td style="vertical-align: top;"><code>selectedField</code></td>
-       <td style="vertical-align: top;">
-       <p>Specifies a custom
- component&nbsp;to replace the Selected Files or Selected Folders
- field. The id
- attribute of the facet component should be set to the <code>webuijsf:fileChooser</code>
- tag's id attribute, with <code>_selectedField</code>
- appended to the id. For
- example, if
- the <code>webuijsf:fileChooser</code> id is <code>fc1</code>,
- the facet
- component's id should be <code>fc1_selectedField</code>.<br>
-       </p>
-       <p>You should&nbsp;use the function <code>
- enterKeyPressed(this)&nbsp;</code><span
-  style="font-family: monospace;"></span>as the value of
- the <code>onKeyPress</code> attribute of the facet
- component. See <a href="#JS">Client-side
- JavaScript
- functions&nbsp;</a> for details.</p>
-       </td>
-     </tr>
-     <tr>
-       <td style="vertical-align: top;"><code>selectedLabel</code></td>
-       <td style="vertical-align: top;"><p>Specify
- a custom label for the Selected Files or Selected Folders
- field of the component. <br>
-       </td>
-     </tr>
-     <tr>
-       <td style="vertical-align: top;"><code>upButton</code></td>
-       <td style="vertical-align: top;"><p>Specifies a custom
- component to replace the&nbsp;Up One Level button. When clicked,
- this button causes the list of
- files from a level above the currently displayed directory to be
- displayed. The id attribute of the custom
- component should be set to the <code>webuijsf:fileChooser</code>
- tag's id
- attribute with <code>_upButton</code> appended to the id.
- For
- example, if
- the <code>webuijsf:fileChooser</code> id is <code>fc1</code>,
- the facet
- component's id should be <code>fc1_upButton</code>.<br>
- If
- you want to use the
- JavaScript function associated with the default button's onClick event
- use
- the&nbsp;<code>moveUpButtonClicked()</code>
- function with the custom component's <code>onClick</code>
- attribute. See <a href="#JS">Client-side
- JavaScript
- functions </a>below
- for details.<br>
-       </td>
-     </tr>
-     <tr>
-       <td style="vertical-align: top;"><code>openButton</code></td>
-       <td style="vertical-align: top;"><p>Specifies a custom
- component to replace the Open Folder button. When clicked, this button
- causes the currently
- selected folder's contents to be
- displayed. The id attribute of the custom
- component should be set to the <code>webuijsf:fileChooser</code>
- tag's id
- attribute with <code>_openButton</code> appended to the
- id. For example, if
- the <code>webuijsf:fileChooser</code> id is <code>fc1</code>,
- the custom component's id should be <code>fc1_openButton</code>.<br>
-       <p>If you want to use the
- JavaScript function associated with the default button's onClick event
- use the&nbsp; <code>openFolderClicked()</code> function
- with the custom component's <code>onClick</code>
- attribute. See <a href="#JS">Client-side
- JavaScript functions</a> below for details.</p>
-       </td>
-     </tr>
-     <tr>
-       <td style="vertical-align: top;"><code>sortMenu</code></td>
-       <td style="vertical-align: top;"><p>Specifies a custom
- component to replace the Sort By drop-down menu&nbsp;of the
- component. <br>
-       </td>
-     </tr>
-   </tbody>
- </table>
-     <h3><a name="JS"></a>Client-side JavaScript Functions</h3>
- <p>When the component is rendered, a DOM object corresponding to the
- component is created. To manipulate the component on the client side,
- you may invoke functions on the DOM object. With reference to the DOM
- id, to obtain a list of selected option elements, invoke 
- <code>document.getElementById(id).getSelectedOptions()</code>.
- </p>
- <table style="text-align: left; width: 100%;" border="1"
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>selectedField</code></td>
+<td style="vertical-align: top;">Specifies a custom
+ component to replace the "Selected Files" or "Selected Folders"
+ field. The <code>id</code> attribute of the facet component should
+ be set to the <code>webuijsf:fileChooser</code> tag's <code>id</code>
+ attribute, with <code>_selectedField</code> appended to the ID. For
+ example, if the <code>webuijsf:fileChooser</code> ID is <code>fc1</code>,
+ the facet component's ID should be <code>fc1_selectedField</code>.<br>
+ You should use the function <code>enterKeyPressed(this)</code>
+ as the value of the <code>onKeyPress</code> attribute of the facet
+ component. See <a href="#JS">Client-side JavaScript functions</a> for
+ details.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>selectedLabel</code></td>
+<td style="vertical-align: top;">Specifies a custom label for the 
+ "Selected Files" or "Selected Folders" field of the component.
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>upButton</code></td>
+<td style="vertical-align: top;">Specifies a custom
+ component to replace the "Up One Level" button. When clicked,
+ this button causes the list of files from a level above the 
+ currently displayed directory to be displayed. The <code>id</code>
+ attribute of the custom component should be set to the
+ <code>webuijsf:fileChooser</code> tag's <code>id</code> attribute with
+ <code>_upButton</code> appended to the ID. For example, if the
+ <code>webuijsf:fileChooser</code> ID is <code>fc1</code>, the facet
+ component's ID should be <code>fc1_upButton</code>.<br>
+ If you want to use the JavaScript function associated with the 
+ default button's onClick event use the <code>moveUpButtonClicked()</code>
+ function with the custom component's <code>onClick</code> attribute. See
+ <a href="#JS">Client-side JavaScript functions</a> below for details.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>openButton</code></td>
+<td style="vertical-align: top;">Specifies a custom component to replace
+ the "Open Folder" button. When clicked, this button causes the currently
+ selected folder's contents to be displayed. The <code>id</code> attribute
+ of the custom component should be set to the <code>webuijsf:fileChooser</code>
+ tag's <code>id</code> attribute with <code>_openButton</code> appended to the
+ id. For example, if the <code>webuijsf:fileChooser</code> ID is
+ <code>fc1</code>, the custom component's ID should be 
+ <code>fc1_openButton</code>.<br>
+ If you want to use the JavaScript function associated with the default 
+ button's onClick event use the <code>openFolderClicked()</code> function
+ with the custom component's <code>onClick</code> attribute. See
+ <a href="#JS">Client-side JavaScript functions</a> below for details.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>sortMenu</code></td>
+<td style="vertical-align: top;">Specifies a custom component to replace
+ the "Sort By" drop down menu of the component.</td>
+</tr>
+</tbody>
+</table>
+<h3><a name="JS"></a>Client-side JavaScript Functions</h3>
+<p>
+When the fileChooser is rendered, a DOM object corresponding to the
+ component is created. To manipulate the component on the client,
+ you may invoke functions on the DOM object. Assume the ID of the
+ fileChooser is "fc1". Invoke <code>document.getELementById("fc1")</code>
+ to obtain a reference the fileChooser's DOM object. The following
+ functions can be invoked on that instance, for example
+ <code>document.getElementById("fc1").openFolderClicked()</code>.
+</p>
+<table style="text-align: left; width: 100%;" border="1"
   cellpadding="2" cellspacing="2">
-   <tbody>
-     <tr>
-       <td style="vertical-align: top;"><code>openFolderClicked()</code></td>
-       <td style="vertical-align: top;">Displays the list
- of files and/or folders in the currently selected folder.</td>
-     </tr>
-     <tr>
-       <td style="vertical-align: top;"><code>handleOnChange()</code></td>
-       <td style="vertical-align: top;">Handles all
- activities when the
- onChange event occurs for the listbox that&nbsp;lists&nbsp;the
- files and
- folders.</td>
-     </tr>
-     <tr>
-       <td style="vertical-align: top;"><code>handleDblClick()</code></td>
-       <td style="vertical-align: top;">Invoked when the
- user double clicks on a file or folder in the list.</td>
-     </tr>
-     <tr>
-       <td style="vertical-align: top;"><code>enterKeyPressed(userAction)</code></td>
-       <td style="vertical-align: top;">Invoked when the
- user changes the value of any of the text fields in the
- file chooser and hits the Enter key.</td>
-     </tr>
-     <tr>
-       <td style="vertical-align: top;"><code>setChooseButton()</code></td>
-       <td style="vertical-align: top;"><em></em>Use
- this&nbsp;function to assign a DOM element id of the element that
- submits the form to&nbsp;update the file chooser's selections. The
- state of this element will be controlled by the state of the file
- chooser. For example if there are no selections, the element will be
- disabled. <br>
-       <em>Note: </em>Any&nbsp; action in the file
- chooser that submits the form with the intent of updating the file
- chooser value, will call the "click" function of this element.</td>
-     </tr>
-     <tr>
-       <td><code>getCurrentDirectory()</code></td>
-       <td>Convenience function to get the current directory
- without going to the server.</td>
-     </tr>
-     <tr>
-       <td><code>getOptionElements()</code></td>
-       <td>Convenience function to get the list of option elements.</td>
-     </tr>
-     <tr>
-       <td><code>getSelectedOptions()</code></td>
-       <td>Convenience function to get the list of selected option
- elements.</td>
-     </tr>
-   </tbody>
- </table>
-     <h3>Examples</h3>
-     <h4>Example 1: Simple FileChooser </h4>
-     <p>This example shows a simple fileChooser. The page includes a 
-     separate button that is used with the fileChooser's <code>setChooseButton</code> 
-     function.
-      <!--
-      &lt;webuijsf:fileChooser
-       	id="_fc1" model="#{fileList.model}"
- 	selected="#{fileList.fileSelected}"	
- 	sortField="size" descending="false"
- 	multiple="false"&gt;
-      &lt;f:facet name="selectedField"&gt;
-        &lt;webuijsf:textField id="_fc1_selectedField"/&gt;
-      &lt;/f:facet&gt;
-      &lt;/webuijsf:fileChooser &gt;
-     &lt;webuijsf:fileChooser server="#{fileList.server}"
- 		 model="#{fileList.model}"
-                  selected="#{fileList.files}"
-                  sortfield="alphabetic"
-                  descending="true"
-                  toolTip="#{fileList.tooltip}" /&gt;
-     -->
- <pre>
-     &lt;webuijsf:fileChooser id="filechooser"
- 		 lookin="#{fileList.lookin}"
-                  selected="#{fileList.selected}"
-                  sortField="alphabetic"
-                  descending="true" /&gt;
-     &lt;webuijsf:button id="fileChooseButton"
- 	 primary="true" 
-          text="Choose File"
- 	 actionListener="#{fileList.chooseFile}"/&gt;
-     &lt;/webuijsf:markup&gt;
-     &lt;script type="text/javascript"&gt;
-         document.getElementById(form1:filechooser).setChooseButton('form1:fileChooseButton');
-     &lt;/script&gt;
- </pre>
- <h4>Backing Bean for fileList Managed Bean</h4>
- <p>
- The example uses the following backing bean.</p>
- <pre>
+<tbody>
+<tr>
+<td style="vertical-align: top;"><code>openFolderClicked()</code></td>
+<td style="vertical-align: top;">Displays the list of files and/or folders
+ in the currently selected folder.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>handleOnChange()</code></td>
+<td style="vertical-align: top;">Handles all activities when the
+ onChange event occurs for the listbox that lists the files and folders.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>handleDblClick()</code></td>
+<td style="vertical-align: top;">Invoked when the user double clicks on
+ a file or folder in the list.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>enterKeyPressed(userAction)</code></td>
+<td style="vertical-align: top;">Invoked when the user changes the value of
+ any of the text fields in the file chooser and hits the Enter key.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>setChooseButton()</code></td>
+<td style="vertical-align: top;">Use this function to assign a DOM element
+ ID of the element that submits the form to update the file chooser's
+ selections. The state of this element will be controlled by the state
+ of the file chooser. For example if there are no selections, the element
+ will be disabled.<br>
+<em>Note:</em>Any action in the fileChooser that submits the form with
+ the intent of updating the file chooser value, will call the "click"
+ function of this element.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>getCurrentDirectory()</code></td>
+<td style="vertical-align: top;">Convenience function to get the current
+ directory without going to the server.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>getOptionElements()</code></td>
+<td style="vertical-align: top;">Convenience function to get the list of
+ option elements.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>getSelectedOptions()</code></td>
+<td style="vertical-align: top;">Convenience function to get the list
+ of selected option elements.</td>
+</tr>
+</tbody>
+</table>
+<h3>Examples</h3>
+<h4>Example 1: Simple FileChooser</h4>
+<p>
+This example shows a simple fileChooser. The page includes a separate button
+that is used with the fileChooser's <code>setChooseButton</code> function.
+<pre>
+    &lt;webuijsf:fileChooser id="filechooser"
+	lookin="#{fileList.lookin}"
+	selected="#{fileList.selected}"
+	sortField="alphabetic"
+	descending="true" /&gt;
+
+    &lt;webuijsf:button id="fileChooseButton"
+	primary="true"
+	text="Choose File"
+	actionListener="#{fileList.chooseFile}"/&gt;
+
+    &lt;script type="text/javascript"&gt;
+	var fc = document.getElementById(form1:filechooser);
+	fc.setChooseButton('form1:fileChooseButton');
+    &lt;/script&gt;
+</pre>
+<!-- Model is not a public attribte
+<h4>Example 2: Custom model FileChooser</h4>
+<pre>
+    &lt;webuijsf:fileChooser
+	id="_fc1" model="#{fileList.model}"
+	selected="#{fileList.fileSelected}"
+	sortField="size" descending="false"
+	multiple="false"&gt;
+	&lt;f:facet name="selectedField"&gt;
+	    &lt;webuijsf:textField id="_fc1_selectedField"/&gt;
+	&lt;/f:facet&gt;
+    &lt;/webuijsf:fileChooser &gt;
+</pre>
+-->
+<h4>Source Listing for fileList Managed Bean</h4>
+<p>
+The example uses the following ManagedBean class
+</p>
+<pre>
  import java.io.File;
  import javax.faces.event.ActionEvent;
  // Mapped to managed bean "fileList" in faces-config.xml
@@ -6188,9 +6174,10 @@ update components server-side: refresh("form1:id1,form2:id2,...")<br>
  	// when the "Choose File" button is clicked.
      }
  }
-  </pre>
-]]></description>
-    </tag>
+</pre>
+]]>
+</description>
+</tag>
 
     <tag>
         <name>footer</name>
