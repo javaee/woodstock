@@ -2802,10 +2802,11 @@ public class FileChooser extends WebuiInput implements NamingContainer {
     }
     
     /**
-     * <p>Use the visible attribute to indicate whether the component should be
-     * viewable by the user in the rendered HTML page. If set to false, the
-     * HTML code for the component is present in the page, but the component
-     * is hidden with style attributes. By default, visible is set to true, so
+     * <p>Use this attribute to indicate whether the component should be
+     * viewable by the user in the rendered HTML page. If this attribute
+     * is set to false, the HTML code for the component is present in the 
+     * page, but the component is hidden with style attributes. By default,
+     * this attribute is set to true, so
      * HTML for the component HTML is included and visible to the user. If the
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
@@ -2815,10 +2816,11 @@ public class FileChooser extends WebuiInput implements NamingContainer {
     private boolean visible_set = false;
 
     /**
-     * <p>Use the visible attribute to indicate whether the component should be
-     * viewable by the user in the rendered HTML page. If set to false, the
-     * HTML code for the component is present in the page, but the component
-     * is hidden with style attributes. By default, visible is set to true, so
+     * <p>Use this attribute to indicate whether the component should be
+     * viewable by the user in the rendered HTML page. If this attribute
+     * is set to false, the HTML code for the component is present in the 
+     * page, but the component is hidden with style attributes. By default,
+     * this attribute is set to true, so
      * HTML for the component HTML is included and visible to the user. If the
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
@@ -2855,7 +2857,8 @@ public class FileChooser extends WebuiInput implements NamingContainer {
     }
     
     /**
-     * <p>Position of this element in the tabbing order of the current document.
+     * <p>Describes the position of this element in the tabbing order
+     * of the current document.
      * Tabbing order determines the sequence in which elements receive
      * focus when the tab key is pressed. The value must be an integer
      * between 0 and 32767.</p>
@@ -2865,7 +2868,8 @@ public class FileChooser extends WebuiInput implements NamingContainer {
     private boolean tabIndex_set = false;
 
     /**
-     * <p>Position of this element in the tabbing order of the current document.
+     * <p>Describes the position of this element in the tabbing order
+     * of the current document.
      * Tabbing order determines the sequence in which elements receive
      * focus when the tab key is pressed. The value must be an integer
      * between 0 and 32767.</p>
@@ -2907,7 +2911,8 @@ public class FileChooser extends WebuiInput implements NamingContainer {
     /**
      * <p>Set this attribute to true to sort from the highest value to lowest value,
      * such as Z-A for alphabetic, or largest file to smallest for sorting
-     * on file size. The default is to sort in ascending order.</p>
+     * on file size. The default of this attribute to sort in ascending order.
+     * </p>
      */
     @Property(name="descending", displayName="Descending", category="Advanced")
     private boolean descending = false;
@@ -2939,7 +2944,7 @@ public class FileChooser extends WebuiInput implements NamingContainer {
     /**
      * <p>Set descending to true to sort from the highest value to lowest value,
      * such as Z-A for alphabetic, or largest file to smallest for sorting
-     * on file size. The default is to sort in ascending order.</p>
+     * on file size. The default of this attribute to sort in ascending order.</p>
      * @see #isDescending()
      */
     public void setDescending(boolean descending) {
@@ -3019,7 +3024,7 @@ public class FileChooser extends WebuiInput implements NamingContainer {
 
     /**
      * <p>Use this attribute to specify the initial folder to display in the
-     * Look In text field. The contents of this folder will be displayed.
+     * Look In text field and display the contents of the lookin folder.
      * Only <code>java.io.File</code> or <code>java.lang.String</code> objects 
      * can be bound to this attribute.</p>
      */
@@ -3039,7 +3044,7 @@ public class FileChooser extends WebuiInput implements NamingContainer {
 
     /**
      * <p>Use this attribute to specify the initial folder to display in the
-     * Look In text field. The contents of this folder will be displayed.
+     * Look In text field and display the contents of the lookin folder.
      * Only <code>java.io.File</code> or <code>java.lang.String</code> objects 
      * can be bound to this attribute.</p>
      * @see #getLookin()
@@ -3085,8 +3090,8 @@ public class FileChooser extends WebuiInput implements NamingContainer {
     }
 
     /**
-     * <p>Set multiple to true to allow multiple files or folders
-     * to be selected from the list. The default is 
+     * <p>Set this attribute to true to allow multiple files or folders
+     * to be selected from the list. The default for this attribute is
      * false, which allows only one item to be selected.</p>
      */
     @Property(name="multiple", displayName="Multiple", category="Appearance")
@@ -3110,8 +3115,8 @@ public class FileChooser extends WebuiInput implements NamingContainer {
     }
 
     /**
-     * <p>Set multiple to true to allow multiple files or folders 
-     * to be selected from the list. The default is 
+     * <p>Set this attribute to true to allow multiple files or folders 
+     * to be selected from the list. The default for this attribute
      * false, which allows only one item to be selected.</p>
      * @see #isMultiple()
      */
@@ -3121,7 +3126,7 @@ public class FileChooser extends WebuiInput implements NamingContainer {
     }
 
     /**
-     * <p>If readOnly is set to true, the value of the component is
+     * <p>If this attribute is set to true, the value of the component is
      * rendered as text, preceded by the label if one was defined.</p>
      */
     @Property(name="readOnly", displayName="Read-only", category="Behavior")
@@ -3145,7 +3150,7 @@ public class FileChooser extends WebuiInput implements NamingContainer {
     }
 
     /**
-     * <p>If readOnly is set to true, the value of the component is
+     * <p>If this attribute is set to true, the value of the component is
      * rendered as text, preceded by the label if one was defined.</p>
      * @see #isReadOnly()
      */
@@ -3251,7 +3256,7 @@ public class FileChooser extends WebuiInput implements NamingContainer {
     }
 
     /**
-     * <p>Field to use to sort the list of files. Valid values are:
+     * <p>Field used to sort the list of files. Valid values are:
      * <ul><li>alphabetic - sort alphabetically</li>
      * <li>size - sort by file size</li>
      * <li>time - sort by last modified date</li></ul>
@@ -3288,7 +3293,7 @@ public class FileChooser extends WebuiInput implements NamingContainer {
     }
 
     /**
-     * <p>Field to use to sort the list of files. Valid values are:
+     * <p>Field used to sort the list of files. Valid values are:
      * <ul><li>alphabetic - sort alphabetically</li>
      * <li>size - sort by file size</li>
      * <li>time - sort by last modified date</li></ul>
@@ -3315,8 +3320,8 @@ public class FileChooser extends WebuiInput implements NamingContainer {
     }
 
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this
-     * component is rendered.</p>
+     * <p>CSS style properties to be applied to the outermost HTML 
+     * element when this component is rendered.</p>
      */
     @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
@@ -3333,8 +3338,8 @@ public class FileChooser extends WebuiInput implements NamingContainer {
     }
 
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this 
-     * component is rendered.</p>
+     * <p>CSS style properties to be applied to the outermost HTML 
+     * element when this component is rendered.</p>
      * @see #getStyle()
      */
     public void setStyle(String style) {
@@ -3342,7 +3347,7 @@ public class FileChooser extends WebuiInput implements NamingContainer {
     }
 
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this
+     * <p>CSS style class or classes to be applied to the outermost HTML element when this
      * component is rendered.</p>
      */
     @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
