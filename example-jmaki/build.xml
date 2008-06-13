@@ -2,8 +2,8 @@
 <!-- You may freely edit this file. See commented blocks below for -->
 <!-- some examples of how to customize the build. -->
 <!-- (If you delete it and reopen the project it will be recreated.) -->
-<project name="example-html" default="default" basedir=".">
-    <description>Builds, tests, and runs the project example-html.</description>
+<project name="example-jmaki" default="default" basedir=".">
+    <description>Builds, tests, and runs the project example-jmaki.</description>
     <import file="nbproject/build-impl.xml"/>
     <!--
 
@@ -66,6 +66,9 @@
     <target name="-pre-init">
         <property file="nbproject/private/private.properties"/>
         <property name="j2ee.platform.classpath" value="${file.reference.javaee.jar}"/>
+        <property name="libs.jmakilibrary.classpath.libfile.1" value="lib/ajax-wrapper-comp-1.8.0.jar"/>
+        <property name="libs.jmakilibrary.classpath.libfile.2" value="lib/org.json-0.0.1.jar"/>
+        <property name="libs.jmakilibrary.classpath.libfile.3" value="lib/jsfcompounds-0.0.2.jar"/>
     </target>
     <target name="-pre-dist">
         <echo message="Copying source code from the example source tree..."/> 

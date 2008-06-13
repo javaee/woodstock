@@ -17,7 +17,7 @@
         - cleanup
 
         -->
-<project xmlns:webproject1="http://www.netbeans.org/ns/web-project/1" xmlns:webproject2="http://www.netbeans.org/ns/web-project/2" xmlns:webproject3="http://www.netbeans.org/ns/web-project/3" basedir=".." default="default" name="example-html-impl">
+<project xmlns:webproject1="http://www.netbeans.org/ns/web-project/1" xmlns:webproject2="http://www.netbeans.org/ns/web-project/2" xmlns:webproject3="http://www.netbeans.org/ns/web-project/3" basedir=".." default="default" name="example-jmaki-impl">
     <import file="ant-deploy.xml"/>
     <target depends="dist,javadoc" description="Build whole project." name="default"/>
     <!--
@@ -43,7 +43,9 @@
     <target depends="-pre-init,-init-private,-init-user,-init-project,-init-macrodef-property" if="dist.ear.dir" name="-do-ear-init"/>
     <target depends="-pre-init,-init-private,-init-user,-init-project,-init-macrodef-property" name="-do-init">
         <condition property="have.tests">
-            <or/>
+            <or>
+                <available file="${test.src.dir}"/>
+            </or>
         </condition>
         <condition property="have.sources">
             <or>
@@ -172,6 +174,7 @@
     </target>
     <target depends="-pre-init,-init-private,-init-user,-init-project,-do-init" name="-init-check">
         <fail unless="src.dir">Must set src.dir</fail>
+        <fail unless="test.src.dir">Must set test.src.dir</fail>
         <fail unless="build.dir">Must set build.dir</fail>
         <fail unless="build.web.dir">Must set build.web.dir</fail>
         <fail unless="build.generated.dir">Must set build.generated.dir</fail>
@@ -222,7 +225,9 @@ or ant -Dj2ee.platform.classpath=&lt;server_classpath&gt; (where no properties f
             <attribute default="**/*Test.java" name="includes"/>
             <sequential>
                 <junit dir="${basedir}" errorproperty="tests.failed" failureproperty="tests.failed" fork="true" showoutput="true">
-                    <batchtest todir="${build.test.results.dir}"/>
+                    <batchtest todir="${build.test.results.dir}">
+                        <fileset dir="${test.src.dir}" includes="@{includes}"/>
+                    </batchtest>
                     <classpath>
                         <path path="${run.test.classpath}:${j2ee.platform.classpath}"/>
                     </classpath>
@@ -504,24 +509,33 @@ or ant -Dj2ee.platform.classpath=&lt;server_classpath&gt; (where no properties f
     </target>
     <target depends="init,compile,compile-jsps,-pre-dist,-do-dist-with-manifest,-do-dist-without-manifest" name="do-dist"/>
     <target depends="init" if="dist.ear.dir" name="library-inclusion-in-manifest">
+        <basename file="${libs.jmakilibrary.classpath.libfile.3}" property="included.lib.libs.jmakilibrary.classpath.3"/>
+        <basename file="${libs.jmakilibrary.classpath.libfile.2}" property="included.lib.libs.jmakilibrary.classpath.2"/>
+        <basename file="${libs.jmakilibrary.classpath.libfile.1}" property="included.lib.libs.jmakilibrary.classpath.1"/>
+        <copy-ear-war file="${libs.jmakilibrary.classpath.libfile.3}" propname="included.lib.libs.jmakilibrary.classpath.3.X"/>
+        <copy-ear-war file="${libs.jmakilibrary.classpath.libfile.2}" propname="included.lib.libs.jmakilibrary.classpath.2.X"/>
+        <copy-ear-war file="${libs.jmakilibrary.classpath.libfile.1}" propname="included.lib.libs.jmakilibrary.classpath.1.X"/>
         <basename file="${file.reference.json-2.jar}" property="included.lib.file.reference.json-2.jar"/>
         <copy-ear-war file="${file.reference.json-2.jar}" propname="included.lib.file.reference.json-2.jar.X"/>
         <basename file="${file.reference.javaee.jar}" property="included.lib.file.reference.javaee.jar"/>
         <copy-ear-war file="${file.reference.javaee.jar}" propname="included.lib.file.reference.javaee.jar.X"/>
         <copy todir="${build.web.dir}/resources">
-            <fileset dir="${file.reference.jslib-build}" includes="**/*"/>
+            <fileset dir="${file.reference.resources-woodstock}" includes="**/*"/>
         </copy>
         <mkdir dir="${build.web.dir}/META-INF"/>
         <manifest file="${build.web.dir}/META-INF/MANIFEST.MF" mode="update">
-            <attribute name="Class-Path" value="${included.lib.file.reference.json-2.jar} ${included.lib.file.reference.javaee.jar} "/>
+            <attribute name="Class-Path" value="${included.lib.libs.jmakilibrary.classpath.1.X} ${included.lib.libs.jmakilibrary.classpath.2.X} ${included.lib.libs.jmakilibrary.classpath.3.X} ${included.lib.file.reference.json-2.jar} ${included.lib.file.reference.javaee.jar} "/>
         </manifest>
         <delete dir="${dist.ear.dir}/temp"/>
     </target>
     <target depends="init" name="library-inclusion-in-archive" unless="dist.ear.dir">
+        <copy file="${libs.jmakilibrary.classpath.libfile.3}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copy file="${libs.jmakilibrary.classpath.libfile.2}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copy file="${libs.jmakilibrary.classpath.libfile.1}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copy file="${file.reference.json-2.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copy file="${file.reference.javaee.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copy todir="${build.web.dir}/resources">
-            <fileset dir="${file.reference.jslib-build}" includes="**/*"/>
+            <fileset dir="${file.reference.resources-woodstock}" includes="**/*"/>
         </copy>
     </target>
     <target depends="init,compile,compile-jsps,-pre-dist,library-inclusion-in-manifest" name="do-ear-dist">
@@ -718,8 +732,10 @@ or ant -Dj2ee.platform.classpath=&lt;server_classpath&gt; (where no properties f
         <!-- You can override this target in the ../build.xml file. -->
     </target>
     <target depends="init,compile,-pre-pre-compile-test,-pre-compile-test" if="have.tests" name="-do-compile-test">
-        <webproject2:javac classpath="${javac.test.classpath}:${j2ee.platform.classpath}" debug="true" destdir="${build.test.classes.dir}" srcdir=""/>
-        <copy todir="${build.test.classes.dir}"/>
+        <webproject2:javac classpath="${javac.test.classpath}:${j2ee.platform.classpath}" debug="true" destdir="${build.test.classes.dir}" srcdir="${test.src.dir}"/>
+        <copy todir="${build.test.classes.dir}">
+            <fileset dir="${test.src.dir}" excludes="**/*.java"/>
+        </copy>
     </target>
     <target name="-post-compile-test">
         <!-- Empty placeholder for easier customization. -->
@@ -732,12 +748,14 @@ or ant -Dj2ee.platform.classpath=&lt;server_classpath&gt; (where no properties f
     </target>
     <target depends="init,compile,-pre-pre-compile-test,-pre-compile-test-single" if="have.tests" name="-do-compile-test-single">
         <fail unless="javac.includes">Must select some files in the IDE or set javac.includes</fail>
-        <webproject2:javac classpath="${javac.test.classpath}:${j2ee.platform.classpath}" debug="true" destdir="${build.test.classes.dir}" srcdir="">
+        <webproject2:javac classpath="${javac.test.classpath}:${j2ee.platform.classpath}" debug="true" destdir="${build.test.classes.dir}" srcdir="${test.src.dir}">
             <customize>
                 <patternset includes="${javac.includes}"/>
             </customize>
         </webproject2:javac>
-        <copy todir="${build.test.classes.dir}"/>
+        <copy todir="${build.test.classes.dir}">
+            <fileset dir="${test.src.dir}" excludes="**/*.java"/>
+        </copy>
     </target>
     <target name="-post-compile-test-single">
         <!-- Empty placeholder for easier customization. -->
