@@ -110,13 +110,6 @@ var controller = {
     
 };
 
-// Listen for Widget events.
-//woodstock.widget.common.subscribe(woodstock.widget.rating.event.refresh.beginTopic,
-    //controller, "processRefreshEvent");
-woodstock.widget.common.subscribe(woodstock.widget.rating.event.submit.beginTopic,
-    controller, "processSubmitEvent");
-
-
 function RatingListener(ratingID, textID, sumRatingID) {
     this.ratingID = ratingID;
     this.textID = textID;
@@ -157,17 +150,16 @@ function OnSubmit(props) {
 }
 RatingListener.prototype.onSubmit = OnSubmit;
 
-function rating_init() {
-    var widget = woodstock.widget.common.getWidget("ratingSummary");
-    if (widget == null) {
-        return setTimeout('rating_init();', 10);
-    }
-
+woodstock.widget.common.addOnLoad(function() {
     // Subscribe to post-submit event rating average summary widget
     var listener = new RatingListener("ratingSummary", "textSummary", null);
     woodstock.widget.common.subscribe(
         woodstock.widget.rating.event.submit.endTopic,
         listener, listener.onSubmit);
+
+    // Listen for Widget events.
+    woodstock.widget.common.subscribe(woodstock.widget.rating.event.submit.beginTopic,
+        controller, "processSubmitEvent");
 
     for (var i=1; i<=2; i++) {
         widget = woodstock.widget.common.getWidget("rating" + i);
@@ -179,4 +171,4 @@ function rating_init() {
             woodstock.widget.rating.event.submit.endTopic,
             listener, listener.onSubmit);
     }
-}
+});

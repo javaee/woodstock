@@ -71,7 +71,7 @@ jmaki.namespace("@JMAKI_NS@.text");
 
     // Add our widget id and type.
     props.id = this._wid;
-    props.widgetType = "staticText";
+    props.widgetType = "text";
 
     // Create the Woodstock text widget.
     var span_id = wargs.uuid + "_span";

@@ -233,7 +233,7 @@
         this._widget._addFragment(footerCellClone, {
             id: footerCellClone.id + "Text",
             value: col.footerText,
-            widgetType: "staticText"
+            widgetType: "text"
         });            
     }
     if (footerRowClone && col.footerText) {
@@ -305,7 +305,7 @@
                     "')._openSortMenu(event, '" + col.id + "', '" + 
                     col.sortLevel + "');",
                 value: col.headerText,
-                widgetType: "staticText"
+                widgetType: "text"
             }, "last");
         }
     } else if(col.headerText && col.sort == false) {            
@@ -313,7 +313,7 @@
             this._widget._updateFragment(headerCellClone, headerCellClone.id, {
                 id: headerCellClone.id + "_Text",                    
                 value: col.headerText,
-                widgetType: "staticText"
+                widgetType: "text"
             });
         }    
     } 
@@ -790,7 +790,7 @@
         this.emptyTableRow = {
                     id: this.id + "_emptyTableRow",
                     value: this._theme.getMessage("table.emptyData"),
-                    widgetType: "staticText"
+                    widgetType: "text"
         };
     }
     // Resize hack for Moz/Firefox.

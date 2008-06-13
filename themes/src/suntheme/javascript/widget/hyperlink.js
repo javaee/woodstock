@@ -353,9 +353,15 @@
  * @private
  */
 @JS_NS@.widget.hyperlink.prototype._submitFormData = function (formId, params) {
-    var theForm = document.getElementById(formId);
-    var oldTarget = theForm.target;
-    var oldAction = theForm.action;
+    if (formId == null) {
+        return false;
+    }
+    var form = document.getElementById(formId);
+    if (form == null) {
+        return false;
+    }
+    var oldTarget = form.target;
+    var oldAction = form.action;
 
     // Obtain HTML element for tab and common task components.
     var link = document.getElementById(this.id);
@@ -365,14 +371,16 @@
 
     // Set new action URL.
     var prefix;
-    (theForm.action.indexOf("?") == -1) ? prefix = "?" : prefix = "&";
-    theForm.action += prefix + link.id + "_submittedLink=" + link.id;               
+    if (form.action) {
+        prefix = (form.action.indexOf("?") == -1) ? "?" : "&";
+        form.action += prefix + link.id + "_submittedLink=" + link.id;
+    }
         
     // Set new target.
     if (link.target && link.target.length > 0) {
-        theForm.target = link.target;
+        form.target = link.target;
     } else {
-        theForm.target = "_self";
+        form.target = "_self";
     }
 
     // Append query params to new action URL.
@@ -380,18 +388,18 @@
         var x;
         for (var i = 0; i < params.length; i++) {
             x = params[i];
-            theForm.action += "&" + params[i] + "=" + params[i + 1]; 
+            form.action += "&" + params[i] + "=" + params[i + 1]; 
             i++;
         }
     }
 
     // Submit form.
-    theForm.submit(); 
+    form.submit(); 
 
     // Restore target and action URL.
     if (link.target != null) {
-        theForm.target = oldTarget;
-        theForm.action = oldAction;
+        form.target = oldTarget;
+        form.action = oldAction;
     }
     return false;        
 };

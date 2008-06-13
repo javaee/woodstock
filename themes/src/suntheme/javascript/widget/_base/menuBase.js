@@ -682,16 +682,27 @@
  * @private
  */
 @JS_NS@.widget._base.menuBase.prototype._submitFormData = function () {
-    var theForm = document.getElementById(this.formId);
-    var oldAction = theForm.action;
-    var oldTarget = theForm.target;
-       
-    // Specify which option in the menu was clicked.
-    theForm.action += "?" + this.id + "_submittedValue=" + this.getSelectedValue();
-    theForm.target = "_self";
-    theForm.submit();     
-    theForm.action = oldAction;
-    theForm.target = oldTarget;
+    if (this.formId == null) {
+        return false;
+    }
+    var form = document.getElementById(this.formId);
+    if (form == null) {
+        return false;
+    }
+    var oldAction = form.action;
+    var oldTarget = form.target;
+
+    // Set new action URL.
+    var prefix;
+    if (form.action) {
+        prefix = (form.action.indexOf("?") == -1) ? "?" : "&";
+        form.action += prefix + this.id + "_submittedValue=" + this.getSelectedValue();
+    }
+
+    form.target = "_self";
+    form.submit();     
+    form.action = oldAction;
+    form.target = oldTarget;
     return false;
 };
 

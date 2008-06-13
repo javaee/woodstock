@@ -40,7 +40,7 @@ import util.AjaxUtil;
 public class PopupMenuServlet extends HttpServlet {
 
     private static final String popupMenuId = "ww_id10";
-    private static final String staticTextId = "ww_id12";
+    private static final String textId = "ww_id12";
     
     /** 
      * Handles the HTTP <code>GET</code> method.
@@ -65,7 +65,7 @@ public class PopupMenuServlet extends HttpServlet {
             try {
                 JSONObject json = new JSONObject();
                 json.put("value", message);
-                json.put("id", staticTextId);
+                json.put("id", textId);
                 json.write(out);
             } catch (JSONException ex) {
                 Logger.getLogger(PopupMenuServlet.class.getName()).log(Level.SEVERE, null, ex);

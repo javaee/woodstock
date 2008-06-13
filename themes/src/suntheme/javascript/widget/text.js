@@ -20,20 +20,20 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-@JS_NS@._dojo.provide("@JS_NS@.widget.staticText");
+@JS_NS@._dojo.provide("@JS_NS@.widget.text");
 
 @JS_NS@._dojo.require("@JS_NS@.widget._base.refreshBase");
 @JS_NS@._dojo.require("@JS_NS@.widget._base.stateBase");
 @JS_NS@._dojo.require("@JS_NS@.widget._base.widgetBase");
 
 /**
- * This function is used to construct a staticText widget.
+ * This function is used to construct a text widget.
  *
- * @name @JS_NS@.widget.staticText
+ * @name @JS_NS@.widget.text
  * @extends @JS_NS@.widget._base.widgetBase
  * @extends @JS_NS@.widget._base.refreshBase
  * @extends @JS_NS@.widget._base.stateBase
- * @class This class contains functions for the staticText widget.
+ * @class This class contains functions for the text widget.
  * @constructor
  * @param {Object} props Key-Value pairs of properties.
  * @config {String} className CSS selector.
@@ -56,7 +56,7 @@
  * @config {String} value Value of input.
  * @config {boolean} visible Hide or show element.
  */
-@JS_NS@._dojo.declare("@JS_NS@.widget.staticText", [
+@JS_NS@._dojo.declare("@JS_NS@.widget.text", [
         @JS_NS@.widget._base.refreshBase, 
         @JS_NS@.widget._base.stateBase,
         @JS_NS@.widget._base.widgetBase ], {
@@ -64,7 +64,7 @@
     constructor: function() {
         this.escape = true;
     },
-    _widgetType: "staticText" // Required for theme properties.
+    _widgetType: "text" // Required for theme properties.
 });
 
 /**
@@ -76,18 +76,18 @@
  * </p>
  * @ignore
  */
-@JS_NS@.widget.staticText.event =
-        @JS_NS@.widget.staticText.prototype.event = {
+@JS_NS@.widget.text.event =
+        @JS_NS@.widget.text.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: "@JS_NS@_widget_staticText_event_refresh_begin",
+        beginTopic: "@JS_NS@_widget_text_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        endTopic: "@JS_NS@_widget_staticText_event_refresh_end"
+        endTopic: "@JS_NS@_widget_text_event_refresh_end"
     },
 
     /**
@@ -96,10 +96,10 @@
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "@JS_NS@_widget_staticText_event_state_begin",
+        beginTopic: "@JS_NS@_widget_text_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "@JS_NS@_widget_staticText_event_state_end"
+        endTopic: "@JS_NS@_widget_text_event_state_end"
     }
 };
 
@@ -109,7 +109,7 @@
  *
  * @return {Object} Key-Value pairs of properties.
  */
-@JS_NS@.widget.staticText.prototype.getProps = function() {
+@JS_NS@.widget.text.prototype.getProps = function() {
     var props = this._inherited("getProps", arguments);
 
     // Set properties.
@@ -129,7 +129,7 @@
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-@JS_NS@.widget.staticText.prototype._setProps = function(props) {
+@JS_NS@.widget.text.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }

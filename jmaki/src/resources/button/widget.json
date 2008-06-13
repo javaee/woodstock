@@ -39,7 +39,7 @@
          "defaultValue": ""}},
       {"mini": {
          "type": "BOOLEAN",
-         "description": "Set button as mini if true.",
+         "description": "Set button as mini if true (N/A with src property).",
          "defaultValue": false}},
       {"onBlur": {
          "type": "STRING",
@@ -95,15 +95,19 @@
          "defaultValue": ""}},
       {"primary": {
          "type": "BOOLEAN",
-         "description": "Set button as primary if true.",
+         "description": "Set button as primary if true (N/A with src property).",
          "defaultValue": false}},
       {"reset": {
          "type": "BOOLEAN",
-         "description": "Set button as reset if true.",
+         "description": "Set button as reset if true (overrides submit type).",
+         "defaultValue": false}},
+      {"submit": {
+         "type": "BOOLEAN",
+         "description": "Set button as submit if true (default). If false,",
          "defaultValue": false}},
       {"src": {
          "type": "STRING",
-         "description": "Source for image (overrides reset, primary, and mini).",
+         "description": "Source for image (overrides submit and reset types).",
          "defaultValue": ""}},
       {"style": {
          "type": "STRING",

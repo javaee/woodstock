@@ -79,7 +79,7 @@ var controller = {
 };
     
 // Listen for Widget events.
-woodstock.widget.common.subscribe(woodstock.widget.progressBar.event.progress.beginTopic,
-    controller, "processProgressEvent");
-
-
+woodstock.widget.common.addOnLoad(function() {
+    woodstock.widget.common.subscribe(woodstock.widget.progressBar.event.progress.beginTopic,
+        controller, "processProgressEvent");
+});

@@ -26,7 +26,7 @@
  */
 
 function displayMenu(event) {
-            document.getElementById("ww_id10").open(event);    
+    document.getElementById("ww_id10").open(event);    
 }
 
 /**
@@ -36,16 +36,14 @@ function displayMenu(event) {
  */
 function changeEvent() {
     document.getElementById("ww_id10").submit();
-
 }
-        
-        
+
 var controller = {
     
     /**
      * Function that processes the response that is got from the servlet
      * (Object) response The json response
-     * {boolean} Return true if successful; otherwise, false.     * 
+     * {boolean} Return true if successful; otherwise, false.
      */
     processSubmitCallBack: function(response) {
         if (response == null) {
@@ -56,10 +54,10 @@ var controller = {
         widget.setProps(response);    
         return true;
     }
-            
 }        
         
 // Listen for Widget events.
-woodstock.widget.common.subscribe(woodstock.widget.popupMenu.event.submit.endTopic,
-    controller, "processSubmitCallBack");   
-    
+woodstock.widget.common.addOnLoad(function() {
+    woodstock.widget.common.subscribe(woodstock.widget.popupMenu.event.submit.endTopic,
+        controller, "processSubmitCallBack");
+});

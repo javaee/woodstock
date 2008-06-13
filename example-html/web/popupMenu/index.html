@@ -26,20 +26,17 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">       
     <script type="text/javascript">
       var woodstockConfig = {
-	ajax: { url: "/example-html/PopupMenuServlet" },
         namespace: "woodstock",
-        parseOnLoad: true,
-        webuiAll:true	
+        parseOnLoad: true
       };
     </script>
     <script type="text/javascript"
       src="/example-html/resources/woodstock/woodstock4_3/suntheme/javascript/bootstrap.js">
-    </script>
-    <script type="text/javascript" src="/example-html/js/connection.js"></script>    
+    </script>  
     <script type="text/javascript" src="/example-html/popupMenu/popupmenu.js"></script>
   </head>
   <body>
-    <form id="form1">
+    <form id="form1" method="post" action="/example-html/PopupMenuServlet">
 
       <!-- Masthead -->
       <div class="MstDiv_sun4">
@@ -53,14 +50,14 @@
                         "id": "ww_id1",
                         "class": "MstLbl_sun4",
                         "value": "User:",
-                        "widgetType": "staticText"
+                        "widgetType": "text"
                     });</script></span>
                 <span id="ww_id2_span"><script type="text/javascript">
                     woodstock.widget.common.createWidget("ww_id2_span", {
                         "id": "ww_id2",
                         "class": "MstTxt_sun4",
                         "value": "test_user",
-                        "widgetType": "staticText"
+                        "widgetType": "text"
                     });</script></span>
                 <span id="ww_id3_span"><script type="text/javascript">
                     woodstock.widget.common.createWidget("ww_id3_span", {
@@ -75,14 +72,14 @@
                         "id": "ww_id4",
                         "class": "MstLbl_sun4",
                         "value": "Server:",
-                        "widgetType": "staticText"
+                        "widgetType": "text"
                     });</script></span>
                 <span id="ww_id5_span"><script type="text/javascript">
                     woodstock.widget.common.createWidget("ww_id5_span", {
                         "id": "ww_id5",
                         "class": "MstTxt_sun4",
                         "value": "test_server",
-                        "widgetType": "staticText"
+                        "widgetType": "text"
                     });</script></span>
               </div>
               <div class="MstDivTtl_sun4" style="height:35px;margin:5px 0px 0px 0px;">
@@ -114,8 +111,8 @@
         <span id="ww_id8_span"><script type="text/javascript">
             woodstock.widget.common.createWidget("ww_id8_span", {
                 "id": "ww_id8",
-                "value": "Button",
-                "widgetType": "staticText"
+                "value": "Popup Menu",
+                "widgetType": "text"
             });</script></span>
             
     <!-- Content Page Title -->
@@ -124,8 +121,8 @@
             woodstock.widget.common.createWidget("ww_id9_span", {
                 "id": "ww_id9",
                 "style": "font-size:17px",
-                "value": "Popup menu Examples",
-                "widgetType": "staticText"
+                "value": "Popup Menu Examples",
+                "widgetType": "text"
             });</script></span>
 
         <br/><br/>    
@@ -164,7 +161,7 @@
     woodstock.widget.common.createWidget("ww_id12_span", {
         "id": "ww_id12",
         "value": "Selected Option is: ",
-        "widgetType": "staticText"
+        "widgetType": "text"
     });</script></span>
    
    <br/><br/>

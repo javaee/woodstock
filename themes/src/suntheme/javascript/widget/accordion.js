@@ -72,7 +72,7 @@
  *         tabContent: [{
  *           id: "st1",
  *           value: "This is tab one",
- *           widgetType: "staticText"
+ *           widgetType: "text"
  *         }],
  *         title: "Tab One",
  *         widgetType: "accordionTab"
@@ -82,7 +82,7 @@
  *         tabContent: [{
  *           id: "st2",
  *           value: "This is tab two",
- *           widgetType: "staticText"
+ *           widgetType: "text"
  *         }],
  *         title: "Tab Two",
  *         widgetType: "accordionTab"
@@ -109,7 +109,7 @@
  *         tabContent: [{
  *           id: "st1",
  *           value: "This is tab one",
- *           widgetType: "staticText"
+ *           widgetType: "text"
  *         }],
  *         title: "Tab One",
  *         widgetType: "accordionTab"
@@ -119,7 +119,7 @@
  *         tabContent: [{
  *           id: "st2",
  *           value: "This is tab two",
- *           widgetType: "staticText"
+ *           widgetType: "text"
  *         }],
  *         title: "Tab Two",
  *         widgetType: "accordionTab"
@@ -160,7 +160,7 @@
  *         tabContent: [{
  *           id: "st1",
  *           value: "This is tab one",
- *           widgetType: "staticText"
+ *           widgetType: "text"
  *         }],
  *         title: "Tab One",
  *         widgetType: "accordionTab"
@@ -170,7 +170,7 @@
  *         tabContent: [{
  *           id: "st2",
  *           value: "This is tab two",
- *           widgetType: "staticText"
+ *           widgetType: "text"
  *         }],
  *         title: "Tab Two",
  *         widgetType: "accordionTab"
@@ -219,7 +219,7 @@
  *         tabContent: [{
  *           id: "st1",
  *           value: "This is tab one",
- *           widgetType: "staticText"
+ *           widgetType: "text"
  *         }],
  *         title: "Tab One",
  *         widgetType: "accordionTab"
@@ -229,7 +229,7 @@
  *         tabContent: [{
  *           id: "st2",
  *           value: "This is tab two",
- *           widgetType: "staticText"
+ *           widgetType: "text"
  *         }],
  *         title: "Tab Two",
  *         widgetType: "accordionTab"

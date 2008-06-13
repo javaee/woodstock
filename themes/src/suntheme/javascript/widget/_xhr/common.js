@@ -26,8 +26,8 @@
 @JS_NS@._dojo.require("@JS_NS@.widget.common");
 
 /**
- * @class This class contains functions to obtain data asynchronously using JSF
- * Extensions as the underlying transfer protocol.
+ * @class This class contains functions to obtain data asynchronously using the
+ * XMLHTTP request object (XHR) the underlying protocol.
  * @static
  * @private
  */
@@ -50,16 +50,12 @@
         if (props == null || props.id == null) {
             return false;
         }
-        // Ensure URL has been provided.
-        if (@JS_NS@._base.config.ajax.url == null) {
-            console.error("URL for Ajax transaction not provided.");
-            return false;
-        }
 
         // Get properties for JavaScript closures.
         var _callback = props.callback ? props.callback : null;
         var _closure = props.closure ? props.closure : null;
         var _id = props.id ? props.id : null;
+        var _url = @JS_NS@._base.config.ajax.url;
         var _xjson = props.xjson ? props.xjson : null;
 
         // Get form.
@@ -67,6 +63,18 @@
             document.getElementById(props.id));
         if (_form == null) {
             _form = document.forms[0];
+        }
+
+        // Ensure URL has been provided.
+        if (_url == null) {
+            // Attempt to obtain default action url from form.
+            if (_form && _form.action) {
+                _url = _form.action;
+            } else {
+                console.warn("URL for Ajax transaction not provided. " +
+                    "Set form action or Ajax config property");
+                return false;
+            }
         }
 
         // Generate AJAX request.
@@ -88,7 +96,7 @@
                 return content;
             },
             timeout: 5000, // Time in milliseconds
-            url: @JS_NS@._base.config.ajax.url
+            url: _url
         });
     },
 

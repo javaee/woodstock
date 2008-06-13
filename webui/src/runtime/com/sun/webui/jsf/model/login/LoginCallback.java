@@ -66,7 +66,7 @@ public class LoginCallback implements Callback, Serializable {
     public static final String LABEL = "label";
     public static final String TEXT = "textField";
     public static final String PASSWORD = "passwordField";
-    public static final String STATICTEXT = "staticText";
+    public static final String STATICTEXT = "text";
     public static final String LIST = "listbox";
     public static final String DROPDOWN = "dropDown";
     public static final String IMAGE = "image";

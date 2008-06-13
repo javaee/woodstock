@@ -58,7 +58,7 @@
  *       contents: [{
  *         id: "st1",
  *         value: "Bubble Help Text",
- *         widgetType: "staticText",
+ *         widgetType: "text",
  *       }],
  *       title: "Bubble Title",
  *       widgetType: "bubble"
@@ -77,7 +77,7 @@
  *       contents: [{
  *         id: "st1",
  *         value: "Bubble Help Text",
- *         widgetType: "staticText",
+ *         widgetType: "text",
  *       }],
  *       style: "position:relative;top:200px;left:480px;width:20em;z-index:99;",
  *       title: "Bubble Title",
@@ -98,7 +98,7 @@
  *       contents: [{
  *         id: "st1",
  *         value: "Bubble Help Text",
- *         widgetType: "staticText",
+ *         widgetType: "text",
  *       }],
  *       title: "Bubble Title",
  *       widgetType: "bubble"
@@ -130,7 +130,7 @@
  *       contents: [{
  *         id: "st1",
  *         value: "Bubble Help Text",
- *         widgetType: "staticText",
+ *         widgetType: "text",
  *       }],
  *       title: "Bubble Title",
  *       widgetType: "bubble"
@@ -166,7 +166,7 @@
  *       contents: [{
  *         id: "st1",
  *         value: "Bubble Help Text",
- *         widgetType: "staticText",
+ *         widgetType: "text",
  *       }],
  *       title: "Bubble Title",
  *       widgetType: "bubble"
@@ -209,7 +209,7 @@
  *       contents: [{
  *         id: "st1",
  *         value: "Bubble Help Text",
- *         widgetType: "staticText",
+ *         widgetType: "text",
  *       }],
  *       title: "Bubble Title",
  *       widgetType: "bubble"

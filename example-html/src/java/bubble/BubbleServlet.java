@@ -58,13 +58,13 @@ public class BubbleServlet extends HttpServlet {
                     json.put("title","For first hyperlink");                    
                 contents.put("id", "content1")
                     .put("value", "Updated bubble content for First hyperlink.")
-                    .put("widgetType", "staticText");
+                    .put("widgetType", "text");
                 json.put("contents",contents);                
                 } else if (params.equals("ww_id13")) {
                     json.put("title","For second hyperlink");
                     contents.put("id", "content2")
                     .put("value", "Updated bubble content for Second hyperlink.")
-                    .put("widgetType", "staticText");
+                    .put("widgetType", "text");
                 json.put("contents",contents);
                 }
                 if (json != null) {

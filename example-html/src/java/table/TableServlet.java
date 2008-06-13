@@ -95,12 +95,12 @@ public class TableServlet extends HttpServlet {
         JSONObject lastName = new JSONObject();
         lastName.put("id", id + "-" + row + "-col0")
             .put("value", names[row].getLast())
-            .put("widgetType", "staticText");
+            .put("widgetType", "text");
 
         JSONObject firstName = new JSONObject();
         firstName.put("id", id + "-" + row + "-col1")
             .put("value", names[row].getFirst())
-            .put("widgetType", "staticText");
+            .put("widgetType", "text");
 
         JSONArray json = new JSONArray();
         json.put(lastName);

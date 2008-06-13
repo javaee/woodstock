@@ -462,9 +462,7 @@
      * @private
      */
     _getEvent: function(event) {
-        return (event) 
-            ? event 
-            : ((window.event) ? window.event : null);          
+        return (event) ? event : ((window.event) ? window.event : null);          
     },
     
     /**
@@ -523,7 +521,10 @@
      * @return {String} The key code of the key which generated the event
      * @private
      */
-    _getKeyCode: function(event) {    
+    _getKeyCode: function(event) {
+        if (event == null) {
+            return null;
+        }
         return (event.keyCode) 
             ? event.keyCode 
             : ((event.which) ? event.which : event.charCode);              
@@ -539,7 +540,7 @@
      */
     _getPosition: function(domNode) {
         var leftPos = topPos = 0;
-        if (domNode.offsetParent) {
+        if (domNode && domNode.offsetParent) {
             leftPos = domNode.offsetLeft;
             topPos = domNode.offsetTop;
             while ((domNode = domNode.offsetParent) != null) {
@@ -621,7 +622,10 @@
      * @return {Function} The resulting function. 
      * @private 
      */ 
-    _hitch: function(scope, name) { 
+    _hitch: function(scope, name) {
+        if (scope == null || name == null) {
+            return null;
+        }
         // Save given arguments via closure magic. 
         var pre = @JS_NS@._base.proto._toArray(arguments, 2); 
         return function() { 
@@ -720,7 +724,7 @@
     _keyCodes: @JS_NS@._dojo.keys,
  
      /**
-     * This fnction is called after the DOM has finished loading and widgets
+     * This function is called after the DOM has finished loading and widgets
      * declared in markup have been instantiated.
      *
      * @return {boolean} true if successful; otherwise, false.

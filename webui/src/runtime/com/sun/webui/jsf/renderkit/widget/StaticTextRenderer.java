@@ -132,7 +132,7 @@ public class StaticTextRenderer extends RendererBase {
      * @param component UIComponent to be rendered.
      */
     protected String getWidgetType(FacesContext context, UIComponent component) {
-        return "staticText";
+        return "text";
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

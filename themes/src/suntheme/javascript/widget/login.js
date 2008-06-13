@@ -467,7 +467,7 @@
                     tr.appendChild(td);
                     if (i+1 == rowCount) {
                         divNode = this._lastInputContainer.cloneNode(true);
-                    } else if (dataRow[j].type == "staticText") {
+                    } else if (dataRow[j].type == "text") {
                         divNode = this._stxtContainer.cloneNode(true);
                     } else if (dataRow[j].type == "textField") {
                         divNode = this._textContainer.cloneNode(true);

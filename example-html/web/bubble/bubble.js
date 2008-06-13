@@ -84,8 +84,11 @@ var controller = {
 };
     
 // Listen for Widget events.
-woodstock.widget.common.subscribe(woodstock.widget.bubble.event.refresh.beginTopic,
-    controller, "processRefreshEvent");
+woodstock.widget.common.addOnLoad(function() {
+    woodstock.widget.common.subscribe(woodstock.widget.bubble.event.refresh.beginTopic,
+        controller, "processRefreshEvent");
+});
+
 // store the event object for bubble.
 var eventForBubble;
 // Function to refresh bubble title

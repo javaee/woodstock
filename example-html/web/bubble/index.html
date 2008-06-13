@@ -27,8 +27,7 @@
     <script type="text/javascript">
       var woodstockConfig = {
         namespace: "woodstock",
-        parseOnLoad: true,
-        webuiAll: true
+        parseOnLoad: true
       };
     </script>
     <script type="text/javascript"
@@ -38,7 +37,7 @@
     <script type="text/javascript" src="/example-html/bubble/bubble.js"></script>
   </head>
   <body >
-    <form id="form1">
+    <form id="form1" method="post" action="/example-html/BubbleServlet">
 
       <!-- Masthead -->
       <div class="MstDiv_sun4">
@@ -52,14 +51,14 @@
                         "id": "ww_id1",
                         "class": "MstLbl_sun4",
                         "value": "User:",
-                        "widgetType": "staticText"
+                        "widgetType": "text"
                     });</script></span>
                 <span id="ww_id2_span"><script type="text/javascript">
                     woodstock.widget.common.createWidget("ww_id2_span", {
                         "id": "ww_id2",
                         "class": "MstTxt_sun4",
                         "value": "test_user",
-                        "widgetType": "staticText"
+                        "widgetType": "text"
                     });</script></span>
                 <span id="ww_id3_span"><script type="text/javascript">
                     woodstock.widget.common.createWidget("ww_id3_span", {
@@ -74,14 +73,14 @@
                         "id": "ww_id4",
                         "class": "MstLbl_sun4",
                         "value": "Server:",
-                        "widgetType": "staticText"
+                        "widgetType": "text"
                     });</script></span>
                 <span id="ww_id5_span"><script type="text/javascript">
                     woodstock.widget.common.createWidget("ww_id5_span", {
                         "id": "ww_id5",
                         "class": "MstTxt_sun4",
                         "value": "test_server",
-                        "widgetType": "staticText"
+                        "widgetType": "text"
                     });</script></span>
               </div>
               <div class="MstDivTtl_sun4" style="height:35px;margin:5px 0px 0px 0px;">
@@ -115,7 +114,7 @@
             woodstock.widget.common.createWidget("ww_id9_span", {
                 "id": "ww_id9",
                 "value": "Bubble Refresh",
-                "widgetType": "staticText"
+                "widgetType": "text"
             });</script></span>
             
          <!-- Content Page Title -->
@@ -125,7 +124,7 @@
                 "id": "ww_id10",
                 "style": "font-size:17px",
                 "value": "Bubble Refresh Example",
-                "widgetType": "staticText"
+                "widgetType": "text"
             });</script></span>
         <br/><br/>
         <!-- Bubble Refresh -->

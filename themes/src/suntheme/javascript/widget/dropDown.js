@@ -292,9 +292,8 @@
         var jumpDropdown = this._listContainer; 
 
         // Find the <form> for this drop down
-        var form = jumpDropdown.form; 
-
-        if (typeof form != "undefined" && form != null) { 
+        var form = jumpDropdown.form;
+        if (form != null) { 
             this._submitterHiddenNode.value = "true";
 
             // Set style classes.

@@ -324,7 +324,7 @@ public class LoginRenderer extends com.sun.webui.jsf.renderkit.widget.LoginRende
         props.put("widgetType", widgetType);
         props.put("id", key);
         
-        if (widgetType.equalsIgnoreCase("staticText")) {
+        if (widgetType.equalsIgnoreCase("text")) {
             props.put("value", (String)lcb.getCallbackDataValue(key));
             contentArray.put(props);
                         

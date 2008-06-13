@@ -192,7 +192,7 @@
  * @config {String} escape HTML escape value (default).
  * @config {String} id Uniquely identifies an element within a document.
  * @config {String} lang Specifies the language of attribute values and content.
- * @config {boolean} mini Set button as mini if true.
+ * @config {boolean} mini Set button as mini if true (N/A with src property).
  * @config {String} onBlur Element lost focus.
  * @config {String} onClick Mouse button is clicked on element.
  * @config {String} onDblClick Mouse button is double-clicked on element.
@@ -206,9 +206,11 @@
  * @config {String} onMouseUp Mouse button is released over element.
  * @config {String} onMouseMove Mouse is moved while over element.
  * @config {String} prefix The application context path of image.
- * @config {boolean} primary Set button as primary if true.
- * @config {boolean} reset Set button as reset if true.
- * @config {String} src Source for image (overrides reset, primary, and mini).
+ * @config {boolean} primary Set button as primary if true (N/A with src property).
+ * @config {boolean} reset Set button as reset if true (overrides submit type).
+ * @config {boolean} submit Set button as submit if true (default). If false,
+ * the underlying HTML input type will be button.
+ * @config {String} src Source for image (overrides submit and reset types).
  * @config {String} style Specify style rules inline.
  * @config {int} tabIndex Position in tabbing order.
  * @config {String} title Provides a title for element.
@@ -226,6 +228,7 @@
         this.mini = false;
         this.primary = true;
         this.reset = false;
+        this.submit = true;
     },
     _widgetType: "button" // Required for theme properties.
 });
@@ -239,10 +242,12 @@
 @JS_NS@.widget.button.prototype._buildRendering = function () {
     // On IE, the HTML input type property must be set when the DOM node is 
     // created. Therefore, we're using HTML templates to define the type.
-    if (new Boolean(this.reset).valueOf() == true) {
-        this._templateType = "resetButton";
-    } else if (this.src != null) {
+    if (this.src != null) {
         this._templateType = "imageButton";
+    } else if (new Boolean(this.reset).valueOf() == true) {
+        this._templateType = "resetButton";
+    } else if (new Boolean(this.submit).valueOf() == true) {
+        this._templateType = "submitButton";
     }
     return this._inherited("_buildRendering", arguments);
 }

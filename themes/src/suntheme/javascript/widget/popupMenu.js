@@ -214,10 +214,6 @@
     }
     @JS_NS@.widget.popupMenu.activeMenuId = this.id;
 
-    var evt = (event) 
-        ? event : ((window.event) 
-            ? window.event : null);
-
     // Note: Must test if event is null. Otherwise, pressing enter key while
     // link has focus generates an error on IE.
     if (evt) {
@@ -273,9 +269,14 @@
             ? evt.target 
             : ((evt.srcElement) 
                 ? evt.srcElement : null);
+
         var absPos = this._widget._getPosition(target);
         var targetLeft = absPos[0];
         var targetTop = absPos[1];
+
+        // Fix: Menu not positioned b/c target is null -- see example-html app.
+        // Possible issue with packer tool encoding?
+        var targetHeight = (target) ? target.offsetHeight : 0;
 
         // Assume default horizontal position is to align the left edge of the menu with the
         // left edge of the target.
@@ -297,7 +298,7 @@
         }
 
         // Assume default vertical position is to position menu below target.
-        var menuTop = targetTop + target.offsetHeight + this.bottomShadow;
+        var menuTop = targetTop + targetHeight + this.bottomShadow;
         
         // Check if bottom edge of menu exceeds page boundary.
         var bottomEdge = menuTop + this._domNode.offsetHeight - this.bottomShadow;
@@ -309,7 +310,7 @@
             // reposition menu back to below target.
             // User will need to use scrollbars to position menu into view.
             if (menuTop <= 0) {
-                menuTop = targetTop + target.offsetHeight - this.bottomShadow;
+                menuTop = targetTop + targetHeight - this.bottomShadow;
             }
         }
         // Adjust to account for parent container.
@@ -328,7 +329,7 @@
     } else if (evt.srcElement) {
         this.target = evt.srcElement;
     }
-    if (this.target.blur) {
+    if (this.target && this.target.blur) {
         this.target.blur();
     }
     

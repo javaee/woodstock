@@ -26,9 +26,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">       
     <script type="text/javascript">
       var woodstockConfig = {
+        ajax: { isAjax: false },
         namespace: "woodstock",
-        parseOnLoad: true,
-        webuiAll: true
+        parseOnLoad: true
       };
     </script>
     <script type="text/javascript"
@@ -37,7 +37,7 @@
      <script type="text/javascript" src="/example-html/js/connection.js"></script>
      <script type="text/javascript" src="/example-html/rating/rating.js"></script>
   </head>
-  <body onLoad="rating_init();">
+  <body>
     <form id="form1">
 
       <!-- Masthead -->
@@ -52,14 +52,14 @@
                         "id": "ww_id1",
                         "class": "MstLbl_sun4",
                         "value": "User:",
-                        "widgetType": "staticText"
+                        "widgetType": "text"
                     });</script></span>
                 <span id="ww_id2_span"><script type="text/javascript">
                     woodstock.widget.common.createWidget("ww_id2_span", {
                         "id": "ww_id2",
                         "class": "MstTxt_sun4",
                         "value": "test_user",
-                        "widgetType": "staticText"
+                        "widgetType": "text"
                     });</script></span>
                 <span id="ww_id3_span"><script type="text/javascript">
                     woodstock.widget.common.createWidget("ww_id3_span", {
@@ -74,14 +74,14 @@
                         "id": "ww_id4",
                         "class": "MstLbl_sun4",
                         "value": "Server:",
-                        "widgetType": "staticText"
+                        "widgetType": "text"
                     });</script></span>
                 <span id="ww_id5_span"><script type="text/javascript">
                     woodstock.widget.common.createWidget("ww_id5_span", {
                         "id": "ww_id5",
                         "class": "MstTxt_sun4",
                         "value": "test_server",
-                        "widgetType": "staticText"
+                        "widgetType": "text"
                     });</script></span>
               </div>
               <div class="MstDivTtl_sun4" style="height:35px;margin:5px 0px 0px 0px;">
@@ -114,7 +114,7 @@
             woodstock.widget.common.createWidget("ww_id8_span", {
                 "id": "ww_id8",
                 "value": "Rating",
-                "widgetType": "staticText"
+                "widgetType": "text"
             });</script></span>
 
         <!-- Content Page Title -->
@@ -124,16 +124,16 @@
                 "id": "ww_id9",
                 "style": "font-size:17px",
                 "value": "Rating Example",
-                "widgetType": "staticText"
+                "widgetType": "text"
             });</script></span>
 
         <br/>
         <span id="ww_id10_span"><script type="text/javascript">
             woodstock.widget.common.createWidget("ww_id10_span",{
                 "id": "ww_id10",
-                "widgetType": "staticText",
+                "widgetType": "text",
                 "visible": true,
-                "value": "This example shows how to use a rating widget to show the cumulative average between one or more other rating widgets.  The basic model is to pump the selected grade for each of these other widgets into the cumulative average widget.  All but the last widget will show the currently selected grade and the average grade for that widget.  When a grade is selected, it is sent to a servlet via an Ajax request where an average grade is computed and returned in the response.  A listener object for each widget subscribes to the submit event and is notified after the average grade is returned, at which point the average grade is then set as the value of the staticText field below the rating widget.  Additionally, the selected grade is then set as the value for the cumulative average rating widget and submitted.  An average rating is computed and returned, exactly as for the other rating widgets.  Another listener object which subscribes to submit events on the cumulative average rating widget is notified, at which point the cumulative average grade is then set as the value of the staticText field below the cumulative average rating widget.",
+                "value": "This example shows how to use a rating widget to show the cumulative average between one or more other rating widgets.  The basic model is to pump the selected grade for each of these other widgets into the cumulative average widget.  All but the last widget will show the currently selected grade and the average grade for that widget.  When a grade is selected, it is sent to a servlet via an Ajax request where an average grade is computed and returned in the response.  A listener object for each widget subscribes to the submit event and is notified after the average grade is returned, at which point the average grade is then set as the value of the text field below the rating widget.  Additionally, the selected grade is then set as the value for the cumulative average rating widget and submitted.  An average rating is computed and returned, exactly as for the other rating widgets.  Another listener object which subscribes to submit events on the cumulative average rating widget is notified, at which point the cumulative average grade is then set as the value of the text field below the cumulative average rating widget.",
                 "escape": true
             });</script></span>
 
@@ -178,7 +178,7 @@
         <br/>
         <span id="avglabel1_span"><script type="text/javascript">
             woodstock.widget.common.createWidget("avglabel1_span",{
-                "widgetType": "staticText",
+                "widgetType": "text",
                 "value": "Average Rating",
                 "visible": true,
                 "className": "avgLabel",
@@ -187,7 +187,7 @@
             });</script></span>
         <span id="avgtext1_span"><script type="text/javascript">
             woodstock.widget.common.createWidget("avgtext1_span",{
-                "widgetType": "staticText",
+                "widgetType": "text",
                 "value": "0.0",
                 "visible": true,
                 "className": "avgText",
@@ -235,7 +235,7 @@
         <br/>
         <span id="avglabel2_span"><script type="text/javascript">
             woodstock.widget.common.createWidget("avglabel2_span",{
-                "widgetType": "staticText",
+                "widgetType": "text",
                 "value": "Average Rating",
                 "visible": true,
                 "className": "avgLabel",
@@ -244,7 +244,7 @@
             });</script></span>
         <span id="avgtext2_span"><script type="text/javascript">
             woodstock.widget.common.createWidget("avgtext2_span",{
-                "widgetType": "staticText",
+                "widgetType": "text",
                 "value": "0.0",
                 "visible": true,
                 "className": "avgText",
@@ -272,7 +272,7 @@
         <br/>
         <span id="summarylabel_span"><script type="text/javascript">
             woodstock.widget.common.createWidget("summarylabel_span",{
-                "widgetType": "staticText",
+                "widgetType": "text",
                 "value": "Cumulative Average Rating",
                 "visible": true,
                 "className": "avgLabel",
@@ -281,7 +281,7 @@
             });</script></span>
         <span id="summarytext_span"><script type="text/javascript">
             woodstock.widget.common.createWidget("summarytext_span",{
-                "widgetType": "staticText",
+                "widgetType": "text",
                 "value": "0.0",
                 "visible": true,
                 "className": "avgText",
