@@ -25,18 +25,4 @@
         ]
     }' />
 
-    
- <!-- BEGIN OF popupMenu TEST
-            
-         popupMenu is displayed in response to the event only.
-         The snippet below provides an opportunity to test it,
-         and can be safely removed.-->
-
-    <a onMouseOver="jmaki.publish('/woodstock/popupMenu/open', {event: event});"
-       style = "background: grey">** Mouse Over to test the popupMenu **</a>                
-
-<!-- END OF popupMenu TEST -->
-    
-
-
 
