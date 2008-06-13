@@ -167,6 +167,39 @@
          },
       "description": ""
     },
+  "value": {
+      "required": true,
+      "type": "OBJECT",
+      "defaultValue":{
+            "menu": [
+                {
+                    "label" : "action",
+                    "action" : {
+                        "topic" : "/foo",
+                        "message" : {
+                            "value" : "test.jsp" 
+                        } 
+                    } 
+                },        
+                {
+                    "label": "Yahoo!",
+                    "href" : "http://www.yahoo.com" 
+                },
+                {
+                    "label": "Sun Microsystems",
+                    "href": "http://www.sun.com",
+                    "style": {
+                        "checked": true 
+                    } 
+                },
+                {
+                    "label": "Oracle",
+                    "href": "http://www.oracle.com" 
+                } 
+            ]
+        },
+      "description": "Bubble Popup"
+    },
     "config": {
       "type": {
         "id": "@JS_NAME@",

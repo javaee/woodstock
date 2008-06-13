@@ -277,7 +277,8 @@ jmaki.namespace("@JMAKI_NS@.popupMenu");
 };
 // util method to check whether JSON object is an array
 @JMAKI_NS@.popupMenu.Widget.prototype._isArray = function(testObject){    
-    //   return testObject && !(testObject.propertyIsEnumerable('length')) && typeof testObject === 'object' && typeof testObject.length === 'number';
-    return (testObject && typeof testObject == "object" && typeof testObject.length != "undefined");
+    // return testObject && !(testObject.propertyIsEnumerable('length')) && typeof testObject === 'object' && typeof testObject.length === 'number';
+    // return (testObject && typeof testObject == "object" && typeof testObject.length != "undefined");
+    return (testObject && testObject instanceof Array);
 }
 
