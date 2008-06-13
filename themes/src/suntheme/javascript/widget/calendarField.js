@@ -322,7 +322,7 @@
     var className = this._inherited("_getClassName", arguments);
 
     // Set default style.
-    var newClassName = this._theme.getClassName("CALENDAR_ROOT_TABLE","");
+    var newClassName = this._theme.getClassName("CALENDAR_ROOT","");
 
     return (className)
         ? newClassName + " " + className

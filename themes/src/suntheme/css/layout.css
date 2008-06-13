@@ -856,21 +856,25 @@ a.DatOthBldLnk@THEME_CSS@:link, a.DatOthBldLnk@THEME_CSS@:visited {
 .CalPopFldLbl@THEME_CSS@ {
 	display:block;
 	margin-right:8px;
-	padding-top:3px;
+        padding: 3px 1px 1px 1px;
 }
 .CalPopFldImg@THEME_CSS@ img {
 	margin-left:5px;
 }
 /* Override pluto portal server rule */
-.CalRootTbl@THEME_CSS@ {
-	width: auto;
- }
+.CalRoot@THEME_CSS@ { }  /* runtime only */
+.CalRootTbl@THEME_CSS@ { /* design-time only */
+        width: auto;
+}
 .CalPopBtnDiv@THEME_CSS@ {
         position: relative;
 }
 .CalPopTxt@THEME_CSS@ {         
         padding-right:8px;
         padding-left:4px;
+}
+.CalRoot@THEME_CSS@ .CalPopTxt@THEME_CSS@ { /* runtime only */
+        padding-top:3px;
 }
 .CalPopTxt@THEME_CSS@ .inlineFieldHelp@THEME_CSS@ {
 	display: inline;

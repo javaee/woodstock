@@ -1,23 +1,21 @@
-<table dojoAttachPoint="_domNode" border="0" cellpadding="0" cellspacing="0">
-  <tr>
-    <!-- Table cell for the label -->  
-    <td dojoAttachPoint="_labelColumn" valign="top" class="hidden@THEME_CSS@ CalPopFldLbl@THEME_CSS@">
+<div dojoAttachPoint="_domNode">
+    <!-- Container for the label -->  
+    <div dojoAttachPoint="_labelColumn" class="float@THEME_CSS@ hidden@THEME_CSS@ CalPopFldLbl@THEME_CSS@">
         <span dojoAttachPoint="_labelContainer"></span>
-    </td>      
-    <!-- Table cell for the text field and the date format pattern help string -->
-    <td valign="top">
-        <input dojoAttachPoint="_fieldNode" type="text"></input>
-    </td>      
-    <!-- Table cell for the calendar -->
-    <td dojoAttachPoint="_linkContainer" valign="top">
-        <div dojoAttachPoint="_calendarContainer"/>    
-    </td>    
-  </tr>
-    <tr>
-        <td>
-        </td>
-        <td class="CalPopTxt@THEME_CSS@">
-	    <div dojoAttachPoint="_inlineHelpNode" class="inlineFieldHelp@THEME_CSS@"></div>
-        </td>
-    </tr>  
-</table>
+    </div>      
+    <!-- Container for the text field and the date format pattern help string -->
+    <div class="float@THEME_CSS@">
+        <!-- Wrap input form element in span as workaround for IE margin
+             inheritance bug -->
+        <span><input dojoAttachPoint="_fieldNode" type="text"></input></span>
+        <div class="CalPopTxt@THEME_CSS@">
+	  <div dojoAttachPoint="_inlineHelpNode" class="inlineFieldHelp@THEME_CSS@"></div>
+        </div>
+    </div>      
+    <!-- Container for the calendar -->
+    <div dojoAttachPoint="_linkContainer" class="float@THEME_CSS@">
+        <div dojoAttachPoint="_calendarContainer"></div>
+    </div>
+    <!-- Must clear the float styles used above -->
+    <div class="clear@THEME_CSS@"></div>
+</div>
