@@ -49,14 +49,14 @@
 	<isset property="js-name"/>
     </condition>
     <property name="js.name" value="${js-name}"/>
-    <property name="js.module" value="${js.name}${CacheThemeVersion}"/>
+    <property name="js.module" value="${js.name}${CacheVersion}"/>
     <property name="js.path" value="/${js.name}/${js.module}/${theme.name}/javascript"/>
 
     <!-- jslib values. -->    
     <property name="jslib.name" value="woodstock"/>
     <property name="jslib.build-dir" value="${build}/${jslib.name}"/>
     <property name="jslib.src-dir" value="${src}"/>
-    <property name="jslib.zip" value="${dist}/${jslib.name}.zip"/>
+    <property name="jslib.zip" value="${dist}/${jslib.name}-${ThemeVersion}.zip"/>
     <property name="jslib.theme-src-dir" value="${themes}/build/${theme.name}"/>
     <property name="jslib.theme-files" value="theme-files"/>
 

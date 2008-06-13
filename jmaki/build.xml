@@ -49,7 +49,7 @@
 	<isset property="js-name"/>
     </condition>
     <property name="js.name" value="${js-name}"/>
-    <property name="js.module" value="${js.name}${CacheThemeVersion}"/>
+    <property name="js.module" value="${js.name}${CacheVersion}"/>
     <property name="js.path" value="../resources/libs/${js.module}/${theme.name}/javascript"/>
 
     <!-- JMaki values. -->    
@@ -57,7 +57,7 @@
     <property name="jmaki.module" value="jmaki.widgets.woodstock"/>
     <property name="jmaki.build-dir" value="${build}/${jmaki.name}"/>
     <property name="jmaki.src-dir" value="${src}"/>
-    <property name="jmaki.zip" value="${dist}/${jmaki.name}.zip"/>
+    <property name="jmaki.zip" value="${dist}/${jmaki.name}-${ThemeVersion}.zip"/>
     <property name="jmaki.properties-dest-dir" value="${jmaki.build-dir}"/>
     <property name="jmaki.properties-src-dir" value="${jmaki.src-dir}/properties"/>
     <property name="jmaki.resources-dest-dir" value="${jmaki.build-dir}/resources/${js.name}"/>

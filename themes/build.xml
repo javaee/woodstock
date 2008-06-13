@@ -81,7 +81,7 @@
     <property name="theme.name" value="suntheme"/>
     <property name="theme.src-dir" value="${src}/${theme.name}"/>
     <property name="theme.src-package"  value="com.sun.webui.suntheme"/>
-    <property name="theme.package"  value="${js.name}${CacheThemeVersion}.suntheme"/>
+    <property name="theme.package"  value="${js.name}${CacheVersion}.suntheme"/>
     <property name="theme.build-dir" value="${build}/${theme.name}"/>
 
     <!-- Derive a package path -->
@@ -124,7 +124,7 @@
     <property name="theme.master.css" value="css_master.css"/>
     <property name="theme.master-all.css" value="css_master-all.css"/>
     <property name="theme.js-name" value="${js.name}"/>
-    <property name="theme.js-module" value="${js.name}${CacheThemeVersion}"/>
+    <property name="theme.js-module" value="${js.name}${CacheVersion}"/>
     <property name="theme._bootstrap_.js" value="_base/_bootstrap_.js"/>
     <property name="theme.bootstrap.js" value="bootstrap.js"/>
     <property name="theme._dnd_.js" value="_base/_dnd_.js"/>

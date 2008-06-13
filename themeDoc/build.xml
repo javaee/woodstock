@@ -43,7 +43,7 @@
 
   <!-- see above "CacheDate" -->
   <property name="SUNTHEMEPKGDIR"
-	    value="suntheme${CacheThemeVersion}"/>
+	    value="suntheme${CacheVersion}"/>
 
   <property name="ws" value=".."/>
   <property name="webui" value="${ws}/webui"/>

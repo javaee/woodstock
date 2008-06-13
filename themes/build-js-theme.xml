@@ -61,7 +61,7 @@
 	value="${basedir}/dist/webui-jsf-suntheme.jar"/>
     <property name="_js-name_" value="woodstock"/>
     <property name="_js-theme-name_" value="suntheme"/>
-    <property name="_js-theme-package_" value="${_js.name_}${CacheThemeVersion}.suntheme"/>
+    <property name="_js-theme-package_" value="${_js.name_}${CacheVersion}.suntheme"/>
     <property name="_js-l10n-dir_" value="${basedir}/dist"/>
 
     <!-- Need these paths defined at this scope for clean 
