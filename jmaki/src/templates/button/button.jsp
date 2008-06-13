@@ -1,1 +1,1 @@
-<a:widget name="@JS_NAME@.button" value="{value: 'Submit', primary: true, mini: false, submitForm: false, escape: true}" />
+<a:widget name="@JS_NAME@.button" args="{value: 'Submit'}" />

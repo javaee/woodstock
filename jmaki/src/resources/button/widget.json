@@ -24,7 +24,7 @@
       {"disabled": {
          "type": "BOOLEAN",
          "description": "Disable element.",
-         "defaultValue": ""}},
+         "defaultValue": false}},
       {"escape": {
          "type": "STRING",
          "description": "HTML escape value (default).",
@@ -40,7 +40,7 @@
       {"mini": {
          "type": "BOOLEAN",
          "description": "Set button as mini if true.",
-         "defaultValue": ""}},
+         "defaultValue": false}},
       {"onBlur": {
          "type": "STRING",
          "description": "Element lost focus.",
@@ -89,9 +89,21 @@
          "type": "STRING",
          "description": "Mouse is moved while over element.",
          "defaultValue": ""}},
+      {"prefix": {
+         "type": "STRING",
+         "description": "The application context path of image.",
+         "defaultValue": ""}},
       {"primary": {
          "type": "BOOLEAN",
          "description": "Set button as primary if true.",
+         "defaultValue": false}},
+      {"reset": {
+         "type": "BOOLEAN",
+         "description": "Set button as reset if true.",
+         "defaultValue": false}},
+      {"src": {
+         "type": "STRING",
+         "description": "Source for image (overrides reset, primary, and mini).",
          "defaultValue": ""}},
       {"style": {
          "type": "STRING",
@@ -100,7 +112,7 @@
       {"tabIndex": {
          "type": "INT",
          "description": "Position in tabbing order.",
-         "defaultValue": ""}},
+         "defaultValue": -1}},
       {"title": {
          "type": "STRING",
          "description": "Provides a title for element.",
@@ -112,7 +124,7 @@
       {"visible": {
          "type": "BOOLEAN",
          "description": "Hide or show element.",
-         "defaultValue": ""}}
+         "defaultValue": false}}
     ],
     "config": {
       "type": {

@@ -3,53 +3,131 @@ jmaki.namespace("@JMAKI_NS@.button");
 /*
  * jMaki wrapper for Woodstock Button widget.
  *
- * We expect the 'value' property in the wargs object and/or
- * the 'data' property in the widget.json to be a JSON object
- * containing valid Woodstock properties.  No property conversion
- * is done when creating the Woodstock widget from the jMaki
- * value/data properties.
+ * This widget wrapper looks for the following properties in
+ * the "wargs" parameter:
+ *
+ * value:     Initial data mapped onto the button properties.
+ * args:      Additional widget properties from the code snippet,
+ *            these properties are assumed to be underlying widget
+ *            properties and are passed through to the button widget.
+ * publish:   Topic to publish jMaki events to; if not specified, the
+ *            default topic is "/woodstock/button".
+ * subscribe: Topic to subscribe to for data model events; if not
+ *            specified, the default topic is "/woodstock/button".
+ * args.id:   User specified widget identifier; if not specified, the
+ *            jMaki auto-generated identifier is used.
+ * 
+ * This widget subscribes to the following jMaki events:
+ *
+ * TBD...
+ *
+ * This widget publishes the following jMaki events:
+ *
+ * onClick   To indicate the underlying HTML input element was selected.
  */
 @JMAKI_NS@.button.Widget = function(wargs) {
-
     // Turn on jMaki debugging...
-    // jmaki.debug = true;
-    // jmaki.log("Entering woodstock button Widget function...");
+    //jmaki.debug = true;
+    //jmaki.log("Entering woodstock button Widget function...");
 
-    var self = this;
-    var publishTopic;
-    var id = wargs.id;
-    if (typeof id == "undefined") {
-	id = wargs.uuid;
+    // Initialize basic wrapper properties.
+    this._subscribe = ["/@JS_NAME@/button"];
+    this._publish = "/@JS_NAME@/button";
+    this._subscriptions = [];
+    this._wid = wargs.uuid;
+    this._value = wargs.value;
+
+    if (wargs.id) {
+	this._wid = wargs.id;
     }
-    var span_id = wargs.uuid + "_span";
     if (wargs.publish) {
-	// User supplied a specific topic to publish.
-	publishTopic = wargs.publish;
+	// User supplied a specific topic to publish to.
+	this._publish = wargs.publish;
+    }
+    if (wargs.subscribe) {
+	// User supplied one or more specific topics to subscribe to.
+        if (typeof wargs.subscribe == "string") {
+            this._subscribe = [];
+            this._subscribe.push(wargs.subscribe);
+        } else {
+            this._subscribe = wargs.subscribe;
+        }
     }
 
-    // Get the jMaki properties for a Woodstock button.
+    // Create Woodstock widget.
+    this._create(wargs);
+};
+
+// Create Woodstock widget.
+@JMAKI_NS@.button.Widget.prototype._create = function(wargs) {
+
+    // Process the jMaki wrapper properties for a Woodstock button.
+    // Value must contain an array of Options objects.
     var props;
-    if (wargs.value) {
-	props = wargs.value;
+    if (wargs.args) {
+	props = wargs.args;
     } else {
 	props = {};
-	props.value = "Button";
-	props.widgetType = "button";
-	props.primary = true;
-	props.submitForm = false;
     }
 
-    // Add our widget id and type, adjust type for form submit.
-    props.id = id;
-    props.widgetType = "button";
-    if (! props.submitForm) {
-	props.widgetType="resetButton";
-	if (typeof props.onClick == "undefined") {
-	    props.onClick="return false;";
-	}
+    // A web app devleoper could return false in order to cancel the 
+    // submit. Thus, we will handle this event via the onClick call back.
+    if (props.onClick) {
+        // Set private function scope on widget.
+        this._onClick = (typeof props.onClick == 'string')
+            ? new Function(props.onClick) : props.onClick;
     }
+
+    // Add our widget id and type.
+    props.id = this._wid;
+    props.widgetType = "button";
+
+    // Hook the button widget onChange UI event so we can
+    // publish the jMaki onClick topic.
+    props.onClick = @JS_NS@.widget.common._hitch(this, "_onClickCallback");
 
     // Create the Woodstock button widget.
+    var span_id = wargs.uuid + "_span";
     @JS_NS@.widget.common.createWidget(span_id, props);
+};
 
+// Destroy...
+// Unsubscribe from jMaki events
+@JMAKI_NS@.button.Widget.prototype.destroy = function() {
+    if (this._subscriptions) {
+        for (var i = 0; i < this._subscriptions.length; i++) {
+            jmaki.unsubscribe(this._subscriptions[i]);
+	} // End of for
+    }
+};
+
+// Warning: jMaki calls this function using a global scope. In order to
+// access variables and functions in "this" object, closures must be used.
+@JMAKI_NS@.button.Widget.prototype.postLoad = function() {
+    // Do nothing...
+}
+
+// Callback function to handle Woodstock button onClick event.
+// Event payload contains:
+//    button widget identifier
+// Publish jMaki onClick event.
+@JMAKI_NS@.button.Widget.prototype._onClickCallback = function() {
+    // Note: A web app devleoper can return false in order to cancel the submit.
+    var result = true;
+    if (typeof this._onClick == "function") {
+        result = this._onClick();
+    }
+    if (result != null && result == false) {
+        return result;
+    }
+
+    // Process jMaki action.
+    jmaki.processActions({
+        action : (this._value) ? this._value.action : null,
+        targetId : (this._value && this._value.id) ? this._value.id : null,
+        topic : this._publish,
+        type : "onClick",
+        value : this._value,
+        widgetId : this._wid
+    });
 };
