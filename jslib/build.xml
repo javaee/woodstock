@@ -73,26 +73,27 @@
     <!-- Public Targets -->
 
     <!-- ========== all ========== -->
-    <target name="all" depends="buildLibrary" />
+    <target name="all" depends="buildTheme,buildL10n" description="Build Woodstock Library." >
+        <!-- Create JavaScript library zip. -->
+        <antcall target="createJslibZip"/>
+    </target>
 
-    <!-- Build Woodstock Library. -->
-    <target name="buildLibrary" description="Build Woodstock Library.">
-        <mkdir dir="${jslib.build-dir}" />
-
+    <!-- Build Theme -->
+    <target name="buildTheme" description="Build Woodstock Library.">
         <!-- Copy theme files. -->
         <antcall target="copyThemeFiles">
 	    <param name="_from-dir_" value="${jslib.theme-src-dir}/${js.module}" />
 	    <param name="_to-dir_" value="${jslib.build-dir}/${js.module}" />
         </antcall>
+    </target>
 
+    <!-- Build l10n. -->
+    <target name="buildL10n" if="build-l10n">
         <!-- Copy l10n files. -->
         <antcall target="copyL10nFiles">
 	    <param name="_from-dir_" value="${jslib.theme-src-dir}/translatedFiles/${js.module}" />
 	    <param name="_to-dir_" value="${jslib.build-dir}/${js.module}" />
         </antcall>
-
-        <!-- Create zip. -->
-        <antcall target="createJslibZip"/>
     </target>
 
     <!-- Sets the "libraryzip-uptodate" property if
@@ -178,8 +179,7 @@
 	 _from-dir_ - source directory of "**/*"
 
     -->
-    <target name="copyL10nFiles" if="build-l10n"
-            depends="l10n-uptodate" unless="l10n-uptodate">
+    <target name="copyL10nFiles" depends="l10n-uptodate" unless="l10n-uptodate">
 	<mkdir dir="${_to-dir_}"/>
 
 	<!-- Copy and filter javascript files into _to-dir_ -->

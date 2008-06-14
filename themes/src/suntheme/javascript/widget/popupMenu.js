@@ -190,23 +190,21 @@
  * @param {Event} event The JavaScript event.
  * @return {boolean} true if successful; otherwise, false.
  */
-@JS_NS@.widget.popupMenu.prototype.open = function(event) {    
+@JS_NS@.widget.popupMenu.prototype.open = function(event) {
     var evt = this._widget._getEvent(event);
     var keyCode = this._widget._getKeyCode(evt);
     if (evt.type == "keydown" || evt.type == "keypress") {
         if (!(evt.shiftKey && keyCode == 121)) {
             return false;
         }
-
         if (@JS_NS@._base.browser._isIe5up()) {
             window.event.cancelBubble = true;
             window.event.returnValue = false;
         } else {
             evt.stopPropagation();
             evt.preventDefault();
-        }         
+        }        
     }
-         
     // Only one menu can be open at a time. Hence, close the previous menu.
     var widget = this._widget.getWidget(@JS_NS@.widget.popupMenu.activeMenuId);
     if (widget) {
@@ -231,18 +229,22 @@
         // in the list, then the styles appear to be undefined.
         if (this._domNode.style.length != null) {
             for (var i = 0; i < this._domNode.style.length; i++) {
-                    var x = this._domNode.style[i];
-                if (this._domNode.style[i] == "top")
-            this.top = this._domNode.style.top; 
-                if (this._domNode.style[i] == "left")
+                var x = this._domNode.style[i];
+                if (this._domNode.style[i] == "top") {
+                    this.top = this._domNode.style.top;
+                }                    
+                if (this._domNode.style[i] == "left") {
                     this.left = this._domNode.style.left;
-        }
+                }
+            }
         } else {
             // For IE, simply query the style attributes.
-            if (this._domNode.style.top != "")
+            if (this._domNode.style.top != "") {
                 this.top = this._domNode.style.top;
-            if (this._domNode.style.left != "")
-            this.left = this._domNode.style.left;
+            }
+            if (this._domNode.style.left != "") {
+                this.left = this._domNode.style.left;
+            }
         }
     }
 
@@ -252,23 +254,34 @@
     // Show the menu. Must do this here, else target properties referenced
     // below will not be valid.
     this.setProps({visible: true});
-      
+
     // If specific positioning specified, then simply use it.  This means
     // no provisions are made to guarantee the menu renders in the viewable area.
     if ((this.top != null) && (this.left != null)) {
         this._domNode.style.left = this.left;
         this._domNode.style.top = this.top;
     } else {
+        // No positioning specified, so we calculate the optimal position to
+        // guarantee menu is fully viewable.
         if (evt == null) {
             return false;
         }
-        // No positioning specified, so we calculate the optimal position to guarantee
-        // menu is fully viewable.
+        // Note: It appears that the D.Edwards packer tool cannot resolve the
+        // target object below. (See the example-html app -- only debug mode 
+        // works.) Thus, we must rewrite the code using "if" statments.
+        // 
+        // var target = (evt.target) 
+        //    ? evt.target 
+        //    : (evt.srcElement)
+        //        ? evt.srcElement : null;
+
         // Get the absolute position of the target.
-        var target = (evt.target) 
-            ? evt.target 
-            : ((evt.srcElement) 
-                ? evt.srcElement : null);
+        var target = null;
+        if (evt.target) {
+            target = evt.target;
+        } else if (evt.srcElement) {
+            target = evt.srcElement;
+        }
 
         var absPos = this._widget._getPosition(target);
         var targetLeft = absPos[0];
@@ -278,8 +291,8 @@
         // Possible issue with packer tool encoding?
         var targetHeight = (target) ? target.offsetHeight : 0;
 
-        // Assume default horizontal position is to align the left edge of the menu with the
-        // left edge of the target.
+        // Assume default horizontal position is to align the left edge of the 
+        // menu with the left edge of the target.
         var menuLeft = targetLeft + this.rightShadow;
 
         // But can be overridden to align right edges.
