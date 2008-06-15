@@ -68,6 +68,13 @@ public class RenderingUtilities {
      */
     public static void renderComponent(UIComponent component,
             FacesContext context) throws IOException {
+        // This is to workaround a JSF bug with tables where client ids are
+        // cached, especially for facets. By setting the id, we ensure ids are
+        // recreated for each row of the table.
+        String id = component.getId();
+        if (id != null) {
+            component.setId(id);
+        }
         // Calling encodeBegin, encodeChildren, and encodeEnd directly is no
         // longer necessary here.
         component.encodeAll(context);
