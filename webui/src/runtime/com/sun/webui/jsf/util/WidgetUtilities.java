@@ -246,11 +246,11 @@ public class WidgetUtilities {
      * beginning with { and ending with }. In this case, the string shall be 
      * used to create a JSONObject contain properties such as widgetName, 
      * module, etc. Otherwise, the rendered HTML string is assigned to the 
-     * JSONObject via a fragment property. In this case, an escape property is
+     * JSONObject via a "html" property. In this case, an escape property is
      * also set to false -- HTML should not be escaped.
      *
      * In either case, it is important to use a JavaScript object to distinguish
-     * between widgets, fragments, and static strings so HTML escaping can be
+     * between widgets and static strings so HTML escaping can be
      * applied properly.
      * 
      * @param context FacesContext for the current request.
@@ -281,7 +281,7 @@ public class WidgetUtilities {
             json = new JSONObject(s);
         } catch (JSONException e) {
             json = new JSONObject();
-            json.put("fragment", s);
+            json.put("html", s);
         }
         return json;
     }

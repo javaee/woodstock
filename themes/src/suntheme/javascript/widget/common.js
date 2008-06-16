@@ -25,6 +25,7 @@
 @JS_NS@._dojo.require("@JS_NS@._base.browser");
 @JS_NS@._dojo.require("@JS_NS@._base.proto");
 @JS_NS@._dojo.require("@JS_NS@.theme.common");
+@JS_NS@._dojo.require("@JS_NS@.xhr");
 
 /**
  * @class This class contains functions common to all widgets.
@@ -95,6 +96,38 @@
             position = "last";            
         }
 
+        // Add include, refId, or html object -- do not HTML escape.
+        if (!common._isFragment(props)) {
+            // Add HTML string.
+            if (typeof props.html == "string") {
+                return common._addFragment(domNode, props.html, position, false);
+            } else if (typeof props.include == "string") {
+                // Add URL include.
+                var _url = props.include;
+                @JS_NS@.xhr.get({
+                    onReady: function (response) {
+                        @JS_NS@.widget.common._addFragment(domNode, 
+                            response.responseText, position, false);
+                    },
+                    url: _url
+                });
+            } else if (typeof props.refId == "string") {
+                // Add widget reference.
+                var refIds = props.refId.split(",");
+                for (var i = 0; i < refIds.length; i++) {
+                    // Ensure nodes have not been added to DOM already.
+                    if (document.getElementById(refIds[i]) != null) {
+                        continue;
+                    }
+                    var widget = common.getWidget(refIds[i]);
+                    if (widget) {
+                        common._addWidget(domNode, widget, position);
+                    }   
+                }
+            }
+            return true;
+        }
+ 
         // Add fragment.
         if (typeof props == 'string') {
             // Strip script fragments, set innerHTML property, and
@@ -141,8 +174,13 @@
                 common._appendHTML(domNode, 
                     @JS_NS@._base.proto._stripScripts(props));
 
+                // Ensure _loaded() is not called before widget completion.
+                common._props[domNode.id] = "_wait";
+
                 // Evaluate JavaScript.
                 setTimeout(function() {
+                    var common = @JS_NS@.widget.common;
+
                     // Eval not required for Mozilla/Firefox, but consistent.
                     @JS_NS@._base.proto._evalScripts(props);
                     if (new Boolean(@JS_NS@._base.config.parseOnLoad).valueOf() == true) {
@@ -150,23 +188,18 @@
                     }
                     delete(common._props[domNode.id]); // Clean up.
                 }, 10);
-                // Force _onWidgetReady() function to wait for widget completion.
-                common._props[domNode.id] = "_onWidgetReady";
             } else {
                 // Static strings must be HTML escaped by default.
                 common._appendHTML(domNode,
                     @JS_NS@._base.proto._escapeHTML(props));
             }
-        } else if (props.fragment) {
-            // Add fragment -- do not HTML escape.
-            common._addFragment(domNode, props.fragment, position, false);
         } else {
             // Create widget.
             common._createWidget(domNode, props, position, false);
         }
         return true;
     },
- 
+
     /**
      * Register a function to be called after the DOM has finished loading 
      * and widgets declared in markup have been instantiated.
@@ -229,6 +262,40 @@
     },
 
     /**
+     * This function is used to add widgets to given the domNode.
+     * <p>
+     * Valid values for the position param consist of "before", "last", or null.
+     * If the position is "last", the widget is appended as the last child of 
+     * the given domNode. If the position is "before", the widget is inserted
+     * before the given domNode. If the position is null, the given domNode is 
+     * replaced by the resulting HTML.
+     * </p>
+     *
+     * @param {Node} domNode The DOM node to add widget.
+     * @param {Node} widget The widget object to add.
+     * @param {String} position The position within given domNode.
+     * @return {boolean} true if successful; otherwise, false.
+     * @private
+     */
+    _addWidget: function(domNode, widget, position) {
+        if (domNode == null || widget == null) {
+            return false;
+        }
+        // Add widget to DOM.
+        if (position == "last") {
+            // Append widget as the last child of the given DOM node.
+            domNode.appendChild(widget._domNode);
+        } else if (position == "before") {
+            // Append widget before given DOM node.
+            domNode.parentNode.insertBefore(widget._domNode, domNode);
+        } else if (domNode.parentNode) {
+            // Replace given DOM node with widget.
+            domNode.parentNode.replaceChild(widget._domNode, domNode);
+        }
+        return true;
+    },
+
+    /**
      * This function is used to append HTML strings to the innerHTML property of
      * the given domNode.
      * <p>
@@ -276,44 +343,6 @@
         return (url.charAt(0) == "/" && url.indexOf(prefix + "/") == -1)
             ? prefix + url : url;
     },
-     
-    /**
-     * This function is used to create and append widgets as children of the
-     * given HTML element. See the _createWidget() function.
-     * <p>
-     * Unlike the _createWidget() function, setTimeout() is called to allow for
-     * progressive rendering. Performance testing shows that the download is
-     * quicker with the setTimout() call than without. 
-     * </p><p>
-     * The setTimeout() also helps to display extremely large tables. As an 
-     * example, consider a table that displays 1000 rows. Many browsers display 
-     * warnings if JavaScript runs longer than 5 seconds. The setTimeout breaks 
-     * up the amount of JavaScript run at any given time and completes each 
-     * segment within the browser's alloted time.
-     * </p>
-     *
-     * @param {Node} domNode The HTML element to replace.
-     * @param {Object} props Key-Value pairs of properties.
-     * @config {String} id The widget id.
-     * @return {boolean} true if successful; otherwise, false.
-     * @private
-     */
-    _appendWidget: function(domNode, props) {
-        // Set timeout to allow for progressive rendering.
-        setTimeout(function() {
-            var common = @JS_NS@.widget.common;
-            common._createWidget(domNode, props, "last"); // Create the widget.
-            delete(common._props[domNode.id]); // Clean up.
-
-            // Test remaining widget properties.
-            for (var property in common._props) {
-                return; // At least one widget has not been created.
-            }
-            // Call after all widgets have been created.
-            common._loaded();
-        }, 0);
-        return true;
-    },
 
     /**
      * This function is used to create and start a widget. If the parseOnLoad
@@ -345,14 +374,14 @@
      * taken to convert HTML element IDs to a UTF-16 character encoding.
      * </p>
      *
-     * @param {String} elementId The HTML element id to replace.
+     * @param {String} elementId The HTML element id to replace (may be null).
      * @param {Object} props Key-Value pairs of properties.
      * @config {String} id The ID of the widget to create.
      * @config {String} widgetType The widget type to create.
      * @return {Object} The widget object if parseOnLoad is false; otherwise, null.
      */
     createWidget: function(elementId, props) {
-        if (elementId == null || props == null) {
+        if (props == null) {
             return false;
         }
         var common = @JS_NS@.widget.common;
@@ -373,11 +402,7 @@
     /**
      * This function is used to create and start a widget.
      * <p>
-     * Valid values for the position param consist of "before", "last", or null.
-     * If the position is "last", the widget is appended as the last child of 
-     * the the given domNode. If the position is "last", the widget is appended
-     * after the given domNode. If the position is null, the given domNode is 
-     * replaced by the resulting HTML.
+     * See the _addNode function for valid position values.
      * </p>
      *
      * @param {Node} domNode The DOM node to add widget.
@@ -418,19 +443,53 @@
         }
 
         // Add widget to DOM.
-        if (position == "last") {
-            // Append widget as the last child of the given DOM node.
-            domNode.appendChild(widget._domNode);
-        } else if (position == "before") {
-            // Append widget before given DOM node.
-            domNode.parentNode.insertBefore(widget._domNode, _domNode);
-        } else if (domNode.parentNode) {
-            // Replace given DOM node with widget.
-            domNode.parentNode.replaceChild(widget._domNode, _domNode);
-        }
+        common._addWidget(domNode, widget, position);
+
         // Start widget.
         widget._startup();
         return widget;
+    },
+     
+    /**
+     * This function is used to create and start a widget from parsed markup. 
+     * See the _parseMarkup() function.
+     * <p>
+     * Unlike the _createWidget() function, setTimeout() is called to allow for
+     * progressive rendering. Performance testing shows that the download is
+     * quicker with the setTimout() call than without. 
+     * </p><p>
+     * The setTimeout() also helps to display extremely large tables. As an 
+     * example, consider a table that displays 1000 rows. Many browsers display 
+     * warnings if JavaScript runs longer than 5 seconds. The setTimeout breaks 
+     * up the amount of JavaScript run at any given time and completes each 
+     * segment within the browser's alloted time.
+     * </p>
+     *
+     * @param {Node} domNode The DOM node to append widget.
+     * @return {boolean} true if successful; otherwise, false.
+     * @private
+     */
+    _createMarkupWidget: function(domNode) {
+        // Ensure a value exists for given domNode id.
+        if (domNode == null 
+                || @JS_NS@.widget.common._props[domNode.id] == null) {
+            return false;
+        }
+            
+        // Set timeout to allow for progressive rendering.
+        setTimeout(function() {
+            var common = @JS_NS@.widget.common;
+            common._createWidget(domNode, common._props[domNode.id], "last");
+            delete(common._props[domNode.id]); // Clean up.
+
+            // Test remaining widget properties.
+            for (var property in common._props) {
+                return; // At least one widget has not been created.
+            }
+            // Call after all widgets have been created.
+            common._loaded();
+        }, 0);
+        return true;
     },
 
     /**
@@ -638,7 +697,7 @@
     /**
      * Return <code>true</code> if <code>props</code> defines a
      * widget fragment. A widget fragment is a string (typically of HTML)
-     * or an object that defines the <code>widgetType</code> ort
+     * or an object that defines the <code>widgetType</code> or
      * <code>id</code> properties.
      * 
      * @param {Object} props properties that may define a widget fragment.
@@ -766,11 +825,8 @@
         }
         // Note: Using document.getElementById() results in poor perfromance. 
         var nodes = domNode.getElementsByTagName("script");
-        var props = @JS_NS@.widget.common._props;
-        var appendWidget = @JS_NS@.widget.common._appendWidget;
-        if (props == null) {
-            return false;
-        }
+        var common = @JS_NS@.widget.common;
+
         // If dealing with JSF facet fragments, we must search for span 
         // elements because IE removes HTML script tags from strings.
         if (nodes.length == 0) {
@@ -780,20 +836,12 @@
             }
             // Match span id with props.
             for (var i = 0; i < nodes.length; i++) {
-                // Ensure a value exists for parent id.
-                var parent = nodes[i];
-                if (parent && props[parent.id] != null) {
-                    appendWidget(parent, props[parent.id]);
-                }
+                common._createMarkupWidget(nodes[i]);
             }
         } else {
             // Match script parent id with props.
             for (var i = 0; i < nodes.length; i++) {
-                // Ensure a value exists for parent id.
-                var parent = nodes[i].parentNode;
-                if (parent && props[parent.id] != null) {
-                    appendWidget(parent, props[parent.id]);
-                }
+                common._createMarkupWidget(nodes[i].parentNode);
             }
         }
         return true;
