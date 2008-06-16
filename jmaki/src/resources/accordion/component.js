@@ -144,7 +144,7 @@ jmaki.namespace("@JMAKI_NS@.accordion");
     var widget = woodstock4_3.widget.common.getWidget(this._wid);
     if (widget) {
         //widget._collapseAllTabs();
-        widget._tabSelected({id: payload.targetId});
+        widget.tabSelected({id: payload.targetId});
     }
 
 };
