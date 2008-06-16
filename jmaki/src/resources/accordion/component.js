@@ -162,7 +162,7 @@ jmaki.namespace("@JMAKI_NS@.accordion");
         props.tabContent = [];               
 
           var tabContentElement = {};
-          tabContentElement.fragment = payload.value;
+          tabContentElement.html  = payload.value;
           props.tabContent.push(tabContentElement);
 
         //ISSUE: this will append the content, not replace it.
@@ -228,7 +228,7 @@ jmaki.namespace("@JMAKI_NS@.accordion");
             }
             if (typeof props.items[i].content != "undefined") {
                 var tabContentElement = {};
-                tabContentElement.fragment = props.items[i].content;
+                tabContentElement.html = props.items[i].content;
                 tab.tabContent.push(tabContentElement);
             } 
             
