@@ -495,8 +495,8 @@
 };
 
 /**
- * Set the appropriate focus before invoking _tabSelected. This
- * function has been put in place because _tabSelected is called
+ * Set the appropriate focus before invoking tabSelected. This
+ * function has been put in place because tabSelected is called
  * from various places but the focus does not have to be set
  * in all the cases.
  *
@@ -512,7 +512,7 @@
             break;   
         }
     }
-    this._tabSelected(props);
+    this.tabSelected(props);
 };
 
 /**
@@ -861,7 +861,7 @@
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-@JS_NS@.widget.accordion.prototype._tabSelected = function(props) {
+@JS_NS@.widget.accordion.prototype.tabSelected = function(props) {
     var widget = null;
 
     // Iterate over all tabs to ensure id is valid.

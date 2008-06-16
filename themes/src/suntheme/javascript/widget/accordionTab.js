@@ -773,6 +773,7 @@
  */
 @JS_NS@.widget.accordionTab.prototype._setTabContent = function(content) {
     if (content) {
+        this._widget._removeChildNodes(this._contentNode);
         for (var i = 0; i < content.length; i++) {
             this._widget._addFragment(this._contentNode, content[i], "last");
         }
