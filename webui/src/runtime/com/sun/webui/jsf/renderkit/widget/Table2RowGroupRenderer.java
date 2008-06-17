@@ -129,7 +129,7 @@ public class Table2RowGroupRenderer extends RendererBase {
      * @param component UIComponent to be rendered.
      */
     protected String getWidgetType(FacesContext context, UIComponent component) {
-        return "table2RowGroup"; 
+        return "tableRowGroup"; 
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -215,19 +215,14 @@ public class Table2RowGroupRenderer extends RendererBase {
                     }
                     // Render Table2Column children.
                     Iterator grandKids = col.getChildren().iterator();
-                    UIComponent comp = null;
-                    boolean emptyCellFlag = col.isEmptyCell();
+                    UIComponent comp = null;                    
                     while (grandKids.hasNext()) {
                         comp = (UIComponent) grandKids.next(); 
                         if (comp instanceof Table2Column) {
                             getColumnChildren(context, comp, jsonCols);                            
-                        } else {
-                            if (!emptyCellFlag) {
+                        } else {                            
                             jsonCols.put(WidgetUtilities.renderComponent(context,
-                            comp));
-                            } else {
-                                jsonCols.put("");
-                            }    
+                            comp));                            
                         }    
                     }
                 }
@@ -254,18 +249,13 @@ public class Table2RowGroupRenderer extends RendererBase {
      */
     private void getColumnChildren(FacesContext context, UIComponent comp,
             JSONArray json) throws IOException, JSONException {
-        Iterator grandColKids = comp.getChildren().iterator();
-        boolean emptyCellFlag = ((Table2Column) comp).isEmptyCell();
+        Iterator grandColKids = comp.getChildren().iterator();        
         while (grandColKids.hasNext()) {
             UIComponent col = (UIComponent)grandColKids.next();
             if (col instanceof Table2Column) {
                 getColumnChildren(context, col, json);
-            } else {  
-                if (!emptyCellFlag) {
-                    json.put(WidgetUtilities.renderComponent(context, col));
-                } else {
-                    json.put("");
-                }
+            } else {                  
+                json.put(WidgetUtilities.renderComponent(context, col));                
             }
         }
     }
