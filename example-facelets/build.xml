@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ The contents of this file are subject to the terms
+ of the Common Development and Distribution License
+ (the License).  You may not use this file except in
+ compliance with the License.
+ 
+ You can obtain a copy of the license at
+ https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ See the License for the specific language governing
+ permissions and limitations under the License.
+ 
+ When distributing Covered Code, include this CDDL
+ Header Notice in each file and include the License file
+ at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ If applicable, add the following below the CDDL Header,
+ with the fields enclosed by brackets [] replaced by
+ you own identifying information:
+ "Portions Copyrighted [year] [name of copyright owner]"
+ 
+ Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+-->
+<!-- You may freely edit this file. See commented blocks below for -->
+<!-- some examples of how to customize the build. -->
+<!-- (If you delete it and reopen the project it will be recreated.) -->
+<project xmlns:web="http://www.netbeans.org/ns/web-project/1" name="example" default="default" basedir=".">
+    <description>Builds, tests, and runs the project example.</description>
+
+    <!-- build-internal.properties is only used to build this example as part
+         of the components nightly build.  It contains overrides for the properties
+         below which would otherwise normally be derived based on settings
+         in build.properties.  build-internal.properties is not distributed with this example.
+         -->
+    <property file="build-internal.properties"/>
+    
+    
+    <!-- The build.properties file contains pointers to dependencies
+         whose libraries are used to build and run the example web application.
+         The following properties are required:
+         
+           ant.home=<install directory for ANT 1.6.2 or greater>
+	        This can be the path to a seperate installation of ANT or
+		the path to the ANT that is bundled with NetBeans**.  If the former
+		you will need to acquire a copy of "copyfiles.jar" that comes
+		with NetBeans and install it into <ant.home>/extra.
+
+           components.home=<install directory for JSF-based components>
+
+           container.lib=<path to the web container's "lib" directory>
+	        This can be the path to a seperate installation of a web container
+		or the path to the version of Tomcat that is bundled with NetBeans**.
+
+         (** Note that these are private Netbeans paths and are subject to change.  
+             Use at your own risk.)
+    -->
+    <property file="build.properties"/>
+
+    <!-- ANT resources -->
+    <property name="ant.jar"
+        value="${ant.home}/lib/ant.jar"/>
+    <property name="copyfiles.jar"
+        value="${ant.home}/extra/copyfiles.jar"/>
+        
+    <!-- web container resources -->
+    <property name="commons-el.jar"
+        value="${container.lib}/commons-el.jar"/>
+    <property name="j2ee.jar"
+        value="${container.lib}/javaee.jar"/>
+    <property name="jasper-runtime.jar"
+        value="${container.lib}/appserv-rt.jar}"/>
+    <property name="servlet-api.jar"
+        value="${container.lib}/servlet-api.jar"/>
+
+    <!-- components home resources -->
+    <!-- this style of definition leaves no way to follow this
+	 pattern for l10n theme jars see build.properties for
+	 "theme.dist" and "webui.dist" referenced in filesets referencing
+	 the theme-jars  and webui-l10n-jars patternset.-->
+    <property name="suntheme.jar"
+        value="${components.home}/lib/webui-jsf-suntheme.jar"/>
+
+    <property name="webui.jar"
+        value="${components.home}/lib/webui-jsf.jar"/>
+    <property name="commons-logging.jar"
+        value="${components.home}/lib/commons-logging.jar"/>
+    <property name="commons-fileupload.jar"
+        value="${components.home}/lib/commons-fileupload-1.0.jar"/>
+    <property name="commons-collections.jar"
+        value="${components.home}/lib/commons-collections.jar"/>
+    <property name="commons-beanutils.jar"
+        value="${components.home}/lib/commons-beanutils.jar"/>
+    <property name="commons-digester.jar"
+        value="${components.home}/lib/commons-digester.jar"/>
+    <property name="dataprovider.jar"
+        value="${components.home}/lib/dataprovider.jar"/>
+    <property name="jhall.jar"
+        value="${components.home}/lib/jhall.jar"/>
+    <property name="jsf-impl.jar" value="${components.home}/lib/jsf-impl.jar"/>
+    <property name="json.jar" value="${webui-lib-external}/json-2.jar"/>
+
+    <!-- For Netbeans compatibility -->
+    <property name="copyfiles.classpath" value="${copyfiles.jar}"/>    
+
+
+<!-- ===== Initialize paths for classpath handling ===== -->
+
+    <!-- Set classpaths for compiling -->
+    <path id="jspJars">
+	<pathelement location="${webui.jar}"/>
+	<pathelement location="${j2ee.jar}"/>
+	<pathelement location="${jasper-runtime.jar}"/>
+	<pathelement location="${servlet-api.jar}"/>
+	<pathelement location="${commons-el.jar}"/>
+	<pathelement location="${commons-logging.jar}"/>
+	<pathelement location="${ant.jar}"/>
+    </path>
+
+    <path id="javacJars">
+	<pathelement location="${webui.jar}"/>
+	<pathelement location="${commons-logging.jar}"/>
+	<pathelement location="${commons-fileupload.jar}"/>
+	<pathelement location="${commons-collections.jar}"/>
+	<pathelement location="${commons-beanutils.jar}"/>
+	<pathelement location="${commons-digester.jar}"/>
+	<pathelement location="${dataprovider.jar}"/>
+	<pathelement location="${jhall.jar}"/>
+	<pathelement location="${j2ee.jar}"/>
+	<pathelement location="${servlet-api.jar}"/>
+	<pathelement location="${ant.jar}"/>
+    </path>
+
+    <!-- webui and theme jars including l10n jars -->
+    <!-- "suntheme.jar" was already used so using literal here -->
+    <patternset id="theme-jars">
+	<include name="webui-jsf-suntheme.jar"/>
+	<include name="webui-jsf-suntheme_*.jar"/>
+    </patternset>
+    <patternset id="webui-l10n-jars">
+	<include name="webui-jsf_*.jar"/>
+    </patternset>
+
+    <property name="javac.classpath" refid="javacJars"/>
+    <property name="jspc.classpath" refid="jspJars"/>
+
+    
+    <import file="nbproject/build-impl.xml"/>
+    <!--
+
+    There exist several targets which are by default empty and which can be 
+    used for execution of your tasks. These targets are usually executed 
+    before and after some main targets. They are: 
+
+      -pre-init:                 called before initialization of project properties 
+      -post-init:                called after initialization of project properties 
+      -pre-compile:              called before javac compilation 
+      -post-compile:             called after javac compilation 
+      -pre-compile-single:       called before javac compilation of single file
+      -post-compile-single:      called after javac compilation of single file
+      -pre-dist:                 called before jar building 
+      -post-dist:                called after jar building 
+      -post-clean:               called after cleaning build products 
+
+    Example of pluging an obfuscator after the compilation could look like 
+
+        <target name="post-compile">
+            <obfuscate>
+                <fileset dir="${build.classes.dir}"/>
+            </obfuscate>
+        </target>
+
+    For list of available properties check the imported 
+    nbproject/build-impl.xml file. 
+
+
+    Other way how to customize the build is by overriding existing main targets.
+    The target of interest are: 
+
+      init-macrodef-javac:    defines macro for javac compilation
+      init-macrodef-debug:    defines macro for class debugging
+      do-dist:                jar archive building
+      run:                    execution of project 
+      javadoc-build:          javadoc generation 
+
+    Example of overriding the target for project execution could look like 
+
+        <target name="run" depends="<PROJNAME>-impl.jar">
+            <exec dir="bin" executable="launcher.exe">
+                <arg file="${dist.jar}"/>
+            </exec>
+        </target>
+
+    Notice that overridden target depends on jar target and not only on 
+    compile target as regular run target does. Again, for list of available 
+    properties which you can use check the target you are overriding in 
+    nbproject/build-impl.xml file. 
+
+    -->
+    <target name="javadoc-uptodate">
+	<uptodate property="javadoc-uptodate"
+	  targetfile="${dist.javadoc.dir}/index.html">
+	  <srcfiles dir="${build.classes.dir}" 
+		includes="**/*.class"/>
+	</uptodate>
+    </target>
+    <target name="javadoc-build" depends="javadoc-uptodate"
+	unless="javadoc-uptodate">
+
+	<ant antfile="nbproject/build-impl.xml" target="javadoc-build"/>
+    </target>
+
+    <target name="-pre-dist">
+
+        <mkdir dir="${build.dir}/web/WEB-INF/lib"/>
+
+	<antcall target="buildL10n"/>
+
+        <echo message="Copying libraries from the components lib dir..."/> 
+        <copy file="${commons-beanutils.jar}" todir="${build.dir}/web/WEB-INF/lib"/>
+        <copy file="${commons-collections.jar}" todir="${build.dir}/web/WEB-INF/lib"/>
+        <copy file="${commons-digester.jar}" todir="${build.dir}/web/WEB-INF/lib"/>
+        <copy file="${commons-fileupload.jar}" todir="${build.dir}/web/WEB-INF/lib"/>
+        <copy file="${commons-logging.jar}" todir="${build.dir}/web/WEB-INF/lib"/>
+        <copy file="${dataprovider.jar}" todir="${build.dir}/web/WEB-INF/lib"/>
+        <copy file="${jhall.jar}" todir="${build.dir}/web/WEB-INF/lib"/>
+        <copy file="${json.jar}" todir="${build.dir}/web/WEB-INF/lib"/>
+        <copy file="${facelets.jar}" todir="${build.dir}/web/WEB-INF/lib"/>
+
+        <copy todir="${build.dir}/web/WEB-INF/lib">
+	    <fileset dir="${themes.dist}">
+		<patternset refid="theme-jars"/>
+	    </fileset>
+	</copy>
+
+        <copy file="${webui.jar}" todir="${build.dir}/web/WEB-INF/lib"/>
+        <copy todir="${build.dir}/web/WEB-INF/lib">
+	    <fileset dir="${webui.dist}">
+		<patternset refid="webui-l10n-jars"/>
+	    </fileset>
+	</copy>
+
+		<copy todir="${build.dir}/web/WEB-INF/lib">
+			<fileset dir="${webui-lib-external}">
+				<include name="jsf-extensions*.jar"/>
+			</fileset>
+		</copy>
+
+        <echo message="Copying source code from the example source tree..."/> 
+        <copy todir="${build.classes.dir}" includeemptydirs="false">
+            <fileset dir="${src.dir}">
+              <exclude name="**/CVS/*"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="-post-clean">
+	    <delete file="example.zip" />
+	    <!-- Turn off l10n until ready 
+	    <ant antfile="build-l10n.xml" target="clean">
+		<property name="l10n.dir"
+		    value="${build.dir}/web/WEB-INF/lib"/>
+	    </ant>
+	    -->
+    </target>
+
+    <target name="haveL10n">
+	<available file="${basedir}/src/translatedFiles" type="dir"
+		property="haveL10N"/>
+    </target>
+
+    <target name="buildL10n" depends="haveL10n" if="haveL10n">
+        <echo message="Building and copying the l10n jars..."/>
+	<ant antfile="build-l10n.xml" target="buildL10n">
+	    <property name="l10n.dir" value="${build.dir}/web/WEB-INF/lib"/>
+	    <property name="l10n.jar-name" value="example"/>
+	</ant>
+    </target>
+
+    <target name="release" depends="default">
+        <zip destfile="example.zip">
+            <zipfileset dir="." prefix="example"
+                excludes="build/** example.zip dist/javadoc/** nbproject/private/**
+                          build.properties build-internal.properties"/>
+        </zip>
+    </target>
+
+</project>

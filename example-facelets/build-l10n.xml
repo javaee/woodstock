@@ -1,0 +1,250 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!--
+ The contents of this file are subject to the terms
+ of the Common Development and Distribution License
+ (the License).  You may not use this file except in
+ compliance with the License.
+ 
+ You can obtain a copy of the license at
+ https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ See the License for the specific language governing
+ permissions and limitations under the License.
+ 
+ When distributing Covered Code, include this CDDL
+ Header Notice in each file and include the License file
+ at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ If applicable, add the following below the CDDL Header,
+ with the fields enclosed by brackets [] replaced by
+ you own identifying information:
+ "Portions Copyrighted [year] [name of copyright owner]"
+ 
+ Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+-->
+
+<project name="example-l10n" default="all" basedir=".">
+
+    <tstamp>
+      <format property="buildnumber" pattern="yyyyMMddHHmm"/>
+    </tstamp>
+
+    <!-- Initialize property values -->
+    <property file="../build.properties"/>
+    <property file="build.properties"/>
+
+    <!-- "manifest" properties -->
+    <property name="webui-title" value="Woodstock"/>
+    <property name="webui-impl-version" value="${Version}"/>
+    <property name="webui-impl-title"
+	  value="${webui-title} ${webui-impl-version}"/>
+    <property name="webui-spec-version" value="${Version}"/>
+    <property name="webui-spec-title" value="${webui-title}"/>
+
+    <!-- Global "build-manifest" properties -->
+    <property name="package-name" value="com.sun.webui.jsf"/>
+    <property name="package-path" value="com/sun/webui/jsf/"/>
+    <property name="vendor" value="Sun Microsystems Inc."/>
+    <property name="build" value="${basedir}/build"/>
+    <property name="src" value="${basedir}/src"/>
+    <property name="l10n.dir" value="${basedir}/dist"/>
+    <property name="tools.jar" location="${basedir}/../tools/lib/woodstock-tools.jar"/>
+
+    <!-- so this build script can run on its own -->
+    <property name="l10n.jar-name" value="example"/>
+
+    <property name="l10n.package-path" value="com/sun/webui/jsf/example"/>
+    <property name="l10n.package" value="com.sun.webui.jsf.example"/>
+
+    <!-- L10n properties -->
+    <property name="l10n.src"
+	location="${src}/translatedFiles"/>
+
+    <property name="l10n.build"
+	location="${build}/translatedFiles"/>
+
+    <property name="l10n.build-dest"
+	location="${l10n.build}/${l10n.package-path}"/>
+
+    <target name="build-l10n-off">
+	<condition property="build-l10n-off">
+	    <and>
+		<isset property="build.l10n"/>
+		<isfalse value="${build.l10n}"/>
+	    </and>
+	</condition>
+    </target>
+
+    <target name="buildL10n" 
+	depends="build-l10n-off"
+	unless="build-l10n-off"
+	description="Run native2ascii on the properties and build l10n example jars.">
+	<mkdir dir="${l10n.build-dest}/resources"/>
+
+	<antcall target="native2ascii">
+	    <param name="_l10n-src_" 
+		value="${l10n.src}/${l10n.package-path}"/>
+	    <param name="_l10n-dest_" value="${l10n.build-dest}"/>
+	</antcall>
+	<antcall target="buildL10n-jars">
+	    <param name="_l10n-src_" value="${l10n.build}"/>
+	</antcall>
+
+    </target>
+
+    <target name="buildL10n-jars" 
+	description="Build the example l10n jars for all supported locales.">
+
+	<!-- No way to loop so the fixed set of locales is
+	     fr,zh_CN
+	-->
+	<antcall target="create-l10n-jar">
+	    <param name="_l10n-locale_" value="fr"/>
+	</antcall>
+	<antcall target="create-l10n-jar">
+	    <param name="_l10n-locale_" value="zh_CN"/>
+	</antcall>
+    </target>
+
+    <!-- Assumes "${_l10n-locale_}", and ${l10n.build}" are set.
+    -->
+    <target name="l10n-jar-uptodate">
+	<property name="__l10n.dir-loc__" location="${l10n.dir}"/>
+	<uptodate property="l10n-jar-uptodate">
+	    <srcfiles dir="${_l10n-src_}"
+		includes="**/*_${_l10n-locale_}*.properties"/>
+	    <mergemapper 
+		to="${__l10n.dir-loc__}/${l10n.jar-name}_${_l10n-locale_}.jar"/>
+	</uptodate>
+    </target>
+
+    <!--
+	Parameters
+
+	_l10n-src_ - directory to jar from
+	_l10n-locale_ - the locale jar to create
+
+	Assumes properties
+
+	basedir - used to file manifest template
+	l10n.package-path - package path.
+    -->
+    <target name="create-l10n-jar"
+	    depends="l10n-jar-uptodate"
+	    unless="l10n-jar-uptodate"
+	    description="Create an l10n jar.">
+
+	<mkdir dir="${_l10n-src_}/META-INF"/>
+	<delete file="${_l10n-src_}/META-INF/MANIFEST.MF"/>
+
+	<antcall target="create-l10n-manifest">
+	    <param name="_locale_" value="${_l10n-locale_}"/>
+	</antcall>
+
+	<jar destfile="${l10n.dir}/${l10n.jar-name}_${_l10n-locale_}.jar"
+	    basedir="${_l10n-src_}"
+	    includes="${l10n.package-path}/**/*_${_l10n-locale_}.*"
+	    manifest="${_l10n-src_}/META-INF/MANIFEST.MF">
+	</jar>
+
+    </target>
+
+    <target name="l10n-uptodate">
+
+	<!-- If the build l10n files exist and are newer
+	     than the corresponding built l10n properties
+	     files set the l10n-uptodate property.
+	-->
+	<condition property="l10n-uptodate">
+	    <or>
+		<uptodate>
+		    <srcfiles dir="${_l10n-src_}"
+			includes="**/*.properties"/>
+		    <globmapper from="*"
+			to="${_l10n-dest_}/*"/>
+		</uptodate>
+		<and>
+		    <isset property="build.l10n"/>
+		    <isfalse value="${build.l10n}"/>
+		</and>
+	    </or>
+	</condition>
+    </target>
+
+    <!-- Parameters
+	_l10n-src_ - root directory of the properties files
+	_l10n-dest_ - root directory for the destination properties files
+    -->
+    <target name="native2ascii" depends="l10n-uptodate"
+	    unless="l10n-uptodate"
+	    description="Run native2ascii on the properties files.">
+
+	<!-- make the destination directory and all the subdirectories -->
+	<mkdir dir="${_l10n-dest_}"/>
+
+	<fileset id="n2afiles" dir="${_l10n-src_}">
+	    <include name="**/*.properties"/>
+	    <depend targetdir="${_l10n-dest_}">
+		<mapper type="glob" from="*" to="*"/>
+	    </depend>
+	</fileset>
+
+	<pathconvert property="n2alist" refid="n2afiles" pathsep=",">
+	    <map from="${_l10n-src_}${file.separator}" to=""/>
+	</pathconvert>
+
+	<echo message="Running native2asci for ${n2alist}, it takes several minutes..."/>
+
+	<!-- JAVA_HOME points to JDK on Mac, to JRE elsewhere. -->
+	<condition property="_jbin_" 
+		value="${java.home}${file.separator}bin"
+		else="${java.home}${file.separator}..${file.separator}bin">
+	    <os family="mac"/>
+	</condition>
+	<java jar="${tools.jar}" failonerror="true" fork="true">
+	  <arg value="-native2ascii"/>
+	  <arg value="-sourceDir"/>
+	  <arg value="${_l10n-src_}"/>
+	  <arg value="-destDir"/>
+	  <arg value="${_l10n-dest_}" />
+	  <arg value="-fileList"/>
+	  <arg value="${n2alist}"/>
+	  <sysproperty key="jbin" value="${_jbin_}"/>
+	</java>
+    </target>
+
+    <!-- Parameters
+
+	_locale_
+
+    -->
+    <target name="create-l10n-manifest">
+      <manifest file="${basedir}/build/translatedFiles/META-INF/MANIFEST.MF"
+	    mode="replace">
+        <attribute name="Created-By" value="${vendor}"/>
+        <attribute name="Implementation-Title" 
+            value="${webui-impl-title} - ${_locale_} Resources"/>
+        <attribute name="Implementation-Version" 
+            value="${webui-impl-version}"/> 
+        <attribute name="Implementation-Vendor" 
+            value="${vendor}"/>
+        <attribute name="Implementation-Vendor-Id" 
+            value="com.sun"/>
+        <attribute name="Specification-Title" 
+            value="${webui-spec-title}"/>
+        <attribute name="Specification-Version" 
+            value="${webui-spec-version}"/>
+        <attribute name="Specification-Vendor" 
+            value="${vendor}"/>
+      </manifest>
+    </target>
+
+    <target name="all" depends="buildL10n"/>
+
+    <target name="clean">
+	<delete dir="${l10n.build}"/>
+    </target>
+
+    <target name="syntax-check">
+	<echo message="Ok"/>
+    </target>
+
+</project>

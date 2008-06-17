@@ -1,0 +1,158 @@
+<webuijsf:page xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:webuijsf="http://www.sun.com/webui/webuijsf">
+
+<!--
+ The contents of this file are subject to the terms
+ of the Common Development and Distribution License
+ (the License).  You may not use this file except in
+ compliance with the License.
+
+ You can obtain a copy of the license at
+ https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ See the License for the specific language governing
+ permissions and limitations under the License.
+
+ When distributing Covered Code, include this CDDL
+ Header Notice in each file and include the License file
+ at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ If applicable, add the following below the CDDL Header,
+ with the fields enclosed by brackets [] replaced by
+ you own identifying information:
+ "Portions Copyrighted [year] [name of copyright owner]"
+
+ Copyright 2008 Sun Microsystems, Inc. All rights reserved.
+-->
+
+  <f:view contentType="text/html">
+      <webuijsf:html>
+        <f:loadBundle basename="com.sun.webui.jsf.example.resources.Resources" var="msgs" />
+        <webuijsf:head title="#{msgs.cbrb_title}">
+	  <webuijsf:link rel="shortcut icon" url="/images/favicon.ico" type="image/x-icon" />
+        </webuijsf:head>
+        <webuijsf:body>
+            <webuijsf:form id="form1">
+
+              <!-- Masthead -->
+              <webuijsf:masthead id="Masthead" productImageURL="/images/example_primary_masthead.png"
+                productImageDescription="#{msgs.mastheadAltText}" 
+                userInfo="test_user"
+                serverInfo="test_server" />     
+                         
+              <!-- Bread Crumb Component -->
+              <webuijsf:breadcrumbs id="breadcrumbs">
+                <webuijsf:hyperlink action="#{CheckboxRadiobuttonBean.showExampleIndex}" text="#{msgs.exampleTitle}"
+                  onMouseOver="javascript:window.status='#{msgs.index_breadcrumbMouseOver}'; return true;"
+                  onMouseOut="javascript: window.status=''; return true" />
+                <webuijsf:hyperlink action="#{CheckboxRadiobuttonBean.showCbRbIndex}" text="#{msgs.cbrb_indexTitle}"
+                  onMouseOver="javascript:window.status='#{msgs.index_breadcrumbMouseOver}'; return true;"
+                  onMouseOut="javascript: window.status=''; return true" />
+                <webuijsf:hyperlink text="#{msgs.cbrb_title}"/>
+              </webuijsf:breadcrumbs>
+                       
+              <!-- Page Title -->
+              <webuijsf:contentPageTitle title="#{msgs.cbrb_title}" />
+
+              <webuijsf:markup tag="div" styleClass="#{themeStyles.CONTENT_MARGIN}">
+                       
+                <!-- Use HTML table for layout.  Note that if we had included this
+                     content within the body of contentPageTitle, then we would need
+                     to wrap the HTML markup in the f:verbatim tag.  webuijsf:markup could
+                     also be used but that is more heavyweight (slower). -->
+                <table>
+                  <tr>
+                    <td>
+                      <!-- Checkbox -->
+                      <webuijsf:label id="CheckboxLabel" text="#{msgs.cbrb_checkboxLabel}"/>
+                    </td>
+                    <td>
+                      <webuijsf:checkbox id="RedCheckbox" label="#{msgs.crcb_redCheckbox}"
+                        disabled="#{CheckboxRadiobuttonBean.redCBDisabled}" 
+                        selected="#{CheckboxRadiobuttonBean.redSelected}"/>
+                      </td>
+                  </tr>
+
+                  <!-- Blank row -->
+                  <tr><td colspan="2"><f:verbatim><![CDATA[ &nbsp; ]]></f:verbatim></td></tr>
+
+                  <!-- RadioButton -->
+                  <tr>
+                    <td>
+                      <webuijsf:label id="RadiobuttonLabel" text="#{msgs.cbrb_radiobuttonLabel}" />
+                    </td>
+                    <td>
+                      <div>
+                      <webuijsf:radioButton id="rbServer" name="rbgrp" label="#{msgs.cbrb_radioButton1}"
+                        disabled="#{CheckboxRadiobuttonBean.serverRBDisabled}"
+                        selected="#{CheckboxRadiobuttonBean.serverSelected}"/>
+                      </div>
+                      <div>
+                      <webuijsf:radioButton id="rbVolume" name="rbgrp" label="#{msgs.cbrb_radioButton2}"
+                        disabled="#{CheckboxRadiobuttonBean.volumeRBDisabled}"
+                        selected="#{CheckboxRadiobuttonBean.volumeSelected}"/>
+                      </div>
+                      <div>
+                      <webuijsf:radioButton id="rbPool" name="rbgrp" label="#{msgs.cbrb_radioButton3}"
+                        disabled="#{CheckboxRadiobuttonBean.poolRBDisabled}"
+                        selected="#{CheckboxRadiobuttonBean.poolSelected}"/>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <!-- Blank row -->
+                  <tr><td colspan="2"><f:verbatim><![CDATA[ &nbsp; ]]></f:verbatim></td></tr>
+
+                  <!-- RadioButton Images-->
+                  <tr>
+                    <td>
+                      <webuijsf:label id="RadiobuttonImagesLabel" text="#{msgs.cbrb_radiobuttonImagesLabel}" />
+                    </td>
+                    <td>
+                      <div>
+                      <webuijsf:radioButton id="rbimServer" name="rbimgrp" label="#{msgs.cbrb_radioButton1}"
+                        imageURL="/images/tree_server.gif"
+                        disabled="#{CheckboxRadiobuttonBean.serverImageRBDisabled}"                              
+                        selected="#{CheckboxRadiobuttonBean.serverImageSelected}"/>
+                      </div>
+                      <div>
+                      <webuijsf:radioButton id="rbimVolume" name="rbimgrp" label="#{msgs.cbrb_radioButton2}"
+                        imageURL="/images/volumegroup_tree.gif"
+                        disabled="#{CheckboxRadiobuttonBean.volumeImageRBDisabled}"
+                        selected="#{CheckboxRadiobuttonBean.volumeImageSelected}"/>
+                      </div>
+                      <div>
+                      <webuijsf:radioButton id="rbimPool" name="rbimgrp" label="#{msgs.cbrb_radioButton3}"
+                        imageURL="/images/pool_tree.gif"
+                        disabled="#{CheckboxRadiobuttonBean.poolImageRBDisabled}"                               
+                        selected="#{CheckboxRadiobuttonBean.poolImageSelected}"/>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+
+                <br/>
+
+                <!-- Reset Button -->
+                <webuijsf:button id="ResetButton" text="#{msgs.cbrb_resetButtonLabel}"
+                  immediate="true"
+                  actionListener="#{CheckboxRadiobuttonBean.resetActionListener}" />
+
+                <!-- Submit Button -->
+                <webuijsf:button id="SubmitButton" text="#{msgs.cbrb_submitButtonLabel}"
+                  action="showCBRBResults" />
+
+                <!-- Test Case Menu -->
+                <webuijsf:dropDown id="TestCaseMenu" immediate="true"
+                  submitForm="true"
+                  forgetValue="true"
+                  items="#{CheckboxRadiobuttonBean.testCaseOptions}"
+                  actionListener="#{CheckboxRadiobuttonBean.testCaseActionListener}" />
+                           
+              </webuijsf:markup>
+            </webuijsf:form>
+          </webuijsf:body> 
+      </webuijsf:html>  
+  </f:view>
+</webuijsf:page>                

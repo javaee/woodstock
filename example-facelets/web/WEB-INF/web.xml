@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ The contents of this file are subject to the terms
+ of the Common Development and Distribution License
+ (the License).  You may not use this file except in
+ compliance with the License.
+ 
+ You can obtain a copy of the license at
+ https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ See the License for the specific language governing
+ permissions and limitations under the License.
+ 
+ When distributing Covered Code, include this CDDL
+ Header Notice in each file and include the License file
+ at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ If applicable, add the following below the CDDL Header,
+ with the fields enclosed by brackets [] replaced by
+ you own identifying information:
+ "Portions Copyrighted [year] [name of copyright owner]"
+ 
+ Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+-->
+<web-app version="2.5"
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+    http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+  <context-param>
+    <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+    <param-value>server</param-value>
+  </context-param>
+  
+  <!-- The specification of a default theme is not required. The
+       first suitable theme jar found on the application's class
+       path will be used.
+  <context-param>
+    <param-name>com.sun.webui.theme.DEFAULT_THEME</param-name>
+    <param-value>suntheme</param-value>
+  </context-param>
+  -->
+
+  <context-param>
+    <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+    <param-value>.xhtml</param-value>
+  </context-param>
+
+  <!-- Upload Filter -->
+  <filter>
+    <filter-name>UploadFilter</filter-name>
+    <filter-class>com.sun.webui.jsf.util.UploadFilter</filter-class>
+    <init-param>
+      <param-name>maxSize</param-name> 
+      <param-value>1000000</param-value> 
+    </init-param>     
+    <init-param>
+      <param-name>sizeThreshold</param-name> 
+      <param-value>4096</param-value> 
+    </init-param>     
+  </filter>
+  
+  <!-- Upload Filter Mapping -->
+  <filter-mapping>  
+    <filter-name>UploadFilter</filter-name>
+    <servlet-name>FacesServlet</servlet-name>    
+  </filter-mapping>
+  
+  <!-- Faces Servlet -->
+  <servlet>
+    <servlet-name>FacesServlet</servlet-name>
+    <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+    <init-param>
+      <param-name>javax.faces.LIFECYCLE_ID</param-name>
+      <param-value>com.sun.faces.lifecycle.PARTIAL</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  <!-- Theme Servlet -->
+  <servlet>
+    <servlet-name>ThemeServlet</servlet-name>
+    <servlet-class>com.sun.webui.theme.ThemeServlet</servlet-class>
+    <load-on-startup>2</load-on-startup>
+  </servlet>  
+  
+  <!-- Faces Servlet Mapping -->
+  <servlet-mapping>
+    <servlet-name>FacesServlet</servlet-name>
+    <url-pattern>/faces/*</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Theme Servlet Mapping -->
+  <servlet-mapping>
+    <servlet-name>ThemeServlet</servlet-name>
+    <url-pattern>/theme/*</url-pattern>
+  </servlet-mapping>     
+  
+  <!-- Welcome File List -->  
+  <welcome-file-list>
+    <welcome-file>index.xhtml</welcome-file>
+  </welcome-file-list> 
+</web-app>

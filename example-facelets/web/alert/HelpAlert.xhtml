@@ -1,0 +1,65 @@
+<webuijsf:page xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:webuijsf="http://www.sun.com/webui/webuijsf">
+
+<!--
+ The contents of this file are subject to the terms
+ of the Common Development and Distribution License
+ (the License).  You may not use this file except in
+ compliance with the License.
+
+ You can obtain a copy of the license at
+ https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ See the License for the specific language governing
+ permissions and limitations under the License.
+
+ When distributing Covered Code, include this CDDL
+ Header Notice in each file and include the License file
+ at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ If applicable, add the following below the CDDL Header,
+ with the fields enclosed by brackets [] replaced by
+ you own identifying information:
+ "Portions Copyrighted [year] [name of copyright owner]"
+
+ Copyright 2008 Sun Microsystems, Inc. All rights reserved.
+-->
+
+  <f:view contentType="text/html">
+    <f:loadBundle basename="com.sun.webui.jsf.example.resources.Resources" var="msgs" />
+    <webuijsf:html id="html">  
+      <webuijsf:head id="head" title="#{msgs.alert_helpWindowTitle}" >
+	<webuijsf:link rel="shortcut icon" url="/images/favicon.ico" type="image/x-icon" />
+      </webuijsf:head>
+      <webuijsf:body id="body">
+        <webuijsf:form id="form"> 
+            
+          <!-- Masthead -->
+          <webuijsf:masthead id="masthead"
+             productImageURL="/images/example_primary_masthead.png"
+             userInfo="test_user" 
+             serverInfo="test_server"
+             productImageDescription="#{msgs.mastheadAltText}" />
+             
+          <!-- Content Page Title -->
+          <webuijsf:contentPageTitle id="contentPageTitle" title="#{msgs.alert_helpWindowTitle}">              
+            <f:facet name="pageButtonsBottom">
+              <webuijsf:button id="closeButton"
+                  text="#{msgs.alert_close}"
+                  immediate="true"
+                  primary="true"               
+                  onClick="window.close()" />   
+            </f:facet>
+                                                                         
+            <webuijsf:markup tag="div" styleClass="#{themeStyles.CONTENT_MARGIN}">            
+              <webuijsf:staticText id="staticText"
+                 escape="false"  
+                 text="#{msgs.alert_helpWindowText}" />
+            </webuijsf:markup>
+          </webuijsf:contentPageTitle>             
+        </webuijsf:form>
+      </webuijsf:body>
+    </webuijsf:html>  
+  </f:view>
+</webuijsf:page>

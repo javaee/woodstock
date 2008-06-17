@@ -1,0 +1,1053 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ The contents of this file are subject to the terms
+ of the Common Development and Distribution License
+ (the License).  You may not use this file except in
+ compliance with the License.
+ 
+ You can obtain a copy of the license at
+ https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ See the License for the specific language governing
+ permissions and limitations under the License.
+ 
+ When distributing Covered Code, include this CDDL
+ Header Notice in each file and include the License file
+ at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ If applicable, add the following below the CDDL Header,
+ with the fields enclosed by brackets [] replaced by
+ you own identifying information:
+ "Portions Copyrighted [year] [name of copyright owner]"
+ 
+ Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+-->
+<!DOCTYPE faces-config PUBLIC
+  '-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN'
+  'http://java.sun.com/dtd/web-facesconfig_1_1.dtd'>
+
+<faces-config>
+
+    <application>
+        <locale-config>
+          <default-locale>en</default-locale>
+          <supported-locale>de</supported-locale>
+          <supported-locale>es</supported-locale>
+          <supported-locale>fr</supported-locale>
+          <supported-locale>it</supported-locale>
+          <supported-locale>ja</supported-locale>
+          <supported-locale>ko</supported-locale>
+          <supported-locale>pt_BR</supported-locale>
+          <supported-locale>sv</supported-locale>
+          <supported-locale>zh_CN</supported-locale>
+          <supported-locale>zh_HK</supported-locale>
+          <supported-locale>zh_TW</supported-locale>
+        </locale-config>
+        <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
+    </application>
+    
+    <converter>
+        <converter-id>com.sun.webui.jsf.example.statictext.Employee</converter-id>
+        <converter-class>com.sun.webui.jsf.example.statictext.EmployeeConverter</converter-class>
+    </converter>
+
+    <validator>
+        <validator-id>dirValidator</validator-id>
+        <validator-class>com.sun.webui.jsf.example.chooseruploader.ChooserUploaderValidator</validator-class>
+    </validator>
+    
+    <managed-bean>
+        <description>The backing bean for the Java Help component</description>
+        <managed-bean-name>JavaHelpBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.bean.HelpBackingBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>    
+        <description>The backing bean for the index page</description>
+        <managed-bean-name>IndexBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.index.IndexBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>        
+    </managed-bean>
+    
+    <managed-bean>    
+        <description>The backing bean for the show code page</description>
+        <managed-bean-name>ShowCodeBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.index.ShowCodeBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>        
+    </managed-bean>
+    
+    <managed-bean>
+        <description>The backing bean for the Accordion example</description>
+        <managed-bean-name>AccordionBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.accordion.AccordionBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>    
+        <description>The backing bean for the button example</description>
+        <managed-bean-name>ButtonBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.button.ButtonBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>        
+    </managed-bean>    
+    
+    <managed-bean>    
+        <description>The backing bean for the label example</description>
+        <managed-bean-name>LabelBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.label.LabelBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>        
+    </managed-bean>    
+    
+    <managed-bean>    
+        <description>The backing bean for the inline alert example</description>
+        <managed-bean-name>InlineAlertBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.alert.InlineAlertBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>        
+    </managed-bean>  
+    
+    <managed-bean>    
+        <description>The backing bean for the page alert example</description>
+        <managed-bean-name>PageAlertBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.alert.PageAlertBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>        
+    </managed-bean>       
+    
+    <managed-bean>    
+        <description>The backing bean for the checkbox and radiobutton example</description>
+        <managed-bean-name>CheckboxRadiobuttonBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.cbrb.CheckboxRadiobuttonBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>        
+    </managed-bean>     
+  
+    <managed-bean>    
+        <description>The backing bean for the checkbox and radiobutton group example</description>
+        <managed-bean-name>rbcbGroupBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.cbrb.CbRbGroupBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>        
+    </managed-bean> 
+
+    <managed-bean>    
+        <description>The backing bean for the basic text input example</description>
+        <managed-bean-name>TextInputBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.field.TextInputBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>        
+    </managed-bean>
+
+    <managed-bean>    
+        <description>The backing bean for the text input auto-validate example</description>
+        <managed-bean-name>PaymentBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.field.PaymentBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>        
+    </managed-bean>
+    
+    
+    <managed-bean>    
+        <description>The backing bean for the add remove example</description>
+        <managed-bean-name>AddRemoveBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.addremove.AddRemoveBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>        
+    </managed-bean>       
+
+    <managed-bean>
+        <description>The backing bean for the table example</description>
+        <managed-bean-name>TableBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.table.TableBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <description>The backing bean for the dynamic group table example</description>
+        <managed-bean-name>DynamicGroupTableBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.table.DynamicGroupTableBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <description>The backing bean for the dynamic table example</description>
+        <managed-bean-name>DynamicTableBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.table.DynamicTableBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+        <description>The backing bean for the orderable list example</description>
+        <managed-bean-name>OrderableListBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.orderablelist.OrderableListBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+        <description>The backing bean for the file/folder chooser and file uploader</description>
+        <managed-bean-name>ChooserUploaderBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.chooseruploader.ChooserUploaderBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+        <description>The backing bean for the file chooser </description>
+        <managed-bean-name>FileChooserBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.chooseruploader.FileChooserBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+        <description>The backing bean for the folder chooser </description>
+        <managed-bean-name>FolderChooserBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.chooseruploader.FolderChooserBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+        <description>The backing bean for the file uploader </description>
+        <managed-bean-name>FileUploaderBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.chooseruploader.FileUploaderBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <description>The backing bean for the menu and list example</description>
+        <managed-bean-name>MenuListBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.menu.MenuListBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+        <description>The backing bean for the Image and Masthead example</description>
+        <managed-bean-name>MastheadBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.masthead.MastheadBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+        <description>The backing bean for the Property Sheet </description>
+        <managed-bean-name>PropertySheetBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.propertysheet.PropertySheetBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+        <description>The backing bean for the Editable List </description>
+        <managed-bean-name>EditableListBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.editablelist.EditableListBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+        <description>The backing bean for the Content Page Title example</description>
+        <managed-bean-name>PagetitleBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.pagetitle.PagetitleBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+        <description>The backing bean for the Hyperlink </description>
+        <managed-bean-name>HyperlinkBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.hyperlink.HyperlinkBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+        <description>The backing bean for the Static Text example</description>
+        <managed-bean-name>StatictextBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.statictext.StatictextBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>    
+    
+    <managed-bean>
+        <description>The backing bean for the Common Tasks Section example</description>
+        <managed-bean-name>commonTask</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.commontask.commonTaskBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>  
+    
+    <managed-bean>    
+        <description>The backing bean for the dynamic tree example</description>
+        <managed-bean-name>DynamicTreeBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.tree.DynamicTreeBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>        
+    </managed-bean>  
+    
+    <managed-bean>    
+        <description>The backing bean for the navigation tree example</description>
+        <managed-bean-name>NavTreeBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.tree.NavTreeBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>        
+    </managed-bean>  
+    
+    <managed-bean>
+        <description>The backing bean for the ProgressBar example</description>
+        <managed-bean-name>ProgressBarBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.progressbar.ProgressBarBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+ 
+    <managed-bean>
+        <description>The backing bean for the simple Wizard example</description>
+        <managed-bean-name>SimpleWizardBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.wizard.SimpleWizardBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+ 
+    <managed-bean>
+        <description>The backing bean for the Tabset states example</description>
+        <managed-bean-name>StateBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.tabset.StateBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+ 
+    <managed-bean>
+        <description>The backing bean for the Tabset navigation example</description>
+        <managed-bean-name>NavtabBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.tabset.NavtabBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+        <description>The backing bean for the Calendar example</description>
+        <managed-bean-name>CalendarBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.calendar.CalendarBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>    
+    
+    <managed-bean>
+        <description>The backing bean for the Image example</description>
+        <managed-bean-name>ImageBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.image.ImageBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>    
+    
+    <managed-bean>
+        <description>The backing bean for the Login example</description>
+        <managed-bean-name>LoginBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.login.LoginBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>     
+
+    <managed-bean>
+      <description>The backing bean for the Menu Example</description>
+      <managed-bean-name>popupBean</managed-bean-name>
+      <managed-bean-class>com.sun.webui.jsf.example.popupMenu.PopupMenuBackingBean</managed-bean-class>
+      <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+        <description>The backing bean for the Rating example</description>
+        <managed-bean-name>RatingBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.rating.RatingBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>     
+
+    <managed-bean>
+        <description>The backing bean for the Ajax Table example</description>
+        <managed-bean-name>Table2Bean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.table2.Table2Bean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean> 
+    
+    <managed-bean>
+        <description>The backing bean for the new tree example</description>
+        <managed-bean-name>TestTreeBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.tree2.TestTreeBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>  
+     
+    <navigation-rule>    
+      <from-view-id>/*</from-view-id>      
+            
+      <!-- Navigation Case for Show Code Page-->
+      <navigation-case>
+        <from-outcome>showCode</from-outcome>
+        <to-view-id>/ShowCode.jsp</to-view-id>
+        <!-- Do NOT <redirect/> here as the request parameter identifying the file
+             to display appear to get lost -->
+      </navigation-case>
+      
+      <!-- Navigation Case for Index Page-->
+      <navigation-case>
+        <from-outcome>showIndex</from-outcome>
+        <to-view-id>/index.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>          
+      
+      <!-- Navigation Cases for Alert Example -->     
+      <navigation-case>
+        <from-outcome>showAlertIndex</from-outcome>
+        <to-view-id>/alert/Alert.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>   
+            
+      <navigation-case>
+        <from-outcome>showInlineAlert</from-outcome>
+        <to-view-id>/alert/InlineAlert.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>   
+                
+      <navigation-case>
+        <from-outcome>showPageAlert</from-outcome>
+        <to-view-id>/alert/PageAlert.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>   
+                  
+      <navigation-case>
+        <from-outcome>showPageAlertExample</from-outcome>
+        <to-view-id>/alert/PageAlertExample.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>      
+      
+      <!-- Navigation Cases for Text Input Example-->
+      <navigation-case>
+        <from-outcome>showTextInputIndex</from-outcome>
+        <to-view-id>/field/index.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+
+      <navigation-case>
+        <from-outcome>showTextInput</from-outcome>
+        <to-view-id>/field/TextInput.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+
+      <navigation-case>
+        <from-outcome>showTextInputAutoValidate</from-outcome>
+        <to-view-id>/field/Payment.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+      
+      <navigation-case>
+        <from-outcome>showTextInputResults</from-outcome>
+        <to-view-id>/field/TextInputResults.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+      
+      <navigation-case>
+        <from-outcome>showTextInputAutoValidateResults</from-outcome>
+        <to-view-id>/field/PaymentResults.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+      
+      <!-- Navigation Cases for Add Remove Example -->
+      <navigation-case>
+        <from-outcome>showAddRemove</from-outcome>
+        <to-view-id>/addremove/AddRemove.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>            
+      
+      <navigation-case>
+        <from-outcome>showAddRemoveResults</from-outcome>
+        <to-view-id>/addremove/AddRemoveResults.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>                  
+
+      <!-- Navigation Case for Table Example-->
+      <navigation-case>
+        <from-outcome>showTableIndex</from-outcome>
+        <to-view-id>/table/index.jsp</to-view-id>
+        <redirect/>
+      </navigation-case> 
+      
+      <!-- Navigation Cases for Orderable List Example-->
+      <navigation-case>
+        <from-outcome>showOrderableList</from-outcome>
+        <to-view-id>/orderablelist/OrderableList.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>               
+    
+      <navigation-case>
+        <from-outcome>showOrderableListResults</from-outcome>
+        <to-view-id>/orderablelist/OrderableListResults.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+      
+      <!-- Navigation Case for Chooser Uploader Example-->
+      <navigation-case>
+        <from-outcome>showChooserUploader</from-outcome>
+        <to-view-id>/chooseruploader/index.jsp</to-view-id>
+        <redirect/>
+      </navigation-case> 
+      
+      <!-- Navigation Case for file Chooser  Example-->
+      <navigation-case>
+        <from-outcome>fileChooser</from-outcome>
+        <to-view-id>/chooseruploader/fileChooser.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>                     
+      
+      <!-- Navigation Case for folder Chooser -->
+      <navigation-case>
+        <from-outcome>folderChooser</from-outcome>
+        <to-view-id>/chooseruploader/folderChooser.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>                     
+      
+      <!-- Navigation Case for file Uploader Example-->
+      <navigation-case>
+        <from-outcome>fileUploader</from-outcome>
+        <to-view-id>/chooseruploader/fileUploader.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>                     
+      
+      <!-- Navigation Case for Chooser Uploader Example-->
+      <navigation-case>
+        <from-outcome>fileChooserUploader</from-outcome>
+        <to-view-id>/chooseruploader/fileUploaderPopup.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+      
+      <!-- Navigation Cases for Menu and List Example -->
+      <navigation-case>
+        <from-outcome>showMenuList</from-outcome>
+        <to-view-id>/menu/MenuList.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+                                 
+      <navigation-case>
+        <from-outcome>showMenuListResults</from-outcome>
+        <to-view-id>/menu/MenuListResults.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+    
+      <!-- Navigation Cases for Property Sheet Example-->
+      <navigation-case>
+        <from-outcome>showPropertySheet</from-outcome>
+        <to-view-id>/propertysheet/PropertySheet.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+      
+      <!-- Navigation Cases for Property Sheet Result Example-->
+      <navigation-case>
+        <from-outcome>showPropertySheetResult</from-outcome>
+        <to-view-id>/propertysheet/PropertySheetResult.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+      
+      <!-- Navigation Cases for Editable List Example-->
+      <navigation-case>
+        <from-outcome>showEditableList</from-outcome>
+        <to-view-id>/editablelist/editableList.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+      
+      <!-- Navigation Cases for Editable List Result Example-->
+      <navigation-case>
+        <from-outcome>showEditableListResult</from-outcome>
+        <to-view-id>/editablelist/editableListResult.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+    
+      <!-- Navigation Cases for Hyperlink Example-->
+      <navigation-case>
+        <from-outcome>showHyperlink</from-outcome>
+        <to-view-id>/hyperlink/hyperLink.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+      
+      <!-- Navigation Cases for Result Hyperlink Example-->
+      <navigation-case>
+        <from-outcome>resultHyperlink</from-outcome>
+        <to-view-id>/hyperlink/hyperLinkResult.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+      
+      <!-- Navigation Cases for Button Example -->
+      <navigation-case>
+        <from-outcome>showButton</from-outcome>
+        <to-view-id>/button/Button.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>            
+      
+      <navigation-case>
+        <from-outcome>showButtonResults</from-outcome>
+        <to-view-id>/button/ButtonResults.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>                  
+      
+      <!-- Navigation Cases for Label Example -->
+      <navigation-case>
+        <from-outcome>showLabel</from-outcome>
+        <to-view-id>/label/Label.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>            
+      
+      <navigation-case>
+        <from-outcome>showLabelResults</from-outcome>
+        <to-view-id>/label/LabelResults.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>                  
+   
+      <!-- Navigation Cases for Rating Example -->     
+      <navigation-case>
+        <from-outcome>showRating</from-outcome>
+        <to-view-id>/rating/rating.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>   
+
+      <navigation-case>
+        <from-outcome>showRatingResults</from-outcome>
+        <to-view-id>/rating/results.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>                  
+      
+      <!-- Navigation Cases for Checkbox and RadioButton Example -->
+      <navigation-case>
+        <from-outcome>showCbRbIndex</from-outcome>
+        <to-view-id>/cbrb/index.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>            
+      
+      <navigation-case>
+        <from-outcome>showClinetSideCb</from-outcome>
+        <to-view-id>/cbrb/clientsideCheckbox.jsp</to-view-id>
+        <redirect/>
+      </navigation-case> 
+	
+	<navigation-case>
+        <from-outcome>showClinetSideRb</from-outcome>
+        <to-view-id>/cbrb/clientsideRadioButton.jsp</to-view-id>
+        <redirect/>
+      </navigation-case> 
+      
+      	<navigation-case>
+        <from-outcome>showClinetSideCbRb</from-outcome>
+        <to-view-id>/cbrb/clientsideCbRbGroup.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+      
+      <navigation-case>
+        <from-outcome>showCheckboxRadiobutton</from-outcome>
+        <to-view-id>/cbrb/checkboxRadiobutton.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>            
+      
+      <navigation-case>
+        <from-outcome>showCBRBResults</from-outcome>
+        <to-view-id>/cbrb/checkboxRadiobuttonResults.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>                  
+      
+      <!-- Navigation Cases for Tree Example -->     
+      <navigation-case>
+        <from-outcome>showTreeIndex</from-outcome>
+        <to-view-id>/tree/index.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>   
+            
+      <navigation-case>
+        <from-outcome>showDynamicTree</from-outcome>
+        <to-view-id>/tree/dynamicTree.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>   
+            
+      <navigation-case>
+        <from-outcome>showNavTree</from-outcome>
+        <to-view-id>/tree/navTree.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>   
+
+      <!-- Navigation Cases for Tabset Example -->     
+      <navigation-case>
+        <from-outcome>showTabsetIndex</from-outcome>
+        <to-view-id>/tabset/index.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>   
+            
+      <navigation-case>
+        <from-outcome>showTabsetStateTabs</from-outcome>
+        <to-view-id>/tabset/state.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>   
+            
+      <navigation-case>
+        <from-outcome>showTabsetNavTabs</from-outcome>
+        <to-view-id>/tabset/navtab.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>   
+      
+      <navigation-case>
+        <from-outcome>showTabsetStateResults</from-outcome>
+        <to-view-id>/tabset/stateResults.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+
+       <!-- Navigation Cases for Calendar Examples -->
+      <navigation-case>
+        <from-outcome>showCalendar</from-outcome>
+        <to-view-id>/calendar/calendar.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+
+      <navigation-case>
+        <from-outcome>showCalendarResults</from-outcome>
+        <to-view-id>/calendar/calendarResults.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+
+    </navigation-rule>
+              
+    <!-- Navigation cases for Table Example -->
+    <navigation-rule>    
+      <from-view-id>/table/*</from-view-id>     
+      
+      <navigation-case>
+        <from-outcome>showTableMain</from-outcome>
+        <to-view-id>/table/table.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>    
+      
+      <navigation-case>
+        <from-outcome>showTableActions</from-outcome>
+        <to-view-id>/table/actions.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>    
+      
+      <navigation-case>
+        <from-outcome>showTableAlarms</from-outcome>
+        <to-view-id>/table/alarms.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>    
+      
+      <navigation-case>
+        <from-outcome>showTableBasic</from-outcome>
+        <to-view-id>/table/basicTable.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>    
+      
+      <navigation-case>
+        <from-outcome>showTableCustomTitle</from-outcome>
+        <to-view-id>/table/customTitle.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>    
+      
+      <navigation-case>
+        <from-outcome>showTableDynamicGroupTable</from-outcome>
+        <to-view-id>/table/dynamicGroupTable.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>    
+      
+      <navigation-case>
+        <from-outcome>showTableDynamicTable</from-outcome>
+        <to-view-id>/table/dynamicTable.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>    
+      
+      <navigation-case>
+        <from-outcome>showTableEmbeddedActions</from-outcome>
+        <to-view-id>/table/embeddedActions.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>    
+      
+      <navigation-case>
+        <from-outcome>showTableEmptyCells</from-outcome>
+        <to-view-id>/table/emptyCells.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>    
+      
+      <navigation-case>
+        <from-outcome>showTableFilter</from-outcome>
+        <to-view-id>/table/filter.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>    
+      
+      <navigation-case>
+        <from-outcome>showTableGroupTable</from-outcome>
+        <to-view-id>/table/groupTable.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>    
+      
+      <navigation-case>
+        <from-outcome>showTableHiddenSelectedRows</from-outcome>
+        <to-view-id>/table/hiddenSelectedRows.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>    
+      
+      <navigation-case>
+        <from-outcome>showTableMultiHeadersFooters</from-outcome>
+        <to-view-id>/table/multipleHeadersFooters.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>    
+      
+      <navigation-case>
+        <from-outcome>showTableLiteTable</from-outcome>
+        <to-view-id>/table/liteTable.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>    
+      
+      <navigation-case>
+        <from-outcome>showTablePaginatedTable</from-outcome>
+        <to-view-id>/table/paginatedTable.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>    
+      
+      <navigation-case>
+        <from-outcome>showTablePreferences</from-outcome>
+        <to-view-id>/table/preferences.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>    
+      
+      <navigation-case>
+        <from-outcome>showTableSelectMultiRows</from-outcome>
+        <to-view-id>/table/selectMultipleRows.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>    
+      
+      <navigation-case>
+        <from-outcome>showTableSelectSingleRow</from-outcome>
+        <to-view-id>/table/selectSingleRow.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>    
+      
+      <navigation-case>
+        <from-outcome>showTableSpacerColumn</from-outcome>
+        <to-view-id>/table/spacerColumn.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>    
+      
+      <navigation-case>
+        <from-outcome>showTableSortableTable</from-outcome>
+        <to-view-id>/table/sortableTable.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>    
+    </navigation-rule>    
+    
+    <navigation-rule>    
+      <from-view-id>/index.jsp</from-view-id>     
+       
+      <!-- Navigation Case for Button Example-->
+      <navigation-case>
+        <from-outcome>showButton</from-outcome>
+        <to-view-id>/button/Button.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>            
+      
+      <!-- Navigation Case for Label Example-->
+      <navigation-case>
+        <from-outcome>showLabel</from-outcome>
+        <to-view-id>/label/Label.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>            
+      
+      <!-- Navigation Case for Rating Example-->
+      <navigation-case>
+        <from-outcome>showRating</from-outcome>
+        <to-view-id>/rating/rating.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>            
+      
+      <!-- Navigation Case for Checkbox and Radio Button Example-->
+      <navigation-case>
+        <from-outcome>showCheckboxRadiobutton</from-outcome>
+        <to-view-id>/cbrb/checkboxRadiobutton.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>        
+      
+      <!-- Navigation Case for Image and Masthead Example-->
+      <navigation-case>
+        <from-outcome>showMasthead</from-outcome>
+        <to-view-id>/masthead/Index.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+      
+      <!-- Navigation Case for Content Pagetitle Example-->
+      <navigation-case>
+        <from-outcome>showPagetitle</from-outcome>
+        <to-view-id>/pagetitle/Pagetitle.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+      
+      <!-- Navigation Case for StaticText Example-->
+      <navigation-case>
+        <from-outcome>showStaticText</from-outcome>
+        <to-view-id>/statictext/Statictext.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+      
+      <!-- Navigation Cases for Calendar Example-->
+      <navigation-case>
+        <from-outcome>showCalendar</from-outcome>
+        <to-view-id>/calendar/calendar.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+   
+    </navigation-rule>
+    
+    <!-- Navigation Cases for Image and Masthead Example -->
+    <navigation-rule>
+      <from-view-id>/masthead/*</from-view-id>
+
+      <navigation-case>
+        <from-outcome>showMasthead1</from-outcome>
+        <to-view-id>/masthead/Masthead.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+
+      <navigation-case>
+        <from-outcome>showMasthead2</from-outcome>
+        <to-view-id>/masthead/MastheadFacets.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+
+      <navigation-case>
+        <from-outcome>showMasthead3</from-outcome>
+        <to-view-id>/masthead/Images.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+      
+      <navigation-case>
+        <from-outcome>showResultMasthead</from-outcome>
+        <to-view-id>/masthead/ResultMasthead.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+      
+      <navigation-case>
+        <from-outcome>showResultMastheadFacets</from-outcome>
+        <to-view-id>/masthead/ResultMastheadFacets.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+
+      <navigation-case>
+        <from-outcome>showMasthead</from-outcome>
+        <to-view-id>/masthead/Index.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+    </navigation-rule>
+
+      <!-- Navigation Cases for Common Task Example -->
+    <navigation-rule>
+    <navigation-case>
+      <from-outcome>task</from-outcome>
+        <to-view-id>/commontask/sample.jsp</to-view-id>
+    </navigation-case>
+        
+    <navigation-case>
+      <from-outcome>showCommonTask</from-outcome>
+        <to-view-id>/commontask/commonTasks.jsp</to-view-id>
+    </navigation-case>
+   </navigation-rule>
+   
+   <!-- Navigation Cases for ProgressBar Example -->
+   <navigation-rule>
+    <navigation-case>
+      <from-outcome>showProgressBar</from-outcome>
+        <to-view-id>/progressbar/index.jsp</to-view-id>
+    </navigation-case>
+        
+    <navigation-case>
+      <from-outcome>showDeterminate</from-outcome>
+        <to-view-id>/progressbar/determinate.jsp</to-view-id>
+    </navigation-case>
+    
+    <navigation-case>
+      <from-outcome>showIndeterminate</from-outcome>
+        <to-view-id>/progressbar/indeterminate.jsp</to-view-id>
+    </navigation-case>
+    
+    <navigation-case>
+      <from-outcome>showBusy</from-outcome>
+        <to-view-id>/progressbar/busy.jsp</to-view-id>
+    </navigation-case>
+   </navigation-rule>
+ 
+   <!-- Navigation Cases for Wizard Examples -->
+    <navigation-rule>
+      <navigation-case>
+        <from-outcome>showWizardIndex</from-outcome>
+        <to-view-id>/wizard/index.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+   </navigation-rule>
+ 
+   <!-- Navigation Cases for Tabset Examples -->
+    <navigation-rule>
+      <navigation-case>
+        <from-outcome>showTabsetIndex</from-outcome>
+        <to-view-id>/tabset/index.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+   </navigation-rule>
+   
+   <!-- Navigation Cases for Bubble Examples -->
+    <navigation-rule>
+      <navigation-case>
+        <from-outcome>showBubble</from-outcome>
+        <to-view-id>/bubble/bubble.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+   </navigation-rule>
+
+  <!-- Navigation Cases for popupMenu Example -->
+  <navigation-rule>
+    <navigation-case>
+      <from-outcome>showPopupMenu</from-outcome>
+      <to-view-id>/popupMenu/menu.jsp</to-view-id>
+      <redirect/>
+    </navigation-case>
+    
+    <navigation-case>
+    <from-outcome>showMasthead</from-outcome>
+    <to-view-id>/masthead/Index.jsp</to-view-id>
+    <redirect/>
+    </navigation-case>
+    
+  </navigation-rule>
+
+   <!-- Navigation Cases for Accordion Example -->     
+   <navigation-rule>
+      <navigation-case>
+        <from-outcome>showAccordionIndex</from-outcome>
+        <to-view-id>/accordion/index.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>   
+   </navigation-rule>         
+   
+   <!-- Navigation Cases for Login Example -->     
+   <navigation-rule>
+      <navigation-case>
+        <from-outcome>showLoginIndex</from-outcome>
+        <to-view-id>/login/index.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>   
+   </navigation-rule>     
+   
+   <!-- Navigation Cases for table2 Example -->     
+   <navigation-rule>
+      <navigation-case>
+        <from-outcome>showTable2Index</from-outcome>
+        <to-view-id>/table2/index.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>   
+   </navigation-rule>  
+   
+   <!-- Navigation Cases for table2 Example -->     
+   <navigation-rule>
+      <navigation-case>
+        <from-outcome>showBasicTable2</from-outcome>
+        <to-view-id>/table2/table.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>   
+   </navigation-rule>
+   
+   <!-- Navigation Cases for table2 Example -->     
+   <navigation-rule>
+      <navigation-case>
+        <from-outcome>showTable2Sort</from-outcome>
+        <to-view-id>/table2/sortTable.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>   
+   </navigation-rule> 
+   
+   <!-- Navigation Cases for table2 Example -->     
+   <navigation-rule>
+      <navigation-case>
+        <from-outcome>showTable2Filter</from-outcome>
+        <to-view-id>/table2/filterTable.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>   
+   </navigation-rule> 
+   
+   <!-- Navigation Cases for Tree2 Example -->     
+   <navigation-rule>
+      <navigation-case>
+        <from-outcome>showTree2Index</from-outcome>
+        <to-view-id>/tree2/index.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>   
+   </navigation-rule> 
+
+</faces-config>

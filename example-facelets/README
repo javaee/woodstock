@@ -1,0 +1,93 @@
+
+The contents of this file are subject to the terms
+of the Common Development and Distribution License
+(the License).  You may not use this file except in
+compliance with the License.
+
+You can obtain a copy of the license at
+https://woodstock.dev.java.net/public/CDDLv1.0.html.
+See the License for the specific language governing
+permissions and limitations under the License.
+
+When distributing Covered Code, include this CDDL
+Header Notice in each file and include the License file
+at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+If applicable, add the following below the CDDL Header,
+with the fields enclosed by brackets [] replaced by
+you own identifying information:
+"Portions Copyrighted [year] [name of copyright owner]"
+
+Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+
+
+This example application comes complete with source code and a pre-built
+war file ready for deployment.  It is assumed that you have downloaded
+the example.zip and extracted it to <example_dir>.  This README does NOT
+apply if you have downloaded the entire woodstock source code distribution,
+since the example is built with the woodstock component set.
+
+Build the source
+----------------
+
+Build requirements:
+  To build this example app, you must have the following installed on your system:
+
+  - Woodstock JSF-based components 4.0 or greater
+    You must install the components jar as well as "other" dependent jars.
+        See the components' README for details.
+
+  - ANT 1.6.5 or greater (www.apache.org)
+    Alternatively, if you use Netbeans 5.5 or greater you can use the version of        ANT that is bundled with NB.
+
+  - J2EE web container supporting Servlet Api 2.4 or greater, JSP 2.0 or greater    and JSF 1.2.  At this time, only Glassfish 9.0_01 UR1 b14 supports all these.
+    Alternatively, if you use Netbeans* you can use the version of
+        Appserver that is bundled with NB.
+
+  - Facelets 1.0 or greater.
+
+Build configuration:
+
+  - Create the file <example_dir>/build.properties containing the following 3 properties:
+
+    ant.home=<install directory for ANT 1.6.5 or greater>
+            This can be the path to a seperate installation of ANT or
+                the path to the ANT that is bundled with NB**.  If the former
+                you will need to acquire a copy of "copyfiles.jar" that comes
+                with NB and install it into <ant.home>/extra.
+
+    components.home=<install directory for JSF-based components>
+
+    container.lib=<path to the web container's "lib" directory>
+            Thus can be the path to a seperate installation of a web container
+                or the path to the version of Tomcat that is bundled with NB**.
+
+
+   (** Note that these are private Netbeans paths and are subject to change.
+       Use at your own risk.)
+
+For example:  If you have ANT installed in /usr/local/ant, the woodstock
+components installed in /files/woodstock, and your web container in /usr/glassfish, then your <example_dir>/build.properties would be:
+
+ant.home=/usr/local/ant
+components.home=/files/woodstock
+container.lib=/usr/glassfish/lib
+
+
+
+There are 2 ways to build the example:
+
+  1) From the command-line:
+     - set the JAVA_HOME environment variable to point to the install
+       directory for JDK 1.5 or greater
+     - cd <example_dir>
+     - <install directory for ANT 1.6.5 or greater>/ant/bin/ant
+
+  2) From within the Netbeans IDE
+
+
+
+Deployment
+----------
+
+You can deploy <example dir>/dist/example.war to any web container using
+the mechanisms available for that container, or thru Netbeans.
