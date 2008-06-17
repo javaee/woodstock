@@ -105,6 +105,7 @@
 	<ant dir="${jmaki}" target="clean" inheritAll="false"/>
 	<ant dir="${example-html}" target="clean" inheritAll="false"/>
 	<ant dir="${example-jmaki}" target="clean" inheritAll="false"/>
+	<ant dir="${example-facelets}" target="clean" inheritAll="false"/>
     </target>
 
      <!-- ========== webui ========== -->
@@ -180,6 +181,12 @@
     <!-- This builds the example-jmaki app -->
     <target name="example-jmaki" depends="jslib">
 	<ant dir="${example-jmaki}" inheritAll="false" />
+    </target>
+
+    <!-- ========== example-facelets ========== -->
+    <!-- This builds the example-facelets app -->
+    <target name="example-facelets" depends="jslib">
+	<ant dir="${example-facelets}" inheritAll="false" />
     </target>
 
      <!-- set "result" to true if "property" isset and is false -->
@@ -351,7 +358,7 @@
     <target name="all" depends="clean, ship">
     </target>
 
-    <target name="ship" depends="webui, themes, jslib, jmaki, extralibs, doc, buildsdk, example, themeDoc, example-html, example-jmaki, l10n">
+    <target name="ship" depends="webui, themes, jslib, jmaki, extralibs, doc, buildsdk, example, themeDoc, example-html, example-jmaki, example-facelets, l10n">
     </target>
     
     <target name="l10n" depends="webui, themes" if="build-l10n">
