@@ -97,7 +97,7 @@
         }
 
         // Add include, refId, or html object -- do not HTML escape.
-        if (!common._isFragment(props)) {
+        if (common._isFragmentObject(props)) {
             // Add HTML string.
             if (typeof props.html == "string") {
                 return common._addFragment(domNode, props.html, position, false);
@@ -695,21 +695,63 @@
     },
 
     /**
-     * Return <code>true</code> if <code>props</code> defines a
-     * widget fragment. A widget fragment is a string (typically of HTML)
-     * or an object that defines the <code>widgetType</code> or
-     * <code>id</code> properties.
+     * Return <code>true</code> if <code>props</code> defines a fragment.
+     * A fragment may be a string or an object containing known properties.
+     * See the _isFragmentObject and _isFragmentWidget functions.
      * 
-     * @param {Object} props properties that may define a widget fragment.
-     * @return {boolean} true of <code>props</code> is a widget fragment
+     * @param {Object} props properties that may define a fragment.
+     * @return {boolean} true of <code>props</code> is a fragment
      * else false. If <code>props</code> is null, false is returned.
      * @private
      */
     _isFragment: function(props) {
-	return (props != null && (typeof props == "string" ||
-	    (typeof props == "object" &&
-		(props.widgetType != null && props.widgetType != "") ||
-		(props.id != null && props.id != ""))));
+        var result = false;
+        if (props && (typeof props == "string"
+                || @JS_NS@.widget.common._isFragmentObject(props)
+                || @JS_NS@.widget.common._isFragmentWidget(props))) {
+            result = true;
+        }
+        return result;
+    },
+
+    /**
+     * Return <code>true</code> if <code>props</code> defines a fragment object.
+     * A fragment object defines either an html, include, or refId property and
+     * is not a fragment widget -- see _isFragmentWidget.
+     * 
+     * @param {Object} props properties that may define a fragment object.
+     * @return {boolean} true of <code>props</code> is a fragment object
+     * else false. If <code>props</code> is null, false is returned.
+     * @private
+     */
+    _isFragmentObject: function(props) {
+        var result = false;
+        if (props && !@JS_NS@.widget.common._isFragmentWidget(props)
+                && (typeof props.html == "string"
+                || typeof props.refId == "string"
+                || typeof props.include == "string")) {
+            result = true;
+        }
+        return result;
+    },
+
+    /**
+     * Return <code>true</code> if <code>props</code> defines a fragment widget.
+     * A fragment widget is an object which defines <code>widgetType</code> and
+     * <code>id</code> properties.  
+     * 
+     * @param {Object} props properties that may define a fragment widget.
+     * @return {boolean} true of <code>props</code> is a fragment widget
+     * else false. If <code>props</code> is null, false is returned.
+     * @private
+     */
+    _isFragmentWidget: function(props) {
+        var result = false;
+        if (props && (props.id && props.id != "")
+                && (props.widgetType && props.widgetType != "")) {
+            result = true;
+        }
+        return result;
     },
 
     /**
