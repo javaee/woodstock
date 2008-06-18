@@ -62,6 +62,10 @@
                   text="#{msgs.table2_tableFilterLink}"
                   actionExpression="showTable2Filter"                  
                   />
+                  <webuijsf:hyperlink id="spanHeaderTable"
+                  text="#{msgs.table2_tableSpanHeaderLink}"
+                  actionExpression="showTable2SpanHeader"                  
+                  />
               </webuijsf:panelGroup>
             </webuijsf:contentPageTitle>
           </webuijsf:form>

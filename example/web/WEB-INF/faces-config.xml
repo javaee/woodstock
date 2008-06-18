@@ -1041,6 +1041,15 @@
       </navigation-case>   
    </navigation-rule> 
    
+   <!-- Navigation Cases for table2 Example -->     
+   <navigation-rule>
+      <navigation-case>
+        <from-outcome>showTable2SpanHeader</from-outcome>
+        <to-view-id>/table2/spanHeaderTable.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>   
+   </navigation-rule>
+   
    <!-- Navigation Cases for Tree2 Example -->     
    <navigation-rule>
       <navigation-case>

@@ -293,6 +293,7 @@ public class TableData {
                     "table2/index.jsp",
                     "table2/filterTable.jsp",
                     "table2/sortTable.jsp",
+                    "table2/spanHeaderTable.jsp",
                     "table2/table.jsp",                    
                     "table2/Table2Bean.java",
                     "table2/util/Group.java",
