@@ -17,10 +17,10 @@
  * you own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
  * 
- * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+ * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 /*
- * $Id: ListRendererBase.java,v 1.6 2008-02-25 17:45:34 rratta Exp $
+ * $Id: ListRendererBase.java,v 1.7 2008-06-19 17:03:07 rratta Exp $
  */
 package com.sun.webui.jsf.renderkit.html;
 
@@ -170,7 +170,7 @@ abstract public class ListRendererBase extends Renderer {
                 id = ((ComplexComponent)component).getLabeledElementId(context);
             }
 
-            //renderHiddenValue(component, context, writer, styles[8]);
+            //renderHiddenValue(component, context, writer, styles[10]);
             //writer.writeText("\n", null);
 
             // Because renderHiddenValue is commented out this needs
@@ -206,12 +206,14 @@ abstract public class ListRendererBase extends Renderer {
      * @param element One of "span" or "div"
      * @throws java.io.IOException if the renderer fails to write to
      * the response
+     * @param context The FacesContext of the request
+     * @param component Render the top level element for this list.
+     * @param element The HTML to render for the top level element.
+     * @param listSelector The CSS selector identifying this list.
      */
     protected void renderOpenEncloser(ListManager component, 
-                                      FacesContext context,
-                                      String element, 
-                                      String hiddenStyle)
-        throws IOException {
+	    FacesContext context, String element, String listSelector)
+	    throws IOException {
         
         String id = component.getClientId(context);
         
@@ -224,21 +226,8 @@ abstract public class ListRendererBase extends Renderer {
         if(style != null && style.length() > 0) {
             writer.writeAttribute("style", style, "style");      //NOI18N
         }
-        style = component.getStyleClass();
-        if(component.isVisible()) {
-            if(style != null && style.length() > 0) {
-                writer.writeAttribute("class", style, "class"); //NOI18N
-            }
-        } else {
-            if(style == null) {
-                style = hiddenStyle;
-            } else {
-                style = style + " " + hiddenStyle; //NOI18N
-            }
-            writer.writeAttribute("class", style, "class"); //NOI18N
-        }
-        
-        writer.writeText("\n", null);                         //NOI18N
+	RenderingUtilities.renderStyleClass(context, writer, 
+	    (UIComponent)component, listSelector);
     } 
 
     protected void renderHiddenValue(UIComponent component, FacesContext context, 
@@ -606,13 +595,19 @@ abstract public class ListRendererBase extends Renderer {
         would do. 
         TODO.
      */
+   /** Render the readonly representation for <code>component</code>
+     *
+     * @param component Render the top level element for this list.
+     * @param label Render this component for the label.
+     * @param context The FacesContext of the request
+     * @param componentSelector The CSS selector identifying this list.
+     */
     void renderReadOnlyList(ListManager component, UIComponent label,
-                                      FacesContext context, String hiddenStyle)
-        throws IOException {
+	    FacesContext context, String listSelector) throws IOException {
         
         UIComponent value = component.getReadOnlyValueComponent();
         
-        renderOpenEncloser(component, context, "span", hiddenStyle);
+        renderOpenEncloser(component, context, "span", listSelector);
         if(label != null) {
             RenderingUtilities.renderComponent(label,context);
         }
@@ -620,25 +615,6 @@ abstract public class ListRendererBase extends Renderer {
         context.getResponseWriter().endElement("span"); //NOI18N
     }
 
-    // Prepend the hidden style to the user's added style if necessary
-    private String getStyleClass(ListManager component, String hiddenStyle) {
-        
-        String style = component.getStyleClass();
-        if(style != null && style.length() == 0) {
-            style = null;
-        }
-        
-        if(!component.isVisible()) {
-            if(style == null) {
-                style = hiddenStyle;
-            } else {
-                style = style + " " + hiddenStyle;
-            }
-        }
-        return style;
-    }
-
-     
     /**
      * Retrieve user input from the UI.
      * @param context The FacesContext of this request

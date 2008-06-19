@@ -17,11 +17,11 @@
  * you own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
  * 
- * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+ * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
  /*
-  * $Id: ListboxRenderer.java,v 1.2 2008-04-01 17:08:26 danl Exp $
+  * $Id: ListboxRenderer.java,v 1.3 2008-06-19 17:03:07 rratta Exp $
   */
 
 package com.sun.webui.jsf.renderkit.html;
@@ -117,7 +117,7 @@ public class ListboxRenderer extends ListRendererBase {
         
         Theme theme = ThemeUtilities.getTheme(context); 
         
-        String[] styles = new String[10]; 
+        String[] styles = new String[11]; 
         styles[0] = getOnChangeJavaScript((ListManager) component,
             JavaScriptUtilities.getModuleName("_html.listbox.changed"), //NOI18N
             context);
@@ -135,8 +135,9 @@ public class ListboxRenderer extends ListRendererBase {
         styles[5] = theme.getStyleClass(ThemeStyles.LIST_OPTION_SELECTED);
         styles[6] = theme.getStyleClass(ThemeStyles.LIST_OPTION_GROUP);
         styles[7] = theme.getStyleClass(ThemeStyles.LIST_OPTION_SEPARATOR);
-        styles[8] = theme.getStyleClass(ThemeStyles.HIDDEN); 
+        styles[8] = theme.getStyleClass(ThemeStyles.LISTBOX); 
         styles[9] = theme.getStyleClass(ThemeStyles.LIST_ALIGN);
+        styles[10] = theme.getStyleClass(ThemeStyles.HIDDEN); 
         return styles; 
     }
 }

@@ -17,7 +17,7 @@
  * you own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
  * 
- * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+ * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
 package com.sun.webui.jsf.renderkit.html;
@@ -130,12 +130,12 @@ public class OrderableListRenderer extends ListRendererBase {
         if(DEBUG) log("renderListComponent()");
         if(component.isReadOnly()) { 
             UIComponent label = component.getHeaderComponent(); 
-            super.renderReadOnlyList(component, label, context, styles[15]); 
+            super.renderReadOnlyList(component, label, context, styles[13]); 
             return; 
         } 
         
         ResponseWriter writer = context.getResponseWriter();
-        renderOpenEncloser(component, context, "div", styles[15]); //NOI18N
+        renderOpenEncloser(component, context, "div", styles[13]); //NOI18N
 
         // If the label goes on top, render it first... 
 
@@ -158,17 +158,22 @@ public class OrderableListRenderer extends ListRendererBase {
             }
         }
 
-        // First column: available items
-        renderColumnTop(component, writer, styles[10]); 
+        // First column: orderable items
         String id = component.getClientId(context);
+
+	// Preserver the top level id for identifying and inner div.
+	String btnDivId = id + "_BtnDiv";
+
+        renderColumnTop(component, writer, styles[10], id + "_LstDiv"); 
+
         if (component instanceof ComplexComponent) {
             id = ((ComplexComponent)component).getLabeledElementId(context);
         }
         renderList(component, id, context, styles); 
         renderColumnBottom(writer); 
 
-        // Second column: button row
-        renderColumnTop(component, writer, styles[10]); 
+        // Second column: buttons
+        renderColumnTop(component, writer, styles[10], btnDivId); 
         renderButtons(component, context, writer, styles); 
         renderColumnBottom(writer); 
         
@@ -212,7 +217,7 @@ public class OrderableListRenderer extends ListRendererBase {
             ResponseWriter writer, String[] styles) throws IOException {
         try {
             // Append properties.
-            StringBuffer buff = new StringBuffer(256);
+            StringBuilder buff = new StringBuilder(256);
             JSONObject json = new JSONObject();
             json.put("id", component.getClientId(context))
                 .put("moveMessage", styles[14]);
@@ -234,9 +239,10 @@ public class OrderableListRenderer extends ListRendererBase {
     }
 
     private void renderColumnTop(OrderableList component, ResponseWriter writer,
-            String style) throws IOException {
+            String style, String id) throws IOException {
         // Render the available elements
         writer.startElement("div", component); //NOI18N
+	writer.writeAttribute("id", id, null);  //NOI18N
         writer.writeAttribute("class", style, null);  //NOI18N
         writer.writeText("\n", null); //NOI18N
     }
@@ -251,8 +257,6 @@ public class OrderableListRenderer extends ListRendererBase {
             ResponseWriter writer, String[] styles) throws IOException { 
         writer.writeText("\n", null); //NOI18N
         writer.startElement("div", component); //NOI18N
-        String style = "padding-left:10;padding-right:10"; //NOI18N
-        writer.writeAttribute("style", style, null);  //NOI18N
         writer.writeText("\n", null); //NOI18N
         writer.startElement("table", component); //NOI18N
         writer.writeAttribute("class", styles[12], null); //NOI18N
@@ -260,8 +264,6 @@ public class OrderableListRenderer extends ListRendererBase {
         writer.startElement("tr", component); //NOI18N
         writer.writeText("\n", null); //NOI18N
         writer.startElement("td", component); //NOI18N
-        writer.writeAttribute("align", "center", null);  //NOI18N
-        writer.writeAttribute("width", "125", null);  //NOI18N
         writer.writeText("\n", null); //NOI18N
         RenderingUtilities.renderComponent(
             component.getMoveUpButtonComponent(context), context);
@@ -313,29 +315,6 @@ public class OrderableListRenderer extends ListRendererBase {
     } 
 
     /**
-     * <p>Renders a component in a table row.</p>
-     * @param component The component
-     * @param context The FacesContext of the request
-     * @throws java.io.IOException if the renderer fails to write to
-     * the response
-     */
-    private void addComponentSingleRow(OrderableList list, 
-            UIComponent component, FacesContext context) throws IOException {
-        ResponseWriter writer = context.getResponseWriter();
-        writer.startElement("tr", list);                    //NOI18N
-        writer.writeText("\n", null);                       //NOI18N
-        writer.startElement("td", list);                    //NOI18N
-        RenderingUtilities.renderComponent(component, context); 
-        writer.writeText("\n", null);                       //NOI18N
-        // Perhaps this should depend on the dir?
-        // writer.writeAttribute("align", "left", null); 
-        writer.endElement("td");                            //NOI18N
-        writer.writeText("\n", null);                       //NOI18N
-        writer.endElement("tr");                            //NOI18N
-        writer.writeText("\n", null);                       //NOI18N
-    } 
-
-    /**
      * <p>Render the appropriate element end, depending on the value of the
      * <code>type</code> property.</p>
      *
@@ -349,7 +328,7 @@ public class OrderableListRenderer extends ListRendererBase {
         if(DEBUG) log("getStyles()");
 
         Theme theme = ThemeUtilities.getTheme(context);         
-        StringBuffer buff = new StringBuffer(256);
+        StringBuilder buff = new StringBuilder(256);
         buff.append(JavaScriptUtilities.getDomNode(context, component))
             .append(OrderableList.ONCHANGE_FUNCTION)
             .append(OrderableList.RETURN);
@@ -364,15 +343,15 @@ public class OrderableListRenderer extends ListRendererBase {
         styles[5] = theme.getStyleClass(ThemeStyles.LIST_OPTION_SELECTED);
         styles[6] = theme.getStyleClass(ThemeStyles.LIST_OPTION_GROUP);
         styles[7] = theme.getStyleClass(ThemeStyles.LIST_OPTION_SEPARATOR);
-        styles[8] = theme.getStyleClass(ThemeStyles.ADDREMOVE_HORIZONTAL_BETWEEN);
-        styles[9] = theme.getStyleClass(ThemeStyles.ADDREMOVE_HORIZONTAL_WITHIN);
-        styles[10] = theme.getStyleClass(ThemeStyles.ADDREMOVE_HORIZONTAL_ALIGN);
-        styles[11] = theme.getStyleClass(ThemeStyles.ADDREMOVE_HORIZONTAL_LAST);
-        styles[12] = theme.getStyleClass(ThemeStyles.ADDREMOVE_BUTTON_TABLE);
-        styles[13] = null;
+
+        styles[8] = theme.getStyleClass(ThemeStyles.ORDERABLELIST_BETWEEN);
+        styles[9] = theme.getStyleClass(ThemeStyles.ORDERABLELIST_WITHIN);
+        styles[10] = theme.getStyleClass(ThemeStyles.ORDERABLELIST_ALIGN);
+        styles[11] = theme.getStyleClass(ThemeStyles.ORDERABLELIST_LAST);
+        styles[12] = theme.getStyleClass(ThemeStyles.ORDERABLELIST_BUTTON_TABLE);
+        styles[13] = theme.getStyleClass(ThemeStyles.ORDERABLELIST);
         styles[14] = theme.getMessage("OrderableList.moveMessage"); //NOI18N
         styles[15] = theme.getStyleClass(ThemeStyles.HIDDEN); 
         return styles; 
     } 
 }
-

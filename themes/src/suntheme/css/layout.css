@@ -46,6 +46,12 @@ body {
 /*---*/
 
 /* ADDREMOVE */
+/* This selector is rendered on the outermost HTML for an ADDREMOVE component.
+ * It does not require a definition, but can be used for creating descendant
+ * selectors
+ */
+/* .AddRm@THEME_CSS@ {} */
+
 .AddRmvBtnTbl@THEME_CSS@ .Btn1@THEME_CSS@, .AddRmvBtnTbl@THEME_CSS@ .Btn1Hov@THEME_CSS@, .AddRmvBtnTbl@THEME_CSS@ .Btn1Dis@THEME_CSS@,
 .AddRmvBtnTbl@THEME_CSS@ .Btn2@THEME_CSS@, .AddRmvBtnTbl@THEME_CSS@ .Btn2Hov@THEME_CSS@, .AddRmvBtnTbl@THEME_CSS@ .Btn2Dis@THEME_CSS@ {
 	width:100%;
@@ -106,6 +112,48 @@ body {
 	height: 1.6em; 
 }
 /*---*/
+
+/* ORDERABLELIST */
+/* This selector is rendered on the outermost HTML for an ORDERABLELIST
+ * component. It does not require a definition, but can be used for
+ * creating descendant selectors
+ */
+.OrdLst@THEME_CSS@ {
+}
+
+.OrdLstBtnTbl@THEME_CSS@ .Btn1@THEME_CSS@,
+.OrdLstBtnTbl@THEME_CSS@ .Btn1Hov@THEME_CSS@,
+.OrdLstBtnTbl@THEME_CSS@ .Btn1Dis@THEME_CSS@,
+.OrdLstBtnTbl@THEME_CSS@ .Btn2@THEME_CSS@,
+.OrdLstBtnTbl@THEME_CSS@ .Btn2Hov@THEME_CSS@,
+.OrdLstBtnTbl@THEME_CSS@ .Btn2Dis@THEME_CSS@ {
+      width:100%;
+      margin:0px;
+}
+.OrdLstBtnTbl@THEME_CSS@ {
+    margin-top:1.6em;
+    padding-left:10px;
+    padding-right:10px;
+}
+.OrdLstBtnTbl@THEME_CSS@ td {
+    text-align: center;
+    width: 125px;
+}
+.OrdLstHrzWin@THEME_CSS@ {
+      margin-top:3px;
+      min-width:100px;
+}
+.OrdLstHrzBwn@THEME_CSS@ {
+      margin-top:8px;
+      min-width:100px;
+}
+.OrdLstHrzDiv@THEME_CSS@ {
+      margin:5px 7px 10px 0px;
+      float: left;
+}
+.OrdLstHrzLst@THEME_CSS@ {
+      clear:both;
+}
 
 /* BREADCRUMBS */
 .BcmWhtDiv@THEME_CSS@ {
@@ -189,6 +237,12 @@ body {
 /*---*/
 
 /* EDITABLE LIST */
+/* This selector is rendered on the outermost HTML for an EDITABLELIST
+ * component. It does not require a definition, but can be used for
+ * creating descendant selectors
+ */
+/* .EdtLst@THEME_CSS@ {} */
+
 /* [check overwrite classes on ie.css] */
 .EdtLstTbl@THEME_CSS@ .EdtLstAddLblTd@THEME_CSS@ {
 	padding:2px 10px 0px 0px;

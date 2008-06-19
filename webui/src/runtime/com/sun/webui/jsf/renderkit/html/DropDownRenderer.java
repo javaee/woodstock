@@ -17,7 +17,7 @@
  * you own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
  * 
- * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+ * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
 package com.sun.webui.jsf.renderkit.html;
@@ -116,7 +116,7 @@ public class DropDownRenderer extends ListRendererBase {
     private String[] getDropDownStyles(DropDown component, FacesContext context) {
         
         Theme theme = ThemeUtilities.getTheme(context);
-        String[] styles = new String[10];
+        String[] styles = new String[11];
         styles[0] = getOnChangeJavaScript(component, 
             JavaScriptUtilities.getModuleName("_html.dropDown.changed"), //NOI18N
             context);
@@ -127,7 +127,10 @@ public class DropDownRenderer extends ListRendererBase {
         styles[5] = theme.getStyleClass(ThemeStyles.MENU_STANDARD_OPTION_SELECTED);
         styles[6] = theme.getStyleClass(ThemeStyles.MENU_STANDARD_OPTION_GROUP);
         styles[7] = theme.getStyleClass(ThemeStyles.MENU_STANDARD_OPTION_SEPARATOR);
-        styles[8] = theme.getStyleClass(ThemeStyles.HIDDEN); 
+        styles[8] = theme.getStyleClass(ThemeStyles.DROPDOWN); 
+        styles[9] = ""; // Hack for label selector reference in 
+			// ListRendererBase.renderListComponent
+        styles[10] = theme.getStyleClass(ThemeStyles.HIDDEN); 
         return styles;
     }
 
@@ -138,7 +141,7 @@ public class DropDownRenderer extends ListRendererBase {
     private String[] getJumpDropDownStyles(DropDown component, FacesContext context) {
 
         Theme theme = ThemeUtilities.getTheme(context); 
-        String[] styles = new String[10];                
+        String[] styles = new String[11];
         styles[0] = getOnChangeJavaScript(component,
             JavaScriptUtilities.getModuleName("_html.jumpDropDown.changed"), //NOI18N
             context); 
@@ -149,7 +152,10 @@ public class DropDownRenderer extends ListRendererBase {
         styles[5] = theme.getStyleClass(ThemeStyles.MENU_JUMP_OPTION_SELECTED);
         styles[6] = theme.getStyleClass(ThemeStyles.MENU_JUMP_OPTION_GROUP);
         styles[7] = theme.getStyleClass(ThemeStyles.MENU_JUMP_OPTION_SEPARATOR);
-        styles[8] = theme.getStyleClass(ThemeStyles.HIDDEN); 
+        styles[8] = theme.getStyleClass(ThemeStyles.DROPDOWN); 
+        styles[9] = ""; // Hack for label selector reference in 
+			// ListRendererBase.renderListComponent
+        styles[10] = theme.getStyleClass(ThemeStyles.HIDDEN); 
         return styles; 
     }
 }

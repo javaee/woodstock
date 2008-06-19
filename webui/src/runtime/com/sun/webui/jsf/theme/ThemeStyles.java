@@ -266,6 +266,7 @@ public class ThemeStyles {
     /** 
      * Add and Remove Styles.
      */
+    public static final String ADDREMOVE              = "ADDREMOVE";
     public static final String ADDREMOVE_LABEL              = "ADDREMOVE_LABEL";
     public static final String ADDREMOVE_LABEL2             = "ADDREMOVE_LABEL2";
     public static final String ADDREMOVE_LABEL2_READONLY    = "ADDREMOVE_LABEL2_READONLY";
@@ -280,6 +281,16 @@ public class ThemeStyles {
     public static final String ADDREMOVE_HORIZONTAL_BETWEEN = "ADDREMOVE_HORIZONTAL_BETWEEN";
     public static final String ADDREMOVE_HORIZONTAL_ALIGN   = "ADDREMOVE_HORIZONTAL_ALIGN";
     public static final String ADDREMOVE_HORIZONTAL_LAST    = "ADDREMOVE_HORIZONTAL_LAST";
+
+    /**
+     * OrderableList Styles
+     */
+    public static final String ORDERABLELIST         = "ORDERABLELIST";
+    public static final String ORDERABLELIST_BUTTON_TABLE = "ORDERABLELIST_BUTTON_TABLE";
+    public static final String ORDERABLELIST_WITHIN  = "ORDERABLELIST_WITHIN";
+    public static final String ORDERABLELIST_BETWEEN = "ORDERABLELIST_BETWEEN";
+    public static final String ORDERABLELIST_ALIGN   = "ORDERABLELIST_ALIGN";
+    public static final String ORDERABLELIST_LAST    = "ORDERABLELIST_LAST";
 
     /** 
      * Checkbox Styles. 
@@ -664,6 +675,7 @@ public class ThemeStyles {
     /**
      * EditableList styles 
      */ 
+    public static final String EDITABLELIST   = "EDITABLELIST";
     public static final String EDITABLELIST_TABLE   = "EDITABLELIST_TABLE";
     public static final String EDITABLELIST_FIELD_LABEL = "EDITABLELIST_FIELD_LABEL";
     public static final String EDITABLELIST_FIELD = "EDITABLELIST_FIELD";

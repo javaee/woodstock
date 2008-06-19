@@ -96,16 +96,6 @@
         domNode.values = document.getElementById(props.id + "_list_value");
 
         // HTML elements may not have been created, yet.
-        if (domNode.list == null
-                || domNode.moveUpButton == null 
-                || domNode.moveDownButton == null 
-                || domNode.moveTopButton == null
-                || domNode.moveBottomButton == null 
-                || domNode.values == null) {
-            return setTimeout(function() {
-                @JS_NS@._html.orderableList._init(props);
-            }, 10);
-        }
 
         // Set given properties on domNode.
         @JS_NS@._base.proto._extend(domNode, props, false);

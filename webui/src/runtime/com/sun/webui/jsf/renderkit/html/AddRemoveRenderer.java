@@ -17,7 +17,7 @@
  * you own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
  * 
- * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+ * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
 package com.sun.webui.jsf.renderkit.html;
@@ -111,14 +111,14 @@ public class AddRemoveRenderer extends ListRendererBase {
 
 	if(component.isReadOnly()) { 
 	    UIComponent label = component.getReadOnlyLabelComponent(); 
-            super.renderReadOnlyList(component, label, context, styles[19]); 
+            super.renderReadOnlyList(component, label, context, styles[23]); 
 	    return; 
 	} 
 
         Theme theme = ThemeUtilities.getTheme(context);
         ResponseWriter writer = context.getResponseWriter();
 
-	renderOpenEncloser(component, context, HTMLElements.DIV, styles[19]);
+	renderOpenEncloser(component, context, HTMLElements.DIV, styles[23]);
 
 	if(component.isVertical()) { 
 	    renderVerticalAddRemove(component, context, writer, styles); 
@@ -736,7 +736,7 @@ public class AddRemoveRenderer extends ListRendererBase {
         
         Theme theme = ThemeUtilities.getTheme(context); 
         
-        String[] styles = new String[23]; 
+        String[] styles = new String[24]; 
         styles[0] = JavaScriptUtilities.getModuleName("_html.listbox.changed"); //NOI18N
 	styles[1] = theme.getStyleClass(ThemeStyles.LIST);
 	styles[2] = theme.getStyleClass(ThemeStyles.LIST_DISABLED);
@@ -760,6 +760,7 @@ public class AddRemoveRenderer extends ListRendererBase {
         styles[20] = theme.getStyleClass(ThemeStyles.ADDREMOVE_VERTICAL_BUTTON);
         styles[21] = theme.getStyleClass(ThemeStyles.ADDREMOVE_VERTICAL_DIV);
         styles[22] = theme.getStyleClass(ThemeStyles.ADDREMOVE_VERTICAL_CLEAR);
+        styles[23] = theme.getStyleClass(ThemeStyles.ADDREMOVE);
         return styles; 
     } 
 

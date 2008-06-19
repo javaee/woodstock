@@ -186,7 +186,7 @@ public class EditableListRenderer extends ListRendererBase {
         if(DEBUG) log("renderListComponent()");
 	if(component.isReadOnly()) { 
            UIComponent label = component.getListLabelComponent(); 
-           super.renderReadOnlyList(component, label, context, styles[8]);
+           super.renderReadOnlyList(component, label, context, styles[16]);
 	   return; 
 	} 
 
@@ -199,7 +199,7 @@ public class EditableListRenderer extends ListRendererBase {
             (headerComponent != null) || (footerComponent != null); 
 	
         ResponseWriter writer = context.getResponseWriter();        
-	super.renderOpenEncloser(component, context, "div", styles[8]); 
+	super.renderOpenEncloser(component, context, "div", styles[16]); 
 
         if(DEBUG) log("layout the component");
 	if(gotHeaderOrFooter) { 
@@ -498,7 +498,7 @@ public class EditableListRenderer extends ListRendererBase {
         styles[13] = theme.getStyleClass(ThemeStyles.EDITABLELIST_LIST_LABEL); 
         styles[14] = theme.getStyleClass(ThemeStyles.EDITABLELIST_LIST); 
         styles[15] = theme.getStyleClass(ThemeStyles.EDITABLELIST_REMOVE_BUTTON); 
-        styles[16] = null;
+        styles[16] = theme.getStyleClass(ThemeStyles.EDITABLELIST);
         return styles; 
     } 
 }
