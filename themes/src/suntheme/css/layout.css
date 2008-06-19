@@ -2648,8 +2648,8 @@ ul.MenuItems@THEME_CSS@ ul li .MenuItemDisabled@THEME_CSS@ .MenuItemLabel@THEME_
 	padding:0 0 6px 0;
 	vertical-align:middle;
 }
-.table2@THEME_CSS@ .actionBar@THEME_CSS@ button, .table2@THEME_CSS@ .actionBar@THEME_CSS@ select,
-.table2@THEME_CSS@ .drawer@THEME_CSS@ button, .table2@THEME_CSS@ .drawer@THEME_CSS@ select {
+.table2@THEME_CSS@ .actionBar@THEME_CSS@ input, .table2@THEME_CSS@ .actionBar@THEME_CSS@ select,
+.table2@THEME_CSS@ .drawer@THEME_CSS@ input, .table2@THEME_CSS@ .drawer@THEME_CSS@ select {
 	margin:0 5px;
 }
 .table2@THEME_CSS@ .actionBar@THEME_CSS@ .actionList@THEME_CSS@ {
