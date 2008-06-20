@@ -2610,12 +2610,16 @@ ul.MenuItems@THEME_CSS@ ul li .MenuItemDisabled@THEME_CSS@ .MenuItemLabel@THEME_
 	display:block;
 	padding:0;
 }
-.table2@THEME_CSS@ th a.Hyp@THEME_CSS@ {
-	
+.table2@THEME_CSS@ th a.Hyp@THEME_CSS@ {	
 }
 .table2@THEME_CSS@ th a.Hyp@THEME_CSS@ span {
 	height:100%;  
         padding:3px 5px 1px 5px;
+}
+.table2@THEME_CSS@ .paginationButtons@THEME_CSS@ a.Hyp@THEME_CSS@ span,
+.table2@THEME_CSS@ .paginationButtons@THEME_CSS@ a.HypDis@THEME_CSS@ span{
+	height:100%;  
+        padding:3px 0 2px;
 }
 /* Spanning Headers */
 .table2@THEME_CSS@ .header@THEME_CSS@ th.spanning@THEME_CSS@ table,
@@ -2653,7 +2657,7 @@ ul.MenuItems@THEME_CSS@ ul li .MenuItemDisabled@THEME_CSS@ .MenuItemLabel@THEME_
 	float:left;
 }
 .table2@THEME_CSS@ .groupHeader@THEME_CSS@ .groupLabel@THEME_CSS@ {
-	margin:0 0 0 .5em;
+	/*margin:0 0 0 .5em;*/
 	vertical-align:middle;
 }
 .table2@THEME_CSS@ .groupHeader@THEME_CSS@ table {

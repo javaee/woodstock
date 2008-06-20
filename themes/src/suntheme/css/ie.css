@@ -300,4 +300,11 @@ ul.MenuItems@THEME_CSS@ li div.MenuItem@THEME_CSS@.iehover {
 .table2@THEME_CSS@ .header@THEME_CSS@, .table2@THEME_CSS@ .footer@THEME_CSS@ {
 	margin:0 0 0 0;
 }
+
+.table2@THEME_CSS@ .actionBar@THEME_CSS@ .actionList@THEME_CSS@ {      
+   float:none;
+}
+.table2@THEME_CSS@ .actionBar@THEME_CSS@ .controlsList@THEME_CSS@ {      
+   float:none;
+} 
 /*---*/
