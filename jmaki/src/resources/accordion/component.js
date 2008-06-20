@@ -54,7 +54,7 @@ jmaki.namespace("@JMAKI_NS@.accordion");
     for (var i = 0; i < this._subscribe.length; i++) {
         jmaki.log('subscribing to ' + this._subscribe[i]);
         var s1 = jmaki.subscribe(this._subscribe[i] , 
-        woodstock4_3.widget.common._hitch(this, "_eventCallback"));
+        @JS_NS@.widget.common._hitch(this, "_eventCallback"));
         this._subscriptions.push(s1);
 
     }
@@ -68,13 +68,13 @@ jmaki.namespace("@JMAKI_NS@.accordion");
     var props = {};
     if (wargs.args) {
 	// Properties in the "args" property must be accordion properties!
-        woodstock4_3._base.proto._extend(props, wargs.args);
+        @JS_NS@._base.proto._extend(props, wargs.args);
         
     } else {
 	// No data. Define minimalist accordion.
     }
     if (wargs.value) {
-        woodstock4_3._base.proto._extend(props, wargs.value);
+        @JS_NS@._base.proto._extend(props, wargs.value);
     } else {
 	// No data. Define single dummy items list.
     }
@@ -92,10 +92,10 @@ jmaki.namespace("@JMAKI_NS@.accordion");
       
     // Create the Woodstock accordion widget.
     var span_id = wargs.uuid + "_span";
-    woodstock4_3.widget.common.createWidget(span_id, props);
+    @JS_NS@.widget.common.createWidget(span_id, props);
        
     // add event handling
-    woodstock4_3.widget.common.subscribe(woodstock4_3.widget.accordionTab.event.title.selectedTopic,
+    @JS_NS@.widget.common.subscribe(@JS_NS@.widget.accordionTab.event.title.selectedTopic,
         this, "_onTabSelected");    
     
 };
@@ -141,7 +141,7 @@ jmaki.namespace("@JMAKI_NS@.accordion");
     if (!payload || !payload.targetId) {
         return false;
     }
-    var widget = woodstock4_3.widget.common.getWidget(this._wid);
+    var widget = @JS_NS@.widget.common.getWidget(this._wid);
     if (widget) {
         //widget._collapseAllTabs();
         widget.tabSelected({id: payload.targetId});
@@ -155,7 +155,7 @@ jmaki.namespace("@JMAKI_NS@.accordion");
         return false;
     }
       
-    var widgetTab = woodstock4_3.widget.common.getWidget(payload.targetId);
+    var widgetTab = @JS_NS@.widget.common.getWidget(payload.targetId);
     if (widgetTab) {
         var props = {};
         
@@ -176,7 +176,7 @@ jmaki.namespace("@JMAKI_NS@.accordion");
         return false;
     }
       
-    var widget = woodstock4_3.widget.common.getWidget(this._wid);
+    var widget = @JS_NS@.widget.common.getWidget(this._wid);
     if (widget) {
         //
     }

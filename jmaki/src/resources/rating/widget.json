@@ -104,9 +104,9 @@
 
     "config": {
       "type": {
-        "id": "woodstock",
+        "id": "@JS_NAME@",
         "libs": [
-          "../resources/libs/woodstock4_3/suntheme/javascript/bootstrap.js"
+          "@JS_PATH@/bootstrap.js"
         ],
         "resources": [ "../resources/" ]
         }

@@ -51,7 +51,7 @@ jmaki.namespace("@JMAKI_NS@.popupMenu");
     // Subscribe to jMaki events
     for (var i = 0; i < this._subscribe.length; i++) {
         var s1 = jmaki.subscribe(this._subscribe + "/*", 
-        woodstock4_3.widget.common._hitch(this, "_eventCallback"));
+        @JS_NS@.widget.common._hitch(this, "_eventCallback"));
         this._subscriptions.push(s1);
 
     }
@@ -65,13 +65,13 @@ jmaki.namespace("@JMAKI_NS@.popupMenu");
     var props = {};
     if (wargs.args) {
 	// Properties in the "args" property must be popupMenu properties!
-        woodstock4_3._base.proto._extend(props, wargs.args);
+        @JS_NS@._base.proto._extend(props, wargs.args);
         
     } else {
 	// No data. Define minimalist popupMenu.
     }
     if (wargs.value) {
-        woodstock4_3._base.proto._extend(props, wargs.value);
+        @JS_NS@._base.proto._extend(props, wargs.value);
     } else {
 	// No data. Define single dummy options list.
     }
@@ -92,7 +92,7 @@ jmaki.namespace("@JMAKI_NS@.popupMenu");
   
     // Create the Woodstock popupMenu widget.
     var span_id = wargs.uuid + "_span";
-    woodstock4_3.widget.common.createWidget(span_id, props);
+    @JS_NS@.widget.common.createWidget(span_id, props);
        
     
     
@@ -139,7 +139,7 @@ jmaki.namespace("@JMAKI_NS@.popupMenu");
     }
     var event = payload.event;
       
-    var widget = woodstock4_3.widget.common.getWidget(this._wid);
+    var widget = @JS_NS@.widget.common.getWidget(this._wid);
     if (widget) {
         if (subtopic == "open") {
             widget.open(event);
@@ -174,7 +174,7 @@ jmaki.namespace("@JMAKI_NS@.popupMenu");
 };
 
 @JMAKI_NS@.popupMenu.Widget.prototype._onClickCallback = function(widgetId){
-    var widget = woodstock4_3.widget.common.getWidget(widgetId);
+    var widget = @JS_NS@.widget.common.getWidget(widgetId);
  	
     if (widget) {
         var val = widget.getSelectedValue();
