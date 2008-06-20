@@ -2604,18 +2604,18 @@ ul.MenuItems@THEME_CSS@ ul li .MenuItemDisabled@THEME_CSS@ .MenuItemLabel@THEME_
 .table2@THEME_CSS@ .header@THEME_CSS@ th a.Hyp@THEME_CSS@:link,
 .table2@THEME_CSS@ .header@THEME_CSS@ th a.Hyp@THEME_CSS@:hover,
 .table2@THEME_CSS@ .header@THEME_CSS@ th a.Hyp@THEME_CSS@:visited {
-	display:block;
-	padding:3px 5px 1px 5px;
+	display:block;	
 }
 .table2@THEME_CSS@ .header@THEME_CSS@ th a span {
 	display:block;
 	padding:0;
 }
 .table2@THEME_CSS@ th a.Hyp@THEME_CSS@ {
-	padding:3px 0 2px;
+	
 }
 .table2@THEME_CSS@ th a.Hyp@THEME_CSS@ span {
-	height:100%;
+	height:100%;  
+        padding:3px 5px 1px 5px;
 }
 /* Spanning Headers */
 .table2@THEME_CSS@ .header@THEME_CSS@ th.spanning@THEME_CSS@ table,

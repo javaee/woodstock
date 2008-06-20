@@ -804,10 +804,9 @@
                     widgetType: "text"
         };
     }
-    // Resize hack for Moz/Firefox.
-    if (@JS_NS@._base.browser._isNav()) {        
-        this._dojo.connect(window, "onresize", this, "_resize");
-    }        
+    // Resize
+    this._dojo.connect(window, "onresize", this, "_resize");
+    
     return this._inherited("_postCreate", arguments);
 };
 
@@ -842,7 +841,7 @@
                 colHeaderCell.style.width = colHeaderCell.offsetWidth + "px";
             }            
         }
-    } else {   
+    } else {           
         // Get height offset of each row.
         var offset = 0;
         for (var i = this._currentRow; i < this._currentRow + this.maxRows; i++) {
