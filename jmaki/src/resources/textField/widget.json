@@ -7,12 +7,12 @@
     "args": [
       {"accesskey": {
          "type": "STRING",
-         "description": "",
+         "description": "Shortcut key",
          "defaultValue": ""}},
       {"autoValidate": {
          "type": "BOOLEAN",
-         "description": "",
-         "defaultValue": ""}},
+         "description": "Automatically validate input text on return.",
+         "defaultValue": false}},
       {"className": {
          "type": "STRING",
          "description": "CSS selector.",
@@ -20,31 +20,27 @@
       {"dir": {
          "type": "STRING",
          "description": "Specifies the directionality of text.",
-         "defaultValue": ""}},
+         "defaultValue": "ltr"}},
       {"disabled": {
          "type": "BOOLEAN",
          "description": "Disable element.",
-         "defaultValue": ""}},
-      {"id": {
-         "type": "STRING",
-         "description": "Uniquely identifies an element within a document.",
-         "defaultValue": ""}},
+         "defaultValue": false}},
       {"label": {
-         "type": "STRING",
-         "description": "",
-         "defaultValue": ""}},
+         "type": "OBJECT",
+         "description": "Define a label widget properties.",
+         "defaultValue": {"value": "Mylabel", "level": 2}}},
       {"lang": {
          "type": "STRING",
-         "description": "Specifies the language of attribute values and content.",
+         "description": "Specifies the language of attribute values.",
          "defaultValue": ""}},
       {"maxLength": {
          "type": "INT",
-         "description": "",
-         "defaultValue": ""}},
+         "description": "Maximum length allowed for input text, in characters.",
+         "defaultValue": 128}},
       {"notify": {
-         "type": "UNKNOWN",
-         "description": "",
-         "defaultValue": ""}},
+         "type": "ARRAY",
+         "description": "List of widget identifiers to notify for auto validation.",
+         "defaultValue": []}},
       {"onBlur": {
          "type": "STRING",
          "description": "Element lost focus.",
@@ -95,45 +91,50 @@
          "defaultValue": ""}},
       {"readOnly": {
          "type": "BOOLEAN",
-         "description": "",
-         "defaultValue": ""}},
+         "description": "The text value cannot be entered or changed.",
+         "defaultValue": false}},
       {"required": {
          "type": "BOOLEAN",
-         "description": "",
-         "defaultValue": ""}},
+         "description": "A text value must be entered for this field.",
+         "defaultValue": false}},
       {"size": {
          "type": "INT",
-         "description": "",
-         "defaultValue": ""}},
+         "description": "The size of the rendered text, in characters.",
+         "defaultValue": 20}},
       {"style": {
          "type": "STRING",
          "description": "Specify style rules inline.",
          "defaultValue": ""}},
       {"submitForm": {
          "type": "BOOLEAN",
-         "description": "",
-         "defaultValue": ""}},
+         "description": "If true, the page form will be submitted on return.",
+         "defaultValue": false}},
       {"tabIndex": {
          "type": "INT",
          "description": "Position in tabbing order.",
-         "defaultValue": ""}},
+         "defaultValue": -1}},
       {"title": {
          "type": "STRING",
          "description": "Provides a title for element.",
-         "defaultValue": ""}},
+         "defaultValue": "TextField widget"}},
       {"valid": {
          "type": "BOOLEAN",
-         "description": "",
-         "defaultValue": ""}},
+         "description": "If true, the text value is considered valid.",
+         "defaultValue": true}},
       {"value": {
          "type": "STRING",
-         "description": "Value of input.",
+         "description": "Value of text input.",
          "defaultValue": ""}},
       {"visible": {
          "type": "BOOLEAN",
          "description": "Hide or show element.",
-         "defaultValue": ""}}
+         "defaultValue": true}}
     ],
+    "value": {
+      "required": false,
+      "type": "OBJECT",
+      "defaultValue": {}
+    },
     "config": {
       "type": {
         "id": "@JS_NAME@",

@@ -1,52 +1,126 @@
 jmaki.namespace("@JMAKI_NS@.textArea");
 
 /*
- * jMaki wrapper for Woodstock textArea widget.
+ * jMaki wrapper for Woodstock TextArea widget.
  *
- * We expect the 'value' property in the wargs object and/or
- * the 'data' property in the widget.json to be a JSON object
- * containing valid Woodstock properties.  No property conversion
- * is done when creating the Woodstock widget from the jMaki
- * value/data properties.
+ * This widget wrapper looks for the following properties in the
+ * "wargs" parameter:
+ *
+ * value:     Initial data for the field's text area value:
+ *            {
+ *             cols: <width_of_area>,
+ *             rows: <length_of_area>
+ *            }
+ *
+ *            The "value" property may be added to initialize text.
+ *            Other textArea widget properties may be included.
+ * args:      Additional widget properties from the code snippet,
+ *            these properties are assumed to be underlying widget
+ *            properties and are passed through to the textArea widget.
+ * publish:   Topic to publish jMaki events to; if not specified, the
+ *	      default topic is "/woodstock/textArea".
+ * subscribe: Topic to subscribe to for data model events; if not
+ *            specified, the default topic is "/woodstock/textArea".
+ * id:        User specified widget identifier; if not specified, the
+ *            jMaki auto-generated identifier is used.
+ *
+ * This widget subscribes to the following jMaki events:
+ *
+ * setValues  Resets the properties of the text area with event payload:
+ *	      {value: {value: <updated_text>, ...}}
+ *
+ * This widget publishes the following jMaki events:
+ *
+ *	    No events are published.
  */
 @JMAKI_NS@.textArea.Widget = function(wargs) {
 
-    // Turn on jMaki debugging...
-    // jmaki.debug = true;
-    // jmaki.log("Entering woodstock textArea Widget function...");
-
-    var self = this;
-    var publishTopic;
-    var id = wargs.id;
-    if (typeof id == "undefined") {
-	id = wargs.uuid;
+    // Initialize basic wrapper properties.
+    this._subscribe = ["/@JS_NAME@/textArea"];
+    this._publish = "/@JS_NAME@/textArea";
+    this._subscriptions = [];
+    this._wid = wargs.uuid;
+    if (wargs.id) {
+	this._wid = wargs.id;
     }
-    var span_id = wargs.uuid + "_span";
     if (wargs.publish) {
-	// User supplied a specific topic to publish.
-	publishTopic = wargs.publish;
+	// User supplied a specific topic to publish to.
+	this._publish = wargs.publish;
+    }
+    if (wargs.subscribe) {
+	// User supplied one or more specific topics to subscribe to.
+	if (typeof wargs.subscribe == "string") {
+	    this._subscribe = [];
+	    this._subscribe.push(wargs.subscribe);
+	} else {
+	    this._subscribe = wargs.subscribe;
+	}
     }
 
-    // Get the jMaki properties for a Woodstock text field.
-    // If necessary, make an XHR call to read widget.json.
-    var props;
-    if (wargs.value) {
-	props = wargs.value;
-    } else {
-	props = {};
-	props.value = "";
-        props.readOnly = false;
-        props.required = false;
-	props.cols=4;
-	props.rows=32;
-	props.autoSave=0;
+    // Create Woodstock widget.
+    this._create(wargs);
+};
+
+// Create Woodstock widget.
+@JMAKI_NS@.textArea.Widget.prototype._create = function(wargs) {
+
+    // Process the jMaki wrapper properties for a Woodstock textArea.
+    var props = {};
+    if (wargs.args != null) {
+	@JS_NS@._base.proto._extend(props, wargs.args);
+    }
+    if (wargs.value != null) {
+	@JS_NS@._base.proto._extend(props, wargs.value);
+    }
+
+    // Subscribe to jMaki events
+    for (var i = 0; i < this._subscribe.length; i++) {
+	var s1 = jmaki.subscribe(this._subscribe + "/setValues",
+	    @JS_NS@.widget.common._hitch(this, "_valuesCallback"));
+	this._subscriptions.push(s1);
     }
 
     // Add our widget id and type.
-    props.id = id;
+    props.id = this._wid;
     props.widgetType = "textArea";
 
     // Create the Woodstock textArea widget.
+    var span_id = wargs.uuid + "_span";
     @JS_NS@.widget.common.createWidget(span_id, props);
+
+};
+
+// Unsubscribe from jMaki events and destroy Woodstock widget.
+@JMAKI_NS@.textArea.Widget.prototype.destroy = function() {
+
+    if (this._subscriptions) {
+	for (var i = 0; i < this._subscriptions.length; i++) {
+	    jmaki.unsubscribe(this._subscriptions[i]);
+	} // End of for
+    }
+    @JS_NS@.widget.common.destroyWidget(this._wid);
+
+};
+
+// Warning: jMaki calls this function using a global scope. In order to
+// access variables and functions in "this" object, closures must be used.
+@JMAKI_NS@.textArea.Widget.prototype.postLoad = function() {
+    // Do nothing...
+};
+
+// Callback function to handle jMaki setValues topic.
+// Event payload contains:
+//    {value: {<textArea widget properties}}
+// Update textArea widget to replace options array.
+@JMAKI_NS@.textArea.Widget.prototype._valuesCallback = function(payload) {
+
+    if (payload) {
+	var widget = @JS_NS@.widget.common.getWidget(this._wid);
+	if (widget) {
+	    if (payload.value != null) {
+		widget.setProps(payload.value);
+	    }
+	}
+    }
 
 };
