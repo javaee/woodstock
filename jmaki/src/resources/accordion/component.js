@@ -215,29 +215,29 @@ jmaki.namespace("@JMAKI_NS@.accordion");
             //defaults
             //tab.contentHeight = "100px"; 
             tab.widgetType = "accordionTab";
-            tab.id = (typeof props.items[i].id != "undefined")? props.items[i].id : this._wid + "_tab" + i;
-            tab.title = (typeof props.items[i].label != "undefined")? props.items[i].label : "Tab " + i;
+            tab.id = (typeof props.items[i].id != "undefined" && props.items[i].id != null)? props.items[i].id : this._wid + "_tab" + i;
+            tab.title = (typeof props.items[i].label != "undefined" && props.items[i].label != null)? props.items[i].label : "Tab " + i;
             
             tab.tabContent = [];
                 
-            if (typeof props.items[i].include != "undefined") {
+            if (typeof props.items[i].include != "undefined" && props.items[i].include != null) {
                 //mark tab selected
                 
                 //todo
                 props.items[i].content  = "TODO:" + props.items[i].include + " to be included";
             }
-            if (typeof props.items[i].content != "undefined") {
+            if (props.items[i].content) {
                 var tabContentElement = {};
                 tabContentElement.html = props.items[i].content;
                 tab.tabContent.push(tabContentElement);
             } 
             
-            if (typeof props.items[i].selected != "undefined") {
+            if (typeof props.items[i].selected != "undefined" && props.items[i].selected != null) {
                 //mark tab selected
                 tab.selected = props.items[i].selected;
             }
             
-            if (typeof props.items[i].lazyLoad != "undefined") {
+            if (typeof props.items[i].lazyLoad != "undefined" && props.items[i].lazyLoad != null) {
                 //if set to true then the content is loaded when the pane is selected.
                 props.loadOnSelect = props.items[i].lazyLoad;
             }
@@ -257,6 +257,6 @@ jmaki.namespace("@JMAKI_NS@.accordion");
 @JMAKI_NS@.accordion.Widget.prototype._isArray = function(testObject){    
     // return testObject && !(testObject.propertyIsEnumerable('length')) && typeof testObject === 'object' && typeof testObject.length === 'number';
     // return (testObject && typeof testObject == "object" && typeof testObject.length != "undefined");
-    return (testObject && testObject instanceof Array);
+    return (testObject instanceof Array);
 }
 
