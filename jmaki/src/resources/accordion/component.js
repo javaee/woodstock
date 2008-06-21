@@ -221,10 +221,9 @@ jmaki.namespace("@JMAKI_NS@.accordion");
             tab.tabContent = [];
                 
             if (typeof props.items[i].include != "undefined" && props.items[i].include != null) {
-                //mark tab selected
-                
-                //todo
-                props.items[i].content  = "TODO:" + props.items[i].include + " to be included";
+                var tabContentElement = {};
+                tabContentElement.include = props.items[i].include;
+                tab.tabContent.push(tabContentElement);
             }
             if (props.items[i].content) {
                 var tabContentElement = {};
