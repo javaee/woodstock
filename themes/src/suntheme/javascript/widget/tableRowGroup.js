@@ -85,13 +85,13 @@
     },
     // Default sorting options.
     _primarySortOptions: [{
-        "group": false,
+        "group": true,
         "value": "sort",
         "label": @JS_NS@.theme.common.getMessage("table2.sortByThisColumn"),
         "disabled": true,
         "separator": false,
-        "escape": true
-    }, {
+        "escape": true,
+    "options":[{
         "group": false,
         "value": "primaryAscending",
         "label": @JS_NS@.theme.common.getMessage("table2.sortAscending"),
@@ -105,7 +105,7 @@
         "disabled": false,
         "separator": true,
         "escape": true
-    }],
+    }]}],
     // Clear sorting options.
     _clearSortOptions: [{
         "group": false,
@@ -117,13 +117,13 @@
     }],
     // Secondary sorting options.
     _secondarySortOptions: [{
-        "group": false,
+        "group": true,
         "value": "sort",
         "label": @JS_NS@.theme.common.getMessage("table2.addColumnSort"),
         "disabled": true,
         "separator": false,
-        "escape": true
-    }, {
+        "escape": true,
+    "options":[{
         "group": false,
         "value": "ascending",
         "label": @JS_NS@.theme.common.getMessage("table2.sortAscending"),
@@ -137,7 +137,7 @@
         "disabled": false,
         "separator": true,
         "escape": true
-    }],
+    }]}],
     _widgetType: "tableRowGroup" // Required for theme properties.
 });
 
