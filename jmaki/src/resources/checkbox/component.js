@@ -7,16 +7,16 @@ jmaki.namespace("@JMAKI_NS@.checkbox");
  * the "wargs" parameter:
  *
  * value:     Initial data for a simple checkbox model:
- *               {label: {value: <label_text>, level: <n>},
- *                image: {src: <path_to_image>, border: 0},
+ *               {label: {value: <label_text>},
+ *                image: {src: <url_to_image>},
  *                value: <checkbox_value>,
- *                checked: true,
+ *                checked: true|false,
  *                name: <group_name>}
  *            The label or image is optional, but at least one
  *            must be specified.  The name may be omitted and is
  *            specified to indicate the checkbox is in the given
- *            checkbox group.  If checked is omitted, the checkbox
- *            is rendered unchecked.
+ *            checkbox group.  If checked is true, the checkbox
+ *            is rendered already checked.
  * args:      Additional widget properties from the code snippet,
  *            these properties are assumed to be underlying widget
  *            properties and are passed through to the checkbox widget.
@@ -42,7 +42,6 @@ jmaki.namespace("@JMAKI_NS@.checkbox");
     this._publish = "/@JS_NAME@/checkbox";
     this._subscriptions = [];
     this._wid = wargs.uuid;
-
     if (wargs.id) {
 	this._wid = wargs.id;
     }
@@ -60,13 +59,6 @@ jmaki.namespace("@JMAKI_NS@.checkbox");
         }
     }
 
-    // Subscribe to jMaki events
-    for (var i = 0; i < this._subscribe.length; i++) {
-        var s1 = jmaki.subscribe(this._subscribe + "/setValues", 
-            @JS_NS@.widget.common._hitch(this, "_valuesCallback"));
-        this._subscriptions.push(s1);
-    }
-
     // Create Woodstock widget.
     this._create(wargs);
 };
@@ -75,19 +67,27 @@ jmaki.namespace("@JMAKI_NS@.checkbox");
 @JMAKI_NS@.checkbox.Widget.prototype._create = function(wargs) {
 
     // Process the jMaki wrapper properties for a Woodstock checkbox.
-    var props;
-    if (wargs.args) {
-	props = wargs.args;
-    } else {
-	// No data. Define minimalist checkbox.
-	props = {};
+    var props = {};
+    if (wargs.args != null) {
+	this._mapProperties(props, wargs.args);
     }
-    if (wargs.value && wargs.value instanceof Object) {
+    if (wargs.value != null) {
 	this._mapProperties(props, wargs.value);
-    } else {
-	// No data. Define simple checkbox without label.
-	props.value = this._wid;
     }
+
+    // Subscribe to jMaki events
+    for (var i = 0; i < this._subscribe.length; i++) {
+        var s1 = jmaki.subscribe(this._subscribe + "/setValues", 
+            @JS_NS@.widget.common._hitch(this, "_valuesCallback"));
+        this._subscriptions.push(s1);
+    }
+
+    // If application sets onChange, stack function for handling later.
+    if (props.onChange) {
+        this._onChange = (typeof props.onChange == 'string')
+            ? new Function(props.onChange) : props.onChange;
+    }
+
     props.id = this._wid;
     props.widgetType = "checkbox";
 
@@ -98,16 +98,17 @@ jmaki.namespace("@JMAKI_NS@.checkbox");
     // Create the Woodstock checkbox widget.
     var span_id = wargs.uuid + "_span";
     @JS_NS@.widget.common.createWidget(span_id, props);
+
 };
 
-// Destroy...
-// Unsubscribe from jMaki events
+// Unsubscribe from jMaki events and destroy the Woodstock widget.
 @JMAKI_NS@.checkbox.Widget.prototype.destroy = function() {
     if (this._subscriptions) {
         for (var i = 0; i < this._subscriptions.length; i++) {
             jmaki.unsubscribe(this._subscriptions[i]);
 	} // End of for
     }
+    @JS_NS@.widget.common.destroyWidget(this._wid);
 };
 
 // Warning: jMaki calls this function using a global scope. In order to
@@ -122,72 +123,68 @@ jmaki.namespace("@JMAKI_NS@.checkbox");
 @JMAKI_NS@.checkbox.Widget.prototype._mapProperties = function(props, value) {
 
     // We expect to get a "label", "image", or both in format:
-    //   label: {value: <text_label>, level: <n>}
-    //   image: {src: <image_path>, border: <n>}
+    //   label: "string" or label: {value: <text_label>}
+    //   image: {src: <image_path>}
     // If an image, fix it up to be a compliant image object value.
     // If neither present, add a default label.
     // Other properties are passed through unchanged.
-    for (name in value) {
-	if (name == "image") {
-	    var obj = {};
-	    for (p1 in value.image) {
-		obj[p1] = value[p1];
-	    }			// End of for
-	    obj.id = this._wid + "_image";
-	    obj.widgetType = "image";
-	    props.image = obj;
-	} else if (name == "label") {
-	    if (typeof value.label == "string") {
-		var obj2 = {};
-		obj2.value = value.label;
-		obj2.level = 3;
-		props.label = obj2;
-	    } else {
-		props.label = value.label;
-	    }
-	} else {
-	    props[name] = value[name];
-	}
-    }				// End of for
+    @JS_NS@._base.proto._extend(props, value);
+    if (props.image) {
+	props.image.id = this._wid + "_image";
+	props.image.widgetType = "image";
+    }
+    if (typeof props.label == "string") {
+	props.label = {value: props.label};
+    }
     if (typeof props.label == "undefined" &&
-	 typeof props.image == "undefined") {
-	// Neither image or label supplied.  Fake up a label.
-	props.label = {value: "Checkbox", level: 3};
+	typeof props.image == "undefined") {
+	props.label = {value: "Checkbox"};
     }
 
 };
 
-// Callback function to handle Woodstock checkbox onSelect event.
+// Callback function to handle Woodstock checkbox onChange event.
+// Handle any stacked application onChange event function first.
 // Publish jMaki onSelect event with payload:
 //   {widgetId: <_wid>,
 //    topic: {type: "onSelect", targetId: <value>, value: <checked>}
 @JMAKI_NS@.checkbox.Widget.prototype._selectedCallback = function() {
 
-    if (this._wid) {
-        var widget = @JS_NS@.widget.common.getWidget(this._wid);
-	if (widget) {
-            var props = widget.getProps();
-	    var val = props.value;
-	    var ckd = props.checked;
-            // Format a jMaki onSelect event topic payload
-            // and publish the jMaki event.
-            var payload = {widgetId: this._wid, topic:
-                    {type: "onSelect", targetId: val, value: ckd}};
-	    var selectedTopic = this._publish + "/onSelect";
-	    jmaki.publish(selectedTopic, payload);
-	}
+    var result = true;
+    if (typeof this._onChange == "function") {
+        result = this._onChange();
     }
+    if (result != null && result == false) {
+        return result;
+    }
+
+    var widget = @JS_NS@.widget.common.getWidget(this._wid);
+    if (widget) {
+        var props = widget.getProps();
+	var val = props.value;
+	var ckd = props.checked;
+	jmaki.processActions({
+	    action: "onSelect",
+	    targetId: val,
+	    topic: this._publish,
+	    type: "onSelect",
+	    value: ckd,
+	    widgetId: this._wid
+	});
+    }
+
 };
 
 // Callback function to handle jMaki setValues topic.
 // Event payload contains:
-//    {value: {<data_model>}}
+//    {value: {<widget_properties}}
 // Update checkbox widget to replace data properties.
 @JMAKI_NS@.checkbox.Widget.prototype._valuesCallback = function(payload) {
+
     if (payload) {
         var widget = @JS_NS@.widget.common.getWidget(this._wid);
         if (widget) {
-            if (payload.value && payload.value instanceof Object) {
+            if (payload.value != null) {
 		var props = {};
 		this._mapProperties(props, payload.value);
                 widget.setProps(props);

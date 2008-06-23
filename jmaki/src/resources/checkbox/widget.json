@@ -13,10 +13,6 @@
          "type": "STRING",
          "description": "Alignment of image input.",
          "defaultValue": "right"}},
-      {"checked": {
-         "type": "BOOLEAN",
-         "description": "Checkbox has been checked if true.",
-         "defaultValue": false}},
       {"className": {
          "type": "STRING",
          "description": "CSS selector.",
@@ -32,10 +28,10 @@
       {"image": {
          "type": "OBJECT",
          "description": "Optional image associated with checkbox.",
-         "defaultValue": {"src": "source_path", "border": 0}}},
+         "defaultValue": {"src": "source_url"}}},
       {"lang": {
          "type": "STRING",
-         "description": "Specifies the language of attribute values and content.",
+         "description": "Specifies the language of attribute values.",
          "defaultValue": ""}},
       {"name": {
          "type": "STRING",
@@ -105,10 +101,6 @@
          "type": "STRING",
          "description": "Provides a title for element.",
          "defaultValue": "Checkbox widget"}},
-      {"value": {
-         "type": "STRING",
-         "description": "Value identifying the checkbox in a page submit.",
-         "defaultValue": ""}},
       {"visible": {
          "type": "BOOLEAN",
          "description": "Hide or show element.",
@@ -117,8 +109,8 @@
     "value": {
       "required": true,
       "type": "OBJECT",
-      "defaultValue": {"label": {"value": "Checkbox", "level": 2}, "value": "cb1", "checked": false},
-      "description": "Unchecked text label checkbox."
+      "defaultValue": {"label": {"value": "Checkbox"}, "value": "cb1", "checked": false},
+      "description": "Unchecked checkbox with text label."
     },
     "config": {
       "type": {

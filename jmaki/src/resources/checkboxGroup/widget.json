@@ -17,10 +17,6 @@
          "type": "INT",
          "description": "Number of columns in which to display checkboxes.",
          "defaultValue": 1}},
-      {"contents": {
-         "type": "ARRAY",
-         "description": "List of checkbox widgets in the group.",
-         "defaultValue": []}},
       {"dir": {
          "type": "STRING",
          "description": "Specifies the directionality of text.",
@@ -32,10 +28,10 @@
       {"label": {
          "type": "OBJECT",
          "description": "Label for the checkbox group",
-         "defaultValue": {value: 'Checkbox Group', level: 2}}},
+         "defaultValue": {value: 'Checkbox Group'}}},
       {"lang": {
          "type": "STRING",
-         "description": "Specifies the language of attribute values and content.",
+         "description": "Specifies the language of attribute values.",
          "defaultValue": ""}},
       {"name": {
          "type": "STRING",
@@ -62,7 +58,7 @@
       "required": true,
       "type": "ARRAY",
       "defaultValue":[
-          {"label": {"value": "Checkbox 1", "level": 3}, "value": "cb1", "checked": false}
+          {"label": {"value": "Checkbox 1"}, "value": "cb1", "checked": false}
           ]},
       "description": "Array of checkbox widgets in the checkbox group."
     },

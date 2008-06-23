@@ -32,14 +32,10 @@
       {"image": {
          "type": "OBJECT",
          "description": "Optional image associated with radioButton.",
-         "defaultValue": {"src": "source_path", "border": 0}}},
+         "defaultValue": {"src": "source_path"}}},
       {"lang": {
          "type": "STRING",
-         "description": "Specifies the language of attribute values and content.",
-         "defaultValue": ""}},
-      {"name": {
-         "type": "STRING",
-         "description": "Common name for submitting radio buttons when in a group.",
+         "description": "Specifies the language of attribute values.",
          "defaultValue": ""}},
       {"onBlur": {
          "type": "STRING",
@@ -105,10 +101,6 @@
          "type": "STRING",
          "description": "Provides a title for element.",
          "defaultValue": "RadioButton widget"}},
-      {"value": {
-         "type": "STRING",
-         "description": "Value identifying the radio button in a page submit.",
-         "defaultValue": ""}},
       {"visible": {
          "type": "BOOLEAN",
          "description": "Hide or show element.",
@@ -117,8 +109,8 @@
     "value": {
       "required": true,
       "type": "OBJECT",
-      "defaultValue": {"label": {"value": "RadioButton", "level": 3}, "name": "rb1", "value": "rb1"},
-      "description": "Unchecked text label radioButton."
+      "defaultValue": {"label": {"value": "RadioButton"}, "name": "rb1", "value": "rb1"},
+      "description": "Unchecked radioButton with text label."
     },
     "config": {
       "type": {

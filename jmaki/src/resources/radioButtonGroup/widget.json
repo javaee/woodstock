@@ -17,10 +17,6 @@
          "type": "INT",
          "description": "Number of columns in which to display radioButtons.",
          "defaultValue": 1}},
-      {"contents": {
-         "type": "ARRAY",
-         "description": "List of radioButton widgets in group.",
-         "defaultValue": []}},
       {"dir": {
          "type": "STRING",
          "description": "Specifies the directionality of text.",
@@ -32,14 +28,14 @@
       {"label": {
          "type": "OBJECT",
          "description": "Label for radioButton group.",
-         "defaultValue": {value: 'RadioButton Group', level: 2}}},
+         "defaultValue": {value: 'RadioButton Group'}}},
       {"lang": {
          "type": "STRING",
-         "description": "Specifies the language of attribute values and content.",
+         "description": "Specifies the language of attribute values.",
          "defaultValue": ""}},
       {"name": {
          "type": "STRING",
-         "description": "Common name used to identify the radio button in a page submit.",
+         "description": "Common name used to identify the radio buttons in a page submit.",
          "defaultValue": "rbgrp1"}},
       {"style": {
          "type": "STRING",
@@ -62,7 +58,7 @@
       "required": true,
       "type": "ARRAY",
       "defaultValue":[
-          {"label": {"value": "RadioButton 1", "level": 3}, "value": "rb1", "checked": false}
+          {"label": {"value": "RadioButton 1"}, "value": "rb1"}
           ]},
       "description": "Array of radioButton widgets in the radioButton group."
     },

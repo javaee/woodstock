@@ -66,10 +66,10 @@ jmaki.namespace("@JMAKI_NS@.textField");
     // Process the jMaki wrapper properties for a Woodstock textField.
     var props = {};
     if (wargs.args != null) {
-	woodstock4_3._base.proto._extend(props, wargs.args);
+	@JS_NS@._base.proto._extend(props, wargs.args);
     }
     if (wargs.value != null) {
-	woodstock4_3._base.proto._extend(props, wargs.value);
+	@JS_NS@._base.proto._extend(props, wargs.value);
     }
     // Make sure required properties exist.
     if (props.value == null) {
