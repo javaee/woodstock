@@ -84,7 +84,7 @@
               </webuijsf:table2RowGroup>
               <!-- Filter -->
              <f:facet name="filter">
-                <webuijsf:dropDown id="filter"        
+                <webuijsf:dropDown id="filter" label="#{msgs.table2_filterLabel}"       
                     items="#{Table2Bean.groupA.filter.filterOptions}"
                     onChange="callRefresh(this.value); return false;"
                     valueChangeListenerExpression="#{Table2Bean.groupA.filter.filterType}"

@@ -11,14 +11,15 @@
     label="#{msgs.table2_customFilterLabel}"
     labelLevel="2"
     valueChangeListenerExpression="#{Table2Bean.groupA.filter.filterType}"    
-    text="#{Table2Bean.groupA.filter.customFilter}"/>
+    text="#{Table2Bean.groupA.filter.customFilter}"
+    onKeyPress="var evt = (event) ? event : window.event; if (evt.keyCode==13) {var e=document.getElementById('form1:table1:filterPanel:search'); if (e != null) e.click(); return false}"/>
 <webuijsf:markup tag="div" styleClass="#{themeStyles.TABLE_PANEL_BUTTON_DIV}"> 
-  <webuijsf:button id="ok"
-      mini="true"
+  <webuijsf:button id="search"
+      mini="true" primary="true"
       onClick="updateFilter(); return false;"
       text="#{msgs.table2_search}"/>
   <webuijsf:button id="cancel"
-      mini="true"
+                   mini="true" 
       onClick="closeFilterPanel(); return false;"
       text="#{msgs.table_cancel}"/>
 </webuijsf:markup>
