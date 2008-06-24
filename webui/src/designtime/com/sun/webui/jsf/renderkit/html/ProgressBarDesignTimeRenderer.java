@@ -279,8 +279,11 @@ public class ProgressBarDesignTimeRenderer extends AbstractDesignTimeRenderer {
         //overlay animation div
         if (overlayAnimation == true && type.equals("DETERMINATE") ) {
             writer.startElement("div", component);  //NOI18N
-            writer.writeAttribute("class", prgBarLabelClassName, null);  //NOI18N
+            if ( barHeightWidth.length() > 0 ) {
+                writer.writeAttribute("style", barHeightWidth , "style");  //NOI18N
+            }
             writer.write(progress+"%");
+            writer.writeAttribute("class", prgBarLabelClassName, null);  //NOI18N
             writer.endElement("div");
         }
         

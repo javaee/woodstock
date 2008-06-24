@@ -541,7 +541,11 @@
         // Add overlay text.
         if (this.overlayAnimation == true) {
             // NOTE: If you set this value manually, text must be HTML escaped.
-            this._widget._addFragment(this._innerBarOverlayContainer, props.progress + "%");
+            var progress = props.progress;
+            if (progress == null || progress < 0) {
+                progress = 0;
+            }
+            this._widget._addFragment(this._innerBarOverlayContainer, progress + "%");
         }
     } 
 
