@@ -160,7 +160,7 @@ public class TreeNode2Renderer extends RendererBase {
         
         attr = String.valueOf(node.isSelected());
         if (attr != null && attr.length() != 0) {
-            json.put("selected", attr);
+            json.put("selected", Boolean.parseBoolean(attr));
         } 
         
         attr = String.valueOf(node.isVisible());
@@ -170,12 +170,11 @@ public class TreeNode2Renderer extends RendererBase {
         
         attr = String.valueOf(node.isExpanded());
         if (attr != null && attr.length() != 0) {
-            json.put("expanded", attr);
+            json.put("expanded", Boolean.parseBoolean(attr));
         } 
         json.put("parent", node.getParent().getClientId(context));
         
         Object mex = node.getAttributes().get("nodeSelectedActionListenerExpression");
-        //if (node.getNodeSelectedActionListenerExpression() != null) {
         if (mex != null) {
             json.put("publishSelectionEvent", true);
         } else {
