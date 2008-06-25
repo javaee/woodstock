@@ -161,7 +161,7 @@ jmaki.namespace("@JMAKI_NS@.radioButtonGroup");
 	    jmaki.processActions({
 		action: "onSelect",
 		targetId: val,
-		topic: this._publish,
+		topic: this._publish + "/onSelect",
 		type: "onSelect",
 		value: ckd,
 		widgetId: this._wid

@@ -67,10 +67,10 @@ jmaki.namespace("@JMAKI_NS@.label");
     // Value must contain an array of Options objects.
     var props = {};
     if (wargs.args != null) {
-	this._mapProperties(props, wargs.args);
+	@JS_NS@._base.proto._extend(props, wargs.args);
     }
     if (wargs.value != null) {
-	this._mapProperties(props, wargs.value);
+	@JS_NS@._base.proto._extend(props, wargs.value);
     }
     if (props.value == null) {
 	props.value = "Label";
@@ -95,24 +95,3 @@ jmaki.namespace("@JMAKI_NS@.label");
 @JMAKI_NS@.label.Widget.prototype.postLoad = function() {
     // Do nothing...
 };
-
-// Map wrapper properties to underlying widget properties.
-// props -> JS object to contain underlying widget properties
-// value -> JS object of wrapper properties to be mapped
-@JMAKI_NS@.label.Widget.prototype._mapProperties = function(props, value) {
-
-    // Copy all value properties into our props object.
-    // For image properties, we must add id and widgetType.
-    @JS_NS@._base.proto._extend(props, value);
-    if (props.errorImage != null) {
-        props.errorImage.id = this._wid + "_image_err";
-        props.errorImage.widgetType = "image";
-    }
-    if (props.requiredImage != null) {
-        props.requiredImage.id = this._wid + "_image_dis";
-        props.requiredImage.widgetType = "image";
-    }
-
-};
-	    
-

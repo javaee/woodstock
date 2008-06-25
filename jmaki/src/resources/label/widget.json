@@ -23,8 +23,8 @@
          "defaultValue": "ltr"}},
       {"errorImage": {
          "type": "OBJECT",
-         "description": "Image rendered when labeled element value is invalid.",
-         "defaultValue": {"icon": "LABEL_INVALID_ICON"}}},
+         "description": "Override default image rendered when labeled element value is invalid.",
+         "defaultValue": {"refid": "image_id"}}},
       {"htmlFor": {
          "type": "STRING",
          "description": "Identifier of the labeled component element.",
@@ -83,8 +83,8 @@
          "defaultValue": false}},
       {"requiredImage": {
          "type": "OBJECT",
-         "description": "Image rendered when labeled element value is required.",
-         "defaultValue": {"icon": "LABEL_REQUIRED_ICON"}}},
+         "description": "Override default image rendered when labeled element value is required.",
+         "defaultValue": {"refid": "image_id"}}},
       {"style": {
          "type": "STRING",
          "description": "Specify style rules inline.",
