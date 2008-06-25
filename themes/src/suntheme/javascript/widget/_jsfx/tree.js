@@ -48,7 +48,7 @@
             return false;
         }
         
-        if (!props.submitSelection) {
+        if (props.submitSelection == false) {
             // Publish an event for custom AJAX implementations to listen for.
             @JS_NS@._dojo.publish(@JS_NS@.widget.tree.event.nodeSelection.endTopic, 
               [{id: props.nodeId}]);

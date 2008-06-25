@@ -164,7 +164,7 @@
                 firstChild = false;
                 
             }
-            parentNode.loaded = true;
+            parentNode._loaded = true;
         }
     }
     
@@ -202,7 +202,7 @@
         if (toggleWidget) {
             toogleWidget.destroy();
             var lineImgIcon = "TREE_LINE_MIDDLE_NODE";
-            var imageDiv = document.getelementById(parent.id + "_nodeImages");
+            var imageDiv = document.getElementById(parent.id + "_nodeImages");
             var imageProps = {
               widgetType: "image",
               id: parent.id + "_lasticon",
@@ -230,7 +230,7 @@
                 if (toggleWidget) {
                     this._widget.destroyWidget(parent.id + "_turner");
                     var lineImgIcon = "TREE_LINE_MIDDLE_NODE";
-                    var imageDiv = document.getelementById(parent.id + "_nodeImages");
+                    var imageDiv = document.getElementById(parent.id + "_nodeImages");
                     var imageProps = {
                       widgetType: "image",
                       id: parent.id + "_lasticon",
@@ -247,8 +247,15 @@
         this._changeLastIcon(newFirstChild, "first");
         
     } else if (nextSib == undefined) {
-        // this is the last child node
+        // this is the last node at this level/depth
+        // remove this node and all its children
         this._widget._removeChildNodes(thisNode);
+        
+        // find the node which contains all the child nodes and delete it.
+        var childWrapper = thisNode.nextSibling;
+        if (childWrapper) {
+            this._widget._removeChildNodes(childWrapper);
+        }
         // change the previous siblings last line image
         
         this._changeLastIcon(prevSib, "last");
@@ -267,6 +274,60 @@
 };
 
 /**
+ * This function returns the parent node of a given node.
+ * @param {String} nodeID ID of the node to be deleted.
+ * @return {String} ID of the DOM node representing the parent node.
+ */
+@JS_NS@.widget.tree.prototype.getParentNodeId = function(nodeId) {
+    
+    if (nodeId == undefined) {
+        return null;
+    }
+    
+    if (nodeId == this.id || nodeId == (this.id + "_rootNode")) {
+        return null;  //
+    }
+    var thisNode = document.getElementById(nodeId);
+    var pNode = thisNode.parentNode;
+    if (pNode.previousSibling) {
+        return pNode.previousSibling.id;
+    }
+}
+
+/**
+ * This function is used to get the first level child nodes of 
+ * a given node in the tree. An array representing the ID of the 
+ * child nodes is returned.
+ * @param {String} nodeID ID of the node to be deleted.
+ * @return {Object} Key-Value pairs of properties.
+ */
+@JS_NS@.widget.tree.prototype.getChildNodes = function(nodeId) {
+    
+    if (nodeId == undefined) {
+        return null;
+    }
+    
+    // all child nodes are contained in a domNode whose id is "nodeID_children"
+    var node = document.getElementById(nodeId + "_children");
+    if (node) {
+        var count = 0;
+        var childrenArray = [];  // the array that will be returned
+        var allNodes = node.childNodes;  // get a list of all child DOM nodes
+        for (var i=0; i < allNodes.length; i++) {
+            var cNode = allNodes[i];
+            var cNodeId = cNode.id;
+            var index1 = cNodeId.lastIndexOf("_children");
+            if (cNodeId.length == (index1 + 9)) {
+                continue;
+            }
+            childrenArray[count++] = cNodeId;
+        }
+        return childrenArray;
+    }
+    return null;
+};
+
+/**
  * This function is used to get widget properties. Please see the 
  * setProps() function for a list of supported properties.
  * @return {Object} Key-Value pairs of properties.
@@ -278,7 +339,7 @@
     if (this.skipTreeLInk != null) { props.skipTreeLink = this.skipTreeLink; }
     if (this.tabIndex != null) { props.tabIndex = this.tabIndex; }
     if (this.parentNode != null) { props.parentNode = this.parentNode; }
-    if (this.expanded != null && this.expanded !== undefined) { props.expanded = this.expanded; }
+    if (this.expanded != null) { props.expanded = this.expanded; }
     if (this.loadOnExpand != null) { props.loadOnExpand = this.loadOnExpand; }
     if (this.submittedValue.selectedNodes != null) { props.selected = this.submittedValue.selectedNodes; }
     if (this.style != null) { props.style = this.style; }
@@ -298,20 +359,47 @@
  */
 @JS_NS@.widget.tree.prototype.getNodeProps = function(nodeId) {
 
-    var treeNode = document.getelementById(nodeId);
+    var nodeID = nodeId;
+    var imgDiv = nodeId + "_nodeImages";
+    var contentDiv = nodeId + "_contentNode";
+    
+    if (nodeId == this.id) {
+        nodeID = this._domNode.id + "_rootNode";
+        imgDiv = this._domNode.id + "_rootNodeImage";
+        contentDiv = this._domNode.id + "_rootNodeText";
+    }
+    
+    var treeNode = document.getElementById(nodeID);
     var nodeProps = {};
     // Get properties.
     if (treeNode) {
-        var pNode = treeNode.parentNode;
-        nodeProps.parentNodeId = pNode.id;
-        nodeProps.expanded = treeNode.expanded;
-        if (this.isNodeSelected(nodeId)) {
-            nodeProps.selected = true;
+        nodeProps.parentNodeId = this.getParentNodeId(nodeId);
+        nodeProps.expanded = treeNode._expanded;
+        
+        nodeProps.selected = this.isNodeSelected(nodeId);
+        
+        var imageDiv = document.getElementById(imgDiv);
+        if (imageDiv) {
+          var imgNode = imageDiv.lastChild;
+          if (imgNode) {
+            if (imgNode.getProps) {
+                nodeProps.image = imgNode.getProps();
+            }
+          }
         }
-        var imgWidget = this._widget.getWidget(nodeId + "_image");
-        nodeProps.image = imgWidget.getProps();
-        nodeProps.label = null;
-        nodeProps.childNodes = null;
+        
+        var cDiv = document.getElementById(contentDiv);
+        if (cDiv) {
+          var nLabel = cDiv.lastChild;
+          if (nLabel) {
+            if (nLabel.getProps) {
+              nodeProps.label = nLabel.getProps();
+            } else {
+              nodeProps.label = nLabel;  
+            }
+          }
+        }
+        nodeProps.childNodes = this.getChildNodes(nodeId);
         
     }
     
@@ -509,22 +597,28 @@
     var treeNode = document.getElementById(nodeId);
     var cc = document.getElementById(nodeId + "_children");
     if (treeNode) {
-        if (treeNode.expanded == "false") {
+        // publish the toggle node begin event
+        this._publish(@JS_NS@.widget.tree.event.nodeToggle.beginTopic, 
+                      [{nodeId: nodeId, 
+                      expanded: treeNode._expanded}]);
+                                            
+        if (treeNode._expanded == false) {
             // if loadOnExpand is set to true publish an event
             // that developers can use to populate the node in
             // question with child nodes. This can be done on the client
             // side as well as via JSFX if its enabled.
             var rootId = this.id;
             var _nodeId = nodeId;
-            if (this.loadOnExpand) {
-                if (treeNode.loaded == undefined || treeNode.loaded == "false") {
+            if (this.loadOnExpand == true) {
+                var isLoaded = treeNode._loaded;
+                if (isLoaded == null || isLoaded == false) {
                     this._publish(@JS_NS@.widget.tree.event.load.beginTopic, 
                       [{id: rootId, nodeId: _nodeId}]);
 
                     return false;
                 } else {
                     this._updateToggleIcon(nodeId);
-                    treeNode.expanded = "true";
+                    treeNode._expanded = true;
                     if (cc) {
                       cc.style.display = "block";
                     }
@@ -532,7 +626,7 @@
             
             } else {
               this._updateToggleIcon(nodeId);
-              treeNode.expanded = "true";
+              treeNode._expanded = true;
               if (cc) {
                 cc.style.display = "block";
               }
@@ -544,7 +638,7 @@
             }
         } else {  // child nodes are already loaded, simply expand the parent
             this._updateToggleIcon(nodeId);
-            treeNode.expanded = "false";
+            treeNode._expanded = false;
             if (this.submittedValue.isExpanded[nodeId]) {
                 delete this.submittedValue.isExpanded[nodeId];
             } else {
@@ -554,8 +648,14 @@
               cc.style.display = "none";
             }
         }
+        // publish the end topic signifying the end of all things related to 
+        // toggling a node.
+    
+        this._publish(@JS_NS@.widget.tree.event.nodeToggle.endTopic, 
+          [{nodeId: _nodeId, 
+            expanded: treeNode._expanded}]);
     }
-     // Extend widget object for later updates.
+    // Extend widget object for later updates.
     return this._inherited("toggleNode", arguments);
     
     
@@ -572,7 +672,8 @@
       
       var treeNode = document.getElementById(props.id);
       if (treeNode) {
-          treeNode.expanded = "true";
+          treeNode._expanded = true;
+          treeNode._loaded = true;
           var cc = document.getElementById(props.id + "_children");
           if (cc) {
               cc.style.display = "block";
@@ -595,25 +696,25 @@
     // icon with a newer one correspnding to the new state (expanded or 
     // collapsed as teh case may be). 
     var widget = this._widget.getWidget(nodeId + "_turner");
-    var oldIcon = widget.getProps().enabledImage.icon;
-    var newIcon;
-    var index = oldIcon.indexOf("_DOWN_");
-    if (index != -1) {
-        newIcon = oldIcon.substring(0, index) + "_RIGHT_" + 
-            oldIcon.substring(index+6, oldIcon.length);
-    } else {
-        index = oldIcon.indexOf("_RIGHT_");
-        if (index != -1) {
-          newIcon = oldIcon.substring(0, index) + "_DOWN_" + 
-            oldIcon.substring(index+7, oldIcon.length);
-        }
-    }
-    var imageProp = {
-        widgetType: "image",
-        id: nodeId + "_turner_image",
-        icon: newIcon};
     if (widget) {
-        widget.setProps({enabledImage:imageProp});
+      var oldIcon = widget.getProps().enabledImage.icon;
+      var newIcon;
+      var index = oldIcon.indexOf("_DOWN_");
+      if (index != -1) {
+          newIcon = oldIcon.substring(0, index) + "_RIGHT_" + 
+              oldIcon.substring(index+6, oldIcon.length);
+      } else {
+          index = oldIcon.indexOf("_RIGHT_");
+          if (index != -1) {
+            newIcon = oldIcon.substring(0, index) + "_DOWN_" + 
+              oldIcon.substring(index+7, oldIcon.length);
+          }
+      }
+      var imageProp = {
+          widgetType: "image",
+          id: nodeId + "_turner_image",
+          icon: newIcon};
+      widget.setProps({enabledImage:imageProp});
     }
 };
 
@@ -886,7 +987,7 @@
         // add the root node.
         if (props.image) {
             if (props.image.id == undefined) {
-                props.image.id = this._domNode.id + "_nodeImages";
+                props.image.id = this._domNode.id + "_nodeImage";
             }
             this._widget._addFragment(this._rootImageContainer, 
             props.image, "last");
@@ -911,9 +1012,7 @@
     
     
     if (props.childNodes) {
-        var cc = this._childrenContainer.cloneNode(false);
-        cc.id = props.id + "_children";
-        if (props.expanded == undefined || props.expanded == "true" || firstTime) {
+        if (props.expanded == null || props.expanded == true || firstTime == true) {
             this._childrenContainer.style.display = "block";
         } else {
             this._childrenContainer.style.display = "none";
@@ -930,6 +1029,7 @@
           if (i+1 == props.childNodes.length) {
               lastChild = true;
           }
+          this._childrenContainer.id = props.id + "_children";
           this._addNodes(this._childrenContainer, thisChild, depth, 
             firstChild, lastChild);
         }
@@ -968,20 +1068,20 @@
             nc.onToggleNodeClick = props.onToggleNodeClick;
         }
     }
-    if (props.selected == undefined) {
+    if (props.selected == null) {
         nc.className = this._theme.getClassName("TREE_ROW");
     } else {
-        if (props.selected == "true") {
+        if (props.selected == true) {
             this._updateSelection(props.id);
             nc.className = this._theme.getClassName("TREE_SELECTED_ROW");
         } else {
             nc.className = this._theme.getClassName("TREE_ROW");
         }
     }
-    if (props.publishSelectionEvent) {
+    if (props.publishSelectionEvent == true) {
       nc.publishSelection = props.publishSelectionEvent;
     } else {
-        nc.publishSelectionEvent = "false";
+        nc.publishSelectionEvent = false;
     }
     var imageDiv = this._lineImageContainer.cloneNode(false);
     imageDiv.id = props.id + "_nodeImages";
@@ -1003,14 +1103,14 @@
     
     if (props.childNodes) {
         var toggleProps;
-        if (props.expanded == "true") {
-            props.expanded = true;
-        } else {
+        
+        if (props.expanded == null) {
             props.expanded = false;
         }
+        
         var toggleImgIcon;
         if (props.expanded) {
-            nc.expanded = "true";
+            nc._expanded = true;
             if (lastChild && firstChild) {
                 toggleImgIcon = "TREE_HANDLE_DOWN_MIDDLE";
             } else if (lastChild) {
@@ -1022,7 +1122,7 @@
             }
             
         } else {
-            nc.expanded = "false";
+            nc._expanded = false;
             var toggleImgIcon;
             if (lastChild && firstChild) {
                 toggleImgIcon = "TREE_HANDLE_RIGHT_MIDDLE";
@@ -1070,7 +1170,7 @@
             widget._updateSelection(props.id);
             widget._publish(@JS_NS@.widget.tree.event.nodeSelection.beginTopic, [{
             submitSelection: nc.publishSelection, id: _id, 
-            nodeId: _nodeId , submittedValue: widget.submittedValue}]);
+            nodeId: props.id , submittedValue: widget.submittedValue}]);
             return false;
           });
       }
@@ -1092,7 +1192,7 @@
             widget._updateSelection(props.id);
             widget._publish(@JS_NS@.widget.tree.event.nodeSelection.beginTopic, [{
             submitSelection: nc.publishSelection, id: _id, 
-            nodeId: _nodeId , submittedValue: widget.submittedValue}]);
+            nodeId: props.id , submittedValue: widget.submittedValue}]);
             return false;
       });
       this._widget._addFragment(contentDiv, props.label);
@@ -1284,5 +1384,17 @@
        
         /** State event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME_JS@_widget_tree_event_nodeSelection_end"
+    },
+    
+    /**
+     * This object contains node toggle event topics.
+     * @ignore
+     */
+    nodeToggle: {
+        /** Action event topic for custom AJAX implementations to listen for. */
+        beginTopic: "webui_@THEME_JS@_widget_tree_event_nodeToggle_begin",
+       
+        /** State event topic for custom AJAX implementations to listen for. */
+        endTopic: "webui_@THEME_JS@_widget_tree_event_nodeToggle_end"
     }
 };
