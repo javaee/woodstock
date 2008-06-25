@@ -1,1 +1,1 @@
-<a:widget name="@JS_NAME@.image" value="{src: 'image_url'}" />
+<a:widget name="@JS_NAME@.image" value="{src: 'image_Url'}" />

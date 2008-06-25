@@ -109,7 +109,7 @@
     "value": {
       "required": true,
       "type": "OBJECT",
-      "defaultValue": {"value": "Label", "level": 2},
+      "defaultValue": {"value": "Label"},
       "description": "Simple label without labeled element reference."
     },
     "config": {

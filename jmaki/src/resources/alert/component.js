@@ -9,14 +9,15 @@ jmaki.namespace("@JMAKI_NS@.alert");
  * value:     Initial data with the following properties:
  *            {type: <type>,
  *             summary: <summary_msg>,
- *             detail: <detailmsg>,
- *             visible: <true|false>}
- *            The visible property is optional and if omitted,
- *            the widget is rendered hidden.  Sending the alert
- *            command event to the widget makes it visible.
+ *             detail: <detailmsg>}
+ *            The detail property is optional.
  * args:      Additional widget properties from the code snippet,
  *            these properties are assumed to be underlying widget
  *            properties and are passed through to the alert widget.
+ *            The "visible" property can be set to make the widget
+ *            render as hidden.  Sending the alert command event to
+ *            the widget makes it visible (and can reset the type and
+ *            messages).
  * publish:   Topic to publish jMaki events to; if not specified, the
  *            default topic is "/woodstock/alert".
  * subscribe: Topic to subscribe to for data model events; if not
@@ -30,13 +31,13 @@ jmaki.namespace("@JMAKI_NS@.alert");
  *            may contain the type, summary, and detail messages.
  *            If the alert is hidden, it is made visible.  The format
  *            of the payload is ...
- *            {type: <type>, summary: <summary_msg>, detail: <detail>msg}
+ *            {type: '<type>', summary: '<sum_msg>', detail: '<det_msg>'}
  *            Properties are optional; if omitted, the current property
  *            values in the widget will be used.
  *
  * This widget publishes the following jMaki events:
  *
- *            No specific events are published.
+ *            No events are published.
  */
 @JMAKI_NS@.alert.Widget = function(wargs) {
 
@@ -79,22 +80,18 @@ jmaki.namespace("@JMAKI_NS@.alert");
 
     // Process the jMaki wrapper properties for a Woodstock alert.
     // Value must contain an array of Options objects.
-    var props;
-    if (wargs.args) {
-	props = wargs.args;
-    } else {
-	props = {};
+    var props = {};
+    if (wargs.args != null) {
+        @JS_NS@._base.proto._extend(props, wargs.args);
     }
-    if (wargs.value && typeof wargs.value == "object") {
-	for (p in wargs.value) {
-	    props[p] = wargs.value[p];
-	}			// End of for
-    } else {
-	// No data. Define simple dummy hidden alert.
+    if (wargs.value != null) {
+        @JS_NS@._base.proto._extend(props, wargs.value);
+    }
+    if (props.type == null) {
 	props.type = "information";
-	props.summary = "Summary...";
-	props.detail = "Details...";
-	props.visible = false;
+	if (props.summary == null) {
+	    props.summary = "Summary...";
+	}
     }
 
     // Add our widget id and type.
@@ -106,21 +103,21 @@ jmaki.namespace("@JMAKI_NS@.alert");
     @JS_NS@.widget.common.createWidget(span_id, props);
 };
 
-// Destroy...
-// Unsubscribe from jMaki events
+// Unsubscribe from jMaki events and destroy the Woodstock widget.
 @JMAKI_NS@.alert.Widget.prototype.destroy = function() {
     if (this._subscriptions) {
         for (var i = 0; i < this._subscriptions.length; i++) {
             jmaki.unsubscribe(this._subscriptions[i]);
 	} // End of for
     }
+    @JS_NS@.widget.common.destroyWidget(this._wid);
 };
 
 // Warning: jMaki calls this function using a global scope. In order to
 // access variables and functions in "this" object, closures must be used.
 @JMAKI_NS@.alert.Widget.prototype.postLoad = function() {
     // Do nothing...
-}
+};
 
 // Callback function to handle jMaki alert topic.
 // Event payload contains:
@@ -128,14 +125,12 @@ jmaki.namespace("@JMAKI_NS@.alert");
 // Update alert widget and make it visible.
 @JMAKI_NS@.alert.Widget.prototype._alertCallback = function(payload) {
 
-    var widget = @JS_NS@.widget.common.getWidget(this._wid);
-    if (widget) {
-	if (typeof payload.value == "object") {
-	    for (p in payload.value) {
-		props[p] = payload.value[p];
-	    }	// End of for
-        }
-	var props = {visible: true};
-	widget.setProps(props);
+    if (payload && payload.value != null) {
+	var widget = @JS_NS@.widget.common.getWidget(this._wid);
+	if (widget) {
+            var props = {visible: true};
+            @JS_NS@._base.proto._extend(props, payload.value);
+            widget.setProps(props);
+	}
     }
 };

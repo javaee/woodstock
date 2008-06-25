@@ -9,10 +9,11 @@ jmaki.namespace("@JMAKI_NS@.label");
  * value:     Initial data with the following properties:
  *            {value: <label_text>,
  *             level: <1 | 2 | 3>,
- *             htmlFor: <element_identifier>}
+ *             htmlFor: <identifier>}
  *            The level property controls the size and boldness
  *            of the label's text.  The htmlFor property identifies
- *            the labelled element this label is for.
+ *            the labelled DOM element this label is for.  Only the
+ *            value property is required.
  * args:      Additional widget properties from the code snippet,
  *            these properties are assumed to be underlying widget
  *            properties and are passed through to the label widget.
@@ -64,18 +65,15 @@ jmaki.namespace("@JMAKI_NS@.label");
 
     // Process the jMaki wrapper properties for a Woodstock label.
     // Value must contain an array of Options objects.
-    var props;
-    if (wargs.args) {
-	props = wargs.args;
-    } else {
-	props = {};
+    var props = {};
+    if (wargs.args != null) {
+	this._mapProperties(props, wargs.args);
     }
-    if (wargs.value && typeof wargs.value == "object") {
+    if (wargs.value != null) {
 	this._mapProperties(props, wargs.value);
-    } else {
-	// No data. Define simple label.
+    }
+    if (props.value == null) {
 	props.value = "Label";
-	props.level = 2;
     }
 
     // Add our widget id and type.
@@ -87,10 +85,9 @@ jmaki.namespace("@JMAKI_NS@.label");
     @JS_NS@.widget.common.createWidget(span_id, props);
 };
 
-// Destroy...
-// Unsubscribe from jMaki events
+// Unsubscribe from jMaki events and destroy the Woodstock widget.
 @JMAKI_NS@.label.Widget.prototype.destroy = function() {
-    // Do nothing...
+    @JS_NS@.widget.common.destroyWidget(this._wid);
 };
 
 // Warning: jMaki calls this function using a global scope. In order to
@@ -106,27 +103,15 @@ jmaki.namespace("@JMAKI_NS@.label");
 
     // Copy all value properties into our props object.
     // For image properties, we must add id and widgetType.
-    for (name in value) {
-        if (name == "errorImage") {
-            var obj = {};
-            for (p in value.errorImage) {
-                obj[p] = value.errorImage[p];
-            }   // End of inner for
-            obj.id = this._wid + "_image_err";
-            obj.widgetType = "image";
-            props.errorImage = obj;
-        } else if (name == "requiredImage") {
-            var obj2 = {};
-            for (p in value.requiredImage) {
-                obj2[p] = value.requiredImage[p];
-            }   // End of inner for
-            obj2.id = this._wid + "_image_dis";
-            obj2.widgetType = "image";
-            props.requiredImage = obj2;
-        } else {
-            props[name] = value[name];
-        }
-    }	// End of for
+    @JS_NS@._base.proto._extend(props, value);
+    if (props.errorImage != null) {
+        props.errorImage.id = this._wid + "_image_err";
+        props.errorImage.widgetType = "image";
+    }
+    if (props.requiredImage != null) {
+        props.requiredImage.id = this._wid + "_image_dis";
+        props.requiredImage.widgetType = "image";
+    }
 
 };
 	    

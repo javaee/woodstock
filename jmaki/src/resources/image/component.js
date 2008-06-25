@@ -6,14 +6,14 @@ jmaki.namespace("@JMAKI_NS@.image");
  * This widget wrapper looks for the following properties in
  * the "wargs" parameter:
  *
- * value:     Initial data with the following properties:
- *            Source image: {src: <image_url>}
- *            Icon image:   {icon: <theme_keyword>}
- *            The image widget can obtain its image from either a
- *            source file or from the theme images via a Theme keyword.
+ * value:     No initial data value is required.
  * args:      Additional widget properties from the code snippet,
  *            these properties are assumed to be underlying widget
  *            properties and are passed through to the image widget.
+ *            The image widget can obtain its image from either a
+ *            source file or from the theme images via a Theme keyword.
+ *            Source image: {src: <image_url>}
+ *            Icon image:   {icon: <theme_keyword>}
  * publish:   Topic to publish jMaki events to; if not specified, the
  *            default topic is "/woodstock/image".
  * subscribe: Topic to subscribe to for data model events; if not
@@ -61,17 +61,15 @@ jmaki.namespace("@JMAKI_NS@.image");
 @JMAKI_NS@.image.Widget.prototype._create = function(wargs) {
 
     // Process the jMaki wrapper properties for a Woodstock image.
-    // Value must contain an array of Options objects.
-    var props;
-    if (wargs.args) {
-	props = wargs.args;
-    } else {
-	props = {};
+    var props = {};
+    if (wargs.args != null) {
+        @JS_NS@._base.proto._extend(props, wargs.args);
     }
-    if (wargs.value && typeof wargs.value == "object") {
-	this._mapProperties(props, wargs.value);
-    } else {
-	// No data. Define simple image.
+    if (wargs.value != null) {
+        @JS_NS@._base.proto._extend(props, wargs.value);
+    }
+    // If no icon or src specified, use dummy image.
+    if (props.icon == null && props.src == null) {
 	props.icon = "DOT";
 	props.title = "No image specified"
     }
@@ -85,26 +83,13 @@ jmaki.namespace("@JMAKI_NS@.image");
     @JS_NS@.widget.common.createWidget(span_id, props);
 };
 
-// Destroy...
-// Unsubscribe from jMaki events
+// Unsubscribe from jMaki events and destroy the Woodstock widget.
 @JMAKI_NS@.image.Widget.prototype.destroy = function() {
-    // Do nothing...
+    @JS_NS@.widget.common.destroyWidget(this._wid);
 };
 
 // Warning: jMaki calls this function using a global scope. In order to
 // access variables and functions in "this" object, closures must be used.
 @JMAKI_NS@.image.Widget.prototype.postLoad = function() {
     // Do nothing...
-};
-
-// Map wrapper properties to underlying widget properties.
-// props -> JS object to contain underlying widget properties
-// value -> JS object of wrapper properties to be mapped
-@JMAKI_NS@.image.Widget.prototype._mapProperties = function(props, value) {
-
-    // Copy all value properties into our props object.
-    for (name in value) {
-        props[name] = value[name];
-    }	// End of for
-
 };

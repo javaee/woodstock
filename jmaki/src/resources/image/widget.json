@@ -1,42 +1,50 @@
 {
-    "name": "label",
+    "name": "image",
     "type": "@JS_NAME@",
     "version": "@JS_VERSION@",
     "jmakiVersion": "1.8",
-    "description": "Woodstock label widget.",
+    "description": "Woodstock image widget.",
     "args": [
-      {"accesskey": {
+      {"alt": {
          "type": "STRING",
-         "description": "Accessibility access key.",
+         "description": "Alternate text for image input.",
+         "defaultValue": ""}},
+      {"align": {
+         "type": "STRING",
+         "description": "Alignment of image input.",
+         "defaultValue": ""}},
+      {"border": {
+         "type": "STRING",
+         "description": "Size of border around image, in pixels.",
          "defaultValue": ""}},
       {"className": {
          "type": "STRING",
          "description": "CSS selector.",
          "defaultValue": ""}},
-      {"contents": {
-         "type": "STRING",
-         "description": "",
-         "defaultValue": ""}},
       {"dir": {
          "type": "STRING",
          "description": "Specifies the directionality of text.",
          "defaultValue": "ltr"}},
-      {"errorImage": {
-         "type": "OBJECT",
-         "description": "Image rendered when labeled element value is invalid.",
-         "defaultValue": {"icon": "LABEL_INVALID_ICON"}}},
-      {"htmlFor": {
+      {"height": {
          "type": "STRING",
-         "description": "Identifier of the labeled component element.",
+         "description": "Overrides the image height.",
+         "defaultValue": ""}},
+      {"hspace": {
+         "type": "STRING",
+         "description": "Overrides the horizontal spacing around the image.",
+         "defaultValue": ""}},
+      {"icon": {
+         "type": "STRING",
+         "description": "Key of an image in the Theme; do not use with src.",
          "defaultValue": ""}},
       {"lang": {
          "type": "STRING",
          "description": "Specifies the language of attribute values and content.",
          "defaultValue": ""}},
-      {"level": {
-         "type": "INT",
-         "description": "Text style level of label: 1, 2 or 3.",
-         "defaultValue": 2}},
+      {"longDesc": {
+         "type": "STRING",
+         "description": "Specifies a long description for the image.",
+         "defaultValue": ""}},
       {"onClick": {
          "type": "STRING",
          "description": "Mouse button is clicked on element.",
@@ -77,40 +85,40 @@
          "type": "STRING",
          "description": "Mouse is moved while over element.",
          "defaultValue": ""}},
-      {"required": {
-         "type": "BOOLEAN",
-         "description": "Indicates labeled element is a required element.",
-         "defaultValue": false}},
-      {"requiredImage": {
-         "type": "OBJECT",
-         "description": "Image rendered when labeled element value is required.",
-         "defaultValue": {"icon": "LABEL_REQUIRED_ICON"}}},
+      {"src": {
+         "type": "STRING",
+         "description": "The URI the image file; do not use with icon.",
+         "defaultValue": ""}},
       {"style": {
          "type": "STRING",
          "description": "Specify style rules inline.",
          "defaultValue": ""}},
+      {"tabIndex": {
+         "type": "INT",
+         "description": "Position in tabbing order.",
+         "defaultValue": -1}},
       {"title": {
          "type": "STRING",
          "description": "Provides a title for element.",
-         "defaultValue": "Label widget"}},
-      {"valid": {
-         "type": "BOOLEAN",
-         "description": "Indicates labeled element validation state.",
-         "defaultValue": true}},
-      {"value": {
-         "type": "STRING",
-         "description": "Label text value.",
-         "defaultValue": ""}},
+         "defaultValue": "Image widget"}},
       {"visible": {
          "type": "BOOLEAN",
          "description": "Hide or show element.",
-         "defaultValue": true}}
+         "defaultValue": true}},
+      {"vspace": {
+         "type": "STRING",
+         "description": "Overrides the vertical spacing around the image.",
+         "defaultValue": ""}},
+      {"width": {
+         "type": "STRING",
+         "description": "Overrides the image width.",
+         "defaultValue": ""}}
     ],
     "value": {
       "required": true,
       "type": "OBJECT",
-      "defaultValue": {"value": "Label", "level": 2},
-      "description": "Simple label without labeled element reference."
+      "defaultValue": {"src": "image_Url"},
+      "description": "Simply image using image source Url."
     },
     "config": {
       "type": {

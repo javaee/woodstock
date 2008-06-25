@@ -49,7 +49,7 @@
     "value": {
       "required": true,
       "type": "OBJECT",
-      "defaultValue": {"type": "information", "summary": "Summary...", "detail": "Details...", "visible": "false"},
+      "defaultValue": {"type": "information", "summary": "Summary..."},
       "description": "Simple information alert."
     },
     "config": {

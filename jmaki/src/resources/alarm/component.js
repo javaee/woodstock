@@ -39,7 +39,6 @@ jmaki.namespace("@JMAKI_NS@.alarm");
     this._publish = "/@JS_NAME@/alarm";
     this._subscriptions = [];
     this._wid = wargs.uuid;
-
     if (wargs.id) {
 	this._wid = wargs.id;
     }
@@ -73,20 +72,18 @@ jmaki.namespace("@JMAKI_NS@.alarm");
 
     // Process the jMaki wrapper properties for a Woodstock alarm.
     // Value must contain an array of Options objects.
-    var props;
-    if (wargs.args) {
-	props = wargs.args;
-    } else {
-	props = {};
+    var props = {};
+    if (wargs.args != null) {
+	@JS_NS@._base.proto._extend(props, wargs.args);
     }
-    if (wargs.value && typeof wargs.value == "object") {
-	for (p in wargs.value) {
-	    props[p] = wargs.value[p];
-	}			// End of for
-    } else {
-	// No data. Define simple dummy alarm with text.
+    if (wargs.value != null) {
+	@JS_NS@._base.proto._extend(props, wargs.value);
+    }
+    if (props.type == null) {
 	props.type = "ok";
-	props.text = "OK";
+	if (props.text == null) {
+	    props.text = "OK";
+	}
     }
 
     // Add our widget id and type.
@@ -98,14 +95,14 @@ jmaki.namespace("@JMAKI_NS@.alarm");
     @JS_NS@.widget.common.createWidget(span_id, props);
 };
 
-// Destroy...
-// Unsubscribe from jMaki events
+// Unsubscribe from jMaki events and destroy the Woodstock widget.
 @JMAKI_NS@.alarm.Widget.prototype.destroy = function() {
     if (this._subscriptions) {
         for (var i = 0; i < this._subscriptions.length; i++) {
             jmaki.unsubscribe(this._subscriptions[i]);
 	} // End of for
     }
+    @JS_NS@.widget.common.destroyWidget(this._wid);
 };
 
 // Warning: jMaki calls this function using a global scope. In order to
@@ -121,12 +118,11 @@ jmaki.namespace("@JMAKI_NS@.alarm");
 // with the alarm; e.g., when it contains a count of that type of alarm.
 @JMAKI_NS@.alarm.Widget.prototype._valuesCallback = function(payload) {
 
-    var widget = @JS_NS@.widget.common.getWidget(this._wid);
-    if (typeof widget == "object") {
-	if (typeof payload.value == "object") {
-	    for (p in payload.value) {
-		props[p] = payload.value[p];
-	    }	// End of for
+    if (payload && payload.value != null) {
+	var widget = @JS_NS@.widget.common.getWidget(this._wid);
+	if (widget) {
+	    var props = {};
+	    @JS_NS@._base.proto._extend(props, payload.value);
 	    widget.setProps(props);
         }
     }
