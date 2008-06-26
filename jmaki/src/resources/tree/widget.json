@@ -1,0 +1,131 @@
+{
+    "name": "tree",
+    "type": "@JS_NAME@",
+    "version": "@JS_VERSION@",
+    "jmakiVersion": "1.8",
+    "description": "Woodstock tree widget.",
+    "args": [
+      {"accessKey": {
+         "type": "STRING",
+         "description": "Shortcut key.",
+         "defaultValue": ""}},
+      {"className": {
+         "type": "STRING",
+         "description": "CSS selector.",
+         "defaultValue": ""}},
+      {"childNodes": {
+         "type": "ARRAY",
+         "description": "Properties constituting the tree node children.",
+         "defaultValue": []}},
+      {"dir": {
+         "type": "STRING",
+         "description": "Specifies the directionality of text.",
+         "defaultValue": "ltr"}},
+      {"imageProps": {
+         "type": "OBJECT",
+         "description": "Image associated with tree nodes.",
+         "defaultValue": {}}},
+      {"label": {
+         "type": "STRING",
+         "description": "Node name.",
+         "defaultValue": "Node name"}},
+      {"lang": {
+         "type": "STRING",
+         "description": "Specifies the language of attribute values.",
+         "defaultValue": ""}},
+      {"loadOnExpand": {
+         "type": "BOOLEAN",
+         "description": "If true, child nodes will be loaded when toggle icon is clicked.",
+         "defaultValue": false}},
+      {"multipleSelect": {
+         "type": "BOOLEAN",
+         "description": "If true, multiple nodes can be selected.",
+         "defaultValue": false}},
+      {"onBlur": {
+         "type": "STRING",
+         "description": "Element lost focus.",
+         "defaultValue": ""}},
+      {"onChange": {
+         "type": "STRING",
+         "description": "Element value changed.",
+         "defaultValue": ""}},
+      {"onClick": {
+         "type": "STRING",
+         "description": "Mouse button is clicked on element.",
+         "defaultValue": ""}},
+      {"onDblClick": {
+         "type": "STRING",
+         "description": "Mouse button is double-clicked on element.",
+         "defaultValue": ""}},
+      {"onFocus": {
+         "type": "STRING",
+         "description": "Element received focus.",
+         "defaultValue": ""}},
+      {"onKeyDown": {
+         "type": "STRING",
+         "description": "Key is pressed down over element.",
+         "defaultValue": ""}},
+      {"onKeyPress": {
+         "type": "STRING",
+         "description": "Key is pressed and released over element.",
+         "defaultValue": ""}},
+      {"onKeyUp": {
+         "type": "STRING",
+         "description": "Key is released over element.",
+         "defaultValue": ""}},
+      {"onMouseDown": {
+         "type": "STRING",
+         "description": "Mouse button is pressed over element.",
+         "defaultValue": ""}},
+      {"onMouseOut": {
+         "type": "STRING",
+         "description": "Mouse is moved away from element.",
+         "defaultValue": ""}},
+      {"onMouseOver": {
+         "type": "STRING",
+         "description": "Mouse is moved onto element.",
+         "defaultValue": ""}},
+      {"onMouseUp": {
+         "type": "STRING",
+         "description": "Mouse button is released over element.",
+         "defaultValue": ""}},
+      {"onMouseMove": {
+         "type": "STRING",
+         "description": "Mouse is moved while over element.",
+         "defaultValue": ""}},
+      {"onSelect": {
+         "type": "STRING",
+         "description": "Element text selected.",
+         "defaultValue": ""}},
+      {"style": {
+         "type": "STRING",
+         "description": "Specify style rules inline.",
+         "defaultValue": ""}},
+      {"tabIndex": {
+         "type": "INT",
+         "description": "Position in tabbing order.",
+         "defaultValue": -1}},
+      {"title": {
+         "type": "STRING",
+         "description": "Provides a title for element.",
+         "defaultValue": "Tree widget"}},
+      {"visible": {
+         "type": "BOOLEAN",
+         "description": "Hide or show element.",
+         "defaultValue": true}}
+    ],
+    "value": {
+      "required": true,
+      "type": "OBJECT",
+      "defaultValue": {"root": {"label":  "Tree root", "expanded": true, "childNodes": []}}
+    },
+    "config": {
+      "type": {
+        "id": "@JS_NAME@",
+        "libs": [
+          "@JS_PATH@/bootstrap.js"
+        ],
+        "resources": [ "../resources/" ]
+        }
+    }
+}
