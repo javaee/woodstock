@@ -64,17 +64,20 @@ jmaki.namespace("@JMAKI_NS@.hyperlink");
 
     // Process the jMaki wrapper properties for a Woodstock hyperlink.
     // Value must contain an array of Options objects.
-    var props;
-    if (wargs.args) {
-	props = wargs.args;
-    } else {
-	props = {};
+    var props = {};
+    if (wargs.args != null) {
+        @JS_NS@._base.proto._extend(props, wargs.args);
     }
-    if (wargs.value && typeof wargs.value == "object") {
-	this._mapProperties(props, wargs.value);
-    } else {
-	// No data. Define simple hyperlink.
+    if (wargs.value != null) {
+        @JS_NS@._base.proto._extend(props, wargs.value);
+    }
+    if (props.contents == null) {
 	props.contents = [ "Hyperlink: " + this._wid ];
+    }
+    if (! props.contents instanceof Array) {
+	var arr = [];
+	arr.push(props.contents);
+	props.contents = arr;
     }
 
     // Add our widget id and type.
@@ -86,10 +89,9 @@ jmaki.namespace("@JMAKI_NS@.hyperlink");
     @JS_NS@.widget.common.createWidget(span_id, props);
 };
 
-// Destroy...
-// Unsubscribe from jMaki events
+// Unsubscribe from jMaki events and destroy the Woodstock widget.
 @JMAKI_NS@.hyperlink.Widget.prototype.destroy = function() {
-    // Do nothing...
+    @JS_NS@.widget.common.destroyWidget(this._wid);
 };
 
 // Warning: jMaki calls this function using a global scope. In order to
@@ -97,24 +99,3 @@ jmaki.namespace("@JMAKI_NS@.hyperlink");
 @JMAKI_NS@.hyperlink.Widget.prototype.postLoad = function() {
     // Do nothing...
 };
-
-// Map wrapper properties to underlying widget properties.
-// props -> JS object to contain underlying widget properties
-// value -> JS object of wrapper properties to be mapped
-@JMAKI_NS@.hyperlink.Widget.prototype._mapProperties = function(props, value) {
-
-    for (name in value) {
-	props[name] = value[name];
-    }	// End of for
-    if (props.contents == "undefined" ) {
-	props.contents = [ "Hyperlink: " + this._wid ];
-    }
-    if (! props.contents instanceof Array) {
-	var arr = [];
-	arr.push(props.content);
-	props.contents = arr;
-    }
-
-};
-	    
-

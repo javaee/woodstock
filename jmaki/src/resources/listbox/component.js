@@ -7,7 +7,14 @@ jmaki.namespace("@JMAKI_NS@.listbox");
  * the "wargs" parameter:
  *
  * value:     Initial data following the jMaki ComboBox data model,
- *            mapped onto the listbox "options" property.
+ *            an array of one or more objects as follows:
+ *            [{label: <option_label>,
+ *              value: <option_value>, 
+ *              selected: <true | false>},
+ *             ...,]
+ *            The array is mapped directly to the listbox widget
+ *            "options" property.  The "selected" property is optional
+ *            and the option is rendered unselected by default.
  * args:      Additional widget properties from the code snippet,
  *            these properties are assumed to be underlying widget
  *            properties and are passed through to the listbox widget.
@@ -20,8 +27,8 @@ jmaki.namespace("@JMAKI_NS@.listbox");
  * 
  * This widget subscribes to the following jMaki events:
  *
- * select     To indicate the option to be selected in the widget.
- * setValues  To reset the options property in the widget.
+ * select     To indicate the option to be selected in the widget's list.
+ * setValues  To reset the list of options in the widget.
  *
  * This widget publishes the following jMaki events:
  *
@@ -36,7 +43,6 @@ jmaki.namespace("@JMAKI_NS@.listbox");
     this._publish = "/@JS_NAME@/listbox";
     this._subscriptions = [];
     this._wid = wargs.uuid;
-
     if (wargs.id) {
 	this._wid = wargs.id;
     }
@@ -46,22 +52,22 @@ jmaki.namespace("@JMAKI_NS@.listbox");
     }
     if (wargs.subscribe) {
 	// User supplied one or more specific topics to subscribe to.
-        if (typeof wargs.subscribe == "string") {
-            this._subscribe = [];
-            this._subscribe.push(wargs.subscribe);
-        } else {
-            this._subscribe = wargs.subscribe;
-        }
+	if (typeof wargs.subscribe == "string") {
+	    this._subscribe = [];
+	    this._subscribe.push(wargs.subscribe);
+	} else {
+	    this._subscribe = wargs.subscribe;
+	}
     }
 
     // Subscribe to jMaki events
     for (var i = 0; i < this._subscribe.length; i++) {
-        var s1 = jmaki.subscribe(this._subscribe + "/select",
-            @JS_NS@.widget.common._hitch(this, "_selectCallback"));
-        this._subscriptions.push(s1);
-        var s2 = jmaki.subscribe(this._subscribe + "/setValues", 
-            @JS_NS@.widget.common._hitch(this, "_valuesCallback"));
-        this._subscriptions.push(s2);
+	var s1 = jmaki.subscribe(this._subscribe + "/select",
+	    @JS_NS@.widget.common._hitch(this, "_selectCallback"));
+	this._subscriptions.push(s1);
+	var s2 = jmaki.subscribe(this._subscribe + "/setValues", 
+	    @JS_NS@.widget.common._hitch(this, "_valuesCallback"));
+	this._subscriptions.push(s2);
     }
 
     // Create Woodstock widget.
@@ -73,17 +79,21 @@ jmaki.namespace("@JMAKI_NS@.listbox");
 
     // Process the jMaki wrapper properties for a Woodstock listbox.
     // Value must contain an array of Options objects.
-    var props;
-    if (wargs.args) {
-	props = wargs.args;
-    } else {
-	props = {};
+    var props = {};
+    if (wargs.args != null) {
+	@JS_NS@._base.proto._extend(props, wargs.args);
     }
-    if (wargs.value && wargs.value instanceof Array) {
+    if (wargs.value instanceof Array) {
 	props.options = wargs.value;
-    } else {
-	// No data. Define single dummy options list.
+    }
+    if (props.options == null) {
 	props.options = [{label: "Option 1", value: "opt1", selected: true}];
+    }
+
+    // If application sets onChange, stack function for handling later.
+    if (props.onChange) {
+	this._onChange = (typeof props.onChange == 'string')
+	    ? new Function(props.onChange) : props.onChange;
     }
 
     // Add our widget id and type.
@@ -99,14 +109,14 @@ jmaki.namespace("@JMAKI_NS@.listbox");
     @JS_NS@.widget.common.createWidget(span_id, props);
 };
 
-// Destroy...
-// Unsubscribe from jMaki events
+// Unsubscribe from jMaki events and destroy the Woodstock widget.
 @JMAKI_NS@.listbox.Widget.prototype.destroy = function() {
     if (this._subscriptions) {
-        for (var i = 0; i < this._subscriptions.length; i++) {
-            jmaki.unsubscribe(this._subscriptions[i]);
+	for (var i = 0; i < this._subscriptions.length; i++) {
+	    jmaki.unsubscribe(this._subscriptions[i]);
 	} // End of for
     }
+    @JS_NS@.widget.common.destroyWidget(this._wid);
 };
 
 // Warning: jMaki calls this function using a global scope. In order to
@@ -120,47 +130,57 @@ jmaki.namespace("@JMAKI_NS@.listbox");
 //    {value: <item_value>}
 // Update listbox widget to select option with matching value.
 @JMAKI_NS@.listbox.Widget.prototype._selectCallback = function(payload) {
-    if (payload) {
+    if (payload && payload.value != null) {
 	var widget = @JS_NS@.widget.common.getWidget(this._wid);
 	if (widget) {
-            var val = "";
-            if (typeof payload.value == "string") {
-                val = payload.value;
-            }
-            if (typeof payload.value == "object") {
-                val = payload.value.targetId;
-            }
-            var props = widget.getProps();
-            for (var i = 0; i < props.options.length; i++) {
-                var opt = props.options[i];
-                if (opt.group == null || opt.group == false) {
-                    if (opt.value == val) {
+	    var val = "";
+	    if (typeof payload.value == "string") {
+		val = payload.value;
+	    }
+	    if (typeof payload.value == "object") {
+		val = payload.value.targetId;
+	    }
+	    var props = widget.getProps();
+	    for (var i = 0; i < props.options.length; i++) {
+		var opt = props.options[i];
+		if (opt.group == null || opt.group == false) {
+		    if (opt.value == val) {
 			widget.setSelectedIndex(i);
 			break;
-                    }
+		    }
 		}
-            } // End of for
-        }
+	    } // End of for
+	}
     }
 };
 
 // Callback function to handle Woodstock listbox onSelect event.
+// Handle any stacked application onChange event function first.
 // Event payload contains:
 //    Listbox widget identifier
 // Publish jMaki onSelect event.
 @JMAKI_NS@.listbox.Widget.prototype._selectedCallback = function() {
-    if (this._wid) {
-        var widget = @JS_NS@.widget.common.getWidget(this._wid);
-	if (widget) {
-            var val = widget.getSelectedValue();
-            if (val) {
-                // Format a jMaki onSelect event topic payload
-                // and publish the jMaki event.
-                var payload = {widgetId: this._wid, topic:
-                    {type: "onSelect", targetId: this._wid, value: val}};
-		var selectedTopic = this._publish + "/onSelect";
-		jmaki.publish(selectedTopic, payload);
-            }
+
+    var result = true;
+    if (typeof this._onChange == "function") {
+	result = this._onChange();
+    }
+    if (result != null && result == false) {
+	return result;
+    }
+
+    var widget = @JS_NS@.widget.common.getWidget(this._wid);
+    if (widget) {
+	var val = widget.getSelectedValue();
+	if (val != null) {
+	    jmaki.processActions({
+		action: "onSelect",
+		targetId: val,
+		topic: this._publish + "/onSelect",
+		type: "onSelect",
+		value: true,
+		widgetId: this._wid
+	    });
 	}
     }
 };
@@ -170,12 +190,10 @@ jmaki.namespace("@JMAKI_NS@.listbox");
 //    {value: [<data model>]}
 // Update listbox widget to replace options array.
 @JMAKI_NS@.listbox.Widget.prototype._valuesCallback = function(payload) {
-    if (payload) {
-        var widget = @JS_NS@.widget.common.getWidget(this._wid);
-        if (widget) {
-            if (payload.value && payload.value instanceof Array) {
-                widget.setProps({options: payload.value});
-            }
+    if (payload && payload.value instanceof Array) {
+	var widget = @JS_NS@.widget.common.getWidget(this._wid);
+	if (widget) {
+	    widget.setProps({options: payload.value});
 	}
     }
 };

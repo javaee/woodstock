@@ -112,13 +112,13 @@
       {"visible": {
          "type": "BOOLEAN",
          "description": "Hide or show element.",
-         "defaultValue": false}},
+         "defaultValue": true}},
     ],
     "value": {
       "required": true,
       "type": "OBJECT",
-      "defaultValue": {"formId": "form_identifier", "contents": [], "enabledImage": {"src": "image_url"}},
-      "description": "Simple image hyperlink form submit without text."
+      "defaultValue": {"enabledImage": {"src": "image_url"}},
+      "description": "Simple image hyperlink form submit."
     },
     "config": {
       "type": {

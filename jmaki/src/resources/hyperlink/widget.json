@@ -109,7 +109,7 @@
     "value": {
       "required": true,
       "type": "OBJECT",
-      "defaultValue": {"formId": "form_identifier", "contents": [ "hyperlink text" ]},
+      "defaultValue": {"contents": [ "hyperlink text" ]},
       "description": "Simple hyperlink form submit with text."
     },
     "config": {

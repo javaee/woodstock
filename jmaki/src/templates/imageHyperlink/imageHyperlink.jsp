@@ -1,2 +1,1 @@
-<a:widget name="@JS_NAME@.imageHyperlink" value="{contents: [ ],
-        enabledImage: {src: 'image_url', border: 0}}" />
+<a:widget name="@JS_NAME@.imageHyperlink" value="{enabledImage: {src: 'image_url'}}" />

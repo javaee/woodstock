@@ -8,13 +8,11 @@ jmaki.namespace("@JMAKI_NS@.imageHyperlink");
  *
  * value:     Initial data with the following properties:
  *            {formId: <form_identifier>,
- *             contents: [ <link_text> ],
+ *             text: [ <link_text> ],
  *             enabledImage: {src: <image_URL>, }}
  *            The imageHyperlink widget acts as a form submitting anchor.
  *            If formId is not specified, the form in which this wrapper
- *            is contained is submitted.  The contents text is optional.
- *            The "src" property in the enabledImage object may be replaced
- *            with the "icon" property to specify the Themed image keyword.
+ *            is contained is submitted.  The text property is optional.
  *            Additional Image widget properties may be specified for the
  *            enabledImage object.
  * args:      Additional widget properties from the code snippet,
@@ -69,19 +67,27 @@ jmaki.namespace("@JMAKI_NS@.imageHyperlink");
 
     // Process the jMaki wrapper properties for a Woodstock imageHyperlink.
     // Value must contain an array of Options objects.
-    var props;
-    if (wargs.args) {
-	props = wargs.args;
-    } else {
-	props = {};
+    var props = {};
+    if (wargs.args != null) {
+        @JS_NS@._base.proto._extend(props, wargs.args);
     }
-    if (wargs.value && typeof wargs.value == "object") {
-	this._mapProperties(props, wargs.value);
-    } else {
-	// No data. Define simple imageHyperlink with no text.
-	props.contents = [ ];
-	var iid = this._wid + "_image";
-	props.enabledImage = {id: iid, widgetType: "image", icon: "HREF_LINE"};
+    if (wargs.value != null) {
+        @JS_NS@._base.proto._extend(props, wargs.value);
+    }
+    if (props.enabledImage == null) {
+	props.enabledImage = {icon: "HREF_LINE"};
+    }
+    if (props.enabledImage != null) {
+	if (props.enabledImage.id == null) {
+	    props.enabledImage.id = this._wid + "_image_en";
+	}
+	props.enabledImage.widgetType = "image";
+    }
+    if (props.disabledImage != null) {
+	if (props.disabledImage.id == null) {
+	    props.disabledImage.id = this._wid + "_image_dis";
+	}
+	props.disabledImage.widgetType = "image";
     }
 
     // Add our widget id and type.
@@ -93,58 +99,13 @@ jmaki.namespace("@JMAKI_NS@.imageHyperlink");
     @JS_NS@.widget.common.createWidget(span_id, props);
 };
 
-// Destroy...
-// Unsubscribe from jMaki events
+// Unsubscribe from jMaki events and destroy the Woodstock widget.
 @JMAKI_NS@.imageHyperlink.Widget.prototype.destroy = function() {
-    // Do nothing...
+    @JS_NS@.widget.common.destroyWidget(this._wid);
 };
 
 // Warning: jMaki calls this function using a global scope. In order to
 // access variables and functions in "this" object, closures must be used.
 @JMAKI_NS@.imageHyperlink.Widget.prototype.postLoad = function() {
     // Do nothing...
-};
-
-// Map wrapper properties to underlying widget properties.
-// props -> JS object to contain underlying widget properties
-// value -> JS object of wrapper properties to be mapped
-@JMAKI_NS@.imageHyperlink.Widget.prototype._mapProperties = function(props, value) {
-
-    // Copy the properties from value object to our props object.
-    // For image properties, we must add id and widgetType.
-    // Supply default icon image and empty contents if omitted.
-    for (name in value) {
-	if (name == "enabledImage") {
-	    var obj = {};
-	    for (p in value.enabledImage) {
-		obj[p] = value.enabledImage[p];
-	    }	// End of inner for
-	    obj.id = this._wid + "_image_en";
-	    obj.widgetType = "image";
-	    props.enabledImage = obj;
-	} else if (name == "disabledImage") {
-	    var obj2 = {};
-	    for (p in value.disabledImage) {
-		obj2[p] = value.disabledImage[p];
-	    }	// End of inner for
-	    obj2.id = this._wid + "_image_dis";
-	    obj2.widgetType = "image";
-	    props.disabledImage = obj2;
-	} else {
-	    props[name] = value[name];
-	}
-    }	// End of outer for
-    if (props.contents == "undefined" ) {
-	props.contents = [ ];
-    }
-    if (! props.contents instanceof Array) {
-	var arr = [];
-	arr.push(props.content);
-	props.contents = arr;
-    }
-    if (props.enabledImage == "undefined") {
-	var nid = this._wid + "_image";
-	props.enabledImage = {id: nid, widgetType: "image", icon: "HREF_LINK"};
-    }
-
 };

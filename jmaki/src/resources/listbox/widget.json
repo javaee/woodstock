@@ -17,29 +17,25 @@
          "type": "BOOLEAN",
          "description": "Disable element.",
          "defaultValue": false}},
-      {"id": {
-         "type": "STRING",
-         "description": "Uniquely identifies an element within a document.",
-         "defaultValue": ""}},
       {"label": {
          "type": "OBJECT",
          "description": "Defines the widget and its properties to use for a label",
-         "defaultValue": {"level": 2, "value": "Mylabel"}}},
+         "defaultValue": {"value": "Label"}}},
       {"labelOnTop": {
          "type": "BOOLEAN",
-         "description": "If true the label appears above the listbox.",
+         "description": "If true, the label appears above the listbox.",
          "defaultValue": false}},
       {"lang": {
          "type": "STRING",
-         "description": "Specifies the language of attribute values and content.",
+         "description": "Specifies the language of attribute values.",
          "defaultValue": ""}},
       {"multiple": {
          "type": "BOOLEAN",
-         "description": "If true allow multiple selections",
+         "description": "If true, allow multiple selections",
          "defaultValue": true}},
       {"monospace": {
          "type": "BOOLEAN",
-         "description": "If true use monospace font styling.",
+         "description": "If true, use monospace font styling.",
          "defaultValue": false}},
       {"onBlur": {
          "type": "STRING",
@@ -97,10 +93,6 @@
          "type": "STRING",
          "description": "Option text is highlighted.",
          "defaultValue": ""}},
-      {"options": {
-         "type": "ARRAY",
-         "description": "See selectBase._setOptions or selectBase overview",
-         "defaultValue": []}},
       {"size": {
          "type": "INT",
          "description": "The number of option rows to display.",
@@ -123,19 +115,19 @@
          "defaultValue": true}},
       {"separator": {
          "type": "BOOLEAN",
-         "description": "If true, element is a option separator.",
+         "description": "If true, the data element is an option separator.",
          "defaultValue": false}},
       {"group": {
          "type": "BOOLEAN",
-         "description": "If true the element is a optGroup instance.",
+         "description": "If true, the data element is an option group instance.",
          "defaultValue": false}},
       {"disabled": {
          "type": "BOOLEAN",
-         "description": "If true the element is disabled.",
+         "description": "If true, the listbox is disabled.",
          "defaultValue": false}},
       {"selected": {
          "type": "BOOLEAN",
-         "description": "If true the element is selected.",
+         "description": "If true, the data element is pre-selected.",
          "defaultValue": false}}
     ],
     "value": {
@@ -143,7 +135,7 @@
       "type": "ARRAY",
       "defaultValue": [
         {"label": "Option 1", "value": "opt1", "selected": true}],
-      "description": "Single option with default values."
+      "description": "List with single option pre-selected."
     },
     "config": {
       "type": {

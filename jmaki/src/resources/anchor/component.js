@@ -49,12 +49,12 @@ jmaki.namespace("@JMAKI_NS@.anchor");
     }
     if (wargs.subscribe) {
 	// User supplied one or more specific topics to subscribe to.
-        if (typeof wargs.subscribe == "string") {
-            this._subscribe = [];
-            this._subscribe.push(wargs.subscribe);
-        } else {
-            this._subscribe = wargs.subscribe;
-        }
+	if (typeof wargs.subscribe == "string") {
+	    this._subscribe = [];
+	    this._subscribe.push(wargs.subscribe);
+	} else {
+	    this._subscribe = wargs.subscribe;
+	}
     }
 
     // Create Woodstock widget.
@@ -65,19 +65,24 @@ jmaki.namespace("@JMAKI_NS@.anchor");
 @JMAKI_NS@.anchor.Widget.prototype._create = function(wargs) {
 
     // Process the jMaki wrapper properties for a Woodstock anchor.
-    // Value must contain an array of Options objects.
-    var props;
-    if (wargs.args) {
-	props = wargs.args;
-    } else {
-	props = {};
+    var props = {};
+    if (wargs.args != null) {
+	@JS_NS@._base.proto._extend(props, wargs.args);
     }
-    if (wargs.value && typeof wargs.value == "object") {
-	this._mapProperties(props, wargs.value);
-    } else {
-	// No data. Define simple anchor without href.
+    if (wargs.value != null) {
+	@JS_NS@._base.proto._extend(props, wargs.value);
+    }
+    if (props.name == null) {
 	props.name = this._wid;
+    }
+    if (props.contents == null) {
 	props.contents = [ "Anchor: " + this._wid ];
+    }
+    // If contents not an array, make it one.
+    if (! props.contents instanceof Array) {
+	var arr = [];
+	arr.push(props.contents);
+	props.contents = arr;
     }
 
     // Add our widget id and type.
@@ -89,10 +94,9 @@ jmaki.namespace("@JMAKI_NS@.anchor");
     @JS_NS@.widget.common.createWidget(span_id, props);
 };
 
-// Destroy...
-// Unsubscribe from jMaki events
+// Unsubscribe from jMaki events and destroy the Woodstock widget.
 @JMAKI_NS@.anchor.Widget.prototype.destroy = function() {
-    // Do nothing...
+    @JS_NS@.widget.common.destroyWidget(this._wid);
 };
 
 // Warning: jMaki calls this function using a global scope. In order to
@@ -100,34 +104,3 @@ jmaki.namespace("@JMAKI_NS@.anchor");
 @JMAKI_NS@.anchor.Widget.prototype.postLoad = function() {
     // Do nothing...
 };
-
-// Map wrapper properties to underlying widget properties.
-// props -> JS object to contain underlying widget properties
-// value -> JS object of wrapper properties to be mapped
-@JMAKI_NS@.anchor.Widget.prototype._mapProperties = function(props, value) {
-
-    // Copy all value properties into our props object.
-    for (name in value) {
-	props[name] = value[name];
-    }	// End of for
-    // If no name property, add one set to widget identifier.
-    if (props.name == "undefined") {
-	props.name = this._wid;
-    }
-    if (props.name == null || props.name == "") {
-	props.name = this._wid;
-    }
-    // If no contents property, add a dummy text contents.
-    if (props.contents == "undefined") {
-	props.contents = [ "Anchor: " + this._wid ];
-    }
-    // If contents not an array, make it one.
-    if (! props.contents instanceof Array) {
-	var arr = [];
-	arr.push(props.contents);
-	props.contents = arr;
-    }
-
-};
-	    
-
