@@ -16,7 +16,7 @@
       {"busyImage": {
          "type": "OBJECT",
          "description": "Overrides default image for busy progress animation.",
-         "defaultValue": {}}},
+         "defaultValue": {"src": "image_url"}}},
       {"className": {
          "type": "STRING",
          "description": "CSS selector.",
@@ -35,12 +35,8 @@
          "defaultValue": ""}},
       {"log": {
          "type": "OBJECT",
-         "description": "Specifies size of log text area for determinate progress bar.",
+         "description": "Specifies size of log textArea for determinate progress bar.",
          "defaultValue": {"cols": 32, "rows": 4}}},
-      {"logMessage": {
-         "type": "STRING",
-         "description": "Text message to display in log text area of determinate progress bar.",
-         "defaultValue": ""}},
       {"onBlur": {
          "type": "STRING",
          "description": "Element lost focus.",
@@ -103,7 +99,7 @@
          "defaultValue": false}},
       {"percentChar": {
          "type": "STRING",
-         "description": "Character to represent percentage in progress.",
+         "description": "Character to represent percentage in progress message.",
          "defaultValue": "%"}},
       {"progressImageUrl": {
          "type": "STRING",
@@ -112,7 +108,7 @@
       {"progressControl": {
          "type": "STRING",
          "description": "Add control button area to bottom or right.",
-         "defaultValue": ""}},
+         "defaultValue": "bottom"}},
       {"refreshRate": {
          "type": "INT",
          "description": "Number milliseconds between updates to the progress.",
@@ -160,7 +156,7 @@
     ],
     "value": {
       "required": true,
-      "type": "ARRAY",
+      "type": "OBJECT",
       "defaultValue": {"type": "DETERMINATE", "refreshRate": 1000, "topText": "Task progress", "bottomText": "Not started"}
     },
     "config": {

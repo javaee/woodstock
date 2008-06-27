@@ -17,7 +17,9 @@ jmaki.namespace("@JMAKI_NS@.progressBar");
  *            The processControl property is used to add the
  *            three control buttons (Pause, Resume, Cancel) to
  *            a control area to the bottom or right of the rendered
- *            progress animation bar.
+ *            progress animation bar, and is optional.  The widget
+ *            publishes a "progress" event at intervals specified
+ *            by the refreshRate.
  * args:      Additional widget properties from the code snippet,
  *            these properties are assumed to be underlying widget
  *            properties and are passed through to the progressBar widget.
@@ -33,8 +35,8 @@ jmaki.namespace("@JMAKI_NS@.progressBar");
  *
  * control    Process the control value to start, stop, pause, resume, or
  *            cancel the progress.  The payload contains the following:
- *              {value: "<action>"} 
- *            where <action> is one of cancel|pause|resume|start|stop.
+ *              {value: "<command>"} 
+ *            where <command> is one of cancel|pause|resume|start|stop.
  *
  * This widget publishes the following jMaki events:
  *
@@ -72,18 +74,36 @@ jmaki.namespace("@JMAKI_NS@.progressBar");
 @JMAKI_NS@.progressBar.Widget.prototype._create = function(wargs) {
 
     // Process the jMaki wrapper properties for a Woodstock progressBar.
-    // Value must contain an array of Options objects.
     var props = {};
-    if (wargs.args) {
-	this._mapProperties(props, wargs.args);
+    if (wargs.args != null) {
+	@JS_NS@._base.proto._extend(props, wargs.args);
     }
-    if (wargs.value && typeof wargs.value == "object") {
-	this._mapProperties(props, wargs.value);
-    } else {
-	// No data. Define simple indeterminate progressBar.
+    if (wargs.value != null) {
+	@JS_NS@._base.proto._extend(props, wargs.value);
+    }
+    if (props.type == null) {
 	props.type = "INDETERMINATE";
-	props.refreshRate = 1000;
-	props.topText = "Indeterminate progress task";
+	props.refreshRate = 3000;
+    }
+    // Added-value: define control buttons.
+    if (props.progressControl != null && props.type != "BUSY") {
+	// Add control buttons...
+	if (props.progressControl == "bottom") {
+	    props.progressControlBottom = this._addControlButtons();
+	} else if (props.progressControl == "right") {
+	    props.progressControlRight = this._addControlButtons();
+	}
+    }
+    // If log specified, make sure its a widget.
+    if (props.log != null) {
+	if (props.log.id == null) {
+	    props.log.id = this._wid + "_log";
+	}
+	props.log.widgetType = "textArea";
+	// Work around a progressBar problem to make log render.
+	if (props.overlayAnimation == null) {
+	    props.overlayAnimation = false;
+	}
     }
 
     // Subscribe to jMaki events
@@ -102,56 +122,20 @@ jmaki.namespace("@JMAKI_NS@.progressBar");
     @JS_NS@.widget.common.createWidget(span_id, props);
 };
 
-// Destroy...
-// Unsubscribe from jMaki events
+// Unsubscribe from jMaki events and destroy the Woodstock widget.
 @JMAKI_NS@.progressBar.Widget.prototype.destroy = function() {
-    // Do nothing...
+    if (this._subscriptions) {
+        for (var i = 0; i < this._subscriptions.length; i++) {
+            jmaki.unsubscribe(this._subscriptions[i]);
+        } // End of for
+    }
+    @JS_NS@.widget.common.destroyWidget(this._wid);
 };
 
 // Warning: jMaki calls this function using a global scope. In order to
 // access variables and functions in "this" object, closures must be used.
 @JMAKI_NS@.progressBar.Widget.prototype.postLoad = function() {
     // Do nothing...
-};
-
-// Map wrapper properties to underlying widget properties.
-// props -> JS object to contain underlying widget properties
-// value -> JS object of wrapper properties to be mapped
-@JMAKI_NS@.progressBar.Widget.prototype._mapProperties = function(props, value) {
-
-    // Copy all value properties into our props object.
-    // If there is a progressControl property, add the control buttons.
-    // If there is a logMessage property, add a log textArea if the
-    // type is determinate.
-    
-    for (name in value) {
-	if (name == "progressControl") {
-	    // Add control buttons...
-	    if (value.progressControl == "bottom") {
-		props.progressControlBottom = this._addControlButtons();
-	    } else if (value.progressControl == "right") {
-		props.progressControlRight = this._addControlButtons();
-	    }
-	} else {
-	    props[name] = value[name];
-	}
-    }	// End of outer for
-
-    if (props.logMessage && props.type == "DETERMINATE" &&
-	typeof props.log == "undefined") {
-	// Add default log text area...
-	props.log = {cols: 32, rows: 4, autoSave: 0};
-    }
-    if (typeof props.log == "object") {
-	var obj = {};
-	for (p in props.log) {
-	    obj[p] = props.log[p];
-	}
-	obj.id = this._wid + "_log";
-	obj.widgetType = "textArea";
-	props.log = obj;
-    }
-
 };
 
 // Create the three control buttons and return in a JS array.
@@ -199,7 +183,7 @@ jmaki.namespace("@JMAKI_NS@.progressBar");
 // property is the taskState setting.
 @JMAKI_NS@.progressBar.Widget.prototype._controlCallback = function(payload)
 {
-    if (payload) {
+    if (typeof payload.value == "string") {
         var widget = @JS_NS@.widget.common.getWidget(this._wid);
         if (widget) {
             if (payload.value == "cancel") {
@@ -209,8 +193,8 @@ jmaki.namespace("@JMAKI_NS@.progressBar");
 	    } else if (payload.value == "resume") {
 		widget.resume();
 	    } else if (payload.value == "start") {
-		// XXXX - Does not currently work!
-		widget._startup();
+		// XXXX - Wait for widget fix...
+		// widget.startProgress();
 	    } else if (payload.value == "stop") {
 		widget.stop();
 	    }
