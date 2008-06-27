@@ -1,0 +1,35 @@
+{
+    "name": "hiddenField",
+    "type": "@JS_NAME@",
+    "version": "@JS_VERSION@",
+    "jmakiVersion": "1.8",
+    "description": "Woodstock hiddenField widget.",
+    "args": [
+      {"disabled": {
+         "type": "BOOLEAN",
+         "description": "Disable element.",
+         "defaultValue": false}},
+      {"name": {
+         "type": "STRING",
+         "description": "",
+         "defaultValue": ""}},
+      {"value": {
+         "type": "STRING",
+         "description": "Value of input.",
+         "defaultValue": ""}}
+    ],
+    "value": {
+      "required": false,
+      "type": "OBJECT",
+      "defaultValue": {}
+    },
+    "config": {
+      "type": {
+        "id": "@JS_NAME@",
+        "libs": [
+          "@JS_PATH@/bootstrap.js"
+        ],
+        "resources": [ "../resources/" ]
+        }
+    }
+}
