@@ -2704,8 +2704,7 @@ ul.MenuItems@THEME_CSS@ ul li .MenuItemDisabled@THEME_CSS@ .MenuItemLabel@THEME_
 	border-left:none;
 	border-bottom:none;
 	padding:0 0 6px 0;
-	vertical-align:middle;
-        display:inline-block;
+	vertical-align:middle;        
 }
 .table2@THEME_CSS@ .actionBar@THEME_CSS@ input, .table2@THEME_CSS@ .actionBar@THEME_CSS@ select,
 .table2@THEME_CSS@ .drawer@THEME_CSS@ input, .table2@THEME_CSS@ .drawer@THEME_CSS@ select {

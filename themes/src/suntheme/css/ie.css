@@ -301,4 +301,9 @@ ul.MenuItems@THEME_CSS@ li div.MenuItem@THEME_CSS@.iehover {
 	margin:0 0 0 0;
 }
 
+/* Action Bar and Drawers */
+.table2@THEME_CSS@ .actionBar@THEME_CSS@ {	
+        display:inline-block;
+}
+
 /*---*/
