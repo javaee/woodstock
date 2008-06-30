@@ -15,35 +15,31 @@
          "defaultValue": {}}},
       {"date": {
          "type": "STRING",
-         "description": "",
+         "description": "The date value.",
          "defaultValue": ""}},
       {"dateFormat": {
          "type": "STRING",
-         "description": "",
+         "description": "The format in which to specify date text.",
          "defaultValue": "MM/dd/yyyy"}},
       {"decreaseLink": {
          "type": "OBJECT",
          "description": "",
          "defaultValue": {}}},
-      {"id": {
-         "type": "STRING",
-         "description": "Uniquely identifies an element within a document.",
-         "defaultValue": ""}},
       {"increaseLink": {
          "type": "OBJECT",
          "description": "",
          "defaultValue": {}}},
       {"maxDate": {
          "type": "OBJECT",
-         "description": "",
+         "description": "Latest date to display, in date format.",
          "defaultValue": {}}},
       {"minDate": {
          "type": "OBJECT",
-         "description": "",
+         "description": "Earliest date to display, in date format.",
          "defaultValue": {}}},
       {"monthMenu": {
          "type": "OBJECT",
-         "description": "",
+         "description": "The list of months displayed in the months dropDown list",
          "defaultValue": {}}},
       {"style": {
          "type": "STRING",
@@ -51,7 +47,7 @@
          "defaultValue": ""}},
       {"todayDateMsg": {
          "type": "OBJECT",
-         "description": "",
+         "description": "The current date message displayed in the banner.",
          "defaultValue": {}}},
       {"toggleLink": {
          "type": "OBJECT",
@@ -59,7 +55,7 @@
          "defaultValue": {}}},
       {"yearMenu": {
          "type": "OBJECT",
-         "description": "",
+         "description": "The list of years displayed in the years dropDown list.",
          "defaultValue": {}}},
       {"visible": {
          "type": "BOOLEAN",
@@ -67,10 +63,10 @@
          "defaultValue": false}}
     ],
     "value": {
-      "required": true,
+      "required": false,
       "type": "OBJECT",
       "defaultValue": {},
-      "description": ""
+      "description": "No value is required."
     },
     "config": {
       "type": {

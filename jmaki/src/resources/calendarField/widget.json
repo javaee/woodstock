@@ -7,7 +7,7 @@
     "args": [
       {"accesskey": {
          "type": "STRING",
-         "description": "",
+         "description": "Shortcut key.",
          "defaultValue": ""}},
      {"align": {
         "type": "STRING",
@@ -23,36 +23,32 @@
          "defaultValue": ""}},
       {"date": {
         "type": "STRING",
-        "description": "",
+        "description": "An initial date to pre-set in the value.",
         "defaultValue": ""}},
       {"dir": {
          "type": "STRING",
          "description": "Specifies the directionality of text.",
-         "defaultValue": ""}},
+         "defaultValue": "ltr"}},
       {"disabled": {
          "type": "BOOLEAN",
          "description": "Disable element.",
          "defaultValue": false}},
-      {"id": {
-         "type": "STRING",
-         "description": "Uniquely identifies an element within a document.",
-         "defaultValue": ""}},
       {"label": {
          "type": "OBJECT",
-         "description": "",
-         "defaultValue": {"level": 2, "value": "Mylabel"}}},
+         "description": "Define a lable widget properties.",
+         "defaultValue": {"value": "Mylabel", "level": 2}}},
       {"lang": {
          "type": "STRING",
-         "description": "Specifies the language of attribute values and content.",
+         "description": "Specifies the language of attribute values.",
          "defaultValue": ""}},
       {"maxLength": {
          "type": "INT",
-         "description": "",
+         "description": "Maximum length allowed for input text, in characters.",
          "defaultValue": 30}},
       {"notify": {
-         "type": "UNKNOWN",
-         "description": "",
-         "defaultValue": ""}},
+         "type": "ARRAY",
+         "description": "List of widget identifiers to notify for auto validation.",
+         "defaultValue": []}},
       {"onBlur": {
          "type": "STRING",
          "description": "Element lost focus.",
@@ -103,15 +99,15 @@
          "defaultValue": ""}},
       {"readOnly": {
          "type": "BOOLEAN",
-         "description": "",
+         "description": "The text value cannot be entered of changed.",
          "defaultValue": false}},
       {"required": {
          "type": "BOOLEAN",
-         "description": "",
+         "description": "A text value must be entered for this field.",
          "defaultValue": false}},
       {"size": {
          "type": "INT",
-         "description": "",
+         "description": "The size of the displayed text, in characters.",
          "defaultValue": 30}},
       {"style": {
          "type": "STRING",
@@ -119,19 +115,19 @@
          "defaultValue": ""}},
       {"submitForm": {
          "type": "BOOLEAN",
-         "description": "Submit form on ENTER",
+         "description": "If true, the page form is submitted on return.",
          "defaultValue": false}},
       {"tabIndex": {
          "type": "INT",
          "description": "Position in tabbing order.",
-         "defaultValue": 1}},
+         "defaultValue": -1}},
       {"title": {
          "type": "STRING",
          "description": "Provides a title for element.",
-         "defaultValue": ""}},
+         "defaultValue": "CalendarField widget"}},
       {"valid": {
          "type": "BOOLEAN",
-         "description": "",
+         "description": "If true, the text value is considered valid.",
          "defaultValue": true}},
       {"value": {
          "type": "STRING",
@@ -142,17 +138,11 @@
          "description": "Hide or show element.",
          "defaultValue": true}}
     ],
-
     "value": {
       "required": true,
       "type": "OBJECT",
-      "defaultValue": {label:{value:'Date:'},
-                    calendar: { dateFormat: 'MM/dd/yyyy',                     
-                                id: 'calField1_cal',
-                                widgetType: 'calendar'
-                               }
-                  },
-      "description": ""
+      "defaultValue": {label: {value: 'Date:'}, calendar: { dateFormat: 'MM/dd/yyyy'}},
+      "description": "Simple calendar field with label and date format."
     },
     "config": {
       "type": {

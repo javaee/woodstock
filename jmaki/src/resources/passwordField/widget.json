@@ -7,11 +7,11 @@
     "args": [
       {"accesskey": {
          "type": "STRING",
-         "description": "",
+         "description": "Shortcut key.",
          "defaultValue": ""}},
       {"autoValidate": {
          "type": "BOOLEAN",
-         "description": "",
+         "description": "Automatically validate input text on return.",
          "defaultValue": false}},
       {"autoSave": {
         "type": "BOOLEAN",
@@ -24,31 +24,27 @@
       {"dir": {
          "type": "STRING",
          "description": "Specifies the directionality of text.",
-         "defaultValue": ""}},
+         "defaultValue": "ltr"}},
       {"disabled": {
          "type": "BOOLEAN",
          "description": "Disable element.",
          "defaultValue": false}},
-      {"id": {
-         "type": "STRING",
-         "description": "Uniquely identifies an element within a document.",
-         "defaultValue": ""}},      
       {"label": {
          "type": "OBJECT",
-         "description": "Defines the widget and its properties to use for a label",
-         "defaultValue": {"level": 2, "value": "Mylabel"}}},
+         "description": "Define a label widget properties.",
+         "defaultValue": {"value": "Mylabel", "level": 2}}},
       {"lang": {
          "type": "STRING",
-         "description": "Specifies the language of attribute values and content.",
+         "description": "Specifies the language of attribute values.",
          "defaultValue": ""}},
       {"maxLength": {
          "type": "INT",
-         "description": "",
-         "defaultValue": 30}},
+         "description": "Maximum length allowed for input text, in characters.",
+         "defaultValue": 128}},
       {"notify": {
-         "type": "UNKNOWN",
-         "description": "",
-         "defaultValue": ""}},
+         "type": "ARRAY",
+         "description": "List of widget identifiers to notify for auto validate.",
+         "defaultValue": []}},
       {"onBlur": {
          "type": "STRING",
          "description": "Element lost focus.",
@@ -99,15 +95,15 @@
          "defaultValue": ""}},
       {"readOnly": {
          "type": "BOOLEAN",
-         "description": "",
+         "description": "The text value cannot be entered of changed.",
          "defaultValue": false}},
       {"required": {
          "type": "BOOLEAN",
-         "description": "",
+         "description": "A text value must be entered for this field.",
          "defaultValue": false}},
       {"size": {
          "type": "INT",
-         "description": "",
+         "description": "The size of rendered text, in characters.",
          "defaultValue": 30}},
       {"style": {
          "type": "STRING",
@@ -115,34 +111,33 @@
          "defaultValue": ""}},
       {"submitForm": {
          "type": "BOOLEAN",
-         "description": "Submit form on ENTER",
+         "description": "If true, the page form will be submitted on return.",
          "defaultValue": false}},
       {"tabIndex": {
          "type": "INT",
          "description": "Position in tabbing order.",
-         "defaultValue": 1}},
+         "defaultValue": -1}},
       {"title": {
          "type": "STRING",
          "description": "Provides a title for element.",
-         "defaultValue": ""}},
+         "defaultValue": "Password widget"}},
       {"valid": {
          "type": "BOOLEAN",
-         "description": "",
+         "description": "If true, the text value is considered valid.",
          "defaultValue": true}},
       {"value": {
          "type": "STRING",
-         "description": "Value of input.",
+         "description": "Value of text input.",
          "defaultValue": ""}},
       {"visible": {
          "type": "BOOLEAN",
          "description": "Hide or show element.",
          "defaultValue": true}}
     ],
-
     "value": {
       "required": true,
       "type": "OBJECT",
-      "defaultValue": {"required": true, "label":{"value":"Password:"}},
+      "defaultValue": {"required": true, "label": {"value": "Password:"}},
       "description": ""
     },
     "config": {

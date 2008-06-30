@@ -12,7 +12,7 @@ jmaki.namespace("@JMAKI_NS@.editableField");
  *            properties and are passed through to the widget.
  * publish:   none
  * subscribe: none
- * args.id:   User specified widget identifier; if not specified, the
+ * id:        User specified widget identifier; if not specified, the
  *            jMaki auto-generated identifier is used.
  * 
  * This widget subscribes to the following jMaki events:
@@ -62,64 +62,48 @@ jmaki.namespace("@JMAKI_NS@.editableField");
 @JMAKI_NS@.editableField.Widget.prototype._create = function(wargs) {
     // Get the jMaki wrapper properties for a Woodstock editableField.
     var props = {};
-    if (wargs.args) {
-	// Properties in the "args" property must be editableField properties!
+    if (wargs.args != null) {
         @JS_NS@._base.proto._extend(props, wargs.args);
-        
-    } else {
-	// No data. Define minimalist editableField.
     }
-    if (wargs.value) {
+    if (wargs.value != null) {
         @JS_NS@._base.proto._extend(props, wargs.value);
-    } else {
-	// No data. Define single dummy options list.
     }
 
     // Add our widget id and type.
     props.id = this._wid;
-     
     props.widgetType = "editableField";
-
-    // ============================================================
-    // Create the Woodstock widget...
-
-    // connect events
-    // 
-    //props.onChange = @JS_NS@.widget.common._hitch(this, "_functionName");
 
     // Create the Woodstock editableField widget.
     var span_id = wargs.uuid + "_span";
     @JS_NS@.widget.common.createWidget(span_id, props);
 };
 
-// Destroy...
-// Unsubscribe from jMaki events
+// Unsubscribe from jMaki events and destroy the Woodstock widget.
 @JMAKI_NS@.editableField.Widget.prototype.destroy = function() {
     if (this._subscriptions) {
         for (var i = 0; i < this._subscriptions.length; i++) {
             jmaki.unsubscribe(this._subscriptions[i]);
 	} // End of for
     }
+    @JS_NS@.widget.common.destroyWidget(this._wid);
 };
-
-
 
 // Warning: jMaki calls this function using a global scope. In order to
 // access variables and functions in "this" object, closures must be used.
 @JMAKI_NS@.editableField.Widget.prototype.postLoad = function() {
     // Do nothing...
 }
-// 
+ 
 // Callback function to handle jMaki setValues topic.
 // Event payload contains:
-//    {value: [<data model>]}
+//    {value: {<EditableText widget properties>}}
 // Update editableField widget to replace options array.
 @JMAKI_NS@.editableField.Widget.prototype._valuesCallback = function(payload) {
     if (payload) {
         var widget = @JS_NS@.widget.common.getWidget(this._wid);
         if (widget) {
-            if (payload.value ) {
-                widget.setProps({value: payload.value});
+            if (payload.value != null) {
+                widget.setProps(payload.value);
             }
 	}
     }

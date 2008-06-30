@@ -144,8 +144,7 @@ jmaki.namespace("@JMAKI_NS@.tree");
 
 };
 
-// Destroy...
-// Unsubscribe from jMaki events
+// Unsubscribe from jMaki events and destroy the Woodstock widget.
 @JMAKI_NS@.tree.Widget.prototype.destroy = function() {
 
     if (this._subscriptions) {
@@ -153,7 +152,7 @@ jmaki.namespace("@JMAKI_NS@.tree");
 	    jmaki.unsubscribe(this._subscriptions[i]);
 	} // End of for
     }
-
+    @JS_NS@.widget.common.destroyWidget(this._wid);
 };
 
 // Warning: jMaki calls this function using a global scope. In order to
@@ -378,9 +377,16 @@ jmaki.namespace("@JMAKI_NS@.tree");
 	    id = payload.nodeId;
 	}
 	if (typeof id == "string") {
-	    if (widget.isNodeSelected(id)) {
-		jmaki.publish(this._publish + "/onClick",
-		{widgetId: this._wid, type: "onClick", targetId: id});
+	    var props = widget.getNodeProps(id);
+	    if (props.selected && props.selected == true 
+		&& props.childNodes == null) {
+		jmaki.processActions({
+		    action: "onClick",
+		    targetId: id,
+		    topic: this._publish + "/onClick",
+		    type: "onClick",
+		    widgetId: this._wid
+		});
 	    }
 	}
     }
@@ -402,8 +408,13 @@ jmaki.namespace("@JMAKI_NS@.tree");
 	    if (payload.expanded != null && payload.expanded == true) {
 		etype = "onExpand";
 	    }
-	    jmaki.publish(this._publish + "/" + etype,
-		{widgetId: this._wid, type: etype, targetId: payload.nodeId});
+	    jmaki.processActions({
+		action: etype,
+		targetId: payload.nodeId,
+		topic: this._publish + "/" + etype,
+		type: etype,
+		widgetId: this._wid
+	    });
 	}
     }
 

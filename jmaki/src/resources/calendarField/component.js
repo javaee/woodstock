@@ -12,7 +12,7 @@ jmaki.namespace("@JMAKI_NS@.calendarField");
  *            properties and are passed through to the widget.
  * publish:   none
  * subscribe: none
- * args.id:   User specified widget identifier; if not specified, the
+ * id:        User specified widget identifier; if not specified, the
  *            jMaki auto-generated identifier is used.
  * 
  * This widget subscribes to the following jMaki events:
@@ -57,93 +57,105 @@ jmaki.namespace("@JMAKI_NS@.calendarField");
 
     // Create Woodstock widget.
     this._create(wargs);
+
 };
 
 // Create Woodstock widget.
 @JMAKI_NS@.calendarField.Widget.prototype._create = function(wargs) {
+
     // Get the jMaki wrapper properties for a Woodstock calendarField.
     var props = {};
-    if (wargs.args) {
-	// Properties in the "args" property must be calendarField properties!
+    if (wargs.args != null) {
         @JS_NS@._base.proto._extend(props, wargs.args);
-        
-    } else {
-	// No data. Define minimalist calendarField.
     }
-    if (wargs.value) {
+    if (wargs.value != null) {
         @JS_NS@._base.proto._extend(props, wargs.value);
-    } else {
-	// No data. Define single dummy options list.
+    }
+    // If a calendar subwidget is included, make sure its a valid widget.
+    if (props.calendar != null) {
+	if (props.calendar.id == null) {
+	    props.calendar.id = this._wid + "_cal";
+	}
+	props.calendar.widgetType = "calendar";
     }
 
     // Add our widget id and type.
     props.id = this._wid;
-     
     props.widgetType = "calendarField";
 
-    // ============================================================
-    // Create the Woodstock widget...
+    // If application sets onBlur, stack function for handling later.
+    if (props.onBlur) {
+        this._onBlur = (typeof props.onBlur == 'string')
+            ? new Function(props.onBlur) : props.onBlur;
+    }
 
-    // connect events
-    // 
+    // Hook the onBlur event.
     props.onBlur = @JS_NS@.widget.common._hitch(this, "_blurCallBack");
 
     // Create the Woodstock calendarField widget.
     var span_id = wargs.uuid + "_span";
     @JS_NS@.widget.common.createWidget(span_id, props);
+
 };
 
-// Destroy...
-// Unsubscribe from jMaki events
+// Unsubscribe from jMaki events and destroy the Woodstock widget.
 @JMAKI_NS@.calendarField.Widget.prototype.destroy = function() {
     if (this._subscriptions) {
         for (var i = 0; i < this._subscriptions.length; i++) {
             jmaki.unsubscribe(this._subscriptions[i]);
 	} // End of for
     }
+    @JS_NS@.widget.common.destroyWidget(this._wid);
 };
-
-
 
 // Warning: jMaki calls this function using a global scope. In order to
 // access variables and functions in "this" object, closures must be used.
 @JMAKI_NS@.calendarField.Widget.prototype.postLoad = function() {
     // Do nothing...
 }
-// 
+ 
 // Callback function to handle jMaki setValues topic.
 // Event payload contains:
-//    {value: [<data model>]}
+//    {value: { <widget properties> }}
 // Update calendarField widget to replace options array.
 @JMAKI_NS@.calendarField.Widget.prototype._valuesCallback = function(payload) {
     if (payload) {
         var widget = @JS_NS@.widget.common.getWidget(this._wid);
         if (widget) {
-            if (payload.value ) {
-                widget.setProps({value: payload.value});
+            if (payload.value != null) {
+                widget.setProps({valule: payload.value});
             }
 	}
     }
 };
 
-
-// Callback function to handle Woodstock listbox onSelect event.
+// Callback function to handle Woodstock calendarField onSelect event.
 // Event payload contains:
-//    Listbox widget identifier
+//    {widgetId: <wid>, type: 'onSelect', targetId: <wid>, value: <value>}
 // Publish jMaki onSelect event.
 @JMAKI_NS@.calendarField.Widget.prototype._blurCallBack = function() {
-    if (this._wid) {
-        var widget = @JS_NS@.widget.common.getWidget(this._wid);
-	if (widget) {
-            var val = widget.getProps().value;
-            if (val) {
-                // Format a jMaki event topic payload
-                // and publish the jMaki event.
-                var payload = {widgetId: this._wid, topic:
-                    {type: "onChange", targetId: this._wid, value: val}};
-		var selectedTopic = this._publish + "/onBlur";
-		jmaki.publish(selectedTopic, payload);
-            }
+
+    var result = true;
+    if (typeof this._onBlur == "function") {
+	result = this._onBlur();
+    }
+    if (result != null && result == false) {
+	return result;
+    }
+
+    var widget = @JS_NS@.widget.common.getWidget(this._wid);
+    if (widget) {
+	var val = widget.getProps().value;
+	if (val) {
+	    jmaki.processActions({
+		action: "onSelect",
+		targetId: this._wid,
+		topic: this._publish + "/onSelect",
+		type: "onSelect",
+		value: val,
+		widgetId: this._wid
+	    });
 	}
     }
 };
+
