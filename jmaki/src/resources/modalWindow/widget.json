@@ -1,0 +1,84 @@
+{
+    "name": "modalWindow",
+    "type": "@JS_NAME@",
+    "version": "@JS_VERSION@",
+    "jmakiVersion": "1.8",
+    "description": "Woodstock modalWindow widget.",
+    "args": [
+      {"maskColor": {
+         "type": "STRING",
+         "description": "color of the mask",
+         "defaultValue": ""}},
+      {"maskOpacity": {
+         "type": "STRING",
+         "description": "mask opacity",
+         "defaultValue": ""}},
+      {"top": {
+         "type": "STRING",
+         "description": "offset from the top, including units",
+         "defaultValue": ""}},
+      {"left": {
+         "type": "STRING",
+         "description": "offset from the left, including units; or 'auto'",
+         "defaultValue": ""}},
+      {"maxWidth": {
+         "type": "STRING",
+         "description": "maximium width of the window contents including units, such as '200px'",
+         "defaultValue": ""}},
+      {"maxHeight": {
+         "type": "STRING",
+         "description": "maximium height of the window contents including units, such as '200px'",
+         "defaultValue": ""}},
+      {"title": {
+         "type": "STRING",
+         "description": "window title, or null for none",
+         "defaultValue": ""}},
+      {"contents": {
+         "type": "ARRAY",
+         "description": "array of contents, or null for none",
+         "defaultValue": []}},
+      {"buttonClose": {
+         "type": "OBJECT",
+         "description": "button description closure, or false for no close button",
+         "defaultValue": {}}},
+      {"actions": {
+         "type": "ARRAY",
+         "description": "list of buttons descriptions, or true for standard OK/Cancel",
+         "defaultValue": []}},
+      {"visible": {
+         "type": "BOOLEAN",
+         "description": "Hide or show element.",
+         "defaultValue": false}}
+    ],
+    "value": {
+      "required": true,
+      "type": "OBJECT",
+      "defaultValue": {
+                "widgetType" :"modalWindow",
+                "contents" :  [{"html":"This dialog presents standard set of dialog buttons"}],                                
+                                        
+                "buttonClose" : 1,
+                "actions" :true
+            },
+      "description": "Accordion"
+    },
+    "config": {
+      "type": {
+        "id": "@JS_NAME@",
+        "libs": [
+          "@JS_PATH@/bootstrap.js"
+        ],
+        "resources": [ "../resources/" ]
+        }
+    },
+   "topicInfo": {
+        "type": "publish",
+        "topicName": "/@JS_NS@/accordion/onSelect",
+        "description": "Published when a tab is selected."
+    }
+}
+    
+
+ 
+
+
