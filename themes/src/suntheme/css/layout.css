@@ -986,6 +986,141 @@ a.DatOthBldLnk@THEME_CSS@:link, a.DatOthBldLnk@THEME_CSS@:visited {
 }
 /*---*/
 
+
+/* Modal Window */
+.MdlWinOverlay@THEME_CSS@ {
+    z-index: 1; 
+    left: 0px; 
+    width:100%; 
+    position: fixed; 
+    top: 0px; 
+    height: 100%; 
+
+}
+
+.MdlWinCenteringDiv@THEME_CSS@ {
+    text-align: center;
+    z-index:    2;
+    position:   fixed;
+    top:        0px;
+    left:        0px;
+    width: 100%;
+    height: 100%;
+}
+
+
+.MdlWinWindow@THEME_CSS@ {
+    margin: 100px auto auto; /*use margin-left and margin-top to position window */
+    width: 400px; 
+    min-width: 100px;
+    text-align: left;
+    position: relative; /* needed so that all containers within can be positioned "absolute relative to this one */            
+}
+
+.MdlWinWindowTitleBar@THEME_CSS@ {
+    position: relative;
+    width: auto;
+    text-indent: 10px;
+    z-index: 999;
+
+}
+
+
+.MdlWinWindowTitleText@THEME_CSS@ {
+    text-indent: 10px;
+    position: relative;
+    left: 0px;
+    top: 0px;
+    float: left;
+}
+
+
+.MdlWinWindowControlsContainer@THEME_CSS@ {
+    position: relative;
+    height: 20px;
+
+    float: right;
+    padding-right: 7px;
+    padding-top: 7px;            
+}
+
+
+.MdlWinWindowControl@THEME_CSS@ {
+    display: block;
+}
+
+
+.MdlWinToolbarContainer@THEME_CSS@ {
+    height: 30px;
+    z-index: 999;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    text-align: center;            
+}        
+
+
+
+.MdlWinToolbarMessage@THEME_CSS@ {
+    text-indent: 10px;
+    float: left;
+}
+
+.MdlWinToolbarNavContainer@THEME_CSS@ {
+    position: relative;
+    /*float: right;
+    right: 250px;*/
+    top: 5px;
+    left: 45%;
+}
+
+
+.MdlWinToolbarMediaContainer@THEME_CSS@ {
+    float: right;
+    position: relative;
+    top: 5px;
+    right: 10px;
+}
+
+
+.MdlWinContentContainer@THEME_CSS@ {
+    display: block;
+    width: auto;
+    z-index: 996;
+    position: relative;
+    height: auto;
+    max-height:300px;
+    padding: 8px;
+    overflow:hidden;
+    text-align: center;
+    line-height: 25px;
+    text-indent: 10px;
+    
+}
+
+
+
+.MdlWinWindowFooter@THEME_CSS@ {
+    margin-top: 15px;
+    height: auto;
+    width: auto;
+    z-index: 994;
+    padding-top: 5px;
+    padding-right: 0px;
+    padding-bottom: 5px;
+    padding-left: 0px;
+    border-top-width: 1px;
+    border-top-style: solid;
+    text-indent: 10px;
+    height: 18px;
+}
+.MdlWinActionContainer@THEME_CSS@ {
+    text-align: center;
+    height: auto;
+    float: right;
+    
+    
+}
+
 /* MASTHEAD */
 a.MstLnk@THEME_CSS@:link, a.MstLnk@THEME_CSS@:visited, a.MstLnkRt@THEME_CSS@:link, a.MstLnkRt@THEME_CSS@:visited {
 	border-width:1px;

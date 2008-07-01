@@ -195,6 +195,41 @@ table.EdtLstTbl@THEME_CSS@ td.EdtLstAddLblTd@THEME_CSS@ span.LblLev2Txt@THEME_CS
 .LstMno@THEME_CSS@, .LstMno@THEME_CSS@ option, .LstMno@THEME_CSS@ .LstOptGrp@THEME_CSS@, .LstMnoDis@THEME_CSS@, .LstMnoDis@THEME_CSS@ option, .LstMnoDis@THEME_CSS@ .LstOptGrp@THEME_CSS@  {
 	font-family:monospace;
 }
+
+/* Modal Window */
+
+.MdlWinWindowTitleBar@THEME_CSS@ {
+    line-height: 29px;
+}
+
+
+.MdlWinWindowTitleText@THEME_CSS@ {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    line-height: 29px;
+    font-weight: bold;
+}
+
+
+
+
+.MdlWinToolbarMessage@THEME_CSS@ {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    line-height: 30px;
+}
+
+
+
+
+
+.MdlWinWindowFooter@THEME_CSS@ {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    line-height: 16px;
+}
+
+
 /*---*/
 
 /* PROPERTY SHEET */

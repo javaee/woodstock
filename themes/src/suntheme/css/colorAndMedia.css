@@ -867,6 +867,88 @@ table.MniTabTbl@THEME_CSS@ td.MniTabTblSelTd@THEME_CSS@ {
 .MnuJmpOptGrp@THEME_CSS@, .MnuStdOptGrp@THEME_CSS@ {font-weight:normal;font-style:normal;}
 /*---*/
 
+/* Modal Window */
+.MdlWinOverlay@THEME_CSS@ {
+    background: #000; 
+}
+
+.MdlWinTransparent50@THEME_CSS@ {
+    filter:alpha(opacity=50);
+    -moz-opacity:0.5;
+    -khtml-opacity: 0.5;
+    opacity: 0.5;
+}
+
+
+.MdlWinOpaque@THEME_CSS@ {
+    filter:alpha(opacity=100);
+    -moz-opacity:1;
+    -khtml-opacity: 1;
+    opacity: 1;
+}
+
+.MdlWinCenteringDiv@THEME_CSS@ {
+    text-align: center;
+    z-index:    2;
+    position:   fixed;
+    top:        0px;
+    left:        0px;
+    width: 100%;
+    height: 100%;
+}
+
+
+.MdlWinWindow@THEME_CSS@ {
+    border: 1px solid #8c8f91;            
+    background-color: #E5E9ED;
+}
+
+.MdlWinWindowTitleBar@THEME_CSS@ {
+    background-image: url(../images/modalWindow/modalWindowBgImage.png);
+    background-repeat: repeat-x;
+    height: 29px;
+}
+
+
+.MdlWinWindowTitleText@THEME_CSS@ {
+    color: #FFFFFF; 
+}
+
+.MdlWinWindowControl@THEME_CSS@ {
+    /* nothing here yet */
+}
+
+.MdlWinCloseButton@THEME_CSS@ {
+    background-image: url(../images/modalWindow/closeButton.png);
+    background-repeat: no-repeat;
+    width : 15px;
+    height: 14px;
+}
+
+.MdlWinToolbarContainer@THEME_CSS@ {
+    border-bottom-color: #80929B;
+    text-align: center;            
+}        
+
+
+
+.MdlWinToolbarMessage@THEME_CSS@ {
+    color: #666666;
+}
+
+
+
+.MdlWinContentContainer@THEME_CSS@ {
+    background: white;
+}
+
+
+
+.MdlWinWindowFooter@THEME_CSS@ {
+    color: #666666;
+}
+
+
 /* MASTHEAD */
 span.MstLbl@THEME_CSS@, span.MstTxt@THEME_CSS@, span.MstUsrRole@THEME_CSS@, span.MstAlmDwnTxt@THEME_CSS@, span.MstAlmCrtTxt@THEME_CSS@, span.MstAlmMajTxt@THEME_CSS@, span.MstAlmMinTxt@THEME_CSS@,
 a.MstUsrLnk@THEME_CSS@:link, a.MstUsrLnk@THEME_CSS@:visited, a.MstAlmLnk@THEME_CSS@:link, a.MstAlmLnk@THEME_CSS@:visited, a.MstPrgLnk@THEME_CSS@:link, a.MstPrgLnk@THEME_CSS@:visited {
