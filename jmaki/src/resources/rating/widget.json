@@ -7,101 +7,96 @@
     "args": [
       {"autoSubmit": {
          "type": "BOOLEAN",
-         "description": "Indicates whether the grade is automatically",
+         "description": "If true, rating value is automatically submitted to the server.",
          "defaultValue": false}},
       {"averageGrade": {
          "type": "INT",
-         "description": "The average grade the general user population",
+         "description": "The average grade assigned by the general user population.",
          "defaultValue": 0}},
       {"clearAcknowledgedText": {
          "type": "STRING",
-         "description": "The acknowledged text for the clear",
+         "description": "The acknowledged text for the clear control.",
          "defaultValue": ""}},
       {"clearHoverText": {
          "type": "STRING",
-         "description": "The hover text for the clear control. There",
+         "description": "The hover text for the clear control.",
          "defaultValue": ""}},
       {"grade": {
          "type": "INT",
-         "description": "The grade (number of stars) the user has assigned the",
+         "description": "The user assigned rating (number of stars).",
          "defaultValue": 1}},
       {"gradeAcknowledgedText": {
          "type": "STRING",
-         "description": "The text that is displayed after",
+         "description": "The text displayed after clicking on a rating.",
          "defaultValue": ""}},
       {"gradeHoverTexts": {
          "type": "ARRAY",
-         "description": "The hover texts that will be used for the",
+         "description": "The texts displayed when hovering over the ratings.",
          "defaultValue": []}},
       {"gradeReadOnly": {
          "type": "BOOLEAN",
-         "description": "Indicates whether the grade of this rating",
+         "description": "If true, the grade cannot be enterd or changed.",
          "defaultValue": false}},
       {"inAverageMode": {
          "type": "BOOLEAN",
-         "description": "Indicates whether the component will be",
+         "description": "If true, the average grade is displayed.",
          "defaultValue": false}},
       {"includeClear": {
          "type": "BOOLEAN",
-         "description": "Indicates whether a control to clear the",
-         "defaultValue": false}},
+         "description": "If true, include a control to clear the rating.",
+         "defaultValue": true}},
       {"includeModeToggle": {
          "type": "BOOLEAN",
-         "description": "Indicates whether a control to toggle the",
+         "description": "If true, include a control to toggle between showing the user rating and average rating.",
          "defaultValue": false}},
       {"includeNotInterested": {
          "type": "BOOLEAN",
-         "description": "Indicates whether a control to allow",
-         "defaultValue": false}},
+         "description": "If true, include a control to allow assigning a not interested rating.",
+         "defaultValue": true}},
       {"includeText": {
          "type": "BOOLEAN",
-         "description": "Indicates whether an area for hover or",
-         "defaultValue": false}},
+         "description": "If true, include an area for hover or acknowledged text to be displayed.",
+         "defaultValue": true}},
       {"maxGrade": {
          "type": "INT",
-         "description": "The maximum grade (number of stars) this rating",
-         "defaultValue": 1}},
+         "description": "The maximum grade (number of stars) for the rating",
+         "defaultValue": 0}},
       {"modeReadOnly": {
          "type": "BOOLEAN",
-         "description": "Indicates whether the mode of this rating",
+         "description": "If true, the mode of this rating can be changed.",
          "defaultValue": false}},
       {"modeToggleAcknowledgedTexts": {
          "type": "ARRAY",
-         "description": "The acknowledged texts to be used",
+         "description": "The acknowledged texts used by the mode toggle control.",
          "defaultValue": []}},
       {"modeToggleHoverTexts": {
          "type": "ARRAY",
-         "description": "The hover texts to be used for the mode",
+         "description": "The hover texts used by the mode toggle control.",
          "defaultValue": []}},
       {"notInterestedAcknowledgedText": {
          "type": "STRING",
-         "description": "The acknowledged text for the",
+         "description": "The acknowledged text used for the not interested control.",
          "defaultValue": ""}},
       {"notInterestedHoverText": {
          "type": "STRING",
-         "description": "The hover text for the not-interested",
+         "description": "The hover text for the not interested control.",
          "defaultValue": ""}},
       {"style": {
          "type": "STRING",
          "description": "CSS style or styles to be applied to the outermost",
-         "defaultValue": ""}},
-      {"id": {
-         "type": "STRING",
-         "description": "The HTML element Id.",
          "defaultValue": ""}}
     ],
     "value": {
       "required": true,
       "type": "OBJECT",
       "defaultValue": {                
-                maxGrade:5,
-                gradeHoverTexts:['Hate It','Below Average','Average','Above Average','Love It'],
-                clearHoverText:'Clear Rating',
-                notInterestedHoverText:'Not Interested'
+                "maxGrade": 5,
+                "gradeHoverTexts": ["Hate It","Below Average","Average","Above Average","Love It"],
+                "clearHoverText": "Clear Rating",
+                "notInterestedHoverText": "Not Interested"
       },
-      "description": ""
+      "description": "Simple 5 star rating."
     },
-
     "config": {
       "type": {
         "id": "@JS_NAME@",
@@ -112,6 +107,3 @@
         }
     }
 }
-
-
-

@@ -7,54 +7,43 @@
     "args": [
       {"autoClose": {
          "type": "BOOLEAN",
-         "description": "",
-         "defaultValue": false}},
+         "description": "If true, the bubble is closed on mouseOut.",
+         "defaultValue": true}},
       {"closeButton": {
-         "type": "OBJECT",
-         "description": "",
-         "defaultValue": {}}},
-      {"contents": {
-         "type": "ARRAY",
-         "description": "",
-         "defaultValue": []}},
+         "type": "BOOLEAN",
+         "description": "If true, the bubble contains a close button.",
+         "defaultValue": true}},
       {"duration": {
          "type": "INT",
-         "description": "",
+         "description": "Time to delay when closing the bubble on moustOut, in milliseconds.",
          "defaultValue": 1}},
-      {"id": {
-         "type": "STRING",
-         "description": "Uniquely identifies an element within a document.",
-         "defaultValue": ""}},
       {"openDelay": {
          "type": "INT",
-         "description": "",
+         "description": "Time to delay when opening the bubble, in milliseconds.",
          "defaultValue": 1}},
       {"title": {
          "type": "STRING",
-         "description": "Provides a title for element.",
+         "description": "Defines the title for the bubble banner.",
          "defaultValue": ""}},
       {"width": {
          "type": "INT",
-         "description": "",
-         "defaultValue": 1}},
+         "description": "Override default width of bubble window, in pixels.",
+         "defaultValue": 0}},
       {"visible": {
          "type": "BOOLEAN",
          "description": "Hide or show element.",
-         "defaultValue": false}}
+         "defaultValue": true}}
     ],
     "value": {
       "required": true,
       "type": "OBJECT",
       "defaultValue": { 
-                'autoClose': false,
-                'visible':false,
-                'closeButton':true,
-                'title':'Bubble Help Title',
-                'contents':['Bubble contents...']
+                "visible":false,
+                "title":"Bubble Help Title",
+                "contents":["Bubble contents..."]
       },
-      "description": "Bubble Popup"
+      "description": "Bubble with simple text contents."
     },
-
     "config": {
       "type": {
         "id": "@JS_NAME@",

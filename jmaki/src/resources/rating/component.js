@@ -17,12 +17,14 @@ jmaki.namespace("@JMAKI_NS@.rating");
  * 
  * This widget subscribes to the following jMaki events:
  *
- * /@JS_NAME@/rating/select
+ * select     Set the rating value from the event payload:
+ *            {value: <rating_number>}
  *
  * This widget publishes the following jMaki events:
  * 
- * /@JS_NAME@/rating/onSelect - to allow subscriber retrieve newly entered grade
- * none
+ * onSelect   Provides the rating just set by the user with payload:
+ *            {widgetId: <wid>, type: 'onSelect', targetId: <wid>,
+ *             value: <rating_number>}
  */
 @JMAKI_NS@.rating.Widget = function(wargs) {
 
@@ -32,7 +34,7 @@ jmaki.namespace("@JMAKI_NS@.rating");
     this._subscriptions = [];
     this._wid = wargs.uuid;
     if (wargs.id) {
-        this._wid = wargs.id;
+	this._wid = wargs.id;
     } 
     if (wargs.publish) {
 	// User supplied a specific topic to publish to.
@@ -40,19 +42,19 @@ jmaki.namespace("@JMAKI_NS@.rating");
     }
     if (wargs.subscribe) {
 	// User supplied one or more specific topics to subscribe to.
-        if (typeof wargs.subscribe == "string") {
-            this._subscribe = [];
-            this._subscribe.push(wargs.subscribe);
-        } else {
-            this._subscribe = wargs.subscribe;
-        }
+	if (typeof wargs.subscribe == "string") {
+	    this._subscribe = [];
+	    this._subscribe.push(wargs.subscribe);
+	} else {
+	    this._subscribe = wargs.subscribe;
+	}
     }
 
     // Subscribe to jMaki events
     for (var i = 0; i < this._subscribe.length; i++) {
-        var s = jmaki.subscribe(this._subscribe + "/select", 
-        @JS_NS@.widget.common._hitch(this, "_valuesCallback"));
-        this._subscriptions.push(s);
+	var s = jmaki.subscribe(this._subscribe + "/select", 
+	@JS_NS@.widget.common._hitch(this, "_valuesCallback"));
+	this._subscriptions.push(s);
     }
 
     // Create Woodstock widget.
@@ -63,47 +65,34 @@ jmaki.namespace("@JMAKI_NS@.rating");
 @JMAKI_NS@.rating.Widget.prototype._create = function(wargs) {
     // Get the jMaki wrapper properties for a Woodstock rating.
     var props = {};
-    if (wargs.args) {
-	// Properties in the "args" property must be rating properties!
-        @JS_NS@._base.proto._extend(props, wargs.args);
-        
-    } else {
-	// No data. Define minimalist rating.
+    if (wargs.args != null) {
+	@JS_NS@._base.proto._extend(props, wargs.args);
     }
-    if (wargs.value) {
-        @JS_NS@._base.proto._extend(props, wargs.value);
-    } else {
-	// No data. Define single dummy options list.
+    if (wargs.value != null) {
+	@JS_NS@._base.proto._extend(props, wargs.value);
     }
 
     // Add our widget id and type.
     props.id = this._wid;
-     
     props.widgetType = "rating";
-
-    // ============================================================
-    // Create the Woodstock widget...
-
 
     // Create the Woodstock rating widget.
     var span_id = wargs.uuid + "_span";
     @JS_NS@.widget.common.createWidget(span_id, props);
 
     // connect events
-    //  =currently disabled . pending issue 1264 fix
-    
-    //@JS_NS@.widget.common.subscribe(@JS_NS@.widget.rating.event.submit.beginTopic, this, "_selectCallback");
+    @JS_NS@.widget.common.subscribe(@JS_NS@.widget.rating.event.grade.selectedTopic, this, "_selectCallback");
 
 };
 
-// Destroy...
-// Unsubscribe from jMaki events
+// Unsubscribe from jMaki events and destroy the Woodstock widget.
 @JMAKI_NS@.rating.Widget.prototype.destroy = function() {
     if (this._subscriptions) {
-        for (var i = 0; i < this._subscriptions.length; i++) {
-            jmaki.unsubscribe(this._subscriptions[i]);
+	for (var i = 0; i < this._subscriptions.length; i++) {
+	    jmaki.unsubscribe(this._subscriptions[i]);
 	} // End of for
     }
+    @JS_NS@.widget.common.destroyWidget(this._wid);
 };
 
 
@@ -112,42 +101,42 @@ jmaki.namespace("@JMAKI_NS@.rating");
 @JMAKI_NS@.rating.Widget.prototype.postLoad = function() {
     // Do nothing...
 }
-// 
+ 
 // Callback function to handle jMaki setValues topic.
 // Event payload contains:
-//    {value: [<data model>]}
+//    {value: <rating value>}
 // Update rating widget to replace options array.
 @JMAKI_NS@.rating.Widget.prototype._valuesCallback = function(payload) {
     if (payload) {
-        var widget = @JS_NS@.widget.common.getWidget(this._wid);
-        if (widget) {
-            if (payload.value ) {
-                var grd = (typeof payload.value == "number") ?
-                    payload.value : parseInt(payload.value);
-                widget.setProps({grade: grd});
-            }
+	var widget = @JS_NS@.widget.common.getWidget(this._wid);
+	if (widget) {
+	    if (payload.value) {
+		var grd = (typeof payload.value == "number") ?
+		    payload.value : parseInt(payload.value);
+		widget.setProps({grade: grd});
+	    }
 	}
     }
 };
 
-
-// Callback function to handle Woodstock listbox onSelect event.
-// Event payload contains:
-//    Listbox widget identifier
-// Publish jMaki onSelect event.
+// Callback function to handle Woodstock rating grade selected event.
+// Publish jMaki onSelect event with payload:
+// {widgetId: <wid>, type: 'onSelect', targetId: <wid>, value: <rating>}
 @JMAKI_NS@.rating.Widget.prototype._selectCallback = function() {
     if (this._wid) {
-        var widget = @JS_NS@.widget.common.getWidget(this._wid);
+	var widget = @JS_NS@.widget.common.getWidget(this._wid);
 	if (widget) {
-            var val = widget.getProps().grade;
-            if (val) {
-                // Format a jMaki event topic payload
-                // and publish the jMaki event.
-                var payload = {widgetId: this._wid, topic:
-                    {type: "onSelect", targetId: this._wid, value: val}};
-		var selectedTopic = this._publish + "/onSelect";
-		jmaki.publish(selectedTopic, payload);
-            }
+	    var val = widget.getProps().grade;
+	    if (val) {
+		jmaki.processActions({
+		    action: "onSelect",
+		    targetId: this._wid,
+		    topic: this._publish + "/onSelect",
+		    type: "onSelect",
+		    value: val,
+		    widgetId: this._wid
+		});
+	    }
 	}
     }
 };

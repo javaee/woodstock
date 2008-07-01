@@ -19,23 +19,19 @@ jmaki.namespace("@JMAKI_NS@.text");
  * 
  * This widget subscribes to the following jMaki events:
  *
- * TBD...
+ *            No events are subscribed to.
  *
  * This widget publishes the following jMaki events:
  *
- * TBD...
+ *            No events are published.
  */
 @JMAKI_NS@.text.Widget = function(wargs) {
-    // Turn on jMaki debugging...
-    //jmaki.debug = true;
-    //jmaki.log("Entering woodstock text Widget function...");
 
     // Initialize basic wrapper properties.
     this._subscribe = ["/@JS_NAME@/text"];
     this._publish = "/@JS_NAME@/text";
     this._subscriptions = [];
     this._wid = wargs.uuid;
-
     if (wargs.id) {
 	this._wid = wargs.id;
     }
@@ -61,12 +57,12 @@ jmaki.namespace("@JMAKI_NS@.text");
 @JMAKI_NS@.text.Widget.prototype._create = function(wargs) {
 
     // Process the jMaki wrapper properties for a Woodstock text.
-    // Value must contain an array of Options objects.
-    var props;
-    if (wargs.args) {
-	props = wargs.args;
-    } else {
-	props = {};
+    var props = {};
+    if (wargs.args != null) {
+	@JS_NS@._base.proto._extend(props, wargs.args);
+    }
+    if (wargs.value != null) {
+	@JS_NS@._base.proto._extend(props, wargs.value);
     }
 
     // Add our widget id and type.
@@ -78,18 +74,18 @@ jmaki.namespace("@JMAKI_NS@.text");
     @JS_NS@.widget.common.createWidget(span_id, props);
 };
 
-// Destroy...
-// Unsubscribe from jMaki events
+// Unsubscribe from jMaki events and destroy the Woodstock widget.
 @JMAKI_NS@.text.Widget.prototype.destroy = function() {
     if (this._subscriptions) {
         for (var i = 0; i < this._subscriptions.length; i++) {
             jmaki.unsubscribe(this._subscriptions[i]);
 	} // End of for
     }
+    @JS_NS@.widget.common.destroyWidget(this._wid);
 };
 
 // Warning: jMaki calls this function using a global scope. In order to
 // access variables and functions in "this" object, closures must be used.
 @JMAKI_NS@.text.Widget.prototype.postLoad = function() {
     // Do nothing...
-}
+};

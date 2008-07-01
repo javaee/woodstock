@@ -6,23 +6,26 @@ jmaki.namespace("@JMAKI_NS@.bubble");
  * This widget wrapper looks for the following properties in
  * the "wargs" parameter:
  *
- * value:     required (true/false) 
+ * value:     Initial data for a simple bubble:
+ *            {title: <title text>, contents: [<contents text>]}
  * args:      Additional widget properties from the code snippet,
  *            these properties are assumed to be underlying widget
  *            properties and are passed through to the widget.
- * publish:   none
- * subscribe: none
- * args.id:   User specified widget identifier; if not specified, the
+ * publish:   Topic to publish jMaki events to; if not specified, the
+ *            default topic is "/woodstock/bubble".
+ * subscribe: Topic to subscribe to for events; if not specified, the
+ *            default topic is "/woodstock/bubble".
+ * id:        User specified widget identifier; if not specified, the
  *            jMaki auto-generated identifier is used.
  * 
  * This widget subscribes to the following jMaki events:
  *
- * /woodstock/bubble/<id>/open - opens the bubble
- * /woodstock/bubble/<id>/close - closes the bubble
+ * open       Opens the bubble with UI event as its payload.
+ * close      Closes the bubble with UI event as its payload.
  *
  * This widget publishes the following jMaki events:
  * 
- * none
+ *            No events are published.
  */
 @JMAKI_NS@.bubble.Widget = function(wargs) {
 
@@ -50,10 +53,12 @@ jmaki.namespace("@JMAKI_NS@.bubble");
 
     // Subscribe to jMaki events
     for (var i = 0; i < this._subscribe.length; i++) {
-        var s1 = jmaki.subscribe(this._subscribe + "/*", 
-        @JS_NS@.widget.common._hitch(this, "_eventCallback"));
+        var s1 = jmaki.subscribe(this._subscribe + "/open", 
+        @JS_NS@.widget.common._hitch(this, "_openCallback"));
         this._subscriptions.push(s1);
-
+        var s2 = jmaki.subscribe(this._subscribe + "/close", 
+        @JS_NS@.widget.common._hitch(this, "_closeCallback"));
+        this._subscriptions.push(s2);
     }
 
     // Create Woodstock widget.
@@ -62,29 +67,19 @@ jmaki.namespace("@JMAKI_NS@.bubble");
 
 // Create Woodstock widget.
 @JMAKI_NS@.bubble.Widget.prototype._create = function(wargs) {
+
     // Get the jMaki wrapper properties for a Woodstock bubble.
     var props = {};
-    if (wargs.args) {
-	// Properties in the "args" property must be bubble properties!
+    if (wargs.args != null) {
         @JS_NS@._base.proto._extend(props, wargs.args);
-        
-    } else {
-	// No data. Define minimalist bubble.
     }
-    if (wargs.value) {
+    if (wargs.value != null) {
         @JS_NS@._base.proto._extend(props, wargs.value);
-    } else {
-	// No data. Define single dummy options list.
     }
 
     // Add our widget id and type.
     props.id = this._wid;
-     
     props.widgetType = "bubble";
-
-    // ============================================================
-    // Create the Woodstock widget...
-
 
     // Create the Woodstock bubble widget.
     var span_id = wargs.uuid + "_span";
@@ -92,58 +87,51 @@ jmaki.namespace("@JMAKI_NS@.bubble");
 
     // connect events
     //  =currently disabled . pending issue 1264 fix
-    
     //@JS_NS@.widget.common.subscribe(@JS_NS@.widget.bubble.event.submit.beginTopic, this, "_selectCallback");
 
 };
 
-// Destroy...
-// Unsubscribe from jMaki events
+// Unsubscribe from jMaki events and destroy the Woodstock widget.
 @JMAKI_NS@.bubble.Widget.prototype.destroy = function() {
     if (this._subscriptions) {
         for (var i = 0; i < this._subscriptions.length; i++) {
             jmaki.unsubscribe(this._subscriptions[i]);
 	} // End of for
     }
+    @JS_NS@.widget.common.destroyWidget(this._wid);
 };
-
 
 // Warning: jMaki calls this function using a global scope. In order to
 // access variables and functions in "this" object, closures must be used.
 @JMAKI_NS@.bubble.Widget.prototype.postLoad = function() {
     // Do nothing...
 }
-// 
-// Callback function to handle all of jMaki bubble topics.
-// Event payload contains:
-//    {event: browser event}
-@JMAKI_NS@.bubble.Widget.prototype._eventCallback = function(payload) {
-    //get the event type
-    var topic = payload.topic;
-    var subtopic = topic.substr(topic.lastIndexOf("/")+1);
-    
-    if (subtopic == "open" || subtopic =="close") {
-        this._display(subtopic, payload);
-    }
-    
+ 
+// Callback function to handle jMaki open event.
+// Event payload contains: {targetId: <bubble_id>, event: {<window_event>}}
+@JMAKI_NS@.bubble.Widget.prototype._openCallback = function(payload) {
+        this._display("open", payload);
 };
-// display /hide the widget
 
-@JMAKI_NS@.bubble.Widget.prototype._display = function(subtopic, payload) {
-      //we expect only payload that contains event
+// Callback function to handle jMaki close event.
+// Event payload contains: {targetId: <bubble_id>, event: {<window_event>}}
+@JMAKI_NS@.bubble.Widget.prototype._closeCallback = function(payload) {
+        this._display("close", payload);
+};
+
+// display or hide the widget
+@JMAKI_NS@.bubble.Widget.prototype._display = function(command, payload) {
+      //we expect the window event in the payload
       if (!payload || !payload.event) {
           return false;
       }
       var event = payload.event;
-      
       var widget = @JS_NS@.widget.common.getWidget(this._wid);
       if (widget) {
-          if (subtopic == "open") {
+          if (command == "open") {
               widget.open(event);
           } else {
               widget.close();
           }
-
     }
 };
-

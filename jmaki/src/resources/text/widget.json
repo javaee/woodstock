@@ -12,18 +12,14 @@
       {"dir": {
          "type": "STRING",
          "description": "Specifies the directionality of text.",
-         "defaultValue": ""}},
+         "defaultValue": "ltr"}},
       {"escape": {
          "type": "STRING",
          "description": "HTML escape value (default).",
          "defaultValue": ""}},
-      {"id": {
-         "type": "STRING",
-         "description": "Uniquely identifies an element within a document.",
-         "defaultValue": ""}},
       {"lang": {
          "type": "STRING",
-         "description": "Specifies the language of attribute values and content.",
+         "description": "Specifies the language of attribute values.",
          "defaultValue": ""}},
       {"onClick": {
          "type": "STRING",
@@ -72,7 +68,7 @@
       {"title": {
          "type": "STRING",
          "description": "Provides a title for element.",
-         "defaultValue": ""}},
+         "defaultValue": "Text widget"}},
       {"value": {
          "type": "STRING",
          "description": "Value of input.",
@@ -80,7 +76,7 @@
       {"visible": {
          "type": "BOOLEAN",
          "description": "Hide or show element.",
-         "defaultValue": false}}
+         "defaultValue": true}}
     ],
     "config": {
       "type": {

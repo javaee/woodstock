@@ -1,8 +1,5 @@
 <a:widget name="@JS_NAME@.bubble" 
-        value = "{
-                'autoClose': false,
-                'visible':false,
-                'closeButton':true,
+        value = "{'visible':false,
                 'title':'Bubble Help Title',
                 'contents':['Bubble contents...']
                 }" />
