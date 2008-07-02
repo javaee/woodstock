@@ -2220,3 +2220,10 @@ ul.MenuItems@THEME_CSS@ li div.MenuItem@THEME_CSS@:hover{     /* standard hover 
 .LogMidBnd@THEME_CSS@ {
     background-color:#D4DCE1;
 }
+/* PANNER */
+.panner_sun4 {
+    border-color: #000000;
+}
+.pannerpuck_sun4 {
+    border-color: #000000;
+}

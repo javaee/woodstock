@@ -3058,3 +3058,30 @@ span.rbcb@THEME_CSS@ input {
     border: none;
 }
 /*---*/
+/* PANNER */
+/* Note that the border-width and border-style is interdependent
+   with the ".pannerpuck" selector. When the style is "double"
+   the width is divided among the outer border, the middle spacing
+   and the inner border. At 3 pixels, the border-width in
+   "pannerpuck" results in the puck border overlapping the inner
+   border and the middle spacing. This gives the appearance that
+   the viewport reveals all of the canvas
+*/
+.panner@THEME_CSS@ {
+    line-height: 0;
+    width: 50px;
+    height: 50px;
+    border-width: 3px;
+    border-style: double;
+    position: relative;
+}
+.pannerpuck@THEME_CSS@ {
+    line-height: 0;
+    width: 10px;
+    height: 10px;
+    border-width: 2px;
+    border-style: dashed;
+    position: absolute;
+    top: -2px;
+    left: -2px;
+}

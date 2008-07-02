@@ -108,6 +108,16 @@ public class ThemeTemplates {
     public static final String LISTBOX = "listbox";
 
     /**
+     * A template file that contains HTML for the modalWindow component.
+     */
+    public static final String MODALWINDOW = "modalWindow";
+
+    /**
+     * A template file that contains HTML for the Panner component.
+     */
+    public static final String PANNER= "panner";
+
+    /**
      * A template file that contains HTML for the PasswordField component.
      */
     public static final String PASSWORDFIELD= "passwordField";
