@@ -111,8 +111,7 @@ public class Filter {
                 // Note: Table2RowGroup ensures pagination is reset per UI guidelines.
                 group.getTableRowGroup().setFilterCriteria(
                     new FilterCriteria[] {criteria});
-            }
-            
+            }            
         }
     }
 
@@ -123,8 +122,8 @@ public class Filter {
 
     // Set custom filter.
     public void setCustomFilter(String value) {
-        customFilter = value;        
-        if (type != null && type.equals("custom")) {             
+        customFilter = value;                
+        if (type == null || type.equals("custom")) {             
             if ((customFilter == null || customFilter.length() == 0)) {
                 group.getTableRowGroup().setFilterCriteria(null);
             } else {
@@ -137,9 +136,9 @@ public class Filter {
                     new FilterCriteria[] {criteria});
                 filterText = "Custom";            
                 basicFilter = "SEARCH_RESULT";
-            }
-            
-        }
+            }            
+        }    
+        type = null;   
     }
 
     // Get filter menu options.
