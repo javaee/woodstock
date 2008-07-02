@@ -53,10 +53,10 @@ jmaki.namespace("@JMAKI_NS@.bubble");
 
     // Subscribe to jMaki events
     for (var i = 0; i < this._subscribe.length; i++) {
-        var s1 = jmaki.subscribe(this._subscribe + "/open", 
+        var s1 = jmaki.subscribe(this._subscribe[i] + "/open", 
         @JS_NS@.widget.common._hitch(this, "_openCallback"));
         this._subscriptions.push(s1);
-        var s2 = jmaki.subscribe(this._subscribe + "/close", 
+        var s2 = jmaki.subscribe(this._subscribe[i] + "/close", 
         @JS_NS@.widget.common._hitch(this, "_closeCallback"));
         this._subscriptions.push(s2);
     }

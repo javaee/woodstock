@@ -62,10 +62,10 @@ jmaki.namespace("@JMAKI_NS@.listbox");
 
     // Subscribe to jMaki events
     for (var i = 0; i < this._subscribe.length; i++) {
-	var s1 = jmaki.subscribe(this._subscribe + "/select",
+	var s1 = jmaki.subscribe(this._subscribe[i] + "/select",
 	    @JS_NS@.widget.common._hitch(this, "_selectCallback"));
 	this._subscriptions.push(s1);
-	var s2 = jmaki.subscribe(this._subscribe + "/setValues", 
+	var s2 = jmaki.subscribe(this._subscribe[i] + "/setValues", 
 	    @JS_NS@.widget.common._hitch(this, "_valuesCallback"));
 	this._subscriptions.push(s2);
     }

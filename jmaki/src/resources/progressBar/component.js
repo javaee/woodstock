@@ -108,7 +108,7 @@ jmaki.namespace("@JMAKI_NS@.progressBar");
 
     // Subscribe to jMaki events
     for (var i = 0; i < this._subscribe.length; i++) {
-        var s1 = jmaki.subscribe(this._subscribe + "/control",
+        var s1 = jmaki.subscribe(this._subscribe[i] + "/control",
             @JS_NS@.widget.common._hitch(this, "_controlCallback"));
         this._subscriptions.push(s1);
     }

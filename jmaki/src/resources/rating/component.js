@@ -52,7 +52,7 @@ jmaki.namespace("@JMAKI_NS@.rating");
 
     // Subscribe to jMaki events
     for (var i = 0; i < this._subscribe.length; i++) {
-	var s = jmaki.subscribe(this._subscribe + "/select", 
+	var s = jmaki.subscribe(this._subscribe[i] + "/select", 
 	@JS_NS@.widget.common._hitch(this, "_valuesCallback"));
 	this._subscriptions.push(s);
     }

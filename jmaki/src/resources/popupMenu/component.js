@@ -50,7 +50,7 @@ jmaki.namespace("@JMAKI_NS@.popupMenu");
 
     // Subscribe to jMaki events
     for (var i = 0; i < this._subscribe.length; i++) {
-        var s1 = jmaki.subscribe(this._subscribe + "/*", 
+        var s1 = jmaki.subscribe(this._subscribe[i] + "/*", 
         @JS_NS@.widget.common._hitch(this, "_eventCallback"));
         this._subscriptions.push(s1);
 

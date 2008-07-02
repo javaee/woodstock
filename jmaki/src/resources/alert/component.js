@@ -66,7 +66,7 @@ jmaki.namespace("@JMAKI_NS@.alert");
 
     // Subscribe to jMaki events
     for (var i = 0; i < this._subscribe.length; i++) {
-        var s1 = jmaki.subscribe(this._subscribe + "/alert",
+        var s1 = jmaki.subscribe(this._subscribe[i] + "/alert",
             @JS_NS@.widget.common._hitch(this, "_alertCallback"));
         this._subscriptions.push(s1);
     }

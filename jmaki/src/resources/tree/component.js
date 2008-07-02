@@ -105,25 +105,25 @@ jmaki.namespace("@JMAKI_NS@.tree");
 
     // Subscribe to jMaki events
     for (var i = 0; i < this._subscribe.length; i++) {
-	var s1 = jmaki.subscribe(this._subscribe + "/addNodes",
+	var s1 = jmaki.subscribe(this._subscribe[i] + "/addNodes",
 	    @JS_NS@.widget.common._hitch(this, "_addNodesCallback"));
 	this._subscriptions.push(s1);
-	var s2 = jmaki.subscribe(this._subscribe + "/collapseAll",
+	var s2 = jmaki.subscribe(this._subscribe[i] + "/collapseAll",
 	    @JS_NS@.widget.common._hitch(this, "_collapseAllCallback"));
 	this._subscriptions.push(s2);
-	var s3 = jmaki.subscribe(this._subscribe + "/collapseNode",
+	var s3 = jmaki.subscribe(this._subscribe[i] + "/collapseNode",
 	    @JS_NS@.widget.common._hitch(this, "_collapseNodeCallback"));
 	this._subscriptions.push(s3);
-	var s4 = jmaki.subscribe(this._subscribe + "/expandAll",
+	var s4 = jmaki.subscribe(this._subscribe[i] + "/expandAll",
 	    @JS_NS@.widget.common._hitch(this, "_expandAllCallback"));
 	this._subscriptions.push(s4);
-	var s5 = jmaki.subscribe(this._subscribe + "/expandNode",
+	var s5 = jmaki.subscribe(this._subscribe[i] + "/expandNode",
 	    @JS_NS@.widget.common._hitch(this, "_expandNodeCallback"));
 	this._subscriptions.push(s5);
-	var s6 = jmaki.subscribe(this._subscribe + "/removeNode",
+	var s6 = jmaki.subscribe(this._subscribe[i] + "/removeNode",
 	    @JS_NS@.widget.common._hitch(this, "_removeNodeCallback"));
 	this._subscriptions.push(s6);
-	var s7 = jmaki.subscribe(this._subscribe + "/removeChildren",
+	var s7 = jmaki.subscribe(this._subscribe[i] + "/removeChildren",
 	    @JS_NS@.widget.common._hitch(this, "_removeChildrenCallback"));
 	this._subscriptions.push(s7);
     }
