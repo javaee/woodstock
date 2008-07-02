@@ -59,6 +59,7 @@
             replaceElement: @JS_NS@.widget._jsfx.progressBar._progressCallback,
             xjson: {
                 id: props.id,
+                taskState: props.taskState,
                 event: "progress"
             }
         });

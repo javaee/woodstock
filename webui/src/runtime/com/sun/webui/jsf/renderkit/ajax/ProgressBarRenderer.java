@@ -77,6 +77,8 @@ public class ProgressBarRenderer
                 progressBar.setTaskState(ProgressBar.TASK_RESUMED);
             } else if (ProgressBar.TASK_CANCELED.equals(value)){
                 progressBar.setTaskState(ProgressBar.TASK_CANCELED);
+            } else if (ProgressBar.TASK_RUNNING.equals(value)){
+                progressBar.setTaskState(ProgressBar.TASK_RUNNING);
             }
         }
     }

@@ -54,6 +54,7 @@
             xjson: {
                 id: props.id,
                 event: "progress",
+                taskState: props.taskState,
                 execute: props.id // Need to decode hidden field.
             }
         });

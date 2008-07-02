@@ -66,6 +66,7 @@
         this.progress = 0;
         this.percentChar = "%";
         this.type = this.determinate;
+        this.overlayAnimation = false;
     },
     busy: "BUSY",
     canceled: "canceled",
@@ -77,6 +78,7 @@
     paused: "paused",
     resumed: "resumed",
     stopped: "stopped",
+    running: "running",
     _widgetType: "progressBar"
 });
 
@@ -89,9 +91,15 @@
     clearTimeout(this.timeoutId);
 
     this._hiddenFieldNode.value = this.canceled;
+    this.taskState = this.canceled;
     if (this.type == this.determinate) {
         this._innerBarContainer.style.width = "0%";
     }
+    // publish cancel event
+    this._publish(@JS_NS@.widget.progressBar.event.cancel.cancelTopic, [{
+          id: this.id,
+          taskState: this.taskState
+        }]);
     return this._updateProgress();
 };
 
@@ -117,7 +125,43 @@
         /** Progress event topic for custom AJAX implementations to listen for. */
         endTopic: "@JS_NS@_widget_progressBar_event_progress_end"
     },
-
+    
+    /**
+     * This object contains pause event topics.
+     * @ignore
+     */
+    pause: {
+        /** pause topic for custom AJAX implementations to listen for. */
+        pauseTopic: "@JS_NS@_widget_progressBar_event_pause"
+    },
+    
+    /**
+     * This object contains resume event topics.
+     * @ignore
+     */
+    resume: {
+        /** resume topic for custom AJAX implementations to listen for. */
+        resumeTopic: "@JS_NS@_widget_progressBar_event_resume"
+    },
+    
+    /**
+     * This object contains cancel event topics.
+     * @ignore
+     */
+    cancel: {
+        /** cancel topic for custom AJAX implementations to listen for. */
+        cancelTopic: "@JS_NS@_widget_progressBar_event_cancel"
+    },
+    
+    /**
+     * This object contains stop event topics.
+     * @ignore
+     */
+    stop: {
+        /** stop topic for custom AJAX implementations to listen for. */
+        stopTopic: "@JS_NS@_widget_progressBar_event_stop"
+    },
+        
     /**
      * This object contains refresh event topics.
      * @ignore
@@ -280,10 +324,16 @@
     clearTimeout(this.timeoutId);
 
     this._hiddenFieldNode.value = this.paused;
+    this.taskState = this.paused;
     if (this.type == this.indeterminate) {
         this._innerBarContainer.className =
             this._theme.getClassName("PROGRESSBAR_INDETERMINATE_PAUSED");
     }
+    // publish pause event
+    this._publish(@JS_NS@.widget.progressBar.event.pause.pauseTopic, [{
+          id: this.id,
+          taskState: this.taskState
+        }]);
     return this._updateProgress();
 };
 
@@ -338,6 +388,8 @@
     /** @ignore */
     this._domNode.resume = function() { return @JS_NS@.widget.common.getWidget(this.id).resume(); };
     /** @ignore */
+    this._domNode.startProgress = function() { return @JS_NS@.widget.common.getWidget(this.id).startProgress(); }; 
+    /** @ignore */
     this._domNode.stop = function() { return @JS_NS@.widget.common.getWidget(this.id).stop(); };     
     /** @ignore */
     this._domNode.setOnCancel = function(func) { return @JS_NS@.widget.common.getWidget(this.id).setOnCancel(func); };
@@ -361,6 +413,7 @@
     this._domNode.setRightControlVisible = function(show) { return @JS_NS@.widget.common.getWidget(this.id).setRightControlVisible(show); };
     /** @ignore */
     this._domNode.setStatusTextVisible = function(show) { return @JS_NS@.widget.common.getWidget(this.id).setStatusTextVisible(show); };
+    
 
     if (this.busyImage == null) {
 	this.busyImage = {
@@ -381,11 +434,16 @@
     clearTimeout(this.timeoutId);
 
     this._hiddenFieldNode.value = this.resumed;
+    this.taskState = this.resumed;
     if (this.type == this.indeterminate) {
         this._innerBarContainer.className = 
-            this._theme.getClassName("PROGRESSBAR_INDETERMINATE");
-            
+            this._theme.getClassName("PROGRESSBAR_INDETERMINATE");            
     }
+    // publish resume event
+    this._publish(@JS_NS@.widget.progressBar.event.resume.resumeTopic, [{
+          id: this.id,
+          taskState: this.taskState
+        }]);
     return this._updateProgress();
 };
 
@@ -569,6 +627,7 @@
         if (this.funcFailed != null) {
             (this.funcFailed)();
         }
+        this._hiddenFieldNode.value = this.failed;
         return true;
     }
 
@@ -588,7 +647,7 @@
         }
         if (this.funcCanceled != null) {
            (this.funcCanceled)(); 
-        }
+        }        
         return true;    
     }
 
@@ -617,6 +676,7 @@
         if (this.funcComplete != null) {
            (this.funcComplete)(); 
         }
+        this._hiddenFieldNode.value = this.completed;
     }
 
     // Set progress for A11Y.
@@ -837,6 +897,25 @@
 };
 
 /**
+ * This function is used to start the progress client-side if one of the task state is
+ * "notstarted", "canceled", "failed", "completed" or "stopped".
+ *
+ * @return {boolean} true if successful; otherwise, false.
+ */
+@JS_NS@.widget.progressBar.prototype.startProgress = function() {
+    clearTimeout(this.timeoutId);
+    // get the current task state
+    var currentTaskState = this._hiddenFieldNode.value;    
+    if (currentTaskState == this.canceled || currentTaskState == this.stopped
+        || currentTaskState == this.failed || currentTaskState == this.notstarted
+        || currentTaskState == this.completed ) {
+        this._hiddenFieldNode.value = this.running;
+        this.taskState = this.running;
+        return this._updateProgress();        
+    }
+    return false;
+};
+/**
  * This function is used to "start" the widget, after the widget has been
  * instantiated.
  *
@@ -861,10 +940,16 @@
     clearTimeout(this.timeoutId);
 
     this._hiddenFieldNode.value = this.stopped;
+    this.taskState = this.stopped;
     if (this.type == this.indeterminate) {
         this.innerBarIdContainer.className =
             this._theme.getClassName("PROGRESSBAR_INDETERMINATE_PAUSED");
     }
+    // publish stop event
+    this._publish(@JS_NS@.widget.progressBar.event.stop.stopTopic, [{
+          id: this.id,
+          taskSatae: this.taskState
+        }]);
     return this._updateProgress();
 };
 
@@ -879,7 +964,8 @@
     if (this.refreshRate > 0) {
         // Publish an event for custom AJAX implementations to listen for.
         this._publish(@JS_NS@.widget.progressBar.event.progress.beginTopic, [{
-            id: this.id
+            id: this.id,
+            taskState: this.taskState
         }]);
     }
 
