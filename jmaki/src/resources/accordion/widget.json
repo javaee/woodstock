@@ -5,109 +5,50 @@
     "jmakiVersion": "1.8",
     "description": "Woodstock accordion widget.",
     "args": [
-        {
-            "className": {
+        {"className": {
                 "type": "STRING",
                 "description": "CSS selector.",
-                "defaultValue": "" 
-            } 
-        },
-        {
-            "collapseAllImage": {
+                "defaultValue": ""}},
+        {"collapseAllImage": {
                 "type": "OBJECT",
-                "description": "Image associated with collapse all icon",
-                "defaultValue": {
-                    
-                } 
-            } 
-        },
-        {
-            "expandAllImage": {
+                "description": "Image associated with collapse all icon.",
+                "defaultValue": {"src": "image_url"}}},
+        {"expandAllImage": {
                 "type": "OBJECT",
-                "description": "Image associated with expand all icon",
-                "defaultValue": {
-                    
-                } 
-            } 
-        },
-        {
-            "id": {
-                "type": "STRING",
-                "description": "Uniquely identifies an element within a document.",
-                "defaultValue": "" 
-            } 
-        },
-        {
-            "isRefreshIcon": {
+                "description": "Image associated with expand all icon.",
+                "defaultValue": {"src": "image_url"}}},
+        {"isRefreshIcon": {
                 "type": "BOOLEAN",
-                "description": "True if refresh icon should be set",
-                "defaultValue": false 
-            } 
-        },
-        {
-            "multipleSelect": {
+                "description": "If true, the refresh icon should be set.",
+                "defaultValue": false}},
+        {"multipleSelect": {
                 "type": "BOOLEAN",
-                "description": "Set to true if multiple tabs can be selected",
-                "defaultValue": false 
-            } 
-        },
-        {
-            "refreshImage": {
+                "description": "If true, multiple tabs can be selected.",
+                "defaultValue": false}},
+        {"refreshImage": {
                 "type": "OBJECT",
                 "description": "Image associated with refresh icon.",
-                "defaultValue": {
-                    
-                } 
-            } 
-        },
-        {
-            "style": {
+                "defaultValue": {"src": "image_url"}}},
+        {"style": {
                 "type": "STRING",
                 "description": "Specify style rules inline.",
-                "defaultValue": "" 
-            } 
-        },
-        {
-            "tabs": {
-                "type": "ARRAY",
-                "description": "Tabs constituting the accordion's children",
-                "defaultValue": [
-                    
-                ] 
-            } 
-        },
-        {
-            "toggleControls": {
+                "defaultValue": ""}},
+        {"toggleControls": {
                 "type": "BOOLEAN",
-                "description": "Set to true if expand/collapse icons should be set.",
-                "defaultValue": false 
-            } 
-        },
-        {
-            "visible": {
+                "description": "If true, expand and collapse icons should be set.",
+                "defaultValue": false}},
+        {"visible": {
                 "type": "BOOLEAN",
                 "description": "Hide or show element.",
-                "defaultValue": false 
-            } 
-        },
-        {
-            "id": {
-                "type": "STRING",
-                "description": "The id of the selected tab.",
-                "defaultValue": "" 
-            } 
-        } 
+                "defaultValue": true}}
     ],
     "value": {
       "required": true,
       "type": "OBJECT",
-      "defaultValue": {items : 
-           [
-           {label : "Books", content : "Book content"},
-           {id : "bar", label : "Magazines", include : "test.jsp", lazyLoad : true},
-           {label : "Newspaper", content : "Newspaper content", selected : true}
+      "defaultValue": {"items": [
+           {"id": "tab1", "label": "Tab 1", "content": "Tab 1 content", "selected": true}
            ]},
-      "description": "Accordion"
+      "description": "Simple accordion with one tab."
     },
     "config": {
         "type": {
@@ -126,7 +67,3 @@
         "description": "Published when a tab is selected."
     }
 }
-
- 
-
-
