@@ -37,13 +37,41 @@
          "type": "ARRAY",
          "description": "array of contents, or null for none",
          "defaultValue": []}},
-      {"buttonClose": {
-         "type": "OBJECT",
-         "description": "button description closure, or false for no close button",
-         "defaultValue": {}}},
+      {"okButton": {
+         "type": "BOOLEAN",
+         "description": "true  or false to render default window ok button ( false by default)",
+         "defaultValue": false}},
+      {"okButtonOnClick": {
+         "type": "STRING",
+         "description": "handler for ok button onClick event",
+         "defaultValue": ""}},
+      {"applyButton": {
+         "type": "BOOLEAN",
+         "description": "true  or false to render default window apply button ( false by default)",
+         "defaultValue": false}},
+      {"applyButtonOnClick": {
+         "type": "STRING",
+         "description": "handler for apply button onClick event",
+         "defaultValue": ""}},
+      {"cancelButton": {
+         "type": "BOOLEAN",
+         "description": "true  or false to render default window cancel button ( false by default)",
+         "defaultValue": false}},
+      {"cancelButtonOnClick": {
+         "type": "STRING",
+         "description": "handler for cancel button onClick event",
+         "defaultValue": ""}},
+      {"closeButton": {
+         "type": "BOOLEAN",
+         "description": "true  or false to render default window close button ( true by default)",
+         "defaultValue": false}},
+      {"closeButtonOnClick": {
+         "type": "STRING",
+         "description": "handler for close button onClick event",
+         "defaultValue": ""}},
       {"actions": {
          "type": "ARRAY",
-         "description": "list of buttons descriptions, or true for standard OK/Cancel",
+         "description": "list of buttons descriptions",
          "defaultValue": []}},
       {"visible": {
          "type": "BOOLEAN",
@@ -53,14 +81,9 @@
     "value": {
       "required": true,
       "type": "OBJECT",
-      "defaultValue": {
-                "widgetType" :"modalWindow",
-                "contents" :  [{"html":"This dialog presents standard set of dialog buttons"}],                                
-                                        
-                "buttonClose" : 1,
-                "actions" :true
-            },
-      "description": "Accordion"
+      "defaultValue": { 
+      },
+      "description": "Modal Window."
     },
     "config": {
       "type": {
@@ -70,15 +93,5 @@
         ],
         "resources": [ "../resources/" ]
         }
-    },
-   "topicInfo": {
-        "type": "publish",
-        "topicName": "/@JS_NS@/accordion/onSelect",
-        "description": "Published when a tab is selected."
     }
 }
-    
-
- 
-
-
