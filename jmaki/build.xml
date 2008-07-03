@@ -50,7 +50,8 @@
     </condition>
     <property name="js.name" value="${js-name}"/>
     <property name="js.module" value="${js.name}${CacheVersion}"/>
-    <property name="js.path" value="../resources/libs/${js.module}/${theme.name}/javascript"/>
+    <property name="js.libpath" value="../resources/libs"/>
+    <property name="js.path" value="${js.libpath}/${js.module}/${theme.name}/javascript"/>
 
     <!-- JMaki values. -->    
     <property name="jmaki.name" value="jmaki-woodstock"/>
@@ -74,6 +75,7 @@
         <filter token="JS_NAME" value="${js.name}"/>
 	<filter token="JS_NS" value="${js.module}"/>
         <filter token="JS_PATH" value="${js.path}"/>
+        <filter token="JS_LIBPATH" value="${js.libpath}"/>
         <filter token="JS_VERSION" value="${ThemeVersion}"/>
     </filterset>
 

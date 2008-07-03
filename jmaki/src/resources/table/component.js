@@ -1,3 +1,25 @@
+/**
+ * The contents of this file are subject to the terms
+ * of the Common Development and Distribution License
+ * (the License). You may not use this file except in
+ * compliance with the License.
+ *
+ * You can obtain a copy of the license at
+ * https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * See the License for the specific language governing
+ * permissions and limitations under the License.
+ *
+ * When distributing Covered Code, include this CDDL
+ * Header Notice in each file and include the License file
+ * at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * If applicable, add the following below the CDDL Header,
+ * with the fields enclosed by brackets [] replaced by
+ * you own identifying information:
+ * "Portions Copyrighted [year] [name of copyright owner]"
+ *
+ * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
+ */
+
 jmaki.namespace("@JMAKI_NS@.table");
 
 /*
@@ -6,8 +28,7 @@ jmaki.namespace("@JMAKI_NS@.table");
  * This widget wrapper looks for the following properties in
  * the "wargs" parameter:
  *
- * value:     Initial data for a simple table:
- *            {title: <title text>, contents: [<contents text>]}
+ * value:     Follows the table data model.
  * args:      Additional widget properties from the code snippet,
  *            these properties are assumed to be underlying widget
  *            properties and are passed through to the widget.
@@ -58,27 +79,27 @@ jmaki.namespace("@JMAKI_NS@.table");
 
     // Subscribe to jMaki events
     for (var i = 0; i < this._subscribe.length; i++) {
-        var s1 = jmaki.subscribe(this._subscribe + "/select", 
+        var s1 = jmaki.subscribe(this._subscribe[i] + "/select", 
         woodstock4_3.widget.common._hitch(this, "_selectCallback"));
         this._subscriptions.push(s1);
 
-        var s2 = jmaki.subscribe(this._subscribe + "/clear", 
+        var s2 = jmaki.subscribe(this._subscribe[i] + "/clear", 
         woodstock4_3.widget.common._hitch(this, "_clearCallback"));
         this._subscriptions.push(s2);
 
-        var s3 = jmaki.subscribe(this._subscribe + "/removeRow", 
+        var s3 = jmaki.subscribe(this._subscribe[i] + "/removeRow", 
         woodstock4_3.widget.common._hitch(this, "_removeRowCallback"));
         this._subscriptions.push(s3);
 
-        var s4 = jmaki.subscribe(this._subscribe + "/updateRows", 
+        var s4 = jmaki.subscribe(this._subscribe[i] + "/updateRows", 
         woodstock4_3.widget.common._hitch(this, "_updateRowCallback"));
         this._subscriptions.push(s4);
 
-        var s5 = jmaki.subscribe(this._subscribe + "/addRow", 
+        var s5 = jmaki.subscribe(this._subscribe[i] + "/addRow", 
         woodstock4_3.widget.common._hitch(this, "_addRowCallback"));
         this._subscriptions.push(s5);
 
-        var s6 = jmaki.subscribe(this._subscribe + "/addRows", 
+        var s6 = jmaki.subscribe(this._subscribe[i] + "/addRows", 
         woodstock4_3.widget.common._hitch(this, "_addRowCallback"));
         this._subscriptions.push(s6);
 
@@ -99,14 +120,11 @@ jmaki.namespace("@JMAKI_NS@.table");
     if (wargs.value != null) {
         woodstock4_3._base.proto._extend(props, wargs.value);
     }
+    this._convertModel(props);
 
     // Add our widget id and type.
     props.id = this._wid;
     props.widgetType = "table";
-
-
-    this._convertModel(props);
-
 
     // Create the Woodstock table widget.
     var span_id = wargs.uuid + "_span";
@@ -136,25 +154,17 @@ jmaki.namespace("@JMAKI_NS@.table");
 
 
 // selects a row
-// 
-// WOODSTOCK does not support this function
-// 
 // event payload:
 // select 	{targetId : < rowId>}
-
+// WOODSTOCK does not support this function
 @JMAKI_NS@.table.Widget.prototype._selectCallback = function(payload) {
     return false;
 };
 
-
-
 // clear selection 
-// 
-// 
 @JMAKI_NS@.table.Widget.prototype._clearCallback = function(payload) {
     var widget = woodstock4_3.widget.common.getWidget(this._wid);
     if (widget) {
-
       var props = {};
       props.rowGroups = [];
       widget.setProps(props);
@@ -164,14 +174,13 @@ jmaki.namespace("@JMAKI_NS@.table");
 // remove row
 // event payload:
 // removeRow 	{targetId : < rowId>}
-
 @JMAKI_NS@.table.Widget.prototype._removeRowCallback = function(payload) {
     if (!payload || !payload.targetId) {
         return false;
     }
     var widget = woodstock4_3.widget.common.getWidget(this._wid);
     if (widget) {
-        
+	// XXXX - Not yet implemented.        
     }
 
 };
@@ -179,14 +188,13 @@ jmaki.namespace("@JMAKI_NS@.table");
 // update row
 // event payload:
 // updateRow 	{ targetId :<rowId>, value: <row> } 
-
 @JMAKI_NS@.table.Widget.prototype._updateRowCallback = function(payload) {
     if (!payload || !payload.targetId) {
         return false;
     }
     var widget = woodstock4_3.widget.common.getWidget(this._wid);
     if (widget) {
-        
+	// XXXX - Not yet implemented.        
     }
 
 };
@@ -201,7 +209,7 @@ jmaki.namespace("@JMAKI_NS@.table");
     }
     var widget = woodstock4_3.widget.common.getWidget(this._wid);
     if (widget) {
-        
+        // XXXX - Not yet implemented.
     }
 
 };
@@ -227,15 +235,12 @@ jmaki.namespace("@JMAKI_NS@.table");
     if (!props.columns )  {
         return false;
     }
-    
-    
+
     //establish table level properties
     if (!props.caption ) {
-        props.caption = "Table Caption"; //jamkir data model does not define table caption?
+        props.caption = "Table Caption";
     }
     // widgetType and id are expected to be here
-   
-   
     //model supports only one rowGroup
     if (props.rowGroups != null) {
         return true; //model is assumed to be there
@@ -256,26 +261,19 @@ jmaki.namespace("@JMAKI_NS@.table");
    
     //column definition
     gr.columns = [];
-   
     var total_columns = 0;
     var colNamesMap = {};
-   
     for (var i = 0; i < props.columns.length; i++) {
         var colDef = props.columns[i];
-      
         var col = {};
         gr.columns.push(col);
-     
         col.headerText = (colDef.label)? colDef.label: "Column " + total_columns;
         col.id = (colDef.id)? colDef.id: props.id +"_col" + total_columns;
         col.noWrap = false;
         col.sort = false;
-   
         colNamesMap[colDef.label.toLowerCase()] = i;
-        
         total_columns++;
     }
-
 
     gr.rows = [];
     for (var i = 0; i < props.rows.length; i++) {
@@ -304,8 +302,5 @@ jmaki.namespace("@JMAKI_NS@.table");
             }
         }
     }    
-            
- 
 
 };
-

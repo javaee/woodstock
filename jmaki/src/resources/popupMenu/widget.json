@@ -1,3 +1,25 @@
+/**
+ * The contents of this file are subject to the terms
+ * of the Common Development and Distribution License
+ * (the License). You may not use this file except in
+ * compliance with the License.
+ *
+ * You can obtain a copy of the license at
+ * https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * See the License for the specific language governing
+ * permissions and limitations under the License.
+ *
+ * When distributing Covered Code, include this CDDL
+ * Header Notice in each file and include the License file
+ * at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * If applicable, add the following below the CDDL Header,
+ * with the fields enclosed by brackets [] replaced by
+ * you own identifying information:
+ * "Portions Copyrighted [year] [name of copyright owner]"
+ *
+ * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
+ */
+
 {
     "name": "popupMenu",
     "type": "@JS_NAME@",
@@ -7,7 +29,7 @@
     "args": [
       {"accessKey": {
          "type": "STRING",
-         "description": "",
+         "description": "Shortcut key.",
          "defaultValue": ""}},
       {"className": {
          "type": "STRING",
@@ -16,14 +38,10 @@
       {"dir": {
          "type": "STRING",
          "description": "Specifies the directionality of text.",
-         "defaultValue": ""}},
+         "defaultValue": "ltr"}},
       {"formId": {
          "type": "STRING",
-         "description": "",
-         "defaultValue": ""}},
-      {"id": {
-         "type": "STRING",
-         "description": "Uniquely identifies an element within a document.",
+         "description": "The id of the HTML form element for page submit.",
          "defaultValue": ""}},
       {"onBlur": {
          "type": "STRING",
@@ -73,10 +91,6 @@
          "type": "STRING",
          "description": "Mouse is moved while over element.",
          "defaultValue": ""}},
-      {"options": {
-         "type": "ARRAY",
-         "description": "",
-         "defaultValue": []}},
       {"primary": {
          "type": "BOOLEAN",
          "description": "Set button as primary if true.",
@@ -88,117 +102,33 @@
       {"tabIndex": {
          "type": "INT",
          "description": "Position in tabbing order.",
-         "defaultValue": 1}},
+         "defaultValue": -1}},
       {"title": {
          "type": "STRING",
          "description": "Provides a title for element.",
-         "defaultValue": ""}},
+         "defaultValue": "PopupMenu widget"}},
       {"visible": {
          "type": "BOOLEAN",
          "description": "Hide or show element.",
-         "defaultValue": false}},
-      {"options": {
-         "type": "ARRAY",
-         "description": "",
-         "defaultValue": []}},
-      {"disabled": {
-         "type": "BOOLEAN",
-         "description": "",
-         "defaultValue": false}},
-      {"group": {
-         "type": "BOOLEAN",
-         "description": "",
-         "defaultValue": false}},
-      {"disabled": {
-         "type": "BOOLEAN",
-         "description": "",
-         "defaultValue": false}},
-      {"escape": {
-         "type": "BOOLEAN",
-         "description": "",
-         "defaultValue": false}},
-      {"image": {
-         "type": "OBJECT",
-         "description": "",
-         "defaultValue": {}}},
-      {"label": {
-         "type": "STRING",
-         "description": "",
-         "defaultValue": ""}},
-      {"title": {
-         "type": "STRING",
-         "description": "",
-         "defaultValue": ""}},
-      {"value": {
-         "type": "STRING",
-         "description": "",
-         "defaultValue": ""}}
+         "defaultValue": true}}
     ],
     "value": {
       "required": true,
       "type": "OBJECT",
-      "defaultValue": {
-            "menu": [
-                {
-                    "label" : "action",
-                    "action" : {
-                        "topic" : "/foo",
-                        "message" : {
-                            "value" : "test.jsp" 
-                        } 
-                    } 
-                },        
-                {
-                    "label": "Yahoo!",
-                    "href" : "http://www.yahoo.com" 
-                },
-                {
-                    "label": "Sun Microsystems",
-                    "href": "http://www.sun.com",
-                    "style": {
-                        "checked": true 
-                    } 
-                },
-                {
-                    "label": "Oracle",
-                    "href": "http://www.oracle.com" 
-                } 
-            ]
-         },
-      "description": ""
+      "defaultValue": {"menu": [
+        {"label": "Goto Sun", "href": "http://www.sun.com"},
+        {"label": "My Action", "action": {"topic": "/mytopic", "message": "My message"}},
+        {"label": "My Value", "value": "my_value"},
+        {"label": "Sub Menu", "menu": [
+            {"label": "Sub Item", "value": "sub_value"}
+            ]}
+        ]},
+      "description": "Simple menu showing types of menu items."
     },
-  "value": {
-      "required": true,
-      "type": "OBJECT",
-      "defaultValue":{
-            "menu": [
-                {
-                    "label" : "action",
-                    "action" : {
-                        "topic" : "/foo",
-                        "message" : {
-                            "value" : "test.jsp" 
-                        } 
-                    } 
-                },        
-                {
-                    "label": "Yahoo!",
-                    "href" : "http://www.yahoo.com" 
-                },
-                {
-                    "label": "Sun Microsystems",
-                    "href": "http://www.sun.com",
-                    "style": {
-                        "checked": true 
-                    } 
-                },
-                {
-                    "label": "Oracle",
-                    "href": "http://www.oracle.com" 
-                } 
-            ]
-        },
-      "description": "Bubble Popup"
+    "topicInfo": {
+        "type": "publish",
+        "topicName": "/@JS_NS@/popupMenu/onClick",
+        "description": "Published when a menu item is selected."
     },
     "config": {
       "type": {
@@ -206,13 +136,7 @@
         "libs": [
           "@JS_PATH@/bootstrap.js"
         ],
-        "resources": [ "../resources/" ]
+        "resources": [ "@JS_LIBPATH@" ]
         }
-    },
-    "topicInfo": {
-        "type": "publish",
-        "topicName": "/@JS_NS@/popupMenu/onClick",
-        "description": "Published when a menu item is selected."
     }
 }
-

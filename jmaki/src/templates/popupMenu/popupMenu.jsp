@@ -1,28 +1,11 @@
-<a:widget name='@JS_NAME@.popupMenu' 
-    value = '{
-        "menu": [
-            {
-                "label": "Visit Sun Microsystems",
-                "href": "http://www.sun.com",
-                "style": {
-                    "checked": true 
-                } 
-            },
-            {
-                "label" : "Send Action",
-                "action" : {
-                    "topic" : "/foo",
-                    "message" : {
-                        "value" : "test.jsp" 
-                    } 
-                } 
-            },        
-          
-            {
-                "label": "Publish Event",
-                "topic": "/topic" 
-            } 
-        ]
-    }' />
+<a:widget name="@JS_NAME@.popupMenu"
+    value = "{menu: [
+        {label: 'Goto Sun', href: 'http://www.sun.com'},
+        {label: 'My Action', action: {topic: '/mytopic', message: 'My message'},
+        {label: 'My value', value: 'my_value'},
+        {label: 'Sub Menu', menu: [
+            {label: 'Sub Item', value: 'sub_value'}
+          ]}
+      ]}' />
 
 
