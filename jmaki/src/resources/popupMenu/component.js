@@ -150,19 +150,19 @@ jmaki.namespace("@JMAKI_NS@.popupMenu");
 };
 
 // Callback function to handle jMaki open event.
-// Event payload contains: {targetId: <bubble_id>, event: {<window_event>}}
-@JMAKI_NS@.bubble.Widget.prototype._openCallback = function(payload) {
+// Event payload contains: {targetId: <menu_id>, event: {<window_event>}}
+@JMAKI_NS@.popupMenu.Widget.prototype._openCallback = function(payload) {
 	this._display("open", payload);
 };
 
 // Callback function to handle jMaki close event.
-// Event payload contains: {targetId: <bubble_id>, event: {<window_event>}}
-@JMAKI_NS@.bubble.Widget.prototype._closeCallback = function(payload) {
+// Event payload contains: {targetId: <menu_id>, event: {<window_event>}}
+@JMAKI_NS@.popupMenu.Widget.prototype._closeCallback = function(payload) {
 	this._display("close", payload);
 };
 
 // display or hide the widget
-@JMAKI_NS@.bubble.Widget.prototype._display = function(command, payload) {
+@JMAKI_NS@.popupMenu.Widget.prototype._display = function(command, payload) {
       //we expect the window event in the payload
       if (!payload || !payload.event) {
 	  return false;
@@ -226,7 +226,7 @@ jmaki.namespace("@JMAKI_NS@.popupMenu");
 		jmaki.processActions({
 		    action: "onClick",
 		    targetId: val.value,
-		    topic: this._publish + "/onClick";
+		    topic: this._publish + "/onClick",
 		    type: "onClick",
 		    widgetId: this._wid
 		});
@@ -261,8 +261,8 @@ jmaki.namespace("@JMAKI_NS@.popupMenu");
 @JMAKI_NS@.popupMenu.Widget.prototype._createOptions = function(menuRef, optionsPlacement){    
 
     optionsPlacement.options = [];
-    if (munuRef instanceof Array) {
-	for (i = 0; i < menuRef.length; i += 1) {
+    if (menuRef instanceof Array) {
+	for (var i = 0; i < menuRef.length; i += 1) {
 	    var item = menuRef[i];
 	    var option  = {};
 	    option.group = false; 
