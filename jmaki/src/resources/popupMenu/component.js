@@ -200,7 +200,14 @@ jmaki.namespace("@JMAKI_NS@.popupMenu");
 	if (val != null) {
 	    var sep = val.indexOf(':');
 	    if (sep <= 0) {
-		return false;
+		jmaki.processActions({
+		    action: "onClick",
+		    targetId: val,
+		    topic: this._publish + "/onClick",
+		    type: "onClick",
+		    widgetId: this._wid
+		});
+		return result;
 	    }
 	    var command = val.substring(0, sep);
 	    var commandValue = val.substring(sep + 1);
@@ -215,21 +222,13 @@ jmaki.namespace("@JMAKI_NS@.popupMenu");
 		    var msg = (obj.message != null) ? obj.message : null;
 		    jmaki.processActions({
 			action: "onClick",
-			targetId: val,
+			targetId: null,
 			topic: top,
 			message: msg,
 			type: "onClick",
 			widgetId: this._wid
 		    });
 		}
-	    } else {
-		jmaki.processActions({
-		    action: "onClick",
-		    targetId: val.value,
-		    topic: this._publish + "/onClick",
-		    type: "onClick",
-		    widgetId: this._wid
-		});
 	    }
 	}
     }
@@ -242,7 +241,7 @@ jmaki.namespace("@JMAKI_NS@.popupMenu");
     
     // convert menu items into 'options' and force top level visible.
     if (props.visible == null) {
-	props.visible = true;
+	props.visible = false;
     }
     this._createOptions(props.menu, props);
 
