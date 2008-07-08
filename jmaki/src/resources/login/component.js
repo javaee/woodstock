@@ -77,9 +77,9 @@ jmaki.namespace("@JMAKI_NS@.login");
  *
  * This wrapper publishes the following jMaki events:
  *
- * authente  Publishes the result of the authentication:
+ * authentcate  Publishes the result of the authentication:
  *            {widgetId: <wid>, topic: /woodstock/login/authentice,
- *             targetId: <wid>, value: "success|failure"}
+ *            targetId: <wid>, value: "success|failure"}
  */
 @JMAKI_NS@.login.Widget = function(wargs) {
 

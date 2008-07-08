@@ -1,11 +1,5 @@
-  <a:widget name='woodstock.modalWindow' 
-    value = "{
-                'title' :'Attention',
-                'contents' :  [{'html':'This dialog presents standard set of dialog buttons<br>'}],
-                'closeButton' : true,
-                'okButton' : true
-                
-            }"    
-    />
-
-
+  <a:widget name='@JS_NAME@.modalWindow' 
+    args="{closeButton: true, okButton: true}"
+    value = "{title:'Attention', contents:  [
+        {html: 'Dialog with standard set of buttons'}
+        ]}" />

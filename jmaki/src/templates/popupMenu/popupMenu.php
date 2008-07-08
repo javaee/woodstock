@@ -1,0 +1,12 @@
+<?php
+    addWidget(array("name" => "@JS_NAME@.popupMenu",
+        "value" => "{menu: [
+            {label: 'Goto Sun', href: 'http://www.sun.com'},
+            {label: 'My Action', action: {topic: '/mytopic', message: 'My message'}},
+            {label: 'My value', value: 'my_value'},
+            {label: 'Sub Menu', menu: [
+                {label: 'Sub Item', value: 'sub_value'}
+             ]}
+          ]}"
+    ));
+?>
