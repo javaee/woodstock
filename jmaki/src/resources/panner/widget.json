@@ -1,0 +1,136 @@
+/**
+ * The contents of this file are subject to the terms
+ * of the Common Development and Distribution License
+ * (the License). You may not use this file except in
+ * compliance with the License.
+ *
+ * You can obtain a copy of the license at
+ * https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * See the License for the specific language governing
+ * permissions and limitations under the License.
+ *
+ * When distributing Covered Code, include this CDDL
+ * Header Notice in each file and include the License file
+ * at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * If applicable, add the following below the CDDL Header,
+ * with the fields enclosed by brackets [] replaced by
+ * you own identifying information:
+ * "Portions Copyrighted [year] [name of copyright owner]"
+ *
+ * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
+ */
+
+{
+    "name": "panner,",
+    "type": "@JS_NAME@",
+    "version": "@JS_VERSION@",
+    "jmakiVersion": "1.8",
+    "description": "Woodstock panner widget.",
+    "args": [
+      {"canvasId": {
+         "type": "STRING",
+         "description": "The HTML element id of the canvas.",
+         "defaultValue": ""}},
+      {"viewportId": {
+         "type": "STRING",
+         "description": "The HTML element id of the viewport.",
+         "defaultValue": ""}},
+      {"scale": {
+         "type": "INT",
+         "description": "Percentage size of the panner relative to the size of the canvas and viewport.",
+         "defaultValue": 10}},
+      {"canvasX": {
+         "type": "INT",
+         "description": "The current left postion of the canvas relative to the viewport origin.",
+         "defaultValue": 0}},
+      {"canvasY": {
+         "type": "INT",
+         "description": "The current top postion of the canvas relative to the viewport origin.",
+         "defaultValue": 1}},
+      {"canvasRect": {
+         "type": "OBJECT",
+         "description": "Define the width and height of the canvas HTML element.",
+         "defaultValue": {}}},
+      {"viewportRect": {
+         "type": "OBJECT",
+         "description": "Define the width and height of the viewport HTML element.",
+         "defaultValue": {}}},
+      {"pannerRect": {
+         "type": "OBJECT",
+         "description": "Define the width and height of the panner outer rectangle.",
+         "defaultValue": {}}},
+      {"puckRect": {
+         "type": "OBJECT",
+         "description": "Define the width and height of the puck of the panner.",
+         "defaultValue": {}}},
+      {"publishEvents": {
+         "type": "BOOLEAN",
+         "description": "If true, publish the start and move events.",
+         "defaultValue": false}},
+      {"className": {
+         "type": "STRING",
+         "description": "CSS selector.",
+         "defaultValue": ""}},
+      {"onClick": {
+         "type": "STRING",
+         "description": "Mouse button is clicked on element.",
+         "defaultValue": ""}},
+      {"onDblClick": {
+         "type": "STRING",
+         "description": "Mouse button is double-clicked on element.",
+         "defaultValue": ""}},
+      {"onKeyDown": {
+         "type": "STRING",
+         "description": "Key is pressed down over element.",
+         "defaultValue": ""}},
+      {"onKeyPress": {
+         "type": "STRING",
+         "description": "Key is pressed and released over element.",
+         "defaultValue": ""}},
+      {"onKeyUp": {
+         "type": "STRING",
+         "description": "Key is released over element.",
+         "defaultValue": ""}},
+      {"onMouseDown": {
+         "type": "STRING",
+         "description": "Mouse button is pressed over element.",
+         "defaultValue": ""}},
+      {"onMouseOut": {
+         "type": "STRING",
+         "description": "Mouse is moved away from element.",
+         "defaultValue": ""}},
+      {"onMouseOver": {
+         "type": "STRING",
+         "description": "Mouse is moved onto element.",
+         "defaultValue": ""}},
+      {"onMouseUp": {
+         "type": "STRING",
+         "description": "Mouse button is released over element.",
+         "defaultValue": ""}},
+      {"onMouseMove": {
+         "type": "STRING",
+         "description": "Mouse is moved while over element.",
+         "defaultValue": ""}},
+      {"style": {
+         "type": "STRING",
+         "description": "Specify style rules inline.",
+         "defaultValue": ""}},
+      {"title": {
+         "type": "STRING",
+         "description": "Provides a title for element.",
+         "defaultValue": "Panner widget"}},
+      {"visible": {
+         "type": "BOOLEAN",
+         "description": "Hide or show element.",
+         "defaultValue": true}}
+    ],
+    "config": {
+      "type": {
+        "id": "@JS_NAME@",
+        "libs": [
+          "@JS_PATH@/bootstrap.js"
+        ],
+        "resources": [ "@JS_LIBPATH@" ]
+        }
+    }
+}
