@@ -1,0 +1,82 @@
+/**
+ * The contents of this file are subject to the terms
+ * of the Common Development and Distribution License
+ * (the License). You may not use this file except in
+ * compliance with the License.
+ *
+ * You can obtain a copy of the license at
+ * https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * See the License for the specific language governing
+ * permissions and limitations under the License.
+ *
+ * When distributing Covered Code, include this CDDL
+ * Header Notice in each file and include the License file
+ * at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * If applicable, add the following below the CDDL Header,
+ * with the fields enclosed by brackets [] replaced by
+ * you own identifying information:
+ * "Portions Copyrighted [year] [name of copyright owner]"
+ *
+ * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
+ */
+
+{
+    "name": "login",
+    "type": "@JS_NAME@",
+    "version": "@JS_VERSION@",
+    "jmakiVersion": "1.8",
+    "description": "Woodstock login widget.",
+    "args": [
+      {"loginState": {
+         "type": "STRING",
+         "description": "State of authentication process; INIT, CONTINUE, SUCCESS, or FAILURE.",
+         "defaultValue": "INIT"}},
+      {"autoStart": {
+         "type": "BOOLEAN",
+         "description": "If true, the authentication process starts on page load.",
+         "defaultValue": false}},
+      {"style": {
+         "type": "STRING",
+         "description": "Specify style rules inline.",
+         "defaultValue": ""}},
+      {"className": {
+         "type": "STRING",
+         "description": "CSS selector of outermost DOM node for this widget.",
+         "defaultValue": ""}},
+      {"tabIndex": {
+         "type": "INT",
+         "description": "Attribute required to support tabbed navigation.",
+         "defaultValue": -1}},
+      {"userData": {
+         "type": "ARRAY",
+         "description": "Array of widget objects representing display fields.",
+         "defaultValue": []}},
+      {"keys": {
+         "type": "ARRAY",
+         "description": "Array of name/value arrays representing userData input fields.",
+         "defaultValue": []}},
+      {"alert": {
+         "type": "OBJECT",
+         "description": "Alert widget to display errors for failure state.",
+         "defaultValue": {"type": "error", "summary": "Authentication failure"}}},
+      {"redirectURL": {
+         "type": "STRING",
+         "description": "If authentication succeeds, redirect to the specified page.",
+         "defaultValue": ""}}
+    ],
+    "value": {
+      "required": true,
+      "type": "OBJECT",
+      "defaultValue": {"loginState": "INIT"},
+      "description": "Login in initial state."
+    },
+    "config": {
+      "type": {
+        "id": "@JS_NAME@",
+        "libs": [
+          "@JS_PATH@/bootstrap.js"
+        ],
+        "resources": [ "@JS_LIBPATH@" ]
+        }
+    }
+}
