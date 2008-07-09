@@ -853,6 +853,27 @@ public class ThemeStyles {
     public static final String RATING_MODE_AVERAGE_IMAGE = "RATING_MODE_AVERAGE_IMAGE";
     public static final String RATING_HOVER = "RATING_HOVER";
 
+    /**
+     * Dynamic Tabset/Tab Styles
+     */
+    public static final String DTABSET = "DTABSET";
+    public static final String DTABSET_ROW = "DTABSET_ROW";
+    public static final String DTAB_CONTENTS = "DTAB_CONTENTS";
+    public static final String DTAB_SELDIV = "DTAB_SELDIV";
+    public static final String DTAB_SELDIV2 = "DTAB_SELDIV2";
+    public static final String DTAB_TITLE = "DTAB_TITLE";
+    public static final String DTAB_PAD = "DTAB_PAD";
+    public static final String DTAB_LNKDIV = "DTAB_LNKDIV";
+    public static final String DTAB_LOAD = "DTAB_LOAD";
+    public static final String DTAB_LOAD_OFF = "DTAB_LOAD_OFF";
+    public static final String DTAB_LAST = "DTAB_LAST";
+    public static final String DTAB_CLOSEBTN = "DTAB_CLOSEBTN";
+    public static final String DTAB_SCROLLBTN = "DTAB_SCROLLBTN";
+    public static final String DTAB_SCROLLDIV = "DTAB_SCROLLDIV";
+    public static final String DTAB_ENABLED = "DTAB_ENABLED";
+    public static final String DTAB_IEHOVER = "DTAB_IEHOVER";
+    public static final String DTAB_BOTTOM = "DTAB_BOTTOM";
+
 
     /**
      * This private constructor prevents this class from being instantiated

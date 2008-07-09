@@ -307,3 +307,10 @@ ul.MenuItems@THEME_CSS@ li div.MenuItem@THEME_CSS@.iehover {
 }
 
 /*---*/
+
+/* DYNAMIC TAB (aka tab2) */
+.DTabLnkDiv@THEME_CSS@ .DTabTitle@THEME_CSS@ span.DTabIEhover@THEME_CSS@ {
+    text-decoration: underline;
+    cursor: pointer;
+}
+/*---*/

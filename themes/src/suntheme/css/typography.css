@@ -266,6 +266,14 @@ table.EdtLstTbl@THEME_CSS@ td.EdtLstAddLblTd@THEME_CSS@ span.LblLev2Txt@THEME_CS
 }
 /*---*/
 
+/* DYNAMIC TABSET (aka tab2) */
+.DTabsetRow@THEME_CSS@ {
+    font-size: 1.0em;
+    font-weight: bold;
+    height: 100%;  /* only really needed for IE6, other browsers can live without */
+}
+/*---*/
+
 /* TABSET */
 .Tab1Div@THEME_CSS@, .Tab2Div@THEME_CSS@, .Tab3Div@THEME_CSS@, .MniTabDiv@THEME_CSS@, .TabGrpBox@THEME_CSS@ {
 	font-size:1.0em;

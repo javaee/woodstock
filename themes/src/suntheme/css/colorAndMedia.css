@@ -659,6 +659,51 @@ span.TtlTxt@THEME_CSS@, h1.TtlTxt@THEME_CSS@ {
 }
 /*---*/
 
+/* DYNAMIC TABSET (aka tab2) */
+.DTabsetRow@THEME_CSS@ {
+    background-color: #EAEDF1;
+    background-image: url(../images/tabs/background_border_bottom.gif);
+    background-position: left bottom;
+    background-repeat: repeat-x;
+}
+.DTabSelDiv@THEME_CSS@ {
+    border-color: #80939B;
+    background-color: #FFFFFF;
+    background-image: url(../images/tabs/selected_gradient.png);
+    background-position: left top;
+    background-repeat: repeat-x;
+}
+.DTabSelDiv2@THEME_CSS@ {
+    border-color: #80939B;
+    background-color: #EAEDF1;
+    background-image: url(../images/tabs/selected_gradient2.png);
+    background-position: left top;
+    background-repeat: repeat-x;
+}
+.DTabLnkDiv@THEME_CSS@, .DTabScrollDiv@THEME_CSS@ {
+    border-color: #80939B;
+    background-color: #FAFDFF;
+    background-image: url(../images/tabs/unselected_gradient.png);
+    background-position: left top;
+    background-repeat: repeat-x;
+}
+.DTabTitle@THEME_CSS@ span {
+    color: #000;
+    text-decoration: none;
+}
+.DTabLnkDiv@THEME_CSS@ .DTabTitle@THEME_CSS@ span:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+.DTabEnabled@THEME_CSS@ {
+    cursor: pointer;
+}
+.DTabContents@THEME_CSS@ {
+    border: 1px solid #80939B;
+    border-top: 0px none;
+}
+/*---*/
+
 /* TABSET */
 /* These two selectors came from "layout.css", but it is not clear that
    they are still needed. Defining them early so that they will be 

@@ -1228,6 +1228,72 @@ a.MstLnkCen@THEME_CSS@:link, a.MstLnkCen@THEME_CSS@:visited {
 }
 /*---*/
 
+/* DYNAMIC TABSET/TAB (aka tab2) */
+.DTabsetRow@THEME_CSS@ {
+    /* padding-left/right must match dtab.tabsetPadLeft/right in message.properties */
+    padding: 6px 0px 0px 10px;
+    overflow: hidden;
+    clear:both;
+}
+.DTabSelDiv@THEME_CSS@, .DTabSelDiv2@THEME_CSS@ {
+    padding-bottom: 1px;
+}
+.DTabSelDiv@THEME_CSS@, .DTabSelDiv2@THEME_CSS@, .DTabLnkDiv@THEME_CSS@, .DTabScrollDiv@THEME_CSS@ {
+    border-style: solid none none solid;
+    border-width: 1px 0px 0px 1px;
+    float: left;
+}
+.DTabBottom@THEME_CSS@ {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+}
+.DTabLast@THEME_CSS@ {
+    border-right-style: solid;
+    border-right-width: 1px;
+}
+.DTabTitle@THEME_CSS@, .DTabScrollDiv@THEME_CSS@ span {
+    padding: 8px 13px 7px;
+    float:left;
+}
+.DTabTitle@THEME_CSS@ {
+    display: block;
+    text-align: center;
+    white-space: nowrap;
+}
+div.DTabPad@THEME_CSS@ {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.DTabCloseBtn@THEME_CSS@ {
+    float: left;
+    margin-top: 5px;
+    margin-right: 5px;
+}
+.DTabScrollDiv@THEME_CSS@ span {
+    padding-left: 0px;
+    padding-right: 0px;
+    visibility: hidden;
+}
+.DTabScrollBtn@THEME_CSS@ {
+    border-style:none;
+    margin-left: -1px;
+    float: left;
+}
+.DTabLoad@THEME_CSS@ {
+    float: left;
+    margin-left: 4px;
+    margin-top: 3px
+}
+.DTabLoadOff@THEME_CSS@ {
+    visibility: hidden;
+}
+.DTabContents@THEME_CSS@ {
+    display: block;
+    height: 5.0em;   /* overridden by themeable parameter "dtabset.contentHeight" */
+                     /*  and widget "contentHeight" property */
+}
+/*---*/
+
 /* TABSET */
 .Tab1Div@THEME_CSS@ td {
 	border-style:solid;
