@@ -868,6 +868,7 @@ public class ThemeStyles {
     public static final String DTAB_LOAD_OFF = "DTAB_LOAD_OFF";
     public static final String DTAB_LAST = "DTAB_LAST";
     public static final String DTAB_CLOSEBTN = "DTAB_CLOSEBTN";
+    public static final String DTAB_CLOSEBTN_OFF = "DTAB_CLOSEBTN_OFF";
     public static final String DTAB_SCROLLBTN = "DTAB_SCROLLBTN";
     public static final String DTAB_SCROLLDIV = "DTAB_SCROLLDIV";
     public static final String DTAB_ENABLED = "DTAB_ENABLED";

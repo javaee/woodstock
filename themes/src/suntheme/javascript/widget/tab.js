@@ -631,6 +631,33 @@
 }; // _setLoadIconOn
 
 /**
+ * Turn on/off the close button
+ *
+ * @param {boolean} on  true to turn it on, false to turn it off
+ * @return true
+ * @private
+ */
+@JS_NS@.widget.tab.prototype._setCloseBtnOn = function(on) {
+
+    if (on == false) {
+        this._common._addStyleClass(this._closeBtnContainer, this._theme.getClassName("DTAB_CLOSEBTN_OFF"));
+    }
+    var image = null;
+    if (this.selected == true) {
+        image = this._theme.getImage("DTAB_CLOSE_SELECTED");
+    } else {
+        image = this._theme.getImage("DTAB_CLOSE_UNSELECTED");
+    }
+    this._closeIconNode.src = image.src;
+    this._closeIconNode.width = image.width;
+    this._closeIconNode.height = image.height;
+    if (on == true) {
+        this._common._stripStyleClass(this._closeBtnContainer, this._theme.getClassName("DTAB_CLOSEBTN_OFF"));
+    }
+
+}; // _setCloseBtnOn
+
+/**
  * Handler for tab mouseover events for IE6 only.
  *
  * @param {Event} event The JavaScript event.
@@ -699,21 +726,7 @@
 
     // Close icon
     if ((props.selected != null) || (props.closeable != null)) {
-        if (this.closeable == true) {
-            this._closeBtnContainer.className = this._theme.getClassName("DTAB_CLOSEBTN");
-            this._common._addStyleClass(this._closeBtnContainer, this._theme.getClassName("DTAB_ENABLED"));
-            var image = null;
-            if (this.selected == true) {
-                image = this._theme.getImage("DTAB_CLOSE_SELECTED");
-            } else {
-                image = this._theme.getImage("DTAB_CLOSE_UNSELECTED");
-            }
-            this._closeIconNode.src = image.src;
-            this._closeIconNode.width = image.width;
-            this._closeIconNode.height = image.height;
-        } else {
-            this._closeBtnContainer.className = this._theme.getClassName("HIDDEN");
-        }
+        this._setCloseBtnOn(this.closeable);
     }
 
     // Contents
@@ -782,6 +795,11 @@
     // Initialize load progress icon
     this._loadIconContainer.className = this._theme.getClassName("DTAB_LOAD");
     this._setLoadIconOn(false);
+
+    // Initialize the close button
+    this._closeBtnContainer.className = this._theme.getClassName("DTAB_CLOSEBTN");
+    this._common._addStyleClass(this._closeBtnContainer, this._theme.getClassName("DTAB_ENABLED"));
+    this._setCloseBtnOn(this.closeable);
 
     // Subscribe to load event topics
     this._widget.subscribe(@JS_NS@.widget.tab.event.load.endTopic, this, "_loadCallback");

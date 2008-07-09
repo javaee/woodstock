@@ -1284,7 +1284,7 @@ div.DTabPad@THEME_CSS@ {
     margin-left: 4px;
     margin-top: 3px
 }
-.DTabLoadOff@THEME_CSS@ {
+.DTabLoadOff@THEME_CSS@, .DTabCloseBtnOff@THEME_CSS@ {
     visibility: hidden;
 }
 .DTabContents@THEME_CSS@ {
