@@ -897,6 +897,10 @@
  */
 @JS_NS@.widget.tabset.prototype._getClassNameForTab = function(tabID) { 
 
+    // Don't assign anything unless the widget has been started.
+    if (this._started == false)
+        return null;
+
     // Sanity checks
     if (tabID == null)
         return null;
