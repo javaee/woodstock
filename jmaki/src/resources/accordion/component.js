@@ -44,6 +44,9 @@ jmaki.namespace("@JMAKI_NS@.accordion");
  *            property is omitted, it is set to the accordion id plus
  *            "_tab<index>".  For refId, the referenced widget must be
  *            rendered on the page before the accordion widget is rendered.
+ *            The lazyload property is not supported on the tab entries,
+ *            but a "loadOnSelect" property can be set on the tabset itself,
+ *            effectively lazy loading all the tabs in the set.
  * args:      Additional widget properties from the code snippet,
  *            these properties are assumed to be underlying widget
  *            properties and are passed through to the widget.
@@ -254,13 +257,13 @@ jmaki.namespace("@JMAKI_NS@.accordion");
 // Converts jmaki model to props digestable by woodstock accordion widget
 // Each "items" array object is mapped to an accordionTab widget.
 // Within each items object, the property mapping:
-//   id       -> accordionTab.id (default: widgetId + "_tab" + <index>)
-//   label    -> title (default: "Tab <index>"
+//   id       -> id           (default: widgetId + "_tab" + <index>)
+//   label    -> title        (default: "Tab <index>"
 //   content  -> tabContents: [{content: <content_value>}]
 //   include  -> tabContents: [{include: <include_url>}]
-//   refId    -> tabContents: [{refId: <refid_value>}]
+//   refId    -> tabContents: [{refId: <refid_value>}] (Woodstock only)
 //   selected -> selected
-//   lazyLoad -> loadOnSelect
+//   lazyLoad -> Not supported; see loadOnSelect
 @JMAKI_NS@.accordion.Widget.prototype._convertModel = function(props){
     
     props.tabs = [];
@@ -270,7 +273,7 @@ jmaki.namespace("@JMAKI_NS@.accordion");
     }
 
     if (props.items instanceof Array) {
-	for (i = 0; i < props.items.length; i += 1) {
+	for (var i = 0; i < props.items.length; i += 1) {
 	    var item = props.items[i];
 	    var tab  = {};
 	    tab.widgetType = "accordionTab";
@@ -294,9 +297,6 @@ jmaki.namespace("@JMAKI_NS@.accordion");
 	    } 
 	    if (item.selected && item.selected == true) {
 		tab.selected = true;
-	    }
-	    if (item.lazyLoad && item.lazyLoad == true) {
-		props.loadOnSelect = true;
 	    }
 	    props.tabs.push(tab);	
 	}	// End of for
