@@ -674,7 +674,7 @@
     if (props == null)
         return false;
 
-    // Contents - determine if contains child tabs`
+    // Contents - determine if contains child tabs
     if (props.contents != null) {
         for (var i = 0; i < this.contents.length; i++) {
             if (this.contents[i].widgetType == "tab") {
@@ -682,17 +682,6 @@
                 break;
             }
         }
-    }
-
-    // Selected state
-    if (props.selected != null) {
-        // Appropriate class to assign is done in getClassName().  Here just make sure we
-        // clean out whatever class was previous assigned.
-        // Additionally it is expected this will go away after some additional testing of
-        // of tab selection.
-        this._common._stripStyleClass(this._domNode, this._theme.getClassName("DTAB_SELDIV"));
-        this._common._stripStyleClass(this._domNode, this._theme.getClassName("DTAB_SELDIV2"));
-        this._common._stripStyleClass(this._domNode, this._theme.getClassName("DTAB_LNKDIV"));
     }
 
     // Title
