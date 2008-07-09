@@ -872,6 +872,10 @@
     else
         this._widget._addFragment(contentsContainer, props.contents);
 
+    // Don't select any tab (below) if the widget has not started.
+    if (this._started == false)
+        return true;
+
     // If the tabset row the tab is contained in is visible and the specified
     // tab is the selected tab for this row, then select the tab.
     var w = this._widget.getWidget(props.id);
