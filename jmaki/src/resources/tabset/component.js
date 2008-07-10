@@ -201,7 +201,7 @@ jmaki.namespace("@JMAKI_NS@.tabset");
 @JMAKI_NS@.tabset.Widget.prototype._select = function(tabId) {
     var widget = @JS_NS@.widget.common.getWidget(this._wid);
     if (widget) {
-	widget.selecteTab(tabId);
+	widget.selectTab(tabId);
     }
 };
 
