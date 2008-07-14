@@ -57,3 +57,14 @@ div.ConTblCl2Div@THEME_CSS@ .CbSpn@THEME_CSS@ input[type=checkbox] {
 	float:none;
 }
 /*---*/
+/* MODAL WINDOW */
+.MdlWinTransparent50@THEME_CSS@ {
+    filter:alpha(opacity=50);
+    -khtml-opacity: 0.5;
+}
+
+.MdlWinOpaque@THEME_CSS@ {
+    filter:alpha(opacity=100);
+    -khtml-opacity: 1;
+}
+

@@ -918,17 +918,13 @@ table.MniTabTbl@THEME_CSS@ td.MniTabTblSelTd@THEME_CSS@ {
 }
 
 .MdlWinTransparent50@THEME_CSS@ {
-    filter:alpha(opacity=50);
     -moz-opacity:0.5;
-    -khtml-opacity: 0.5;
     opacity: 0.5;
 }
 
 
 .MdlWinOpaque@THEME_CSS@ {
-    filter:alpha(opacity=100);
     -moz-opacity:1;
-    -khtml-opacity: 1;
     opacity: 1;
 }
 

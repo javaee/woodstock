@@ -314,3 +314,15 @@ ul.MenuItems@THEME_CSS@ li div.MenuItem@THEME_CSS@.iehover {
     cursor: pointer;
 }
 /*---*/
+
+/* MODAL WINDOW */
+.MdlWinTransparent50@THEME_CSS@ {
+    filter:alpha(opacity=50);
+    -khtml-opacity: 0.5;
+}
+
+.MdlWinOpaque@THEME_CSS@ {
+    filter:alpha(opacity=100);
+    -khtml-opacity: 1;
+}
+
