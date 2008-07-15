@@ -180,7 +180,8 @@
       "type": {
         "id": "@JS_NAME@",
         "libs": [
-          "@JS_PATH@/bootstrap.js"
+            "@JS_PATH@/bootstrap.js",
+            "@JS_PATH@/webui.js"
         ],
         "preload": "var woodstock4_3Config = {namespace: \"woodstock\", theme: {locale: \"en\"}, webuiAjax: false, webuiAll: true};", 
         "resources": [ "@JS_LIBPATH@" ]

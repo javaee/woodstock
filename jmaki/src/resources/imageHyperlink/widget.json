@@ -146,7 +146,8 @@
       "type": {
         "id": "@JS_NAME@",
         "libs": [
-          "@JS_PATH@/bootstrap.js"
+            "@JS_PATH@/bootstrap.js",
+            "@JS_PATH@/webui.js"
         ],
         "resources": [ "@JS_LIBPATH@" ]
         }

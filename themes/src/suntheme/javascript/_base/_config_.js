@@ -43,14 +43,14 @@
  *   },
  *   // Flag to enable debug mode.
  *   isDebug: false,
- *   // Woodstock module path -- absolute or relative to javascript directory.
- *   modulePath: "/example/resources/@JS_NS/@THEME@/javascript",
  *   // Flag to inlcude style sheet(s).
  *   isStyleSheet: true,
- *   // Flag to parse HTML markup onLoad.
- *   parseOnLoad: true,
+ *   // Woodstock module path -- absolute or relative to javascript directory.
+ *   modulePath: "/example/resources/@JS_NS/@THEME@/javascript",
  *   // Custom name space to map as @JS_NS@.
  *   namespace: "webui.@THEME@",
+ *   // Flag to parse HTML markup onLoad.
+ *   parseOnLoad: true,
  *   // Theme config properties.
  *   theme: {
  *       // Theme bundle name.
@@ -68,12 +68,7 @@
  *       modulePath: "/example/resources/@JS_NS@/@THEME@/javascript/theme",
  *       // App context.
  *       prefix: "/example/resources"
- *   },
- *   // Flag to include all widgets.
- *   webuiAll: false,
- *   // Flag to include Ajax functionality. Used in conjunction with webuiAll. 
- *   // Note: Not used with custom Ajax implementations.
- *   webuiAjax: false
+ *   }
  * };
  * </pre></code></p><p>
  * If this variable is not availble, @JS_NAME@Config will be used. However, in a
@@ -125,11 +120,6 @@ if (typeof @JS_NS@Config == "undefined") {
         url: (@JS_NS@Config.ajax && @JS_NS@Config.ajax.url)
             ? @JS_NS@Config.ajax.url : undefined
     },
-    /** Flag to enable debug mode. */
-    isDebug: @JS_NS@._base.bootstrap._getBooleanParameter("debug",
-        (@JS_NS@Config.isDebug != null) ? @JS_NS@Config.isDebug : false),
-    /** Flag to enable high contrast mode. */
-    _isHighContrastMode: undefined,
     /** Dojo config properties. */
     _djConfig: {
         /** Dojo module path. */
@@ -137,16 +127,26 @@ if (typeof @JS_NS@Config == "undefined") {
         /** Flag to enable dojo debug mode. */
         isDebug: false
     },
-    /** Woodstock module path -- absolute or relative to javascript directory. */
-    modulePath: (@JS_NS@Config.modulePath) ? @JS_NS@Config.modulePath : ".",
+    /** 
+     * The current global context. This ensures code runs correctly in contexts
+     * other than web browsers (e.g., rhino).
+     */
+    _global: this,
+    /** Flag to enable debug mode. */
+    isDebug: @JS_NS@._base.bootstrap._getBooleanParameter("debug",
+        (@JS_NS@Config.isDebug != null) ? @JS_NS@Config.isDebug : false),
+    /** Flag to enable high contrast mode. */
+    _isHighContrastMode: undefined,
     /** Flag to inlcude style sheet(s). */
     isStyleSheet: @JS_NS@._base.bootstrap._getBooleanParameter("styleSheet",
         (@JS_NS@Config.isStyleSheet != null) ? @JS_NS@Config.isStyleSheet : true),
+    /** Woodstock module path -- absolute or relative to javascript directory. */
+    modulePath: (@JS_NS@Config.modulePath) ? @JS_NS@Config.modulePath : ".",
+    /** Custom name space to map as @JS_NS@. */
+    namespace: (@JS_NS@Config.namespace) ? @JS_NS@Config.namespace : "woodstock",
     /** Flag to parse HTML markup onLoad. */
     parseOnLoad: @JS_NS@._base.bootstrap._getBooleanParameter("parseOnLoad",
         (@JS_NS@Config.parseOnLoad != null) ? @JS_NS@Config.parseOnLoad : false),
-    /** Custom name space to map as @JS_NS@. */
-    namespace: (@JS_NS@Config.namespace) ? @JS_NS@Config.namespace : "woodstock",
     /** Theme config properties. */
     theme: {
         /** Theme bundle name. */
@@ -167,12 +167,12 @@ if (typeof @JS_NS@Config == "undefined") {
         prefix: (@JS_NS@Config.theme && @JS_NS@Config.theme.prefix)
             ? @JS_NS@Config.theme.prefix : undefined
     },
-    /** Flag to include all widgets. */
+    /** Flag to include all widgets. NOT IMPLEMENTED */
     webuiAll: @JS_NS@._base.bootstrap._getBooleanParameter("webuiAll",
         (@JS_NS@Config.webuiAll != null) ? @JS_NS@Config.webuiAll : false),
     /**
      * Flag to include Ajax functionality. Used in conjunction with webuiAll. 
-     * Note: Not used with custom Ajax implementations.
+     * Note: Not used with custom Ajax implementations. NOT IMPLEMENTED
      */
     webuiAjax: @JS_NS@._base.bootstrap._getBooleanParameter("webuiAjax", 
         (@JS_NS@Config.webuiAjax != null) ? @JS_NS@Config.webuiAjax : false)

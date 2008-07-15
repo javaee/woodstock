@@ -215,7 +215,7 @@
         <include name="widget/resetButton.js" />
 	<include name="widget/radioButton.js" />
         <include name="widget/radioButtonGroup.js" />
-	<include name="widget/staticText.js" />
+	<include name="widget/text.js" />
 	<include name="widget/textArea.js" />
 	<include name="widget/textField.js" />
         <include name="xhr.js" />
@@ -240,7 +240,7 @@
         <include name="widget/_jsfx/resetButton.js" />
 	<include name="widget/_jsfx/radioButton.js" />
         <include name="widget/_jsfx/radioButtonGroup.js" />
-	<include name="widget/_jsfx/staticText.js" />
+	<include name="widget/_jsfx/text.js" />
 	<include name="widget/_jsfx/textArea.js" />
 	<include name="widget/_jsfx/textField.js" />
     </patternset>
@@ -264,7 +264,7 @@
         <include name="widget/_xhr/resetButton.js" />
 	<include name="widget/_xhr/radioButton.js" />
         <include name="widget/_xhr/radioButtonGroup.js" />
-	<include name="widget/_xhr/staticText.js" />
+	<include name="widget/_xhr/text.js" />
 	<include name="widget/_xhr/textArea.js" />
 	<include name="widget/_xhr/textField.js" />
     </patternset>

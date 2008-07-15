@@ -231,27 +231,28 @@ if (typeof @JS_NS@ == "undefined") {
                 return false;
             }
             var bootstrap = @JS_NS@._base.bootstrap;
-            var config = @JS_NS@._base.config;
+// See issue #1299
+//            var config = @JS_NS@._base.config;
             var theme = @JS_NS@.theme.common;
-            var isDebug = new Boolean(props.isDebug).valueOf();
-            var webuiAll = new Boolean(props.webuiAll).valueOf();
-            var webuiAjax = new Boolean(props.webuiAjax).valueOf();
-            var jsfxModule = theme.getProperty("javascript", "jsfxModule");
-            var xhrModule = theme.getProperty("javascript", "xhrModule");
+//            var isDebug = new Boolean(props.isDebug).valueOf();
+//            var webuiAll = new Boolean(props.webuiAll).valueOf();
+//            var webuiAjax = new Boolean(props.webuiAjax).valueOf();
+//            var jsfxModule = theme.getProperty("javascript", "jsfxModule");
+//            var xhrModule = theme.getProperty("javascript", "xhrModule");
 
             // Get webui file.
-            var file;            
-            if (webuiAjax && config.ajax.module == jsfxModule) {
-                file = (webuiAll) ? "webuiJsfxAll" : "webuiJsfx";
-            } else if (webuiAjax && config.ajax.module == xhrModule) {
-                file = (webuiAll) ? "webuiXhrAll" : "webuiXhr";
-            } else {
-                file = (webuiAll) ? "webuiAll" : "webui";
-            }
+//            var file;            
+//            if (webuiAjax && config.ajax.module == jsfxModule) {
+//                file = (webuiAll) ? "webuiJsfxAll" : "webuiJsfx";
+//            } else if (webuiAjax && config.ajax.module == xhrModule) {
+//                file = (webuiAll) ? "webuiXhrAll" : "webuiXhr";
+//            } else {
+//                file = (webuiAll) ? "webuiAll" : "webui";
+//            }
 
             // Load webui file.
-            bootstrap._writeScript(theme._getJavaScript((isDebug)
-                ? file + "Uncompressed" : file));
+//            bootstrap._writeScript(theme._getJavaScript((isDebug)
+//                ? file + "Uncompressed" : file));
 
             // Load global scripts.
             var files = theme._getJavaScripts("Theme.javascript");

@@ -274,6 +274,7 @@ public class JavaScriptUtilities {
 
         // Render bootstrap include.
         renderBootstrapInclude(component, writer);
+        renderWebuiInclude(component, writer);
 
         // Render JSF Extensions include.
         if (isJsfx() && isWebuiAjax()) {
@@ -679,5 +680,40 @@ public class JavaScriptUtilities {
 //                : ThemeJavascript.PROTOTYPE);
             map.put(ScriptsComponent.PROTOTYPE_JS_LINKED, Boolean.TRUE);
         }
+    }
+
+    /**
+     * Helper method to render JavaScript include.
+     *
+     * @param component UIComponent to be rendered.
+     * @param writer ResponseWriter to which the component should be rendered.
+     * 
+     * @exception IOException if an input/output error occurs.
+     */
+    private static void renderWebuiInclude(UIComponent component,
+            ResponseWriter writer) throws IOException {
+        String key = null; 
+        if (isWebuiAll()) { 
+            if (isWebuiAjax()) { 
+                key = isDebug() 
+                    ? ThemeJavascript.WEBUI_JSFX_ALL_UNCOMPRESSED 
+                    : ThemeJavascript.WEBUI_JSFX_ALL; 
+            } else { 
+                key = isDebug() 
+                    ? ThemeJavascript.WEBUI_ALL_UNCOMPRESSED 
+                    : ThemeJavascript.WEBUI_ALL; 
+            } 
+        } else { 
+            if (isWebuiAjax()) { 
+                key = isDebug() 
+                    ? ThemeJavascript.WEBUI_JSFX_UNCOMPRESSED 
+                    : ThemeJavascript.WEBUI_JSFX; 
+            } else { 
+                key = isDebug() 
+                    ? ThemeJavascript.WEBUI_UNCOMPRESSED 
+                    : ThemeJavascript.WEBUI; 
+            } 
+        } 
+        renderJavaScriptInclude(component, writer, key);
     }
 }
