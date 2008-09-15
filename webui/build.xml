@@ -343,13 +343,8 @@
         <copy file="${gen}/META-INF/facelets.taglib.xml" tofile="${classes}/runtime/META-INF/woodstock.taglib.xml"/>
 
         <!-- Create the runtime JAR -->
-        <jar jarfile="${netbeans}/modules/autoload/ext/${webui.jar}"
-            manifest="webui.mf"   
-            basedir="${classes}/runtime"
-            excludesfile="${lib.netbeans}/standard-jar-excludes.txt"
-            excludes="${all.exclude}" 
-            compress="${build.package.compress}" index="${build.package.index}">
-        </jar>
+	<taskdef resource="aQute/bnd/ant/taskdef.properties" classpath="${bnd.jar}" />
+	<bnd files="webui.bnd" classpath="${classes}/runtime" output="${netbeans}/modules/autoload/ext/${webui.jar}" />
 
 	<!-- put it in dist too -->
 	<mkdir dir="${dist}"/>

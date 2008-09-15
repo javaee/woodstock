@@ -71,21 +71,34 @@
   </target>
 
   <target name="webui">
-    <antcall target="build-webui-manifest">
-      <param name="mf-name" value="webui.mf"/>
-      <param name="section-name" value="${package-path}"/>
-      <param name="implementation-title" value="${webui-impl-title}" />
-      <param name="implementation-version" value="${webui-impl-version}" />
-      <param name="specification-title" value="${webui-spec-title}" />
-      <param name="specification-version" value="${webui-spec-version}" />
-      <param name="component-version" value="${component-version}"/>
-      <param name="swaed-version" value="${swaed-version}"/>
-      <param name="theme-required-version" value="${theme-required-version}"/>
-      <param name="jsf-version" value="${jsf-version}"/>
-      <param name="dependencies" value="${dependencies}"/>
-      <param name="fileupload-dependencies" 
-	value="${fileupload-dependencies}"/>
-    </antcall>
+    <manifest file="webui.bnd" mode="replace">
+	<attribute name="Created-By" value="${vendor}"/>
+        <attribute name="Implementation-Title" value="${webui-impl-title}"/>
+        <attribute name="Implementation-Version" value="${webui-impl-version}"/>
+        <attribute name="Implementation-Vendor" value="${vendor}"/>
+        <attribute name="Implementation-Vendor-Id" value="com.sun"/>
+        <attribute name="Specification-Title" value="${webui-spec-title}"/>
+        <attribute name="Specification-Version" value="${webui-spec-version}"/>
+        <attribute name="Specification-Vendor" value="${vendor}"/>
+	<attribute name="-level" value="0" /> <!-- compression level -->
+
+	<!-- OSGi metadata -->
+	<attribute name="Export-Package" value="*" />
+	<attribute name="Import-Package" value="com.sun.data.provider.*;resolution:=optional,*" />
+	<attribute name="Bundle-Version" value="${webui-impl-version}" />
+	<attribute name="Bundle-SymbolicName" value="com.sun.woodstock.webui-jsf" />
+	<attribute name="Bundle-Description" value="Woodstock JavaServer Faces Component Library" />
+
+	<section name="${package-path}">
+	  <attribute name="X-SJWUIC-SWAED-Version" value="${swaed-version}"/>
+	  <attribute name="X-SJWUIC-Components-Version" value="${component-version}"/>
+	  <attribute name="X-SJWUIC-Components-Timestamp" value="${buildnumber}"/>
+	  <attribute name="X-SJWUIC-Theme-Version-Required" value="${theme-required-version}"/>
+	  <attribute name="X-SJWUIC-JSF-Version" value="${jsf-version}"/>
+	  <attribute name="X-SJWUIC-Dependencies" value="${dependencies}"/>
+	  <attribute name="X-SJWUIC-Dependencies-FileUpload" value="${fileupload-dependencies}"/>
+	</section>
+    </manifest>
   </target>
 
   <target name="webui-module-stub">
@@ -123,59 +136,16 @@
     <manifest file="${mf-name}" mode="replace">
       <attribute name="Created-By" value="${vendor}"/>
 
-        <attribute name="Implementation-Title" 
-            value="${implementation-title}"/>
-        <attribute name="Implementation-Version" 
-            value="${implementation-version}"/> 
-        <attribute name="Implementation-Vendor" 
-            value="${vendor}"/>
-        <attribute name="Implementation-Vendor-Id" 
-            value="com.sun"/>
-        <attribute name="Specification-Title" 
-            value="${specification-title}"/>
-        <attribute name="Specification-Version" 
-            value="${specification-version}"/>
-        <attribute name="Specification-Vendor" 
-            value="${vendor}"/>
+        <attribute name="Implementation-Title" value="${implementation-title}"/>
+        <attribute name="Implementation-Version" value="${implementation-version}"/> 
+        <attribute name="Implementation-Vendor" value="${vendor}"/>
+        <attribute name="Implementation-Vendor-Id" value="com.sun"/>
+        <attribute name="Specification-Title" value="${specification-title}"/>
+        <attribute name="Specification-Version" value="${specification-version}"/>
+        <attribute name="Specification-Vendor" value="${vendor}"/>
     </manifest>
   </target>
 
-  <target name="build-webui-manifest">
-    <manifest file="${mf-name}" mode="replace">
-      <attribute name="Created-By" value="${vendor}"/>
-
-        <attribute name="Implementation-Title" 
-            value="${implementation-title}"/>
-        <attribute name="Implementation-Version" 
-            value="${implementation-version}"/> 
-        <attribute name="Implementation-Vendor" 
-            value="${vendor}"/>
-        <attribute name="Implementation-Vendor-Id" 
-            value="com.sun"/>
-        <attribute name="Specification-Title" 
-            value="${specification-title}"/>
-        <attribute name="Specification-Version" 
-            value="${specification-version}"/>
-        <attribute name="Specification-Vendor" 
-            value="${vendor}"/>
-
-	<section name="${section-name}">
-	  <attribute name="X-SJWUIC-SWAED-Version" value="${swaed-version}"/>
-	  <attribute name="X-SJWUIC-Components-Version"
-	      value="${component-version}"/>
-	  <attribute name="X-SJWUIC-Components-Timestamp"
-	      value="${buildnumber}"/>
-	  <attribute name="X-SJWUIC-Theme-Version-Required"
-	    value="${theme-required-version}"/>
-	  <attribute name="X-SJWUIC-JSF-Version" value="${jsf-version}"/>
-	  <attribute name="X-SJWUIC-Dependencies" value="${dependencies}"/>
-	  <attribute name="X-SJWUIC-Dependencies-FileUpload"
-	    value="${fileupload-dependencies}"/>
-	</section>
-
-
-    </manifest>
-  </target>
 
   <target name="build-l10n-manifest">
 
