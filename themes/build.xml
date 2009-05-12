@@ -2158,6 +2158,7 @@
 	    description="Combine images.">
 
 	<java jar="${tools.jar}" failonerror="true" fork="true">
+	  <arg value="-Djava.awt.headless=true"/>
 	  <arg value="-combineImages"/>
 	  <arg value="-sourceDir"/>
 	  <arg value="${theme.build-dir}"/>

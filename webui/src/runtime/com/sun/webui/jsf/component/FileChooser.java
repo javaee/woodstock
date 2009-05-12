@@ -976,7 +976,7 @@ public class FileChooser extends WebuiInput implements NamingContainer {
 	    return;
 	}
 
-	if (value != null || ((String)value).length() > 0) {
+	if ((value != null) && (value.toString().length() > 0)) {
 	    String[] selections = decodeSelections((String)value,
 		getEscapeChar(), getDelimiterChar());
 
