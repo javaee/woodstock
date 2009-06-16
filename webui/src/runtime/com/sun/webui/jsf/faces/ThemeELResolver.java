@@ -220,7 +220,15 @@ public class ThemeELResolver extends ELResolver {
      */
     public Class getType(ELContext context, Object base, Object property) {
         if (property == null) {
-            throw new PropertyNotFoundException("Property cannot be null."); 
+	    return null;
+	    //  What the heck?  This is not reasonable behavior.  This
+	    //  resolver will be called for every EL expression, mostly those
+	    //  that do not belong to Woodstock.  Further, many EL expressions
+	    //  will not be JavaBean-based (i.e. Maps), and therefor may not
+	    //  have "Properties" associated with their value.  Just because
+	    //  this code doesn't know what to do, doesn't mean it should break
+	    //  everyone else.
+            //throw new PropertyNotFoundException("Property cannot be null."); 
         }
         if(context == null) {
             throw new NullPointerException();
