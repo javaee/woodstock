@@ -576,6 +576,18 @@ public class ImageHyperlink extends Hyperlink implements NamingContainer {
         this.vspace_set = true;
     }
 
+    // GF-required 508 change
+    public void setValue(Object value) {
+        super.setValue(value);
+        if ((getAlt() == null) || (getAlt().equals(""))) {
+            setAlt((String)value);
+        }
+        if ((getToolTip() == null) || (getToolTip().equals(""))) {
+            setToolTip((String)value);
+        }
+
+    }
+
     /**
      * <p>Image width override. When specified, the width and height attributes 
      * tell user agents to override the natural image or object size in favor 

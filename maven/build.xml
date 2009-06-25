@@ -105,7 +105,7 @@
         <!-- define repeat task -->
         <taskdef name="repeat" classname="org.netbeans.nbbuild.Repeat" classpath="${build.antclasses}"/>
         <!-- install a deployment provider that can deploy to SVN repositories -->
-        <artifact:install-provider artifactId="wagon-svn" groupId="org.jvnet.wagon-svn" version="1.7">
+        <artifact:install-provider artifactId="wagon-svn" groupId="org.jvnet.wagon-svn" version="1.9">
             <!-- download the provider from java.net repository -->
             <artifact:remoteRepository id="java.net.maven2.repository" url="http://download.java.net/maven/2/" />
             <!-- store the provider in temp local repository-->
@@ -229,6 +229,15 @@
         
     </target>
     
+    <target name="install.maven.local" depends="bootstrap,-get-data" description="Install Woodstock components into local Maven2 repository">
+        <echo message="release.version ${release.version}"/>
+        <echo message="build_id ${build_id}"/>
+        <echo message="qualifier ${qualifier}"/>
+        <repeat target="-check-install-dependlibs-repeat" name="dependlib" values="${dependlib.upload.list}"/>
+        <repeat target="-install-artifacts-repeat" name="artifact" values="${artifact.upload.list}"/>
+        <repeat target="-install-artifacts-l10n-repeat" name="artifact" values="${artifact.upload.list.l10n}"/>
+    </target>
+
     <target name="upload.maven" depends="bootstrap,-get-data" description="Uploads Woodstock components into Maven2 repository">
         <echo message="release.version ${release.version}"/>
         <echo message="build_id ${build_id}"/>
@@ -249,14 +258,77 @@
                 <filter token="repository.url"  value="${repository.url}"/>
             </filterset>
         </copy>
-        <!-- TODO: check for existence of dependlibs in remote repository, avoid
-                     updating existing data -->
+        <!-- TODO: check for existence of dependlibs in remote repository, avoid updating existing data -->
         <!-- deploy artifact into "remote" repository -->
         <artifact:deploy file="${upload.dir}/${dependlib}/${dependlib}.jar">
             <pom file="${upload.dir}/${dependlib}/pom.xml"/>
         </artifact:deploy>
     </target>
     
+    <target name="-check-install-dependlibs-repeat" depends="bootstrap" if="dependlib">
+        <!-- Copy template to pom.xml filtering various properties -->
+        <copy file="templates/${dependlib}-pom.xml" tofile="${upload.dir}/${dependlib}/pom.xml" overwrite="true">
+            <filterset>
+                <filter token="release.version" value="${release.version}"/>
+                <filter token="build_id"        value="${build_id}"/>
+                <filter token="qualifier"       value="-RELEASE"/>
+                <filter token="repository.id"   value="${repository.id}"/>
+                <filter token="repository.url"  value="${repository.url}"/>
+            </filterset>
+        </copy>
+        <!-- TODO: check for existence of dependlibs in remote repository, avoid updating existing data -->
+        <!-- deploy artifact into "remote" repository -->
+        <artifact:install file="${upload.dir}/${dependlib}/${dependlib}.jar">
+            <pom file="${upload.dir}/${dependlib}/pom.xml"/>
+        </artifact:install>
+    </target>
+    
+    <target name="-install-artifacts-l10n-repeat" depends="bootstrap" if="artifact">
+        <copy file="templates/${artifact}-pom.xml" tofile="${upload.dir}/${artifact}/pom.xml" overwrite="true">
+            <filterset>
+                <filter token="release.version" value="${release.version}"/>
+                <filter token="build_id"        value="${build_id}"/>
+                <filter token="qualifier"       value="${qualifier}"/>
+                <filter token="repository.id"   value="${repository.id}"/>
+                <filter token="repository.url"  value="${repository.url}"/>
+                
+            </filterset>
+        </copy>
+        <!-- deploy artifact into "remote" repository -->
+        <artifact:install file="${upload.dir}/${artifact}/${artifact}.jar">
+            <pom file="${upload.dir}/${artifact}/pom.xml"/>
+            <!-- attached localization jarfiles -->
+            <attach file="${upload.dir}/${artifact}/${artifact}_de.jar" classifier="l10n_de"/>
+            <attach file="${upload.dir}/${artifact}/${artifact}_es.jar" classifier="l10n_es"/>
+            <attach file="${upload.dir}/${artifact}/${artifact}_fr.jar" classifier="l10n_fr"/>
+            <attach file="${upload.dir}/${artifact}/${artifact}_it.jar" classifier="l10n_it"/>
+            <attach file="${upload.dir}/${artifact}/${artifact}_ja.jar" classifier="l10n_ja"/>
+            <attach file="${upload.dir}/${artifact}/${artifact}_ko.jar" classifier="l10n_ko"/>
+            <attach file="${upload.dir}/${artifact}/${artifact}_pt_BR.jar" classifier="l10n_pt_BR"/>
+            <!-- <attach file="${upload.dir}/${artifact}/${artifact}_sv.jar" classifier="l10n_sv"/> -->
+            <attach file="${upload.dir}/${artifact}/${artifact}_zh_CN.jar" classifier="l10n_zh_CN"/>
+            <attach file="${upload.dir}/${artifact}/${artifact}_zh_HK.jar" classifier="l10n_zh_HK"/>
+            <attach file="${upload.dir}/${artifact}/${artifact}_zh_TW.jar" classifier="l10n_zh_TW"/>
+        </artifact:install>
+    </target>
+    
+    <target name="-install-artifacts-repeat" depends="bootstrap" if="artifact">
+        <copy file="templates/${artifact}-pom.xml" tofile="${upload.dir}/${artifact}/pom.xml" overwrite="true">
+            <filterset>
+                <filter token="release.version" value="${release.version}"/>
+                <filter token="build_id"        value="${build_id}"/>
+                <filter token="qualifier"       value="${qualifier}"/>
+                <filter token="repository.id"   value="${repository.id}"/>
+                <filter token="repository.url"  value="${repository.url}"/>
+                
+            </filterset>
+        </copy>
+        <!-- deploy artifact into "remote" repository -->
+        <artifact:install file="${upload.dir}/${artifact}/${artifact}.jar">
+            <pom file="${upload.dir}/${artifact}/pom.xml"/>
+        </artifact:install>
+    </target>
+
     <target name="-upload-artifacts-l10n-repeat" depends="bootstrap" if="artifact">
         <copy file="templates/${artifact}-pom.xml" tofile="${upload.dir}/${artifact}/pom.xml" overwrite="true">
             <filterset>

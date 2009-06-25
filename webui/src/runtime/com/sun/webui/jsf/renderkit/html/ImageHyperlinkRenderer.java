@@ -79,6 +79,14 @@ public class ImageHyperlinkRenderer extends HyperlinkRenderer {
             writer.write("&nbsp;");
 	}
 	if (ic != null) {
+            // GF-required 508 change
+            String parentText = (String)((ImageHyperlink)component).getText();
+            if ((ic.getAlt() == null) || (ic.getAlt().equals(""))) {
+                ic.setAlt(parentText);
+            }
+            if ((ic.getToolTip() == null) || (ic.getToolTip().equals(""))) {
+                ic.setToolTip(parentText);
+            }
 	    RenderingUtilities.renderComponent(ic, context);
 	}
 

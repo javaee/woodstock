@@ -711,6 +711,7 @@ public class TreeNode extends UIComponentBase implements NamingContainer, Serial
                         ic = new ImageComponent();
                         
                         ic.setId(id);
+                        ic.setToolTip(id + " icon"); // GF-required 508 change
                         this.getChildren().add(ic);
                     }
                     ic.setIcon(imageIcon);
@@ -738,6 +739,7 @@ public class TreeNode extends UIComponentBase implements NamingContainer, Serial
                     ic = new ImageComponent();
                     ic.setIcon(imageIcon);
                     ic.setId(id);
+                    ic.setToolTip(id + " icon"); // GF-required 508 change
                     this.getChildren().add(ic);
                 }
                 tempStack.push(ic);

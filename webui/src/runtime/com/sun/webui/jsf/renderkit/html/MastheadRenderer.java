@@ -31,7 +31,6 @@ package com.sun.webui.jsf.renderkit.html;
 import com.sun.faces.annotation.Renderer;
 import java.util.Map;
 import java.util.Date;
-import java.util.Locale;
 import java.util.List;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -39,20 +38,15 @@ import java.text.DateFormat;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIForm;
 
 import com.sun.webui.jsf.component.Masthead;
-import com.sun.webui.jsf.component.Hyperlink;
 import com.sun.webui.jsf.component.Icon;
-import com.sun.webui.jsf.component.IconHyperlink;
 import com.sun.webui.jsf.component.Hyperlink;
 import com.sun.webui.jsf.component.ImageComponent;
-import com.sun.webui.jsf.component.util.Util;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.jsf.theme.ThemeStyles;
 import com.sun.webui.jsf.util.RenderingUtilities;
-import com.sun.webui.jsf.component.SkipHyperlink;
 import com.sun.webui.jsf.util.ThemeUtilities;
 
 import com.sun.webui.html.HTMLAttributes;
@@ -408,6 +402,7 @@ public class MastheadRenderer extends AbstractRenderer {
         ImageComponent separator = new ImageComponent();
 	separator.setParent(masthead);
         separator.setIcon(ThemeImages.MASTHEAD_SEPARATOR);
+        separator.setAlt("separator image"); // GF-required 508 change
 
 	renderUserInfo(context, masthead, theme, labelStyle, textStyle, 
 		separator, writer);
@@ -748,7 +743,7 @@ public class MastheadRenderer extends AbstractRenderer {
         dot.setWidth(wd);
         dot.setHeight(ht);
         dot.setBorder(0);
-        dot.setAlt(""); //NOI18N
+        dot.setAlt(id + " dot image"); // NOI18N  // GF-required 508 change
         RenderingUtilities.renderComponent(dot, context);        
     }
     

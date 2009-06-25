@@ -83,8 +83,26 @@
                 <location>netbeans/modules/autoload/ext/webui-jsf-dt.jar</location>
                 <build-target>netbeans</build-target>
             </export>
+            <export>
+                <type>jar</type>
+                <location>netbeans/modules/autoload/ext/webui-jsf-dt.jar</location>
+                <build-target>netbeans</build-target>
+            </export>
+            <export>
+                <type>jar</type>
+                <location>netbeans/modules/autoload/ext/webui-jsf.jar</location>
+                <build-target>netbeans</build-target>
+            </export>
             <view>
                 <items>
+                    <source-folder style="packages">
+                        <label>Run-time Generated Source</label>
+                        <location>gen/taglib</location>
+                    </source-folder>
+                    <source-folder style="packages">
+                        <label>Design-time Generated Source</label>
+                        <location>gen/beaninfo</location>
+                    </source-folder>
                     <source-folder style="packages">
                         <label>src/designtime</label>
                         <location>src/designtime</location>
@@ -135,5 +153,8 @@
                 <source-level>1.5</source-level>
             </compilation-unit>
         </java-data>
+        <preferences xmlns="http://www.netbeans.org/ns/auxiliary-configuration-preferences/1">
+            <module name="org-netbeans-modules-editor-indent"/>
+        </preferences>
     </configuration>
 </project>
