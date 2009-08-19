@@ -815,17 +815,20 @@ public class RenderingUtilities {
 	//
         if(toolTip != null) {
             writer.writeAttribute("alt", toolTip, null);
+        } else {
+            writer.writeAttribute("alt", anchorName + " skip link", null); // GF-required 508 change
         }
+
         if(tabIndex != null) {
             writer.writeAttribute("tabindex", tabIndex.toString(), null);
         }        
         
-        Icon icon = ThemeUtilities.getIcon(ThemeUtilities.getTheme(context),
-		ThemeImages.DOT);
+        Icon icon = ThemeUtilities.getIcon(ThemeUtilities.getTheme(context), ThemeImages.DOT);
         icon.setParent(component); 
         icon.setWidth(1);
         icon.setHeight(1);
         icon.setBorder(0);
+        icon.setToolTip(anchorName + " skip link");
 
 	buffer.setLength(0);
 	buffer.append(anchorName).append("_icon"); //NOI18N
