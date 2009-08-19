@@ -283,9 +283,6 @@ public class TreeNodeRenderer extends javax.faces.render.Renderer {
             if (imageURL != null && imageURL.length() > 0 ) {
                 ImageHyperlink ihl =
                     node.getNodeImageHyperlink();
-                ihl.setToolTip(node.getId() + " node");  // GF-required 508 change
-                ihl.setAlt(node.getId() + " node image");  // GF-required 508 change
-
                 renderImageOrText(node, ihl, context);
             }
         }
