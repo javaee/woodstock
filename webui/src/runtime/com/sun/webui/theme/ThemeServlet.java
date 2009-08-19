@@ -21,7 +21,7 @@
  */
 
 /*
- * $Id: ThemeServlet.java,v 1.1 2007-02-16 01:53:45 bob_yennaco Exp $
+ * $Id: ThemeServlet.java,v 1.1.4.1 2009-08-19 07:01:59 kalpanakm Exp $
  */
 
 package com.sun.webui.theme;
@@ -212,7 +212,8 @@ public class ThemeServlet extends HttpServlet {
 	    // Get InputStream
 	    inStream = this.getClass().getResourceAsStream(resourceName);
 	    if (inStream == null) {
-		response.sendError(404, request.getRequestURI());
+		//Send 404 (without the original URI for XSS security reasons)
+		response.sendError(HttpServletResponse.SC_NOT_FOUND);
 		return;
 	    }
 	    inStream = new BufferedInputStream(inStream, 4096);
