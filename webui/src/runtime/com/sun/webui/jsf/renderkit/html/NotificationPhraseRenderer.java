@@ -65,7 +65,7 @@ public class NotificationPhraseRenderer extends HyperlinkRenderer {
         NotificationPhrase notificationPhrase = (NotificationPhrase) component;
         Theme theme = ThemeUtilities.getTheme(context);
         
-        ImageComponent ic = notificationPhrase.getImageFacet();
+        UIComponent ic = notificationPhrase.getImageFacet();
         if (ic != null) {
             RenderingUtilities.renderComponent(ic, context);
         }

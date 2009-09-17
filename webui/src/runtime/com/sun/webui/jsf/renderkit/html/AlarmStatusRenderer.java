@@ -234,7 +234,7 @@ public class AlarmStatusRenderer extends HyperlinkRenderer {
         // this method will (usually) be called 4 times to render each alarm
         // image and count as a separate instance of the same anchor tag
         AlarmStatus alarmStatus = (AlarmStatus) component;
-        ImageComponent image = alarmStatus.getImageFacet();
+        UIComponent image = alarmStatus.getImageFacet();
         
         String label = ConversionUtilities.convertValueToString(alarmStatus,
 		    alarmStatus.getText());

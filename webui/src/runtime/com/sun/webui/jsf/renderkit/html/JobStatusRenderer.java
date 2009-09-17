@@ -63,7 +63,7 @@ public class JobStatusRenderer extends HyperlinkRenderer {
             ResponseWriter writer) throws IOException {
         JobStatus jobStatus = (JobStatus) component;        
         
-        ImageComponent image = jobStatus.getImageFacet();
+        UIComponent image = jobStatus.getImageFacet();
         if (image != null) {
             RenderingUtilities.renderComponent(image, context);
         }
