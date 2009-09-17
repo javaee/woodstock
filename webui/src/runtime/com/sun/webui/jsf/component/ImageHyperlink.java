@@ -26,9 +26,11 @@ import com.sun.faces.annotation.Property;
 import com.sun.webui.jsf.util.ComponentUtilities;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.el.ValueExpression;
 import javax.faces.component.NamingContainer;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
 /**
@@ -97,7 +99,12 @@ public class ImageHyperlink extends Hyperlink implements NamingContainer {
      * </p>
      * @return ImageComponent or Icon instance
      */
-    public ImageComponent getImageFacet() {
+    public UIComponent getImageFacet() {
+        UIComponent image = 
+	    ComponentUtilities.getPrivateFacet(this, IMAGE_FACET, false);
+	if (image != null) {
+	    return image;
+	}
 
         String imageURL = getImageURL();
         String icon = getIcon();
@@ -107,8 +114,6 @@ public class ImageHyperlink extends Hyperlink implements NamingContainer {
 		IMAGE_FACET);
 	    return null;
 	}
-
-        ImageComponent image = null;
         
 	// ImageURL takes precedence
 	if (imageURL != null) {
@@ -117,8 +122,13 @@ public class ImageHyperlink extends Hyperlink implements NamingContainer {
 	    image = new Icon();
 	}
 
-	image.setIcon(icon);
-	image.setUrl(imageURL);
+	Map<String, Object> map = image.getAttributes();
+	if (icon != null) {
+	    map.put("icon", icon);  //NOI18N
+	}
+	if (imageURL != null) {
+	    map.put("url", imageURL);  //NOI18N
+	}
 
 	setAttributes(
 	    ComponentUtilities.createPrivateFacetId(this, IMAGE_FACET), image);
@@ -126,55 +136,53 @@ public class ImageHyperlink extends Hyperlink implements NamingContainer {
         return image;
     }
     
-    protected void setAttributes(String facetId, ImageComponent image) {
+    protected void setAttributes(String facetId, UIComponent image) {
 
 	//must reset the id always due to a side effect in JSF and putting
         //components in a table.
-        
         image.setId(facetId);
         image.setParent(this);
                 
         // align
         String align = getAlign();
+	Map<String, Object> atts = image.getAttributes();
         if (align != null) {
-            image.setAlign(align);
+	    atts.put("align", align); // NOI18N
         }
         // border
         int dim = getBorder();
         if (dim >= 0) {
-            image.setBorder(dim);
+	    atts.put("border", dim); // NOI18N
         }
         // description
         String description = getAlt();
         if (description != null) {
-            image.setAlt(description);
+	    atts.put("alt", description); // NOI18N
         }
         // height
         dim = getHeight();
         if (dim >= 0) {
-            image.setHeight(dim);
+	    atts.put("height", dim); // NOI18N
         }
         // hspace
         dim = getHspace();
         if (dim >= 0) {
-            image.setHspace(dim);
+	    atts.put("hspace", dim); // NOI18N
         }
         // vspace
         dim = getVspace();
         if (dim >= 0) {
-            image.setVspace(dim);
+	    atts.put("vspace", dim); // NOI18N
         }
         // width
         dim = getWidth();
         if (dim >= 0) {
-            image.setWidth(dim);
+	    atts.put("width", dim); // NOI18N
         }
         // disabled (based on parent)
-        Boolean disabled =
-                (Boolean) getAttributes().get("disabled"); //NOI18N
+        Boolean disabled = (Boolean) getAttributes().get("disabled"); //NOI18N
         if (disabled != null) {
-            image.getAttributes().put(
-		"disabled", String.valueOf(disabled)); //NOI18N
+            atts.put("disabled", String.valueOf(disabled)); //NOI18N
         }
     }
 
