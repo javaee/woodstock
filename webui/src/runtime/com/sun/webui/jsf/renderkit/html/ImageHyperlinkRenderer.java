@@ -32,6 +32,7 @@ import com.sun.webui.jsf.util.RenderingUtilities;
 import java.io.IOException;
 import javax.faces.component.UIComponent;
 
+import java.util.Map;
 
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
@@ -62,9 +63,6 @@ public class ImageHyperlinkRenderer extends HyperlinkRenderer {
         //TODO: suppress the text field from the XML
         ImageHyperlink ilink = (ImageHyperlink) component;
               
-        // ImageURL
-	ImageComponent ic = ilink.getImageFacet();
-                       
         // If there is no text property set, then label == null which prevents
         // rendering anything at all
 	//
@@ -78,15 +76,20 @@ public class ImageHyperlinkRenderer extends HyperlinkRenderer {
 	    writer.writeText(label, null);
             writer.write("&nbsp;");
 	}
+
+        // ImageURL
+	UIComponent ic = ilink.getImageFacet();
 	if (ic != null) {
-        // GF-required 508 change
-        String parentText = (String)((ImageHyperlink)component).getText();
-        if ((ic.getAlt() == null) || (ic.getAlt().equals(""))) {
-            ic.setAlt(parentText);
-        }   
-        if ((ic.getToolTip() == null) || (ic.getToolTip().equals(""))) {
-            ic.setToolTip(parentText);
-        }  
+	    // GF-required 508 change
+	    Map<String, Object> atts = ic.getAttributes();
+	    Object value = atts.get("alt");
+	    if ((value == null) || (value.equals(""))) {
+		atts.put("alt", label);
+	    }   
+	    value = atts.get("toolTip");
+	    if ((value == null) || (value.equals(""))) {
+		atts.put("toolTip", label);
+	    }  
 	    RenderingUtilities.renderComponent(ic, context);
 	}
 
