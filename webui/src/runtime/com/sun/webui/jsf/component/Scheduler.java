@@ -62,8 +62,6 @@ import javax.faces.event.ValueChangeListener;
 import javax.faces.validator.DoubleRangeValidator;
 import javax.faces.validator.Validator;
 
-import sun.text.resources.LocaleData;
-
 /**
  * The Scheduler component is used to display a calendar and the input controls
  * that are used for selecting a date and time.
