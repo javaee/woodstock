@@ -126,8 +126,7 @@
         <repository>
             <id>@repository.id@</id>
             <url>@repository.url@</url>
+            <uniqueVersion>false</uniqueVersion>
         </repository>
     </distributionManagement>
 </project>
-
-

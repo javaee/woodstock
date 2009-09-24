@@ -46,11 +46,11 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 // import javax.faces.el.MethodBinding;
 import javax.faces.event.ActionListener;
-import javax.faces.application.FacesMessage;
         
 import com.sun.webui.html.HTMLAttributes;
 import com.sun.webui.html.HTMLElements;
 
+import com.sun.webui.jsf.component.ImageComponent;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -102,7 +102,7 @@ public class TreeNodeRenderer extends javax.faces.render.Renderer {
   *
   * @exception IOException if an input/output error occurs
   */
-  public void encodeEnd(FacesContext context, UIComponent component)
+    public void encodeEnd(FacesContext context, UIComponent component)
           throws IOException {
         
         if (context == null || component == null) {
@@ -270,6 +270,18 @@ public class TreeNodeRenderer extends javax.faces.render.Renderer {
         while (imageIter.hasNext()) {
             // read each image IconHyperlink or ImageHyperlink and render it
             UIComponent imageComp = (UIComponent)imageIter.next();
+            // 508 changes for GlassFish
+            if (imageComp instanceof ImageComponent) {
+                ImageComponent ic = (ImageComponent) imageComp;
+                String alt = ic.getAlt();
+                String title = ic.getToolTip();
+                if ((alt == null) || ("".equals(alt))) {
+                    ic.setAlt(node.getText() + " helper image"); // This needs to be better, but...
+                }
+                if ((title == null) || ("".equals(title))) {
+                    ic.setToolTip(node.getText() + " helper image"); // This needs to be better, but...
+                }
+            }
             RenderingUtilities.renderComponent(imageComp, context);
             //writer.writeText("\n", null);
         }
@@ -277,6 +289,17 @@ public class TreeNodeRenderer extends javax.faces.render.Renderer {
         // check if image facet has been supplied. If so, render it.
         UIComponent imageFacet = node.getFacet(Tree.TREE_IMAGE_FACET_NAME);
         if (imageFacet != null) {
+            if (imageFacet instanceof ImageHyperlink) {
+                ImageHyperlink ic = (ImageHyperlink) imageFacet;
+                String alt = ic.getAlt();
+                String title = ic.getToolTip();
+                if ((alt == null) || ("".equals(alt))) {
+                    ic.setAlt(node.getText() + " helper image"); // This needs to be better, but...
+                }
+                if ((title == null) || ("".equals(title))) {
+                    ic.setToolTip(node.getText() + " helper image"); // This needs to be better, but...
+                }
+            }
             RenderingUtilities.renderComponent(imageFacet, context);
         } else {
             String imageURL = node.getImageURL();

@@ -21,20 +21,18 @@
  Copyright 2008 Sun Microsystems, Inc. All rights reserved.
 -->
 
-<project name="Woodstock" default="upload.maven" basedir="." xmlns:artifact="urn:maven-artifact-ant">
-    <path id="maven-ant-tasks.classpath" path="external/maven-ant-tasks-2.0.8.jar" />
+<project name="Woodstock" default="install.maven.local" basedir="." xmlns:artifact="urn:maven-artifact-ant">
+    <path id="maven-ant-tasks.classpath" path="external/maven-ant-tasks-2.0.10.jar" />
     <typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant"
              classpathref="maven-ant-tasks.classpath" />
     
     <target name="-basic-init">
-        <!-- webui-jsf.locales, suntheme.locales, release.version and build_id
-             are intialized from here -->
+        <!-- webui-jsf.locales, suntheme.locales, release.version and build_id are intialized from here -->
         <property file="./build.properties"/>
     </target>
     
     <target name="-init" depends="-basic-init">
-        <!-- define default remote maven2 repository, if it was not defined
-             in build properties -->
+        <!-- define default remote maven2 repository, if it was not defined in build properties -->
         <path id="local.repository.path" location="target/tmp"/>
         <pathconvert property="local.repository.path" refid="local.repository.path"/>
         <condition property="repository.url" value="file://${local.repository.path}">
@@ -60,8 +58,7 @@
     </target>
     
     <target name="-get-build-id">
-        <!-- get value of X-SJWUIC-Components-Timestamp tag from 
-             ../webui/dist/webui-jsf.jar:META-INF/MANIFEST.MF -->
+        <!-- get value of X-SJWUIC-Components-Timestamp tag from ../webui/dist/webui-jsf.jar:META-INF/MANIFEST.MF -->
         <mkdir dir="tmp"/>
         <delete> <!-- clean data from previous attempt -->
             <fileset dir="tmp">
@@ -242,7 +239,9 @@
         <echo message="release.version ${release.version}"/>
         <echo message="build_id ${build_id}"/>
         <echo message="qualifier ${qualifier}"/>
+        <!--
         <repeat target="-check-upload-dependlibs-repeat" name="dependlib" values="${dependlib.upload.list}"/>
+        -->
         <repeat target="-upload-artifacts-repeat" name="artifact" values="${artifact.upload.list}"/>
         <repeat target="-upload-artifacts-l10n-repeat" name="artifact" values="${artifact.upload.list.l10n}"/>
     </target>
@@ -260,7 +259,7 @@
         </copy>
         <!-- TODO: check for existence of dependlibs in remote repository, avoid updating existing data -->
         <!-- deploy artifact into "remote" repository -->
-        <artifact:deploy file="${upload.dir}/${dependlib}/${dependlib}.jar">
+        <artifact:deploy file="${upload.dir}/${dependlib}/${dependlib}.jar" >
             <pom file="${upload.dir}/${dependlib}/pom.xml"/>
         </artifact:deploy>
     </target>
@@ -278,7 +277,7 @@
         </copy>
         <!-- TODO: check for existence of dependlibs in remote repository, avoid updating existing data -->
         <!-- deploy artifact into "remote" repository -->
-        <artifact:install file="${upload.dir}/${dependlib}/${dependlib}.jar">
+        <artifact:install file="${upload.dir}/${dependlib}/${dependlib}.jar" >
             <pom file="${upload.dir}/${dependlib}/pom.xml"/>
         </artifact:install>
     </target>
@@ -295,7 +294,7 @@
             </filterset>
         </copy>
         <!-- deploy artifact into "remote" repository -->
-        <artifact:install file="${upload.dir}/${artifact}/${artifact}.jar">
+        <artifact:install file="${upload.dir}/${artifact}/${artifact}.jar" >
             <pom file="${upload.dir}/${artifact}/pom.xml"/>
             <!-- attached localization jarfiles -->
             <attach file="${upload.dir}/${artifact}/${artifact}_de.jar" classifier="l10n_de"/>
@@ -324,7 +323,7 @@
             </filterset>
         </copy>
         <!-- deploy artifact into "remote" repository -->
-        <artifact:install file="${upload.dir}/${artifact}/${artifact}.jar">
+        <artifact:install file="${upload.dir}/${artifact}/${artifact}.jar" >
             <pom file="${upload.dir}/${artifact}/pom.xml"/>
         </artifact:install>
     </target>
@@ -341,7 +340,7 @@
             </filterset>
         </copy>
         <!-- deploy artifact into "remote" repository -->
-        <artifact:deploy file="${upload.dir}/${artifact}/${artifact}.jar">
+        <artifact:deploy file="${upload.dir}/${artifact}/${artifact}.jar" uniqueVersion="false">
             <pom file="${upload.dir}/${artifact}/pom.xml"/>
             <!-- attached localization jarfiles -->
             <attach file="${upload.dir}/${artifact}/${artifact}_de.jar" classifier="l10n_de"/>
@@ -370,7 +369,7 @@
             </filterset>
         </copy>
         <!-- deploy artifact into "remote" repository -->
-        <artifact:deploy file="${upload.dir}/${artifact}/${artifact}.jar">
+        <artifact:deploy file="${upload.dir}/${artifact}/${artifact}.jar" uniqueVersion="false">
             <pom file="${upload.dir}/${artifact}/pom.xml"/>
         </artifact:deploy>
     </target>
