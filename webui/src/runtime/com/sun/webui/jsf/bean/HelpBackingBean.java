@@ -25,35 +25,24 @@ package com.sun.webui.jsf.bean;
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import javax.help.HelpSet;
 import javax.help.TreeItem;
 import javax.help.SearchTOCItem;
-import javax.help.ServletHelpBroker;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.swing.tree.*;
 
 import javax.faces.context.FacesContext;
 import javax.faces.context.ExternalContext;
-import javax.faces.event.ActionEvent;
-import javax.faces.event.ActionListener;
-import javax.faces.FactoryFinder;
-import javax.faces.application.Application;
-import javax.faces.application.ApplicationFactory;
 
 import com.sun.webui.jsf.component.Button;
 import com.sun.webui.jsf.component.TextField;
-import com.sun.webui.jsf.component.Form;
 import com.sun.webui.jsf.component.Hyperlink;
 import com.sun.webui.jsf.component.Markup;
 import com.sun.webui.jsf.component.PanelGroup;
 import com.sun.webui.jsf.component.StaticText;
-import com.sun.webui.jsf.component.Tab;
-import com.sun.webui.jsf.component.TabSet;
 import com.sun.webui.jsf.component.Tree;
 import com.sun.webui.jsf.component.TreeNode;
 import com.sun.webui.jsf.component.HelpWindow;
-import com.sun.webui.jsf.component.util.Util;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.jsf.theme.ThemeStyles;
@@ -62,6 +51,7 @@ import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.jsf.util.LogUtil;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.jsf.util.ClientSniffer;
+
 
 /**
  * This class defines a backing bean required for use by the HelpWindow
