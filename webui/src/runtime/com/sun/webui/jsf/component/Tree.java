@@ -3,12 +3,12 @@
  * of the Common Development and Distribution License
  * (the License).  You may not use this file except in
  * compliance with the License.
- * 
+ *
  * You can obtain a copy of the license at
  * https://woodstock.dev.java.net/public/CDDLv1.0.html.
  * See the License for the specific language governing
  * permissions and limitations under the License.
- * 
+ *
  * When distributing Covered Code, include this CDDL
  * Header Notice in each file and include the License file
  * at https://woodstock.dev.java.net/public/CDDLv1.0.html.
@@ -16,7 +16,7 @@
  * with the fields enclosed by brackets [] replaced by
  * you own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
- * 
+ *
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 
@@ -25,36 +25,32 @@ package com.sun.webui.jsf.component;
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
 import com.sun.webui.jsf.util.LogUtil;
-import com.sun.webui.jsf.component.util.Util;
 import com.sun.webui.jsf.util.RenderingUtilities;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.ServletContext;
-
+import javax.el.MethodExpression;
+import javax.el.ValueExpression;
 import javax.faces.application.FacesMessage;
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
 import javax.faces.component.EditableValueHolder;
+import javax.faces.component.UIComponent;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
-import javax.faces.el.ValueBinding;
 import javax.faces.event.AbortProcessingException;
 import javax.faces.event.FacesEvent;
-import javax.faces.event.ValueChangeListener;
 import javax.faces.event.ValueChangeEvent;
+import javax.faces.event.ValueChangeListener;
 import javax.faces.validator.Validator;
-import javax.faces.component.NamingContainer;
-import javax.el.ValueExpression;
-import javax.el.MethodExpression;
-
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 
 /**
  * The Tree component is used to display a tree structure in the rendered HTML
@@ -64,7 +60,7 @@ import javax.servlet.http.Cookie;
 helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
         propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_tree_props")
         public class Tree extends TreeNode implements EditableValueHolder {
-    
+
     /**
      *	Constructor.
      */
@@ -72,18 +68,18 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
         super();
         setRendererType("com.sun.webui.jsf.Tree");
     }
-    
+
     /**
      * <p>Return the family for this component.</p>
      */
     public String getFamily() {
         return "com.sun.webui.jsf.Tree";
     }
-    
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
+
     /**
      * The component identifier for this component. This value must be unique
      * within the closest parent component that is a naming container.
@@ -92,7 +88,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
     public void setId(String id) {
         super.setId(id);
     }
-    
+
     /**
      * Use the rendered attribute to indicate whether the HTML code for the
      * component should be included in the rendered HTML page. If set to false,
@@ -104,7 +100,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
-    
+
     /**
      * The resource at the specified URL is displayed in the frame that is
      * specified with the target attribute. Values such as "_blank" that are
@@ -116,7 +112,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
     public String getTarget() {
         return super.getTarget();
     }
-    
+
     /**
      * Indicates that the text that is specified with the text attribute
      * should be rendered as a hyperlink that resolves to the specified URL.
@@ -127,7 +123,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
     public String getUrl() {
         return super.getUrl();
     }
-    
+
     /**
      * Absolute or relative URL to the image to be rendered for the tree node.
      * Note that you cannot use the imageURL to display a theme image in the
@@ -141,7 +137,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
     public String getImageURL() {
         return super.getImageURL();
     }
-    
+
     /**
      * The actionListener attribute is used to specify a method to handle an
      * action event that is triggered when a component is activated by the user.
@@ -158,7 +154,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
     public MethodExpression getActionListenerExpression() {
         return super.getActionListenerExpression();
     }
-    
+
     /**
      * The action attribute is used to specify the action to take when this
      * component is activated by the user. The value of the action attribute
@@ -182,13 +178,13 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
     public MethodExpression getActionExpression() {
         return super.getActionExpression();
     }
-    
+
     // Hide expanded
     @Property(isHidden=true, isAttribute=false)
     public boolean isExpanded() {
         return super.isExpanded();
     }
-    
+
     // clientSide
     /**
      * <p>
@@ -205,7 +201,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
     @Property(name="clientSide", displayName="ClientSide", category="Behavior")
     private boolean clientSide = false;
     private boolean clientSide_set = false;
-    
+
     /**
      * <p>
      *         Set the clientSide attribute to true to specify that the Tree component
@@ -233,7 +229,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
         }
         return false;
     }
-    
+
     /**
      * <p>
      *         Set the clientSide attribute to true to specify that the Tree component
@@ -251,7 +247,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
         this.clientSide = clientSide;
         this.clientSide_set = true;
     }
-    
+
     // expandOnSelect
     /**
      * <p>Flag indicating that folder / container nodes will automatically expand
@@ -261,7 +257,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
     @Property(name="expandOnSelect", displayName="Expand On Select", category="Behavior")
     private boolean expandOnSelect = false;
     private boolean expandOnSelect_set = false;
-    
+
     /**
      * <p>Flag indicating that folder / container nodes will automatically expand
      * 	when they are selected. This attribute is true by default. If you want a tree's container
@@ -282,7 +278,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
         }
         return true;
     }
-    
+
     /**
      * <p>Flag indicating that folder / container nodes will automatically expand
      * 	when they are selected. This attribute is true by default. If you want a tree's container
@@ -293,7 +289,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
         this.expandOnSelect = expandOnSelect;
         this.expandOnSelect_set = true;
     }
-    
+
     // immediate
     /**
      * <p>Flag indicating that event handling for this component should be
@@ -305,7 +301,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
     @Property(name="immediate", displayName="Immediate", category="Advanced")
     private boolean immediate = false;
     private boolean immediate_set = false;
-    
+
     /**
      * <p>Flag indicating that event handling for this component should be
      * 	handled immediately (in Apply Request Values phase) rather than
@@ -328,7 +324,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
         }
         return false;
     }
-    
+
     /**
      * <p>Flag indicating that event handling for this component should be
      * 	handled immediately (in Apply Request Values phase) rather than
@@ -341,7 +337,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
         this.immediate = immediate;
         this.immediate_set = true;
     }
-    
+
     // required
     /**
      * <p>Flag indicating that the user must select a value for this tree.
@@ -350,7 +346,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
     @Property(name="required", displayName="Required", category="Behavior")
     private boolean required = false;
     private boolean required_set = false;
-    
+
     /**
      * <p>Flag indicating that the user must select a value for this tree.
      *         Default value is false.</p>
@@ -370,7 +366,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
         }
         return false;
     }
-    
+
     /**
      * <p>Flag indicating that the user must select a value for this tree.
      *         Default value is false.</p>
@@ -380,8 +376,8 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
         this.required = required;
         this.required_set = true;
     }
-    
-    
+
+
     // style
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this
@@ -389,7 +385,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
      */
     @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
-    
+
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this
      *         component is rendered.</p>
@@ -404,7 +400,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
         }
         return null;
     }
-    
+
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this
      *         component is rendered.</p>
@@ -413,7 +409,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
     public void setStyle(String style) {
         this.style = style;
     }
-    
+
     // styleClass
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this
@@ -421,7 +417,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
      */
     @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
-    
+
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this
      *    component is rendered.</p>
@@ -436,7 +432,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
         }
         return null;
     }
-    
+
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this
      *        component is rendered.</p>
@@ -445,7 +441,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-    
+
     // visible
     /**
      * <p>Use the visible attribute to indicate whether the component should be
@@ -459,7 +455,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
     @Property(name="visible", displayName="Visible", category="Behavior")
     private boolean visible = false;
     private boolean visible_set = false;
-    
+
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      *     viewable by the user in the rendered HTML page. If set to false, the
@@ -484,7 +480,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
         }
         return true;
     }
-    
+
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      *     viewable by the user in the rendered HTML page. If set to false, the
@@ -499,17 +495,14 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
         this.visible = visible;
         this.visible_set = true;
     }
-    
-    
-    
+
     /**
      * This component renders its children
      */
     public boolean getRendersChildren() {
         return true;
     }
-    
-    
+
     /**
      * <p>Returns the id of the selected tree node. Should be cast to a String and
      * nothing else.</p>
@@ -519,14 +512,13 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
     public String getSelected() {
         return (String) getValue();
     }
-    
+
     /**
      * <p>Specify the id of the selected tree node. Should specify a String object.
      * Also note that this should NOT be the client ID of the selected node.</p>
      * @see #getSelected()
      */
     public void setSelected(String selected) {
-        
         if (selected == null || selected.length() == 0) {
             FacesContext context = FacesContext.getCurrentInstance();
             String treeCID = getClientId(context);
@@ -546,7 +538,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
 
         setValue(selected);
     }
-    
+
     /**
      * <p>Return the <code>ValueExpression</code> stored for the
      * specified name (if any), respecting any property aliases.</p>
@@ -559,7 +551,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
         }
         return super.getValueExpression(name);
     }
-    
+
     /**
      * <p>Set the <code>ValueExpression</code> stored for the
      * specified name (if any), respecting any property
@@ -575,11 +567,11 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
         }
         super.setValueExpression(name, binding);
     }
-    
+
     //////////////////////////////////////////////////////////////////////
     //	ValueHolder Methods
     //////////////////////////////////////////////////////////////////////
-    
+
     /**
      *	<p> Return the <code>Converter</code> (if any) that is registered for
      *	    this <code>UIComponent</code>.</p>
@@ -589,7 +581,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
     public Converter getConverter() {
         return converter;
     }
-    
+
     /**
      *	<p> Set the <code>Converter</code> (if any) that is registered for
      *	    this <code>UIComponent</code>.</p>
@@ -602,7 +594,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
         converter = conv;
         // Do nothing... throw exception?
     }
-    
+
     /**
      *	<p> Return the local value of this <code>UIComponent</code> (if any),
      *	    without evaluating any associated <code>ValueBinding</code>.</p>
@@ -610,9 +602,9 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
     public Object getLocalValue() {
         return value;
     }
-    
+
     /**
-     *	<p> Gets the value of this {@link UIComponent}.  First, consult the
+     *	<p> Gets the value of this <code>UIComponent</code>.  First, consult the
      *	    local value property of this component.  If non-<code>null</code>
      *	    return it.  If non-null, see if we have a <code>ValueBinding</code>
      *	    for the <code>value</code> property.  If so, return the result of
@@ -629,25 +621,24 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
         }
         return null;
     }
-    
+
     /**
-     *	<p> Set the value of this {@link UIComponent} (if any).</p>
+     *	<p> Set the value of this <code>UIComponent</code> (if any).</p>
      *
      *	@param	val The new local value
      */
     public void setValue(Object val) {
-        
         value = val;
-        
+
         // Mark the local value as set.
         setLocalValueSet(true);
     }
-    
-    
+
+
     //////////////////////////////////////////////////////////////////////
     //	EditableValueHolder Methods
     //////////////////////////////////////////////////////////////////////
-    
+
     /**
      *	<p> Return the submittedValue value of this component.  This method
      *	    should only be used by the <code>encodeBegin()</code> and/or
@@ -657,7 +648,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
     public Object getSubmittedValue() {
         return submittedValue;
     }
-    
+
     /**
      *	<p> Set the submittedValue value of this component.  This method should
      *	    only be used by the <code>decode()</code> and
@@ -669,7 +660,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
     public void setSubmittedValue(Object value) {
         submittedValue = value;
     }
-    
+
     /**
      *	<p> Return the "local value set" state for this component.  Calls to
      *	    <code>setValue()</code> automatically reset this property to
@@ -678,14 +669,14 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
     public boolean isLocalValueSet() {
         return localValueSet;
     }
-    
+
     /**
      *	<p> Sets the "local value set" state for this component.</p>
      */
     public void setLocalValueSet(boolean value) {
         localValueSet = value;
     }
-    
+
     /**
      *	<p> Return a flag indicating whether the local value of this component
      *	    is valid (no conversion error has occurred).</p>
@@ -693,7 +684,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
     public boolean isValid() {
         return valid;
     }
-    
+
     /**
      *	<p> Set a flag indicating whether the local value of this component
      *	    is valid (no conversion error has occurred).</p>
@@ -703,7 +694,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
     public void setValid(boolean value) {
         valid = value;
     }
-    
+
     /**
      *	<p> Return a <code>MethodBinding</code> pointing at a method that will
      *	    be used to validate the current value of this component.   This
@@ -716,7 +707,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
     public MethodBinding getValidator() {
         return validatorBinding;
     }
-    
+
     /**
      *	<p> Set a <code>MethodBinding</code> pointing at a method that will be
      *	    used to validate the current value of this component.  This method
@@ -736,7 +727,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
     public void setValidator(MethodBinding valBinding) {
         validatorBinding = valBinding;
     }
-    
+
     /**
      *	<p> Add a <code>Validator</code> instance to the set associated with
      *	    this component.</p>
@@ -754,7 +745,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
         }
         validators.add(validator);
     }
-    
+
     /**
      *	<p> Return the set of registered <code>Validator</code>s for this
      *	    component instance.  If there are no registered validators, a
@@ -769,7 +760,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
         return ((Validator[]) validators.toArray(
                 new Validator[validators.size()]));
     }
-    
+
     /**
      *	<p> Remove a <code>Validator</code> instance from the set associated
      *	    with this component, if it was previously associated.  Otherwise,
@@ -784,7 +775,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
             validators.remove(validator);
         }
     }
-    
+
     /**
      *	<p> Return a <code>MethodBinding</code> instance method that will be
      *	    called after any registered <code>ValueChangeListener</code>s have
@@ -796,7 +787,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
     public MethodBinding getValueChangeListener() {
         return valueChangeMethod;
     }
-    
+
     /**
      *	<p> Set a <code>MethodBinding</code> instance method that will be
      *	    called after any registered <code>ValueChangeListener</code>s have
@@ -810,7 +801,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
     public void setValueChangeListener(MethodBinding method) {
         valueChangeMethod = method;
     }
-    
+
     /**
      *	<p> Add a new <code>ValueChangeListener</code> to the set of listeners
      *	    interested in being notified when <code>ValueChangeEvent</code>s
@@ -821,7 +812,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
     public void addValueChangeListener(ValueChangeListener listener) {
         addFacesListener(listener);
     }
-    
+
     /**
      *	<p> Return the set of registered <code>ValueChangeListener</code>s for
      *	    this component instance.  If there are no registered listeners, a
@@ -831,7 +822,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
         return (ValueChangeListener [])
         getFacesListeners(ValueChangeListener.class);
     }
-    
+
     /**
      *	<p> Remove an existing <code>ValueChangeListener</code> (if any) from
      *	    the set of listeners interested in being notified when
@@ -842,11 +833,12 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
     public void removeValueChangeListener(ValueChangeListener listener) {
         removeFacesListener(listener);
     }
-    
+
+
     //////////////////////////////////////////////////////////////////////
     //	Other Methods
     //////////////////////////////////////////////////////////////////////
-    
+
     /**
      *	<p> Decode any new state of this <code>UIComponent</code> from the
      *	    request contained in the specified <code>FacesContext</code>, and
@@ -862,7 +854,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
         setValid(true);
         super.decode(context);
     }
-    
+
     /**
      *	<p> In addition to to the default <code>UIComponent#broadcast</code>
      *	    processing, pass the <code>ValueChangeEvent</code> being broadcast
@@ -874,7 +866,6 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
      *	    that no further processing on the current event should be performed
      */
     public void broadcast(FacesEvent event) throws AbortProcessingException {
-        
         // Perform standard superclass processing
         super.broadcast(event);
 	if (event instanceof ValueChangeEvent) {
@@ -885,7 +876,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
 	    }
 	}
     }
-    
+
     /**
      *	<p> Perform the component tree processing required by the <em>Update
      *	    Model Values</em> phase of the request processing lifecycle for
@@ -896,7 +887,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
      *		    <code>UIComponent</code> is <code>false</code>, skip
      *		    further processing.</li>
      *		<li>Call the <code>processUpdates()</code> method of all
-     *		    facets and children of this {@link UIComponent}, in the
+     *		    facets and children of this <code>UIComponent</code>, in the
      *		    order determined by a call to
      *		    <code>getFacetsAndChildren()</code>.</li></ul>
      *
@@ -907,10 +898,10 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
         if (!isRendered()) {
             return;
         }
-        
+
         // Do the super stuff...
         super.processUpdates(context);
-        
+
         // Save model stuff...
         try {
             updateModel(context);
@@ -919,7 +910,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
             throw new RuntimeException(ex);
         }
     }
-    
+
     /**
      *	<p> Perform the following algorithm to update the model data
      *	    associated with this component, if any, as appropriate.</p>
@@ -950,7 +941,6 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
      */
     public void updateModel(FacesContext context) {
         // Sanity Checks...
-        
         if (context == null) {
             throw new NullPointerException();
         }
@@ -961,7 +951,6 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
         if (vb == null) {
             return;
         }
-        
         try {
             vb.setValue(context, getLocalValue());
             setValue(null);
@@ -980,9 +969,8 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
                 LogUtil.config("Unable to update Model!", ex); // NOI18N
             }
         }
-        
     }
-    
+
     /**
      *	<p> Perform the component tree processing required by the <em>Apply
      *	    Request Values</em> phase of the request processing lifecycle for
@@ -1006,7 +994,6 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
      */
     public void processDecodes(FacesContext context) {
         // Skip processing if our rendered flag is false
-        
         if (!isRendered()) {
             return;
         }
@@ -1015,7 +1002,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
             executeValidate(context);
         }
     }
-    
+
     /**
      *	<p> In addition to the standard <code>processValidators</code> behavior
      *	    inherited from <code>UIComponentBases</code>, calls
@@ -1030,19 +1017,19 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
         if (context == null) {
             throw new NullPointerException();
         }
-        
+
         // Skip processing if our rendered flag is false
         if (!isRendered()) {
             return;
         }
-        
+
         super.processValidators(context);
-        
+
         if (!isImmediate()) {
             executeValidate(context);
         }
     }
-    
+
     /**
      *	Executes validation logic.
      */
@@ -1053,12 +1040,12 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
             context.renderResponse();
             throw e;
         }
-        
+
         if (!isValid()) {
             context.renderResponse();
         }
     }
-    
+
     /**
      *	<p> Perform the following algorithm to validate the local value of
      *	    this <code>UIInput</code>.</p>
@@ -1090,14 +1077,14 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
         if (context == null) {
             throw new NullPointerException();
         }
-        
+
         // Submitted value == null means "the component was not submitted
         // at all";  validation should not continue
         Object submittedValue = getSubmittedValue();
         if (submittedValue == null) {
             return;
         }
-        
+
         Object newValue = submittedValue;
 /*
 FIXME: Decide if we ever want to the Tree to support Converters
@@ -1109,10 +1096,10 @@ FIXME: Decide if we ever want to the Tree to support Converters
             setValid(false);
         }
  */
-        
+
         // Validate the value (check for required for now)
         validateValue(context, newValue);
-        
+
         // If our value is valid, store the new value, erase the
         // "submitted" value, and emit a ValueChangeEvent if appropriate
         if (isValid()) {
@@ -1124,7 +1111,7 @@ FIXME: Decide if we ever want to the Tree to support Converters
             }
         }
     }
-    
+
     /**
      *	<p> Return <code>true</code> if the objects are not equal.</p>
      *
@@ -1144,7 +1131,7 @@ FIXME: Decide if we ever want to the Tree to support Converters
         }
         return !val1.equals(val2);
     }
-    
+
     protected void validateValue(FacesContext context, Object newValue) {
         if (!isValid()) {
             return;
@@ -1157,11 +1144,10 @@ FIXME: Decide if we ever want to the Tree to support Converters
 // context.addMessage(getClientId(context), message);
             setValid(false);
         }
-        
+
 // FIXME: Decide if we ever want to the Tree to support Validators (See UIInput)
     }
-    
-    
+
     /**
      *	<p> This method accepts the {@link TreeNode} which is to be selected.
      *	    The previous {@link TreeNode} that was selected will unselected.
@@ -1176,7 +1162,7 @@ FIXME: Decide if we ever want to the Tree to support Converters
         setSelected(treeNode.getId());
 //	selectTreeNode(treeNode.getClientId(FacesContext.getCurrentInstance()));
     }
-    
+
     /**
      *	<p> This method accepts the clientId of a {@link TreeNode} which is to
      *	    be selected.  The previous {@link TreeNode} that was selected will
@@ -1190,7 +1176,7 @@ FIXME: Decide if we ever want to the Tree to support Converters
     public void selectTreeNode(String id) {
         setSelected(id);
     }
-    
+
     /**
      *	<p> This method returns the {@link TreeNode} client ID that is
      *	    selected according the browser cookie.  This method is generally
@@ -1201,18 +1187,18 @@ FIXME: Decide if we ever want to the Tree to support Converters
     public String getCookieSelectedTreeNode() {
         FacesContext context = FacesContext.getCurrentInstance();
         String treeCID = getClientId(context);
-        
+
         // If it's stull null, look at cookies...
         Cookie cookie = getCookie(context, treeCID + COOKIE_SUFFIX);
-        
+
         if (cookie != null) {
             return cookie.getValue();
         }
-        
+
         // Not found, return null
         return null;
     }
-    
+
     /**
      *	<p> This method will return the {@link TreeNode} client ID that is
      *	    selected according the browser cookie.  This method is only
@@ -1225,26 +1211,42 @@ FIXME: Decide if we ever want to the Tree to support Converters
         FacesContext context = FacesContext.getCurrentInstance();
         String treeCID = getClientId(context);
         Cookie cookie = getCookie(context, treeCID + COOKIE_SUFFIX_EXPAND);
-        
+
         if (cookie != null) {
             return cookie.getValue();
         }
-        
+
         // Not found, return null
         return null;
     }
-    
-    
+
+    /**
+     *	<p> Gets the requested cookie name after URLEncoding it (ensures
+     *	    invalid characters are not used.  This requires that the cookie
+     *	    name be URLEncoded prior to being set as well.</p>
+     */
     private Cookie getCookie(FacesContext context, String name) {
-        ExternalContext extCtx = context.getExternalContext();
-        
-        return (Cookie) extCtx.getRequestCookieMap().get(name);
+	/*
+// FIXME: Need to ensure cookie names do not use '/' or other invalid
+// FIXME: characters.  This change can fix the reading for Tree cookies,
+// FIXME: however, the cookies are set on the client and escaping is not
+// FIXME: consistent on the client.  Need to find a consistent client-side
+// FIXME: solution which also works on the server (or some other strategy).
+// FIXME: Must test this change as it could break highlighting/scrolling/etc.
+	try {
+	    name = URLEncoder.encode(name, "UTF-8");
+	} catch (UnsupportedEncodingException e) {
+	    // Do nothing... just use name
+	}
+	*/
+        return (Cookie) context.getExternalContext().getRequestCookieMap().get(name);
     }
-    
+
+
     //////////////////////////////////////////////////////////////////////
     //	ValueHolder Methods
     //////////////////////////////////////////////////////////////////////
-    
+
     /**
      *
      */
@@ -1270,10 +1272,10 @@ FIXME: Decide if we ever want to the Tree to support Converters
         _values[17] = saveAttachedState(context, validators);
         _values[18] = saveAttachedState(context, validatorBinding);
         _values[19] = saveAttachedState(context, valueChangeMethod);
-        
+
         return (_values);
     }
-    
+
     /**
      * <p>Restore the state of this component.</p>
      */
@@ -1296,7 +1298,7 @@ FIXME: Decide if we ever want to the Tree to support Converters
         this.value = _values[14];
         localValueSet = ((Boolean) _values[15]).booleanValue();
         valid = ((Boolean) _values[16]).booleanValue();
-        
+
         List restoredValidators = null;
         Iterator iter = null;
         if (null != (restoredValidators = (List)
@@ -1313,56 +1315,56 @@ FIXME: Decide if we ever want to the Tree to support Converters
                 validators = restoredValidators;
             }
         }
-        
+
         validatorBinding = (MethodBinding) restoreAttachedState(_context,
                 _values[18]);
         valueChangeMethod = (MethodBinding) restoreAttachedState(_context,
                 _values[19]);
     }
-    
+
     /**
      *	<p> Converter.</p>
      */
     private Converter converter = null;
-    
+
     /**
      *	<p> The set of {@link Validator}s associated with this
      *	    <code>UIComponent</code>.</p>
      */
     private List validators = null;
-    
+
     /**
      *
      */
     private MethodBinding validatorBinding = null;
-    
+
     /**
      *	<p> The submittedValue value of this component.</p>
      */
     private Object submittedValue = null;
-    
+
     /**
      *	<p> Toggle indicating validity of this component.</p>
      */
     private boolean valid = true;
-    
+
     /**
      *	<p> The "localValueSet" state for this component.</p>
      */
     private boolean localValueSet;
-    
+
     /**
      *	<p> The "valueChange" MethodBinding for this component.
      */
     private MethodBinding valueChangeMethod = null;
-    
+
     /**
      *	<p> The value of the <code>Tree</code>.  This should be a String
      *	    representing the client id of the selected
      *	    <code>TreeNode</code>.</p>
      */
     private Object value = null;
-    
+
     /**
      *	<p> This is the {@link com.sun.webui.theme.Theme} key used to retrieve
      *	    the JavaScript needed for this component.</p>
@@ -1370,8 +1372,8 @@ FIXME: Decide if we ever want to the Tree to support Converters
      *	@see com.sun.webui.theme.Theme#getPathToJSFile(String)
      */
     public static final String	JAVA_SCRIPT_THEME_KEY  =    "tree";
-    
-    
+
+
     /**
      *	<p> This is the suffix appended to the client id when forming a request
      *	    attribute key.  The value associated with the generated key
@@ -1380,25 +1382,25 @@ FIXME: Decide if we ever want to the Tree to support Converters
      *	    the previous selection.</p>
      */
     public static final String	SELECTED_SUFFIX	=	"_select";
-    
+
     /**
      *	<p> This is the suffix appended to the client id to form the key to the
      *	    cookie Map needed to retrieve the tree selection.</p>
      */
     public static final String	COOKIE_SUFFIX	=	"-hi";
-    
+
     /**
      *	<p> This is the suffix appended to the client id to form the key to the
      *	    cookie Map needed to retrieve the node that may need to be
      *      expanded (because it was just selected).</p>
      */
     public static final String COOKIE_SUFFIX_EXPAND = "-expand";
-    
+
     /**
      * <p> String constant representing the content facet name. </p>
      */
     public static final String TREE_CONTENT_FACET_NAME = "content";
-    
+
     /**
      * <p> String constant representing the image facet name. </p>
      */
