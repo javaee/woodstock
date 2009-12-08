@@ -27,13 +27,29 @@
   <title>Woodstock 4.0 Components Release Notes</title>
 </head>
 <body>
-<h1>Woodstock 4.0.2.2 JSF Components Release Notes</h1>
-<h3>Changes from 4.0.2.1</h3>
+
+<h1>Woodstock 4.0.2.4 JSF Components Release Notes</h1>
+
+<h3>Changes added in 4.0.2.4</h3>
+<ul><li>If no Woodstock-supported locales are specified, the locales supported
+	by JSF (i.e. Application.getSupportedLocales()) are now used.</li>
+</ul>
+
+<h3>Changes added in 4.0.2.3</h3>
+<ul><li>TabSet component now renders it's 'id', making JS easier --
+	particularly JSF2 Ajax.</li>
+    <li>ant targets added to the build files to publish maven artifacts.</li>
+</ul>
+
+<h3>Changes added in 4.0.2.2</h3>
 <ul><li>A security fix related to the ThemeServlet serving 404 pages was fixed.</li>
     <li>508 messages were added on some images that were not labeled causing
 	their client-id's to be read by screen readers, which significantly
 	impacted usuability.</li>
 </ul>
+
+<hr>
+
 <h3>IE7 Button width issue</h3>
 When displayed in IE7, the button component might be rendered
 with an incorrect width. This problem occurs when the button is placed
