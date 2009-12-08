@@ -437,6 +437,14 @@ public class JarThemeFactory implements ThemeFactory {
 	    // May need to do this in ThemeContext.
 	    //
 	    if (localeSet == null) {
+		FacesContext ctx = FacesContext.getCurrentInstance();
+		if (ctx != null) {
+		    // We're in JSF, use JSF's locales...
+		    localeSet = getLocales(ctx.getApplication());
+		}
+	    }
+	    if (localeSet == null) {
+		// Use the default locale...
 		localeSet = new HashSet();
 		localeSet.add(themeContext.getDefaultLocale());
 	    }
@@ -469,12 +477,11 @@ public class JarThemeFactory implements ThemeFactory {
     private Theme createTheme(Attributes themeAttributes, Locale locale,
 	    ThemeContext themeContext) throws ThemeConfigurationException {
         
-        String prefix = readAttribute(themeAttributes, PREFIX); //NOI18N
-        if (!prefix.startsWith("/")) { //NOI18N
-            prefix = "/".concat(prefix); //NOI18N
-        }
-
 	if (themeContext.getThemeServletContext() == null) {
+	    String prefix = readAttribute(themeAttributes, PREFIX); //NOI18N
+	    if (!prefix.startsWith("/")) { //NOI18N
+		prefix = "/".concat(prefix); //NOI18N
+	    }
 	    themeContext.setThemeServletContext(prefix);
 	}
 
