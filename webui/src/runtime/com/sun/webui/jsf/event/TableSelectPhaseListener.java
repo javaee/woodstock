@@ -19,14 +19,11 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.event;
 
 import com.sun.data.provider.RowKey;
 import com.sun.webui.jsf.util.LogUtil;
-
 import java.util.HashMap;
-
 import javax.faces.FactoryFinder;
 import javax.faces.lifecycle.Lifecycle;
 import javax.faces.lifecycle.LifecycleFactory;
@@ -57,6 +54,8 @@ import javax.faces.event.PhaseListener;
  * </pre></p>
  */
 public class TableSelectPhaseListener implements PhaseListener {
+
+    private static final long serialVersionUID = 6955269103244653901L;
     private Object unselected = null; // Unselected object for primitve values.
     private HashMap selected = new HashMap(); // Selected values map.
     private boolean keepSelected = false; // Do not clear selected flag.
@@ -64,10 +63,9 @@ public class TableSelectPhaseListener implements PhaseListener {
     /** Default constructor */
     public TableSelectPhaseListener() {
         // Add phase listener.
-	LifecycleFactory factory = (LifecycleFactory)
-        FactoryFinder.getFactory(FactoryFinder.LIFECYCLE_FACTORY);
-	Lifecycle lifecycle = factory.getLifecycle(
-            LifecycleFactory.DEFAULT_LIFECYCLE);
+        LifecycleFactory factory = (LifecycleFactory) FactoryFinder.getFactory(FactoryFinder.LIFECYCLE_FACTORY);
+        Lifecycle lifecycle = factory.getLifecycle(
+                LifecycleFactory.DEFAULT_LIFECYCLE);
         lifecycle.addPhaseListener(this);
     }
 
@@ -109,7 +107,7 @@ public class TableSelectPhaseListener implements PhaseListener {
             selected.clear();
         } else {
             log("afterPhase", //NOI18N
-                "Selected values not cleared, keepSelected is false");
+                    "Selected values not cleared, keepSelected is false");
         }
     }
 
@@ -144,11 +142,11 @@ public class TableSelectPhaseListener implements PhaseListener {
      * @return The selected object.
      */
     public Object getSelected(RowKey rowKey) {
-        Object object = (rowKey != null) 
-            ? selected.get(rowKey.getRowId()) : null;
+        Object object = (rowKey != null)
+                ? selected.get(rowKey.getRowId()) : null;
 
         // If null, return the unselected value.
-	return (object != null) ? object : unselected;
+        return (object != null) ? object : unselected;
     }
 
     /**
@@ -169,7 +167,7 @@ public class TableSelectPhaseListener implements PhaseListener {
      */
     public boolean isSelected(RowKey rowKey) {
         Object object = getSelected(rowKey);
-	return (object != null && object != unselected);
+        return (object != null && object != unselected);
     }
 
     /**
@@ -200,14 +198,13 @@ public class TableSelectPhaseListener implements PhaseListener {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Log fine messages.
      */
     private void log(String method, String message) {
         // Get class.
         Class clazz = this.getClass();
-	if (LogUtil.fineEnabled(clazz)) {
+        if (LogUtil.fineEnabled(clazz)) {
             // Log method name and message.
             LogUtil.fine(clazz, clazz.getName() + "." + method + ": " + message); //NOI18N
         }

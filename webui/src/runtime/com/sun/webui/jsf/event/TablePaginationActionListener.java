@@ -19,7 +19,6 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.event;
 
 import com.sun.webui.jsf.component.TextField;
@@ -28,12 +27,7 @@ import com.sun.webui.jsf.component.TableActions;
 import com.sun.webui.jsf.component.TableRowGroup;
 import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.jsf.util.LogUtil;
-
 import java.util.Iterator;
-
-import java.util.List;
-import java.util.Map;
-
 import javax.faces.component.UIComponent;
 import javax.faces.event.AbortProcessingException;
 import javax.faces.event.ActionEvent;
@@ -53,6 +47,7 @@ import javax.faces.event.ActionListener;
  * </pre></p>
  */
 public class TablePaginationActionListener implements ActionListener {
+
     /**
      * Invoked when the action described by the specified
      * {@link ActionEvent} occurs. The source parent is expected to be a
@@ -67,10 +62,10 @@ public class TablePaginationActionListener implements ActionListener {
     public void processAction(ActionEvent event)
             throws AbortProcessingException {
         UIComponent source = (event != null)
-            ? (UIComponent) event.getSource() : null;
+                ? (UIComponent) event.getSource() : null;
         if (source == null) {
             log("processAction", //NOI18N
-                "Cannot process action, ActionEvent source is null"); //NOI18N
+                    "Cannot process action, ActionEvent source is null"); //NOI18N
             return;
         }
         processTable(getTableAncestor(source), source.getId());
@@ -81,7 +76,7 @@ public class TablePaginationActionListener implements ActionListener {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     // Helper method to process Table components.
-    private void processTable(Table component, String id) 
+    private void processTable(Table component, String id)
             throws AbortProcessingException {
         if (component == null) {
             log("processTable", "Cannot process Table action, Table is null"); //NOI18N
@@ -108,12 +103,12 @@ public class TablePaginationActionListener implements ActionListener {
                     setPage(group, getPage(component));
                 } catch (NumberFormatException e) {
                     log("processTable", "Cannot obtain page field value"); //NOI18N
-                    return;    
+                    return;
                 }
             }
         }
     }
-    
+
     /**
      * Get the closest Table ancestor that encloses this component.
      *
@@ -122,7 +117,7 @@ public class TablePaginationActionListener implements ActionListener {
     private Table getTableAncestor(UIComponent component) {
         if (component == null) {
             log("getTableAncestor", //NOI18N
-                "Cannot obtain Table ancestor, UIComponent is null"); //NOI18N
+                    "Cannot obtain Table ancestor, UIComponent is null"); //NOI18N
             return null;
         } else if (component instanceof Table) {
             return (Table) component;
@@ -139,31 +134,31 @@ public class TablePaginationActionListener implements ActionListener {
     private int getPage(Table component) {
         UIComponent actions = component.getFacet(Table.TABLE_ACTIONS_BOTTOM_ID);
         UIComponent field = (actions != null)
-            ? (UIComponent) actions.getFacet(TableActions.PAGINATION_PAGE_FIELD_ID)
-            : null;
+                ? (UIComponent) actions.getFacet(TableActions.PAGINATION_PAGE_FIELD_ID)
+                : null;
         String value = null;
         if (field instanceof TextField) {
             value = ConversionUtilities.convertValueToString(field,
-                ((TextField) field).getValue());
+                    ((TextField) field).getValue());
         } else {
             log("getPage", //NOI18N
-                "Cannot obtain page text field value, not TextField instance"); //NOI18N
+                    "Cannot obtain page text field value, not TextField instance"); //NOI18N
         }
         return (value != null) ? Integer.parseInt(value) : -1;
     }
 
     // Set current page.
-    private void setPage(TableRowGroup component, int page) {      
+    private void setPage(TableRowGroup component, int page) {
         if (component == null) {
             log("setPage", "Cannot set page, TableRowGroup is null"); //NOI18N
             return;
-        }      
+        }
         // Set the starting row for the current page.
         component.setPage(page);
     }
 
     // Set first row.
-    private void setFirst(TableRowGroup component) {      
+    private void setFirst(TableRowGroup component) {
         if (component == null) {
             log("setFirst", "Canot set first row, TableRowGroup is null"); //NOI18N
             return;
@@ -173,7 +168,7 @@ public class TablePaginationActionListener implements ActionListener {
     }
 
     // Set last row.
-    private void setLast(TableRowGroup component) {      
+    private void setLast(TableRowGroup component) {
         if (component == null) {
             log("setLast", "Cannot set last row, TableRowGroup is null"); //NOI18N
             return;
@@ -187,13 +182,13 @@ public class TablePaginationActionListener implements ActionListener {
         if (component == null) {
             log("setNext", "Cannot set next row, TableRowGroup is null"); //NOI18N
             return;
-        }       
+        }
         // Get the starting row index for the next page.
         component.setPage(component.getPage() + 1);
     }
 
     // Set paginated.
-    private void setPaginated(TableRowGroup component) {      
+    private void setPaginated(TableRowGroup component) {
         if (component == null) {
             log("setPaginated", "Cannot set paginated, TableRowGroup is null"); //NOI18N
             return;
@@ -203,7 +198,7 @@ public class TablePaginationActionListener implements ActionListener {
     }
 
     // Set previous row.
-    private void setPrev(TableRowGroup component) {      
+    private void setPrev(TableRowGroup component) {
         if (component == null) {
             log("setPrev", "Cannot set previous row, TableRowGroup is null"); //NOI18N
             return;
@@ -215,14 +210,13 @@ public class TablePaginationActionListener implements ActionListener {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Misc methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Log fine messages.
      */
     private void log(String method, String message) {
         // Get class.
         Class clazz = this.getClass();
-	if (LogUtil.fineEnabled(clazz)) {
+        if (LogUtil.fineEnabled(clazz)) {
             // Log method name and message.
             LogUtil.fine(clazz, clazz.getName() + "." + method + ": " + message); //NOI18N
         }

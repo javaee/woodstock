@@ -19,7 +19,6 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.event;
 
 import javax.el.ELContext;
@@ -27,7 +26,6 @@ import javax.el.ELException;
 import javax.el.MethodExpression;
 import javax.faces.context.FacesContext;
 import javax.faces.component.StateHolder;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.io.StringWriter;
@@ -35,26 +33,25 @@ import java.io.PrintWriter;
 import javax.faces.event.AbortProcessingException;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
+import javax.faces.event.ValueChangeListener;
 
 /**
  * <p><strong>MethodExprActionListener</strong> is an {@link ActionListener} that
  * wraps a {@link MethodExpression}. When it receives a {@link ActionEvent}, it executes
  * a method on an object identified by the {@link MethodExpression}.</p>
  */
-
+ //FIXME add hashcode
 public class MethodExprActionListener implements ActionListener,
-    StateHolder {
+        StateHolder {
 
     private static final Logger LOGGER =
-          Logger.getLogger("javax.faces.event", "javax.faces.LogStrings");
-    
-
+            Logger.getLogger("javax.faces.event", "javax.faces.LogStrings");
     // ------------------------------------------------------ Instance Variables
-
     private MethodExpression methodExpression = null;
     private boolean isTransient;
 
-    public MethodExprActionListener() { }
+    public MethodExprActionListener() {
+    }
 
     /**
      * <p>Construct a {@link ValueChangeListener} that contains a {@link MethodExpression}.</p>
@@ -68,7 +65,6 @@ public class MethodExprActionListener implements ActionListener,
 
 
     // ------------------------------------------------------- Event Method
-
     /**
      * @throws NullPointerException {@inheritDoc}     
      * @throws AbortProcessingException {@inheritDoc}     
@@ -81,16 +77,16 @@ public class MethodExprActionListener implements ActionListener,
         try {
             FacesContext context = FacesContext.getCurrentInstance();
             ELContext elContext = context.getELContext();
-            methodExpression.invoke(elContext, new Object[] {actionEvent});
+            methodExpression.invoke(elContext, new Object[]{actionEvent});
         } catch (ELException ee) {
             if (LOGGER.isLoggable(Level.SEVERE)) {
                 LOGGER.log(Level.SEVERE,
-                           "severe.event.exception_invoking_processaction",
-                           new Object[]{
-                                 ee.getCause().getClass().getName(),
-                                 methodExpression.getExpressionString(),
-                                 actionEvent.getComponent().getId()
-                           });
+                        "severe.event.exception_invoking_processaction",
+                        new Object[]{
+                            ee.getCause().getClass().getName(),
+                            methodExpression.getExpressionString(),
+                            actionEvent.getComponent().getId()
+                        });
                 StringWriter writer = new StringWriter(1024);
                 ee.getCause().printStackTrace(new PrintWriter(writer));
                 LOGGER.severe(writer.toString());
@@ -101,14 +97,11 @@ public class MethodExprActionListener implements ActionListener,
 
 
     // ------------------------------------------------ Methods from StateHolder
-
-
     public Object saveState(FacesContext context) {
 
-        return new Object[] { methodExpression };
+        return new Object[]{methodExpression};
 
     }
-
 
     public void restoreState(FacesContext context, Object state) {
 
@@ -116,33 +109,32 @@ public class MethodExprActionListener implements ActionListener,
 
     }
 
-
     public boolean isTransient() {
 
         return isTransient;
 
     }
 
-
     public void setTransient(boolean newTransientValue) {
 
         isTransient = newTransientValue;
 
     }
-    
+
     public MethodExpression getMethodExpression() {
         return methodExpression;
     }
-    
+
+
+    @Override
     public boolean equals(Object otherObject) {
-        if (! (otherObject instanceof MethodExprActionListener)) {
+        if (!(otherObject instanceof MethodExprActionListener)) {
             return false;
         }
-        
-        MethodExprActionListener other = (MethodExprActionListener)otherObject;
+
+        MethodExprActionListener other = (MethodExprActionListener) otherObject;
         MethodExpression otherMe = other.getMethodExpression();
         //methodExpression should not be null
         return methodExpression.equals(otherMe);
     }
-
 }

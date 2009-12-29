@@ -19,16 +19,11 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.event;
-
-import java.util.Iterator;
 
 import javax.faces.event.FacesListener;
 import javax.faces.event.AbortProcessingException;
-
 import javax.faces.component.StateHolder;
-
 
 /**
  * The WizardEventListener is an event listener defined on
@@ -58,12 +53,12 @@ import javax.faces.component.StateHolder;
  * </ul>
  */
 public interface WizardEventListener extends FacesListener, StateHolder {
-    
+
     /**
      * Perform functionality suitable for the specified <code>event</code>.
      *
      * @param event The WizardEvent being broadcast
      */
-    public boolean handleEvent(WizardEvent event) 
-	    throws AbortProcessingException;
+    public boolean handleEvent(WizardEvent event)
+            throws AbortProcessingException;
 }

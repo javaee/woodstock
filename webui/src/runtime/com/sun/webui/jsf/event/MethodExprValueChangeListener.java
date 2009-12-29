@@ -19,7 +19,6 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.event;
 
 import javax.el.ELContext;
@@ -37,70 +36,71 @@ import javax.faces.event.ValueChangeListener;
  * a method on an object identified by the {@link MethodExpression}.</p>
  * @author mbohm
  */
-public class MethodExprValueChangeListener implements ValueChangeListener, StateHolder{
-    
+//FIXME add hashcode
+public class MethodExprValueChangeListener implements ValueChangeListener, StateHolder {
+
     // ------------------------------------------------------ Instance Variables
-    
     private MethodExpression methodExpression = null;
     private boolean isTransient;
-    
-    public MethodExprValueChangeListener() { }
-    
+
+    public MethodExprValueChangeListener() {
+    }
+
     /**
      * <p>Construct a {@link ValueChangeListener} that contains a {@link MethodExpression}.</p>
      */
     public MethodExprValueChangeListener(MethodExpression methodExpression) {
-        
+
         super();
         this.methodExpression = methodExpression;
-        
+
     }
-    
+
     /**
      * @throws NullPointerException {@inheritDoc}
      * @throws AbortProcessingException {@inheritDoc}
      */
     public void processValueChange(ValueChangeEvent valueChangeEvent) throws AbortProcessingException {
-        
+
         if (valueChangeEvent == null) {
             throw new NullPointerException();
         }
         try {
             FacesContext context = FacesContext.getCurrentInstance();
             ELContext elContext = context.getELContext();
-            methodExpression.invoke(elContext, new Object[] {valueChangeEvent});
+            methodExpression.invoke(elContext, new Object[]{valueChangeEvent});
         } catch (ELException ee) {
             throw new AbortProcessingException(ee.getMessage(), ee.getCause());
         }
     }
-    
+
     public Object saveState(FacesContext context) {
-        return new Object[] { methodExpression };
+        return new Object[]{methodExpression};
     }
-    
-    
+
     public void restoreState(FacesContext context, Object state) {
         methodExpression = (MethodExpression) ((Object[]) state)[0];
     }
 
-    public boolean isTransient() {  
-        return isTransient; 
+    public boolean isTransient() {
+        return isTransient;
     }
-    
-    public void setTransient(boolean newTransientValue) {  
+
+    public void setTransient(boolean newTransientValue) {
         isTransient = newTransientValue;
     }
-    
+
     public MethodExpression getMethodExpression() {
         return methodExpression;
     }
-    
+
+    @Override
     public boolean equals(Object otherObject) {
-        if (! (otherObject instanceof MethodExprValueChangeListener)) {
+        if (!(otherObject instanceof MethodExprValueChangeListener)) {
             return false;
         }
-        
-        MethodExprValueChangeListener other = (MethodExprValueChangeListener)otherObject;
+
+        MethodExprValueChangeListener other = (MethodExprValueChangeListener) otherObject;
         MethodExpression otherMe = other.getMethodExpression();
         //methodExpression should not be null
         return methodExpression.equals(otherMe);

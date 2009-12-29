@@ -28,36 +28,37 @@
  * the Source Creation and Management node. Right-click the template and choose
  * Open. You can then make changes to the template in the Source Editor.
  */
-
 package com.sun.webui.jsf.event;
 
-import java.io.Serializable; 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent; 
+import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
 import com.sun.webui.jsf.component.Scheduler;
+import java.io.Serializable;
 
 /**
  *
- * @author avk
+ * @author avk, John Yeary
  */
-public class SchedulerPreviewListener implements ActionListener, java.io.Serializable {
-    
+public class SchedulerPreviewListener implements ActionListener, Serializable {
+
+    private static final long serialVersionUID = -8944673873698745402L;
+
     public void processAction(ActionEvent event) {
-        
-        UIComponent comp = event.getComponent(); 
-        while(comp != null && !(comp instanceof Scheduler)) { 
-            comp = comp.getParent(); 
-        } 
-        if(comp != null) {  
-            
+
+        UIComponent comp = event.getComponent();
+        while (comp != null && !(comp instanceof Scheduler)) {
+            comp = comp.getParent();
+        }
+        if (comp != null) {
+
             FacesContext context = FacesContext.getCurrentInstance();
-            ((Scheduler)comp).processValidators(FacesContext.getCurrentInstance()); 
-            if(((Scheduler)comp).isValid()) { 
-                ((Scheduler)comp).getDatePicker().setValue(((Scheduler)comp).getValue()); 
-                ((Scheduler)comp).getDatePicker().displayValue(); 
-            } 
+            ((Scheduler) comp).processValidators(FacesContext.getCurrentInstance());
+            if (((Scheduler) comp).isValid()) {
+                ((Scheduler) comp).getDatePicker().setValue(((Scheduler) comp).getValue());
+                ((Scheduler) comp).getDatePicker().displayValue();
+            }
             context.renderResponse();
         }
     }

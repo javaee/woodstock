@@ -19,7 +19,6 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.event;
 
 import com.sun.data.provider.SortCriteria;
@@ -31,10 +30,8 @@ import com.sun.webui.jsf.component.TableHeader;
 import com.sun.webui.jsf.component.TablePanels;
 import com.sun.webui.jsf.component.TableRowGroup;
 import com.sun.webui.jsf.util.LogUtil;
-
 import java.util.Iterator;
 import java.util.Map;
-
 import javax.faces.component.UIComponent;
 import javax.faces.event.AbortProcessingException;
 import javax.faces.event.ActionEvent;
@@ -70,13 +67,13 @@ public class TableSortActionListener implements ActionListener {
      * implementation that no further processing on the current event
      * should be performed.
      */
-    public void processAction(ActionEvent event) 
+    public void processAction(ActionEvent event)
             throws AbortProcessingException {
         UIComponent source = (event != null)
-            ? (UIComponent) event.getSource() : null;
+                ? (UIComponent) event.getSource() : null;
         if (source == null) {
             log("processAction", //NOI18N
-                "Cannot process action, ActionEvent source is null"); //NOI18N
+                    "Cannot process action, ActionEvent source is null"); //NOI18N
             return;
         }
 
@@ -101,7 +98,7 @@ public class TableSortActionListener implements ActionListener {
      *
      * @param component Table component being sorted.
      * @param id The source id.
-     */    
+     */
     private void processTable(Table component, String id) {
         if (component == null) {
             log("processTable", "Cannot process Table action, Table is null"); //NOI18N
@@ -110,8 +107,7 @@ public class TableSortActionListener implements ActionListener {
 
         // Clear sort for each TableRowGroup child. This action is the same for
         // both the clear sort button and the custom sort panel.
-        if (id.equals(TableActions.CLEAR_SORT_BUTTON_ID)
-                || id.equals(TablePanels.SORT_PANEL_SUBMIT_BUTTON_ID)) {
+        if (id.equals(TableActions.CLEAR_SORT_BUTTON_ID) || id.equals(TablePanels.SORT_PANEL_SUBMIT_BUTTON_ID)) {
             Iterator kids = component.getTableRowGroupChildren();
             while (kids.hasNext()) {
                 TableRowGroup group = (TableRowGroup) kids.next();
@@ -134,7 +130,7 @@ public class TableSortActionListener implements ActionListener {
     private void processTableColumn(TableColumn component, String id) {
         if (component == null) {
             log("processTableColumn", //NOI18N
-                "Cannot process TableColumn action, TableColumn is null"); //NOI18N
+                    "Cannot process TableColumn action, TableColumn is null"); //NOI18N
             return;
         }
 
@@ -156,7 +152,6 @@ public class TableSortActionListener implements ActionListener {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Sort methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /** 
      * Set the sort for Table components. This sort is applied to 
      * all TableRowGroup chlidren.
@@ -192,7 +187,7 @@ public class TableSortActionListener implements ActionListener {
      * @param id The source id.
      * @param criteria SortCriteria to find column index.
      */
-    private void setSort(TableRowGroup component, String id, 
+    private void setSort(TableRowGroup component, String id,
             SortCriteria criteria) {
         if (component == null) {
             log("setSort", "Cannot set sort, TableRowGroup is null"); //NOI18N
@@ -201,9 +196,7 @@ public class TableSortActionListener implements ActionListener {
 
         if (id.equals(TableHeader.ADD_SORT_BUTTON_ID)) {
             component.addSort(criteria);
-        } else if (id.equals(TableHeader.SELECT_SORT_BUTTON_ID)
-                || id.equals(TableHeader.PRIMARY_SORT_BUTTON_ID)
-                || id.equals(TableHeader.PRIMARY_SORT_LINK_ID)) {
+        } else if (id.equals(TableHeader.SELECT_SORT_BUTTON_ID) || id.equals(TableHeader.PRIMARY_SORT_BUTTON_ID) || id.equals(TableHeader.PRIMARY_SORT_LINK_ID)) {
             component.clearSort();
             component.addSort(criteria);
         } else if (id.equals(TableHeader.TOGGLE_SORT_BUTTON_ID)) {
@@ -219,7 +212,6 @@ public class TableSortActionListener implements ActionListener {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Custom sort methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      
     /** 
      * Process the properties for the custom table sort panel and set the sort.
      *
@@ -229,62 +221,56 @@ public class TableSortActionListener implements ActionListener {
         UIComponent panels = component.getFacet(Table.EMBEDDED_PANELS_ID);
         if (panels == null) {
             log("customSort", //NOI18N
-                "Cannot custom sort, embedded panels facet is null"); //NOI18N
+                    "Cannot custom sort, embedded panels facet is null"); //NOI18N
             return;
         }
 
         // Get menu children.
         Map map = panels.getFacets();
         UIComponent primarySortColumnMenu = (UIComponent) map.get(
-            TablePanels.PRIMARY_SORT_COLUMN_MENU_ID);
+                TablePanels.PRIMARY_SORT_COLUMN_MENU_ID);
         UIComponent primarySortOrderMenu = (UIComponent) map.get(
-            TablePanels.PRIMARY_SORT_ORDER_MENU_ID);
+                TablePanels.PRIMARY_SORT_ORDER_MENU_ID);
         UIComponent secondarySortColumnMenu = (UIComponent) map.get(
-            TablePanels.SECONDARY_SORT_COLUMN_MENU_ID);
+                TablePanels.SECONDARY_SORT_COLUMN_MENU_ID);
         UIComponent secondarySortOrderMenu = (UIComponent) map.get(
-            TablePanels.SECONDARY_SORT_ORDER_MENU_ID);
+                TablePanels.SECONDARY_SORT_ORDER_MENU_ID);
         UIComponent tertiarySortColumnMenu = (UIComponent) map.get(
-            TablePanels.TERTIARY_SORT_COLUMN_MENU_ID);
+                TablePanels.TERTIARY_SORT_COLUMN_MENU_ID);
         UIComponent tertiarySortOrderMenu = (UIComponent) map.get(
-            TablePanels.TERTIARY_SORT_ORDER_MENU_ID);
+                TablePanels.TERTIARY_SORT_ORDER_MENU_ID);
 
         // Set primary sort.
-        if (primarySortColumnMenu != null && primarySortOrderMenu != null
-                && primarySortColumnMenu instanceof DropDown 
-                && primarySortOrderMenu instanceof DropDown) {
+        if (primarySortColumnMenu != null && primarySortOrderMenu != null && primarySortColumnMenu instanceof DropDown && primarySortOrderMenu instanceof DropDown) {
             int index = getNodeIndex(component,
-                (String) ((DropDown) primarySortColumnMenu).getSelected());
+                    (String) ((DropDown) primarySortColumnMenu).getSelected());
             setCustomSort(component, index, Boolean.valueOf(
-                (String) ((DropDown) primarySortOrderMenu).getSelected()).booleanValue());
+                    (String) ((DropDown) primarySortOrderMenu).getSelected()).booleanValue());
         } else {
             log("customSort", //NOI18N
-                "Cannot set custom sort, primary sort column menu is null"); //NOI18N
+                    "Cannot set custom sort, primary sort column menu is null"); //NOI18N
         }
 
         // Set secondary sort.
-        if (secondarySortColumnMenu != null && secondarySortOrderMenu != null
-                && secondarySortColumnMenu instanceof DropDown
-                && secondarySortOrderMenu instanceof DropDown) {
+        if (secondarySortColumnMenu != null && secondarySortOrderMenu != null && secondarySortColumnMenu instanceof DropDown && secondarySortOrderMenu instanceof DropDown) {
             int index = getNodeIndex(component,
-                (String) ((DropDown) secondarySortColumnMenu).getSelected());
+                    (String) ((DropDown) secondarySortColumnMenu).getSelected());
             setCustomSort(component, index, Boolean.valueOf(
-                (String) ((DropDown) secondarySortOrderMenu).getSelected()).booleanValue());
+                    (String) ((DropDown) secondarySortOrderMenu).getSelected()).booleanValue());
         } else {
             log("customSort", //NOI18N
-                "Cannot set custom sort, secondary sort column menu is null"); //NOI18N
+                    "Cannot set custom sort, secondary sort column menu is null"); //NOI18N
         }
 
         // Set tertiary sort.
-        if (tertiarySortColumnMenu != null && tertiarySortOrderMenu != null
-                && tertiarySortColumnMenu instanceof DropDown
-                && tertiarySortOrderMenu instanceof DropDown) {
-            int index = getNodeIndex(component, 
-                (String) ((DropDown) tertiarySortColumnMenu).getSelected());
+        if (tertiarySortColumnMenu != null && tertiarySortOrderMenu != null && tertiarySortColumnMenu instanceof DropDown && tertiarySortOrderMenu instanceof DropDown) {
+            int index = getNodeIndex(component,
+                    (String) ((DropDown) tertiarySortColumnMenu).getSelected());
             setCustomSort(component, index, Boolean.valueOf(
-                (String) ((DropDown) tertiarySortOrderMenu).getSelected()).booleanValue());
+                    (String) ((DropDown) tertiarySortOrderMenu).getSelected()).booleanValue());
         } else {
             log("customSort", //NOI18N
-                "Cannot set custom sort, tertiary sort column menu is null"); //NOI18N
+                    "Cannot set custom sort, tertiary sort column menu is null"); //NOI18N
         }
     }
 
@@ -296,11 +282,11 @@ public class TableSortActionListener implements ActionListener {
      * @param index The index associated with the TableColumn node to be sorted.
      * @param descending The sort order to be applied.
      */
-    private void setCustomSort(Table component, int index, 
+    private void setCustomSort(Table component, int index,
             boolean descending) {
         if (component == null || index < 0) {
             log("setCustomSort", //NOI18N
-                "Cannot set custom sort, Table is null or index < 0"); //NOI18N
+                    "Cannot set custom sort, Table is null or index < 0"); //NOI18N
             return;
         }
 
@@ -324,7 +310,6 @@ public class TableSortActionListener implements ActionListener {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Nested TableColumn methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Helper method to get the node index associated with the given criteria
      * key (i.e., a value binding expression string or FieldKey id).
@@ -335,10 +320,9 @@ public class TableSortActionListener implements ActionListener {
      */
     private int getNodeIndex(Table component, String criteriaKey) {
         // If the criteria key is an empty string, "None" has been selected.
-        if (component == null || criteriaKey == null 
-                || criteriaKey.length() == 0) {
+        if (component == null || criteriaKey == null || criteriaKey.length() == 0) {
             log("getNodeIndex", //NOI18N
-                "Cannot obtain node index, Table or sort criteria key is null"); //NOI18N
+                    "Cannot obtain node index, Table or sort criteria key is null"); //NOI18N
             return -1;
         }
 
@@ -359,7 +343,7 @@ public class TableSortActionListener implements ActionListener {
             }
         } else {
             log("getNodeIndex", //NOI18N
-                "Cannot obtain node index, TableRowGroup is null"); //NOI18N
+                    "Cannot obtain node index, TableRowGroup is null"); //NOI18N
         }
         return -1;
     }
@@ -377,10 +361,9 @@ public class TableSortActionListener implements ActionListener {
     private int getNodeIndex(TableColumn component, String criteriaKey,
             Integer index) {
         // If the criteria key is an empty string, "None" has been selected.
-        if (component == null || criteriaKey == null 
-                || criteriaKey.length() == 0) {
+        if (component == null || criteriaKey == null || criteriaKey.length() == 0) {
             log("getNodeIndex", //NOI18N
-                "Cannot obtain node index, TableColumn or sort criteria key is null"); //NOI18N
+                    "Cannot obtain node index, TableColumn or sort criteria key is null"); //NOI18N
             return -1;
         }
 
@@ -413,7 +396,7 @@ public class TableSortActionListener implements ActionListener {
     private TableColumn getTableColumn(TableRowGroup component, int index) {
         if (component == null) {
             log("getTableColumn", //NOI18N
-                "Cannot obtain TableColumn component, TableRowGroup is null"); //NOI18N
+                    "Cannot obtain TableColumn component, TableRowGroup is null"); //NOI18N
             return null;
         }
 
@@ -442,7 +425,7 @@ public class TableSortActionListener implements ActionListener {
     private TableColumn getTableColumn(TableColumn component, int index) {
         if (component == null) {
             log("getTableColumn", //NOI18N
-                "Cannot obtain TableColumn component, TableColumn is null"); //NOI18N
+                    "Cannot obtain TableColumn component, TableColumn is null"); //NOI18N
             return null;
         }
 
@@ -463,7 +446,7 @@ public class TableSortActionListener implements ActionListener {
             return component;
         } else {
             log("getTableColumn", //NOI18N
-                "Cannot obtain TableColumn component, cannot match node index"); //NOI18N
+                    "Cannot obtain TableColumn component, cannot match node index"); //NOI18N
         }
         return null;
     }
@@ -471,7 +454,6 @@ public class TableSortActionListener implements ActionListener {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Child methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Get the closest Table ancestor that encloses this component.
      *
@@ -507,14 +489,13 @@ public class TableSortActionListener implements ActionListener {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Misc methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Log fine messages.
      */
     private void log(String method, String message) {
         // Get class.
         Class clazz = this.getClass();
-	if (LogUtil.fineEnabled(clazz)) {
+        if (LogUtil.fineEnabled(clazz)) {
             // Log method name and message.
             LogUtil.fine(clazz, clazz.getName() + "." + method + ": " + message); //NOI18N
         }

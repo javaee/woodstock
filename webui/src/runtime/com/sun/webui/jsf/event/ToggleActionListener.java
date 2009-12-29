@@ -19,8 +19,6 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
-
 /*
  * ToggleActionListener.java
  *
@@ -29,51 +27,45 @@
  * To change this template, choose Tools | Template Manager
  * and open the template in the editor.
  */
-
 package com.sun.webui.jsf.event;
-
-import java.io.Serializable; 
-import java.util.Map;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent; 
+import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
-import javax.faces.event.MethodExpressionActionListener;
-
 import com.sun.webui.jsf.component.TreeNode;
 import com.sun.webui.jsf.component.Tree;
-
-import com.sun.webui.jsf.util.LogUtil;
-
+import java.io.Serializable;
 
 /**
  *
- * @author deep
+ * @author deep, John Yeary
  */
-public class ToggleActionListener implements ActionListener, java.io.Serializable {
-    
+public class ToggleActionListener implements ActionListener, Serializable {
+
+    private static final long serialVersionUID = -6635913171312578091L;
+
     public void processAction(ActionEvent event) {
-        
+
         UIComponent comp = event.getComponent();
         /*LogUtil.info("CLICK ACTION FROM: " + 
-            comp.getClass().getName() + " with id " + comp.getId());
-        */
+        comp.getClass().getName() + " with id " + comp.getId());
+         */
         boolean flag = false;
         if (!comp.getId().endsWith("turner")) {
             flag = true;
         }
-        while(comp != null && !(comp instanceof TreeNode)) { 
-            comp = comp.getParent(); 
+        while (comp != null && !(comp instanceof TreeNode)) {
+            comp = comp.getParent();
         }
-                
-        if(comp != null) { 
+
+        if (comp != null) {
             FacesContext context = FacesContext.getCurrentInstance();
-            TreeNode node = (TreeNode)comp;
+            TreeNode node = (TreeNode) comp;
             Tree root = TreeNode.getAbsoluteRoot(comp);
             if (flag) {
                 root.setSelected(node.getId());
-            }            
+            }
             // Queue the TreeNodeToggleEvent. This will
             // enable control to flow thru tree nodes's
             // broadcast method where it can be checked
@@ -84,7 +76,7 @@ public class ToggleActionListener implements ActionListener, java.io.Serializabl
             // opposed to the hyperlink representing the
             // toggle icon.
             node.queueEvent(new TreeNodeToggleEvent(node));
-	}
-                
+        }
+
     }
 }
