@@ -23,18 +23,14 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-import com.sun.webui.jsf.event.MethodExprValueChangeListener;
 import com.sun.webui.jsf.model.ClockTime;
-import com.sun.webui.jsf.model.Option; 
+import com.sun.webui.jsf.model.Option;
 import com.sun.webui.jsf.util.ComponentUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
-import com.sun.webui.jsf.validator.MethodExprValidator;
 import com.sun.webui.theme.Theme;
-
 import java.io.IOException;
-import java.util.Locale; 
+import java.util.Locale;
 import java.util.TimeZone;
-
 import javax.el.ValueExpression;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponentBase;
@@ -44,30 +40,26 @@ import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
 import javax.faces.convert.IntegerConverter;
-import javax.faces.event.ValueChangeEvent; 
-import javax.faces.event.ValueChangeListener;
-import javax.faces.validator.Validator;
+import javax.faces.event.ValueChangeEvent;
 
 /**
  * This component is for internal use only
  */
-@Component(type="com.sun.webui.jsf.Time", family="com.sun.webui.jsf.Time", displayName="Time", isTag=false,
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_time",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_time_props")
+@Component(type = "com.sun.webui.jsf.Time", family = "com.sun.webui.jsf.Time", displayName = "Time", isTag = false,
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_time",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_time_props")
 public class Time extends WebuiInput implements NamingContainer {
+
     /**
      * The hour menu facet name.
      */
     public static final String HOUR_FACET = "hour"; //NOI18N
-
     /**
      * The minutes menu facet name.
      */
     public static final String MINUTES_FACET = "minutes"; //NOI18N
-    
     private static final String TIME_SUBMITTED =
-	"com.sun.webui.jsf.TimeSubmitted"; //NOI18N
-
+            "com.sun.webui.jsf.TimeSubmitted"; //NOI18N
     private static final boolean DEBUG = false;
 
     /**
@@ -81,6 +73,7 @@ public class Time extends WebuiInput implements NamingContainer {
     /**
      * <p>Return the family for this component.</p>
      */
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.Time";
     }
@@ -104,7 +97,7 @@ public class Time extends WebuiInput implements NamingContainer {
     public DropDown getHourMenu() {
         return getMenu(HOUR_FACET, getHourItems());
     }
-    
+
     /**
      * Return a DropDown component that implements a minutes menu.
      * If <code>ComponentUtilities.getPrivateFacet()</code>
@@ -124,7 +117,7 @@ public class Time extends WebuiInput implements NamingContainer {
     public DropDown getMinutesMenu() {
         return getMenu(MINUTES_FACET, getMinuteItems());
     }
-    
+
     /**
      * Return a DropDown component for a menu.
      * If <code>ComponentUtilities.getPrivateFacet()</code>
@@ -145,32 +138,33 @@ public class Time extends WebuiInput implements NamingContainer {
      * @return a DropDown menu component.
      */
     private DropDown getMenu(String facet, Option[] options) {
-        
-        if (DEBUG) log("getMenu() for facet " + facet); //NOI18N
-        
-	// Support only a private facet.
-	//
-        DropDown menu = (DropDown)
-		ComponentUtilities.getPrivateFacet(this, facet, true);
-        if (menu == null) {
-	    if(DEBUG) log("createDropDown() for facet " + facet); //NOI18N
-        
-	    menu = new DropDown();
-	    menu.setId(ComponentUtilities.createPrivateFacetId(this, facet));
-	    // Doesn't change
-	    menu.setItems(options);
-	    menu.setConverter(new IntegerConverter());
-	    ComponentUtilities.putPrivateFacet(this, facet, menu);
-	}
 
-	// Probably should be doing tooltips here as well.
-	// However, I was reluctant to change the logic 
-	// regarding setting tooltips at this time but
-	// it should be revisited. See encodeEnd in this file and
-	// Scheduler.
-        
-	int tindex = getTabIndex();
-	if (tindex > 0) {
+        if (DEBUG) {
+            log("getMenu() for facet " + facet); //NOI18N
+        }
+        // Support only a private facet.
+        //
+        DropDown menu = (DropDown) ComponentUtilities.getPrivateFacet(this, facet, true);
+        if (menu == null) {
+            if (DEBUG) {
+                log("createDropDown() for facet " + facet); //NOI18N
+            }
+            menu = new DropDown();
+            menu.setId(ComponentUtilities.createPrivateFacetId(this, facet));
+            // Doesn't change
+            menu.setItems(options);
+            menu.setConverter(new IntegerConverter());
+            ComponentUtilities.putPrivateFacet(this, facet, menu);
+        }
+
+        // Probably should be doing tooltips here as well.
+        // However, I was reluctant to change the logic
+        // regarding setting tooltips at this time but
+        // it should be revisited. See encodeEnd in this file and
+        // Scheduler.
+
+        int tindex = getTabIndex();
+        if (tindex > 0) {
             menu.setTabIndex(tindex);
         }
         menu.setDisabled(isDisabled());
@@ -178,7 +172,7 @@ public class Time extends WebuiInput implements NamingContainer {
 
         return menu;
     }
-    
+
     /**
      * <p>Convenience method to return at Option[] with all of the hours
      * defined in 24 hourObject format.</p>
@@ -187,22 +181,22 @@ public class Time extends WebuiInput implements NamingContainer {
      */
     private Option[] getHourItems() {
         Option[] hours = new Option[25];
-        
+
         hours[0] = new Option(new Integer(-1), " ");//NOI18N
-        
+
         int counter = 0;
-        while(counter < 10) { 
+        while (counter < 10) {
             hours[counter + 1] = new Option(new Integer(counter), "0" + counter);//NOI18N
             ++counter;
         }
-        while(counter < 24) {
-            hours[counter + 1] = new Option(new Integer(counter), 
-                                            String.valueOf(counter));
-             ++counter;
+        while (counter < 24) {
+            hours[counter + 1] = new Option(new Integer(counter),
+                    String.valueOf(counter));
+            ++counter;
         }
         return hours;
     }
-    
+
     /**
      * <p>Convenience method to return at Option[] with all of the mintes (in
      * 5 minuteObject increments) for an hourObject.</p>
@@ -211,31 +205,30 @@ public class Time extends WebuiInput implements NamingContainer {
      */
     private Option[] getMinuteItems() {
         Option[] minutes = new Option[13];
-        
+
         minutes[0] = new Option(new Integer(-1), " ");//NOI18N
         minutes[1] = new Option(new Integer(0), "00");//NOI18N
         minutes[2] = new Option(new Integer(5), "05");//NOI18N
-        
-        for (int i = 2; i < 12; i++) {         
-            minutes[i + 1] = new Option(new Integer(5 * i), String.valueOf(5*i));
+
+        for (int i = 2; i < 12; i++) {
+            minutes[i + 1] = new Option(new Integer(5 * i), String.valueOf(5 * i));
         }
-        
+
         return minutes;
     }
-    
+
     /**
      * <p>Get the time-zone as a string.</p>
      */
     public String getOffset() {
-        
         java.util.Calendar calendar = getCalendar();
         TimeZone timeZone = calendar.getTimeZone();
-        
-        StringBuffer gmtTimeZone = new StringBuffer(8); 
-        
+
+        StringBuffer gmtTimeZone = new StringBuffer(8);
+
         int value = calendar.get(java.util.Calendar.ZONE_OFFSET) +
                 calendar.get(java.util.Calendar.DST_OFFSET);
-        
+
         if (value < 0) {
             // GMT - hh:mm
             gmtTimeZone.append('-');//NOI18N
@@ -244,32 +237,31 @@ public class Time extends WebuiInput implements NamingContainer {
             // GMT + hh:mm
             gmtTimeZone.append('+');//NOI18N
         }
-        
+
         // determine the offset hours
         int num = value / (1000 * 60 * 60);
-        
+
         if (num < 10) {
             // display offset as GMT + 0h:mm
             gmtTimeZone.append("0");//NOI18N
         }
-        
+
         // add the hh: part
-        gmtTimeZone.append(num)
-        .append(":");
-        
+        gmtTimeZone.append(num).append(":");
+
         // determine the offset minutes
         num = (value % (1000 * 60 * 60)) / (1000 * 60);
         if (num < 10) {
             // display as hh:0m
             gmtTimeZone.append("0");//NOI18N
         }
-        
+
         // append the minutes
         gmtTimeZone.append(num);
-        
-        return gmtTimeZone.toString(); 
+
+        return gmtTimeZone.toString();
     }
-    
+
     /**
      * <p>Returns a new Calendar instance corresponding to the user's current
      * locale and the developer specified time zone (if any).</p>
@@ -281,21 +273,19 @@ public class Time extends WebuiInput implements NamingContainer {
         java.util.Calendar calendar = null;
         Locale locale =
                 FacesContext.getCurrentInstance().getViewRoot().getLocale();
-        if(locale == null) {
+        if (locale == null) {
             locale = locale.getDefault();
         }
-        
-        
+
         TimeZone timeZone = getTimeZone();
-        
-        if(timeZone == null) {
+
+        if (timeZone == null) {
             calendar = java.util.Calendar.getInstance(locale);
         } else {
             calendar = java.util.Calendar.getInstance(timeZone, locale);
         }
         return calendar;
     }
-
     /**
      * Holds value of property hourTooltipKey.
      */
@@ -318,7 +308,6 @@ public class Time extends WebuiInput implements NamingContainer {
 
         this.hourTooltipKey = hourTooltipKey;
     }
-
     /**
      * Holds value of property minutesTooltipKey.
      */
@@ -341,8 +330,8 @@ public class Time extends WebuiInput implements NamingContainer {
 
         this.minutesTooltipKey = minutesTooltipKey;
     }
-    
-   /**
+
+    /**
      * <p>Specialized decode behavior on top of that provided by the
      * superclass.  In addition to the standard
      * <code>processDecodes</code> behavior inherited from {@link
@@ -351,11 +340,14 @@ public class Time extends WebuiInput implements NamingContainer {
      * invalid afterwards or a <code>RuntimeException</code> is thrown,
      * calls {@link FacesContext#renderResponse}.  </p>
      * @exception NullPointerException
-     */ 
+     */
+    @Override
     public void processDecodes(FacesContext context) {
 
-        if(DEBUG) log("processDecodes"); //NOI18N
-        
+        if (DEBUG) {
+            log("processDecodes"); //NOI18N
+        }
+
         if (context == null) {
             throw new NullPointerException();
         }
@@ -367,189 +359,209 @@ public class Time extends WebuiInput implements NamingContainer {
 
         setValid(true);
 
-	// There is no public facet. Only the private facet.
-	// Get the private facet but don't validate the id since
-	// we want the facet that was rendered.
-	//
-	// The assumption is that the facets will already exist since the
-	// component was rendered. And if it wasn't rendered  
-	// this method should be executed.
-	//
+        // There is no public facet. Only the private facet.
+        // Get the private facet but don't validate the id since
+        // we want the facet that was rendered.
+        //
+        // The assumption is that the facets will already exist since the
+        // component was rendered. And if it wasn't rendered
+        // this method should be executed.
+        //
         ComponentUtilities.getPrivateFacet(this, HOUR_FACET, false).
-		processDecodes(context);
-	ComponentUtilities.getPrivateFacet(this, MINUTES_FACET, false).
-		processDecodes(context); 
+                processDecodes(context);
+        ComponentUtilities.getPrivateFacet(this, MINUTES_FACET, false).
+                processDecodes(context);
         setSubmittedValue(TIME_SUBMITTED);
-         
+
         // There is nothing to decode other than the facets
-        
+
         if (isImmediate()) {
-            if(DEBUG) log("Time is immediate"); //NOI18N
-            runValidation(context);           
+            if (DEBUG) {
+                log("Time is immediate"); //NOI18N
+            }
+            runValidation(context);
         }
     }
 
-    
-     /**
+    /**
      * <p>Perform the following algorithm to validate the local value of
      * this {@link UIInput}.</p>
      * 
      * @param context The {@link FacesContext} for the current request
      *
      */
+    @Override
     public void validate(FacesContext context) {
-        
-        if(DEBUG) log("validate()"); //NOI18N
-        
+
+        if (DEBUG) {
+            log("validate()"); //NOI18N
+        }
+
         if (context == null) {
             throw new NullPointerException();
         }
 
-	// There is no public facet. Only the private facet.
-	// Get the private facet but don't validate the id since
-	// we want the facet that was rendered. And don't call
-	// getHourMenu or getMinutesMenu since we don't want to reinitialize.
-	//
-	// The assumption is that the facets will already exist since the
-	// component was rendered. And if it wasn't rendered  
-	// this method should be executed.
-	//
-        Object hourValue = ((EditableValueHolder)ComponentUtilities.
-		getPrivateFacet(this, HOUR_FACET, false)).getValue();
-        if(DEBUG) log("Hour value is " + String.valueOf(hourValue)); //NOI18N
-        
-        Object minuteValue = ((EditableValueHolder)ComponentUtilities.
-		getPrivateFacet(this, MINUTES_FACET, false)).getValue();
-        if (DEBUG) log("Minute value is " + String.valueOf(minuteValue)); //NOI18N
-        
+        // There is no public facet. Only the private facet.
+        // Get the private facet but don't validate the id since
+        // we want the facet that was rendered. And don't call
+        // getHourMenu or getMinutesMenu since we don't want to reinitialize.
+        //
+        // The assumption is that the facets will already exist since the
+        // component was rendered. And if it wasn't rendered
+        // this method should be executed.
+        //
+        Object hourValue = ((EditableValueHolder) ComponentUtilities.getPrivateFacet(this, HOUR_FACET, false)).getValue();
+
+        if (DEBUG) {
+            log("Hour value is " + String.valueOf(hourValue)); //NOI18N
+        }
+        Object minuteValue = ((EditableValueHolder) ComponentUtilities.getPrivateFacet(this, MINUTES_FACET, false)).getValue();
+        if (DEBUG) {
+            log("Minute value is " + String.valueOf(minuteValue)); //NOI18N
+        }
         ClockTime newValue = null;
-        
-	try {
-	    newValue = createClockTime(hourValue, minuteValue, context); 
-            if(DEBUG) log("Created ClockTime"); 
-	}
-	catch(ConverterException ce) {
-            FacesMessage message = ce.getFacesMessage();  
+
+        try {
+            newValue = createClockTime(hourValue, minuteValue, context);
+            if (DEBUG) {
+                log("Created ClockTime");
+            }
+        } catch (ConverterException ce) {
+            FacesMessage message = ce.getFacesMessage();
             message.setSeverity(FacesMessage.SEVERITY_ERROR);
             context.addMessage(getClientId(context), message);
             setValid(false);
             context.renderResponse();
-        }	
-        catch(Exception ex) {
+        } catch (Exception ex) {
             // TODO - message
             FacesMessage message = new FacesMessage("Invalid input");
             message.setSeverity(FacesMessage.SEVERITY_ERROR);
             context.addMessage(getClientId(context), message);
             setValid(false);
             context.renderResponse();
-        }	
+        }
 
-	// If our value is valid, store the new value, erase the
+        // If our value is valid, store the new value, erase the
         // "submitted" value, and emit a ValueChangeEvent if appropriate
-	if (isValid()) {
-            if(DEBUG) log("\tComponent is valid"); //NOI18N
-	    Object previous = getValue();
+        if (isValid()) {
+            if (DEBUG) {
+                log("\tComponent is valid"); //NOI18N
+            }
+            Object previous = getValue();
             setValue(newValue);
-            if(DEBUG) log("\tNew value: " + String.valueOf(newValue)); //NOI18N
+            if (DEBUG) {
+                log("\tNew value: " + String.valueOf(newValue)); //NOI18N
+            }
             setSubmittedValue(null);
             if (compareValues(previous, newValue)) {
                 queueEvent(new ValueChangeEvent(this, previous, newValue));
             }
         }
     }
-    
+
     private void runValidation(FacesContext context) {
-        
-        if(DEBUG) log("runValidation()"); //NOI18N
-        
+
+        if (DEBUG) {
+            log("runValidation()"); //NOI18N
+        }
         try {
             validate(context);
         } catch (RuntimeException e) {
             context.renderResponse();
             throw e;
         }
-        
+
         if (!isValid()) {
-            if(DEBUG) log("\tnot valid"); //NOI18N
+            if (DEBUG) {
+                log("\tnot valid"); //NOI18N
+            }
             context.renderResponse();
         }
     }
-    
+
     private ClockTime createClockTime(Object hourObject, Object minuteObject,
             FacesContext context) {
-        
-        if(DEBUG) log("CreateClockTime()");//NOI18N
-        
+
+        if (DEBUG) {
+            log("CreateClockTime()");//NOI18N
+        }
         String messageKey = null;
         ClockTime time = null;
-        
-        if(hourObject instanceof Integer && minuteObject instanceof Integer) {
-            
-            if(DEBUG) log("Found integers");//NOI18N
-            
-            int hour = ((Integer)hourObject).intValue();
-            int minute = ((Integer)minuteObject).intValue();
-            
-            if(hour == -1 && minute == -1) {
-                if(DEBUG) log("No selections made");//NOI18N
-                if(isRequired()) {
+
+        if (hourObject instanceof Integer && minuteObject instanceof Integer) {
+
+            if (DEBUG) {
+                log("Found integers");//NOI18N
+            }
+            int hour = ((Integer) hourObject).intValue();
+            int minute = ((Integer) minuteObject).intValue();
+
+            if (hour == -1 && minute == -1) {
+                if (DEBUG) {
+                    log("No selections made");//NOI18N
+                }
+                if (isRequired()) {
                     messageKey = "Time.required";//NOI18N
                 } else {
                     return null;
                 }
-            }
-            
-            else if(hour == -1) {
+            } else if (hour == -1) {
                 messageKey = "Time.enterHour";//NOI18N
-            } else if(minute == -1) {
+            } else if (minute == -1) {
                 messageKey = "Time.enterMinute";//NOI18N
             } else {
                 time = new ClockTime();
                 try {
-                    if(DEBUG) log("Hour is " + hour);//NOI18N
-                    if(DEBUG) log("Minute is " + minute);//NOI18N
+                    if (DEBUG) {
+                        log("Hour is " + hour);//NOI18N
+                    }
+                    if (DEBUG) {
+                        log("Minute is " + minute);//NOI18N
+                    }
                     time.setHour(new Integer(hour));
                     time.setMinute(new Integer(minute));
-                } catch(Exception ex) {
-                    if(DEBUG) {
+                } catch (Exception ex) {
+                    if (DEBUG) {
                         ex.printStackTrace();
                     }
                     messageKey = "Time.invalidData";//NOI18N
                 }
             }
         } else {
-            if(isRequired()) {
+            if (isRequired()) {
                 messageKey = "Time.required";//NOI18N
             } else {
                 return null;
             }
-            
+
         }
-        
-        if(messageKey != null) {
-            if(DEBUG) log("Invalid input");//NOI18N
+
+        if (messageKey != null) {
+            if (DEBUG) {
+                log("Invalid input");//NOI18N
+            }
             String message =
                     ThemeUtilities.getTheme(context).getMessage(messageKey);
             throw new ConverterException(new FacesMessage(message));
         }
         return time;
     }
-    
+
     private void log(String s) {
         System.out.println(this.getClass().getName() + "::" + s);//NOI18N
     }
 
     /*
     public void setValue(Object value) {
-        if(DEBUG) log("setValue(" + String.valueOf(value) + ")");//NOI18N
-        Thread.dumpStack();
-        super.setValue(value); 
+    if(DEBUG) log("setValue(" + String.valueOf(value) + ")");//NOI18N
+    Thread.dumpStack();
+    super.setValue(value);
     }
 
     public Object getValue() {
-        Object value = super.getValue(); 
-         if(DEBUG) log("getValue() ->" + String.valueOf(value));//NOI18N
-        return value;
+    Object value = super.getValue();
+    if(DEBUG) log("getValue() ->" + String.valueOf(value));//NOI18N
+    return value;
     }
      */
 
@@ -561,7 +573,8 @@ public class Time extends WebuiInput implements NamingContainer {
     // 
     /**
      * @exception NullPointerException  
-     */ 
+     */
+    @Override
     public void encodeEnd(FacesContext context) throws IOException {
 
         if (context == null) {
@@ -571,8 +584,8 @@ public class Time extends WebuiInput implements NamingContainer {
             return;
         }
 
-	DropDown hourMenu = getHourMenu();
-	DropDown minuteMenu = getMinutesMenu();
+        DropDown hourMenu = getHourMenu();
+        DropDown minuteMenu = getMinutesMenu();
 
         // If there is no submitted value, set the values of 
         // the DropDowns to the actual value... If we have 
@@ -581,38 +594,43 @@ public class Time extends WebuiInput implements NamingContainer {
         // FIXME: have to round this to the nearest five minutes!       
 
         if (getSubmittedValue() == null) {
-            
-            if (DEBUG) log("No submitted value"); //NOI18N
+
+            if (DEBUG) {
+                log("No submitted value"); //NOI18N
+            }
             Object object = getValue();
-            if (DEBUG) log("Got the ClockTime");  //NOI18N
-            
+            if (DEBUG) {
+                log("Got the ClockTime");  //NOI18N
+            }
             ClockTime value = null;
             if (object != null && object instanceof ClockTime) {
-                value = (ClockTime)object;
-                if (DEBUG) log("\tValue is " + String.valueOf(value));//NOI18N
-            }           
+                value = (ClockTime) object;
+                if (DEBUG) {
+                    log("\tValue is " + String.valueOf(value));//NOI18N
+                }
+            }
             if (value != null) {
                 hourMenu.setValue(value.getHour());
             } else {
                 hourMenu.setValue(new Integer(-1));
             }
-            
+
             if (value != null) {
                 minuteMenu.setValue(value.getMinute());
             } else {
                 minuteMenu.setValue(new Integer(-1));
             }
+        } else if (DEBUG) {
+            log("Found submitted value");  //NOI18N
         }
-        else if (DEBUG) log("Found submitted value");  //NOI18N
-
-	Theme theme = ThemeUtilities.getTheme(context);
+        Theme theme = ThemeUtilities.getTheme(context);
 
 
         String key = getHourTooltipKey();
         if (key != null) {
             hourMenu.setToolTip(theme.getMessage(key));
-        }    
-        
+        }
+
         key = getMinutesTooltipKey();
         if (key != null) {
             minuteMenu.setToolTip(theme.getMessage(key));
@@ -629,7 +647,7 @@ public class Time extends WebuiInput implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     // disabled
-    @Property(name="disabled", displayName="Disabled")
+    @Property(name = "disabled", displayName = "Disabled")
     private boolean disabled = false;
     private boolean disabled_set = false;
 
@@ -664,7 +682,7 @@ public class Time extends WebuiInput implements NamingContainer {
     }
 
     // readOnly
-    @Property(name="readOnly", displayName="Read-only")
+    @Property(name = "readOnly", displayName = "Read-only")
     private boolean readOnly = false;
     private boolean readOnly_set = false;
 
@@ -699,7 +717,7 @@ public class Time extends WebuiInput implements NamingContainer {
     }
 
     // style
-    @Property(name="style", displayName="CSS Style(s)")
+    @Property(name = "style", displayName = "CSS Style(s)")
     private String style = null;
 
     /**
@@ -727,7 +745,7 @@ public class Time extends WebuiInput implements NamingContainer {
     }
 
     // styleClass
-    @Property(name="styleClass", displayName="CSS Style Class(es)")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)")
     private String styleClass = null;
 
     /**
@@ -755,7 +773,7 @@ public class Time extends WebuiInput implements NamingContainer {
     }
 
     // tabIndex
-    @Property(name="tabIndex", displayName="Tab Index")
+    @Property(name = "tabIndex", displayName = "Tab Index")
     private int tabIndex = Integer.MIN_VALUE;
     private boolean tabIndex_set = false;
 
@@ -794,7 +812,7 @@ public class Time extends WebuiInput implements NamingContainer {
     }
 
     // timeZone
-    @Property(name="timeZone", displayName="Time Zone")
+    @Property(name = "timeZone", displayName = "Time Zone")
     private java.util.TimeZone timeZone = null;
 
     /**
@@ -824,7 +842,7 @@ public class Time extends WebuiInput implements NamingContainer {
     }
 
     // visible
-    @Property(name="visible", displayName="Visible")
+    @Property(name = "visible", displayName = "Visible")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -871,7 +889,8 @@ public class Time extends WebuiInput implements NamingContainer {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.disabled = ((Boolean) _values[1]).booleanValue();
@@ -890,6 +909,7 @@ public class Time extends WebuiInput implements NamingContainer {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[12];
         _values[0] = super.saveState(_context);

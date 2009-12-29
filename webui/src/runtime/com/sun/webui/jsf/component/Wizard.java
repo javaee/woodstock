@@ -19,50 +19,29 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.component;
 
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import javax.el.ValueExpression;
-
 import javax.faces.component.NamingContainer;
-import javax.faces.component.UICommand;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AbortProcessingException;
-import javax.faces.event.ActionEvent;
-import javax.faces.event.ActionListener;
 import javax.faces.event.FacesEvent;
 import javax.faces.event.PhaseId;
-
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-import com.sun.webui.jsf.component.Button;
-import com.sun.webui.jsf.component.Icon;
-import com.sun.webui.jsf.component.Hyperlink;
-import com.sun.webui.jsf.component.StaticText;
-import com.sun.webui.jsf.component.Tab;
-import com.sun.webui.jsf.component.TabSet;
 import com.sun.webui.jsf.component.util.Util;
 import com.sun.webui.jsf.util.ComponentUtilities;
-
 import com.sun.webui.jsf.event.WizardEvent;
 import com.sun.webui.jsf.event.WizardActionListener;
 import com.sun.webui.jsf.event.WizardEventListener;
-
 import com.sun.webui.jsf.model.WizardModel;
 import com.sun.webui.jsf.model.WizardModelBase;
-import com.sun.webui.jsf.model.WizardStepList;
-import com.sun.webui.jsf.model.WizardStepListBase;
 import com.sun.webui.jsf.model.WizardStepListItem;
-import com.sun.webui.jsf.model.WizardStepListItemBase;
-
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.jsf.util.ThemeUtilities;
@@ -202,10 +181,10 @@ import com.sun.webui.jsf.util.ThemeUtilities;
  * and the wizard will proceed to complete the wizard session
  * eventually broadcasting the <code>WizardEvent.COMPLETE</code> event.
  */
-@Component(type="com.sun.webui.jsf.Wizard",
-    family="com.sun.webui.jsf.Wizard", displayName="Wizard", tagName="wizard",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_wizard",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_wizard_props")
+@Component(type = "com.sun.webui.jsf.Wizard",
+family = "com.sun.webui.jsf.Wizard", displayName = "Wizard", tagName = "wizard",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_wizard",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_wizard_props")
 public class Wizard extends UIComponentBase implements NamingContainer {
 
     // One of
@@ -247,7 +226,6 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * restored.
      */
     transient private String gotoStepId;
-
     /**
      * Maintains the state of the tabs in the steps pane. This memeber
      * is saved and restored.
@@ -259,8 +237,8 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * Sets renderer type to <code>com.sun.webui.jsf.Wizard</code>.
      */
     public Wizard() {
-	super();
-	setRendererType("com.sun.webui.jsf.Wizard");
+        super();
+        setRendererType("com.sun.webui.jsf.Wizard");
     }
 
     /**
@@ -268,7 +246,7 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * <code>com.sun.webui.jsf.Wizard</code>.
      */
     public String getFamily() {
-	return "com.sun.webui.jsf.Wizard";
+        return "com.sun.webui.jsf.Wizard";
     }
 
 
@@ -288,12 +266,12 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * <code>super.setModel()</code> with the instance.
      */
     public WizardModel getModel() {
-	WizardModel wm = _getModel();
-	if (wm == null) {
-	    wm = new WizardModelBase();
-	    setModel(wm);
-	}
-	return wm;
+        WizardModel wm = _getModel();
+        if (wm == null) {
+            wm = new WizardModelBase();
+            setModel(wm);
+        }
+        return wm;
     }
 
     /**
@@ -319,7 +297,7 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * phase prematurely.
      */
     private boolean prematureRender() {
-	return getFacesContext().getRenderResponse();
+        return getFacesContext().getRenderResponse();
     }
 
     // This actually should call the renderer's decode method
@@ -333,21 +311,22 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * renderer since there is nothing in the response to decode
      * by the <code>Wizard</code> component directly.
      */
+    @Override
     public void decode(FacesContext context) {
 
-	// In case the renderer has a decode method
-	// The current renderer doesn't decode anything.
-	//
-	super.decode(context);
+        // In case the renderer has a decode method
+        // The current renderer doesn't decode anything.
+        //
+        super.decode(context);
 
-	// Always queue an event so that broadcast is 
-	// always called.
-	// I think we have to do this in case the form is 
-	// submitted from a component on the step.
-	//
-	WizardEvent wizardEvent = new WizardEvent(this);
-	wizardEvent.setPhaseId(PhaseId.INVOKE_APPLICATION);
-	queueEvent(wizardEvent);
+        // Always queue an event so that broadcast is
+        // always called.
+        // I think we have to do this in case the form is
+        // submitted from a component on the step.
+        //
+        WizardEvent wizardEvent = new WizardEvent(this);
+        wizardEvent.setPhaseId(PhaseId.INVOKE_APPLICATION);
+        queueEvent(wizardEvent);
     }
 
     /**
@@ -359,30 +338,31 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * @exception NullPointerException
      * @param context This FacesContext for this request.
      */
+    @Override
     public void processDecodes(FacesContext context) {
 
         if (context == null) {
             throw new NullPointerException();
         }
 
-	if (!isRendered()) {
-	    return;
-	}
-	
+        if (!isRendered()) {
+            return;
+        }
+
         // Currently there is nothing for a Wizard to decode.
-	// Eventually there may be some hidden fields 
-	// associated with the Wizard, like an identifier that
-	// the Wizard uses to cache its state in the Session
-	// etc.
-	// 
-	try {
-	    decode(context);
-	} catch (RuntimeException e) {
-	    context.renderResponse();
-	    throw e;
-	}
-	decodeControls(context);
-	decodeStep(context);
+        // Eventually there may be some hidden fields
+        // associated with the Wizard, like an identifier that
+        // the Wizard uses to cache its state in the Session
+        // etc.
+        //
+        try {
+            decode(context);
+        } catch (RuntimeException e) {
+            context.renderResponse();
+            throw e;
+        }
+        decodeControls(context);
+        decodeStep(context);
     }
 
     /**
@@ -396,11 +376,11 @@ public class Wizard extends UIComponentBase implements NamingContainer {
 
         Iterator kids = getFacetsAndChildren();
         while (kids.hasNext()) {
-	    WizardStep currentStep = null;
+            WizardStep currentStep = null;
             UIComponent kid = (UIComponent) kids.next();
-	    if (kid instanceof WizardStep) {
-		continue;
-	    }
+            if (kid instanceof WizardStep) {
+                continue;
+            }
             kid.processDecodes(context);
         }
     }
@@ -415,10 +395,10 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      */
     protected void decodeStep(FacesContext context) {
 
-	WizardModel wizardModel = getModel();
-	if (wizardModel.decode(event, prematureRender())) {
-	    wizardModel.getCurrentStep().processDecodes(context);
-	}
+        WizardModel wizardModel = getModel();
+        if (wizardModel.decode(event, prematureRender())) {
+            wizardModel.getCurrentStep().processDecodes(context);
+        }
     }
 
     /**
@@ -432,14 +412,15 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * @exception NullPointerException
      * @param context This FacesContext for this request.
      */
+    @Override
     public void processValidators(FacesContext context) {
 
         if (context == null) {
             throw new NullPointerException();
         }
 
-	validateControls(context);
-	validateStep(context);
+        validateControls(context);
+        validateStep(context);
     }
 
     /**
@@ -455,9 +436,9 @@ public class Wizard extends UIComponentBase implements NamingContainer {
         Iterator kids = getFacetsAndChildren();
         while (kids.hasNext()) {
             UIComponent kid = (UIComponent) kids.next();
-	    if (kid instanceof WizardStep) {
-		continue;
-	    }
+            if (kid instanceof WizardStep) {
+                continue;
+            }
             kid.processValidators(context);
         }
     }
@@ -476,10 +457,10 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      */
     protected void validateStep(FacesContext context) {
 
-	WizardModel wizardModel = getModel();
-	if (wizardModel.validate(event, prematureRender())) {
-	    wizardModel.getCurrentStep().processValidators(context);
-	}
+        WizardModel wizardModel = getModel();
+        if (wizardModel.validate(event, prematureRender())) {
+            wizardModel.getCurrentStep().processValidators(context);
+        }
     }
 
     /**
@@ -493,16 +474,17 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * @exception NullPointerException
      * @param context This FacesContext for this request.
      */
+    @Override
     public void processUpdates(FacesContext context) {
 
         if (context == null) {
             throw new NullPointerException();
         }
 
-	updateControls(context);
-	updateStep(context);
+        updateControls(context);
+        updateStep(context);
     }
-    
+
     /**
      * Invoke the <code>processUpdates()</code>method on
      * the wizard's controls. In effect, all children that are not
@@ -516,9 +498,9 @@ public class Wizard extends UIComponentBase implements NamingContainer {
         Iterator kids = getFacetsAndChildren();
         while (kids.hasNext()) {
             UIComponent kid = (UIComponent) kids.next();
-	    if (kid instanceof WizardStep) {
-		continue;
-	    }
+            if (kid instanceof WizardStep) {
+                continue;
+            }
             kid.processUpdates(context);
         }
     }
@@ -532,10 +514,10 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      */
     protected void updateStep(FacesContext context) {
 
-	WizardModel wizardModel = getModel();
-	if (wizardModel.update(event, prematureRender())) {
-	    wizardModel.getCurrentStep().processUpdates(context);
-	}
+        WizardModel wizardModel = getModel();
+        if (wizardModel.update(event, prematureRender())) {
+            wizardModel.getCurrentStep().processUpdates(context);
+        }
     }
 
     /**
@@ -548,7 +530,8 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * Then call the renderer's <code>encodeBegin</code> method.
      *
      * @param context This FacesContext for this requset.
-     */ 
+     */
+    @Override
     public void encodeBegin(FacesContext context) throws IOException {
 
         if (context == null) {
@@ -559,24 +542,24 @@ public class Wizard extends UIComponentBase implements NamingContainer {
             return;
         }
 
-	// Let the application know, that the wizard is about to 
-	// render, only the first time.
-	// The application cannot abort the event.
-	// Set the event to NOEVENT in case it is 
-	// server side state saving, so that the next cycle
-	// won't broadcst the START event again.
-	//
-	// In client side state saving this is ensured during 
-	// processRestoreState
-	//
-	if (event == WizardEvent.START) {
-	    broadcastStartEvent();
-	    event = WizardEvent.NOEVENT;
-	}
+        // Let the application know, that the wizard is about to
+        // render, only the first time.
+        // The application cannot abort the event.
+        // Set the event to NOEVENT in case it is
+        // server side state saving, so that the next cycle
+        // won't broadcst the START event again.
+        //
+        // In client side state saving this is ensured during
+        // processRestoreState
+        //
+        if (event == WizardEvent.START) {
+            broadcastStartEvent();
+            event = WizardEvent.NOEVENT;
+        }
 
-	String rendererType = getRendererType();
-	if (rendererType != null) {
-	    getRenderer(context).encodeBegin(context, this);
+        String rendererType = getRendererType();
+        if (rendererType != null) {
+            getRenderer(context).encodeBegin(context, this);
         }
     }
 
@@ -589,35 +572,36 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * Then call the renderer's <code>encodeChildren</code> method.
      *
      * @param context This FacesContext for this requset.
-     */ 
+     */
+    @Override
     public void encodeChildren(FacesContext context) throws IOException {
 
         if (context == null) {
             throw new NullPointerException();
         }
 
-	// This is the only point where we can truly initialize
-	// the WizardModelBase model when wizard steps are child tags.
-	// However, this is called twice in client state saving.
-	// It is called in restoreState to establish the state
-	// before the wizard was rendered to the client.
-	//
-	// In fact is must be processed twice.
-	// Once to restore, and once to reconstruct the
-	// the tree based on any changes that might have 
-	// occured during the request processing, and 
-	// invoke application phase i.e. branches taken,
-	// steps removed, etc.
-	//
-	getModel().initialize(this);
+        // This is the only point where we can truly initialize
+        // the WizardModelBase model when wizard steps are child tags.
+        // However, this is called twice in client state saving.
+        // It is called in restoreState to establish the state
+        // before the wizard was rendered to the client.
+        //
+        // In fact is must be processed twice.
+        // Once to restore, and once to reconstruct the
+        // the tree based on any changes that might have
+        // occured during the request processing, and
+        // invoke application phase i.e. branches taken,
+        // steps removed, etc.
+        //
+        getModel().initialize(this);
 
         if (!isRendered()) {
             return;
         }
 
-	String rendererType = getRendererType();
-	if (rendererType != null) {
-	    getRenderer(context).encodeChildren(context, this);
+        String rendererType = getRendererType();
+        if (rendererType != null) {
+            getRenderer(context).encodeChildren(context, this);
         }
 
     }
@@ -633,7 +617,8 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * this wizard session.
      *
      * @param context This FacesContext for this requset.
-     */ 
+     */
+    @Override
     public void encodeEnd(FacesContext context) throws IOException {
 
         if (context == null) {
@@ -644,33 +629,33 @@ public class Wizard extends UIComponentBase implements NamingContainer {
             return;
         }
 
-	String rendererType = getRendererType();
-	if (rendererType != null) {
-	    getRenderer(context).encodeEnd(context, this);
+        String rendererType = getRendererType();
+        if (rendererType != null) {
+            getRenderer(context).encodeEnd(context, this);
         }
 
-	// If in server side state saving, this wizard instance is not
-	// destroyed evertime the wizard ends, since the view roots
-	// are cached.
-	//
-	// The event must be reset to START if this session
-	// is completing, so that the next cycle, which will be the "first"
-	// for that wizard session, sends the START event. Otherwise
-	// set the NOEVENT state.
-	//
-	// In client side state saving this is ensured by 
-	// processRestoreState.
-	//
-	if (isComplete()) {
-	    getModel().complete();
-	    // Let the application know that the wizard has completed
-	    // Should we delete the children here ? CR 6333872
-	    //
-	    broadcastCompleteEvent();
-	    event = WizardEvent.START;
-	} else {
-	    event = WizardEvent.NOEVENT;
-	}
+        // If in server side state saving, this wizard instance is not
+        // destroyed evertime the wizard ends, since the view roots
+        // are cached.
+        //
+        // The event must be reset to START if this session
+        // is completing, so that the next cycle, which will be the "first"
+        // for that wizard session, sends the START event. Otherwise
+        // set the NOEVENT state.
+        //
+        // In client side state saving this is ensured by
+        // processRestoreState.
+        //
+        if (isComplete()) {
+            getModel().complete();
+            // Let the application know that the wizard has completed
+            // Should we delete the children here ? CR 6333872
+            //
+            broadcastCompleteEvent();
+            event = WizardEvent.START;
+        } else {
+            event = WizardEvent.NOEVENT;
+        }
     }
 
     /**
@@ -681,14 +666,14 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * useful for rendering a list of steps.
      */
     public Iterator getStepListIterator() {
-	return getModel().getWizardStepList().iterator();
+        return getModel().getWizardStepList().iterator();
     }
 
     /**
      * Return true if the wizard has completed all its steps.
      */
     public boolean isComplete() {
-	return getModel().isComplete();
+        return getModel().isComplete();
     }
 
     /**
@@ -697,14 +682,14 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * @param step The step to check.
      */
     public boolean isCurrentStep(WizardStep step) {
-	return getModel().isCurrentStep(step);
+        return getModel().isCurrentStep(step);
     }
 
     /**
      * Return the step currently being performed.
      */
     public WizardStep getCurrentStep() {
-	return getModel().getCurrentStep();
+        return getModel().getCurrentStep();
     }
 
     /**
@@ -713,9 +698,8 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * display Steps and Help tabs, just the step list.
      */
     public boolean hasStepHelp() {
-	return getModel().hasStepHelp();
+        return getModel().hasStepHelp();
     }
-
 
     /**
      * Return true if the close button should be rendered
@@ -723,8 +707,8 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * true only for the results step.
      */
     public boolean hasClose() {
-	WizardModel wm = getModel();
-	return wm.hasClose(wm.getCurrentStep());
+        WizardModel wm = getModel();
+        return wm.hasClose(wm.getCurrentStep());
     }
 
     /**
@@ -734,8 +718,8 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * results steps.
      */
     public boolean hasNext() {
-	WizardModel wm = getModel();
-	return wm.hasNext(wm.getCurrentStep());
+        WizardModel wm = getModel();
+        return wm.hasNext(wm.getCurrentStep());
     }
 
     /**
@@ -744,8 +728,8 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * true for all steps except for the results steps.
      */
     public boolean hasPrevious() {
-	WizardModel wm = getModel();
-	return wm.hasPrevious(wm.getCurrentStep());
+        WizardModel wm = getModel();
+        return wm.hasPrevious(wm.getCurrentStep());
     }
 
     /**
@@ -754,8 +738,8 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * true only for the finish step.
      */
     public boolean hasFinish() {
-	WizardModel wm = getModel();
-	return wm.hasFinish(wm.getCurrentStep());
+        WizardModel wm = getModel();
+        return wm.hasFinish(wm.getCurrentStep());
     }
 
     /**
@@ -764,8 +748,8 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * true for all steps except for the results step.
      */
     public boolean hasCancel() {
-	WizardModel wm = getModel();
-	return wm.hasCancel(wm.getCurrentStep());
+        WizardModel wm = getModel();
+        return wm.hasCancel(wm.getCurrentStep());
     }
 
     /**
@@ -773,8 +757,8 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * for the current step, else false.
      */
     public boolean isCloseDisabled() {
-	WizardModel wm = getModel();
-	return wm.isCloseDisabled(wm.getCurrentStep());
+        WizardModel wm = getModel();
+        return wm.isCloseDisabled(wm.getCurrentStep());
     }
 
     /**
@@ -782,8 +766,8 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * for the current step, else false.
      */
     public boolean isNextDisabled() {
-	WizardModel wm = getModel();
-	return wm.isNextDisabled(wm.getCurrentStep());
+        WizardModel wm = getModel();
+        return wm.isNextDisabled(wm.getCurrentStep());
     }
 
     /**
@@ -793,8 +777,8 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * step before the first step.
      */
     public boolean isPreviousDisabled() {
-	WizardModel wm = getModel();
-	return wm.isPreviousDisabled(wm.getCurrentStep());
+        WizardModel wm = getModel();
+        return wm.isPreviousDisabled(wm.getCurrentStep());
     }
 
     /**
@@ -802,8 +786,8 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * for the current step, else false.
      */
     public boolean isFinishDisabled() {
-	WizardModel wm = getModel();
-	return wm.isFinishDisabled(wm.getCurrentStep());
+        WizardModel wm = getModel();
+        return wm.isFinishDisabled(wm.getCurrentStep());
     }
 
     /**
@@ -811,8 +795,8 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * for the current step, else false.
      */
     public boolean isCancelDisabled() {
-	WizardModel wm = getModel();
-	return wm.isCancelDisabled(wm.getCurrentStep());
+        WizardModel wm = getModel();
+        return wm.isCancelDisabled(wm.getCurrentStep());
     }
 
     /**
@@ -821,7 +805,7 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * return true.
      */
     public boolean isStepsTabActive() {
-	return stepTabActive || !hasStepHelp();
+        return stepTabActive || !hasStepHelp();
     }
 
     /**
@@ -829,13 +813,13 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * steps list.
      */
     public String getCurrentStepNumberString() {
-	// Due to the implementation of WizardStepListBase
-	// this value is only valid if the WizardStepListBase
-	// instance that is returned has been iterated over at 
-	// least once. Need to fix this.
-	//
-	return getModel().getWizardStepList().
-		getCurrentStepNumberString();
+        // Due to the implementation of WizardStepListBase
+        // this value is only valid if the WizardStepListBase
+        // instance that is returned has been iterated over at
+        // least once. Need to fix this.
+        //
+        return getModel().getWizardStepList().
+                getCurrentStepNumberString();
     }
 
     // Sub components and action listeners.
@@ -844,16 +828,15 @@ public class Wizard extends UIComponentBase implements NamingContainer {
     // are not yet documented in the tld doc. More work
     // needs to be done to understand the handling of these
     // facets.
-
     /**
      * Return the <code>UIComponent</code> that will be used for the 
      * Cancel button.
      */
     public UIComponent getCancelComponent() {
-	return getButtonComponent(CANCEL_FACET, WIZARD_CANCEL,
-		isCancelDisabled(),
-		WizardEvent.CANCEL, true,
-		getJavaScript(WizardEvent.CANCEL), false);
+        return getButtonComponent(CANCEL_FACET, WIZARD_CANCEL,
+                isCancelDisabled(),
+                WizardEvent.CANCEL, true,
+                getJavaScript(WizardEvent.CANCEL), false);
     }
 
     /**
@@ -861,10 +844,10 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * button.
      */
     public UIComponent getCloseComponent() {
-	return getButtonComponent(CLOSE_FACET, WIZARD_CLOSE,
-		isCloseDisabled(),
-		WizardEvent.CLOSE, true,
-		getJavaScript(WizardEvent.CLOSE), true);
+        return getButtonComponent(CLOSE_FACET, WIZARD_CLOSE,
+                isCloseDisabled(),
+                WizardEvent.CLOSE, true,
+                getJavaScript(WizardEvent.CLOSE), true);
     }
 
     /**
@@ -872,10 +855,10 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * Finish button.
      */
     public UIComponent getFinishComponent() {
-	return getButtonComponent(FINISH_FACET, WIZARD_FINISH,
-		isFinishDisabled(),
-		WizardEvent.FINISH, true,
-		getJavaScript(WizardEvent.FINISH), true);
+        return getButtonComponent(FINISH_FACET, WIZARD_FINISH,
+                isFinishDisabled(),
+                WizardEvent.FINISH, true,
+                getJavaScript(WizardEvent.FINISH), true);
     }
 
     /**
@@ -883,10 +866,10 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * button.
      */
     public UIComponent getNextComponent() {
-	return getButtonComponent(NEXT_FACET, WIZARD_NEXT, 
-		isNextDisabled(),
-		WizardEvent.NEXT, true,
-		getJavaScript(WizardEvent.NEXT), true);
+        return getButtonComponent(NEXT_FACET, WIZARD_NEXT,
+                isNextDisabled(),
+                WizardEvent.NEXT, true,
+                getJavaScript(WizardEvent.NEXT), true);
     }
 
     /**
@@ -894,10 +877,10 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * Previous button.
      */
     public UIComponent getPreviousComponent() {
-	return getButtonComponent(PREVIOUS_FACET, WIZARD_PREVIOUS,
-		isPreviousDisabled(),
-		WizardEvent.PREVIOUS, true,
-		getJavaScript(WizardEvent.PREVIOUS), false);
+        return getButtonComponent(PREVIOUS_FACET, WIZARD_PREVIOUS,
+                isPreviousDisabled(),
+                WizardEvent.PREVIOUS, true,
+                getJavaScript(WizardEvent.PREVIOUS), false);
     }
 
     /**
@@ -933,13 +916,13 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * @paran javascript the onclick JavaScript routine name for this button
      */
     protected UIComponent getButtonComponent(String facetName,
-	    String textKey, boolean disabled, 
-	    int wizardEvent, boolean immediate,
-	    String javascript) {
+            String textKey, boolean disabled,
+            int wizardEvent, boolean immediate,
+            String javascript) {
 
-	// Primary button only.
-	return getButtonComponent(facetName,
-	    textKey, disabled, wizardEvent, immediate, javascript, true);
+        // Primary button only.
+        return getButtonComponent(facetName,
+                textKey, disabled, wizardEvent, immediate, javascript, true);
     }
 
     // Need to create this method because the previous original method
@@ -978,46 +961,45 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * @param primary make the button a primary button, if true.
      */
     protected UIComponent getButtonComponent(String facetName,
-	    String textKey, boolean disabled, 
-	    int wizardEvent, boolean immediate,
-	    String javascript, boolean primary) {
+            String textKey, boolean disabled,
+            int wizardEvent, boolean immediate,
+            String javascript, boolean primary) {
 
-	/* NOT IMPLEMENTED
-	UICommand child = getFacet(facetName);
-	if (child != null) {
-	    return child;
-	}
-	*/
+        /* NOT IMPLEMENTED
+        UICommand child = getFacet(facetName);
+        if (child != null) {
+        return child;
+        }
+         */
 
-	// We know its a Button
-	//
-	Button button = (Button)
-		ComponentUtilities.getPrivateFacet(this, facetName, true);
-	if (button == null) {
+        // We know its a Button
+        //
+        Button button = (Button) ComponentUtilities.getPrivateFacet(this, facetName, true);
+        if (button == null) {
 
-	    button = new Button();
-	    button.setId(
-		ComponentUtilities.createPrivateFacetId(this, facetName));
-	    button.setImmediate(immediate);
-	    button.setPrimary(primary);
-	    button.addActionListener(
-		    new WizardActionListener(getId(), wizardEvent));
+            button = new Button();
+            button.setId(
+                    ComponentUtilities.createPrivateFacetId(this, facetName));
+            button.setImmediate(immediate);
+            button.setPrimary(primary);
+            button.addActionListener(
+                    new WizardActionListener(getId(), wizardEvent));
 
-	    ComponentUtilities.putPrivateFacet(this, facetName, button);
-	}
+            ComponentUtilities.putPrivateFacet(this, facetName, button);
+        }
 
-	Theme theme = ThemeUtilities.getTheme(getFacesContext());
+        Theme theme = ThemeUtilities.getTheme(getFacesContext());
 
-	// Set every time for locale changes
-	//
-	button.setText(theme.getMessage(textKey));
-	button.setDisabled(disabled);
+        // Set every time for locale changes
+        //
+        button.setText(theme.getMessage(textKey));
+        button.setDisabled(disabled);
 
-	if (javascript != null) {
-	    button.setOnClick(javascript);
-	}
+        if (javascript != null) {
+            button.setOnClick(javascript);
+        }
 
-	return button;
+        return button;
     }
 
     // FIXME: Need to return the component unconditionally
@@ -1030,14 +1012,13 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      */
     public UIComponent getTabsComponent() {
 
-	// need to determine if there will be a tab component
-	// If there is not help support there will be just 
-	// a steps list.
-	// There is no help support if no step has help, or
-	// the help has been turned off for the wizard.
-	//
-	return getModel().hasStepHelp() ? getTabsComponent(TABS_FACET) :
-		null;
+        // need to determine if there will be a tab component
+        // If there is not help support there will be just
+        // a steps list.
+        // There is no help support if no step has help, or
+        // the help has been turned off for the wizard.
+        //
+        return getModel().hasStepHelp() ? getTabsComponent(TABS_FACET) : null;
     }
 
     /**
@@ -1058,80 +1039,77 @@ public class Wizard extends UIComponentBase implements NamingContainer {
     protected UIComponent getTabsComponent(String facetName) {
 
 
-	/* NOT IMPLEMENTED
-	UIComponent child = getFacet(facetName);
-	if (child != null) {
-	    return child;
-	}
-	*/
+        /* NOT IMPLEMENTED
+        UIComponent child = getFacet(facetName);
+        if (child != null) {
+        return child;
+        }
+         */
 
-	Theme theme = ThemeUtilities.getTheme(getFacesContext());
+        Theme theme = ThemeUtilities.getTheme(getFacesContext());
 
-	// We know it's a TabSet
-	//
-	TabSet tabSet = (TabSet)
-		ComponentUtilities.getPrivateFacet(this, facetName, true);
-	if (tabSet == null) {
+        // We know it's a TabSet
+        //
+        TabSet tabSet = (TabSet) ComponentUtilities.getPrivateFacet(this, facetName, true);
+        if (tabSet == null) {
 
-	    tabSet = new TabSet();
-	    // Does this have any effect ?
-	    tabSet.setImmediate(true);
-	    tabSet.setId(
-		ComponentUtilities.createPrivateFacetId(this, facetName));
-	    // Mini tabs
-	    tabSet.setMini(true);
+            tabSet = new TabSet();
+            // Does this have any effect ?
+            tabSet.setImmediate(true);
+            tabSet.setId(
+                    ComponentUtilities.createPrivateFacetId(this, facetName));
+            // Mini tabs
+            tabSet.setMini(true);
 
-	    List tabs = tabSet.getChildren();
+            List tabs = tabSet.getChildren();
 
-	    Tab steptab = getTab(theme, STEP_TAB, WIZARD_STEP_TAB,
-		    WIZARD_TAB_TOOLTIP, 
-		    WizardEvent.STEPSTAB, stepTabActive, true,
-		    getJavaScript(WizardEvent.STEPSTAB));
-	    tabs.add(steptab);
+            Tab steptab = getTab(theme, STEP_TAB, WIZARD_STEP_TAB,
+                    WIZARD_TAB_TOOLTIP,
+                    WizardEvent.STEPSTAB, stepTabActive, true,
+                    getJavaScript(WizardEvent.STEPSTAB));
+            tabs.add(steptab);
 
-	    Tab helptab = getTab(theme, HELP_TAB, WIZARD_HELP_TAB,
-		    WIZARD_TAB_TOOLTIP, 
-		    WizardEvent.HELPTAB, !stepTabActive, true,
-		    getJavaScript(WizardEvent.HELPTAB));
+            Tab helptab = getTab(theme, HELP_TAB, WIZARD_HELP_TAB,
+                    WIZARD_TAB_TOOLTIP,
+                    WizardEvent.HELPTAB, !stepTabActive, true,
+                    getJavaScript(WizardEvent.HELPTAB));
 
-	    tabs.add(helptab);
+            tabs.add(helptab);
 
-	    tabSet.setSelected(stepTabActive ? steptab.getId() :
-		helptab.getId());
+            tabSet.setSelected(stepTabActive ? steptab.getId() : helptab.getId());
 
-	    ComponentUtilities.putPrivateFacet(this, facetName, tabSet);
+            ComponentUtilities.putPrivateFacet(this, facetName, tabSet);
 
-	    return tabSet;
-	}
+            return tabSet;
+        }
 
-	// Update the existing TabSet private facet
+        // Update the existing TabSet private facet
 
-	List tabs = tabSet.getChildren();
-	Iterator itabs = tabs.iterator();
-	String stepsId = ComponentUtilities.createPrivateFacetId(this,
-		STEP_TAB);
-	String helpId = ComponentUtilities.createPrivateFacetId(this,
-		HELP_TAB);
-	while (itabs.hasNext()) {
-	    UIComponent tab = (UIComponent)itabs.next();
-	    if (!(tab instanceof Tab)) {
-		continue;
-	    }
-	    String tabid = tab.getId();
-	    if (stepsId.equals(tabid)) {
-		initTab((Tab)tab, theme, WIZARD_STEP_TAB,
-		    WIZARD_TAB_TOOLTIP, stepTabActive, true,
-		    getJavaScript(WizardEvent.STEPSTAB));
-	    } else 
-	    if (helpId.equals(tabid)) {
-		initTab((Tab)tab,theme, WIZARD_HELP_TAB,
-		    WIZARD_TAB_TOOLTIP, !stepTabActive, true,
-		    getJavaScript(WizardEvent.HELPTAB));
-	    }
-	}
-	tabSet.setSelected(stepTabActive ? stepsId : helpId);
+        List tabs = tabSet.getChildren();
+        Iterator itabs = tabs.iterator();
+        String stepsId = ComponentUtilities.createPrivateFacetId(this,
+                STEP_TAB);
+        String helpId = ComponentUtilities.createPrivateFacetId(this,
+                HELP_TAB);
+        while (itabs.hasNext()) {
+            UIComponent tab = (UIComponent) itabs.next();
+            if (!(tab instanceof Tab)) {
+                continue;
+            }
+            String tabid = tab.getId();
+            if (stepsId.equals(tabid)) {
+                initTab((Tab) tab, theme, WIZARD_STEP_TAB,
+                        WIZARD_TAB_TOOLTIP, stepTabActive, true,
+                        getJavaScript(WizardEvent.STEPSTAB));
+            } else if (helpId.equals(tabid)) {
+                initTab((Tab) tab, theme, WIZARD_HELP_TAB,
+                        WIZARD_TAB_TOOLTIP, !stepTabActive, true,
+                        getJavaScript(WizardEvent.HELPTAB));
+            }
+        }
+        tabSet.setSelected(stepTabActive ? stepsId : helpId);
 
-	return tabSet;
+        return tabSet;
     }
 
     /**
@@ -1155,17 +1133,17 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * @paran javascript the onclick JavaScript routine name for this tab
      */
     protected Tab getTab(Theme theme, String facetName, String text,
-	    String toolTip, int wizardEvent, boolean selected,
-	    boolean immediate, String javascript) {
+            String toolTip, int wizardEvent, boolean selected,
+            boolean immediate, String javascript) {
 
-	Tab tab = new Tab();
-	tab.setId(ComponentUtilities.createPrivateFacetId(this, facetName));
-	tab.addActionListener(new WizardActionListener(getId(), wizardEvent));
+        Tab tab = new Tab();
+        tab.setId(ComponentUtilities.createPrivateFacetId(this, facetName));
+        tab.addActionListener(new WizardActionListener(getId(), wizardEvent));
 
-	initTab(tab, theme, text, toolTip, selected,
-	    immediate, javascript);
+        initTab(tab, theme, text, toolTip, selected,
+                immediate, javascript);
 
-	return tab;
+        return tab;
     }
 
     /**
@@ -1180,17 +1158,16 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * @paran javascript the onclick JavaScript routine name for this tab
      */
     private void initTab(Tab tab, Theme theme, String text,
-	    String toolTip, boolean selected,
-	    boolean immediate, String javascript) {
+            String toolTip, boolean selected,
+            boolean immediate, String javascript) {
 
-	text = theme.getMessage(text);
-	tab.setText(text);
-	tab.setToolTip(selected ?
-	    theme.getMessage(toolTip, new Object[] { text }) : text);
-	tab.setImmediate(immediate);
-	if (javascript != null) {
-	    tab.setOnClick(javascript);
-	}
+        text = theme.getMessage(text);
+        tab.setText(text);
+        tab.setToolTip(selected ? theme.getMessage(toolTip, new Object[]{text}) : text);
+        tab.setImmediate(immediate);
+        if (javascript != null) {
+            tab.setOnClick(javascript);
+        }
     }
 
     // Not documented
@@ -1210,31 +1187,31 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      */
     public UIComponent getStepIndicatorComponent() {
 
-	UIComponent child = (UIComponent)getFacet(INDICATOR_FACET);
-	if (child != null) {
-	    return child;
-	}
+        UIComponent child = (UIComponent) getFacet(INDICATOR_FACET);
+        if (child != null) {
+            return child;
+        }
 
-	Theme theme = ThemeUtilities.getTheme(getFacesContext());
+        Theme theme = ThemeUtilities.getTheme(getFacesContext());
 
-	// It needs to be created every time in case it
-	// is localized.
-	//
-	Icon icon = ThemeUtilities.getIcon(theme, ThemeImages.WIZARD_ARROW);
-	String id = 
-		ComponentUtilities.createPrivateFacetId(this, INDICATOR_FACET);
-	icon.setId(id);
-	icon.setParent(this);
+        // It needs to be created every time in case it
+        // is localized.
+        //
+        Icon icon = ThemeUtilities.getIcon(theme, ThemeImages.WIZARD_ARROW);
+        String id =
+                ComponentUtilities.createPrivateFacetId(this, INDICATOR_FACET);
+        icon.setId(id);
+        icon.setParent(this);
 
-	// Should be part of Theme
-	//
-	icon.setHspace(4);
+        // Should be part of Theme
+        //
+        icon.setHspace(4);
 
-	String toolTip = theme.getMessage(WIZARD_CURRENT_STEP_ALT); 
-	icon.setToolTip(toolTip);
-	icon.setAlt(toolTip);
+        String toolTip = theme.getMessage(WIZARD_CURRENT_STEP_ALT);
+        icon.setToolTip(toolTip);
+        icon.setAlt(toolTip);
 
-	return icon;
+        return icon;
     }
 
     // This component is a child and not a facet.
@@ -1257,30 +1234,30 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * @param javascript the onclick JavaScript routine name for this component
      */
     public UIComponent getSteplinkComponent(String id, String text,
-	int wizardEvent, boolean immediate, String javascript) {
+            int wizardEvent, boolean immediate, String javascript) {
 
-	// Need a way to prune these hyperlink chidren when the
-	// step list changes drastically
-	//
-	// We know it's a hyperlink
-	//
-	Hyperlink hlink = (Hyperlink)Util.findChild(this, id, null);
-	if (hlink == null) {
+        // Need a way to prune these hyperlink chidren when the
+        // step list changes drastically
+        //
+        // We know it's a hyperlink
+        //
+        Hyperlink hlink = (Hyperlink) Util.findChild(this, id, null);
+        if (hlink == null) {
 
-	    hlink = new Hyperlink();
-	    hlink.setId(id);
-	    hlink.addActionListener(new WizardActionListener(
-		    getId(), wizardEvent));
-	    hlink.setImmediate(immediate);
-	    getChildren().add(hlink);
-	}
+            hlink = new Hyperlink();
+            hlink.setId(id);
+            hlink.addActionListener(new WizardActionListener(
+                    getId(), wizardEvent));
+            hlink.setImmediate(immediate);
+            getChildren().add(hlink);
+        }
 
-	hlink.setText(text);
-	if (javascript != null) {
-	    hlink.setOnClick(javascript);
-	}
+        hlink.setText(text);
+        if (javascript != null) {
+            hlink.setOnClick(javascript);
+        }
 
-	return hlink;
+        return hlink;
     }
 
 
@@ -1289,23 +1266,22 @@ public class Wizard extends UIComponentBase implements NamingContainer {
     // attempt to aquire them and render them. But its not
     // clear if these are really necessary or useful.
     //
-
     /**
      * Return a component to represent the left pane in the wizard
      * that typically contains the steps list.
      * This <code>Wizard</code> implementation returns null.
      */
     public UIComponent getStepsPaneComponent() {
-	return null;
+        return null;
     }
 
-   /**
+    /**
      * Return a component to represent the wizards's top bar
      * that typically contains the Steps and Help tabs.
      * This <code>Wizard</code> implementation returns null.
      */
     public UIComponent getStepsBarComponent() {
-	return null;
+        return null;
     }
 
     /**
@@ -1313,7 +1289,7 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * This <code>Wizard</code> implementation returns null.
      */
     public UIComponent getStepListComponent() {
-	return null;
+        return null;
     }
 
     /**
@@ -1322,7 +1298,7 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * This <code>Wizard</code> implementation returns null.
      */
     public UIComponent getStepHelpComponent() {
-	return null;
+        return null;
     }
 
     /**
@@ -1331,7 +1307,7 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * This <code>Wizard</code> implementation returns null.
      */
     public UIComponent getStepTitleComponent() {
-	return null;
+        return null;
     }
 
     /**
@@ -1340,16 +1316,16 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * This <code>Wizard</code> implementation returns null.
      */
     public UIComponent getStepDetailComponent() {
-	return null;
+        return null;
     }
 
-   /**
+    /**
      * Return a component that represents the components that comprise
      * the current wizard step.
      * This <code>Wizard</code> implementation returns null.
      */
     public UIComponent getTaskStepComponent() {
-	return null;
+        return null;
     }
 
     /**
@@ -1358,15 +1334,16 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * This <code>Wizard</code> implementation returns null.
      */
     public UIComponent getTaskComponent() {
-	return null;
+        return null;
     }
+
     /**
      * Return a component that represents the step title and detail for the
      * current step.</br>
      * This <code>Wizard</code> implementation returns null.
      */
     public UIComponent getTaskHeaderComponent() {
-	return null;
+        return null;
     }
 
     /**
@@ -1375,7 +1352,7 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * This <code>Wizard</code> implementation returns null.
      */
     public UIComponent getControlBarComponent() {
-	return null;
+        return null;
     }
 
     /**
@@ -1385,7 +1362,7 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * This <code>Wizard</code> implementation returns null.
      */
     public UIComponent getLeftControlBarComponent() {
-	return null;
+        return null;
     }
 
     /**
@@ -1395,7 +1372,7 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * This <code>Wizard</code> implementation returns null.
      */
     public UIComponent getRightControlBarComponent() {
-	return null;
+        return null;
     }
 
     // Having facets for some of these StaticText elements
@@ -1409,7 +1386,6 @@ public class Wizard extends UIComponentBase implements NamingContainer {
     // Or the component that represents the previous step link.
     // Its content would change, like id and content.
     // 
-
     /**
      * Return the component to render the step title label.
      * The id of this component is:</br>
@@ -1424,10 +1400,10 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      */
     public UIComponent getStepTitleLabelTextComponent() {
 
-	Theme theme = ThemeUtilities.getTheme(getFacesContext());
-	return getStepStaticTextComponent(getCurrentStep(), STEP_TITLE_LABEL,
-	    theme.getMessage(WIZARD_STEP_TITLE_LABEL,
-		new Object[] {getCurrentStepNumberString()}));
+        Theme theme = ThemeUtilities.getTheme(getFacesContext());
+        return getStepStaticTextComponent(getCurrentStep(), STEP_TITLE_LABEL,
+                theme.getMessage(WIZARD_STEP_TITLE_LABEL,
+                new Object[]{getCurrentStepNumberString()}));
     }
 
     /**
@@ -1443,8 +1419,8 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      */
     public UIComponent getStepTitleTextComponent() {
 
-	WizardStep step = getCurrentStep();
-	return getStepStaticTextComponent(step, STEP_TITLE, step.getTitle());
+        WizardStep step = getCurrentStep();
+        return getStepStaticTextComponent(step, STEP_TITLE, step.getTitle());
     }
 
     /**
@@ -1460,8 +1436,8 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      */
     public UIComponent getStepDetailTextComponent() {
 
-	WizardStep step = getCurrentStep();
-	return getStepStaticTextComponent(step, STEP_DETAIL, step.getDetail());
+        WizardStep step = getCurrentStep();
+        return getStepStaticTextComponent(step, STEP_DETAIL, step.getDetail());
     }
 
     /**
@@ -1489,18 +1465,18 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      */
     public UIComponent getStepSummaryComponent(WizardStep step) {
 
-	String stepId = step.getId();
-	if (getModel().canGotoStep(step)) {
-	    String id = ComponentUtilities.createPrivateFacetId(this,
-		STEP_LINK);
-	    id = id.concat(USCORE).concat(stepId);
-	    return getSteplinkComponent(id, step.getSummary(),
-		WizardEvent.GOTOSTEP, true,
-		getJavaScript(WizardEvent.GOTOSTEP));
-	} else {
-	    return getStepStaticTextComponent(step, STEP_SUMMARY,
-		step.getSummary());
-	}
+        String stepId = step.getId();
+        if (getModel().canGotoStep(step)) {
+            String id = ComponentUtilities.createPrivateFacetId(this,
+                    STEP_LINK);
+            id = id.concat(USCORE).concat(stepId);
+            return getSteplinkComponent(id, step.getSummary(),
+                    WizardEvent.GOTOSTEP, true,
+                    getJavaScript(WizardEvent.GOTOSTEP));
+        } else {
+            return getStepStaticTextComponent(step, STEP_SUMMARY,
+                    step.getSummary());
+        }
     }
 
     /**
@@ -1518,12 +1494,12 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      */
     public UIComponent getStepPlaceholderTextComponent(WizardStep step) {
 
-	Theme theme = ThemeUtilities.getTheme(getFacesContext());
-	String placeholderText = ((WizardBranch)step).getPlaceholderText();
+        Theme theme = ThemeUtilities.getTheme(getFacesContext());
+        String placeholderText = ((WizardBranch) step).getPlaceholderText();
 
-	return getStepStaticTextComponent(step, STEP_PLACEHLDR,
-	    theme.getMessage(WIZARD_PLACEHOLDER_TEXT,
-		new Object[] { placeholderText }));
+        return getStepStaticTextComponent(step, STEP_PLACEHLDR,
+                theme.getMessage(WIZARD_PLACEHOLDER_TEXT,
+                new Object[]{placeholderText}));
     }
 
     /**
@@ -1552,19 +1528,19 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * @param numberString The step number.
      */
     public UIComponent getStepNumberComponent(WizardStep step,
-	    String numberString) {
-	String stepId = step.getId();
-	if (getModel().canGotoStep(step)) {
-	    String numStpLnk = 	NUM.concat(USCORE).concat(STEP_LINK);
-	    String id = ComponentUtilities.createPrivateFacetId(this,
-		numStpLnk);  
-	    id = id.concat(USCORE).concat(stepId);
-	    return getSteplinkComponent(id, numberString,
-		WizardEvent.GOTOSTEP, true,
-		getJavaScript(WizardEvent.GOTOSTEP));
-	} else {    
-	    return getStepStaticTextComponent(step, STEP_NUM, numberString);
-	}
+            String numberString) {
+        String stepId = step.getId();
+        if (getModel().canGotoStep(step)) {
+            String numStpLnk = NUM.concat(USCORE).concat(STEP_LINK);
+            String id = ComponentUtilities.createPrivateFacetId(this,
+                    numStpLnk);
+            id = id.concat(USCORE).concat(stepId);
+            return getSteplinkComponent(id, numberString,
+                    WizardEvent.GOTOSTEP, true,
+                    getJavaScript(WizardEvent.GOTOSTEP));
+        } else {
+            return getStepStaticTextComponent(step, STEP_NUM, numberString);
+        }
     }
 
     /**
@@ -1580,16 +1556,16 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      */
     public UIComponent getStepHelpTextComponent() {
 
-	WizardStep step = getCurrentStep();
-	UIComponent stepHelp = getStepStaticTextComponent(getCurrentStep(),
-	    STEP_HELP, step.getHelp());
+        WizardStep step = getCurrentStep();
+        UIComponent stepHelp = getStepStaticTextComponent(getCurrentStep(),
+                STEP_HELP, step.getHelp());
 
-	// Allow HTML markup
-	//
-	if (stepHelp != null) {
-	    stepHelp.getAttributes().put(ESCAPE_ATTR, WIZARD_FALSE);
-	}
-	return stepHelp;
+        // Allow HTML markup
+        //
+        if (stepHelp != null) {
+            stepHelp.getAttributes().put(ESCAPE_ATTR, WIZARD_FALSE);
+        }
+        return stepHelp;
     }
 
     /**
@@ -1603,8 +1579,8 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * </p>
      */
     public UIComponent getTitleComponent() {
-	
-	return getStaticTextComponent(TITLE_FACET, getTitle());
+
+        return getStaticTextComponent(TITLE_FACET, getTitle());
     }
 
     /**
@@ -1619,13 +1595,12 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * </p>
      */
     public UIComponent getStepsPaneTitleComponent() {
+        Theme theme = ThemeUtilities.getTheme(getFacesContext());
+        String title = theme.getMessage(WIZARD_STEPS_PANE_TITLE);
+        UIComponent stepsPaneTitle = getStaticTextComponent(
+                STEPS_PANE_TITLE, title);
 
-	Theme theme = ThemeUtilities.getTheme(getFacesContext());
-	String title = theme.getMessage(WIZARD_STEPS_PANE_TITLE);
-	UIComponent stepsPaneTitle = getStaticTextComponent(
-	    STEPS_PANE_TITLE, title);
-
-	return stepsPaneTitle;
+        return stepsPaneTitle;
     }
 
     /**
@@ -1643,21 +1618,21 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * component.
      */
     protected UIComponent getStaticTextComponent(String facetName,
-	    String text) {
+            String text) {
 
-	UIComponent child = (UIComponent)getFacet(facetName);
-	if (child != null) {
-	    return child;
-	}
+        UIComponent child = (UIComponent) getFacet(facetName);
+        if (child != null) {
+            return child;
+        }
 
-	StaticText txt = new StaticText();
-	String id = 
-	    ComponentUtilities.createPrivateFacetId(this, facetName);
-	txt.setId(id);
-	txt.setText(text);
-	txt.setParent(this);
+        StaticText txt = new StaticText();
+        String id =
+                ComponentUtilities.createPrivateFacetId(this, facetName);
+        txt.setId(id);
+        txt.setText(text);
+        txt.setParent(this);
 
-	return txt;
+        return txt;
     }
 
     /**
@@ -1677,13 +1652,13 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * component.
      */
     protected UIComponent getStepStaticTextComponent(
-		WizardStep step, String facetName, String stepText) {
+            WizardStep step, String facetName, String stepText) {
 
-	StaticText text = new StaticText();
-	text.setId(ComponentUtilities.createPrivateFacetId(step, facetName));
-	text.setParent(this);
-	text.setText(stepText);
-	return text;
+        StaticText text = new StaticText();
+        text.setId(ComponentUtilities.createPrivateFacetId(step, facetName));
+        text.setParent(this);
+        text.setText(stepText);
+        return text;
     }
 
     /**
@@ -1694,7 +1669,7 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * @deprecated
      */
     protected UIComponent getStaticTextComponent() {
-	return new StaticText();
+        return new StaticText();
     }
 
     /**
@@ -1710,17 +1685,16 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * String) getStaticTextComponent}
      */
     protected UIComponent getStepStaticTextComponent(String id,
-	String stepText) {
+            String stepText) {
 
-	StaticText text = new StaticText();
-	text.setId(id);
-	text.setParent(this);
-	text.setText(stepText);
-	return text;
+        StaticText text = new StaticText();
+        text.setId(id);
+        text.setParent(this);
+        text.setText(stepText);
+        return text;
     }
 
     // Event handling
-
     /**
      * Return the <code>Wizard</code> instance ancestor of <code>child</code>
      * identified by <code>wizardId</code>.
@@ -1729,7 +1703,7 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * @param wizardId The id of a Wizard ancestor.
      */
     public static Wizard getWizard(UIComponent child, String wizardId) {
-	return (Wizard)findAncestor(child, wizardId);
+        return (Wizard) findAncestor(child, wizardId);
     }
 
     /**
@@ -1740,19 +1714,19 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * @param ancestorId The id of a Wizard ancestor.
      */
     private static UIComponent findAncestor(UIComponent descendant,
-	    String ancestorId) {
+            String ancestorId) {
 
-	if (ancestorId == null || descendant == null) {
-	    return null;
-	}
-	UIComponent parent = descendant.getParent();
-	while (parent != null) {
-	    if (ancestorId.equals(parent.getId())) {
-		return parent;
-	    }
-	    parent = parent.getParent();
-	}
-	return null;
+        if (ancestorId == null || descendant == null) {
+            return null;
+        }
+        UIComponent parent = descendant.getParent();
+        while (parent != null) {
+            if (ancestorId.equals(parent.getId())) {
+                return parent;
+            }
+            parent = parent.getParent();
+        }
+        return null;
     }
 
     /**
@@ -1772,43 +1746,43 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * <li>{@link WizardEvent#STEPSTAB WizardEvent.STEPSTAB}</li>
      * </ul>
      */
-    public void broadcastEvent(UIComponent source, int event) 
-	throws AbortProcessingException {
+    public void broadcastEvent(UIComponent source, int event)
+            throws AbortProcessingException {
 
-	this.event = event;
-	this.eventSource = source;
+        this.event = event;
+        this.eventSource = source;
 
-	gotoStepId = null;
+        gotoStepId = null;
 
-	switch (event) {
-	case WizardEvent.NEXT:
-	case WizardEvent.PREVIOUS:
-	case WizardEvent.CANCEL:
-	case WizardEvent.CLOSE:
-	case WizardEvent.FINISH:
-	    // Nothing special
-	break;
-	case WizardEvent.GOTOSTEP:
-	    // Need to identify the component id suffix by capturing
-	    // the text after "STEP_LINK + USCORE"
-	    //
-	    String id = source.getId();
-	    String suffix = STEP_LINK.concat(USCORE);
-	    gotoStepId = id.substring(id.lastIndexOf(suffix) + 
-		suffix.length());
-	break;
-	case WizardEvent.HELPTAB:
-	    stepTabActive = false;
-	break;
-	case WizardEvent.STEPSTAB:
-	    stepTabActive = true;
-	break;
-	}
+        switch (event) {
+            case WizardEvent.NEXT:
+            case WizardEvent.PREVIOUS:
+            case WizardEvent.CANCEL:
+            case WizardEvent.CLOSE:
+            case WizardEvent.FINISH:
+                // Nothing special
+                break;
+            case WizardEvent.GOTOSTEP:
+                // Need to identify the component id suffix by capturing
+                // the text after "STEP_LINK + USCORE"
+                //
+                String id = source.getId();
+                String suffix = STEP_LINK.concat(USCORE);
+                gotoStepId = id.substring(id.lastIndexOf(suffix) +
+                        suffix.length());
+                break;
+            case WizardEvent.HELPTAB:
+                stepTabActive = false;
+                break;
+            case WizardEvent.STEPSTAB:
+                stepTabActive = true;
+                break;
+        }
 
-	// Don't want the application's action listener to fire here
-	// so we defeat the render complete of an immediate action.
-	//
-	throw new AbortProcessingException();
+        // Don't want the application's action listener to fire here
+        // so we defeat the render complete of an immediate action.
+        //
+        throw new AbortProcessingException();
     }
 
     /**
@@ -1820,18 +1794,18 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * are ignored.
      */
     protected void broadcastStartEvent() {
-	WizardEventListener listener = getEventListener();
-	if (listener != null) {
-	    WizardEvent wizardEvent = new WizardEvent(this,
-		null, WizardEvent.START, null, null);
-	    try {
-		listener.handleEvent(wizardEvent);
-	    } catch (Exception e) {
-		// ignore, nothing to do
-		// FIXME: Log the exception.
-	    }
-	}
-	
+        WizardEventListener listener = getEventListener();
+        if (listener != null) {
+            WizardEvent wizardEvent = new WizardEvent(this,
+                    null, WizardEvent.START, null, null);
+            try {
+                listener.handleEvent(wizardEvent);
+            } catch (Exception e) {
+                // ignore, nothing to do
+                // FIXME: Log the exception.
+            }
+        }
+
     }
 
     /**
@@ -1843,18 +1817,18 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * are ignored.
      */
     protected void broadcastCompleteEvent() {
-	WizardEventListener listener = getEventListener();
-	if (listener != null) {
-	    WizardEvent wizardEvent = new WizardEvent(this,
-		null, WizardEvent.COMPLETE, null, null);
-	    try {
-		listener.handleEvent(wizardEvent);
-	    } catch (Exception e) {
-		// ignore, nothing to do
-		// FIXME: Log the exception.
-	    }
-	}
-	
+        WizardEventListener listener = getEventListener();
+        if (listener != null) {
+            WizardEvent wizardEvent = new WizardEvent(this,
+                    null, WizardEvent.COMPLETE, null, null);
+            try {
+                listener.handleEvent(wizardEvent);
+            } catch (Exception e) {
+                // ignore, nothing to do
+                // FIXME: Log the exception.
+            }
+        }
+
     }
 
     /**
@@ -1926,47 +1900,47 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      *
      * @param facesEvent must be an instance of {@link WizardEvent WizardEvent}
      */
+    @Override
     public void broadcast(FacesEvent facesEvent)
-        throws AbortProcessingException {
+            throws AbortProcessingException {
 
         // Perform standard superclass processing
-	// Iterates over "listeners".
-	//
+        // Iterates over "listeners".
+        //
         if (facesEvent instanceof WizardEvent) {
 
-	    boolean result = true;
-	    WizardStep step = getCurrentStep();
-	    // Check for null step.
-	    // Shouldn't happen.
-	    // FIXME: Should log this situation
-	    //
-	    WizardEventListener listener = step == null ? null :
-		step.getEventListener();
+            boolean result = true;
+            WizardStep step = getCurrentStep();
+            // Check for null step.
+            // Shouldn't happen.
+            // FIXME: Should log this situation
+            //
+            WizardEventListener listener = step == null ? null : step.getEventListener();
 
-	    WizardEvent wizardEvent = new WizardEvent(this,
-		eventSource, event, step, gotoStepId);
+            WizardEvent wizardEvent = new WizardEvent(this,
+                    eventSource, event, step, gotoStepId);
 
-	    try {
-		if (listener != null) {
-		    result = listener.handleEvent(wizardEvent);
-		}
-		listener = getEventListener();
-		if (listener != null) {
-		    result = listener.handleEvent(wizardEvent);
-		}
-	    } catch (Exception e) {
-		result = true;
-		// Make sure we update the wizard's idea of the event.
-		//
-		event = WizardEvent.CANCEL;
-		wizardEvent.setEvent(event);
-	    }
-	    // If there are no listeners, always let the model
-	    // handle the event.
-	    //
-	    if (result) {
-		getModel().handleEvent(wizardEvent);
-	    }
+            try {
+                if (listener != null) {
+                    result = listener.handleEvent(wizardEvent);
+                }
+                listener = getEventListener();
+                if (listener != null) {
+                    result = listener.handleEvent(wizardEvent);
+                }
+            } catch (Exception e) {
+                result = true;
+                // Make sure we update the wizard's idea of the event.
+                //
+                event = WizardEvent.CANCEL;
+                wizardEvent.setEvent(event);
+            }
+            // If there are no listeners, always let the model
+            // handle the event.
+            //
+            if (result) {
+                getModel().handleEvent(wizardEvent);
+            }
         }
 
     }
@@ -1986,65 +1960,64 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      */
     private String getJavaScript(int javaScriptEvent) {
 
-	String js = null;
-	WizardStep step = getCurrentStep();
+        String js = null;
+        WizardStep step = getCurrentStep();
 
-	switch (javaScriptEvent) {
-	case WizardEvent.NEXT:
-	    js = step.getOnNext();
-	    if (js == null) {
-		js = getOnNext();
-	    }
-	break;
-	case WizardEvent.PREVIOUS:
-	    js = step.getOnPrevious();
-	    if (js == null) {
-		js = getOnPrevious();
-	    }
-	break;
-	case WizardEvent.CANCEL:
-	    js = step.getOnCancel();
-	    if (js == null) {
-		js = getOnCancel();
-	    }
-	break;
-	case WizardEvent.CLOSE:
-	    js = step.getOnClose();
-	    if (js == null) {
-		js = getOnClose();
-	    }
-	break;
-	case WizardEvent.FINISH:
-	    js = step.getOnFinish();
-	    if (js == null) {
-		js = getOnFinish();
-	    }
-	break;
-	case WizardEvent.GOTOSTEP:
-	    js = step.getOnStepLink();
-	    if (js == null) {
-		js = getOnStepLink();
-	    }
-	break;
-	case WizardEvent.HELPTAB:
-	    js = step.getOnHelpTab();
-	    if (js == null) {
-		js = getOnHelpTab();
-	    }
-	break;
-	case WizardEvent.STEPSTAB:
-	    js = step.getOnStepsTab();
-	    if (js == null) {
-		js = getOnStepsTab();
-	    }
-	break;
-	}
+        switch (javaScriptEvent) {
+            case WizardEvent.NEXT:
+                js = step.getOnNext();
+                if (js == null) {
+                    js = getOnNext();
+                }
+                break;
+            case WizardEvent.PREVIOUS:
+                js = step.getOnPrevious();
+                if (js == null) {
+                    js = getOnPrevious();
+                }
+                break;
+            case WizardEvent.CANCEL:
+                js = step.getOnCancel();
+                if (js == null) {
+                    js = getOnCancel();
+                }
+                break;
+            case WizardEvent.CLOSE:
+                js = step.getOnClose();
+                if (js == null) {
+                    js = getOnClose();
+                }
+                break;
+            case WizardEvent.FINISH:
+                js = step.getOnFinish();
+                if (js == null) {
+                    js = getOnFinish();
+                }
+                break;
+            case WizardEvent.GOTOSTEP:
+                js = step.getOnStepLink();
+                if (js == null) {
+                    js = getOnStepLink();
+                }
+                break;
+            case WizardEvent.HELPTAB:
+                js = step.getOnHelpTab();
+                if (js == null) {
+                    js = getOnHelpTab();
+                }
+                break;
+            case WizardEvent.STEPSTAB:
+                js = step.getOnStepsTab();
+                if (js == null) {
+                    js = getOnStepsTab();
+                }
+                break;
+        }
 
-	return js;
+        return js;
     }
 
     // Constants
-
     private static final String MODEL = "model";
     private static final Boolean WIZARD_TRUE = Boolean.TRUE;
     private static final Boolean WIZARD_FALSE = Boolean.FALSE;
@@ -2052,13 +2025,11 @@ public class Wizard extends UIComponentBase implements NamingContainer {
     // Facets
     //
     private static final String RESULTS_FACET = "results"; //NOI18N
-
     private static final String NEXT_FACET = "next"; //NOI18N
     private static final String PREVIOUS_FACET = "previous"; //NOI18N
     private static final String FINISH_FACET = "finish"; //NOI18N
     private static final String CANCEL_FACET = "cancel"; //NOI18N
     private static final String CLOSE_FACET = "close"; //NOI18N
-    
     private static final String TABS_FACET = "tabs"; //NOI18N
     private static final String TITLE_FACET = "title"; //NOI18N
     private static final String INDICATOR_FACET = "stepIndicator"; //NOI18N
@@ -2067,7 +2038,6 @@ public class Wizard extends UIComponentBase implements NamingContainer {
     // Other Constants
     //
     private static final String USCORE = "_"; //NOI18N
-
     private static final String STEP_TEXT = "stptxt"; //NOI18N
     private static final String STEP_NUM = "stpnum"; //NOI18N
     private static final String STEP_LINK = "stplnk"; //NOI18N
@@ -2079,7 +2049,7 @@ public class Wizard extends UIComponentBase implements NamingContainer {
     private static final String STEP_PLACEHLDR = "stpplhld"; //NOI18N
     private static final String STEP_TAB = "stptb"; //NOI18N
     private static final String HELP_TAB = "hlptb"; //NOI18N
-    private static final String NUM 	 = "num"; //NOI18N
+    private static final String NUM = "num"; //NOI18N
 
     // Attributes
     //
@@ -2096,33 +2066,32 @@ public class Wizard extends UIComponentBase implements NamingContainer {
     private static final String WIZARD_FINISH = "Wizard.finish"; //NOI18N
     private static final String WIZARD_NEXT = "Wizard.next"; //NOI18N
     private static final String WIZARD_PREVIOUS = "Wizard.previous"; //NOI18N
-
     private static final String WIZARD_STEP_TITLE_LABEL =
-	"Wizard.stepTitleLabel"; //NOI18N
+            "Wizard.stepTitleLabel"; //NOI18N
     private static final String WIZARD_STEP_TAB = "Wizard.stepTab"; //NOI18N
     private static final String WIZARD_HELP_TAB = "Wizard.helpTab"; //NOI18N
     private static final String WIZARD_SKIP_LINK_ALT =
-	"Wizard.skipLinkAlt"; //NOI18N
+            "Wizard.skipLinkAlt"; //NOI18N
     private static final String WIZARD_CURRENT_STEP_ALT =
-	"Wizard.currentStepAlt"; //NOI18N
+            "Wizard.currentStepAlt"; //NOI18N
     private static final String WIZARD_TAB_TOOLTIP =
-	"Wizard.tabToolTip"; //NOI18N
+            "Wizard.tabToolTip"; //NOI18N
     private static final String WIZARD_PLACEHOLDER_TEXT =
-	"Wizard.placeholderText";
+            "Wizard.placeholderText";
     private static final String WIZARD_STEPS_PANE_TITLE =
-	"Wizard.stepsPaneTitle";
+            "Wizard.stepsPaneTitle";
 
     // ############################
     //
     // From WizardBase
     //
     // ############################
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -2134,7 +2103,8 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
@@ -2155,7 +2125,7 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * </p>
      *  See the <a href="#EventListeners">Event Listeners</a> section also.
      */
-    @Property(name="eventListener", displayName="Wizard Event Listener")
+    @Property(name = "eventListener", displayName = "Wizard Event Listener")
     private WizardEventListener eventListener = null;
 
     /**
@@ -2174,13 +2144,12 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      *  See the <a href="#EventListeners">Event Listeners</a> section also.
      */
     public WizardEventListener getEventListener() {
-	if (this.eventListener != null) {
+        if (this.eventListener != null) {
             return this.eventListener;
         }
         ValueExpression _vb = getValueExpression("eventListener");
         if (_vb != null) {
-            return (WizardEventListener)
-		_vb.getValue(getFacesContext().getELContext());
+            return (WizardEventListener) _vb.getValue(getFacesContext().getELContext());
         }
         return null;
     }
@@ -2210,8 +2179,8 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * Default is <code>true</code>. Set this property to <code>false</code>
      * if the wizard is to appear within a main browser window.
      */
-    @Property(name="isPopup", displayName="isPopup",
-	isHidden=true, isAttribute=false)
+    @Property(name = "isPopup", displayName = "isPopup",
+    isHidden = true, isAttribute = false)
     private boolean isPopup = false;
     private boolean isPopup_set = false;
 
@@ -2254,7 +2223,7 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * is an alternative to the default <code>WizardModelBase</code>
      * instance that controls the flow of steps in the wizard.
      */
-    @Property(name="model", displayName="Wizard Model", isHidden=true)
+    @Property(name = "model", displayName = "Wizard Model", isHidden = true)
     private com.sun.webui.jsf.model.WizardModel model = null;
 
     /**
@@ -2272,7 +2241,7 @@ public class Wizard extends UIComponentBase implements NamingContainer {
     /**
      * Scripting code executed when the Cancel button is clicked.
      */
-    @Property(name="onCancel", displayName="Cancel Script")
+    @Property(name = "onCancel", displayName = "Cancel Script")
     private String onCancel = null;
 
     /**
@@ -2301,7 +2270,7 @@ public class Wizard extends UIComponentBase implements NamingContainer {
     /**
      * Scripting code executed when the Close button is clicked.
      */
-    @Property(name="onClose", displayName="Close Script")
+    @Property(name = "onClose", displayName = "Close Script")
     private String onClose = null;
 
     /**
@@ -2330,7 +2299,7 @@ public class Wizard extends UIComponentBase implements NamingContainer {
     /**
      * Scripting code executed when the Finish button is clicked.
      */
-    @Property(name="onFinish", displayName="Finish Script")
+    @Property(name = "onFinish", displayName = "Finish Script")
     private String onFinish = null;
 
     /**
@@ -2359,7 +2328,7 @@ public class Wizard extends UIComponentBase implements NamingContainer {
     /**
      * Scripting code executed when the Help tab is clicked.
      */
-    @Property(name="onHelpTab", displayName="Help Tab Script")
+    @Property(name = "onHelpTab", displayName = "Help Tab Script")
     private String onHelpTab = null;
 
     /**
@@ -2388,7 +2357,7 @@ public class Wizard extends UIComponentBase implements NamingContainer {
     /**
      * Scripting code executed when the Next button is clicked.
      */
-    @Property(name="onNext", displayName="Next Script")
+    @Property(name = "onNext", displayName = "Next Script")
     private String onNext = null;
 
     /**
@@ -2423,7 +2392,7 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * redirected, or the display refreshed to reflect the task completed 
      * by the user. These activities provide feedback to the user.
      */
-    @Property(name="onPopupDismiss", displayName="onPopupDismiss")
+    @Property(name = "onPopupDismiss", displayName = "onPopupDismiss")
     private String onPopupDismiss = null;
 
     /**
@@ -2464,7 +2433,7 @@ public class Wizard extends UIComponentBase implements NamingContainer {
     /**
      * Scripting code executed when the Previous button is clicked.
      */
-    @Property(name="onPrevious", displayName="Previous Script")
+    @Property(name = "onPrevious", displayName = "Previous Script")
     private String onPrevious = null;
 
     /**
@@ -2493,7 +2462,7 @@ public class Wizard extends UIComponentBase implements NamingContainer {
     /**
      * Scripting code executed when a Step link is clicked.
      */
-    @Property(name="onStepLink", displayName="Step Link Script")
+    @Property(name = "onStepLink", displayName = "Step Link Script")
     private String onStepLink = null;
 
     /**
@@ -2522,7 +2491,7 @@ public class Wizard extends UIComponentBase implements NamingContainer {
     /**
      * Scripting code executed when the Steps tab is clicked.
      */
-    @Property(name="onStepsTab", displayName="Steps Tab Script")
+    @Property(name = "onStepsTab", displayName = "Steps Tab Script")
     private String onStepsTab = null;
 
     /**
@@ -2556,8 +2525,8 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * <code>WizardBranchSteps</code>, or <code>WizardSubstepBranch</code>
      * components.
      */
-    @Property(name="steps", displayName="Wizard Steps", category="Data", 
-              editorClassName="com.sun.rave.propertyeditors.binding.ValueBindingPropertyEditor")
+    @Property(name = "steps", displayName = "Wizard Steps", category = "Data",
+    editorClassName = "com.sun.rave.propertyeditors.binding.ValueBindingPropertyEditor")
     private Object steps = null;
 
     /**
@@ -2597,7 +2566,7 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * <p>CSS style(s) to be applied to the outermost HTML element when this
      * component is rendered.</p>
      */
-    @Property(name="style", displayName="CSS Style(s)")
+    @Property(name = "style", displayName = "CSS Style(s)")
     private String style = null;
 
     /**
@@ -2629,7 +2598,7 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * <p>CSS style class(es) to be applied to the outermost HTML element
      * when this component is rendered.</p>
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)")
     private String styleClass = null;
 
     /**
@@ -2663,7 +2632,7 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * the wizard window.
      * @see #getTitle()
      */
-    @Property(name="title", displayName="Wizard Title")
+    @Property(name = "title", displayName = "Wizard Title")
     private String title = null;
 
     /**
@@ -2702,7 +2671,7 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @Property(name="visible", displayName="Visible")
+    @Property(name = "visible", displayName = "Visible")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -2759,41 +2728,38 @@ public class Wizard extends UIComponentBase implements NamingContainer {
      * restored. The model must rebuild the step children when they
      * are actual children of the Wizard, since they are new instances.
      */
+    @Override
     public void processRestoreState(FacesContext context, Object state) {
 
-	super.processRestoreState(context, state);
+        super.processRestoreState(context, state);
 
-	// Need to do this because all children now have
-	// new id's. Children are restored in UIComponentBase
-	// processRestoreState.
-	//
-	getModel().initialize(this);
+        // Need to do this because all children now have
+        // new id's. Children are restored in UIComponentBase
+        // processRestoreState.
+        //
+        getModel().initialize(this);
 
-	// Always set event to NOEVENT here
-	// in case we are in a request from a component
-	// within the wizard step page. Doing this here ensures that
-	// the START event is never set except the first 
-	// render cycle. In server side state saving, the 
-	// event member is preserved.
-	//
-	event = WizardEvent.NOEVENT;
+        // Always set event to NOEVENT here
+        // in case we are in a request from a component
+        // within the wizard step page. Doing this here ensures that
+        // the START event is never set except the first
+        // render cycle. In server side state saving, the
+        // event member is preserved.
+        //
+        event = WizardEvent.NOEVENT;
     }
 
     /**
      * Restore the state of this component.
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
-
-        this.eventListener = (WizardEventListener)
-	    restoreAttachedState(_context, _values[1]);
-
+        this.eventListener = (WizardEventListener) restoreAttachedState(_context, _values[1]);
         this.isPopup = ((Boolean) _values[2]).booleanValue();
         this.isPopup_set = ((Boolean) _values[3]).booleanValue();
-
-        this.model = (WizardModel)restoreAttachedState(_context, _values[4]);
-
+        this.model = (WizardModel) restoreAttachedState(_context, _values[4]);
         this.onCancel = (String) _values[5];
         this.onClose = (String) _values[6];
         this.onFinish = (String) _values[7];
@@ -2803,33 +2769,29 @@ public class Wizard extends UIComponentBase implements NamingContainer {
         this.onPrevious = (String) _values[11];
         this.onStepLink = (String) _values[12];
         this.onStepsTab = (String) _values[13];
-        this.steps = (Object)restoreAttachedState(_context, _values[14]);
+        this.steps = (Object) restoreAttachedState(_context, _values[14]);
         this.style = (String) _values[15];
         this.styleClass = (String) _values[16];
         this.title = (String) _values[17];
         this.visible = ((Boolean) _values[18]).booleanValue();
         this.visible_set = ((Boolean) _values[19]).booleanValue();
-	this.stepTabActive = ((Boolean) _values[20]).booleanValue();
-
+        this.stepTabActive = ((Boolean) _values[20]).booleanValue();
     }
 
     /**
      * Save the state of this component.
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[21];
         _values[0] = super.saveState(_context);
-
-	_values[1] = saveAttachedState(_context, this.eventListener);
-
+        _values[1] = saveAttachedState(_context, this.eventListener);
         _values[2] = this.isPopup ? Boolean.TRUE : Boolean.FALSE;
         _values[3] = this.isPopup_set ? Boolean.TRUE : Boolean.FALSE;
-
-	// It must implement WizardModel which is a StateHolder if
-	// there is no valuebinding.
-	//
-	_values[4] = saveAttachedState(_context, this.model);
-
+        // It must implement WizardModel which is a StateHolder if
+        // there is no valuebinding.
+        //
+        _values[4] = saveAttachedState(_context, this.model);
         _values[5] = this.onCancel;
         _values[6] = this.onClose;
         _values[7] = this.onFinish;
@@ -2845,9 +2807,7 @@ public class Wizard extends UIComponentBase implements NamingContainer {
         _values[17] = this.title;
         _values[18] = this.visible ? Boolean.TRUE : Boolean.FALSE;
         _values[19] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
-
-	_values[20] = this.stepTabActive ? Boolean.TRUE : Boolean.FALSE;
-
+        _values[20] = this.stepTabActive ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 }

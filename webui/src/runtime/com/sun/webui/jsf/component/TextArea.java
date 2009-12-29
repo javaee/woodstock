@@ -23,7 +23,6 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-
 import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
 
@@ -31,10 +30,12 @@ import javax.faces.context.FacesContext;
  * The TextArea component is used to create a multiple-line input field for 
  * text.
  */
-@Component(type="com.sun.webui.jsf.TextArea", family="com.sun.webui.jsf.TextArea", displayName="Text Area", instanceName="textArea", tagName="textArea",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_text_area",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_text_area_props")
+@Component(type = "com.sun.webui.jsf.TextArea", family = "com.sun.webui.jsf.TextArea",
+displayName = "Text Area", instanceName = "textArea", tagName = "textArea",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_text_area",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_text_area_props")
 public class TextArea extends Field {
+
     /**
      * Default constructor.
      */
@@ -46,6 +47,7 @@ public class TextArea extends Field {
     /**
      * <p>Return the family for this component.</p>
      */
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.TextArea";
     }
@@ -53,22 +55,22 @@ public class TextArea extends Field {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The maximum number of characters that can be entered for this field.
      */
-    @Property(name="maxLength", isHidden=true, isAttribute=true)
+    @Property(name = "maxLength", isHidden = true, isAttribute = true)
+    @Override
     public int getMaxLength() {
         return super.getMaxLength();
     }
-
     /**
      * <p>Number of rows used to render the textarea. You should set a value
      * for this attribute to ensure that it is rendered correctly in all
      * browsers.  Browsers vary in the default number of rows used for
      * textarea fields.</p>
      */
-    @Property(name="rows", displayName="Rows", category="Appearance", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "rows", displayName = "Rows", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int rows = Integer.MIN_VALUE;
     private boolean rows_set = false;
 
@@ -109,7 +111,8 @@ public class TextArea extends Field {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.rows = ((Integer) _values[1]).intValue();
@@ -119,6 +122,7 @@ public class TextArea extends Field {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[3];
         _values[0] = super.saveState(_context);

@@ -24,21 +24,13 @@ package com.sun.webui.jsf.component;
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
 import com.sun.webui.jsf.model.UploadedFile;
-import com.sun.webui.jsf.util.ComponentUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
-
-import java.io.File;
 import java.io.InputStream;
-import java.io.IOException;
-import java.io.ObjectStreamException; 
-import java.io.Serializable; 
-
+import java.io.Serializable;
 import javax.el.ValueExpression;
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.faces.convert.ConverterException;
 import javax.faces.FacesException;
 
 import org.apache.commons.fileupload.FileItem;
@@ -47,24 +39,25 @@ import org.apache.commons.fileupload.FileItem;
  * The Upload component is used to create an input tag with its <code>type</code> 
  * field set to "file".
  */
-@Component(type="com.sun.webui.jsf.Upload", family="com.sun.webui.jsf.Upload", displayName="File Upload",
-    instanceName="fileUpload", tagName="upload", isContainer=false,
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_file_upload",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_upload_props")
+@Component(type = "com.sun.webui.jsf.Upload", family = "com.sun.webui.jsf.Upload", displayName = "File Upload",
+instanceName = "fileUpload", tagName = "upload", isContainer = false,
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_file_upload",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_upload_props")
 public class Upload extends Field implements Serializable {
+
+    private static final long serialVersionUID = -8352221221756513893L;
     /**
      * A string concatenated with the component ID to form the ID and
      * name of the HTML input element. 
      */
     public static final String INPUT_ID = "_com.sun.webui.jsf.upload"; //NOI18N
     public static final String INPUT_PARAM_ID = "_com.sun.webui.jsf.uploadParam"; //NOI18N
-    public static final String SCRIPT_ID="_script"; 
-    public static final String SCRIPT_FACET="script"; 
-    public static final String TEXT_ID="_text"; 
-    public static final String LENGTH_EXCEEDED="length_exceeded";
-    public static final String UPLOAD_ERROR_KEY="upload_error_key";
-    public static final String FILE_SIZE_KEY="file_size_key";
-            
+    public static final String SCRIPT_ID = "_script";
+    public static final String SCRIPT_FACET = "script";
+    public static final String TEXT_ID = "_text";
+    public static final String LENGTH_EXCEEDED = "length_exceeded";
+    public static final String UPLOAD_ERROR_KEY = "upload_error_key";
+    public static final String FILE_SIZE_KEY = "file_size_key";
     private static final boolean DEBUG = false;
 
     /**
@@ -78,6 +71,7 @@ public class Upload extends Field implements Serializable {
     /**
      * <p>Return the family for this component.</p>
      */
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.Upload";
     }
@@ -85,10 +79,11 @@ public class Upload extends Field implements Serializable {
     /**
      * Log an error - only used during development time.
      */
+    @Override
     protected void log(String s) {
         System.out.println(this.getClass().getName() + "::" + s); //NOI18N
     }
-    
+
     /**
      * <p>Converts the submitted value. Returns an object of type 
      * UploadedFile.</p>
@@ -98,28 +93,35 @@ public class Upload extends Field implements Serializable {
      * java.lang.String or a java.io.File, depending on how the
      * component is configured 
      */
-    public Object getConvertedValue(FacesContext context, Object value) { 
+    @Override
+    public Object getConvertedValue(FacesContext context, Object value) {
 
-        if(DEBUG) log("getConvertedValue"); 
-        UploadedFileImpl uf = new UploadedFileImpl(value, context);   
-        if(DEBUG) { 
-            log("\tSize is " + String.valueOf(uf.getSize())); 
-            log("\tName is " + uf.getOriginalName()); 
-            log("\tValue is required " + String.valueOf(isRequired())); 
+        if (DEBUG) {
+            log("getConvertedValue");
         }
-        if(isRequired() && uf.getSize() == 0) { 
-            String name = uf.getOriginalName(); 
-            if(name == null || name.trim().length() == 0) { 
-                if(DEBUG) log("No file specified");
+        UploadedFileImpl uf = new UploadedFileImpl(value, context);
+        if (DEBUG) {
+            log("\tSize is " + String.valueOf(uf.getSize()));
+            log("\tName is " + uf.getOriginalName());
+            log("\tValue is required " + String.valueOf(isRequired()));
+        }
+        if (isRequired() && uf.getSize() == 0) {
+            String name = uf.getOriginalName();
+            if (name == null || name.trim().length() == 0) {
+                if (DEBUG) {
+                    log("No file specified");
+                }
                 setValue("");
-                if(DEBUG) log("Set value to empty string");
+                if (DEBUG) {
+                    log("Set value to empty string");
+                }
                 return "";
-                //FacesMessage msg = new FacesMessage("Enter a file to upload");
-                //throw new ConverterException(msg);
-            }          
-        }      
-        return uf;   
-    } 
+            //FacesMessage msg = new FacesMessage("Enter a file to upload");
+            //throw new ConverterException(msg);
+            }
+        }
+        return uf;
+    }
 
     /**
      * <p>Return the value to be rendered when the component is 
@@ -128,10 +130,11 @@ public class Upload extends Field implements Serializable {
      * @param context FacesContext for the current request
      * @return A String value of the component
      */
-    public String getValueAsString(FacesContext context) { 
+    @Override
+    public String getValueAsString(FacesContext context) {
         return null;
-    } 
-    
+    }
+
     /**
      * <p>Return the value to be rendered as a string when the
      * component is readOnly. This method overrides the default 
@@ -140,26 +143,25 @@ public class Upload extends Field implements Serializable {
      * @param context FacesContext for the current request
      * @return A String value of the component
      */
+    @Override
     public String getReadOnlyValueString(FacesContext context) {
-        
+
         String valueString = null;
-        Object value = getValue(); 
-        if(value != null & value instanceof UploadedFile) {
-            try { 
-                valueString = ((UploadedFile)value).getOriginalName();
-            } 
-            catch(Exception ex) { 
+        Object value = getValue();
+        if (value != null & value instanceof UploadedFile) {
+            try {
+                valueString = ((UploadedFile) value).getOriginalName();
+            } catch (Exception ex) {
                 // We have somehow lost the underlying file representation.
                 // We do nothing in this case.
-            } 
-        }   
-        if(valueString == null) {
-            valueString = ThemeUtilities.getTheme(context)
-            .getMessage("FileUpload.noFile");
+            }
+        }
+        if (valueString == null) {
+            valueString = ThemeUtilities.getTheme(context).getMessage("FileUpload.noFile");
         }
         return valueString;
     }
-    
+
     /**
      * Overrides getType in the FileInput class, to always return
      * "file" 
@@ -175,23 +177,25 @@ public class Upload extends Field implements Serializable {
     private Object _getText() {
         return null;
     }
-    
+
     /**
      * This method overrides setText() in Field. It is a noop.
      */
+    @Override
     public void setText(Object text) {
         // do nothing
     }
-    
+
+    @Override
     public int getColumns() {
         int columns = _getColumns();
-        if(columns < 1) { 
-            columns = 40; 
-            setColumns(40); 
+        if (columns < 1) {
+            columns = 40;
+            setColumns(40);
         }
         return columns;
     }
-    
+
     // Overrides the method in Field.java as a workaround for an 
     // apparent compiler problem (?). The renderer (for Upload as well 
     // as TextField etc) casts the component to Field. It invokes 
@@ -204,16 +208,17 @@ public class Upload extends Field implements Serializable {
      * @deprecated
      * @see #getLabeledElementId
      */
+    @Override
     public String getPrimaryElementID(FacesContext context) {
-	String clntId = this.getClientId(context);
-	UIComponent labelComp = getLabelComponent(context, null);
-	if (labelComp == null) {
-	    return clntId;
-	} else {
-	    return clntId.concat(INPUT_ID);
-	}
+        String clntId = this.getClientId(context);
+        UIComponent labelComp = getLabelComponent(context, null);
+        if (labelComp == null) {
+            return clntId;
+        } else {
+            return clntId.concat(INPUT_ID);
+        }
     }
-     
+
     // Overrides the method in Field.java as a workaround for an 
     // apparent compiler problem (?). The renderer (for Upload as well 
     // as TextField etc) casts the component to Field. It invokes 
@@ -226,44 +231,46 @@ public class Upload extends Field implements Serializable {
      *
      * @param context The FacesContext used for the request
      * @return The id of the HTML element
-     */      
+     */
+    @Override
     public String getLabeledElementId(FacesContext context) {
 
-	// If this component has a label either as a facet or
-	// an attribute, return the id of the input element
-	// that will have the "INPUT_ID" suffix. IF there is no
-	// label, then the input element id will be the component's
-	// client id.
-	//
-	// If it is read only then return null
-	//
-	if (isReadOnly()) {
-	    return null;
-	}
+        // If this component has a label either as a facet or
+        // an attribute, return the id of the input element
+        // that will have the "INPUT_ID" suffix. IF there is no
+        // label, then the input element id will be the component's
+        // client id.
+        //
+        // If it is read only then return null
+        //
+        if (isReadOnly()) {
+            return null;
+        }
 
-	// To ensure we get the right answer call getLabelComponent.
-	// This checks for a developer facet or the private label facet.
-	// It also checks the label attribute. This is better than
-	// relying on "getLabeledComponent" having been called
-	// like this method used to do.
-	//
-	String clntId = this.getClientId(context);
-	UIComponent labelComp = getLabelComponent(context, null);
-	if (labelComp == null) {
-	    return clntId;
-	} else {
-	    return clntId.concat(INPUT_ID);
-	}
+        // To ensure we get the right answer call getLabelComponent.
+        // This checks for a developer facet or the private label facet.
+        // It also checks the label attribute. This is better than
+        // relying on "getLabeledComponent" having been called
+        // like this method used to do.
+        //
+        String clntId = this.getClientId(context);
+        UIComponent labelComp = getLabelComponent(context, null);
+        if (labelComp == null) {
+            return clntId;
+        } else {
+            return clntId.concat(INPUT_ID);
+        }
     }
-    
+
     /**
      * Returns the id of an HTML element suitable to
      * receive the focus.
      *
      * @param context The FacesContext used for the request
      */
+    @Override
     public String getFocusElementId(FacesContext context) {
-	return getLabeledElementId(context);
+        return getLabeledElementId(context);
     }
 
     // Obtain the FileItem in the constructor, based on the
@@ -290,24 +297,24 @@ public class Upload extends Field implements Serializable {
     // receive an instance of this class when there is no file
     // when previously an exception would have been thrown.
     //
-    class UploadedFileImpl  implements UploadedFile {
-        
-        transient FileItem fileItemObject = null; 
-        
+    class UploadedFileImpl implements UploadedFile {
+
+        private static final long serialVersionUID = -8806211528277303445L;
+        transient FileItem fileItemObject = null;
+
         /** Creates a new instance of UploadedFileImpl */
-        UploadedFileImpl(Object attribute, FacesContext context) {         
-	    // Allow null
-	    //
-	    try {
-		this.fileItemObject = (FileItem)
-		    context.getExternalContext().getRequestMap().get(attribute);
-	    } catch (Exception e) {
-                String message = 
-		    "File not uploaded. Is the upload filter installed ?";
+        UploadedFileImpl(Object attribute, FacesContext context) {
+            // Allow null
+            //
+            try {
+                this.fileItemObject = (FileItem) context.getExternalContext().getRequestMap().get(attribute);
+            } catch (Exception e) {
+                String message =
+                        "File not uploaded. Is the upload filter installed ?";
                 throw new FacesException(message, e);
             }
         }
-        
+
         /**
          * Write the contents of the uploaded file to a file on the
          * server host. Note that writing files outside of the web
@@ -322,45 +329,45 @@ public class Upload extends Field implements Serializable {
          * @exception Exception the
          */
         public void write(java.io.File file) throws Exception {
-            
-	    if (fileItemObject != null) {
-		fileItemObject.write(file);
-	    }
+
+            if (fileItemObject != null) {
+                fileItemObject.write(file);
+            }
         }
-        
+
         /**
          * The size of the file in bytes.
-	 * If there is no fileItemObject, return 0.
+         * If there is no fileItemObject, return 0.
          *
          * @return The size of the file in bytes.
          */
         public long getSize() {
-	    if (fileItemObject != null) {
-		return fileItemObject.getSize();
-	    } else {
-		return 0;
-	    }
+            if (fileItemObject != null) {
+                return fileItemObject.getSize();
+            } else {
+                return 0;
+            }
         }
-        
+
         /**
          * Use this method to retrieve the name that the file has on the web
          * application user's local system.
-	 * If the fileItemObject is null, return null;
+         * If the fileItemObject is null, return null;
          *
          * @return the name of the file on the web app user's system
          */
         public String getOriginalName() {
-	    if (fileItemObject != null) {
-		return fileItemObject.getName();
-	    } else {
-		return null;
-	    }
+            if (fileItemObject != null) {
+                return fileItemObject.getName();
+            } else {
+                return null;
+            }
         }
-        
+
         /**
          * Returns a {@link java.io.InputStream InputStream} for
          * reading the file.
-	 * Returns null if fileItemObject is null.
+         * Returns null if fileItemObject is null.
          *
          * @return An {@link java.io.InputStream InputStream} for
          * reading the file. 
@@ -369,81 +376,81 @@ public class Upload extends Field implements Serializable {
          * the file 
          */
         public java.io.InputStream getInputStream() throws java.io.IOException {
-	    if (fileItemObject != null) {
-		return fileItemObject.getInputStream(); 
-	    } else {
-		return null;
-	    }
+            if (fileItemObject != null) {
+                return fileItemObject.getInputStream();
+            } else {
+                return null;
+            }
         }
-        
+
         /**
          * Get the content-type that the browser communicated with the
          * request that included the uploaded file. If the browser did
          * not specify a content-type, this method returns null. 
-	 * Returns null if fileItemObject is null.
+         * Returns null if fileItemObject is null.
          *
          * @return  the content-type that the browser communicated
          * with the request that included the uploaded file
          */
         public String getContentType() {
-	    if (fileItemObject != null) {
-		return fileItemObject.getContentType();
-	    } else {
-		return null;
-	    }
+            if (fileItemObject != null) {
+                return fileItemObject.getContentType();
+            } else {
+                return null;
+            }
         }
-        
+
         /**
          * Use this method to retrieve the contents of the file as an
          * array of bytes. 
-	 * Returns null if fileItemObject is null.
-	 *
-	 * @return The contents of the file as a byte array
+         * Returns null if fileItemObject is null.
+         *
+         * @return The contents of the file as a byte array
          */
         public byte[] getBytes() {
-	    if (fileItemObject != null) {
-		return fileItemObject.get();
-	    } else {
-		return null;
-	    }
+            if (fileItemObject != null) {
+                return fileItemObject.get();
+            } else {
+                return null;
+            }
         }
-        
+
         /**
          * Use this method to retrieve the contents of the file as a
          * String 
-	 * Returns null if fileItemObject is null.
+         * Returns null if fileItemObject is null.
          *
          * @return the contents of the file as a String
          */
         public String getAsString() {
-	    if (fileItemObject != null) {
-		return fileItemObject.getString();
-	    } else {
-		return null;
-	    }
+            if (fileItemObject != null) {
+                return fileItemObject.getString();
+            } else {
+                return null;
+            }
         }
-        
+
         /**
          * Dispose of the resources associated with the file upload
          * (this will happen automatically when the resource is
          * garbage collected). 
          */
         public void dispose() {
-	    if (fileItemObject != null) {
-		fileItemObject.delete(); 
-	    }
-        }       
+            if (fileItemObject != null) {
+                fileItemObject.delete();
+            }
+        }
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Flag indicating that an input value for this field is mandatory, and 
      * failure to provide one will trigger a validation error.
      */
-    @Property(name="required") 
+    @Property(name = "required")
+    @Override
     public void setRequired(boolean required) {
         super.setRequired(required);
     }
@@ -454,6 +461,7 @@ public class Upload extends Field implements Serializable {
      *
      * @param name Name of value binding expression to retrieve
      */
+    @Override
     public ValueExpression getValueExpression(String name) {
         if (name.equals("uploadedFile")) {
             return super.getValueExpression("value");
@@ -469,7 +477,8 @@ public class Upload extends Field implements Serializable {
      * @param name    Name of value binding to set
      * @param binding ValueExpression to set, or null to remove
      */
-    public void setValueExpression(String name,ValueExpression binding) {
+    @Override
+    public void setValueExpression(String name, ValueExpression binding) {
         if (name.equals("uploadedFile")) {
             super.setValueExpression("value", binding);
             return;
@@ -487,36 +496,40 @@ public class Upload extends Field implements Serializable {
      * <code>javax.faces.converter.Converter</code> interface; or</li> 
      * <li>the ID of a registered converter (a String).</li> 
      */
-    @Property(name="converter", isHidden=true, isAttribute=true)
+    @Property(name = "converter", isHidden = true, isAttribute = true)
+    @Override
     public Converter getConverter() {
         return super.getConverter();
     }
-    
+
     /**
      * The maximum number of characters that can be entered for this field.
      */
-    @Property(name="maxLength", isHidden=true, isAttribute=true)
+    @Property(name = "maxLength", isHidden = true, isAttribute = true)
+    @Override
     public int getMaxLength() {
         return super.getMaxLength();
     }
 
     // Hide trim
-    @Property(name="trim", isHidden=true, isAttribute=false)
+    @Property(name = "trim", isHidden = true, isAttribute = false)
+    @Override
     public boolean isTrim() {
         return super.isTrim();
     }
-    
+
     // Hide text
-    @Property(name="text", isHidden=true, isAttribute=false)
+    @Property(name = "text", isHidden = true, isAttribute = false)
+    @Override
     public Object getText() {
         return _getText();
     }
-    
     /**
      * <p>Number of character character columns used to render this
      * field. The default is 40.</p>
      */
-    @Property(name="columns", displayName="Columns", category="Appearance", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "columns", displayName = "Columns", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int columns = Integer.MIN_VALUE;
     private boolean columns_set = false;
 
@@ -545,6 +558,7 @@ public class Upload extends Field implements Serializable {
      * field. The default is 40.</p>
      * @see #getColumns()
      */
+    @Override
     public void setColumns(int columns) {
         this.columns = columns;
         this.columns_set = true;
@@ -556,8 +570,8 @@ public class Upload extends Field implements Serializable {
      * <code>com.sun.webui.jsf.model.UploadedFile</code>. See the JavaDoc for
      * this class for details.</p>
      */
-    @Property(name="uploadedFile", displayName="Uploaded File", category="Data", editorClassName="com.sun.rave.propertyeditors.binding.ValueBindingPropertyEditor")
-
+    @Property(name = "uploadedFile", displayName = "Uploaded File", category = "Data",
+    editorClassName = "com.sun.rave.propertyeditors.binding.ValueBindingPropertyEditor")
     /**
      * <p>The value of this attribute must be a JSF EL expression, and
      * it must resolve to an object of type
@@ -582,7 +596,8 @@ public class Upload extends Field implements Serializable {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.columns = ((Integer) _values[1]).intValue();
@@ -592,6 +607,7 @@ public class Upload extends Field implements Serializable {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[3];
         _values[0] = super.saveState(_context);

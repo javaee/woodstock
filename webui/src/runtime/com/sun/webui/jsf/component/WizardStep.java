@@ -20,20 +20,16 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 /*
- * $Id: WizardStep.java,v 1.1 2007-02-16 01:25:19 bob_yennaco Exp $
+ * $Id: WizardStep.java,v 1.1.20.1 2009-12-29 03:06:26 jyeary Exp $
  */
-
 package com.sun.webui.jsf.component;
 
 import javax.el.ValueExpression;
-
 import javax.faces.component.UIComponentBase;
 import javax.faces.component.NamingContainer;
 import javax.faces.context.FacesContext;
-
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-
 import com.sun.webui.jsf.event.WizardEventListener;
 
 /**
@@ -41,11 +37,11 @@ import com.sun.webui.jsf.event.WizardEventListener;
  * step sequence. The components to obtain user data also known collectively
  * as the step task, are specified as children of the WizardStep component.
  */
-@Component(type="com.sun.webui.jsf.WizardStep",
-    family="com.sun.webui.jsf.WizardStep", displayName="Wizard Step",
-    tagName="wizardStep",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_wizard_step",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_wizard_step_props")
+@Component(type = "com.sun.webui.jsf.WizardStep",
+family = "com.sun.webui.jsf.WizardStep", displayName = "Wizard Step",
+tagName = "wizardStep",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_wizard_step",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_wizard_step_props")
 public class WizardStep extends UIComponentBase implements NamingContainer {
 
     /**
@@ -67,13 +63,15 @@ public class WizardStep extends UIComponentBase implements NamingContainer {
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
 
     // Hide rendered
-    @Property(isHidden=true, isAttribute=false)
+    @Property(isHidden = true, isAttribute = false)
+    @Override
     public boolean isRendered() {
         return super.isRendered();
     }
@@ -86,7 +84,7 @@ public class WizardStep extends UIComponentBase implements NamingContainer {
      * sentences that describe what the step does, or tell the user how 
      * to interact with the step.
      */
-    @Property(name="detail")
+    @Property(name = "detail")
     private String detail = null;
 
     /**
@@ -138,7 +136,7 @@ public class WizardStep extends UIComponentBase implements NamingContainer {
      * documentation for more information.
      * </p>
      */
-    @Property(name="eventListener", displayName="Wizard Event Listener")
+    @Property(name = "eventListener", displayName = "Wizard Event Listener")
     private WizardEventListener eventListener = null;
 
     /**
@@ -165,8 +163,7 @@ public class WizardStep extends UIComponentBase implements NamingContainer {
         }
         ValueExpression _vb = getValueExpression("eventListener");
         if (_vb != null) {
-            return (WizardEventListener)
-		_vb.getValue(getFacesContext().getELContext());
+            return (WizardEventListener) _vb.getValue(getFacesContext().getELContext());
         }
         return null;
     }
@@ -204,7 +201,7 @@ public class WizardStep extends UIComponentBase implements NamingContainer {
      * causes the Finish button to be displayed. The Finish step performs the
      * wizard task when the user clicks the Finish button.
      */
-    @Property(name="finish")
+    @Property(name = "finish")
     private boolean finish = false;
     private boolean finish_set = false;
 
@@ -254,7 +251,7 @@ public class WizardStep extends UIComponentBase implements NamingContainer {
      * to create the &lt; and &gt; characters for HTML elements
      * in the help text.
      */
-    @Property(name="help")
+    @Property(name = "help")
     private String help = null;
 
     /**
@@ -295,7 +292,7 @@ public class WizardStep extends UIComponentBase implements NamingContainer {
     /**
      * Scripting code executed when the Cancel button is clicked.
      */
-    @Property(name="onCancel", displayName="Cancel Script")
+    @Property(name = "onCancel", displayName = "Cancel Script")
     private String onCancel = null;
 
     /**
@@ -324,7 +321,7 @@ public class WizardStep extends UIComponentBase implements NamingContainer {
     /**
      * Scripting code executed when the Close button is clicked.
      */
-    @Property(name="onClose", displayName="Close Script")
+    @Property(name = "onClose", displayName = "Close Script")
     private String onClose = null;
 
     /**
@@ -353,7 +350,7 @@ public class WizardStep extends UIComponentBase implements NamingContainer {
     /**
      * Scripting code executed when the Finish button is clicked.
      */
-    @Property(name="onFinish", displayName="Finish Script")
+    @Property(name = "onFinish", displayName = "Finish Script")
     private String onFinish = null;
 
     /**
@@ -382,7 +379,7 @@ public class WizardStep extends UIComponentBase implements NamingContainer {
     /**
      * Scripting code executed when the Help tab is clicked.
      */
-    @Property(name="onHelpTab", displayName="Help Tab Script")
+    @Property(name = "onHelpTab", displayName = "Help Tab Script")
     private String onHelpTab = null;
 
     /**
@@ -411,7 +408,7 @@ public class WizardStep extends UIComponentBase implements NamingContainer {
     /**
      * Scripting code executed when the Next button is clicked.
      */
-    @Property(name="onNext", displayName="Next Script")
+    @Property(name = "onNext", displayName = "Next Script")
     private String onNext = null;
 
     /**
@@ -440,7 +437,7 @@ public class WizardStep extends UIComponentBase implements NamingContainer {
     /**
      * Scripting code executed when the Next button is clicked.
      */
-    @Property(name="onPrevious", displayName="Previous Script")
+    @Property(name = "onPrevious", displayName = "Previous Script")
     private String onPrevious = null;
 
     /**
@@ -469,7 +466,7 @@ public class WizardStep extends UIComponentBase implements NamingContainer {
     /**
      * Scripting code executed when a Step link is clicked.
      */
-    @Property(name="onStepLink", displayName="Step Link Script")
+    @Property(name = "onStepLink", displayName = "Step Link Script")
     private String onStepLink = null;
 
     /**
@@ -498,7 +495,7 @@ public class WizardStep extends UIComponentBase implements NamingContainer {
     /**
      * Scripting code executed when the Steps tab is clicked.
      */
-    @Property(name="onStepsTab", displayName="Steps Tab Script")
+    @Property(name = "onStepsTab", displayName = "Steps Tab Script")
     private String onStepsTab = null;
 
     /**
@@ -531,7 +528,7 @@ public class WizardStep extends UIComponentBase implements NamingContainer {
      * including failure information if appropriate. This attribute causes the
      * Close button to be displayed on the View Results page.
      */
-    @Property(name="results")
+    @Property(name = "results")
     private boolean results = false;
     private boolean results_set = false;
 
@@ -576,7 +573,7 @@ public class WizardStep extends UIComponentBase implements NamingContainer {
      * A brief description of this step, to be used in the numbered
      * list of steps in the Steps pane.
      */
-    @Property(name="summary")
+    @Property(name = "summary")
     private String summary = null;
 
     /**
@@ -611,7 +608,7 @@ public class WizardStep extends UIComponentBase implements NamingContainer {
      * attribute could be the same as the value of the summary attribute, or
      * could provide a more detailed description.
      */
-    @Property(name="title")
+    @Property(name = "title")
     private String title = null;
 
     /**
@@ -647,7 +644,8 @@ public class WizardStep extends UIComponentBase implements NamingContainer {
     /**
      * Restore the state of this component.
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.detail = (String) _values[1];
@@ -672,6 +670,7 @@ public class WizardStep extends UIComponentBase implements NamingContainer {
     /**
      * Save the state of this component.
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[18];
         _values[0] = super.saveState(_context);

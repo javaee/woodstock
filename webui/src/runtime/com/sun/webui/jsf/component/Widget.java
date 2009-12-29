@@ -29,6 +29,7 @@ package com.sun.webui.jsf.component;
  * see those methods for more information.
  */
 public interface Widget {
+
     /**
      * Get alternative HTML template to be used by this component.
      *

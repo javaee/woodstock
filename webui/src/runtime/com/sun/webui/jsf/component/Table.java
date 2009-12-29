@@ -23,25 +23,17 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-
 import com.sun.webui.jsf.component.util.Util;
-import com.sun.webui.jsf.event.TablePaginationActionListener;
-import com.sun.webui.jsf.event.TableSortActionListener;
 import com.sun.webui.jsf.model.Option;
 import com.sun.webui.jsf.model.Separator;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.util.LogUtil;
 import com.sun.webui.jsf.util.ThemeUtilities;
-
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-
 import javax.el.ValueExpression;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
@@ -69,79 +61,57 @@ import javax.faces.component.UIComponentBase;
  * See TLD docs for more information.
  * </p>
  */
-@Component(type="com.sun.webui.jsf.Table", family="com.sun.webui.jsf.Table",
-    displayName="Table", tagName="table",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_table")
+@Component(type = "com.sun.webui.jsf.Table", family = "com.sun.webui.jsf.Table",
+displayName = "Table", tagName = "table",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_table")
 public class Table extends UIComponentBase implements NamingContainer {
+
     /** The facet name for the bottom actions area. */
     public static final String ACTIONS_BOTTOM_FACET = "actionsBottom"; //NOI18N
-
     /** The facet name for top actions area. */
     public static final String ACTIONS_TOP_FACET = "actionsTop"; //NOI18N
-
     /** The value for the custom filter option. */
     public static final String CUSTOM_FILTER = "_customFilter"; //NOI18N
-
     /** The value for the custom filter applied option. */
     public static final String CUSTOM_FILTER_APPLIED = "_customFilterApplied"; //NOI18N
-
     /** The id for the embedded panels bar. */
     public static final String EMBEDDED_PANELS_BAR_ID = "_embeddedPanelsBar"; //NOI18N
-
     /** The component id for embedded panels. */
     public static final String EMBEDDED_PANELS_ID = "_embeddedPanels"; //NOI18N
-
     /** The facet name for embedded panels. */
     public static final String EMBEDDED_PANELS_FACET = "embeddedPanels"; //NOI18N
-
     /** The facet name for the filter area. */
     public static final String FILTER_FACET = "filter"; //NOI18N
-
     /** The facet name for the filter panel. */
     public static final String FILTER_PANEL_FACET = "filterPanel"; //NOI18N
-
     /** The facet name for the footer area. */
     public static final String FOOTER_FACET = "footer"; //NOI18N
-
     /** The facet name for the preferences panel. */
     public static final String PREFERENCES_PANEL_FACET = "preferencesPanel"; //NOI18N
-
     /** The facet name for the sort panel. */
     public static final String SORT_PANEL_FACET = "sortPanel"; //NOI18N
-
     /** The id for the table. */
     public static final String TABLE_ID = "_table"; //NOI18N
-
     /** The id for the bottom actions bar. */
     public static final String TABLE_ACTIONS_BOTTOM_BAR_ID = "_tableActionsBottomBar"; //NOI18N
-
     /** The component id for bottom actions. */
     public static final String TABLE_ACTIONS_BOTTOM_ID = "_tableActionsBottom"; //NOI18N
-
     /** The facet name for bottom actions. */
     public static final String TABLE_ACTIONS_BOTTOM_FACET = "tableActionsBottom"; //NOI18N
-
     /** The id for the top actions bar. */
     public static final String TABLE_ACTIONS_TOP_BAR_ID = "_tableActionsTopBar"; //NOI18N
-
     /** The component id for top actions. */
     public static final String TABLE_ACTIONS_TOP_ID = "_tableActionsTop"; //NOI18N
-
     /** The facet name for top actions. */
     public static final String TABLE_ACTIONS_TOP_FACET = "tableActionsTop"; //NOI18N
-
     /** The id for the table footer. */
     public static final String TABLE_FOOTER_BAR_ID = "_tableFooterBar"; //NOI18N
-
     /** The component id for the table footer. */
     public static final String TABLE_FOOTER_ID = "_tableFooter"; //NOI18N
-
     /** The facet name for the table footer. */
     public static final String TABLE_FOOTER_FACET = "tableFooter"; //NOI18N
-
     /** The id for the title bar. */
     public static final String TITLE_BAR_ID = "_titleBar"; //NOI18N
-
     /** The facet name for the title area. */
     public static final String TITLE_FACET = "title"; //NOI18N
 
@@ -178,7 +148,6 @@ public class Table extends UIComponentBase implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attributes
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * <p>The deprecated ALIGN attribute suggests the horizontal alignment of
      * the table on visual browsers. Possible values are left, right, and
@@ -193,9 +162,9 @@ public class Table extends UIComponentBase implements NamingContainer {
      * Style sheets provide more flexibility in suggesting table alignment
      * but with less browser support than the ALIGN attribute.</p>
      */
-    @Property(name="align", displayName="Table Alignment", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor", isHidden=true, isAttribute=false)
+    @Property(name = "align", displayName = "Table Alignment", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor", isHidden = true, isAttribute = false)
     private String align = null;
-
     /**
      * Flag indicating that the table title should be augmented with the range of items 
      * currently displayed and the total number of items in the table. For example, 
@@ -204,10 +173,9 @@ public class Table extends UIComponentBase implements NamingContainer {
      * false, any values set for <code>itemsText</code> and <code>filterText</code> 
      * are overridden.
      */
-    @Property(name="augmentTitle", displayName="Show Augmented Title", category="Appearance")
+    @Property(name = "augmentTitle", displayName = "Show Augmented Title", category = "Appearance")
     private boolean augmentTitle = false;
     private boolean augmentTitle_set = false;
-
     /**
      * The deprecated BGCOLOR attribute suggests a background color for the
      * table. The combination of this attribute with <FONT COLOR=...> can
@@ -217,16 +185,16 @@ public class Table extends UIComponentBase implements NamingContainer {
      * other author-specified colors. Style sheets provide a safer, more
      * flexible method of specifying a table's background color.
      */
-    @Property(name="bgColor", displayName="Table Background Color", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor", isHidden=true, isAttribute=false)
+    @Property(name = "bgColor", displayName = "Table Background Color", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor", isHidden = true, isAttribute = false)
     private String bgColor = null;
-
     /**
      * The BORDER attribute specifies the width in pixels of the border around a table.
      */
-    @Property(name="border", displayName="Border Width", category="Appearance", editorClassName="com.sun.rave.propertyeditors.LengthPropertyEditor", isHidden=true, isAttribute=false)
+    @Property(name = "border", displayName = "Border Width", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.LengthPropertyEditor", isHidden = true, isAttribute = false)
     private int border = Integer.MIN_VALUE;
     private boolean border_set = false;
-
     /**
      * <p>The amount of whitespace that should be placed between the cell contents and the 
      * cell borders, on all four sides of the cell. The default value is 0, which 
@@ -239,9 +207,9 @@ public class Table extends UIComponentBase implements NamingContainer {
      * the sides. Most browsers that do not support percentages treat 
      * <code>cellpadding="20%"</code> as if it were <code>cellpadding="20"</code>.</p>
      */
-    @Property(name="cellPadding", displayName="Spacing Within Cells", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "cellPadding", displayName = "Spacing Within Cells", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String cellPadding = null;
-
     /**
      * <p>The amount of whitespace that should be placed between cells, and between the 
      * edges of the table content area and the sides of the table. The default 
@@ -254,56 +222,53 @@ public class Table extends UIComponentBase implements NamingContainer {
      * the sides. Most browsers that do not support percentages treat 
      * <code>cellspacing="20%"</code> as if it were <code>cellspacing="20"</code>.</p>
      */
-    @Property(name="cellSpacing", displayName="Spacing Between Cells", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "cellSpacing", displayName = "Spacing Between Cells", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String cellSpacing = null;
-
     /**
      * In the View-Changing Controls area of the Action Bar, display a button that 
      * clears any sorting of the table. When the button is clicked, the table items 
      * return to the order they were in when the page was initially rendered.
      */
-    @Property(name="clearSortButton", displayName="Show Clear Sort Button", category="Appearance")
+    @Property(name = "clearSortButton", displayName = "Show Clear Sort Button", category = "Appearance")
     private boolean clearSortButton = false;
     private boolean clearSortButton_set = false;
-
     /**
      * In the Action Bar, display a deselect button for tables in which multiple rows 
      * can be selected, to allow users to deselect all table rows that are currently 
      * displayed. This button is used to deselect a column of checkboxes using the id 
      * that was given to the selectId attribute of the <code>webuijsf:tableColumn</code> tag.
      */
-    @Property(name="deselectMultipleButton", displayName="Show Deselect Multiple Button", category="Appearance")
+    @Property(name = "deselectMultipleButton", displayName = "Show Deselect Multiple Button", category = "Appearance")
     private boolean deselectMultipleButton = false;
     private boolean deselectMultipleButton_set = false;
-
     /**
      * Scripting code that is executed when the user clicks the deselect multiple 
      * button. You should use the JavaScript <code>setTimeout()</code> function to 
      * invoke the script to ensure that checkboxes are deselected immediately, instead 
      * of waiting for the script to complete.
      */
-    @Property(name="deselectMultipleButtonOnClick", displayName="Deselect Multiple Click Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
-    private String deselectMultipleButtonOnClick = null;   
-
+    @Property(name = "deselectMultipleButtonOnClick", displayName = "Deselect Multiple Click Script",
+    category = "Javascript", editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    private String deselectMultipleButtonOnClick = null;
     /**
      * In the Action Bar, display a deselect button for tables in which only a single 
      * table row can be selected at a time. This button is used to deselect a column of 
      * radio buttons using the id that was given to the selectId attribute of the 
      * <code>webuijsf:tableColumn</code> tag.
      */
-    @Property(name="deselectSingleButton", displayName="Show Deselect Single Button", category="Appearance")
+    @Property(name = "deselectSingleButton", displayName = "Show Deselect Single Button", category = "Appearance")
     private boolean deselectSingleButton = false;
     private boolean deselectSingleButton_set = false;
-
     /**
      * Scripting code that is executed when the user clicks the deselect single button.
      * You should use the JavaScript <code>setTimeout()</code> function to invoke the 
      * script to ensure that the radio button is deselected immediately, instead of 
      * waiting for the script to complete.
      */
-    @Property(name="deselectSingleButtonOnClick", displayName="Deselect Single Click Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "deselectSingleButtonOnClick", displayName = "Deselect Single Click Script",
+    category = "Javascript", editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String deselectSingleButtonOnClick = null;
-
     /**
      * Extra HTML code to be appended to the <code>&lt;td&gt; </code>HTML element that  
      * is rendered for the Action Bar (bottom). Use only code that is valid in an HTML 
@@ -311,9 +276,9 @@ public class Table extends UIComponentBase implements NamingContainer {
      * element, and is not checked for validity. For example, you might set this 
      * attribute to <code>"style=`myActionBarStyle'"</code>.
      */
-    @Property(name="extraActionBottomHtml", displayName="Extra Action (bottom) HTML", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "extraActionBottomHtml", displayName = "Extra Action (bottom) HTML",
+    category = "Advanced", editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String extraActionBottomHtml = null;
-
     /**
      * Extra HTML code to be appended to the <code>&lt;td&gt; </code>HTML element that 
      * is rendered for the Action Bar (top). Use only code that is valid in an HTML 
@@ -321,7 +286,8 @@ public class Table extends UIComponentBase implements NamingContainer {
      * element, and is not checked for validity. For example, you might set this 
      * attribute to <code>"style=`myActionBarStyle'"</code>.
      */
-    @Property(name="extraActionTopHtml", displayName="Extra Action (top) HTML", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "extraActionTopHtml", displayName = "Extra Action (top) HTML",
+    category = "Advanced", editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String extraActionTopHtml = null;
 
     // filterId
@@ -332,18 +298,18 @@ public class Table extends UIComponentBase implements NamingContainer {
      * element, and is not checked for validity. For example, you might set this 
      * attribute to <code>"nowrap=`nowrap'"</code>.
      */
-    @Property(name="extraFooterHtml", displayName="Extra Footer HTML", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "extraFooterHtml", displayName = "Extra Footer HTML",
+    category = "Advanced", editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String extraFooterHtml = null;
-
     /**
      * Extra HTML code to be appended to the <code>&lt;td&gt; </code>HTML element that 
      * is rendered for an embedded panel. Use only code that is valid in an HTML 
      * <code>&lt;td&gt;</code> element. The code you specify is inserted in the HTML 
      * element, and is not checked for validity.
      */
-    @Property(name="extraPanelHtml", displayName="Extra Panel HTML", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "extraPanelHtml", displayName = "Extra Panel HTML",
+    category = "Advanced", editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String extraPanelHtml = null;
-
     /**
      * Extra HTML code to be appended to the <code>&lt;caption&gt;</code> HTML element 
      * that is rendered for the table title. Use only code that is valid in an HTML 
@@ -351,9 +317,9 @@ public class Table extends UIComponentBase implements NamingContainer {
      * HTML element, and is not checked for validity. For example, you might set this 
      * attribute to <code>"style=`myTitleStyle'"</code>.
      */
-    @Property(name="extraTitleHtml", displayName="Extra Title HTML", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "extraTitleHtml", displayName = "Extra Title HTML",
+    category = "Advanced", editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String extraTitleHtml = null;
-
     /**
      * The element id to be applied to the outermost HTML element that is rendered 
      * for the dropDown component used to display filter options. The id must be 
@@ -365,15 +331,14 @@ public class Table extends UIComponentBase implements NamingContainer {
      * use the <code>webuijsf:dropDown</code> as a child component, you must specify a 
      * filterID.
      */
-    @Property(name="filterId", displayName="Filter Component Id", category="Appearance", isHidden=true, editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "filterId", displayName = "Filter Component Id", category = "Appearance",
+    isHidden = true, editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String filterId = null;
-   
     /**
      * The element id used to set focus when the filter panel is open.
      */
-    @Property(name="filterPanelFocusId", displayName="Filter Panel Focus ID", category="Advanced", isHidden=true)
+    @Property(name = "filterPanelFocusId", displayName = "Filter Panel Focus ID", category = "Advanced", isHidden = true)
     private String filterPanelFocusId = null;
-
     /**
      * Text to be inserted into the table title bar when a filter is applied. This text 
      * is expected to be the name of the filter that the user has selected. The 
@@ -382,23 +347,23 @@ public class Table extends UIComponentBase implements NamingContainer {
      * filterText attribute is inserted into the table title, as follows: Your Table's 
      * Title <span style="font-style: italic;">filterText</span> Filter Applied.
      */
-    @Property(name="filterText", displayName="Filter Text", category="Appearance", isHidden=true, editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "filterText", displayName = "Filter Text", category = "Appearance",
+    isHidden = true, editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String filterText = null;
-
     /**
      * The text to be displayed in the table footer, which expands across the width of 
      * the table.
      */
-    @Property(name="footerText", displayName="Footer Text", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "footerText", displayName = "Footer Text", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String footerText = null;
-
     /**
      * The BORDER attribute specifies the width in pixels of the border
      * around a table.
      */
-    @Property(name="frame", displayName="Outer Border", category="Appearance", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor", isHidden=true, isAttribute=false)
+    @Property(name = "frame", displayName = "Outer Border", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor", isHidden = true, isAttribute = false)
     private String frame = null;
-
     /**
      * Flag indicating that selected rows might be currently hidden from view. UI 
      * guidelines recommend that rows that are not in view are deselected. For example, 
@@ -420,10 +385,9 @@ public class Table extends UIComponentBase implements NamingContainer {
      * prevents a sort from placing selected rows on a page other than the current 
      * page.</p>
      */
-    @Property(name="hiddenSelectedRows", displayName="Is Hidden Selected Rows", category="Advanced") 
+    @Property(name = "hiddenSelectedRows", displayName = "Is Hidden Selected Rows", category = "Advanced")
     private boolean hiddenSelectedRows = false;
     private boolean hiddenSelectedRows_set = false;
-
     /**
      * Flag indicating that this component should use a virtual form. A virtual form is 
      * equivalent to enclosing the table component in its own HTML form element, 
@@ -436,121 +400,117 @@ public class Table extends UIComponentBase implements NamingContainer {
      * to using the immediate property of a button, but allows table children to be 
      * submitted so that selected checkbox values may be sorted, for example.
      */
-    @Property(name="internalVirtualForm", displayName="Is Internal Virtual Form", category="Advanced", isAttribute=false)
+    @Property(name = "internalVirtualForm", displayName = "Is Internal Virtual Form", category = "Advanced", isAttribute = false)
     private boolean internalVirtualForm = false;
     private boolean internalVirtualForm_set = false;
-
     /**
      * Text to add to the title of an unpaginated table. For example, if your table 
      * title is "Critical" and there are 20 items in the table, the default unpaginated 
      * table title would be Critical (20). If you specify itemsText="alerts", the title 
      * would be Critical (20 alerts).
      */
-    @Property(name="itemsText", displayName="Items Text", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "itemsText", displayName = "Items Text", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String itemsText = null;
-
     /**
      * Renders the table in a style that makes the table look lighter weight, generally 
      * by omitting the shading around the table and in the title bar.
      */
-    @Property(name="lite", displayName="Light Weight Table", category="Appearance")
+    @Property(name = "lite", displayName = "Light Weight Table", category = "Appearance")
     private boolean lite = false;
     private boolean lite_set = false;
-
     /**
      * Scripting code executed when a mouse click
      * occurs over this component.
      */
-    @Property(name="onClick", displayName="Click Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onClick", displayName = "Click Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onClick = null;
-
     /**
      * Scripting code executed when a mouse double click
      * occurs over this component.
      */
-    @Property(name="onDblClick", displayName="Double Click Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onDblClick", displayName = "Double Click Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onDblClick = null;
-
     /**
      * Scripting code executed when the user presses down on a key while the
      * component has focus.
      */
-    @Property(name="onKeyDown", displayName="Key Down Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onKeyDown", displayName = "Key Down Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyDown = null;
-
     /**
      * Scripting code executed when the user presses and releases a key while
      * the component has focus.
      */
-    @Property(name="onKeyPress", displayName="Key Press Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onKeyPress", displayName = "Key Press Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyPress = null;
-    
     /**
      * Scripting code executed when the user releases a key while the
      * component has focus.
      */
-    @Property(name="onKeyUp", displayName="Key Up Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onKeyUp", displayName = "Key Up Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyUp = null;
-
     /**
      * Scripting code executed when the user presses a mouse button while the
      * mouse pointer is on the component.
      */
-    @Property(name="onMouseDown", displayName="Mouse Down Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseDown", displayName = "Mouse Down Script",
+    category = "Javascript", editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseDown = null;
-
     /**
      * Scripting code executed when the user moves the mouse pointer while
      * over the component.
      */
-    @Property(name="onMouseMove", displayName="Mouse Move Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseMove", displayName = "Mouse Move Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseMove = null;
-
     /**
      * Scripting code executed when a mouse out movement
      * occurs over this component.
      */
-    @Property(name="onMouseOut", displayName="Mouse Out Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseOut", displayName = "Mouse Out Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseOut = null;
-
     /**
      * Scripting code executed when the user moves the  mouse pointer into
      * the boundary of this component.
      */
-    @Property(name="onMouseOver", displayName="Mouse In Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseOver", displayName = "Mouse In Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseOver = null;
-
     /**
      * Scripting code executed when the user releases a mouse button while
      * the mouse pointer is on the component.
      */
-    @Property(name="onMouseUp", displayName="Mouse Up Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
-    private String onMouseUp = null;    
-
+    @Property(name = "onMouseUp", displayName = "Mouse Up Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    private String onMouseUp = null;
     /**
      * Show table paginate button to allow users to switch between viewing all data on 
      * a single page (unpaginated) or to see data in multiple pages (paginated).
      */
-    @Property(name="paginateButton", displayName="Show Paginate Button", category="Appearance")
+    @Property(name = "paginateButton", displayName = "Show Paginate Button", category = "Appearance")
     private boolean paginateButton = false;
     private boolean paginateButton_set = false;
-
     /**
      * Show the table pagination controls, which allow users to change which page is 
      * displayed. The controls include an input field for specifying the page number, a 
      * Go button to go to the specified page, and buttons for going to the first, last, 
      * previous, and next page.
      */
-    @Property(name="paginationControls", displayName="Show Pagination Controls", category="Appearance")
+    @Property(name = "paginationControls", displayName = "Show Pagination Controls", category = "Appearance")
     private boolean paginationControls = false;
     private boolean paginationControls_set = false;
-
     /**
      * The element id used to set focus when the preferences panel is open.
      */
-    @Property(name="preferencesPanelFocusId", displayName="Preferences Panel Focus ID", category="Advanced", isHidden=true)
+    @Property(name = "preferencesPanelFocusId", displayName = "Preferences Panel Focus ID",
+    category = "Advanced", isHidden = true)
     private String preferencesPanelFocusId = null;
-
     /**
      * The RULES attribute, poorly supported by browsers, specifies the
      * borders between table cells. Possible values are none for no inner
@@ -560,84 +520,81 @@ public class Table extends UIComponentBase implements NamingContainer {
      * if BORDER=0 is used or if no BORDER attribute is given. All is the
      * default value for any other use of BORDER.
      */
-    @Property(name="rules", displayName="Inner Borders", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor", isHidden=true, isAttribute=false)
+    @Property(name = "rules", displayName = "Inner Borders", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor", isHidden = true, isAttribute = false)
     private String rules = null;
-
     /**
      * Show the button that is used for selecting multiple rows. The button is 
      * displayed in the Action Bar (top), and allows users to select all rows currently 
      * displayed. The button selects a column of checkboxes using the id specified in 
      * the selectId attribute of the <code>webuijsf:tableColumn</code> tag.
      */
-    @Property(name="selectMultipleButton", displayName="Show Select Multiple Button", category="Appearance")
+    @Property(name = "selectMultipleButton", displayName = "Show Select Multiple Button", category = "Appearance")
     private boolean selectMultipleButton = false;
     private boolean selectMultipleButton_set = false;
-
     /**
      * Scripting code executed when the user clicks the mouse on the select multiple 
      * button.
      */
-    @Property(name="selectMultipleButtonOnClick", displayName="Select Multiple Click Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "selectMultipleButtonOnClick", displayName = "Select Multiple Click Script",
+    category = "Javascript", editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String selectMultipleButtonOnClick = null;
-
     /**
      * The element id used to set focus when the sort panel is open.
      */
-    @Property(name="sortPanelFocusId", displayName="Sort Panel Focus ID", category="Advanced", isHidden=true)
+    @Property(name = "sortPanelFocusId", displayName = "Sort Panel Focus ID", category = "Advanced", isHidden = true)
     private String sortPanelFocusId = null;
-
     /**
      * Show the button that is used to open and close the sort panel.
      */
-    @Property(name="sortPanelToggleButton", displayName="Show Sort Panel Toggle Button", category="Appearance")
+    @Property(name = "sortPanelToggleButton", displayName = "Show Sort Panel Toggle Button", category = "Appearance")
     private boolean sortPanelToggleButton = false;
     private boolean sortPanelToggleButton_set = false;
-
     /**
      * CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.
      */
-    @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
+    @Property(name = "style", displayName = "CSS Style(s)", category = "Appearance",
+    editorClassName = "com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
-
     /**
      * CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
-
     /**
      * Text that describes this table's purpose and structure, for user agents 
      * rendering to non-visual media such as speech and Braille.
      */
-    @Property(name="summary", displayName="Purpose of Table", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "summary", displayName = "Purpose of Table", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String summary = null;
-
     /**
      * Position of this element in the tabbing order of the current document. 
      * Tabbing order determines the sequence in which elements receive 
      * focus when the tab key is pressed. The value must be an integer 
      * between 0 and 32767.
      */
-    @Property(name="tabIndex", displayName="Tab Index", category="Accessibility", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "tabIndex", displayName = "Tab Index", category = "Accessibility",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int tabIndex = Integer.MIN_VALUE;
     private boolean tabIndex_set = false;
-
     /**
      * The text displayed for the table title.
      */
-    @Property(name="title", displayName="Table Title", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "title", displayName = "Table Title", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String title = null;
-
     /**
      * Sets the value of the title attribute for the HTML element.
      * The specified text will display as a tooltip if the mouse cursor hovers 
      * over the HTML element.
      */
-    @Property(name="toolTip", displayName="Tool Tip", category="Behavior", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "toolTip", displayName = "Tool Tip", category = "Behavior",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String toolTip = null;
-
     /**
      * Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -647,17 +604,17 @@ public class Table extends UIComponentBase implements NamingContainer {
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.
      */
-    @Property(name="visible", displayName="Visible", category="Behavior")
+    @Property(name = "visible", displayName = "Visible", category = "Behavior")
     private boolean visible = false;
     private boolean visible_set = false;
-
     /**
      * Use the <code>width</code> attribute to specify the width of the table. The 
      * width can be specified as the number of pixels or the percentage of the page 
      * width, and is especially useful for spacer columns. This attribute is 
      * deprecated in HTML 4.0 in favor of style sheets.
      */
-    @Property(name="width", displayName="Table Width", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "width", displayName = "Table Width", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String width = null;
 
     /** Default constructor */
@@ -676,7 +633,6 @@ public class Table extends UIComponentBase implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Child methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Clear cached properties.
      * <p>
@@ -696,7 +652,7 @@ public class Table extends UIComponentBase implements NamingContainer {
         pageCount = -1;
         columnCount = -1;
         columnHeadersCount = -1;
-        hiddenSelectedRowsCount = -1;     
+        hiddenSelectedRowsCount = -1;
         tableColumnFootersCount = -1;
         tableRowGroupChildren = null;
         tableRowGroupCount = -1;
@@ -795,7 +751,7 @@ public class Table extends UIComponentBase implements NamingContainer {
         }
         return pageCount;
     }
-    
+
     /**
      * Get the number of rows to be displayed per page for a paginated table
      * for all TableRowGroup children.
@@ -943,7 +899,6 @@ public class Table extends UIComponentBase implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Action methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Get bottom actions.
      *
@@ -957,7 +912,7 @@ public class Table extends UIComponentBase implements NamingContainer {
 
         // Get child.
         TableActions child = new TableActions();
-	child.setId(TABLE_ACTIONS_BOTTOM_ID);
+        child.setId(TABLE_ACTIONS_BOTTOM_ID);
         child.setColSpan(getColumnCount());
         child.setExtraHtml(getExtraActionBottomHtml());
         child.setNoWrap(true);
@@ -973,29 +928,25 @@ public class Table extends UIComponentBase implements NamingContainer {
 
         // Get facets.
         UIComponent actions = getFacet(ACTIONS_BOTTOM_FACET);
-        
+
         // Get flag indicating which facets to render.
-        boolean renderActions = !emptyTable && !singleRow
-            && actions != null && actions.isRendered();
+        boolean renderActions = !emptyTable && !singleRow && actions != null && actions.isRendered();
 
         // Hide pagination controls when all rows fit on a page.
-        boolean renderPaginationControls = !emptyTable && !singlePage
-            && isPaginationControls();
+        boolean renderPaginationControls = !emptyTable && !singlePage && isPaginationControls();
 
         // Hide paginate button for a single row.
-        boolean renderPaginateButton = !emptyTable && !singlePage
-            && isPaginateButton();
+        boolean renderPaginateButton = !emptyTable && !singlePage && isPaginateButton();
 
         // Set rendered.
-        if (!(renderActions || renderPaginationControls
-                || renderPaginateButton)) {
+        if (!(renderActions || renderPaginationControls || renderPaginateButton)) {
             log("getTableActionsBottom", //NOI18N
-                "Action bar not rendered, nothing to display"); //NOI18N
+                    "Action bar not rendered, nothing to display"); //NOI18N
             child.setRendered(false);
         }
 
         // Save facet and return child.
-        getFacets().put(child.getId(), child); 
+        getFacets().put(child.getId(), child);
         return child;
     }
 
@@ -1012,7 +963,7 @@ public class Table extends UIComponentBase implements NamingContainer {
 
         // Get child.
         TableActions child = new TableActions();
-	child.setId(TABLE_ACTIONS_TOP_ID);
+        child.setId(TABLE_ACTIONS_TOP_ID);
         child.setColSpan(getColumnCount());
         child.setExtraHtml(getExtraActionTopHtml());
         child.setNoWrap(true);
@@ -1039,41 +990,28 @@ public class Table extends UIComponentBase implements NamingContainer {
 
         // Hide sorting and pagination controls for an empty table or when there
         // is only a single row.
-        boolean renderSelectMultipleButton = !emptyTable
-            && isSelectMultipleButton();
-        boolean renderDeselectMultipleButton = !emptyTable
-            && isDeselectMultipleButton();
-        boolean renderDeselectSingleButton = !emptyTable
-            && isDeselectSingleButton();
-        boolean renderClearTableSortButton = !emptyTable && !singleRow
-            && isClearSortButton();
-        boolean renderTableSortPanelToggleButton = !emptyTable && !singleRow
-            && (isSortPanelToggleButton() || renderSort);
-        boolean renderPaginateButton = !emptyTable && !singlePage
-            && isPaginateButton();
+        boolean renderSelectMultipleButton = !emptyTable && isSelectMultipleButton();
+        boolean renderDeselectMultipleButton = !emptyTable && isDeselectMultipleButton();
+        boolean renderDeselectSingleButton = !emptyTable && isDeselectSingleButton();
+        boolean renderClearTableSortButton = !emptyTable && !singleRow && isClearSortButton();
+        boolean renderTableSortPanelToggleButton = !emptyTable && !singleRow && (isSortPanelToggleButton() || renderSort);
+        boolean renderPaginateButton = !emptyTable && !singlePage && isPaginateButton();
 
         // Return if nothing is rendered.
-        if (!(renderActions || renderFilter || renderPrefs
-                || renderSelectMultipleButton
-                || renderDeselectMultipleButton
-                || renderDeselectSingleButton
-                || renderClearTableSortButton
-                || renderTableSortPanelToggleButton
-                || renderPaginateButton)) {
+        if (!(renderActions || renderFilter || renderPrefs || renderSelectMultipleButton || renderDeselectMultipleButton || renderDeselectSingleButton || renderClearTableSortButton || renderTableSortPanelToggleButton || renderPaginateButton)) {
             log("getTableActionsTop", //NOI18N
-                "Action bar not rendered, nothing to display"); //NOI18N
+                    "Action bar not rendered, nothing to display"); //NOI18N
             child.setRendered(false);
         }
 
         // Save facet and return child.
-        getFacets().put(child.getId(), child); 
+        getFacets().put(child.getId(), child);
         return child;
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Filter methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Get the HTML element ID of the dropDown component used to display table 
      * filter options.
@@ -1091,8 +1029,8 @@ public class Table extends UIComponentBase implements NamingContainer {
             log("getFilterId", "filterId is null, using facet client ID"); //NOI18N
             UIComponent filter = getFacet(FILTER_FACET);
             filterId = (filter != null)
-                ? filter.getClientId(getFacesContext())
-                : null;
+                    ? filter.getClientId(getFacesContext())
+                    : null;
         }
         return filterId;
     }
@@ -1115,43 +1053,42 @@ public class Table extends UIComponentBase implements NamingContainer {
      * @param customFilterApplied Flag indicating custom filter is applied.
      * @return A new array containing appended "custom filter" options.
      */
-    static public Option[] getFilterOptions(Option[] options, 
+    static public Option[] getFilterOptions(Option[] options,
             boolean customFilterApplied) {
         FacesContext context = FacesContext.getCurrentInstance();
         Theme theme = ThemeUtilities.getTheme(context);
         ArrayList newOptions = new ArrayList();
-        
+
         // Get old options.
         if (options != null) {
-            for (int i = 0; i < options.length; i++) { 
+            for (int i = 0; i < options.length; i++) {
                 newOptions.add(options[i]);
             }
         }
 
         // Add options separator.
         newOptions.add(new Separator());
-        
+
         // Add custom filter applied option.
         if (customFilterApplied) {
-            Option option = new Option(CUSTOM_FILTER_APPLIED, 
-                theme.getMessage("table.viewActions.customFilterApplied")); //NOI18N
+            Option option = new Option(CUSTOM_FILTER_APPLIED,
+                    theme.getMessage("table.viewActions.customFilterApplied")); //NOI18N
             option.setDisabled(true);
             newOptions.add(option);
         }
-        
+
         // Add custom filter option.
-	newOptions.add(new Option(CUSTOM_FILTER, 
-            theme.getMessage("table.viewActions.customFilter"))); //NOI18N
+        newOptions.add(new Option(CUSTOM_FILTER,
+                theme.getMessage("table.viewActions.customFilter"))); //NOI18N
 
         // Return options.
-	Option[] result = new Option[newOptions.size()];
+        Option[] result = new Option[newOptions.size()];
         return (Option[]) newOptions.toArray(result);
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Footer methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Get table footer.
      *
@@ -1165,30 +1102,28 @@ public class Table extends UIComponentBase implements NamingContainer {
 
         // Get child.
         TableFooter child = new TableFooter();
-	child.setId(TABLE_FOOTER_ID);
+        child.setId(TABLE_FOOTER_ID);
         child.setColSpan(getColumnCount());
         child.setExtraHtml(getExtraFooterHtml());
         child.setTableFooter(true);
 
         // Set rendered.
-        if (!(facet != null && facet.isRendered()
-                || getFooterText() != null || isHiddenSelectedRows())) {
+        if (!(facet != null && facet.isRendered() || getFooterText() != null || isHiddenSelectedRows())) {
             // Note: Footer may be initialized to force rendering. This allows
             // developers to omit the footer text property for select columns.
             log("getTableFooter", //NOI18N
-                 "Table footer not rendered, nothing to display"); //NOI18N
+                    "Table footer not rendered, nothing to display"); //NOI18N
             child.setRendered(false);
         }
 
         // Save facet and return child.
-        getFacets().put(child.getId(), child); 
+        getFacets().put(child.getId(), child);
         return child;
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Panel methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Get embedded panels.
      *
@@ -1202,7 +1137,7 @@ public class Table extends UIComponentBase implements NamingContainer {
 
         // Get child.
         TablePanels child = new TablePanels();
-	child.setId(EMBEDDED_PANELS_ID);
+        child.setId(EMBEDDED_PANELS_ID);
         child.setColSpan(getColumnCount());
         child.setExtraHtml(getExtraPanelHtml());
         child.setNoWrap(true);
@@ -1222,22 +1157,20 @@ public class Table extends UIComponentBase implements NamingContainer {
         child.setPreferencesPanel(renderPrefs);
 
         // Set rendered.
-        if (!(renderFilter || renderSort || renderPrefs
-                || isSortPanelToggleButton())) {
+        if (!(renderFilter || renderSort || renderPrefs || isSortPanelToggleButton())) {
             log("getEmbeddedPanels", //NOI18N
-                "Embedded panels not rendered, nothing to display"); //NOI18N
+                    "Embedded panels not rendered, nothing to display"); //NOI18N
             child.setRendered(false);
         }
 
         // Save facet and return child.
-        getFacets().put(child.getId(), child); 
+        getFacets().put(child.getId(), child);
         return child;
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // UIComponent methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * If the rendered property is true, render the begining of the current
      * state of this UIComponent to the response contained in the specified
@@ -1251,6 +1184,7 @@ public class Table extends UIComponentBase implements NamingContainer {
      * @exception IOException if an input/output error occurs while rendering.
      * @exception NullPointerException if FacesContext is null.
      */
+    @Override
     public void encodeBegin(FacesContext context) throws IOException {
         // Clear cached properties.
         clear();
@@ -1262,19 +1196,19 @@ public class Table extends UIComponentBase implements NamingContainer {
             if (form != null) {
                 // Create VirtualFormDescriptor object.
                 String id = getClientId(context) + "_virtualForm"; //NOI18N
-                Form.VirtualFormDescriptor descriptor = 
-                    new Form.VirtualFormDescriptor(id);
+                Form.VirtualFormDescriptor descriptor =
+                        new Form.VirtualFormDescriptor(id);
                 String wildSuffix = String.valueOf(
-                    NamingContainer.SEPARATOR_CHAR) + 
-                    String.valueOf(Form.ID_WILD_CHAR);
+                        NamingContainer.SEPARATOR_CHAR) +
+                        String.valueOf(Form.ID_WILD_CHAR);
                 descriptor.setParticipatingIds(new String[]{getId() + wildSuffix});
                 descriptor.setSubmittingIds(new String[]{getId() + wildSuffix});
-        
+
                 // Add virtual form.
                 form.addInternalVirtualForm(descriptor);
             } else {
                 log("encodeBegin", //NOI18N
-                    "Internal virtual form not set, form ancestor is null"); //NOI18N
+                        "Internal virtual form not set, form ancestor is null"); //NOI18N
             }
         }
         super.encodeBegin(context);
@@ -1283,12 +1217,12 @@ public class Table extends UIComponentBase implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -1300,7 +1234,8 @@ public class Table extends UIComponentBase implements NamingContainer {
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
@@ -2783,7 +2718,8 @@ public class Table extends UIComponentBase implements NamingContainer {
     /**
      * Restore the state of this component.
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.align = (String) _values[1];
@@ -2856,6 +2792,7 @@ public class Table extends UIComponentBase implements NamingContainer {
     /**
      * Save the state of this component.
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[66];
         _values[0] = super.saveState(_context);
@@ -2930,14 +2867,13 @@ public class Table extends UIComponentBase implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Log fine messages.
      */
     private void log(String method, String message) {
         // Get class.
         Class clazz = this.getClass();
-	if (LogUtil.fineEnabled(clazz)) {
+        if (LogUtil.fineEnabled(clazz)) {
             // Log method name and message.
             LogUtil.fine(clazz, clazz.getName() + "." + method + ": " + message); //NOI18N
         }

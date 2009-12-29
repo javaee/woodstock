@@ -19,7 +19,6 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.component;
 
 import javax.el.MethodExpression;
@@ -35,13 +34,14 @@ import javax.faces.event.FacesEvent;
  *
  * @author mbohm
  */
-
 public class WebuiCommand extends UICommand {
+
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -51,7 +51,8 @@ public class WebuiCommand extends UICommand {
      * immediately (in Apply Request Values phase) rather than waiting until 
      * Invoke Application phase.
      */
-    @Property(name="immediate") 
+    @Property(name = "immediate")
+    @Override
     public void setImmediate(boolean immediate) {
         super.setImmediate(immediate);
     }
@@ -63,7 +64,8 @@ public class WebuiCommand extends UICommand {
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
@@ -72,20 +74,22 @@ public class WebuiCommand extends UICommand {
      * {@inheritDoc}
      **/
     //Override to annotate
-    @Property(isHidden=true, isAttribute=false)
+    @Property(isHidden = true, isAttribute = false)
+    @Override
     public MethodBinding getAction() {
         return super.getAction();
     }
-    
+
     /**
      * {@inheritDoc}
      **/
     //Override to annotate
-    @Property(isHidden=true, isAttribute=false)
+    @Property(isHidden = true, isAttribute = false)
+    @Override
     public MethodBinding getActionListener() {
         return super.getActionListener();
     }
-    
+
     /**
      * MethodExpression representing the application action to invoke when this
      * component is activated by the user. The expression must evaluate to a 
@@ -93,22 +97,23 @@ public class WebuiCommand extends UICommand {
      * a String (the logical outcome) which is passed to the NavigationHandler 
      * for this application.
      */
-    @Property(name="actionExpression", isHidden=true, displayName="Action Expression")
-    @Property.Method(signature="java.lang.String action()")
+    @Property(name = "actionExpression", isHidden = true, displayName = "Action Expression")
+    @Property.Method(signature = "java.lang.String action()")
+    @Override
     public MethodExpression getActionExpression() {
-       return super.getActionExpression();
+        return super.getActionExpression();
     }
-
     /**
      * Use the actionListenerExpression attribute to cause the component to fire
      * an event. The value must be an EL expression and it must evaluate to the
      * name of a public method that takes an ActionEvent parameter and returns
      * void.
      */
-    @Property(name="actionListenerExpression", displayName="Action Listener Expression", category="Advanced", editorClassName="com.sun.rave.propertyeditors.MethodBindingPropertyEditor")
-    @Property.Method(signature="void processAction(javax.faces.event.ActionEvent)")
+    @Property(name = "actionListenerExpression", displayName = "Action Listener Expression",
+    category = "Advanced", editorClassName = "com.sun.rave.propertyeditors.MethodBindingPropertyEditor")
+    @Property.Method(signature = "void processAction(javax.faces.event.ActionEvent)")
     private MethodExpression actionListenerExpression;
-    
+
     /**
      * <p>Simply return the stored <code>actionListenerExpression</code>.
      * The <code>broadcast</code> method is overridden in 
@@ -116,9 +121,9 @@ public class WebuiCommand extends UICommand {
      * <code>actionListenerExpression</code>.</p>
      */
     public MethodExpression getActionListenerExpression() {
-       return this.actionListenerExpression;
+        return this.actionListenerExpression;
     }
-    
+
     /**
      * <p>Simply store the <code>actionListenerExpression</code>.
      * The <code>broadcast</code> method is overridden in 
@@ -128,7 +133,7 @@ public class WebuiCommand extends UICommand {
     public void setActionListenerExpression(MethodExpression me) {
         this.actionListenerExpression = me;
     }
-    
+
     /**
      * <p>Before calling <code>super.broadcast</code>,
      * pass the {@link ActionEvent} being broadcast to the
@@ -144,8 +149,9 @@ public class WebuiCommand extends UICommand {
      * @throws NullPointerException if <code>event</code> is
      * <code>null</code>
      */
+    @Override
     public void broadcast(FacesEvent event) throws AbortProcessingException {
-        
+
         if (event == null) {
             throw new NullPointerException();
         }
@@ -153,33 +159,34 @@ public class WebuiCommand extends UICommand {
         if (event instanceof ActionEvent) {
             MethodExpression ale = getActionListenerExpression();
             if (ale != null) {
-                ale.invoke(getFacesContext().getELContext(), new Object[] { event });
+                ale.invoke(getFacesContext().getELContext(), new Object[]{event});
             }
         }
-        
+
         super.broadcast(event);
     }
-    
+
     /**
      * {@inheritDoc}
      **/
+    @Override
     public void restoreState(FacesContext context, Object state) {
         Object values[] = (Object[]) state;
 
         super.restoreState(context, values[0]);
-        actionListenerExpression =(MethodExpression) restoreAttachedState(context, values[1]);
-        
+        actionListenerExpression = (MethodExpression) restoreAttachedState(context, values[1]);
+
     }
-    
+
     /**
      * {@inheritDoc}
      **/
+    @Override
     public Object saveState(FacesContext context) {
         Object values[] = new Object[2];
         values[0] = super.saveState(context);
         values[1] = saveAttachedState(context, actionListenerExpression);
-        
+
         return values;
     }
-    
 }

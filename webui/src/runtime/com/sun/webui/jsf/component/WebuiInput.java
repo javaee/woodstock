@@ -19,7 +19,6 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.component;
 
 import com.sun.webui.jsf.event.MethodExprValueChangeListener;
@@ -44,6 +43,7 @@ import javax.faces.validator.ValidatorException;
  * @author mbohm
  */
 public class WebuiInput extends UIInput {
+
     /**
      * The converter attribute is used to specify a method to translate native
      * property values to String and back for this component. The converter 
@@ -55,7 +55,8 @@ public class WebuiInput extends UIInput {
      * </li><li>the ID of a registered converter (a String).</li>
      * </ul>
      */
-    @Property(name="converter") 
+    @Property(name = "converter")
+    @Override
     public void setConverter(Converter converter) {
         super.setConverter(converter);
     }
@@ -64,7 +65,8 @@ public class WebuiInput extends UIInput {
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -74,7 +76,8 @@ public class WebuiInput extends UIInput {
      * immediately (in Apply Request Values phase) rather than waiting until 
      * Invoke Application phase.
      */
-    @Property(name="immediate") 
+    @Property(name = "immediate")
+    @Override
     public void setImmediate(boolean immediate) {
         super.setImmediate(immediate);
     }
@@ -86,7 +89,8 @@ public class WebuiInput extends UIInput {
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
@@ -95,7 +99,8 @@ public class WebuiInput extends UIInput {
      * Flag indicating that an input value for this field is mandatory, and 
      * failure to provide one will trigger a validation error.
      */
-    @Property(name="required") 
+    @Property(name = "required")
+    @Override
     public void setRequired(boolean required) {
         super.setRequired(required);
     }
@@ -104,20 +109,21 @@ public class WebuiInput extends UIInput {
      * {@inheritDoc}
      **/
     //Override to annotate
-    @Property(isHidden=true, isAttribute=false)
+    @Property(isHidden = true, isAttribute = false)
+    @Override
     public MethodBinding getValidator() {
         return super.getValidator();
     }
-    
+
     /**
      * {@inheritDoc}
      **/
     //Override to annotate
-    @Property(isHidden=true, isAttribute=false)
+    @Property(isHidden = true, isAttribute = false)
+    @Override
     public MethodBinding getValueChangeListener() {
         return super.getValueChangeListener();
     }
-
     /**
      * The <code>valueChangeListener</code> attribute is used to specify a
      * method to handle an value-change event that is triggered when the
@@ -129,19 +135,21 @@ public class WebuiInput extends UIInput {
      * method is defined must implement <code>java.io.Serializable</code>
      * or <code>javax.faces.component.StateHolder</code>.
      */
-    @Property(name="valueChangeListenerExpression", isHidden=true, displayName="Value Change Listener Expression", category="Advanced", editorClassName="com.sun.rave.propertyeditors.MethodBindingPropertyEditor")
-    @Property.Method(event="valueChange")
+    @Property(name = "valueChangeListenerExpression", isHidden = true, 
+    displayName = "Value Change Listener Expression", category = "Advanced",
+            editorClassName = "com.sun.rave.propertyeditors.MethodBindingPropertyEditor")
+    @Property.Method(event = "valueChange")
     private MethodExpression valueChangeListenerExpression;
-    
+
     /**
      * <p>Get the <code>valueChangeListenerExpression</code>. 
      * The corresponding listener will be called from the 
      * <code>broadcast</code> method.</p>
      */
     public MethodExpression getValueChangeListenerExpression() {
-       return this.valueChangeListenerExpression;
+        return this.valueChangeListenerExpression;
     }
-    
+
     /** 
      * <p>Set the <code>valueChangeListenerExpression</code>.
      * The corresponding listener will be called from the 
@@ -150,7 +158,6 @@ public class WebuiInput extends UIInput {
     public void setValueChangeListenerExpression(MethodExpression me) {
         this.valueChangeListenerExpression = me;
     }
-
     /**
      * The validator attribute is used to specify a method in a backing bean to
      * validate input to the component. The validator attribute value must be a
@@ -168,10 +175,11 @@ public class WebuiInput extends UIInput {
      * <code>javax.faces.component.StateHolder</code>.</p>
      * <p>The method is invoked during the Process Validations Phase.</p> 
      */
-    @Property(name="validatorExpression", displayName="Validator Expression", category="Data", editorClassName="com.sun.rave.propertyeditors.ValidatorPropertyEditor")
-    @Property.Method(event="validate")
+    @Property(name = "validatorExpression", displayName = "Validator Expression",
+    category = "Data", editorClassName = "com.sun.rave.propertyeditors.ValidatorPropertyEditor")
+    @Property.Method(event = "validate")
     private MethodExpression validatorExpression;
-    
+
     /**
      * <p>Get the <code>validatorExpression</code>.
      * The corresponding validator will be called from the
@@ -179,9 +187,9 @@ public class WebuiInput extends UIInput {
      *
      */
     public MethodExpression getValidatorExpression() {
-       return this.validatorExpression;
+        return this.validatorExpression;
     }
-    
+
     /**
      * <p>Set the <code>validatorExpression</code>.
      * The corresponding validator will be called from the
@@ -191,10 +199,11 @@ public class WebuiInput extends UIInput {
     public void setValidatorExpression(MethodExpression me) {
         this.validatorExpression = me;
     }
-    
+
     /**
      * {@inheritDoc}
      **/
+    @Override
     public void broadcast(FacesEvent event) throws AbortProcessingException {
         // Perform standard superclass processing
         super.broadcast(event);
@@ -210,23 +219,23 @@ public class WebuiInput extends UIInput {
             }
         }
     }
-    
+
     /**
      * {@inheritDoc}
      **/
+    @Override
     protected void validateValue(FacesContext context, Object newValue) {
         // Perform standard superclass processing
         super.validateValue(context, newValue);
-        
-	// If our value is valid and not empty, try to call validatorExpression
-	if (isValid() && !isEmpty(newValue)) {
+
+        // If our value is valid and not empty, try to call validatorExpression
+        if (isValid() && !isEmpty(newValue)) {
             MethodExpression vExpression = getValidatorExpression();
-	    if (vExpression != null) {
+            if (vExpression != null) {
                 Validator validator = new MethodExprValidator(vExpression);
-                try { 
+                try {
                     validator.validate(context, this, newValue);
-                }
-                catch (ValidatorException ve) {
+                } catch (ValidatorException ve) {
                     // If the validator throws an exception, we're
                     // invalid, and we need to add a message
                     setValid(false);
@@ -234,10 +243,9 @@ public class WebuiInput extends UIInput {
                     String validatorMessageString = getValidatorMessage();
 
                     if (null != validatorMessageString) {
-                        message = new FacesMessage(validatorMessageString, 
+                        message = new FacesMessage(validatorMessageString,
                                 validatorMessageString);
-                    }
-                    else {
+                    } else {
                         message = ve.getFacesMessage();
                     }
                     if (message != null) {
@@ -245,10 +253,10 @@ public class WebuiInput extends UIInput {
                         context.addMessage(getClientId(context), message);
                     }
                 }
-	    }
-	}
+            }
+        }
     }
-    
+
     /**
      * <p>Emulate the corresponding private method in <code>UIInput</code>.
      * Use protected access since this method is called by
@@ -256,46 +264,45 @@ public class WebuiInput extends UIInput {
      */
     protected boolean isEmpty(Object value) {
 
-	if (value == null) {
-	    return (true);
-	} else if ((value instanceof String) &&
-		   (((String) value).length() < 1)) {
-	    return (true);
-	} else if (value.getClass().isArray()) {
-	    if (0 == java.lang.reflect.Array.getLength(value)) {
-		return (true);
-	    }
-	}
-	else if (value instanceof List) {
-	    if (0 == ((List) value).size()) {
-		return (true);
-	    }
-	}
-	return (false);
+        if (value == null) {
+            return (true);
+        } else if ((value instanceof String) &&
+                (((String) value).length() < 1)) {
+            return (true);
+        } else if (value.getClass().isArray()) {
+            if (0 == java.lang.reflect.Array.getLength(value)) {
+                return (true);
+            }
+        } else if (value instanceof List) {
+            if (0 == ((List) value).size()) {
+                return (true);
+            }
+        }
+        return (false);
     }
-    
+
     /**
      * {@inheritDoc}
      **/
+    @Override
     public void restoreState(FacesContext context, Object state) {
         Object values[] = (Object[]) state;
 
         super.restoreState(context, values[0]);
-        valueChangeListenerExpression =(MethodExpression) restoreAttachedState(context, values[1]);
-        validatorExpression = (MethodExpression)restoreAttachedState(context, values[2]);
-        
+        valueChangeListenerExpression = (MethodExpression) restoreAttachedState(context, values[1]);
+        validatorExpression = (MethodExpression) restoreAttachedState(context, values[2]);
+
     }
-    
+
     /**
      * {@inheritDoc}
      **/
+    @Override
     public Object saveState(FacesContext context) {
         Object values[] = new Object[3];
         values[0] = super.saveState(context);
         values[1] = saveAttachedState(context, valueChangeListenerExpression);
         values[2] = saveAttachedState(context, validatorExpression);
-        
         return values;
     }
-    
 }

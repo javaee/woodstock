@@ -24,20 +24,19 @@ package com.sun.webui.jsf.component;
 import com.sun.faces.annotation.Component;
 
 import java.util.Iterator;
-
-import javax.faces.component.UIComponent;
 import javax.faces.component.NamingContainer;
 import javax.faces.context.FacesContext;
 
 /**
  * Component that represents a table column.
  */
-@Component(type="com.sun.webui.jsf.table2Column",
-    family="com.sun.webui.jsf.table2Column",
-    tagRendererType="com.sun.webui.jsf.widget.Table2Column",
-    displayName="Table2Column", tagName="table2Column", isTag=false) // Remove isTag to run
+@Component(type = "com.sun.webui.jsf.table2Column",
+family = "com.sun.webui.jsf.table2Column",
+tagRendererType = "com.sun.webui.jsf.widget.Table2Column",
+displayName = "Table2Column", tagName = "table2Column", isTag = false) // Remove isTag to run
 public class Table2Column extends TableColumn
         implements NamingContainer, Widget {
+
     public Table2Column() {
         super();
         setRendererType("com.sun.webui.jsf.widget.Table2Column");
@@ -47,6 +46,7 @@ public class Table2Column extends TableColumn
         return getFacesContext();
     }
 
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.Table2Column";
     }

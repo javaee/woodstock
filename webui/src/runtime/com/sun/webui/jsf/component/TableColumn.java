@@ -23,11 +23,9 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-
 import com.sun.data.provider.SortCriteria;
 import com.sun.data.provider.FieldKey;
 import com.sun.data.provider.impl.FieldIdSortCriteria;
-import com.sun.data.provider.TableDataProvider;
 import com.sun.webui.jsf.faces.ValueBindingSortCriteria;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeImages;
@@ -37,7 +35,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
@@ -66,48 +63,37 @@ import javax.faces.context.FacesContext;
  * See TLD docs for more information.
  * </p>
  */
-@Component(type="com.sun.webui.jsf.TableColumn",
-    family="com.sun.webui.jsf.TableColumn", displayName="Column", tagName="tableColumn",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_column")
+@Component(type = "com.sun.webui.jsf.TableColumn",
+family = "com.sun.webui.jsf.TableColumn", displayName = "Column", tagName = "tableColumn",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_column")
 public class TableColumn extends UIComponentBase implements NamingContainer {
+
     /** The component id for the column footer. */
     public static final String COLUMN_FOOTER_ID = "_columnFooter"; //NOI18N
-
     /** The facet name for the column footer. */
     public static final String COLUMN_FOOTER_FACET = "columnFooter"; //NOI18N
-
     /** The component id for the column header. */
     public static final String COLUMN_HEADER_ID = "_columnHeader"; //NOI18N
-
     /** The facet name for the column header. */
     public static final String COLUMN_HEADER_FACET = "columnHeader"; //NOI18N
-
     /** The facet name for the header area. */
     public static final String HEADER_FACET = "header"; //NOI18N
-
     /** The component id for the embedded action separator icon. */
     public static final String EMBEDDED_ACTION_SEPARATOR_ICON_ID =
-        "_embeddedActionSeparatorIcon"; //NOI18N
-
+            "_embeddedActionSeparatorIcon"; //NOI18N
     /** The facet name for the embedded action separator icon. */
     public static final String EMBEDDED_ACTION_SEPARATOR_ICON_FACET =
-        "embeddedActionSeparatorIcon"; //NOI18N
-
+            "embeddedActionSeparatorIcon"; //NOI18N
     /** The component id for the empty cell icon. */
     public static final String EMPTY_CELL_ICON_ID = "_emptyCellIcon"; //NOI18N
-
     /** The facet name for the empty cell icon. */
     public static final String EMPTY_CELL_ICON_FACET = "emptyCellIcon"; //NOI18N
-
     /** The facet name for the footer area. */
     public static final String FOOTER_FACET = "footer"; //NOI18N
-
     /** The component id for the table column footer. */
     public static final String TABLE_COLUMN_FOOTER_ID = "_tableColumnFooter"; //NOI18N
-
     /** The facet name for the table column footer. */
     public static final String TABLE_COLUMN_FOOTER_FACET = "tableColumnFooter"; //NOI18N
-
     /** The facet name for the table footer area. */
     public static final String TABLE_FOOTER_FACET = "tableFooter"; //NOI18N
 
@@ -132,16 +118,14 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attributes
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * ABBR gives an abbreviated version of the cell's content. This allows
      * visual browsers to use the short form if space is limited, and
      * non-visual browsers can give a cell's header information in an
      * abbreviated form before rendering each cell.
      */
-    @Property(name="abbr", displayName="Abbreviation for Header Cell", isHidden=true, isAttribute=false)
+    @Property(name = "abbr", displayName = "Abbreviation for Header Cell", isHidden = true, isAttribute = false)
     private String abbr = null;
-
     /**
      * Use the <code>align</code> attribute to specify the horizontal alignment for 
      * the content of each cell in the column. Valid values are <code>left</code>, 
@@ -153,9 +137,9 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * <code>align="char"</code> and <code>char=":" </code>Some browsers do not 
      * support aligning on the character.
      */
-    @Property(name="align", displayName="Horizontal Alignment", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.TableAlignEditor")
+    @Property(name = "align", displayName = "Horizontal Alignment", category = "Appearance",
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.TableAlignEditor")
     private String align = null;
-
     /**
      * Use the <code>alignKey</code> attribute to specify the FieldKey id or FieldKey 
      * to be used as an identifier for a specific data element on which to align the 
@@ -167,18 +151,18 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * objects are aligned "center". All columns, including select columns, are 
      * aligned "left" by default. Note that the align property overrides this value.
      */
-    @Property(name="alignKey", displayName="Horizontal Alignment Key", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "alignKey", displayName = "Horizontal Alignment Key", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private Object alignKey = null;
-
     /**
      * The AXIS attribute provides a method of categorizing cells. The
      * attribute's value is a comma-separated list of category names. See the
      * HTML 4.0 Recommendation's section on categorizing cells for an
      * application of AXIS.
      */
-    @Property(name="axis", displayName="Category of Header Cell", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor", isHidden=true, isAttribute=false)
+    @Property(name = "axis", displayName = "Category of Header Cell", category = "Advanced",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor", isHidden = true, isAttribute = false)
     private String axis = null;
-
     /**
      * The BGCOLOR attribute suggests a background color for the cell. The
      * combination of this attribute with <FONT COLOR=...> can leave
@@ -189,9 +173,8 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * flexible method of specifying a table's background color. This
      * attribute is deprecated (in HTML 4.0) in favor of style sheets.
      */
-    @Property(name="bgColor", displayName="Cell Background Color", isHidden=true, isAttribute=false)
+    @Property(name = "bgColor", displayName = "Cell Background Color", isHidden = true, isAttribute = false)
     private String bgColor = null;
-
     /**
      * Use the <code>char </code>attribute to specify a character to use for 
      * horizontal alignment in each cell in the row. You must also set the 
@@ -200,9 +183,8 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * decimal point of the current language, such as a period in English. The 
      * <code>char</code> HTML property is not supported by all browsers.
      */
-    @Property(name="char", displayName="Alignment Character", isHidden=true, isAttribute=false)
+    @Property(name = "char", displayName = "Alignment Character", isHidden = true, isAttribute = false)
     private String _char = null;
-
     /**
      * Use the <code>charOff </code>attribute to specify the offset of the first 
      * occurrence of the alignment character that is specified with the 
@@ -213,9 +195,8 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * horizontally in a cell. If <code>charOff="25%"</code>, the first instance 
      * of the alignment character is placed at one fourth of the width of the cell.
      */
-    @Property(name="charOff", displayName="Alignment Character Offset", isHidden=true, isAttribute=false)
+    @Property(name = "charOff", displayName = "Alignment Character Offset", isHidden = true, isAttribute = false)
     private String charOff = null;
-
     /**
      * The COLSPAN attribute of TD specifies the number of columns that are
      * spanned by the cell. The default value is 1. The special value 0
@@ -223,30 +204,28 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * value 0 is ignored by most browsers, so authors may wish to calculate
      * the exact number of rows or columns spanned and use that value.
      */
-    @Property(name="colSpan", displayName="Columns Spanned By the Cell", category="Layout", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor", isAttribute=false)
+    @Property(name = "colSpan", displayName = "Columns Spanned By the Cell", category = "Layout",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor", isAttribute = false)
     private int colSpan = Integer.MIN_VALUE;
     private boolean colSpan_set = false;
-
     /**
      * Use the <code>descending</code> attribute to specify that the first 
      * user-applied sort is descending. By default, the first time a user clicks a 
      * column's sort button or column header, the sort is ascending. Note that this 
      * not an initial sort. The data is initially displayed unsorted.
      */
-    @Property(name="descending", displayName="Is Descending", category="Data")
+    @Property(name = "descending", displayName = "Is Descending", category = "Data")
     private boolean descending = false;
     private boolean descending_set = false;
-
     /**
      * Set the <code>embeddedActions</code> attribute to true when the column includes 
      * more than one embedded action. This attribute causes a separator image to be 
      * displayed between the action links. This attribute is overridden by the 
      * <code>emptyCell</code> attribute.
      */
-    @Property(name="embeddedActions", displayName="Is Embedded Actions", category="Advanced")
+    @Property(name = "embeddedActions", displayName = "Is Embedded Actions", category = "Advanced")
     private boolean embeddedActions = false;
     private boolean embeddedActions_set = false;
-
     /**
      * Use the <code>emptyCell</code> attribute to cause a theme-specific image to be 
      * displayed when the content of a table cell is not applicable or is unexpectedly 
@@ -256,10 +235,9 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * checkboxes or drop-down lists when these elements are not applicable. Instead, 
      * the elements should simply not be displayed so the cell is left empty.
      */
-    @Property(name="emptyCell", displayName="Empty Cell", category="Appearance")
+    @Property(name = "emptyCell", displayName = "Empty Cell", category = "Appearance")
     private boolean emptyCell = false;
     private boolean emptyCell_set = false;
-
     /**
      * Extra HTML code to be appended to the <code>&lt;td&gt;</code> HTML element that 
      * is rendered for the column footer. Use only code that is valid in an HTML 
@@ -267,9 +245,9 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * element, and is not checked for validity. For example, you might set this 
      * attribute to <code>"nowrap=`nowrap'"</code>.
      */
-    @Property(name="extraFooterHtml", displayName="Extra Footer HTML", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "extraFooterHtml", displayName = "Extra Footer HTML", category = "Advanced",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String extraFooterHtml = null;
-
     /**
      * Extra HTML code to be appended to the <code>&lt;th&gt;</code> HTML element that 
      * is rendered for the column header. Use only code that is valid in an HTML 
@@ -277,9 +255,9 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * element, and is not checked for validity. For example, you might set this 
      * attribute to <code>"nowrap=`nowrap'"</code>.
      */
-    @Property(name="extraHeaderHtml", displayName="Extra Header HTML", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "extraHeaderHtml", displayName = "Extra Header HTML", category = "Advanced",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String extraHeaderHtml = null;
-
     /**
      * Extra HTML code to be appended to the <code>&lt;td&gt;</code> HTML element that 
      * is rendered for the table column footer. Use only code that is valid in an HTML 
@@ -287,37 +265,37 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * element, and is not checked for validity. For example, you might set this 
      * attribute to <code>"nowrap=`nowrap'"</code>.
      */
-    @Property(name="extraTableFooterHtml", displayName="Extra Table Footer HTML", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "extraTableFooterHtml", displayName = "Extra Table Footer HTML",
+    category = "Advanced", editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String extraTableFooterHtml = null;
-
     /**
      * The text to be displayed in the column footer.
      */
-    @Property(name="footerText", displayName="Footer Text", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "footerText", displayName = "Footer Text", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String footerText = null;
-
     /**
      * The text to be displayed in the column header.
      */
-    @Property(name="headerText", displayName="header Text", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "headerText", displayName = "header Text", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String headerText = null;
-
     /**
      * The HEADERS attribute specifies the header cells that apply to the
      * TD. The value is a space-separated list of the header cells' ID
      * attribute values. The HEADERS attribute allows non-visual browsers to
      * render the header information for a given cell.
      */
-    @Property(name="headers", displayName="List of Header Cells for Current Cell", category="Advanced", isHidden=true, editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor", isAttribute=false)
+    @Property(name = "headers", displayName = "List of Header Cells for Current Cell", category = "Advanced",
+    isHidden = true, editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor", isAttribute = false)
     private String headers = null;
-
     /**
      * The number of pixels for the cell's height. Styles should be used to specify 
      * cell height when possible because the height attribute is deprecated in HTML 4.0.
      */
-    @Property(name="height", displayName="Height", category="Layout", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "height", displayName = "Height", category = "Layout",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String height = null;
-
     /**
      * Use the <code>noWrap</code> attribute to disable word wrapping of this column's 
      * cells in visual browsers. Word wrap can cause unnecessary horizontal scrolling 
@@ -325,80 +303,79 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * should be used to disable word wrap when possible because the nowrap attribute 
      * is deprecated in HTML 4.0.
      */
-    @Property(name="noWrap", displayName="Suppress Word Wrap", category="Appearance")
+    @Property(name = "noWrap", displayName = "Suppress Word Wrap", category = "Appearance")
     private boolean noWrap = false;
     private boolean noWrap_set = false;
-
     /**
      * Scripting code executed when a mouse click
      * occurs over this component.
      */
-    @Property(name="onClick", displayName="Click Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onClick", displayName = "Click Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onClick = null;
-
     /**
      * Scripting code executed when a mouse double click
      * occurs over this component.
      */
-    @Property(name="onDblClick", displayName="Double Click Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onDblClick", displayName = "Double Click Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onDblClick = null;
-
     /**
      * Scripting code executed when the user presses down on a key while the
      * component has focus.
      */
-    @Property(name="onKeyDown", displayName="Key Down Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onKeyDown", displayName = "Key Down Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyDown = null;
-
     /**
      * Scripting code executed when the user presses and releases a key while
      * the component has focus.
      */
-    @Property(name="onKeyPress", displayName="Key Press Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onKeyPress", displayName = "Key Press Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyPress = null;
-
     /**
      * Scripting code executed when the user releases a key while the
      * component has focus.
      */
-    @Property(name="onKeyUp", displayName="Key Up Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onKeyUp", displayName = "Key Up Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyUp = null;
-
     /**
      * Scripting code executed when the user presses a mouse button while the
      * mouse pointer is on the component.
      */
-    @Property(name="onMouseDown", displayName="Mouse Down Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseDown", displayName = "Mouse Down Script",
+    category = "Javascript", editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseDown = null;
-
     /**
      * Scripting code executed when the user moves the mouse pointer while
      * over the component.
      */
-    @Property(name="onMouseMove", displayName="Mouse Move Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseMove", displayName = "Mouse Move Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseMove = null;
-
     /**
      * Scripting code executed when a mouse out movement
      * occurs over this component.
      */
-    @Property(name="onMouseOut", displayName="Mouse Out Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseOut", displayName = "Mouse Out Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseOut = null;
-
     /**
      * Scripting code executed when the user moves the  mouse pointer into
      * the boundary of this component.
      */
-    @Property(name="onMouseOver", displayName="Mouse In Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseOver", displayName = "Mouse In Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseOver = null;
-
     /**
      * Scripting code executed when the user releases a mouse button while
      * the mouse pointer is on the component.
      */
-    @Property(name="onMouseUp", displayName="Mouse Up Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseUp", displayName = "Mouse Up Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseUp = null;
-
     /**
      * <p>Use the <code>rowHeader</code> attribute to specify that the cells of the 
      * column are acting as row headers. Row headers are cells that "label" the row. 
@@ -421,10 +398,9 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * adaptive technologies such as screen readers to properly read the table to 
      * indicate that the contents of these cells are headers for the rows.</p>
      */
-    @Property(name="rowHeader", displayName="Row Header", category="Advanced")
+    @Property(name = "rowHeader", displayName = "Row Header", category = "Advanced")
     private boolean rowHeader = false;
     private boolean rowHeader_set = false;
-
     /**
      * The ROWSPAN attribute of TD specifies the number of rows that are
      * spanned by the cell. The default value is 1. The special value 0
@@ -432,10 +408,10 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * value 0 is ignored by most browsers, so authors may wish to calculate
      * the exact number of rows or columns spanned and use that value.
      */
-    @Property(name="rowSpan", displayName="Rows Spanned By the Cell", category="Layout", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor", isAttribute=false)
+    @Property(name = "rowSpan", displayName = "Rows Spanned By the Cell", category = "Layout",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor", isAttribute = false)
     private int rowSpan = Integer.MIN_VALUE;
     private boolean rowSpan_set = false;
-
     /**
      * Use the <code>scope</code> attribute to specify that the data cells of the 
      * column are also acting as headers for rows or other columns of the table. 
@@ -448,9 +424,9 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * <li><code>colgroup</code>, when the cells provide header information for the column group</li>
      * </ul>
      */
-    @Property(name="scope", displayName="Cells Covered By Header Cell", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "scope", displayName = "Cells Covered By Header Cell", category = "Advanced",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String scope = null;
-
     /**
      * Use the <code>selectId</code> attribute in select columns, which contain 
      * checkboxes or radio buttons for selecting table rows. The value of 
@@ -464,9 +440,9 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * identifies the column as a select column, for which the table component 
      * uses different CSS styles.
      */
-    @Property(name="selectId", displayName="Select Component Id", category="Data", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "selectId", displayName = "Select Component Id", category = "Data",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String selectId = null;
-
     /**
      * Use the <code>severity</code> attribute when including the <code>webuijsf:alarm</code> 
      * component in a column, to match the severity of the alarm. Valid values are 
@@ -477,9 +453,9 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * the level of severity. This functionality is overridden by the 
      * <code>emptyCell</code> attribute.
      */
-    @Property(name="severity", displayName="Severity", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "severity", displayName = "Severity", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String severity = null;
-
     /**
      * Use the <code>sort</code> attribute to specify a FieldKey id or SortCriteria 
      * that defines the criteria to use for sorting the contents of a 
@@ -494,23 +470,23 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * a String. The <code>sort</code> attribute is required for a column to be shown 
      * as sortable.
      */
-    @Property(name="sort", displayName="Sort Key", category="Data", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "sort", displayName = "Sort Key", category = "Data",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private Object sort = null;
-
     /**
      * The theme identifier to use for the sort button that is displayed in the column 
      * header. Use this attribute to override the default image.
      */
-    @Property(name="sortIcon", displayName="Sort Icon", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.ThemeIconsEditor")
+    @Property(name = "sortIcon", displayName = "Sort Icon", category = "Appearance",
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.ThemeIconsEditor")
     private String sortIcon = null;
-
     /**
      * Absolute or relative URL to the image used for the sort button that is 
      * displayed in the column header.
      */
-    @Property(name="sortImageURL", displayName="Sort Image URL", category="Appearance", editorClassName="com.sun.rave.propertyeditors.ImageUrlPropertyEditor")
+    @Property(name = "sortImageURL", displayName = "Sort Image URL", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.ImageUrlPropertyEditor")
     private String sortImageURL = null;
-
     /**
      * Use the <code>spacerColumn</code> attribute to use the column as a blank column 
      * to enhance spacing in two or three column tables. When the 
@@ -520,40 +496,39 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * and <code>footerText</code> attributes. Set the <code>width</code> attribute to 
      * justify columns accordingly.
      */
-    @Property(name="spacerColumn", displayName="Spacer Column", category="Layout")
+    @Property(name = "spacerColumn", displayName = "Spacer Column", category = "Layout")
     private boolean spacerColumn = false;
     private boolean spacerColumn_set = false;
-
     /**
      * CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.
      */
-    @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
+    @Property(name = "style", displayName = "CSS Style(s)", category = "Appearance",
+    editorClassName = "com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
-
     /**
      * CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
-
     /**
      * The text to be displayed in the table column footer. The table column footer is 
      * displayed once per table, and is especially useful in tables with multiple 
      * groups of rows.
      */
-    @Property(name="tableFooterText", displayName="Table Footer Text", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "tableFooterText", displayName = "Table Footer Text", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String tableFooterText = null;
-
     /**
      * Sets the value of the title attribute for the HTML element.
      * The specified text will display as a tooltip if the mouse cursor hovers 
      * over the HTML element.
      */
-    @Property(name="toolTip", displayName="Tool Tip", category="Behavior", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "toolTip", displayName = "Tool Tip", category = "Behavior",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String toolTip = null;
-
     /**
      * Use the <code>valign</code> attribute to specify the vertical alignment for the 
      * content of each cell in the column. Valid values are <code>top</code>, 
@@ -563,9 +538,9 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * each cell's content to be aligned on the text baseline, the invisible line on 
      * which text characters rest.
      */
-    @Property(name="valign", displayName="Vertical Position", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.HtmlVerticalAlignEditor")
+    @Property(name = "valign", displayName = "Vertical Position", category = "Appearance",
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.HtmlVerticalAlignEditor")
     private String valign = null;
-
     /**
      * Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -575,17 +550,17 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.
      */
-    @Property(name="visible", displayName="Visible", category="Behavior")
+    @Property(name = "visible", displayName = "Visible", category = "Behavior")
     private boolean visible = false;
     private boolean visible_set = false;
-
     /**
      * Use the <code>width</code> attribute to specify the width of the cells of the 
      * column. The width can be specified as the number of pixels or the percentage of 
      * the table width, and is especially useful for spacer columns. This attribute is 
      * deprecated in HTML 4.0 in favor of style sheets.
      */
-    @Property(name="width", displayName="Width", category="Layout", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "width", displayName = "Width", category = "Layout",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String width = null;
 
     /** Default constructor */
@@ -604,7 +579,6 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Child methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Clear cached properties.
      * <p>
@@ -729,7 +703,6 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Column methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Get the horizontal alignment for the cell.
      * <p>
@@ -754,11 +727,9 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
         String result = null;
         Class type = getType();
 
-        if (type != null 
-                && (Character.class.isAssignableFrom(type) || String.class.isAssignableFrom(type))) {
+        if (type != null && (Character.class.isAssignableFrom(type) || String.class.isAssignableFrom(type))) {
             result = "left"; //NOI18N
-        } else if (type != null
-                && (Date.class.isAssignableFrom(type) || Number.class.isAssignableFrom(type))) {
+        } else if (type != null && (Date.class.isAssignableFrom(type) || Number.class.isAssignableFrom(type))) {
             result = "right"; //NOI18N
         } else if (type != null && Boolean.class.isAssignableFrom(type)) {
             result = "center"; //NOI18N
@@ -782,20 +753,19 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
 
         // Get child.
         TableFooter child = new TableFooter();
-	child.setId(COLUMN_FOOTER_ID);
+        child.setId(COLUMN_FOOTER_ID);
         child.setAlign(getAlign());
         child.setExtraHtml(getExtraFooterHtml());
         child.setVisible(isVisible());
 
         // Set rendered.
-        if (!(facet != null && facet.isRendered()
-                || isColumnFooterRendered())) {
+        if (!(facet != null && facet.isRendered() || isColumnFooterRendered())) {
             // Note: Footer may be initialized to force rendering. This allows
             // developers to omit the footerText property for select columns.
             child.setRendered(false);
         } else {
             log("getColumnFooter", //NOI18N
-                "Column footer not rendered, nothing to display"); //NOI18N
+                    "Column footer not rendered, nothing to display"); //NOI18N
         }
 
         // If only showing one level, don't set colspan or rowspan.
@@ -817,7 +787,7 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
         }
 
         // Save facet and return child.
-        getFacets().put(child.getId(), child); 
+        getFacets().put(child.getId(), child);
         return child;
     }
 
@@ -834,7 +804,7 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
 
         // Get child.
         TableHeader child = new TableHeader();
-	child.setId(COLUMN_HEADER_ID);
+        child.setId(COLUMN_HEADER_ID);
         child.setScope("col"); //NOI18N
         child.setAlign(getAlign());
         child.setWidth((getSelectId() != null) ? "3%" : null); //NOI18N
@@ -851,17 +821,16 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
             child.setSortHeader(true);
         } else {
             log("getColumnHeader", //NOI18N
-                "Render default column header, no SortCriteria or selectId"); //NOI18N
+                    "Render default column header, no SortCriteria or selectId"); //NOI18N
         }
 
         // Set rendered.
-        if (!(facet != null && facet.isRendered()
-                || isColumnHeaderRendered())) {
+        if (!(facet != null && facet.isRendered() || isColumnHeaderRendered())) {
             // Note: Footer may be initialized to force rendering. This allows
             // developers to omit the headerText property for select columns.
             log("getColumnHeader", //NOI18N
-                "Column header not rendered, nothing to display"); //NOI18N
-            child.setRendered(false);            
+                    "Column header not rendered, nothing to display"); //NOI18N
+            child.setRendered(false);
         }
 
         // Set colspan for nested TableColumn children, else rowspan.
@@ -879,7 +848,7 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
         }
 
         // Save facet and return child.
-        getFacets().put(child.getId(), child); 
+        getFacets().put(child.getId(), child);
         return child;
     }
 
@@ -896,21 +865,20 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
 
         // Get child.
         TableFooter child = new TableFooter();
-	child.setId(TABLE_COLUMN_FOOTER_ID);
+        child.setId(TABLE_COLUMN_FOOTER_ID);
         child.setAlign(getAlign());
         child.setExtraHtml(getExtraTableFooterHtml());
         child.setTableColumnFooter(true);
         child.setVisible(isVisible());
 
         // Set rendered.
-        if (!(facet != null && facet.isRendered()
-                || isTableColumnFooterRendered())) {
+        if (!(facet != null && facet.isRendered() || isTableColumnFooterRendered())) {
             // Note: Footer may be initialized to force rendering. This allows
             // developers to omit the tableFooterText property for select columns.
             child.setRendered(false);
         } else {
             log("getTableColumnFooter", //NOI18N
-                "Table column footer not rendered, nothing to display"); //NOI18N
+                    "Table column footer not rendered, nothing to display"); //NOI18N
         }
 
         // If only showing one level, don't set colspan or rowspan.
@@ -932,14 +900,13 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
         }
 
         // Save facet and return child.
-        getFacets().put(child.getId(), child); 
+        getFacets().put(child.getId(), child);
         return child;
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Empty cell methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Get the icon used to display inapplicable or unexpectedly empty cells.
      * <p>
@@ -952,7 +919,7 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * </p>
      * @return The icon used to display empty cells.
      */
-    public UIComponent getEmptyCellIcon() {       
+    public UIComponent getEmptyCellIcon() {
         UIComponent facet = getFacet(EMPTY_CELL_ICON_FACET);
         if (facet != null) {
             return facet;
@@ -962,24 +929,23 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
 
         // Get child.
         Icon child = ThemeUtilities.getIcon(theme,
-		ThemeImages.TABLE_EMPTY_CELL);
-	child.setId(EMPTY_CELL_ICON_ID);
+                ThemeImages.TABLE_EMPTY_CELL);
+        child.setId(EMPTY_CELL_ICON_ID);
         child.setBorder(0);
 
         // Set tool tip.
         String toolTip = theme.getMessage("table.emptyTableCell"); //NOI18N
         child.setToolTip(toolTip);
         child.setAlt(toolTip);
-        
+
         // Save facet and return child.
-        getFacets().put(child.getId(), child); 
+        getFacets().put(child.getId(), child);
         return child;
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Separator methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Get separator icon for embedded actions.
      *
@@ -993,20 +959,19 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
 
         // Get child.
         Icon child = ThemeUtilities.getIcon(getTheme(),
-		ThemeImages.TABLE_EMBEDDED_ACTIONS_SEPARATOR);
-	child.setId(EMBEDDED_ACTION_SEPARATOR_ICON_ID);
+                ThemeImages.TABLE_EMBEDDED_ACTIONS_SEPARATOR);
+        child.setId(EMBEDDED_ACTION_SEPARATOR_ICON_ID);
         child.setBorder(0);
         child.setAlign("top"); //NOI18N
-        
+
         // Save facet and return child.
-        getFacets().put(child.getId(), child); 
+        getFacets().put(child.getId(), child);
         return child;
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Sort methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Get SortCriteria used for sorting the contents of a TableDataProvider.
      * <p>
@@ -1027,8 +992,8 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
         SortCriteria result = null;
         ValueExpression vb = getValueExpression("sort"); //NOI18N
         if (vb != null) {
-            ValueBindingSortCriteria vbsc = new ValueBindingSortCriteria(vb, 
-                !isDescending()); // Note: Constructor accepts ascending param.
+            ValueBindingSortCriteria vbsc = new ValueBindingSortCriteria(vb,
+                    !isDescending()); // Note: Constructor accepts ascending param.
             TableRowGroup group = getTableRowGroupAncestor();
             if (group != null) {
                 vbsc.setRequestMapKey(group.getSourceVar());
@@ -1053,7 +1018,7 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
         // To do: Test for toolTip property? The alarm or other custom 
         // components may need to set the tooltip. If so, do we need both
         // ascending and descending tooltips?
-       
+
         // Get object type.
         Class type = getType();
 
@@ -1061,33 +1026,32 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
         ValueExpression vb = getValueExpression("severity"); //NOI18N
         if (getSeverity() != null || vb != null) {
             result = (descending)
-                ? "table.sort.augment.alarmDescending" //NOI18N
-                : "table.sort.augment.alarmAscending"; //NOI18N
-        } else if (getSelectId() != null
-                || (type != null && type.equals(Boolean.class))) {
+                    ? "table.sort.augment.alarmDescending" //NOI18N
+                    : "table.sort.augment.alarmAscending"; //NOI18N
+        } else if (getSelectId() != null || (type != null && type.equals(Boolean.class))) {
             result = (descending)
-                ? "table.sort.augment.booleanDescending" //NOI18N
-                : "table.sort.augment.booleanAscending"; //NOI18N
+                    ? "table.sort.augment.booleanDescending" //NOI18N
+                    : "table.sort.augment.booleanAscending"; //NOI18N
         } else if (type != null && type.equals(String.class)) {
             result = (descending)
-                ? "table.sort.augment.stringDescending" //NOI18N
-                : "table.sort.augment.stringAscending"; //NOI18N
+                    ? "table.sort.augment.stringDescending" //NOI18N
+                    : "table.sort.augment.stringAscending"; //NOI18N
         } else if (type != null && type.equals(Character.class)) {
             result = (descending)
-                ? "table.sort.augment.charDescending" //NOI18N
-                : "table.sort.augment.charAscending"; //NOI18N
+                    ? "table.sort.augment.charDescending" //NOI18N
+                    : "table.sort.augment.charAscending"; //NOI18N
         } else if (type != null && type.equals(Date.class)) {
             result = (descending)
-                ? "table.sort.augment.dateDescending" //NOI18N
-                : "table.sort.augment.dateAscending"; //NOI18N
+                    ? "table.sort.augment.dateDescending" //NOI18N
+                    : "table.sort.augment.dateAscending"; //NOI18N
         } else if (type != null && type.equals(Number.class)) {
             result = (descending)
-                ? "table.sort.augment.numericDescending" //NOI18N
-                : "table.sort.augment.numericAscending"; //NOI18N    
+                    ? "table.sort.augment.numericDescending" //NOI18N
+                    : "table.sort.augment.numericAscending"; //NOI18N
         } else {
             result = (descending)
-                ? "table.sort.augment.undeterminedDescending" //NOI18N
-                : "table.sort.augment.undeterminedAscending"; //NOI18N
+                    ? "table.sort.augment.undeterminedDescending" //NOI18N
+                    : "table.sort.augment.undeterminedAscending"; //NOI18N
         }
         return getTheme().getMessage(result);
     }
@@ -1095,12 +1059,12 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -1112,7 +1076,8 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
@@ -2471,6 +2436,7 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
     /**
      * Restore the state of this component.
      */
+    @Override
     public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
@@ -2533,6 +2499,7 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
     /**
      * Save the state of this component.
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[55];
         _values[0] = super.saveState(_context);
@@ -2596,7 +2563,6 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Helper method to get the number of columns found for this component that 
      * have a rendered property of true.
@@ -2604,14 +2570,14 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * @param component TableColumn to be rendered.
      * @return The first selectId property found.
      */
-    private int getColumnCount(TableColumn component) {       
+    private int getColumnCount(TableColumn component) {
         int count = 0;
         if (component == null) {
             log("getColumnCount", //NOI18N
-                "Cannot obtain column count, TableColumn is null"); //NOI18N
+                    "Cannot obtain column count, TableColumn is null"); //NOI18N
             return count;
         }
-    
+
         // Get column count for nested TableColumn children.
         Iterator kids = component.getTableColumnChildren();
         if (kids.hasNext()) {
@@ -2734,7 +2700,7 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * @return The current theme.
      */
     private Theme getTheme() {
-	return ThemeUtilities.getTheme(getFacesContext());
+        return ThemeUtilities.getTheme(getFacesContext());
     }
 
     /**
@@ -2752,7 +2718,7 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
         TableRowGroup group = getTableRowGroupAncestor();
         if (group == null) {
             log("isColumnFooterRendered", //NOI18N
-                "Cannot determine if column footer is rendered, TableRowGroup is null"); //NOI18N
+                    "Cannot determine if column footer is rendered, TableRowGroup is null"); //NOI18N
             return result;
         }
 
@@ -2778,7 +2744,7 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
         boolean rendered = false;
         if (component == null) {
             log("isColumnFooterRendered", //NOI18N
-                "Cannot determine if column footer is rendered, TableColumn is null"); //NOI18N
+                    "Cannot determine if column footer is rendered, TableColumn is null"); //NOI18N
             return rendered;
         }
 
@@ -2795,9 +2761,8 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
         }
 
         // If either a facet or text are defined, set rendered property.
-        UIComponent facet = component.getFacet(COLUMN_FOOTER_FACET);            
-        if (facet != null && facet.isRendered() 
-                || component.getFooterText() != null) {
+        UIComponent facet = component.getFacet(COLUMN_FOOTER_FACET);
+        if (facet != null && facet.isRendered() || component.getFooterText() != null) {
             rendered = true;
         }
         return rendered;
@@ -2818,7 +2783,7 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
         TableRowGroup group = getTableRowGroupAncestor();
         if (group == null) {
             log("isColumnHeaderRendered", //NOI18N
-                "Cannot determine if column header is rendered, TableRowGroup is null"); //NOI18N
+                    "Cannot determine if column header is rendered, TableRowGroup is null"); //NOI18N
             return result;
         }
 
@@ -2844,7 +2809,7 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
         boolean rendered = false;
         if (component == null) {
             log("isColumnHeaderRendered", //NOI18N
-                "Cannot determine if column header is rendered, TableColumn is null"); //NOI18N
+                    "Cannot determine if column header is rendered, TableColumn is null"); //NOI18N
             return rendered;
         }
 
@@ -2861,9 +2826,8 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
         }
 
         // If either a facet or text are defined, set rendered property.
-        UIComponent facet = component.getFacet(COLUMN_HEADER_FACET);            
-        if (facet != null && facet.isRendered() 
-                || component.getHeaderText() != null) {
+        UIComponent facet = component.getFacet(COLUMN_HEADER_FACET);
+        if (facet != null && facet.isRendered() || component.getHeaderText() != null) {
             rendered = true;
         }
         return rendered;
@@ -2891,8 +2855,8 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
             int rows = table.getRowCount();
             int headers = table.getColumnHeadersCount();
             result = (headers > 1)
-                ? !(group.getRowCount() > 1) // Test individual groups.
-                : rows == 0 || rows == 1; // No sorting for single row.
+                    ? !(group.getRowCount() > 1) // Test individual groups.
+                    : rows == 0 || rows == 1; // No sorting for single row.
         }
         return result;
     }
@@ -2912,7 +2876,7 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
         TableRowGroup group = getTableRowGroupAncestor();
         if (group == null) {
             log("isTableColumnFooterRendered", //NOI18N
-                "Cannot determine if table column footer is rendered, TableRowGroup is null"); //NOI18N
+                    "Cannot determine if table column footer is rendered, TableRowGroup is null"); //NOI18N
             return result;
         }
 
@@ -2938,7 +2902,7 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
         boolean rendered = false;
         if (component == null) {
             log("isTableColumnFooterRendered", //NOI18N
-                "Cannot determine if table column footer is rendered, TableColumn is null"); //NOI18N
+                    "Cannot determine if table column footer is rendered, TableColumn is null"); //NOI18N
             return rendered;
         }
 
@@ -2955,9 +2919,8 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
         }
 
         // If either a facet or text are defined, set rendered property.
-        UIComponent facet = component.getFacet(TABLE_FOOTER_FACET);            
-        if (facet != null && facet.isRendered() 
-                || component.getTableFooterText() != null) {
+        UIComponent facet = component.getFacet(TABLE_FOOTER_FACET);
+        if (facet != null && facet.isRendered() || component.getTableFooterText() != null) {
             rendered = true;
         }
         return rendered;
@@ -2969,7 +2932,7 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
     private void log(String method, String message) {
         // Get class.
         Class clazz = this.getClass();
-	if (LogUtil.fineEnabled(clazz)) {
+        if (LogUtil.fineEnabled(clazz)) {
             // Log method name and message.
             LogUtil.fine(clazz, clazz.getName() + "." + method + ": " + message); //NOI18N
         }

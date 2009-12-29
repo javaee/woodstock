@@ -25,33 +25,30 @@ import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
 import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import javax.el.ValueExpression;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.el.ValueBinding;
 
 /**
  * Component that represents a group of table rows.
  */
-@Component(type="com.sun.webui.jsf.Table2RowGroup",
-    family="com.sun.webui.jsf.Table2RowGroup",
-    tagRendererType="com.sun.webui.jsf.widget.Table2RowGroup",
-    displayName="Table2RowGroup", tagName="table2RowGroup", isTag=false) // Remove isTag to run
+@Component(type = "com.sun.webui.jsf.Table2RowGroup",
+family = "com.sun.webui.jsf.Table2RowGroup",
+tagRendererType = "com.sun.webui.jsf.widget.Table2RowGroup",
+displayName = "Table2RowGroup", tagName = "table2RowGroup", isTag = false) // Remove isTag to run
 public class Table2RowGroup extends TableRowGroup
         implements NamingContainer, Widget {
     // A List containing Table2Column children. 
+
     private List table2ColumnChildren = null;
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Base methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     public Table2RowGroup() {
         super();
         setRendererType("com.sun.webui.jsf.widget.Table2RowGroup");
@@ -61,10 +58,12 @@ public class Table2RowGroup extends TableRowGroup
         return getFacesContext();
     }
 
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.Table2RowGroup";
     }
 
+    @Override
     public String getRendererType() {
         if (AsyncResponse.isAjaxRequest()) {
             return "com.sun.webui.jsf.ajax.Table2RowGroup";
@@ -85,7 +84,6 @@ public class Table2RowGroup extends TableRowGroup
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Child methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Get an Iterator over the Table2Column children found for
      * this component.
@@ -110,7 +108,6 @@ public class Table2RowGroup extends TableRowGroup
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Pagination methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Get the number of rows to be displayed for a paginated table.
      * <p>
@@ -118,6 +115,7 @@ public class Table2RowGroup extends TableRowGroup
      * </p>
      * @return The number of rows to be displayed for a paginated table.
      */
+    @Override
     public int getRows() {
         setPaginated(true);
         return Math.max(1, super.getRows());
@@ -126,19 +124,18 @@ public class Table2RowGroup extends TableRowGroup
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Flag indicating to turn off default Ajax functionality. Set ajaxify to
      * false when providing a different Ajax implementation.
      */
-    @Property(name="ajaxify", displayName="Ajaxify", category="Javascript")
-    private boolean ajaxify = true; 
-    private boolean ajaxify_set = false; 
- 
+    @Property(name = "ajaxify", displayName = "Ajaxify", category = "Javascript")
+    private boolean ajaxify = true;
+    private boolean ajaxify_set = false;
+
     /**
      * Test if default Ajax functionality should be turned off.
      */
-    public boolean isAjaxify() { 
+    public boolean isAjaxify() {
         if (this.ajaxify_set) {
             return this.ajaxify;
         }
@@ -152,7 +149,7 @@ public class Table2RowGroup extends TableRowGroup
             }
         }
         return true;
-    } 
+    }
 
     /**
      * Set flag indicating to turn off default Ajax functionality.
@@ -161,11 +158,10 @@ public class Table2RowGroup extends TableRowGroup
         this.ajaxify = ajaxify;
         this.ajaxify_set = true;
     }
-
     /**
      * Alternative HTML template to be used by this component.
      */
-    @Property(name="htmlTemplate", displayName="HTML Template", category="Appearance")
+    @Property(name = "htmlTemplate", displayName = "HTML Template", category = "Appearance")
     private String htmlTemplate = null;
 
     /**

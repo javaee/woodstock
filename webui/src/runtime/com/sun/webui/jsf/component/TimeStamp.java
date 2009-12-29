@@ -35,10 +35,12 @@ import javax.faces.convert.Converter;
  * updated or displayed. This tag is typically specified as part of the Masthead
  * component's statusArea facet.
  */
-@Component(type="com.sun.webui.jsf.TimeStamp", family="com.sun.webui.jsf.TimeStamp", displayName="Time Stamp", tagName="timeStamp",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_time_stamp",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_time_stamp_props")
+@Component(type = "com.sun.webui.jsf.TimeStamp", family = "com.sun.webui.jsf.TimeStamp",
+displayName = "Time Stamp", tagName = "timeStamp",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_time_stamp",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_time_stamp_props")
 public class TimeStamp extends UIOutput {
+
     /**
      * Default constructor.
      */
@@ -50,6 +52,7 @@ public class TimeStamp extends UIOutput {
     /**
      * <p>Return the family for this component.</p>
      */
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.TimeStamp";
     }
@@ -57,12 +60,12 @@ public class TimeStamp extends UIOutput {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -74,28 +77,30 @@ public class TimeStamp extends UIOutput {
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
 
     // Hide value
-    @Property(name="value", isHidden=true, isAttribute=false)
+    @Property(name = "value", isHidden = true, isAttribute = false)
+    @Override
     public Object getValue() {
         return super.getValue();
     }
-    
+
     // Hide converter
-    @Property(name="converter", isHidden=true, isAttribute=false)
+    @Property(name = "converter", isHidden = true, isAttribute = false)
+    @Override
     public Converter getConverter() {
         return super.getConverter();
     }
-
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="style", displayName="CSS Style(s)")
+    @Property(name = "style", displayName = "CSS Style(s)")
     private String style = null;
 
     /**
@@ -121,12 +126,11 @@ public class TimeStamp extends UIOutput {
     public void setStyle(String style) {
         this.style = style;
     }
-
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)")
     private String styleClass = null;
 
     /**
@@ -152,13 +156,12 @@ public class TimeStamp extends UIOutput {
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-
     /**
      * <p>The text to display for this time stamp. A default string of 
      * "Last Updated:" will be displayed if no value is specified for the text
      * property.</p>
      */
-    @Property(name="text", displayName="Text")
+    @Property(name = "text", displayName = "Text")
     private String text = null;
 
     /**
@@ -186,7 +189,6 @@ public class TimeStamp extends UIOutput {
     public void setText(String text) {
         this.text = text;
     }
-
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -196,7 +198,7 @@ public class TimeStamp extends UIOutput {
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @Property(name="visible", displayName="Visible")
+    @Property(name = "visible", displayName = "Visible")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -243,7 +245,8 @@ public class TimeStamp extends UIOutput {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.style = (String) _values[1];
@@ -256,6 +259,7 @@ public class TimeStamp extends UIOutput {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[6];
         _values[0] = super.saveState(_context);

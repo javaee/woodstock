@@ -22,16 +22,15 @@
 package com.sun.webui.jsf.component;
 
 import javax.faces.context.FacesContext;
-
 import com.sun.faces.annotation.Component;
-import com.sun.faces.annotation.Property;
 
 /**
  * The TextField component is used to create a textfield.
  */
-@Component(type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField", displayName="Text Field", instanceName="textField", tagName="textField",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_text_field",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_text_field_props")
+@Component(type = "com.sun.webui.jsf.TextField", family = "com.sun.webui.jsf.TextField",
+displayName = "Text Field", instanceName = "textField", tagName = "textField",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_text_field",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_text_field_props")
 public class TextField extends Field {
 
     /**
@@ -45,6 +44,7 @@ public class TextField extends Field {
     /**
      * <p>Return the family for this component.</p>
      */
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.TextField";
     }
@@ -52,7 +52,8 @@ public class TextField extends Field {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
     }
@@ -60,6 +61,7 @@ public class TextField extends Field {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[1];
         _values[0] = super.saveState(_context);

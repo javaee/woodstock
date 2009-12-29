@@ -23,10 +23,9 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-
 import com.sun.data.provider.FieldKey;
 import com.sun.data.provider.RowKey;
-import com.sun.data.provider.FilterCriteria;     
+import com.sun.data.provider.FilterCriteria;
 import com.sun.data.provider.SortCriteria;
 import com.sun.data.provider.TableDataFilter;
 import com.sun.data.provider.TableDataProvider;
@@ -34,14 +33,13 @@ import com.sun.data.provider.TableDataSorter;
 import com.sun.data.provider.impl.BasicTableDataFilter;
 import com.sun.data.provider.impl.BasicTableDataSorter;
 import com.sun.data.provider.impl.ObjectArrayDataProvider;
-import com.sun.data.provider.impl.ObjectListDataProvider; 
+import com.sun.data.provider.impl.ObjectListDataProvider;
 import com.sun.data.provider.impl.TableRowDataProvider;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeStyles;
 import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.jsf.util.LogUtil;
 import com.sun.webui.jsf.util.ThemeUtilities;
-
 import java.beans.Beans;
 import java.io.IOException;
 import java.io.Serializable;
@@ -50,7 +48,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import javax.el.ValueExpression;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -95,52 +92,39 @@ import javax.faces.event.PhaseId;
  * See TLD docs for more information.
  * </p>
  */
-@Component(type="com.sun.webui.jsf.TableRowGroup",
-    family="com.sun.webui.jsf.TableRowGroup", displayName="Row Group", tagName="tableRowGroup",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_row_group")
+@Component(type = "com.sun.webui.jsf.TableRowGroup",
+family = "com.sun.webui.jsf.TableRowGroup", displayName = "Row Group", tagName = "tableRowGroup",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_row_group")
 public class TableRowGroup extends UIComponentBase implements NamingContainer {
+
     /** The id for the column footer bar. */
     public static final String COLUMN_FOOTER_BAR_ID = "_columnFooterBar"; //NOI18N
-
     /** The id for the column header bar. */
     public static final String COLUMN_HEADER_BAR_ID = "_columnHeaderBar"; //NOI18N
-
     /** The component id for the empty data column. */
     public static final String EMPTY_DATA_COLUMN_ID = "_emptyDataColumn"; //NOI18N
-
     /** The facet name for the empty data column. */
     public static final String EMPTY_DATA_COLUMN_FACET = "emptyDataColumn"; //NOI18N
-
     /** The component id for the empty data text. */
     public static final String EMPTY_DATA_TEXT_ID = "_emptyDataText"; //NOI18N
-
     /** The facet name for the empty data text. */
     public static final String EMPTY_DATA_TEXT_FACET = "emptyDataText"; //NOI18N
-
     /** The facet name for the group footer area. */
     public static final String FOOTER_FACET = "footer"; //NOI18N
-
     /** The id for the group footer bar. */
     public static final String GROUP_FOOTER_BAR_ID = "_groupFooterBar"; //NOI18N
-
     /** The component id for the group footer. */
     public static final String GROUP_FOOTER_ID = "_groupFooter"; //NOI18N
-
     /** The facet name for the group footer. */
     public static final String GROUP_FOOTER_FACET = "groupFooter"; //NOI18N
-  
     /** The id for the table row group header bar. */
     public static final String GROUP_HEADER_BAR_ID = "_groupHeaderBar"; //NOI18N
-
     /** The component id for the table row group header. */
     public static final String GROUP_HEADER_ID = "_groupHeader"; //NOI18N
-
     /** The facet name for the table row group header. */
     public static final String GROUP_HEADER_FACET = "groupHeader"; //NOI18N
-
     /** The facet name for the group header area. */
     public static final String HEADER_FACET = "header"; //NOI18N
-
     /** The id for the table column footers bar. */
     public static final String TABLE_COLUMN_FOOTER_BAR_ID = "_tableColumnFooterBar"; //NOI18N
 
@@ -187,25 +171,22 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attributes
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Set the <code>aboveColumnFooter</code> attribute to true to display the group 
      * footer bar above the column footers bar. The default is to display the group 
      * footer below the column footers.
      */
-    @Property(name="aboveColumnFooter", displayName="Is Above Column Footer", category="Appearance")
+    @Property(name = "aboveColumnFooter", displayName = "Is Above Column Footer", category = "Appearance")
     private boolean aboveColumnFooter = false;
     private boolean aboveColumnFooter_set = false;
-
     /**
      * Set the <code>aboveColumnHeader</code> attribute to true to display the group 
      * header bar above the column headers bar. The default is to display the group 
      * header below the column headers.
      */
-    @Property(name="aboveColumnHeader", displayName="Is Above Column Header", category="Appearance")
+    @Property(name = "aboveColumnHeader", displayName = "Is Above Column Header", category = "Appearance")
     private boolean aboveColumnHeader = false;
     private boolean aboveColumnHeader_set = false;
-
     /**
      * Use the <code>align</code> attribute to specify the horizontal alignment for 
      * the content of each cell in the row. Valid values are <code>left</code>, 
@@ -216,9 +197,9 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      * example, to align cell contents on colons, set <code>align="char"</code> and 
      * <code>char=":"</code>
      */
-    @Property(name="align", displayName="Horizontal Alignment Cells In Group", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.TableAlignEditor")
+    @Property(name = "align", displayName = "Horizontal Alignment Cells In Group", category = "Appearance",
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.TableAlignEditor")
     private String align = null;
-
     /**
      * The deprecated BGCOLOR attribute suggests a background color for the
      * row. The combination of this attribute with <FONT COLOR=...> can leave
@@ -228,9 +209,8 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      * other author-specified colors. Style sheets provide a safer, more
      * flexible method of specifying a row's background color.
      */
-    @Property(name="bgColor", displayName="Row Background Color", isHidden=true, isAttribute=false)
+    @Property(name = "bgColor", displayName = "Row Background Color", isHidden = true, isAttribute = false)
     private String bgColor = null;
-
     /**
      * Use the <code>char </code>attribute to specify a character to use for 
      * horizontal alignment in each cell in the row. You must also set the 
@@ -239,9 +219,8 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      * decimal point of the current language, such as a period in English. The 
      * <code>char</code> HTML property is not supported by all browsers.
      */
-    @Property(name="char", displayName="Alignment Character For Cells", isHidden=true, isAttribute=false)
+    @Property(name = "char", displayName = "Alignment Character For Cells", isHidden = true, isAttribute = false)
     private String _char = null;
-
     /**
      * Use the <code>charOff </code>attribute to specify the offset of the first 
      * occurrence of the alignment character that is specified with the 
@@ -252,18 +231,16 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      * horizontally in a cell. If <code>charOff="25%"</code>, the first instance 
      * of the alignment character is placed at one fourth of the width of the cell.
      */
-    @Property(name="charOff", displayName="Alignment Character Offset", isHidden=true, isAttribute=false)
+    @Property(name = "charOff", displayName = "Alignment Character Offset", isHidden = true, isAttribute = false)
     private String charOff = null;
-
     /**
      * Use the collapsed attribute to initially render the group as collapsed, so that 
      * the data rows are hidden and only the header row is visible. The default is to 
      * show the group expanded.
      */
-    @Property(name="collapsed", displayName="Is Collapsed", category="Appearance")
+    @Property(name = "collapsed", displayName = "Is Collapsed", category = "Appearance")
     private boolean collapsed = false;
     private boolean collapsed_set = false;
-
     /**
      * The text to be displayed when the table does not contain data. The text is 
      * displayed left-aligned in a single row that contains one cell that spans all 
@@ -272,9 +249,9 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      * instructions, such as "This table contains no files. To add a file to monitor, 
      * click the New button."
      */
-    @Property(name="emptyDataMsg", displayName="Empty Data Message", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "emptyDataMsg", displayName = "Empty Data Message", category = "Advanced",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String emptyDataMsg = null;
-
     /**
      * Extra HTML code to be appended to the <code>&lt;tr&gt;</code> HTML element that 
      * is rendered for the group footer. Use only code that is valid in an HTML 
@@ -282,9 +259,9 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      * element, and is not checked for validity. For example, you might set this 
      * attribute to <code>"nowrap=`nowrap'"</code>.
      */
-    @Property(name="extraFooterHtml", displayName="Extra Footer HTML", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "extraFooterHtml", displayName = "Extra Footer HTML", category = "Advanced",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String extraFooterHtml = null;
-
     /**
      * Extra HTML code to be appended to the <code>&lt;tr&gt;</code> HTML element that 
      * is rendered for the group header. Use only code that is valid in an HTML 
@@ -292,9 +269,9 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      * element, and is not checked for validity. For example, you might set this 
      * attribute to <code>"nowrap=`nowrap'"</code>.
      */
-    @Property(name="extraHeaderHtml", displayName="Extra Header HTML", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "extraHeaderHtml", displayName = "Extra Header HTML", category = "Advanced",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String extraHeaderHtml = null;
-
     /**
      * Use the <code>first</code> attribute to specify which row should be the first 
      * to be displayed. This value is used only when the table is paginated. By 
@@ -302,30 +279,29 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      * maintained as part of the table's state, and the value is updated when the user 
      * clicks on buttons to page through the table.
      */
-    @Property(name="first", displayName="First Row", category="Behavior", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "first", displayName = "First Row", category = "Behavior",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int first = Integer.MIN_VALUE;
     private boolean first_set = false;
-
     /**
      * The text to be displayed in the group footer.
      */
-    @Property(name="footerText", displayName="Footer Text", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "footerText", displayName = "Footer Text", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String footerText = null;
-
     /**
      * Use the <code>groupToggleButton</code> attribute to display a button in the 
      * group header to allow users to collapse and expand the group of rows.
      */
-    @Property(name="groupToggleButton", displayName="Show Group Toggle Button", category="Appearance")
+    @Property(name = "groupToggleButton", displayName = "Show Group Toggle Button", category = "Appearance")
     private boolean groupToggleButton = false;
     private boolean groupToggleButton_set = false;
-
     /**
      * The text to be displayed in the group header.
      */
-    @Property(name="headerText", displayName="header Text", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "headerText", displayName = "header Text", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String headerText = null;
-
     /**
      * Use the <code>multipleColumnFooters</code> attribute when the 
      * <code>webuijsf:tableRowGroup</code> contains nested <code>webuijsf:tableColumn</code> tags, 
@@ -333,10 +309,9 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      * shown. The default is to show the footers of only the innermost level of nested 
      * <code>webuijsf:tableColumn</code> tags.
      */
-    @Property(name="multipleColumnFooters", displayName="Show Multiple Column Footers", category="Layout")
+    @Property(name = "multipleColumnFooters", displayName = "Show Multiple Column Footers", category = "Layout")
     private boolean multipleColumnFooters = false;
     private boolean multipleColumnFooters_set = false;
-
     /**
      * Use the <code>multipleTableColumnFooters</code> attribute when the 
      * <code>webuijsf:tableRowGroup</code> contains nested <code>webuijsf:tableColumn</code> tags, 
@@ -344,106 +319,103 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      * be shown. The default is to show the table footers of only the innermost level 
      * of nested <code>webuijsf:tableColumn</code> tags.
      */
-    @Property(name="multipleTableColumnFooters", displayName="Show Nested Table Column Footers", category="Layout")
+    @Property(name = "multipleTableColumnFooters", displayName = "Show Nested Table Column Footers", category = "Layout")
     private boolean multipleTableColumnFooters = false;
     private boolean multipleTableColumnFooters_set = false;
-
     /**
      * Scripting code executed when a mouse click
      * occurs over this component.
      */
-    @Property(name="onClick", displayName="Click Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onClick", displayName = "Click Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onClick = null;
-
     /**
      * Scripting code executed when a mouse double click
      * occurs over this component.
      */
-    @Property(name="onDblClick", displayName="Double Click Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onDblClick", displayName = "Double Click Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onDblClick = null;
-
     /**
      * Scripting code executed when the user presses down on a key while the
      * component has focus.
      */
-    @Property(name="onKeyDown", displayName="Key Down Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onKeyDown", displayName = "Key Down Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyDown = null;
-
     /**
      * Scripting code executed when the user presses and releases a key while
      * the component has focus.
      */
-    @Property(name="onKeyPress", displayName="Key Press Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onKeyPress", displayName = "Key Press Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyPress = null;
-
     /**
      * Scripting code executed when the user releases a key while the
      * component has focus.
      */
-    @Property(name="onKeyUp", displayName="Key Up Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onKeyUp", displayName = "Key Up Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyUp = null;
-
     /**
      * Scripting code executed when the user presses a mouse button while the
      * mouse pointer is on the component.
      */
-    @Property(name="onMouseDown", displayName="Mouse Down Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseDown", displayName = "Mouse Down Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseDown = null;
-
     /**
      * Scripting code executed when the user moves the mouse pointer while
      * over the component.
      */
-    @Property(name="onMouseMove", displayName="Mouse Move Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseMove", displayName = "Mouse Move Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseMove = null;
-
     /**
      * Scripting code executed when a mouse out movement
      * occurs over this component.
      */
-    @Property(name="onMouseOut", displayName="Mouse Out Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseOut", displayName = "Mouse Out Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseOut = null;
-
     /**
      * Scripting code executed when the user moves the  mouse pointer into
      * the boundary of this component.
      */
-    @Property(name="onMouseOver", displayName="Mouse In Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseOver", displayName = "Mouse In Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseOver = null;
-
     /**
      * Scripting code executed when the user releases a mouse button while
      * the mouse pointer is on the component.
      */
-    @Property(name="onMouseUp", displayName="Mouse Up Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseUp", displayName = "Mouse Up Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseUp = null;
-
     /**
      * The number of rows per page</span> to be displayed for a paginated table. The 
      * default value is 25 per page.
      */
-    @Property(name="rows", displayName="Paginated rows", category="Data", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "rows", displayName = "Paginated rows", category = "Data",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int rows = Integer.MIN_VALUE;
     private boolean rows_set = false;
-
     /**
      * Use the <code>selectMultipleToggleButton</code> attribute to display a button 
      * in the group header to allow users to select all rows of the group at once. 
      * The button toggles a column of checkboxes using the id that is given to the 
      * <code>selectId</code> attribute of the <code>webuijsf:tableColumn</code> tag.
      */
-    @Property(name="selectMultipleToggleButton", displayName="Show Select Multiple Button", category="Appearance")
+    @Property(name = "selectMultipleToggleButton", displayName = "Show Select Multiple Button", category = "Appearance")
     private boolean selectMultipleToggleButton = false;
     private boolean selectMultipleToggleButton_set = false;
-
     /**
      * Flag indicating that the current row is selected. If the value is set to true, 
      * the row will appear highlighted.
      */
-    @Property(name="selected", displayName="Is Selected", category="Appearance")
+    @Property(name = "selected", displayName = "Is Selected", category = "Appearance")
     private boolean selected = false;
     private boolean selected_set = false;
-
     /**
      * The <code>sourceData</code> attribute is used to specify the data source to 
      * populate the table. The value of the <code>sourceData</code> attribute may be 
@@ -455,9 +427,8 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      * to this attribute should be cached so that the object is not created more
      * often than needed.
      */
-    @Property(name="sourceData", displayName="Source Data", category="Data")
+    @Property(name = "sourceData", displayName = "Source Data", category = "Data")
     private Object sourceData = null;
-
     /**
      * Use the <code>sourceVar</code> attribute to specify the name of the 
      * request-scope attribute under which model data for the current row will be 
@@ -466,9 +437,8 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      * request attribute under the key specified by this property. Note: This 
      * value must be unique for each table in the JSP page.
      */
-    @Property(name="sourceVar", displayName="Source Variable", category="Data")
+    @Property(name = "sourceVar", displayName = "Source Variable", category = "Data")
     private String sourceVar = null;
-
     /**
      * Use the <code>styleClasses</code> attribute to specify a list of CSS style 
      * classes to apply to the rows of the group. You can apply all the styles in the 
@@ -482,9 +452,9 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      * row, etc. The tableRowGroup component iterates through the list of styles and 
      * repeats from the beginning until a style is applied to each row.
      */
-    @Property(name="styleClasses", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
+    @Property(name = "styleClasses", displayName = "CSS Style Class(es)", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClasses = null;
-
     /**
      * The <code>tableDataFilter</code> attribute is used to define filter critera and 
      * mechanism for filtering the contents of a TableDataProvider. The value of the 
@@ -492,9 +462,9 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      * that resolves to a backing bean of type 
      * <code>com.sun.data.provider.TableDataFilter</code>.
      */
-    @Property(name="tableDataFilter", displayName="Table Data Filter", category="Data", isHidden=true, isAttribute=true, editorClassName="com.sun.webui.jsf.component.propertyeditors.FieldKeyEditor")
+    @Property(name = "tableDataFilter", displayName = "Table Data Filter", category = "Data", isHidden = true,
+    isAttribute = true, editorClassName = "com.sun.webui.jsf.component.propertyeditors.FieldKeyEditor")
     private TableDataFilter tableDataFilter = null;
-
     /**
      * The <code>tableDataSorter</code> attribute is used to define sort critera and 
      * the mechanism for sorting the contents of a TableDataProvider. The value of the 
@@ -502,17 +472,17 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      * that resolves to a backing bean of type 
      * <code>com.sun.data.provider.TableDataSorter</code>.
      */
-    @Property(name="tableDataSorter", displayName="Table Data Sorter", category="Data", isHidden=true, isAttribute=true, editorClassName="com.sun.webui.jsf.component.propertyeditors.FieldKeyEditor")
+    @Property(name = "tableDataSorter", displayName = "Table Data Sorter", category = "Data",
+    isHidden = true, isAttribute = true, editorClassName = "com.sun.webui.jsf.component.propertyeditors.FieldKeyEditor")
     private TableDataSorter tableDataSorter = null;
-
     /**
      * Sets the value of the title attribute for the HTML element.
      * The specified text will display as a tooltip if the mouse cursor hovers 
      * over the HTML element.
      */
-    @Property(name="toolTip", displayName="Tool Tip", category="Behavior", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "toolTip", displayName = "Tool Tip", category = "Behavior",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String toolTip = null;
-
     /**
      * Use the <code>valign</code> attribute to specify the vertical alignment for the 
      * content of each cell in the column. Valid values are <code>top</code>, 
@@ -522,9 +492,9 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      * each cell's content to be aligned on the text baseline, the invisible line on 
      * which text characters rest.
      */
-    @Property(name="valign", displayName="Vertical Alignment Of Cells In Group", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.HtmlVerticalAlignEditor")
+    @Property(name = "valign", displayName = "Vertical Alignment Of Cells In Group",
+    category = "Appearance", editorClassName = "com.sun.webui.jsf.component.propertyeditors.HtmlVerticalAlignEditor")
     private String valign = null;
-
     /**
      * Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -534,7 +504,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.
      */
-    @Property(name="visible", displayName="Visible", category="Behavior")
+    @Property(name = "visible", displayName = "Visible", category = "Behavior")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -554,7 +524,6 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Child methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Clear cached properties.
      * <p>
@@ -574,7 +543,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
         tableAncestor = null;
         tableColumnChildren = null;
         filteredRowKeys = null;
-        sortedRowKeys = null;        
+        sortedRowKeys = null;
         columnCount = -1;
 
         // Clear properties of TableColumn children.
@@ -647,7 +616,6 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Component methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Get empty data column.
      *
@@ -661,7 +629,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
 
         // Get child.
         TableColumn child = new TableColumn();
-	child.setId(EMPTY_DATA_COLUMN_ID);
+        child.setId(EMPTY_DATA_COLUMN_ID);
         child.setColSpan(getColumnCount());
         child.getChildren().add(getEmptyDataText());
 
@@ -699,7 +667,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
 
         // Get child.
         StaticText child = new StaticText();
-        child.setId(EMPTY_DATA_TEXT_ID);        
+        child.setId(EMPTY_DATA_TEXT_ID);
         child.setStyleClass(theme.getStyleClass(ThemeStyles.TABLE_MESSAGE_TEXT));
         child.setText(msg);
 
@@ -721,7 +689,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
 
         // Get child.
         TableFooter child = new TableFooter();
-	child.setId(GROUP_FOOTER_ID);
+        child.setId(GROUP_FOOTER_ID);
         child.setColSpan(getColumnCount());
         child.setExtraHtml(getExtraFooterHtml());
         child.setGroupFooter(true);
@@ -732,7 +700,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
             child.setRendered(false);
         } else {
             log("getGroupFooter", //NOI18N
-                "Group footer not rendered, nothing to display"); //NOI18N
+                    "Group footer not rendered, nothing to display"); //NOI18N
         }
 
         // Save facet and return child.
@@ -753,7 +721,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
 
         // Get child.
         TableHeader child = new TableHeader();
-	child.setId(GROUP_HEADER_ID);
+        child.setId(GROUP_HEADER_ID);
         child.setScope("colgroup"); //NOI18N
         child.setColSpan(getColumnCount());
         child.setExtraHtml(getExtraHeaderHtml());
@@ -761,17 +729,15 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
 
         // Don't render for an empty table.
         boolean emptyTable = getRowCount() == 0;
-        boolean renderControls = !emptyTable
-            && (isSelectMultipleToggleButton() || isGroupToggleButton());
+        boolean renderControls = !emptyTable && (isSelectMultipleToggleButton() || isGroupToggleButton());
 
         // Set rendered.
         facet = getFacet(HEADER_FACET);
-        if (!(facet != null && facet.isRendered()
-                || getHeaderText() != null || renderControls)) {
+        if (!(facet != null && facet.isRendered() || getHeaderText() != null || renderControls)) {
             child.setRendered(false);
         } else {
             log("getGroupHeader", //NOI18N
-                "Group header not rendered, nothing to display"); //NOI18N
+                    "Group header not rendered, nothing to display"); //NOI18N
         }
 
         // Save facet and return child.
@@ -782,7 +748,6 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Filter methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Clear FilterCriteria objects from the TableDataFilter instance used by
      * this component. 
@@ -822,10 +787,10 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
 
         // Do not attempt to filter with a null provider.
         TableDataProvider provider = getTableRowDataProvider().
-            getTableDataProvider();
+                getTableDataProvider();
         if (provider == null) {
             log("getFilteredRowKeys", //NOI18N
-                "Cannot obtain filtered row keys, TableDataProvider is null"); //NOI18N
+                    "Cannot obtain filtered row keys, TableDataProvider is null"); //NOI18N
             return filteredRowKeys;
         }
 
@@ -837,7 +802,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
             filteredRowKeys = filter.filter(provider, filteredRowKeys);
         } else {
             log("getFilteredRowKeys", //NOI18N
-                "Row keys already filtered, TableDataFilter and TableDataProvider are the same instance"); //NOI18N
+                    "Row keys already filtered, TableDataFilter and TableDataProvider are the same instance"); //NOI18N
         }
         return filteredRowKeys;
     }
@@ -889,7 +854,6 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Pagination methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Get the zero-relative row number of the first row to be displayed for
      * a paginated table.
@@ -976,7 +940,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
 
         int rowCount = getRowCount(); // Get row count.
         int rows = getRows(); // Get rows per page. 
-        
+
         // Note: Rows should be > 0 when paginated.
         int modulus = (rows > 0) ? rowCount % rows : 0;
         int result = (rows > 0) ? rowCount / rows : 1;
@@ -1000,7 +964,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
                 setPaginated(table.isPaginationControls());
             } else {
                 log("isPaginated", //NOI18N
-                    "Cannot initialize paginated state, Table is null"); //NOI18N
+                        "Cannot initialize paginated state, Table is null"); //NOI18N
             }
         }
         return paginated;
@@ -1081,7 +1045,6 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Row methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Get the flag indicating whether there is row data available for the
      * current RowKey. If no row data is available, false is returned.
@@ -1091,12 +1054,12 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
     public boolean isRowAvailable() {
         boolean result = false;
         TableDataProvider provider = getTableRowDataProvider().
-            getTableDataProvider();
+                getTableDataProvider();
         if (provider != null) {
             result = provider.isRowAvailable(getRowKey());
         } else {
             log("isRowAvailable", //NOI18N
-                "Cannot determine if row is available, TableDataProvider is null"); //NOI18N
+                    "Cannot determine if row is available, TableDataProvider is null"); //NOI18N
         }
         return result;
     }
@@ -1122,7 +1085,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
         RowKey[] rowKeys = getSortedRowKeys();
         if (rowKeys == null) {
             return rowKeys;
-        }  
+        }
 
         // Find the number of selected rows hidden from view.
         ArrayList list = new ArrayList();
@@ -1194,13 +1157,13 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      *
      * @return All RowKey objects for the underlying TableDataProvider.
      */
-    public RowKey[] getRowKeys() {       
+    public RowKey[] getRowKeys() {
         RowKey[] rowKeys = null;
         TableDataProvider provider = getTableRowDataProvider().
-            getTableDataProvider();
+                getTableDataProvider();
         if (provider == null) {
             log("getRowKeys", //NOI18N
-                "Cannot obtain row keys, TableDataProvider is null"); //NOI18N
+                    "Cannot obtain row keys, TableDataProvider is null"); //NOI18N
             return rowKeys;
         }
 
@@ -1216,7 +1179,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
             // If pagination is not enabled, dummy data is not required.
             if (getRows() == 0 || rowKeys == null || rowKeys.length == 0) {
                 log("getRowKeys", //NOI18N
-                    "Cannot create dummy data, DataProvider has no rows"); //NOI18N
+                        "Cannot create dummy data, DataProvider has no rows"); //NOI18N
                 return rowKeys;
             } else {
                 ArrayList list = new ArrayList();
@@ -1236,7 +1199,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
         int rowCount = provider.getRowCount();
         if (rowCount == -1) {
             log("getRowKeys", //NOI18N
-                "Manually calculating row count, DataProvider.getRowCount() is -1"); //NOI18N
+                    "Manually calculating row count, DataProvider.getRowCount() is -1"); //NOI18N
             int index = 0;
             do {
                 // Keep trying until all rows are obtained.
@@ -1259,8 +1222,8 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
         // Get provider.
         if (provider == null) {
             log("getTableRowDataProvider", //NOI18N
-                "Re-evaluating sourceData, TableRowDataProvider is null"); //NOI18N
-        
+                    "Re-evaluating sourceData, TableRowDataProvider is null"); //NOI18N
+
             // Synthesize a TableDataProvider around source data, if possible.
             TableDataProvider tdp;
             Object obj = getSourceData();
@@ -1311,7 +1274,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
         RowKey[] rowKeys = getSortedRowKeys();
         if (rowKeys == null) {
             return rowKeys;
-        }  
+        }
 
         // Find the number of selected rows hidden from view.
         ArrayList list = new ArrayList();
@@ -1399,7 +1362,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
         String sourceVar = getSourceVar();
         if (sourceVar != null) {
             Map requestMap =
-                getFacesContext().getExternalContext().getRequestMap();
+                    getFacesContext().getExternalContext().getRequestMap();
             if (rowKey == null) {
                 requestMap.remove(sourceVar);
             } else if (isRowAvailable()) {
@@ -1437,7 +1400,6 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Selected methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Get the number of objects from the underlying data provider where the
      * selected property of this component is set to true and the row is 
@@ -1491,7 +1453,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
         RowKey[] rowKeys = getHiddenRowKeys();
         if (rowKeys == null) {
             return rowKeys;
-        }  
+        }
 
         // Save the current RowKey.
         RowKey rowKey = getRowKey();
@@ -1545,7 +1507,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
 
         // Save the current RowKey.
         RowKey rowKey = getRowKey();
-        
+
         // Find the number of selected rows.
         ArrayList list = new ArrayList();
         for (int i = 0; i < rowKeys.length; i++) {
@@ -1609,7 +1571,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
         RowKey[] rowKeys = getRenderedRowKeys();
         if (rowKeys == null) {
             return rowKeys;
-        }  
+        }
 
         // Save the current RowKey.
         RowKey rowKey = getRowKey();
@@ -1630,7 +1592,6 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Sort methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Add a SortCriteria object to sort.
      * <p>
@@ -1806,10 +1767,10 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
         // Do not attempt to sort with a null provider. BasicTableDataSorter
         // throws NullPointerException -- CR #6268451.
         TableDataProvider provider = getTableRowDataProvider().
-            getTableDataProvider();
+                getTableDataProvider();
         if (provider == null) {
             log("getSortedRowKeys", //NOI18N
-                "Cannot obtain sorted row keys, TableDataProvider is null"); //NOI18N
+                    "Cannot obtain sorted row keys, TableDataProvider is null"); //NOI18N
             return sortedRowKeys;
         }
 
@@ -1870,10 +1831,10 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // State methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Restore the state of this component.
      */
+    @Override
     public void restoreState(FacesContext context, Object state) {
         Object values[] = (Object[]) state;
         _restoreState(context, values[0]);
@@ -1906,6 +1867,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      *
      * @return An array of Object values.
      */
+    @Override
     public Object saveState(FacesContext context) {
         Object values[] = new Object[8];
         values[0] = _saveState(context);
@@ -1921,7 +1883,6 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // UIComponent methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Set the ValueExpression used to calculate the value for the specified
      * attribute or property name, if any.  In addition, if a ValueExpression is
@@ -1944,11 +1905,12 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      * @exception IllegalArgumentException If name is one of sourceVar.
      * @exception NullPointerException If name is null.
      */
+    @Override
     public void setValueExpression(String name, ValueExpression valueExpression) {
         if ("sourceData".equals(name)) { //NOI18N
             setPage(1); // Reset to first page.
             clear(); // Clear cached properties.
-        } else if ("sourceVar".equals(name) && !valueExpression.isLiteralText() ) { //NOI18N
+        } else if ("sourceVar".equals(name) && !valueExpression.isLiteralText()) { //NOI18N
             log("setValueExpression", "sourceVar cannot equal given name"); //NOI18N
             throw new IllegalArgumentException();
         }
@@ -1965,6 +1927,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      * @exception NullPointerException if FacesContext is null.
      * @return The client id.
      */
+    @Override
     public String getClientId(FacesContext context) {
         if (context == null) {
             log("getClientId", "Cannot obtain client Id, FacesContext is null"); //NOI18N
@@ -1974,7 +1937,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
         String baseClientId = super.getClientId(context);
         if (getRowKey() != null) {
             return (baseClientId + NamingContainer.SEPARATOR_CHAR +
-                getRowKey().getRowId());
+                    getRowKey().getRowId());
         } else {
             return (baseClientId);
         }
@@ -1991,6 +1954,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      * of a UIViewRoot.
      * @exception NullPointerException If FacesEvent is null.
      */
+    @Override
     public void queueEvent(FacesEvent event) {
         super.queueEvent(new WrapperEvent(this, event, getRowKey()));
     }
@@ -2010,6 +1974,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      * of this FacesEvent is not supported by this component.
      * @exception NullPointerException if FacesEvent is null.
      */
+    @Override
     public void broadcast(FacesEvent event) throws AbortProcessingException {
         if (!(event instanceof WrapperEvent)) {
             super.broadcast(event);
@@ -2036,6 +2001,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      * @exception IOException if an input/output error occurs while rendering.
      * @exception NullPointerException if FacesContext is null.
      */
+    @Override
     public void encodeBegin(FacesContext context) throws IOException {
         // Clear objects cached during the decode, validate, and update phases
         // so nested tables can render new TableDataProvider objects.
@@ -2077,6 +2043,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      *
      * @exception NullPointerException if FacesContext is null.
      */
+    @Override
     public void processDecodes(FacesContext context) {
         if (context == null) {
             log("processDecodes", "Cannot decode, FacesContext is null"); //NOI18N
@@ -2085,7 +2052,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
         if (!isRendered()) {
             log("processDecodes", "Component not rendered, nothing to decode"); //NOI18N
             return;
-        }       
+        }
         if (saved == null || !keepSaved(context)) {
             saved = new HashMap(); // We don't need saved state here
         }
@@ -2120,6 +2087,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      *
      * @exception NullPointerException if FacesContext is null.
      */
+    @Override
     public void processValidators(FacesContext context) {
         if (context == null) {
             log("processValidators", "Cannot validate, FacesContext is null"); //NOI18N
@@ -2127,11 +2095,11 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
         }
         if (!isRendered()) {
             log("processValidators", //NOI18N
-                "Component not rendered, nothing to validate"); //NOI18N
+                    "Component not rendered, nothing to validate"); //NOI18N
             return;
         }
         iterate(context, PhaseId.PROCESS_VALIDATIONS);
-        // This is not a EditableValueHolder, so no further processing is required
+    // This is not a EditableValueHolder, so no further processing is required
     }
 
     /**
@@ -2160,6 +2128,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      *
      * @exception NullPointerException if FacesContext is null.
      */
+    @Override
     public void processUpdates(FacesContext context) {
         if (context == null) {
             log("processUpdates", "Cannot update, FacesContext is null"); //NOI18N
@@ -2174,28 +2143,28 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
         // Set collapsed property applied client-side.
         UIComponent header = getFacet(GROUP_HEADER_ID);
         UIComponent field = (header != null)
-            ? (UIComponent) header.getFacets().get(
+                ? (UIComponent) header.getFacets().get(
                 TableHeader.COLLAPSED_HIDDEN_FIELD_ID)
-            : null;
+                : null;
         if (field instanceof HiddenField) {
-            Boolean value = (field != null) 
-                ? (Boolean) ((HiddenField) field).getText() : null;
+            Boolean value = (field != null)
+                    ? (Boolean) ((HiddenField) field).getText() : null;
             setCollapsed(value.booleanValue());
         } else {
             log("processUpdates", "Cannot obtain collapsed hidden field value"); //NOI18N
         }
-        // This is not a EditableValueHolder, so no further processing is required
+    // This is not a EditableValueHolder, so no further processing is required
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -2207,7 +2176,8 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
@@ -3292,7 +3262,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
     /**
      * Restore the state of this component.
      */
-    private void _restoreState(FacesContext _context,Object _state) { // To do: Merge gen code with public method?
+    private void _restoreState(FacesContext _context, Object _state) { // To do: Merge gen code with public method?
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.aboveColumnFooter = ((Boolean) _values[1]).booleanValue();
@@ -3405,14 +3375,13 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Helper method to get Theme objects.
      *
      * @return The current theme.
      */
     private Theme getTheme() {
-	return ThemeUtilities.getTheme(getFacesContext());
+        return ThemeUtilities.getTheme(getFacesContext());
     }
 
     /**
@@ -3478,7 +3447,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
                 facet.processUpdates(context);
             } else {
                 log("iterate", //NOI18N
-                    "Cannot process component facets, Invalid phase ID"); //NOI18N
+                        "Cannot process component facets, Invalid phase ID"); //NOI18N
                 throw new IllegalArgumentException();
             }
         }
@@ -3490,7 +3459,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
             TableColumn kid = (TableColumn) kids.next();
             if (!kid.isRendered()) {
                 log("iterate", //NOI18N
-                    "Cannot process TableColumn facets, TableColumn not rendered"); //NOI18N
+                        "Cannot process TableColumn facets, TableColumn not rendered"); //NOI18N
                 continue;
             }
             iterateTableColumnFacets(context, kid, phaseId);
@@ -3500,7 +3469,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
         RowKey[] rowKeys = getRenderedRowKeys();
         if (rowKeys == null) {
             log("iterate", //NOI18N
-                "Cannot iterate over TableColumn children, RowKey array is null"); //NOI18N
+                    "Cannot iterate over TableColumn children, RowKey array is null"); //NOI18N
             return;
         }
 
@@ -3509,7 +3478,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
             setRowKey(rowKeys[i]);
             if (!isRowAvailable()) {
                 log("iterate", //NOI18N
-                    "Cannot iterate over TableColumn children, row not available"); //NOI18N
+                        "Cannot iterate over TableColumn children, row not available"); //NOI18N
                 break;
             }
 
@@ -3528,7 +3497,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
                     UIComponent grandkid = (UIComponent) grandkids.next();
                     if (!grandkid.isRendered()) {
                         log("iterate", //NOI18N
-                            "Cannot process TableColumn child, not rendered"); //NOI18N
+                                "Cannot process TableColumn child, not rendered"); //NOI18N
                         continue;
                     }
                     iterateTableColumnChildren(context, grandkid, phaseId);
@@ -3549,7 +3518,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
             TableColumn component, PhaseId phaseId) {
         if (component == null) {
             log("iterateTableColumnFacets", //NOI18N
-                "Cannot iterate over TableColumn facets, TableColumn is null"); //NOI18N
+                    "Cannot iterate over TableColumn facets, TableColumn is null"); //NOI18N
             return;
         }
 
@@ -3565,7 +3534,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
             while (facets.hasNext()) {
                 // Get facet.
                 UIComponent facet = (UIComponent) component.getFacets().get(
-                    facets.next());
+                        facets.next());
                 if (phaseId == PhaseId.APPLY_REQUEST_VALUES) {
                     facet.processDecodes(context);
                 } else if (phaseId == PhaseId.PROCESS_VALIDATIONS) {
@@ -3574,7 +3543,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
                     facet.processUpdates(context);
                 } else {
                     log("iterateTableColumnFacets", //NOI18N
-                        "Cannot iterate over TableColumn facets, Invalid phase ID"); //NOI18N
+                            "Cannot iterate over TableColumn facets, Invalid phase ID"); //NOI18N
                     throw new IllegalArgumentException();
                 }
             }
@@ -3592,7 +3561,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
             UIComponent component, PhaseId phaseId) {
         if (component == null) {
             log("iterateTableColumnChildren", //NOI18N
-                "Cannot iterate over TableColumn children, UIComponent is null"); //NOI18N
+                    "Cannot iterate over TableColumn children, UIComponent is null"); //NOI18N
             return;
         }
 
@@ -3615,7 +3584,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
                 component.processUpdates(context);
             } else {
                 log("iterateTableColumnChildren", //NOI18N
-                    "Cannot iterate over TableColumn children, Invalid phase ID"); //NOI18N
+                        "Cannot iterate over TableColumn children, Invalid phase ID"); //NOI18N
                 throw new IllegalArgumentException();
             }
         }
@@ -3648,18 +3617,18 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
             }
         }
 
-	// Bug 6377769
-	// Check all components within the TableRowGroup not just 
-	// cached Editable value holders.
-	//
-	Iterator messages = context.getMessages();
-	while (messages.hasNext()) {
-	    FacesMessage message = (FacesMessage) messages.next();
-	    if (message.getSeverity().
-		    compareTo(FacesMessage.SEVERITY_ERROR) >= 0) {
-		return (true);
-	    }
-	}
+        // Bug 6377769
+        // Check all components within the TableRowGroup not just
+        // cached Editable value holders.
+        //
+        Iterator messages = context.getMessages();
+        while (messages.hasNext()) {
+            FacesMessage message = (FacesMessage) messages.next();
+            if (message.getSeverity().
+                    compareTo(FacesMessage.SEVERITY_ERROR) >= 0) {
+                return (true);
+            }
+        }
         return (isNestedWithinTableRowGroup());
     }
 
@@ -3669,7 +3638,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
     private void log(String method, String message) {
         // Get class.
         Class clazz = this.getClass();
-	if (LogUtil.fineEnabled(clazz)) {
+        if (LogUtil.fineEnabled(clazz)) {
             // Log method name and message.
             LogUtil.fine(clazz, clazz.getName() + "." + method + ": " + message); //NOI18N
         }
@@ -3719,7 +3688,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
             // calling setValue() always resets "localValueSet" to true.
             input.setLocalValueSet(state.isLocalValueSet());
 
-	    ConversionUtilities.restoreRenderedValueState(context, component);
+            ConversionUtilities.restoreRenderedValueState(context, component);
         }
 
         // Restore state for children of this component
@@ -3740,7 +3709,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
             TableColumn kid = (TableColumn) kids.next();
             if (!kid.isRendered()) {
                 log("saveDescendantState", //NOI18N
-                    "Cannot save descendant state, TableColumn not rendered"); //NOI18N
+                        "Cannot save descendant state, TableColumn not rendered"); //NOI18N
                 continue;
             }
             saveDescendantState(kid, context);
@@ -3755,7 +3724,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      * @param context FacesContext for the current request.
      */
     private void saveDescendantState(UIComponent component,
-        FacesContext context) {
+            FacesContext context) {
 
         // Save state for this component (if it is a EditableValueHolder)
         if (component instanceof EditableValueHolder) {
@@ -3771,7 +3740,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
             state.setSubmittedValue(input.getSubmittedValue());
             state.setLocalValueSet(input.isLocalValueSet());
 
-	    ConversionUtilities.saveRenderedValueState(context, component);
+            ConversionUtilities.saveRenderedValueState(context, component);
         }
 
         // Note: Don't bother logging messages here -- too many messages.
@@ -3790,7 +3759,11 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 // Private class to represent saved state information.
+
+// Private class to wrap an event with a RowKey.
 class SavedState implements Serializable {
+
+    private static final long serialVersionUID = -5042211238247402956L;
     private Object submittedValue;
     private boolean valid = true;
     private Object value;
@@ -3828,14 +3801,16 @@ class SavedState implements Serializable {
         this.localValueSet = localValueSet;
     }
 
+    @Override
     public String toString() {
         return ("submittedValue: " + submittedValue + " value: " + value + //NOI18N
-            " localValueSet: " + localValueSet); //NOI18N
+                " localValueSet: " + localValueSet); //NOI18N
     }
 }
 
-// Private class to wrap an event with a RowKey.
 class WrapperEvent extends FacesEvent {
+
+    private static final long serialVersionUID = 6625734597395780327L;
     private FacesEvent event = null;
     private RowKey rowKey = null;
 
@@ -3853,12 +3828,14 @@ class WrapperEvent extends FacesEvent {
         return (this.rowKey);
     }
 
+    @Override
     public PhaseId getPhaseId() {
-    return (this.event.getPhaseId());
+        return (this.event.getPhaseId());
     }
 
+    @Override
     public void setPhaseId(PhaseId phaseId) {
-    this.event.setPhaseId(phaseId);
+        this.event.setPhaseId(phaseId);
     }
 
     public boolean isAppropriateListener(FacesListener listener) {

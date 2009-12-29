@@ -24,29 +24,26 @@ package com.sun.webui.jsf.component;
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import javax.el.ValueExpression;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.el.ValueBinding;
 
 /**
  * Component that represents a table.
  */
-@Component(type="com.sun.webui.jsf.Table2",
-    family="com.sun.webui.jsf.Table2",
-    tagRendererType="com.sun.webui.jsf.widget.Table2", 
-    displayName="Table2", tagName="table2", isTag=false) // Remove isTag to run
+@Component(type = "com.sun.webui.jsf.Table2",
+family = "com.sun.webui.jsf.Table2",
+tagRendererType = "com.sun.webui.jsf.widget.Table2",
+displayName = "Table2", tagName = "table2", isTag = false) // Remove isTag to run
 public class Table2 extends Table implements NamingContainer, Widget {
-    /** The facet name for the actions area. */ 
+
+    /** The facet name for the actions area. */
     public static final String ACTIONS_FACET = "actions"; //NOI18N 
- 
-    /** The facet name for the title area. */ 
+    /** The facet name for the title area. */
     public static final String TITLE_FACET = "title"; //NOI18N
 
     // A List containing Table2RowGroup children. 
@@ -55,7 +52,6 @@ public class Table2 extends Table implements NamingContainer, Widget {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Base methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     public Table2() {
         super();
         setRendererType("com.sun.webui.jsf.widget.Table2");
@@ -65,6 +61,7 @@ public class Table2 extends Table implements NamingContainer, Widget {
         return getFacesContext();
     }
 
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.Table2";
     }
@@ -81,24 +78,23 @@ public class Table2 extends Table implements NamingContainer, Widget {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Child methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /** 
      * Get an Iterator over the Table2RowGroup children found for this
      * component. 
      * 
      * @return An Iterator over the Table2RowGroup children. 
-     */ 
-    public Iterator getTable2RowGroupChildren() { 
+     */
+    public Iterator getTable2RowGroupChildren() {
         // Get TableRowGroup children. 
-        if (table2RowGroupChildren == null) { 
-            table2RowGroupChildren = new ArrayList(); 
-            Iterator kids = getChildren().iterator(); 
-            while (kids.hasNext()) { 
-                UIComponent kid = (UIComponent) kids.next(); 
-                if ((kid instanceof Table2RowGroup)) { 
-                    table2RowGroupChildren.add(kid); 
-                } 
-            } 
+        if (table2RowGroupChildren == null) {
+            table2RowGroupChildren = new ArrayList();
+            Iterator kids = getChildren().iterator();
+            while (kids.hasNext()) {
+                UIComponent kid = (UIComponent) kids.next();
+                if ((kid instanceof Table2RowGroup)) {
+                    table2RowGroupChildren.add(kid);
+                }
+            }
         }
         return table2RowGroupChildren.iterator();
     }
@@ -106,11 +102,10 @@ public class Table2 extends Table implements NamingContainer, Widget {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Alternative HTML template to be used by this component.
      */
-    @Property(name="htmlTemplate", displayName="HTML Template", category="Appearance")
+    @Property(name = "htmlTemplate", displayName = "HTML Template", category = "Appearance")
     private String htmlTemplate = null;
 
     /**

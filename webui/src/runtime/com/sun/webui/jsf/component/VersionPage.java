@@ -33,9 +33,10 @@ import com.sun.faces.annotation.Property;
 /**
  * The VersionPage component is used to display a version page.
  */
-@Component(type="com.sun.webui.jsf.VersionPage", family="com.sun.webui.jsf.VersionPage", displayName="Version Page", tagName="versionPage",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_version_page",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_version_page_props")
+@Component(type = "com.sun.webui.jsf.VersionPage", family = "com.sun.webui.jsf.VersionPage",
+displayName = "Version Page", tagName = "versionPage",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_version_page",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_version_page_props")
 public class VersionPage extends UIOutput implements NamingContainer {
 
     /**
@@ -49,6 +50,7 @@ public class VersionPage extends UIOutput implements NamingContainer {
     /**
      * <p>Return the family for this component.</p>
      */
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.VersionPage";
     }
@@ -56,12 +58,12 @@ public class VersionPage extends UIOutput implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -73,27 +75,30 @@ public class VersionPage extends UIOutput implements NamingContainer {
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
 
     // Hide converter
-    @Property(isHidden=true, isAttribute=false)
+    @Property(isHidden = true, isAttribute = false)
+    @Override
     public Converter getConverter() {
         return super.getConverter();
     }
-    
+
     // Hide value
-    @Property(isHidden=true, isAttribute=false)
+    @Property(isHidden = true, isAttribute = false)
+    @Override
     public Object getValue() {
         return super.getValue();
     }
-    
     /**
      * <p>The application copyright information.</p>
      */
-    @Property(name="copyrightString", displayName="Copyright String", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "copyrightString", displayName = "Copyright String", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String copyrightString = null;
 
     /**
@@ -117,11 +122,11 @@ public class VersionPage extends UIOutput implements NamingContainer {
     public void setCopyrightString(String copyrightString) {
         this.copyrightString = copyrightString;
     }
-
     /**
      * <p>The description to use for the Product Name Image displayed in the version page.</p>
      */
-    @Property(name="productImageDescription", displayName="Product Image Description", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "productImageDescription", displayName = "Product Image Description",
+    category = "Appearance", editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String productImageDescription = null;
 
     /**
@@ -145,11 +150,11 @@ public class VersionPage extends UIOutput implements NamingContainer {
     public void setProductImageDescription(String productImageDescription) {
         this.productImageDescription = productImageDescription;
     }
-
     /**
      * <p>The height to use for the Product Name Image</p>
      */
-    @Property(name="productImageHeight", displayName="Product Image Height", category="Appearance", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "productImageHeight", displayName = "Product Image Height",
+    category = "Appearance", editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int productImageHeight = Integer.MIN_VALUE;
     private boolean productImageHeight_set = false;
 
@@ -180,11 +185,11 @@ public class VersionPage extends UIOutput implements NamingContainer {
         this.productImageHeight = productImageHeight;
         this.productImageHeight_set = true;
     }
-
     /**
      * <p>The url to use for the Product Name Image</p>
      */
-    @Property(name="productImageURL", displayName="Product Image URL", category="Navigation", editorClassName="com.sun.webui.jsf.component.propertyeditors.SunWebUrlPropertyEditor")
+    @Property(name = "productImageURL", displayName = "Product Image URL",
+    category = "Navigation", editorClassName = "com.sun.webui.jsf.component.propertyeditors.SunWebUrlPropertyEditor")
     private String productImageURL = null;
 
     /**
@@ -208,11 +213,11 @@ public class VersionPage extends UIOutput implements NamingContainer {
     public void setProductImageURL(String productImageURL) {
         this.productImageURL = productImageURL;
     }
-
     /**
      * <p>The width to use for the Product Name Image</p>
      */
-    @Property(name="productImageWidth", displayName="Product Image Width", category="Appearance", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "productImageWidth", displayName = "Product Image Width",
+    category = "Appearance", editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int productImageWidth = Integer.MIN_VALUE;
     private boolean productImageWidth_set = false;
 
@@ -243,12 +248,12 @@ public class VersionPage extends UIOutput implements NamingContainer {
         this.productImageWidth = productImageWidth;
         this.productImageWidth_set = true;
     }
-
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
+    @Property(name = "style", displayName = "CSS Style(s)", category = "Appearance",
+    editorClassName = "com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
@@ -274,12 +279,12 @@ public class VersionPage extends UIOutput implements NamingContainer {
     public void setStyle(String style) {
         this.style = style;
     }
-
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
@@ -305,11 +310,12 @@ public class VersionPage extends UIOutput implements NamingContainer {
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-
     /**
      * <p>The name of version information file containing the formatted application version and copyright message.</p>
      */
-    @Property(name="versionInformationFile", displayName="Version Information File", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor", isHidden=true, isAttribute=false)
+    @Property(name = "versionInformationFile", displayName = "Version Information File",
+    category = "Appearance", editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor",
+    isHidden = true, isAttribute = false)
     private String versionInformationFile = null;
 
     /**
@@ -333,11 +339,11 @@ public class VersionPage extends UIOutput implements NamingContainer {
     public void setVersionInformationFile(String versionInformationFile) {
         this.versionInformationFile = versionInformationFile;
     }
-
     /**
      * <p>The application version.</p>
      */
-    @Property(name="versionString", displayName="Version String", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "versionString", displayName = "Version String", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String versionString = null;
 
     /**
@@ -361,7 +367,6 @@ public class VersionPage extends UIOutput implements NamingContainer {
     public void setVersionString(String versionString) {
         this.versionString = versionString;
     }
-
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -371,7 +376,7 @@ public class VersionPage extends UIOutput implements NamingContainer {
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @Property(name="visible", displayName="Visible")
+    @Property(name = "visible", displayName = "Visible")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -418,7 +423,8 @@ public class VersionPage extends UIOutput implements NamingContainer {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.copyrightString = (String) _values[1];
@@ -439,6 +445,7 @@ public class VersionPage extends UIOutput implements NamingContainer {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[14];
         _values[0] = super.saveState(_context);
@@ -457,5 +464,4 @@ public class VersionPage extends UIOutput implements NamingContainer {
         _values[13] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
-
 }

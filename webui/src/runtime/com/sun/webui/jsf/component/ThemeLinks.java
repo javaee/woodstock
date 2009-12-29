@@ -23,7 +23,6 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
@@ -32,14 +31,16 @@ import javax.faces.context.FacesContext;
  * The ThemeLicnks component is used to create references to theme resources on 
  * a page in a portlet environment, where the Head component cannot be used.
  */
-@Component(type="com.sun.webui.jsf.ThemeLinks", family="com.sun.webui.jsf.ThemeLinks", displayName="ThemeLinks", tagName="themeLinks",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_theme_links",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_theme_links_props")
+@Component(type = "com.sun.webui.jsf.ThemeLinks", family = "com.sun.webui.jsf.ThemeLinks",
+displayName = "ThemeLinks", tagName = "themeLinks",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_theme_links",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_theme_links_props")
 public class ThemeLinks extends UIComponentBase {
+
     /**
      * Holds value of property styleSheetLink.
      */
-    private boolean styleSheetLink = true; 
+    private boolean styleSheetLink = true;
 
     /**
      * Default constructor.
@@ -75,12 +76,12 @@ public class ThemeLinks extends UIComponentBase {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -92,16 +93,16 @@ public class ThemeLinks extends UIComponentBase {
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
-
     /**
      * Flag (true or false) indicating that Dojo debugging is enabled. The 
      * default value is false.
      */
-    @Property(name="debug", displayName="Enable Dojo Debugging", category="Advanced")
+    @Property(name = "debug", displayName = "Enable Dojo Debugging", category = "Advanced")
     private boolean debug = false;
     private boolean debug_set = false;
 
@@ -123,7 +124,7 @@ public class ThemeLinks extends UIComponentBase {
         }
         return false;
     }
-    
+
     /**
      * Set flag indicating that Dojo debugging is enabled.
      */
@@ -131,12 +132,11 @@ public class ThemeLinks extends UIComponentBase {
         this.debug = debug;
         this.debug_set = true;
     }
-
     /**
      * Flag (true or false) indicating that component JavaScript should be 
      * output in page. The default value is true.
      */
-    @Property(name="javaScript", displayName="Include Component JavaScript", category="Advanced")
+    @Property(name = "javaScript", displayName = "Include Component JavaScript", category = "Advanced")
     private boolean javaScript = true;
     private boolean javaScript_set = false;
 
@@ -166,13 +166,12 @@ public class ThemeLinks extends UIComponentBase {
         this.javaScript = javaScript;
         this.javaScript_set = true;
     }
-
     /**
      * Flag (true or false) indicating that Dojo should search for dojoType 
      * widget tags. Page load time is proportional to the number of nodes on the
      * page. The default value is false.
      */
-    @Property(name="parseWidgets", displayName="Parse Dojo Widgets", category="Advanced")
+    @Property(name = "parseWidgets", displayName = "Parse Dojo Widgets", category = "Advanced")
     private boolean parseWidgets = false;
     private boolean parseWidgets_set = false;
 
@@ -202,12 +201,11 @@ public class ThemeLinks extends UIComponentBase {
         this.parseWidgets = parseWidgets;
         this.parseWidgets_set = true;
     }
-
     /**
      * <p>If set to true, a link element with a reference to the theme
      * stylesheet resource is rendered.</p>
      */
-    @Property(name="styleSheet", displayName="Include StyleSheet Link", category="Advanced")
+    @Property(name = "styleSheet", displayName = "Include StyleSheet Link", category = "Advanced")
     private boolean styleSheet = false;
     private boolean styleSheet_set = false;
 
@@ -240,12 +238,11 @@ public class ThemeLinks extends UIComponentBase {
         this.styleSheet = styleSheet;
         this.styleSheet_set = true;
     }
-
     /**
      * <p>If set to true, the theme stylesheet contents will be rendered inline 
      * instead of being linked to.</p>
      */
-    @Property(name="styleSheetInline", displayName="Include StyleSheet Definitions Inline", category="Advanced")
+    @Property(name = "styleSheetInline", displayName = "Include StyleSheet Definitions Inline", category = "Advanced")
     private boolean styleSheetInline = false;
     private boolean styleSheetInline_set = false;
 
@@ -282,7 +279,8 @@ public class ThemeLinks extends UIComponentBase {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.javaScript = ((Boolean) _values[1]).booleanValue();
@@ -296,6 +294,7 @@ public class ThemeLinks extends UIComponentBase {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[7];
         _values[0] = super.saveState(_context);

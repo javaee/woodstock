@@ -20,18 +20,15 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 /*
- * $Id: WizardBranchSteps.java,v 1.1 2007-02-16 01:24:59 bob_yennaco Exp $
+ * $Id: WizardBranchSteps.java,v 1.1.20.1 2009-12-29 03:06:25 jyeary Exp $
  */
-
 package com.sun.webui.jsf.component;
 
 import javax.el.ValueExpression;
 import javax.faces.component.NamingContainer;
 import javax.faces.context.FacesContext;
-
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-
 import com.sun.webui.jsf.event.WizardEventListener;
 
 /**
@@ -41,11 +38,11 @@ import com.sun.webui.jsf.event.WizardEventListener;
  * If this branch is taken, they steps appear as if they were
  * specified as children of the {@link Wizard Wizard} component.
  */
-@Component(type="com.sun.webui.jsf.WizardBranchSteps", 
-    family="com.sun.webui.jsf.WizardBranchSteps", 
-    displayName="WizardBranchSteps", tagName="wizardBranchSteps",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_wizard_branch_steps",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_wizard_branch_steps_props")
+@Component(type = "com.sun.webui.jsf.WizardBranchSteps",
+family = "com.sun.webui.jsf.WizardBranchSteps",
+displayName = "WizardBranchSteps", tagName = "wizardBranchSteps",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_wizard_branch_steps",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_wizard_branch_steps_props")
 public class WizardBranchSteps extends WizardStep implements NamingContainer {
 
     /**
@@ -59,16 +56,18 @@ public class WizardBranchSteps extends WizardStep implements NamingContainer {
      * Return the family for this component, <code>
      * com.sun.webui.jsf.WizardBranchSteps</code>.
      */
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.WizardBranchSteps";
     }
 
+    //TODO remove unused code
     /*
      * Returns null.
      * The WizardRenderer is responsible for directly rendering a
      * WizardBranchSteps component during the rendering of a Wizard component.
     public String getRendererType() {
-	return null;
+    return null;
     }
      */
 
@@ -77,105 +76,120 @@ public class WizardBranchSteps extends WizardStep implements NamingContainer {
      * The WizardRenderer is responsible for directly rendering a
      * WizardBranchSteps component during the rendering of a Wizard component.
     public String getRenderer() {
-	return null;
+    return null;
     }
      */
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
 
     // Hide detail
-    @Property(isHidden=true, isAttribute=false)
+    @Property(isHidden = true, isAttribute = false)
+    @Override
     public String getDetail() {
         return super.getDetail();
     }
-    
+
     // Hide eventListener
-    @Property(isHidden=true, isAttribute=false)
+    @Property(isHidden = true, isAttribute = false)
+    @Override
     public WizardEventListener getEventListener() {
         return super.getEventListener();
     }
-    
+
     // Hide finish
-    @Property(isHidden=true, isAttribute=false)
+    @Property(isHidden = true, isAttribute = false)
+    @Override
     public boolean isFinish() {
         return super.isFinish();
     }
-    
+
     // Hide help
-    @Property(isHidden=true, isAttribute=false)
+    @Property(isHidden = true, isAttribute = false)
+    @Override
     public String getHelp() {
         return super.getHelp();
     }
-    
+
     // Hide onCancel
-    @Property(isHidden=true, isAttribute=false)
+    @Property(isHidden = true, isAttribute = false)
+    @Override
     public String getOnCancel() {
         return super.getOnCancel();
     }
-    
+
     // Hide onClose
-    @Property(isHidden=true, isAttribute=false)
+    @Property(isHidden = true, isAttribute = false)
+    @Override
     public String getOnClose() {
         return super.getOnClose();
     }
-    
+
     // Hide onFinish
-    @Property(isHidden=true, isAttribute=false)
+    @Property(isHidden = true, isAttribute = false)
+    @Override
     public String getOnFinish() {
         return super.getOnFinish();
     }
-    
+
     // Hide onHelpTab
-    @Property(isHidden=true, isAttribute=false)
+    @Property(isHidden = true, isAttribute = false)
+    @Override
     public String getOnHelpTab() {
         return super.getOnHelpTab();
     }
-    
+
     // Hide onNext
-    @Property(isHidden=true, isAttribute=false)
+    @Property(isHidden = true, isAttribute = false)
+    @Override
     public String getOnNext() {
         return super.getOnNext();
     }
-    
+
     // Hide onPrevious
-    @Property(isHidden=true, isAttribute=false)
+    @Property(isHidden = true, isAttribute = false)
+    @Override
     public String getOnPrevious() {
         return super.getOnPrevious();
     }
-    
+
     // Hide onStepLink
-    @Property(isHidden=true, isAttribute=false)
+    @Property(isHidden = true, isAttribute = false)
+    @Override
     public String getOnStepLink() {
         return super.getOnStepLink();
     }
-    
+
     // Hide onStepsTab
-    @Property(isHidden=true, isAttribute=false)
+    @Property(isHidden = true, isAttribute = false)
+    @Override
     public String getOnStepsTab() {
         return super.getOnStepsTab();
     }
-    
+
     // Hide results
-    @Property(isHidden=true, isAttribute=false)
+    @Property(isHidden = true, isAttribute = false)
+    @Override
     public boolean isResults() {
         return super.isResults();
     }
-    
+
     // Hide summary
-    @Property(isHidden=true, isAttribute=false)
+    @Property(isHidden = true, isAttribute = false)
+    @Override
     public String getSummary() {
         return super.getSummary();
     }
-    
+
     // Hide title
-    @Property(isHidden=true, isAttribute=false)
+    @Property(isHidden = true, isAttribute = false)
+    @Override
     public String getTitle() {
         return super.getTitle();
     }
@@ -191,7 +205,7 @@ public class WizardBranchSteps extends WizardStep implements NamingContainer {
      * a previous step to determine whether the branch sequence should be
      * rendered.
      */
-    @Property(name="taken")
+    @Property(name = "taken")
     private boolean taken = false;
     private boolean taken_set = false;
 
@@ -240,7 +254,8 @@ public class WizardBranchSteps extends WizardStep implements NamingContainer {
     /**
      * Restore the state of this component.
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.taken = ((Boolean) _values[1]).booleanValue();
@@ -250,6 +265,7 @@ public class WizardBranchSteps extends WizardStep implements NamingContainer {
     /**
      * Save the state of this component.
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[3];
         _values[0] = super.saveState(_context);

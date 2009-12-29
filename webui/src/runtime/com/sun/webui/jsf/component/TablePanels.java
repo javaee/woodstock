@@ -30,13 +30,10 @@ import com.sun.webui.jsf.model.Option;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.util.LogUtil;
 import com.sun.webui.jsf.util.ThemeUtilities;
-
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
 import javax.faces.component.NamingContainer;
@@ -56,81 +53,58 @@ import javax.faces.component.UIComponentBase;
  * com.sun.webui.jsf.component.TablePanels.level = FINE
  * </pre></p>
  */
-@Component(type="com.sun.webui.jsf.TablePanels",
-    family="com.sun.webui.jsf.TablePanels", displayName="Panels", isTag=false)
+@Component(type = "com.sun.webui.jsf.TablePanels",
+family = "com.sun.webui.jsf.TablePanels", displayName = "Panels", isTag = false)
 public class TablePanels extends UIComponentBase implements NamingContainer {
+
     /** The facet name for the filter panel. */
     public static final String FILTER_PANEL_ID = "_filterPanel"; //NOI18N
-
     /** The facet name for the preferences panel. */
     public static final String PREFERENCES_PANEL_ID = "_preferencesPanel"; //NOI18N
-
     /** The component id for the primary sort column menu. */
     public static final String PRIMARY_SORT_COLUMN_MENU_ID = "_primarySortColumnMenu"; //NOI18N
-
     /** The facet name for the primary sort column menu. */
     public static final String PRIMARY_SORT_COLUMN_MENU_FACET = "primarySortColumnMenu"; //NOI18N
-
     /** The component id for the primary sort column menu label. */
     public static final String PRIMARY_SORT_COLUMN_MENU_LABEL_ID = "_primarySortColumnMenuLabel"; //NOI18N
-
     /** The facet name for the primary sort column menu label. */
     public static final String PRIMARY_SORT_COLUMN_MENU_LABEL_FACET = "primarySortColumnMenuLabel"; //NOI18N
-
     /** The component id for the primary sort order menu. */
     public static final String PRIMARY_SORT_ORDER_MENU_ID = "_primarySortOrderMenu"; //NOI18N
-
     /** The facet name for the primary sort order menu. */
     public static final String PRIMARY_SORT_ORDER_MENU_FACET = "primarySortOrderMenu"; //NOI18N
-
     /** The component id for the secondary sort column menu. */
     public static final String SECONDARY_SORT_COLUMN_MENU_ID = "_secondarySortColumnMenu"; //NOI18N
-
     /** The facet name for the secondary sort column menu. */
     public static final String SECONDARY_SORT_COLUMN_MENU_FACET = "secondarySortColumnMenu"; //NOI18N
-
     /** The component id for the secondary sort column menu label. */
     public static final String SECONDARY_SORT_COLUMN_MENU_LABEL_ID = "_secondarySortColumnMenuLabel"; //NOI18N
-
     /** The facet name for the secondary sort column menu label. */
     public static final String SECONDARY_SORT_COLUMN_MENU_LABEL_FACET = "secondarySortColumnMenuLabel"; //NOI18N
-
     /** The component id for the secondary sort order menu. */
     public static final String SECONDARY_SORT_ORDER_MENU_ID = "_secondarySortOrderMenu"; //NOI18N
-
     /** The facet name for the secondary sort order menu. */
     public static final String SECONDARY_SORT_ORDER_MENU_FACET = "secondarySortOrderMenu"; //NOI18N
-
     /** The facet name for the sort panel. */
     public static final String SORT_PANEL_ID = "_sortPanel"; //NOI18N
-
     /** The component id for the sort panel cancel button. */
     public static final String SORT_PANEL_CANCEL_BUTTON_ID = "_sortPanelCancelButton"; //NOI18N
-
     /** The facet name for the sort panel cancel button. */
     public static final String SORT_PANEL_CANCEL_BUTTON_FACET = "sortPanelCancelButton"; //NOI18N
-
     /** The component id for the sort panel submit button. */
     public static final String SORT_PANEL_SUBMIT_BUTTON_ID = "_sortPanelSubmitButton"; //NOI18N
-
     /** The facet name for the sort panel submit button. */
     public static final String SORT_PANEL_SUBMIT_BUTTON_FACET = "sortPanelSubmitButton"; //NOI18N
-
     /** The component id for the tertiary sort column menu. */
     public static final String TERTIARY_SORT_COLUMN_MENU_ID = "_tertiarySortColumnMenu"; //NOI18N
-
     /** The facet name for the tertiary sort column menu. */
     public static final String TERTIARY_SORT_COLUMN_MENU_FACET = "tertiarySortColumnMenu"; //NOI18N
-
     /** The component id for the tertiary sort column menu label. */
     public static final String TERTIARY_SORT_COLUMN_MENU_LABEL_ID = "_tertiarySortColumnMenuLabel"; //NOI18N
-
     /** The facet name for the tertiary sort column menu label. */
     public static final String TERTIARY_SORT_COLUMN_MENU_LABEL_FACET = "tertiarySortColumnMenuLabel"; //NOI18N
-
     /** The component id for the tertiary sort order menu. */
     public static final String TERTIARY_SORT_ORDER_MENU_ID = "_tertiarySortOrderMenu"; //NOI18N
-
     /** The facet name for the tertiary sort order menu. */
     public static final String TERTIARY_SORT_ORDER_MENU_FACET = "tertiarySortOrderMenu"; //NOI18N
 
@@ -140,16 +114,14 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attributes
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * ABBR gives an abbreviated version of the cell's content. This allows
      * visual browsers to use the short form if space is limited, and
      * non-visual browsers can give a cell's header information in an
      * abbreviated form before rendering each cell.
      */
-    @Property(name="abbr", displayName="Abbreviation for Header Cell")
+    @Property(name = "abbr", displayName = "Abbreviation for Header Cell")
     private String abbr = null;
-
     /**
      * Use the <code>align</code> attribute to specify the horizontal alignment for 
      * the content of each cell in the column. Valid values are <code>left</code>, 
@@ -161,18 +133,16 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
      * <code>align="char"</code> and <code>char=":" </code>Some browsers do not 
      * support aligning on the character.
      */
-    @Property(name="align", displayName="Horizontal Alignment")
+    @Property(name = "align", displayName = "Horizontal Alignment")
     private String align = null;
-
     /**
      * The AXIS attribute provides a method of categorizing cells. The
      * attribute's value is a comma-separated list of category names. See the
      * HTML 4.0 Recommendation's section on categorizing cells for an
      * application of AXIS.
      */
-    @Property(name="axis", displayName="Category of Header Cell")
+    @Property(name = "axis", displayName = "Category of Header Cell")
     private String axis = null;
-
     /**
      * The BGCOLOR attribute suggests a background color for the cell. The
      * combination of this attribute with <FONT COLOR=...> can leave
@@ -183,9 +153,8 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
      * flexible method of specifying a table's background color. This
      * attribute is deprecated (in HTML 4.0) in favor of style sheets.
      */
-    @Property(name="bgColor", displayName="Cell Background Color")
+    @Property(name = "bgColor", displayName = "Cell Background Color")
     private String bgColor = null;
-
     /**
      * Use the <code>char </code>attribute to specify a character to use for 
      * horizontal alignment in each cell in the row. You must also set the 
@@ -194,9 +163,8 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
      * decimal point of the current language, such as a period in English. The 
      * <code>char</code> HTML property is not supported by all browsers.
      */
-    @Property(name="char", displayName="Alignment Character")
+    @Property(name = "char", displayName = "Alignment Character")
     private String _char = null;
-
     /**
      * Use the <code>charOff </code>attribute to specify the offset of the first 
      * occurrence of the alignment character that is specified with the 
@@ -207,9 +175,8 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
      * horizontally in a cell. If <code>charOff="25%"</code>, the first instance 
      * of the alignment character is placed at one fourth of the width of the cell.
      */
-    @Property(name="charOff", displayName="Alignment Character Offset")
+    @Property(name = "charOff", displayName = "Alignment Character Offset")
     private String charOff = null;
-
     /**
      * The COLSPAN attribute of TD specifies the number of columns that are
      * spanned by the cell. The default value is 1. The special value 0
@@ -217,40 +184,35 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
      * value 0 is ignored by most browsers, so authors may wish to calculate
      * the exact number of rows or columns spanned and use that value.
      */
-    @Property(name="colSpan", displayName="Columns Spanned By the Cell")
+    @Property(name = "colSpan", displayName = "Columns Spanned By the Cell")
     private int colSpan = Integer.MIN_VALUE;
     private boolean colSpan_set = false;
-
     /**
      * Extra HTML to be appended to the tag output by this renderer.
      */
-    @Property(name="extraHtml", displayName="Extra HTML")
+    @Property(name = "extraHtml", displayName = "Extra HTML")
     private String extraHtml = null;
-
     /**
      * Flag indicating this component should also render a filter panel, in addition to
      * the sort and preferences panels. The default renders a sort panel.
      */
-    @Property(name="filterPanel", displayName="Is Filter Panel", isAttribute=false)
+    @Property(name = "filterPanel", displayName = "Is Filter Panel", isAttribute = false)
     private boolean filterPanel = false;
     private boolean filterPanel_set = false;
-
     /**
      * The HEADERS attribute specifies the header cells that apply to the
      * TD. The value is a space-separated list of the header cells' ID
      * attribute values. The HEADERS attribute allows non-visual browsers to
      * render the header information for a given cell.
      */
-    @Property(name="headers", displayName="List of Header Cells for Current Cell")
+    @Property(name = "headers", displayName = "List of Header Cells for Current Cell")
     private String headers = null;
-
     /**
      * The number of pixels for the cell's height. Styles should be used to specify 
      * cell height when possible because the height attribute is deprecated in HTML 4.0.
      */
-    @Property(name="height", displayName="Height")
+    @Property(name = "height", displayName = "Height")
     private String height = null;
-
     /**
      * Use the <code>noWrap</code> attribute to disable word wrapping of this column's 
      * cells in visual browsers. Word wrap can cause unnecessary horizontal scrolling 
@@ -258,88 +220,76 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
      * should be used to disable word wrap when possible because the nowrap attribute 
      * is deprecated in HTML 4.0.
      */
-    @Property(name="noWrap", displayName="Suppress Word Wrap")
+    @Property(name = "noWrap", displayName = "Suppress Word Wrap")
     private boolean noWrap = false;
     private boolean noWrap_set = false;
-
     /**
      * Scripting code executed when a mouse click
      * occurs over this component.
      */
-    @Property(name="onClick", category="Javascript")
+    @Property(name = "onClick", category = "Javascript")
     private String onClick = null;
-
     /**
      * Scripting code executed when a mouse double click
      * occurs over this component.
      */
-    @Property(name="onDblClick", displayName="Double Click Script")
+    @Property(name = "onDblClick", displayName = "Double Click Script")
     private String onDblClick = null;
-
     /**
      * Scripting code executed when the user presses down on a key while the
      * component has focus.
      */
-    @Property(name="onKeyDown", displayName="Key Down Script")
+    @Property(name = "onKeyDown", displayName = "Key Down Script")
     private String onKeyDown = null;
-
     /**
      * Scripting code executed when the user presses and releases a key while
      * the component has focus.
      */
-    @Property(name="onKeyPress", displayName="Key Press Script")
+    @Property(name = "onKeyPress", displayName = "Key Press Script")
     private String onKeyPress = null;
-
     /**
      * Scripting code executed when the user releases a key while the
      * component has focus.
      */
-    @Property(name="onKeyUp", displayName="Key Up Script")
+    @Property(name = "onKeyUp", displayName = "Key Up Script")
     private String onKeyUp = null;
-
     /**
      * Scripting code executed when the user presses a mouse button while the
      * mouse pointer is on the component.
      */
-    @Property(name="onMouseDown", displayName="Mouse Down Script")
+    @Property(name = "onMouseDown", displayName = "Mouse Down Script")
     private String onMouseDown = null;
-
     /**
      * Scripting code executed when the user moves the mouse pointer while
      * over the component.
      */
-    @Property(name="onMouseMove", displayName="Mouse Move Script")
+    @Property(name = "onMouseMove", displayName = "Mouse Move Script")
     private String onMouseMove = null;
-
     /**
      * Scripting code executed when a mouse out movement
      * occurs over this component.
      */
-    @Property(name="onMouseOut", displayName="Mouse Out Script")
+    @Property(name = "onMouseOut", displayName = "Mouse Out Script")
     private String onMouseOut = null;
-
     /**
      * Scripting code executed when the user moves the  mouse pointer into
      * the boundary of this component.
      */
-    @Property(name="onMouseOver", displayName="Mouse In Script")
+    @Property(name = "onMouseOver", displayName = "Mouse In Script")
     private String onMouseOver = null;
-
     /**
      * Scripting code executed when the user releases a mouse button while
      * the mouse pointer is on the component.
      */
-    @Property(name="onMouseUp", displayName="Mouse Up Script")
+    @Property(name = "onMouseUp", displayName = "Mouse Up Script")
     private String onMouseUp = null;
-
     /**
      * Flag indicating this component should also render a preferences panel, in 
      * addition to the sort and filter panels. The default renders a sort panel.
      */
-    @Property(name="preferencesPanel", displayName="Is Preferences Panel", isAttribute=false)
+    @Property(name = "preferencesPanel", displayName = "Is Preferences Panel", isAttribute = false)
     private boolean preferencesPanel = false;
     private boolean preferencesPanel_set = false;
-
     /**
      * The ROWSPAN attribute of TD specifies the number of rows that are
      * spanned by the cell. The default value is 1. The special value 0
@@ -347,10 +297,9 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
      * value 0 is ignored by most browsers, so authors may wish to calculate
      * the exact number of rows or columns spanned and use that value.
      */
-    @Property(name="rowSpan", displayName="Rows Spanned By the Cell")
+    @Property(name = "rowSpan", displayName = "Rows Spanned By the Cell")
     private int rowSpan = Integer.MIN_VALUE;
     private boolean rowSpan_set = false;
-
     /**
      * Use the <code>scope</code> attribute to specify that the data cells of the 
      * column are also acting as headers for rows or other columns of the table. 
@@ -363,31 +312,27 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
      * <li><code>colgroup</code>, when the cells provide header information for the column group</li>
      * </ul>
      */
-    @Property(name="scope", displayName="Cells Covered By Header Cell")
+    @Property(name = "scope", displayName = "Cells Covered By Header Cell")
     private String scope = null;
-
     /**
      * CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.
      */
-    @Property(name="style", displayName="CSS Style(s)")
+    @Property(name = "style", displayName = "CSS Style(s)")
     private String style = null;
-
     /**
      * CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)")
     private String styleClass = null;
-
     /**
      * Sets the value of the title attribute for the HTML element.
      * The specified text will display as a tooltip if the mouse cursor hovers 
      * over the HTML element.
      */
-    @Property(name="toolTip", displayName="Tool Tip", category="Behavior")
+    @Property(name = "toolTip", displayName = "Tool Tip", category = "Behavior")
     private String toolTip = null;
-
     /**
      * Use the <code>valign</code> attribute to specify the vertical alignment for the 
      * content of each cell in the column. Valid values are <code>top</code>, 
@@ -397,24 +342,22 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
      * each cell's content to be aligned on the text baseline, the invisible line on 
      * which text characters rest.
      */
-    @Property(name="valign", displayName="Vertical Position")
+    @Property(name = "valign", displayName = "Vertical Position")
     private String valign = null;
-
     /**
      * Use the visible attribute to indicate whether the component should be 
      * viewable by the user in the rendered HTML page.
      */
-    @Property(name="visible", displayName="Visible")
+    @Property(name = "visible", displayName = "Visible")
     private boolean visible = false;
     private boolean visible_set = false;
-
     /**
      * Use the <code>width</code> attribute to specify the width of the cells of the 
      * column. The width can be specified as the number of pixels or the percentage of 
      * the table width, and is especially useful for spacer columns. This attribute is 
      * deprecated in HTML 4.0 in favor of style sheets.
      */
-    @Property(name="width", displayName="Width")
+    @Property(name = "width", displayName = "Width")
     private String width = null;
 
     /** Default constructor */
@@ -433,7 +376,6 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Child methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Get the closest Table ancestor that encloses this component.
      *
@@ -456,7 +398,6 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Sort panel methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Get primary sort column menu used in the sort panel.
      *
@@ -470,7 +411,7 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
 
         // Get child.
         DropDown child = new DropDown();
-	child.setId(PRIMARY_SORT_COLUMN_MENU_ID);
+        child.setId(PRIMARY_SORT_COLUMN_MENU_ID);
         child.setItems(getSortColumnMenuOptions());
         child.setSelected(getSelectedSortColumnMenuOption(1));
 
@@ -479,14 +420,14 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
         if (table != null) {
             child.setTabIndex(table.getTabIndex());
             child.setOnChange("document.getElementById('" + //NOI18N
-                table.getClientId(getFacesContext()) + "').initPrimarySortOrderMenu()"); //NOI18N
+                    table.getClientId(getFacesContext()) + "').initPrimarySortOrderMenu()"); //NOI18N
         } else {
             log("getPrimarySortColumnMenu", //NOI18N
-                "Tab index & onChange not set, Table is null"); //NOI18N
+                    "Tab index & onChange not set, Table is null"); //NOI18N
         }
 
         // Save facet and return child.
-        getFacets().put(child.getId(), child); 
+        getFacets().put(child.getId(), child);
         return child;
     }
 
@@ -506,9 +447,9 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
         child.setId(PRIMARY_SORT_COLUMN_MENU_LABEL_ID);
         child.setText(getTheme().getMessage("table.panel.primarySortColumn")); //NOI18N
         child.setLabelLevel(2);
-        
+
         // Save facet and return child.
-        getFacets().put(child.getId(), child); 
+        getFacets().put(child.getId(), child);
         return child;
     }
 
@@ -526,7 +467,7 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
         // Get child.
         Theme theme = getTheme();
         DropDown child = new DropDown();
-	child.setId(PRIMARY_SORT_ORDER_MENU_ID);
+        child.setId(PRIMARY_SORT_ORDER_MENU_ID);
         child.setItems(getSortOrderMenuOptions());
         child.setSelected(getSelectedSortOrderMenuOption(1));
 
@@ -535,20 +476,20 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
         if (table != null) {
             child.setTabIndex(table.getTabIndex());
             child.setOnChange("document.getElementById('" + //NOI18N
-                table.getClientId(getFacesContext()) + 
-                "').initPrimarySortOrderMenuToolTip()"); //NOI18N
+                    table.getClientId(getFacesContext()) +
+                    "').initPrimarySortOrderMenuToolTip()"); //NOI18N
         } else {
             log("getPrimarySortOrderMenu", //NOI18N
-                "Tab index & onChange not set, Table is null"); //NOI18N
+                    "Tab index & onChange not set, Table is null"); //NOI18N
         }
 
         // Note: The tooltip is only set here for 508 compliance tools. The 
         // actual tooltip is set dynamically, when the embedded panel is open.
         child.setToolTip(theme.getMessage("table.panel.primarySortOrder", //NOI18N
-            new String[] {theme.getMessage("table.sort.augment.undeterminedAscending")})); //NOI18N
+                new String[]{theme.getMessage("table.sort.augment.undeterminedAscending")})); //NOI18N
 
         // Save facet and return child.
-        getFacets().put(child.getId(), child); 
+        getFacets().put(child.getId(), child);
         return child;
     }
 
@@ -565,7 +506,7 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
 
         // Get child.
         DropDown child = new DropDown();
-	child.setId(SECONDARY_SORT_COLUMN_MENU_ID);
+        child.setId(SECONDARY_SORT_COLUMN_MENU_ID);
         child.setItems(getSortColumnMenuOptions());
         child.setSelected(getSelectedSortColumnMenuOption(2));
 
@@ -574,15 +515,15 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
         if (table != null) {
             child.setTabIndex(table.getTabIndex());
             child.setOnChange("document.getElementById('" + //NOI18N
-                table.getClientId(getFacesContext()) + 
-                "').initSecondarySortOrderMenu()"); //NOI18N
+                    table.getClientId(getFacesContext()) +
+                    "').initSecondarySortOrderMenu()"); //NOI18N
         } else {
             log("getSecondarySortColumnMenu", //NOI18N
-                "Tab index & onChange not set, Table is null"); //NOI18N
+                    "Tab index & onChange not set, Table is null"); //NOI18N
         }
 
         // Save facet and return child.
-        getFacets().put(child.getId(), child); 
+        getFacets().put(child.getId(), child);
         return child;
     }
 
@@ -602,9 +543,9 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
         child.setId(SECONDARY_SORT_COLUMN_MENU_LABEL_ID);
         child.setText(getTheme().getMessage("table.panel.secondarySortColumn")); //NOI18N
         child.setLabelLevel(2);
-        
+
         // Save facet and return child.
-        getFacets().put(child.getId(), child); 
+        getFacets().put(child.getId(), child);
         return child;
     }
 
@@ -622,7 +563,7 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
         // Get child.
         Theme theme = getTheme();
         DropDown child = new DropDown();
-	child.setId(SECONDARY_SORT_ORDER_MENU_ID);
+        child.setId(SECONDARY_SORT_ORDER_MENU_ID);
         child.setItems(getSortOrderMenuOptions());
         child.setSelected(getSelectedSortOrderMenuOption(2));
 
@@ -631,20 +572,20 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
         if (table != null) {
             child.setTabIndex(table.getTabIndex());
             child.setOnChange("document.getElementById('" + //NOI18N
-                table.getClientId(getFacesContext()) + 
-                "').initSecondarySortOrderMenuToolTip()"); //NOI18N
+                    table.getClientId(getFacesContext()) +
+                    "').initSecondarySortOrderMenuToolTip()"); //NOI18N
         } else {
             log("getSecondarySortOrderMenu", //NOI18N
-                "Tab index & onChange not set, Table is null"); //NOI18N
+                    "Tab index & onChange not set, Table is null"); //NOI18N
         }
 
         // Note: The tooltip is only set here for 508 compliance tools. The 
         // actual tooltip is set dynamically, when the embedded panel is open.
         child.setToolTip(theme.getMessage("table.panel.secondarySortOrder", //NOI18N
-            new String[] {theme.getMessage("table.sort.augment.undeterminedAscending")})); //NOI18N
+                new String[]{theme.getMessage("table.sort.augment.undeterminedAscending")})); //NOI18N
 
         // Save facet and return child.
-        getFacets().put(child.getId(), child); 
+        getFacets().put(child.getId(), child);
         return child;
     }
 
@@ -671,11 +612,11 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
         if (table != null) {
             child.setTabIndex(table.getTabIndex());
             child.setOnClick("document.getElementById('" + //NOI18N
-                table.getClientId(getFacesContext()) +
-                "').toggleSortPanel(); return false"); //NOI18N
+                    table.getClientId(getFacesContext()) +
+                    "').toggleSortPanel(); return false"); //NOI18N
         } else {
             log("getSortPanelCancelButton", //NOI18N
-                "Tab index & onClick not set, Table is null"); //NOI18N
+                    "Tab index & onClick not set, Table is null"); //NOI18N
         }
 
         // Save facet and return child.
@@ -708,11 +649,11 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
         if (table != null) {
             child.setTabIndex(table.getTabIndex());
             child.setOnClick("return document.getElementById('" + //NOI18N
-                table.getClientId(getFacesContext()) + 
-                "').validateSortPanel()"); //NOI18N
+                    table.getClientId(getFacesContext()) +
+                    "').validateSortPanel()"); //NOI18N
         } else {
             log("getSortPanelSubmitButton", //NOI18N
-                "Tab index & onClick not set, Table is null"); //NOI18N
+                    "Tab index & onClick not set, Table is null"); //NOI18N
         }
 
         // Save facet and return child.
@@ -733,7 +674,7 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
 
         // Get child.
         DropDown child = new DropDown();
-	child.setId(TERTIARY_SORT_COLUMN_MENU_ID);
+        child.setId(TERTIARY_SORT_COLUMN_MENU_ID);
         child.setItems(getSortColumnMenuOptions());
         child.setSelected(getSelectedSortColumnMenuOption(3));
 
@@ -742,15 +683,15 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
         if (table != null) {
             child.setTabIndex(table.getTabIndex());
             child.setOnChange("document.getElementById('" + //NOI18N
-                table.getClientId(getFacesContext()) + 
-                "').initTertiarySortOrderMenu()"); //NOI18N
+                    table.getClientId(getFacesContext()) +
+                    "').initTertiarySortOrderMenu()"); //NOI18N
         } else {
             log("getTertiarySortColumnMenu", //NOI18N
-                "Tab index & onChange not set, Table is null"); //NOI18N
+                    "Tab index & onChange not set, Table is null"); //NOI18N
         }
 
         // Save facet and return child.
-        getFacets().put(child.getId(), child); 
+        getFacets().put(child.getId(), child);
         return child;
     }
 
@@ -772,7 +713,7 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
         child.setLabelLevel(2);
 
         // Save facet and return child.
-        getFacets().put(child.getId(), child); 
+        getFacets().put(child.getId(), child);
         return child;
     }
 
@@ -790,7 +731,7 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
         // Get child.
         Theme theme = getTheme();
         DropDown child = new DropDown();
-	child.setId(TERTIARY_SORT_ORDER_MENU_ID);
+        child.setId(TERTIARY_SORT_ORDER_MENU_ID);
         child.setItems(getSortOrderMenuOptions());
         child.setSelected(getSelectedSortOrderMenuOption(3));
 
@@ -799,27 +740,26 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
         if (table != null) {
             child.setTabIndex(table.getTabIndex());
             child.setOnChange("document.getElementById('" + //NOI18N
-                table.getClientId(getFacesContext()) + 
-                "').initTertiarySortOrderMenuToolTip()"); //NOI18N
+                    table.getClientId(getFacesContext()) +
+                    "').initTertiarySortOrderMenuToolTip()"); //NOI18N
         } else {
             log("getTertiarySortOrderMenu", //NOI18N
-                "Tab index & onChange not set, Table is null"); //NOI18N
+                    "Tab index & onChange not set, Table is null"); //NOI18N
         }
 
         // Note: The tooltip is only set here for 508 compliance tools. The 
         // actual tooltip is set dynamically, when the embedded panel is open.
         child.setToolTip(theme.getMessage("table.panel.tertiarySortOrder", //NOI18N
-            new String[] {theme.getMessage("table.sort.augment.undeterminedAscending")})); //NOI18N
+                new String[]{theme.getMessage("table.sort.augment.undeterminedAscending")})); //NOI18N
 
         // Save facet and return child.
-        getFacets().put(child.getId(), child); 
+        getFacets().put(child.getId(), child);
         return child;
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // UIComponent methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * If the rendered property is true, render the begining of the current
      * state of this UIComponent to the response contained in the specified
@@ -833,6 +773,7 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
      * @exception IOException if an input/output error occurs while rendering.
      * @exception NullPointerException if FacesContext is null.
      */
+    @Override
     public void encodeBegin(FacesContext context) throws IOException {
         // Clear cached variables -- bugtraq #6300020.
         table = null;
@@ -842,7 +783,6 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * ABBR gives an abbreviated version of the cell's content. This allows
      * visual browsers to use the short form if space is limited, and
@@ -1701,7 +1641,8 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
     /**
      * Restore the state of this component.
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.abbr = (String) _values[1];
@@ -1746,6 +1687,7 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
     /**
      * Save the state of this component.
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[38];
         _values[0] = super.saveState(_context);
@@ -1792,7 +1734,6 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /** 
      * Helper method to get selected option value used by the sort column menu
      * of the table sort panel.
@@ -1804,7 +1745,7 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
         String result = null;
         Table table = getTableAncestor();
         TableRowGroup group = (table != null)
-            ? table.getTableRowGroupChild() : null;
+                ? table.getTableRowGroupChild() : null;
 
         // Find the column that matches the given sort level and return the
         // SortCriteria key value.
@@ -1822,7 +1763,7 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
             }
         } else {
             log("getSelectedSortColumnMenuOption", //NOI18N
-                "Cannot obtain select sort column menu option, TableRowGroup is null"); //NOI18N
+                    "Cannot obtain select sort column menu option, TableRowGroup is null"); //NOI18N
         }
         return result;
     }
@@ -1840,7 +1781,7 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
         String result = null;
         if (component == null) {
             log("getSelectedSortColumnMenuOption", //NOI18N
-                "Cannot obtain select sort column menu option, TableColumn is null"); //NOI18N
+                    "Cannot obtain select sort column menu option, TableColumn is null"); //NOI18N
             return result;
         }
 
@@ -1857,7 +1798,7 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
 
         Table table = getTableAncestor();
         TableRowGroup group = (table != null)
-            ? table.getTableRowGroupChild() : null;
+                ? table.getTableRowGroupChild() : null;
 
         // Get SortCriteria.
         if (group != null) {
@@ -1871,7 +1812,7 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
             }
         } else {
             log("getSelectedSortColumnMenuOption", //NOI18N
-                "Cannot obtain select sort column menu option, TableRowGroup is null"); //NOI18N
+                    "Cannot obtain select sort column menu option, TableRowGroup is null"); //NOI18N
         }
         return result;
     }
@@ -1887,7 +1828,7 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
         String result = null;
         Table table = getTableAncestor();
         TableRowGroup group = (table != null)
-            ? table.getTableRowGroupChild() : null;
+                ? table.getTableRowGroupChild() : null;
 
         // Find the column that matches the given sort level and return the
         // sort order.
@@ -1905,7 +1846,7 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
             }
         } else {
             log("getSelectedSortOrderMenuOption", //NOI18N
-                "Cannot obtain select sort order menu option, TableRowGroup is null"); //NOI18N
+                    "Cannot obtain select sort order menu option, TableRowGroup is null"); //NOI18N
         }
         return result;
     }
@@ -1923,8 +1864,8 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
         String result = null;
         if (component == null) {
             log("getSelectedSortOrderMenuOption", //NOI18N
-                "Cannot obtain select sort column order option, TableColumn is null"); //NOI18N
-            return result;            
+                    "Cannot obtain select sort column order option, TableColumn is null"); //NOI18N
+            return result;
         }
 
         Iterator kids = component.getTableColumnChildren();
@@ -1940,7 +1881,7 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
 
         Table table = getTableAncestor();
         TableRowGroup group = (table != null)
-            ? table.getTableRowGroupChild() : null;
+                ? table.getTableRowGroupChild() : null;
 
         // Get SortCriteria.
         if (group != null) {
@@ -1954,7 +1895,7 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
             }
         } else {
             log("getSelectedSortOrderMenuOption", //NOI18N
-                "Cannot obtain select sort order menu option, TableRowGroup is null"); //NOI18N
+                    "Cannot obtain select sort order menu option, TableRowGroup is null"); //NOI18N
         }
         return result;
     }
@@ -1969,7 +1910,7 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
         ArrayList list = new ArrayList();
         Table table = getTableAncestor();
         TableRowGroup group = (table != null)
-            ? table.getTableRowGroupChild() : null;
+                ? table.getTableRowGroupChild() : null;
 
         // Add default "None" option -- an empty string represents no sort.
         list.add(new Option("", getTheme().getMessage("table.panel.none"))); //NOI18N
@@ -1988,7 +1929,7 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
             }
         } else {
             log("getSortColumnMenuOptions", //NOI18N
-                "Cannot obtain sort column menu options, TableRowGroup is null"); //NOI18N
+                    "Cannot obtain sort column menu options, TableRowGroup is null"); //NOI18N
         }
         // Set options.
         Option[] options = new Option[list.size()];
@@ -2006,9 +1947,9 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
 
         // Add default option.
         results.add(new Option("false", getTheme().getMessage( //NOI18N
-            "table.sort.augment.undeterminedAscending"))); //NOI18N
+                "table.sort.augment.undeterminedAscending"))); //NOI18N
         results.add(new Option("true", getTheme().getMessage( //NOI18N
-            "table.sort.augment.undeterminedDescending"))); //NOI18N
+                "table.sort.augment.undeterminedDescending"))); //NOI18N
 
         // Set default options. Other options will be added client-side when
         // menu is initialized.
@@ -2022,7 +1963,7 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
      * @return The current theme.
      */
     private Theme getTheme() {
-	return ThemeUtilities.getTheme(getFacesContext());
+        return ThemeUtilities.getTheme(getFacesContext());
     }
 
     /**
@@ -2050,18 +1991,18 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
         SortCriteria criteria = component.getSortCriteria(); //NOI18N
         if (criteria == null) {
             log("initSortColumnMenuOptions", //NOI18N
-                "Cannot initialize sort column menu options, SortCriteria is null"); //NOI18N
+                    "Cannot initialize sort column menu options, SortCriteria is null"); //NOI18N
             return;
         }
 
         // Get label.
         String label = (component.getSelectId() != null)
-            ? getTheme().getMessage("table.select.selectedItems") //NOI18N
-            : component.getHeaderText();
+                ? getTheme().getMessage("table.select.selectedItems") //NOI18N
+                : component.getHeaderText();
 
         // Add option.
-        list.add(new Option(criteria.getCriteriaKey(), 
-            (label != null) ? label : "")); //NOI18N
+        list.add(new Option(criteria.getCriteriaKey(),
+                (label != null) ? label : "")); //NOI18N
     }
 
     /**
@@ -2070,7 +2011,7 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
     private void log(String method, String message) {
         // Get class.
         Class clazz = this.getClass();
-	if (LogUtil.fineEnabled(clazz)) {
+        if (LogUtil.fineEnabled(clazz)) {
             // Log method name and message.
             LogUtil.fine(clazz, clazz.getName() + "." + method + ": " + message); //NOI18N
         }
