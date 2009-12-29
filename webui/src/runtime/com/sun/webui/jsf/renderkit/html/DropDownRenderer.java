@@ -19,12 +19,10 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.faces.annotation.Renderer;
 import java.io.IOException;
-
 import javax.faces.FacesException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -38,18 +36,14 @@ import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 /**
  * <p>Renderer for a {@link DropDown} component.</p>
  */
-
-@Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.DropDown"))
+@Renderer(@Renderer.Renders(componentFamily = "com.sun.webui.jsf.DropDown"))
 public class DropDownRenderer extends ListRendererBase {
-    
+
     private final static boolean DEBUG = false;
-    
+
     /**
      * <p>Render the drop-down dropDown.
      *
@@ -59,50 +53,50 @@ public class DropDownRenderer extends ListRendererBase {
      *
      * @exception IOException if an input/output error occurs
      */
+    @Override
     public void encodeEnd(FacesContext context, UIComponent component)
-        throws IOException {
-        
-        if(DEBUG) log("encodeEnd()");
-        
-        if(!(component instanceof DropDown)) {
-            Object[] params = { component.toString(),
-                    this.getClass().getName(),
-                    DropDown.class.getName() };
-                    String message = MessageUtil.getMessage
-                            ("com.sun.webui.jsf.resources.LogMessages", //NOI18N
-                            "Renderer.component", params);              //NOI18N
-                    throw new FacesException(message);
-                    
+            throws IOException {
+
+        if (DEBUG) {
+            log("encodeEnd()");
         }
 
-        DropDown dropDown = (DropDown)component; 
-        if(dropDown.isForgetValue()) { 
-            dropDown.setValue(null); 
-        } 
-        
+        if (!(component instanceof DropDown)) {
+            Object[] params = {component.toString(),
+                this.getClass().getName(),
+                DropDown.class.getName()};
+            String message = MessageUtil.getMessage("com.sun.webui.jsf.resources.LogMessages", //NOI18N
+                    "Renderer.component", params);   //NOI18N
+            throw new FacesException(message);
+
+        }
+
+        DropDown dropDown = (DropDown) component;
+        if (dropDown.isForgetValue()) {
+            dropDown.setValue(null);
+        }
+
         // Render the element and attributes for this component
         //ResponseWriter writer = context.getResponseWriter();
-        
-        String[] styles = null; 
-        if(dropDown.isSubmitForm()) { 
-            styles = getJumpDropDownStyles(dropDown, context); 
-        } 
-        else { 
-            styles = getDropDownStyles(dropDown, context); 
-        } 
-        
-        super.renderListComponent((ListSelector)dropDown, context, styles); 
+
+        String[] styles = null;
+        if (dropDown.isSubmitForm()) {
+            styles = getJumpDropDownStyles(dropDown, context);
+        } else {
+            styles = getDropDownStyles(dropDown, context);
+        }
+
+        super.renderListComponent((ListSelector) dropDown, context, styles);
         ResponseWriter writer = context.getResponseWriter();
-        if(dropDown.isSubmitForm()) {
-            String id = dropDown.getClientId(context).concat(DropDown.SUBMIT);      
-            RenderingUtilities.renderHiddenField(dropDown, writer, id, "false"); 
+        if (dropDown.isSubmitForm()) {
+            String id = dropDown.getClientId(context).concat(DropDown.SUBMIT);
+            RenderingUtilities.renderHiddenField(dropDown, writer, id, "false");
         }
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private renderer methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * <p>Render the appropriate element end, depending on the value of the
      * <code>type</code> property.</p>
@@ -114,12 +108,12 @@ public class DropDownRenderer extends ListRendererBase {
      * @exception IOException if an input/output error occurs
      */
     private String[] getDropDownStyles(DropDown component, FacesContext context) {
-        
+
         Theme theme = ThemeUtilities.getTheme(context);
         String[] styles = new String[10];
-        styles[0] = getOnChangeJavaScript(component, 
-            JavaScriptUtilities.getModuleName("dropDown.changed"), //NOI18N
-            context);
+        styles[0] = getOnChangeJavaScript(component,
+                JavaScriptUtilities.getModuleName("dropDown.changed"), //NOI18N
+                context);
         styles[1] = theme.getStyleClass(ThemeStyles.MENU_STANDARD);
         styles[2] = theme.getStyleClass(ThemeStyles.MENU_STANDARD_DISABLED);
         styles[3] = theme.getStyleClass(ThemeStyles.MENU_STANDARD_OPTION);
@@ -127,29 +121,29 @@ public class DropDownRenderer extends ListRendererBase {
         styles[5] = theme.getStyleClass(ThemeStyles.MENU_STANDARD_OPTION_SELECTED);
         styles[6] = theme.getStyleClass(ThemeStyles.MENU_STANDARD_OPTION_GROUP);
         styles[7] = theme.getStyleClass(ThemeStyles.MENU_STANDARD_OPTION_SEPARATOR);
-        styles[8] = theme.getStyleClass(ThemeStyles.HIDDEN); 
+        styles[8] = theme.getStyleClass(ThemeStyles.HIDDEN);
         return styles;
     }
 
-     /**
+    /**
      * Helper function to get the theme specific styles for this dropdown given
      * the current context
      */
     private String[] getJumpDropDownStyles(DropDown component, FacesContext context) {
 
-        Theme theme = ThemeUtilities.getTheme(context); 
-        String[] styles = new String[10];                
+        Theme theme = ThemeUtilities.getTheme(context);
+        String[] styles = new String[10];
         styles[0] = getOnChangeJavaScript(component,
-            JavaScriptUtilities.getModuleName("jumpDropDown.changed"), //NOI18N
-            context); 
-	styles[1] = theme.getStyleClass(ThemeStyles.MENU_JUMP);
-	styles[2] = ""; // jumpMENU can't be disabled
-	styles[3] = theme.getStyleClass(ThemeStyles.MENU_JUMP_OPTION);
+                JavaScriptUtilities.getModuleName("jumpDropDown.changed"), //NOI18N
+                context);
+        styles[1] = theme.getStyleClass(ThemeStyles.MENU_JUMP);
+        styles[2] = ""; // jumpMENU can't be disabled
+        styles[3] = theme.getStyleClass(ThemeStyles.MENU_JUMP_OPTION);
         styles[4] = theme.getStyleClass(ThemeStyles.MENU_JUMP_OPTION_DISABLED);
         styles[5] = theme.getStyleClass(ThemeStyles.MENU_JUMP_OPTION_SELECTED);
         styles[6] = theme.getStyleClass(ThemeStyles.MENU_JUMP_OPTION_GROUP);
         styles[7] = theme.getStyleClass(ThemeStyles.MENU_JUMP_OPTION_SEPARATOR);
-        styles[8] = theme.getStyleClass(ThemeStyles.HIDDEN); 
-        return styles; 
+        styles[8] = theme.getStyleClass(ThemeStyles.HIDDEN);
+        return styles;
     }
 }

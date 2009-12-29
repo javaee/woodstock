@@ -21,24 +21,17 @@
  */
 package com.sun.webui.jsf.renderkit.html;
 
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
-
-import java.beans.Beans;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;  
+import javax.faces.context.ResponseWriter;
 import com.sun.faces.annotation.Renderer;
-
 import com.sun.webui.html.HTMLAttributes;
 import com.sun.webui.html.HTMLElements;
-
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.jsf.theme.ThemeStyles;
@@ -46,27 +39,17 @@ import com.sun.webui.jsf.util.LogUtil;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
-
-import com.sun.webui.jsf.component.Button;
 import com.sun.webui.jsf.component.CommonTasksGroup;
 import com.sun.webui.jsf.component.CommonTasksSection;
 import com.sun.webui.jsf.component.HelpInline;
-import com.sun.webui.jsf.component.Hyperlink;
 import com.sun.webui.jsf.component.Icon;
-import com.sun.webui.jsf.component.ImageComponent;
-import com.sun.webui.jsf.component.ImageHyperlink;
-import com.sun.webui.jsf.component.StaticText;
-
 
 /**
  * <p>Renderer for a {@link com.sun.webui.jsf.component.CommonTasksSection} component.</p>
  */
-
-@Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.CommonTasksSection"))
-
+@Renderer(@Renderer.Renders(componentFamily = "com.sun.webui.jsf.CommonTasksSection"))
 public class CommonTasksSectionRenderer extends AbstractRenderer {
 
-    
     /**
      *Append this string for the id of the  spacer image.
      */
@@ -74,13 +57,12 @@ public class CommonTasksSectionRenderer extends AbstractRenderer {
     private static final String WHITE_SPACE = "&nbsp;"; //NOI8N
     private static final String COLUMN_COUNT = "commonTasks.columnCount";
     private static final String SECTION_TITLE = "commonTasks.sectionTitle";
-        
+
     /** Creates a new instance of CommonTaskPageRenderer */
     public CommonTasksSectionRenderer() {
-        
     }
 
-
+    @Override
     public void encodeChildren(FacesContext context, UIComponent component)
             throws IOException {
 
@@ -96,12 +78,12 @@ public class CommonTasksSectionRenderer extends AbstractRenderer {
      *
      * @exception IOException if an input/output error occurs
      */
-       
+    @Override
     protected void renderEnd(FacesContext context, UIComponent component,
-                             ResponseWriter writer)
+            ResponseWriter writer)
             throws IOException {
-        
-       if (context == null || component == null) {
+
+        if (context == null || component == null) {
             throw new NullPointerException();
         }
 
@@ -119,36 +101,36 @@ public class CommonTasksSectionRenderer extends AbstractRenderer {
          */
         int numColumns = 2;
         if (cts.getColumns() > 0) {
-           numColumns = cts.getColumns();
+            numColumns = cts.getColumns();
         }
-   
+
         String title;
         writer.write("\n"); // NOI18N        
         writer.startElement(HTMLElements.DIV, cts);
         writer.writeAttribute(HTMLAttributes.ID, cts.getClientId(context),
                 HTMLAttributes.ID);         // NOI18N
-        String styles = RenderingUtilities.getStyleClasses(context, cts, 
-                         theme.getStyleClass(ThemeStyles.CTS_SECTION));
+        String styles = RenderingUtilities.getStyleClasses(context, cts,
+                theme.getStyleClass(ThemeStyles.CTS_SECTION));
         if (styles != null) {
             writer.writeAttribute(HTMLAttributes.CLASS, styles,
                     HTMLAttributes.CLASS);    // NO I18N
         }
-        
+
         styles = cts.getStyle();
-        
+
         if (styles != null) {
-            writer.writeAttribute(HTMLAttributes.STYLE,styles,
+            writer.writeAttribute(HTMLAttributes.STYLE, styles,
                     HTMLAttributes.STYLE); // NO I18N
         }
         writer.startElement(HTMLElements.TABLE, cts);
         writer.writeAttribute(HTMLAttributes.WIDTH, "100%",
-                HTMLAttributes.WIDTH);           
-        writer.writeAttribute(HTMLAttributes.BORDER, "0", 
-                HTMLAttributes.BORDER);             
+                HTMLAttributes.WIDTH);
+        writer.writeAttribute(HTMLAttributes.BORDER, "0",
+                HTMLAttributes.BORDER);
         writer.writeAttribute(HTMLAttributes.CELLPADDING, "0",
                 HTMLAttributes.CELLPADDING);
-        writer.writeAttribute(HTMLAttributes.CELLSPACING, "0", 
-                HTMLAttributes.CELLSPACING);   
+        writer.writeAttribute(HTMLAttributes.CELLSPACING, "0",
+                HTMLAttributes.CELLSPACING);
         writer.writeAttribute(HTMLAttributes.TITLE, "", HTMLAttributes.TITLE);
         if (cts.getTitle() != null) {
             title = cts.getTitle();
@@ -156,42 +138,42 @@ public class CommonTasksSectionRenderer extends AbstractRenderer {
             title = theme.getMessage(SECTION_TITLE);
             cts.setTitle(title);
         }
-  
+
         writer.write("\n");                                        // NOI18N
         renderHeading(title, writer, cts, theme, context);
         writer.endElement(HTMLElements.TABLE);
-         writer.startElement(HTMLElements.TABLE, cts);
+        writer.startElement(HTMLElements.TABLE, cts);
         writer.writeAttribute(HTMLAttributes.WIDTH, "100%",
-            HTMLAttributes.WIDTH);           
-        writer.writeAttribute(HTMLAttributes.BORDER, "0", 
-                HTMLAttributes.BORDER);             
+                HTMLAttributes.WIDTH);
+        writer.writeAttribute(HTMLAttributes.BORDER, "0",
+                HTMLAttributes.BORDER);
         writer.writeAttribute(HTMLAttributes.CELLPADDING, "0",
                 HTMLAttributes.CELLPADDING);
-        writer.writeAttribute(HTMLAttributes.CELLSPACING, "0", 
-                HTMLAttributes.CELLSPACING);   
+        writer.writeAttribute(HTMLAttributes.CELLSPACING, "0",
+                HTMLAttributes.CELLSPACING);
         writer.writeAttribute(HTMLAttributes.TITLE, "", HTMLAttributes.TITLE);
-        
+
         writer.write("\n");                                        // NOI18N
-        
+
         renderSpacer(writer, cts, theme, numColumns, context);
         writer.startElement(HTMLElements.TR, cts);
-                writer.startElement(HTMLElements.TD, cts);
-        writer.writeAttribute(HTMLAttributes.VALIGN, "top", 
+        writer.startElement(HTMLElements.TD, cts);
+        writer.writeAttribute(HTMLAttributes.VALIGN, "top",
                 HTMLAttributes.VALIGN);     // NOI18N
-       layoutCommonTasks(cts, theme, context, writer, numColumns);
+        layoutCommonTasks(cts, theme, context, writer, numColumns);
 
         writer.endElement(HTMLElements.TD);
-        writer.startElement(HTMLElements.TD, cts);        
-        writer.writeAttribute(HTMLAttributes.HEIGHT,"503",
+        writer.startElement(HTMLElements.TD, cts);
+        writer.writeAttribute(HTMLAttributes.HEIGHT, "503",
                 HTMLAttributes.HEIGHT);
-        renderSpacerImage(cts,503, 1, theme, context);        
+        renderSpacerImage(cts, 503, 1, theme, context);
         writer.endElement(HTMLElements.TD);
         writer.endElement(HTMLElements.TR);
         writer.endElement(HTMLElements.TABLE);
-       writer.endElement(HTMLElements.DIV);
-        
+        writer.endElement(HTMLElements.DIV);
+
     }
-    
+
     /**
      * Renders the javascript necessary to initialize DOM object.
      *
@@ -199,37 +181,32 @@ public class CommonTasksSectionRenderer extends AbstractRenderer {
      * @param writer The ResponseWriter object
      * @param component The commonTasksSection component
      */
-    protected void renderJavascript(Theme theme, ResponseWriter writer, 
+    protected void renderJavascript(Theme theme, ResponseWriter writer,
             UIComponent component, FacesContext context) throws IOException {
         try {
             JSONObject json = new JSONObject();
-            json.put("id", component.getClientId(context))
-                .put("pic1URL", theme.getImagePath(
-                    ThemeImages.CTS_RIGHT_TOGGLE_SELECTED))
-                .put("pic2URL", theme.getImagePath(
-                    ThemeImages.CTS_RIGHT_TOGGLE_OVER))
-                .put("pic3URL", theme.getImagePath(
+            json.put("id", component.getClientId(context)).put("pic1URL", theme.getImagePath(
+                    ThemeImages.CTS_RIGHT_TOGGLE_SELECTED)).put("pic2URL", theme.getImagePath(
+                    ThemeImages.CTS_RIGHT_TOGGLE_OVER)).put("pic3URL", theme.getImagePath(
                     ThemeImages.CTS_RIGHT_TOGGLE));
 
             StringBuffer buff = new StringBuffer();
-            buff.append(JavaScriptUtilities.getModule("commonTasksSection"))
-                .append("\n") // NOI18N
-                .append(JavaScriptUtilities.getModuleName(
+            buff.append(JavaScriptUtilities.getModule("commonTasksSection")).append("\n") // NOI18N
+                    .append(JavaScriptUtilities.getModuleName(
                     "commonTasksSection.init(")) // NOI18N
-                .append(json.toString(JavaScriptUtilities.INDENT_FACTOR))
-                .append(");\n"); //NOI18N
+                    .append(json.toString(JavaScriptUtilities.INDENT_FACTOR)).append(");\n"); //NOI18N
 
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(component, writer,
-                buff.toString());
-        } catch(JSONException e) {
+                    buff.toString());
+        } catch (JSONException e) {
             if (LogUtil.fineEnabled()) {
                 LogUtil.fine(e.getStackTrace().toString()); //NOI18N
             }
         }
         writer.write("\n");             // NOI18N
     }
-    
+
     /**
      * Render the heading for the common tasks section.
      *
@@ -239,27 +216,25 @@ public class CommonTasksSectionRenderer extends AbstractRenderer {
      * @param theme The current theme
      * @param context The FacesContext
      */
-
     protected void renderHeading(String title, ResponseWriter writer,
-                               CommonTasksSection cts, Theme theme,
-                               FacesContext context)
+            CommonTasksSection cts, Theme theme,
+            FacesContext context)
             throws IOException {
         writer.startElement(HTMLElements.TR, cts);
         writer.writeAttribute(HTMLAttributes.VALIGN, "top", HTMLAttributes.VALIGN);          // NOI18N
-        writer.startElement(HTMLElements.TD, cts);   
+        writer.startElement(HTMLElements.TD, cts);
         writer.writeAttribute(HTMLAttributes.CLASS,
-                              theme.getStyleClass(ThemeStyles.CTS_TOP_BOX),
-                              HTMLAttributes.CLASS);                            // NOI18N
+                theme.getStyleClass(ThemeStyles.CTS_TOP_BOX),
+                HTMLAttributes.CLASS);                            // NOI18N
         writer.writeAttribute(HTMLAttributes.COLSPAN, "4", HTMLAttributes.COLSPAN);           // NOI18N
         writer.writeAttribute(HTMLAttributes.HEIGHT, "64", HTMLAttributes.HEIGHT);           // NOI18N     
         writer.startElement(HTMLElements.DIV, cts);
-        writer.writeAttribute(HTMLAttributes.CLASS, theme.getStyleClass
-                (ThemeStyles.CTS_HEADER), HTMLAttributes.CLASS);
+        writer.writeAttribute(HTMLAttributes.CLASS, theme.getStyleClass(ThemeStyles.CTS_HEADER), HTMLAttributes.CLASS);
         writer.write(title);
         writer.endElement(HTMLElements.DIV);
 
         // Add Inline help.
-            
+
         UIComponent comp = cts.getHelp(context);
         // If a div does not exist, then the styles dont get applied
         // properly. So, just check whether if it is help inline for
@@ -267,21 +242,18 @@ public class CommonTasksSectionRenderer extends AbstractRenderer {
         // and render an extra div.
         if (!(comp instanceof HelpInline)) {
             writer.startElement(HTMLElements.DIV, cts);
-            writer.writeAttribute(HTMLAttributes.CLASS, theme.getStyleClass
-                    (ThemeStyles.CTS_SECTION_HELP), HTMLAttributes.CLASS);
+            writer.writeAttribute(HTMLAttributes.CLASS, theme.getStyleClass(ThemeStyles.CTS_SECTION_HELP), HTMLAttributes.CLASS);
             RenderingUtilities.renderComponent(comp, context);
             writer.endElement(HTMLElements.DIV);
         } else {
-            ((HelpInline)comp).setStyleClass(theme.getStyleClass
-                    (ThemeStyles.CTS_SECTION_HELP));
+            ((HelpInline) comp).setStyleClass(theme.getStyleClass(ThemeStyles.CTS_SECTION_HELP));
             RenderingUtilities.renderComponent(comp, context);
         }
 
         writer.endElement(HTMLElements.TD);
         writer.endElement(HTMLElements.TR);
-    }   
-    
-    
+    }
+
     /**
      * Set appropriate column widths for the commontaskssection.
      * 
@@ -292,9 +264,8 @@ public class CommonTasksSectionRenderer extends AbstractRenderer {
      * @param numColumns The number of columns for the commonTasksSection.
      * @exception IOException if an input/output error occurs
      */
-       
     protected void renderSpacer(ResponseWriter writer, UIComponent cts,
-                              Theme theme, int numColumns, FacesContext context)
+            Theme theme, int numColumns, FacesContext context)
             throws IOException {
 
         int _spacerWidth = 40;
@@ -303,33 +274,33 @@ public class CommonTasksSectionRenderer extends AbstractRenderer {
         int _initWidth = 5;
 
         if (numColumns > 1) {
-            _spacerWidth = _spacerWidth/(numColumns-1);
-            columnWidth = columnWidth/(numColumns-1);
-            _sepWidth = _sepWidth/(numColumns-1);
-            _initWidth = _initWidth/(numColumns-1);
+            _spacerWidth = _spacerWidth / (numColumns - 1);
+            columnWidth = columnWidth / (numColumns - 1);
+            _sepWidth = _sepWidth / (numColumns - 1);
+            _initWidth = _initWidth / (numColumns - 1);
         }
-        String spacerWidth =""+_spacerWidth+"%"; 
-        String sepWidth = ""+_sepWidth+"%";
-        String initWidth = ""+_initWidth+"%";
-        
+        String spacerWidth = "" + _spacerWidth + "%";
+        String sepWidth = "" + _sepWidth + "%";
+        String initWidth = "" + _initWidth + "%";
+
         writer.startElement(HTMLElements.TR, cts);
         // This is for tasks
-        
+
         if (numColumns == 1) {
             numColumns = 2; // Fix the case when only one column exists.
         }
-        for (int i=0; i<numColumns; i++) {
+        for (int i = 0; i < numColumns; i++) {
             // Set the spacing for each commontask element
             writer.startElement(HTMLElements.TD, cts);
-            writer.writeAttribute(HTMLAttributes.WIDTH,spacerWidth, 
+            writer.writeAttribute(HTMLAttributes.WIDTH, spacerWidth,
                     HTMLAttributes.WIDTH);         // NOI18N
-            renderSpacerImage(cts,1, columnWidth, theme, context);
+            renderSpacerImage(cts, 1, columnWidth, theme, context);
             writer.endElement(HTMLElements.TD);
 
             //set the spacing between two columns
             writer.startElement(HTMLElements.TD, cts);
-            if (i == numColumns-1) {
-                writer.writeAttribute(HTMLAttributes.WIDTH, initWidth, 
+            if (i == numColumns - 1) {
+                writer.writeAttribute(HTMLAttributes.WIDTH, initWidth,
                         HTMLAttributes.WIDTH);          // NOI18N
             } else {
                 writer.writeAttribute(HTMLAttributes.WIDTH, sepWidth,
@@ -340,11 +311,10 @@ public class CommonTasksSectionRenderer extends AbstractRenderer {
         }
 
         // End of tasks
-        
+
         writer.endElement(HTMLElements.TR);
     }
 
-    
     /**
      * Render The spacer image.
      * 
@@ -354,17 +324,15 @@ public class CommonTasksSectionRenderer extends AbstractRenderer {
      *
      * @exception IOException if an input/output error occurs
      */
-       
     protected void renderSpacerImage(UIComponent component, int height,
-	    int width, Theme theme, FacesContext context)
+            int width, Theme theme, FacesContext context)
             throws IOException {
         Icon img = ThemeUtilities.getIcon(theme, ThemeImages.CTS_SPACER_IMAGE);
         img.setParent(component);
         img.setId(SPACER_IMAGE);
         RenderingUtilities.renderComponent(img, context);
     }
-    
-    
+
     /**
      * Render a common tasks section.
      * 
@@ -374,18 +342,17 @@ public class CommonTasksSectionRenderer extends AbstractRenderer {
      *
      * @exception IOException if an input/output error occurs
      */
-       
-
+    @Override
     protected void renderStart(FacesContext context, UIComponent component,
-                               ResponseWriter writer)
+            ResponseWriter writer)
             throws IOException {
     }
 
+    @Override
     public boolean getRendersChildren() {
         return true;
     }
-    
-    
+
     /**
      * Distributes the common tasks between the columns in the common tasks section.
      * @param cts The common tasks section component
@@ -394,24 +361,24 @@ public class CommonTasksSectionRenderer extends AbstractRenderer {
      * @param writer The Responsewriter instance.
      * @param numColumns The number of columns the common tasks section has.
      */
-    protected void layoutCommonTasks(CommonTasksSection cts, Theme theme, 
-            FacesContext context, ResponseWriter writer, int numColumns) throws IOException{
-        
+    protected void layoutCommonTasks(CommonTasksSection cts, Theme theme,
+            FacesContext context, ResponseWriter writer, int numColumns) throws IOException {
+
         List children = cts.getChildren();
-        Iterator itr  = children.iterator();
+        Iterator itr = children.iterator();
         UIComponent comp;
         int commonTaskCount = cts.getCommonTaskCount();
         int cnt = numColumns;
-        int  separator  =
-           (int) java.lang.Math.ceil((double) commonTaskCount / 
-            (double)numColumns); 
+        int separator =
+                (int) java.lang.Math.ceil((double) commonTaskCount /
+                (double) numColumns);
         /**
          *Keep track of number of commontasks that have been rendered;
          */
-        int tmp,count = 0; 
+        int tmp, count = 0;
 
         renderJavascript(theme, writer, cts, context);
-        
+
         // Render all the cobmmon task groups.
         while (itr.hasNext()) {
             Object obj = itr.next();
@@ -421,50 +388,45 @@ public class CommonTasksSectionRenderer extends AbstractRenderer {
             // or equal to the number of columns, just renderer each task group
             // in each column. 
 
-                if (cts.getCommonTaskCount() <= numColumns && count > 0) {
-                    writer.endElement(HTMLElements.TD);
-                    writer.startElement(HTMLElements.TD, cts);
-                    writer.write(WHITE_SPACE);                          // NOI18N
-                    writer.endElement(HTMLElements.TD);
-                    writer.startElement(HTMLElements.TD, cts);
-                    writer.writeAttribute(HTMLAttributes.VALIGN, "top",
-                            HTMLAttributes.VALIGN);// NOI18N 
+            if (cts.getCommonTaskCount() <= numColumns && count > 0) {
+                writer.endElement(HTMLElements.TD);
+                writer.startElement(HTMLElements.TD, cts);
+                writer.write(WHITE_SPACE);                          // NOI18N
+                writer.endElement(HTMLElements.TD);
+                writer.startElement(HTMLElements.TD, cts);
+                writer.writeAttribute(HTMLAttributes.VALIGN, "top",
+                        HTMLAttributes.VALIGN);// NOI18N
 
-                    // For other cases, try to distribute the commonTasks between
-                    // all the columns as evenly as possible.
-                    // CommonTasks for a particular commonTasksGroup cannot be
-                    // split between two columns. 
+            // For other cases, try to distribute the commonTasks between
+            // all the columns as evenly as possible.
+            // CommonTasks for a particular commonTasksGroup cannot be
+            // split between two columns.
 
-                } else if ((count >= separator||((comp instanceof CommonTasksGroup) &&
-                          (count+((CommonTasksGroup)comp).getChildCount()>
-                          separator) && count > 0)) && cnt > 1) {
+            } else if ((count >= separator || ((comp instanceof CommonTasksGroup) &&
+                    (count + ((CommonTasksGroup) comp).getChildCount() >
+                    separator) && count > 0)) && cnt > 1) {
 
-                    cnt --;
-                    writer.endElement(HTMLElements.TD);
-                    writer.startElement(HTMLElements.TD, cts);
-                    writer.write(WHITE_SPACE);                          // NOI18N
-                    writer.endElement(HTMLElements.TD);
-                    writer.startElement(HTMLElements.TD, cts);
-                    writer.writeAttribute(HTMLAttributes.VALIGN, "top",
-                            HTMLAttributes.VALIGN);// NOI18N
-                    tmp = numColumns-1;
-                    separator  = (int) java.lang.Math.ceil((double)
-                            (commonTaskCount - count)/ (double)(tmp));  
-                    count = 0;
+                cnt--;
+                writer.endElement(HTMLElements.TD);
+                writer.startElement(HTMLElements.TD, cts);
+                writer.write(WHITE_SPACE);                          // NOI18N
+                writer.endElement(HTMLElements.TD);
+                writer.startElement(HTMLElements.TD, cts);
+                writer.writeAttribute(HTMLAttributes.VALIGN, "top",
+                        HTMLAttributes.VALIGN);// NOI18N
+                tmp = numColumns - 1;
+                separator = (int) java.lang.Math.ceil((double) (commonTaskCount - count) / (double) (tmp));
+                count = 0;
+            }
 
 
-                 } 
-
-            
             RenderingUtilities.renderComponent(comp, context);
 
             if (comp instanceof CommonTasksGroup) {
-                count = count+comp.getChildCount();
+                count = count + comp.getChildCount();
             } else {
                 count++;
             }
-            
         }
-        
     }
 }

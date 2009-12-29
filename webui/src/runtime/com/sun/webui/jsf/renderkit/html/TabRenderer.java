@@ -23,7 +23,6 @@
 /*
  * TabRenderer.java
  */
-
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.faces.annotation.Renderer;
@@ -32,7 +31,6 @@ import java.util.List;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.component.UIComponent;
-
 import com.sun.webui.jsf.util.LogUtil;
 import com.sun.webui.jsf.component.Tab;
 import com.sun.webui.jsf.component.TabSet;
@@ -50,14 +48,14 @@ import com.sun.webui.jsf.util.ConversionUtilities;
  *
  * @author  Sean Comerford
  */
-@Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.Tab"))
+@Renderer(@Renderer.Renders(componentFamily = "com.sun.webui.jsf.Tab"))
 public class TabRenderer extends HyperlinkRenderer {
-    
+
     /** Default constructor */
     public TabRenderer() {
         super();
     }
-    
+
     /**
      * This method is always called by the base class (HyperlinkRenderer)
      * renderEnd method. TabRenderer should NOT render any Tab children as the
@@ -66,11 +64,12 @@ public class TabRenderer extends HyperlinkRenderer {
      * @param context The current FacesContext
      * @param component The current component
      */
+    @Override
     protected void renderChildren(FacesContext context, UIComponent component)
-    throws IOException {
+            throws IOException {
         // do nothing
     }
-    
+
     /**
      * <p>Render the start of an anchor (hyperlink) tag.</p>
      * @param context <code>FacesContext</code> for the current request
@@ -79,26 +78,28 @@ public class TabRenderer extends HyperlinkRenderer {
      * start should be rendered
      * @exception IOException if an input/output error occurs
      */
+    @Override
     protected void renderStart(FacesContext context, UIComponent component,
             ResponseWriter writer) throws IOException {
         super.renderStart(context, component, writer);
-        
+
         // ensure that this tab's parent is either a Tab or TabSet
         UIComponent parent = component.getParent();
-        
+
         if (!(parent instanceof Tab || parent instanceof TabSet)) {
             if (LogUtil.infoEnabled()) {
                 LogUtil.info(TabRenderer.class, "WEBUI0006",
-                        new String[] { component.getId() });
+                        new String[]{component.getId()});
             }
         }
     }
-    
+
+    @Override
     protected void finishRenderAttributes(FacesContext context, UIComponent component,
             ResponseWriter writer) throws IOException {
-        
+
         Tab tab = (Tab) component;
-        
+
         // Set up local variables we will need
         int tabIndex = tab.getTabIndex();
         if (tabIndex >= 0) {
@@ -106,24 +107,25 @@ public class TabRenderer extends HyperlinkRenderer {
         }
         super.finishRenderAttributes(context, component, writer);
     }
-    
+
     /**
      * This function returns the style classes necessary to display the
      * {@link Hyperlink} component as it's state indicates
      * @return the style classes needed to display the current state of
      * the component
      */
+    @Override
     protected String getStyles(FacesContext context, UIComponent component) {
         Tab link = (Tab) component;
-        
+
         StringBuffer sb = new StringBuffer(200);
-        
+
         Theme theme = ThemeUtilities.getTheme(context);
         if (link.isDisabled()) {
             sb.append(" "); //NOI18N
             sb.append(theme.getStyleClass(ThemeStyles.LINK_DISABLED));
         }
-        
+
         Object value = link.getText();
         if (value != null) {
             String text = ConversionUtilities.convertValueToString(link, value);
@@ -132,10 +134,11 @@ public class TabRenderer extends HyperlinkRenderer {
                 sb.append(theme.getStyleClass(ThemeStyles.TAB_PADDING));
             }
         }
-        
+
         return (sb.length() > 0) ? sb.toString() : null;
     }
-    
+
+    @Override
     public void decode(FacesContext context, UIComponent component) {
         super.decode(context, component);
         String paramId = super.getSubmittedParameterId(context, component);
@@ -154,13 +157,13 @@ public class TabRenderer extends HyperlinkRenderer {
                 List<Tab> childrenTabs = selectedTab.getTabChildren();
                 selectedTab = childrenTabs.get(0);
                 for (Tab childTab : childrenTabs) {
-                    if (childTab.getId() != null && childTab.getId().equals(previousSelectedTabId))
+                    if (childTab.getId() != null && childTab.getId().equals(previousSelectedTabId)) {
                         selectedTab = childTab;
+                    }
                 }
             }
             TabSet tabSet = Tab.getTabSet(selectedTab);
             tabSet.setSubmittedValue(selectedTab.getId());
         }
     }
-    
 }

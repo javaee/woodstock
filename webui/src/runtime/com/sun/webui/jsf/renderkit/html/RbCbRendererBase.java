@@ -19,21 +19,17 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.renderkit.html;
 
 import java.io.IOException;
-
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.convert.ConverterException;
-
 import com.sun.webui.jsf.component.ImageComponent;
 import com.sun.webui.jsf.component.Label;
 import com.sun.webui.jsf.component.RadioButton;
 import com.sun.webui.jsf.component.RbCbSelector;
-import com.sun.webui.jsf.component.util.Util;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.jsf.util.RenderingUtilities;
@@ -169,8 +165,9 @@ import com.sun.webui.jsf.util.RenderingUtilities;
  * the component.<br/>
  * </p>
  */
+//FIXME this should probably be public
 abstract class RbCbRendererBase extends AbstractRenderer {
-    
+
     /**
      * The define constant indicating the style class 
      * for an INPUT element.
@@ -216,7 +213,6 @@ abstract class RbCbRendererBase extends AbstractRenderer {
     //
     private static final String INPUT_ELEM = "input"; //NOI18N
     private static final String SPAN_ELEM = "span"; //NOI18N
-
     private static final String CHECKED_ATTR = "checked"; //NOI18N
     private static final String DISABLED_ATTR = "disabled"; //NOI18N
     private static final String CLASS_ATTR = "class"; //NOI18N
@@ -232,26 +228,23 @@ abstract class RbCbRendererBase extends AbstractRenderer {
     private static final String TOOLTIP_ATTR = "toolTip"; //NOI18N
     private static final String TYPE_ATTR = "type"; //NOI18N
     private static final String VALUE_ATTR = "value"; //NOI18N
-
     private static final String SPAN_SUFFIX = "_span"; //NOI18N
-
-    
-   /**
+    /**
      * <p>The list of attribute names for Rb and Cb
      *
-    **/
-    public static final String RBCB_EVENTS_ATTRIBUTES[] =
-    { "onFocus", "onBlur", "onClick", "onDblClick", "onChange", // NOI18N
-      "onMouseDown", "onMouseUp", "onMouseOver", "onMouseMove", "onMouseOut", // NOI18N
-              "onKeyPress", "onKeyDown", "onKeyUp", // NOI18N
-    };    
+     **/
+    public static final String RBCB_EVENTS_ATTRIBUTES[] = {"onFocus", "onBlur", "onClick", "onDblClick", "onChange", // NOI18N
+        "onMouseDown", "onMouseUp", "onMouseOver", "onMouseMove", "onMouseOut", // NOI18N
+        "onKeyPress", "onKeyDown", "onKeyUp", // NOI18N
+    };
+
     /**
      * Creates a new instance of RbCbRendererBase
      */
     public RbCbRendererBase() {
         super();
     }
-    
+
     /**
      * The getStlye method is implemented by subclasses
      * to return the actual CSS style class name for
@@ -270,7 +263,7 @@ abstract class RbCbRendererBase extends AbstractRenderer {
      * @param currentValue the value of the currently selected control.
      */
     protected abstract boolean isSelected(FacesContext context,
-	UIComponent component);
+            UIComponent component);
 
     /*
      * <p>
@@ -317,7 +310,7 @@ abstract class RbCbRendererBase extends AbstractRenderer {
      * @param component UIComponent to be decoded.
      */
     public void encodeChildren(FacesContext context, UIComponent component)
-	throws IOException {
+            throws IOException {
     }
 
     /**
@@ -330,40 +323,40 @@ abstract class RbCbRendererBase extends AbstractRenderer {
      * @param type the INPUT element type attribute value.
      */
     protected void renderSelection(FacesContext context,
-	    UIComponent component, Theme theme, ResponseWriter writer,
-	    String type) throws IOException {
+            UIComponent component, Theme theme, ResponseWriter writer,
+            String type) throws IOException {
 
-	// Contain the radio button components within a span element
-	// assigning the style and styleClass attribute to its
-	// style and class attributes.
-	//
-	writer.startElement(SPAN_ELEM, component);
-	writer.writeAttribute(ID_ATTR,
-		component.getClientId(context).concat(SPAN_SUFFIX), null);
+        // Contain the radio button components within a span element
+        // assigning the style and styleClass attribute to its
+        // style and class attributes.
+        //
+        writer.startElement(SPAN_ELEM, component);
+        writer.writeAttribute(ID_ATTR,
+                component.getClientId(context).concat(SPAN_SUFFIX), null);
 
-	// Transfer explicit style attribute value to the span's style
-	//
-	String prop = (String)((RbCbSelector)component).getStyle();
-	if (prop != null) {
-	    writer.writeAttribute(STYLE_ATTR, prop, STYLE_ATTR);
-	}
-	
-	// Merge the standard style class with the styleClass
-	// attribute
-	//
-	String styleClass = getStyle(theme, 
-		((RbCbSelector)component).isDisabled() ? SPAN_DIS : SPAN);
-	styleClass = RenderingUtilities.getStyleClasses(context, component,
-		styleClass);
-	if (styleClass != null) {
+        // Transfer explicit style attribute value to the span's style
+        //
+        String prop = (String) ((RbCbSelector) component).getStyle();
+        if (prop != null) {
+            writer.writeAttribute(STYLE_ATTR, prop, STYLE_ATTR);
+        }
+
+        // Merge the standard style class with the styleClass
+        // attribute
+        //
+        String styleClass = getStyle(theme,
+                ((RbCbSelector) component).isDisabled() ? SPAN_DIS : SPAN);
+        styleClass = RenderingUtilities.getStyleClasses(context, component,
+                styleClass);
+        if (styleClass != null) {
             writer.writeAttribute(CLASS_ATTR, styleClass, null);
-	}
+        }
 
-	renderInput(context, component, theme, writer, type);
-	renderImage(context, component, theme, writer);
-	renderLabel(context, component, theme, writer);
+        renderInput(context, component, theme, writer, type);
+        renderImage(context, component, theme, writer);
+        renderLabel(context, component, theme, writer);
 
-	writer.endElement(SPAN_ELEM);
+        writer.endElement(SPAN_ELEM);
     }
 
     /**
@@ -376,112 +369,111 @@ abstract class RbCbRendererBase extends AbstractRenderer {
      * be output
      * @param type the INPUT element type attribute value.
      */
-    protected void renderInput(FacesContext context, 
-	    UIComponent component, Theme theme, ResponseWriter writer,
-	    String type) throws IOException {
+    protected void renderInput(FacesContext context,
+            UIComponent component, Theme theme, ResponseWriter writer,
+            String type) throws IOException {
 
-	RbCbSelector rbcbSelector = (RbCbSelector)component;
+        RbCbSelector rbcbSelector = (RbCbSelector) component;
 
-	String componentId = component.getClientId(context);
+        String componentId = component.getClientId(context);
 
-	writer.startElement(INPUT_ELEM, component);
+        writer.startElement(INPUT_ELEM, component);
         writer.writeAttribute(TYPE_ATTR, type, null);
 
-	// Set the control name to the radiobutton group id
-	// and create a unique id from the radiobutton group id.
-	// 
+        // Set the control name to the radiobutton group id
+        // and create a unique id from the radiobutton group id.
+        //
         writer.writeAttribute(ID_ATTR, componentId, ID_ATTR);
 
-	// If name is not set use the component's clientId
-	//
-	boolean inGroup = true;
-	String prop = rbcbSelector.getName();
-	if (prop == null) {
-	    prop = componentId;
-	    inGroup = false;
-	}
+        // If name is not set use the component's clientId
+        //
+        boolean inGroup = true;
+        String prop = rbcbSelector.getName();
+        if (prop == null) {
+            prop = componentId;
+            inGroup = false;
+        }
         writer.writeAttribute(NAME_ATTR, prop, NAME_ATTR);
 
-	// If the selectedValue is Boolean and the component is part
-	// of a group, "name != null", then set the value of the value
-	// attribute to "component.getClientId()".
-	// 
-	Object selectedValue = rbcbSelector.getSelectedValue();
-	prop = ConversionUtilities.convertValueToString(component,
-		    selectedValue);
+        // If the selectedValue is Boolean and the component is part
+        // of a group, "name != null", then set the value of the value
+        // attribute to "component.getClientId()".
+        //
+        Object selectedValue = rbcbSelector.getSelectedValue();
+        prop = ConversionUtilities.convertValueToString(component,
+                selectedValue);
 
-	// Need to check immediate conditions
-	// submittedValue will be non null if immediate is true on
-	// some action component or a component on the page was invalid
-	//
-	String[] subValue = (String[])rbcbSelector.getSubmittedValue();
-	if (subValue == null) {
-	    Object selected = rbcbSelector.getSelected();
-	    if (isSelected(context, component)) {
-		writer.writeAttribute(CHECKED_ATTR, CHECKED_ATTR, null);
-	    }
-	    // A component can't be selected if "getSelected" returns null
-	    //
-	    // Remember that the rendered value was null.
-	    //
-	    ConversionUtilities.setRenderedValue(component, selected);
-	} else
-	//
-	// if the submittedValue is a 0 length array or the
-	// first element is "" then the control is unchecked.
-	//
-	if (subValue.length != 0 && subValue[0].length() != 0) {
-	    // The submitted value has the String value of the
-	    // selectedValue property. Just compare the submittedValue
-	    // to it to determine if it is checked.
-	    //
-	    // Assume that the RENDERED_VALUE_STATE is the same
-	    // as the last rendering.
-	    //
-	    if (prop != null && prop.equals(subValue[0])) {
-		writer.writeAttribute(CHECKED_ATTR, CHECKED_ATTR, null);
-	    }
-	}
+        // Need to check immediate conditions
+        // submittedValue will be non null if immediate is true on
+        // some action component or a component on the page was invalid
+        //
+        String[] subValue = (String[]) rbcbSelector.getSubmittedValue();
+        if (subValue == null) {
+            Object selected = rbcbSelector.getSelected();
+            if (isSelected(context, component)) {
+                writer.writeAttribute(CHECKED_ATTR, CHECKED_ATTR, null);
+            }
+            // A component can't be selected if "getSelected" returns null
+            //
+            // Remember that the rendered value was null.
+            //
+            ConversionUtilities.setRenderedValue(component, selected);
+        } else //
+        // if the submittedValue is a 0 length array or the
+        // first element is "" then the control is unchecked.
+        //
+        if (subValue.length != 0 && subValue[0].length() != 0) {
+            // The submitted value has the String value of the
+            // selectedValue property. Just compare the submittedValue
+            // to it to determine if it is checked.
+            //
+            // Assume that the RENDERED_VALUE_STATE is the same
+            // as the last rendering.
+            //
+            if (prop != null && prop.equals(subValue[0])) {
+                writer.writeAttribute(CHECKED_ATTR, CHECKED_ATTR, null);
+            }
+        }
 
-	// If not ingroup prop has String version of selectedValue
-	//
-	boolean booleanControl = selectedValue instanceof Boolean;
-	if (inGroup && booleanControl) {
-	    prop = componentId;
-	}
+        // If not ingroup prop has String version of selectedValue
+        //
+        boolean booleanControl = selectedValue instanceof Boolean;
+        if (inGroup && booleanControl) {
+            prop = componentId;
+        }
         writer.writeAttribute(VALUE_ATTR, prop, null);
 
-	boolean readonly = rbcbSelector.isReadOnly();
-	if (readonly) {
+        boolean readonly = rbcbSelector.isReadOnly();
+        if (readonly) {
             writer.writeAttribute(READONLY_ATTR, READONLY_ATTR,
-		READONLY_CC_ATTR);
-	}
+                    READONLY_CC_ATTR);
+        }
 
-	String styleClass = null;
-	boolean disabled = rbcbSelector.isDisabled();
-	if (disabled) {
+        String styleClass = null;
+        boolean disabled = rbcbSelector.isDisabled();
+        if (disabled) {
             writer.writeAttribute(DISABLED_ATTR, DISABLED_ATTR, DISABLED_ATTR);
-		styleClass = getStyle(theme, INPUT_DIS);
+            styleClass = getStyle(theme, INPUT_DIS);
         } else {
-		styleClass = getStyle(theme, INPUT);
-	}
+            styleClass = getStyle(theme, INPUT);
+        }
 
 
-	prop = rbcbSelector.getToolTip();
-	if (prop != null) {
-	    writer.writeAttribute(TITLE_ATTR, prop, TOOLTIP_ATTR);
-	}
+        prop = rbcbSelector.getToolTip();
+        if (prop != null) {
+            writer.writeAttribute(TITLE_ATTR, prop, TOOLTIP_ATTR);
+        }
 
-	// Output the component's event attributes
-	// Probably want the 'no auto submit javascript at some point'
-	//
-	addStringAttributes(context, component, writer, RBCB_EVENTS_ATTRIBUTES);
+        // Output the component's event attributes
+        // Probably want the 'no auto submit javascript at some point'
+        //
+        addStringAttributes(context, component, writer, RBCB_EVENTS_ATTRIBUTES);
 
-	int tabIndex = rbcbSelector.getTabIndex();
-	if (tabIndex > 0 && tabIndex < 32767) {
-	    writer.writeAttribute(TABINDEX_ATTR, 
-		String.valueOf(tabIndex), TABINDEX_CC_ATTR);
-	}
+        int tabIndex = rbcbSelector.getTabIndex();
+        if (tabIndex > 0 && tabIndex < 32767) {
+            writer.writeAttribute(TABINDEX_ATTR,
+                    String.valueOf(tabIndex), TABINDEX_CC_ATTR);
+        }
 
 
         writer.endElement(INPUT_ELEM);
@@ -497,14 +489,14 @@ abstract class RbCbRendererBase extends AbstractRenderer {
      * be output
      */
     protected void renderImage(FacesContext context,
-	    UIComponent component, Theme theme,
-	    ResponseWriter writer) throws IOException {
+            UIComponent component, Theme theme,
+            ResponseWriter writer) throws IOException {
 
-	UIComponent imageComponent = getImageComponent(context, component,
-	    theme);
-	if (imageComponent != null) {
-	    RenderingUtilities.renderComponent(imageComponent, context);
-	}
+        UIComponent imageComponent = getImageComponent(context, component,
+                theme);
+        if (imageComponent != null) {
+            RenderingUtilities.renderComponent(imageComponent, context);
+        }
     }
 
     // There is a serious issue creating child components for
@@ -527,28 +519,27 @@ abstract class RbCbRendererBase extends AbstractRenderer {
     // so that the renderer just asks for the facet.
     // It may orginate from the component or the developer.
     //
-
     private UIComponent getImageComponent(FacesContext context,
-	    UIComponent component, Theme theme) throws IOException {
+            UIComponent component, Theme theme) throws IOException {
 
-	RbCbSelector rbcbComponent = (RbCbSelector)component;
-	ImageComponent imageComponent =
-	    (ImageComponent)rbcbComponent.getImageComponent();
-	if (imageComponent == null) {
-	    return null;
-	}
+        RbCbSelector rbcbComponent = (RbCbSelector) component;
+        ImageComponent imageComponent =
+                (ImageComponent) rbcbComponent.getImageComponent();
+        if (imageComponent == null) {
+            return null;
+        }
 
-	// Need to apply disabled class 
-	//
-	String styleClass = getStyle(theme, 
-		rbcbComponent.isDisabled() ? IMAGE_DIS : IMAGE);
-	styleClass = RenderingUtilities.getStyleClasses(context,
-		imageComponent, styleClass);
-	if (styleClass != null) {
-	    imageComponent.setStyleClass(styleClass);
-	}
+        // Need to apply disabled class
+        //
+        String styleClass = getStyle(theme,
+                rbcbComponent.isDisabled() ? IMAGE_DIS : IMAGE);
+        styleClass = RenderingUtilities.getStyleClasses(context,
+                imageComponent, styleClass);
+        if (styleClass != null) {
+            imageComponent.setStyleClass(styleClass);
+        }
 
-	return imageComponent;
+        return imageComponent;
     }
 
     /**
@@ -560,34 +551,34 @@ abstract class RbCbRendererBase extends AbstractRenderer {
      * be output
      */
     protected void renderLabel(FacesContext context, UIComponent component,
-		Theme theme, ResponseWriter writer) throws IOException {
+            Theme theme, ResponseWriter writer) throws IOException {
 
-	UIComponent labelComponent = getLabelComponent(context, component,
-	    theme);
-	if (labelComponent != null) {
-	    RenderingUtilities.renderComponent(labelComponent, context);
-	}
+        UIComponent labelComponent = getLabelComponent(context, component,
+                theme);
+        if (labelComponent != null) {
+            RenderingUtilities.renderComponent(labelComponent, context);
+        }
     }
 
     private UIComponent getLabelComponent(FacesContext context,
-		UIComponent component, Theme theme) throws IOException {
+            UIComponent component, Theme theme) throws IOException {
 
-	RbCbSelector rbcbComponent = (RbCbSelector)component;
-	Label labelComponent = (Label)rbcbComponent.getLabelComponent();
-	if (labelComponent == null) {
-	    return null;
-	}
+        RbCbSelector rbcbComponent = (RbCbSelector) component;
+        Label labelComponent = (Label) rbcbComponent.getLabelComponent();
+        if (labelComponent == null) {
+            return null;
+        }
 
-	// Need to apply disabled class 
-	//
-	String styleClass = getStyle(theme, 
-		rbcbComponent.isDisabled() ? LABEL_DIS : LABEL);
-	styleClass = RenderingUtilities.getStyleClasses(context,
-		labelComponent, styleClass);
-	if (styleClass != null) {
-	    labelComponent.setStyleClass(styleClass);
-	}
-	return labelComponent;
+        // Need to apply disabled class
+        //
+        String styleClass = getStyle(theme,
+                rbcbComponent.isDisabled() ? LABEL_DIS : LABEL);
+        styleClass = RenderingUtilities.getStyleClasses(context,
+                labelComponent, styleClass);
+        if (styleClass != null) {
+            labelComponent.setStyleClass(styleClass);
+        }
+        return labelComponent;
     }
 
     /**
@@ -611,15 +602,15 @@ abstract class RbCbRendererBase extends AbstractRenderer {
      *  or <code>component</code> is <code>null</code>
      */
     public Object getConvertedValue(FacesContext context,
-				    UIComponent  component,
-				    Object submittedValue) 
-	    throws ConverterException {
+            UIComponent component,
+            Object submittedValue)
+            throws ConverterException {
 
-	// I know this looks odd but it gives an opportunity
-	// for an alternative renderer for Checkbox and RadioButton
-	// to provide a converter.
-	//
-	return ((RbCbSelector)component).getConvertedValue(context,
-		(RbCbSelector)component, submittedValue);
+        // I know this looks odd but it gives an opportunity
+        // for an alternative renderer for Checkbox and RadioButton
+        // to provide a converter.
+        //
+        return ((RbCbSelector) component).getConvertedValue(context,
+                (RbCbSelector) component, submittedValue);
     }
 }

@@ -19,13 +19,11 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.faces.annotation.Renderer;
 import com.sun.webui.html.HTMLAttributes;
 import com.sun.webui.html.HTMLElements;
-
 import com.sun.webui.jsf.component.Breadcrumbs;
 import com.sun.webui.jsf.component.Hyperlink;
 import com.sun.webui.theme.Theme;
@@ -33,9 +31,7 @@ import com.sun.webui.jsf.theme.ThemeStyles;
 import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
-
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.faces.context.FacesContext;
@@ -45,21 +41,22 @@ import javax.faces.component.UIComponent;
 /**
  * Renderer for the {@link Breadcrumbs} component.
  */
-@Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.Breadcrumbs"))
+@Renderer(@Renderer.Renders(componentFamily = "com.sun.webui.jsf.Breadcrumbs"))
 public class BreadcrumbsRenderer extends javax.faces.render.Renderer {
-    
+
     final static String SEPARATOR_KEY = "Breadcrumbs.separator";
-    
+
     @Override
     public boolean getRendersChildren() {
         return true;
     }
-    
+
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         // Open the top-most DIV element
-        if (!component.isRendered())
+        if (!component.isRendered()) {
             return;
+        }
         Breadcrumbs breadcrumbs = (Breadcrumbs) component;
         ResponseWriter writer = context.getResponseWriter();
         writer.startElement(HTMLElements.DIV, breadcrumbs);
@@ -71,29 +68,32 @@ public class BreadcrumbsRenderer extends javax.faces.render.Renderer {
             if (styleClass == null) {
                 styleClass = hiddenStyleClass;
             } else {
-                if (styleClass.trim().endsWith(";"))
+                if (styleClass.trim().endsWith(";")) {
                     styleClass = styleClass + " " + hiddenStyleClass;
-                else
+                } else {
                     styleClass = styleClass + "; " + hiddenStyleClass;
+                }
             }
         }
-        if (theme == null && styleClass != null)
+        if (theme == null && styleClass != null) {
             writer.writeAttribute(HTMLAttributes.CLASS, styleClass, HTMLAttributes.CLASS);
-        else
+        } else {
             RenderingUtilities.renderStyleClass(context, writer, breadcrumbs,
                     theme.getStyleClass(ThemeStyles.BREADCRUMB_WHITE_DIV));
+        }
         String style = breadcrumbs.getStyle();
         if (style != null) {
             writer.writeAttribute(HTMLAttributes.STYLE, style, HTMLAttributes.STYLE);
         }
         writer.writeText("\n", null); //NOI18N
     }
-    
+
     @Override
     public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
         Breadcrumbs breadcrumbs = (Breadcrumbs) component;
-        if (!breadcrumbs.isRendered())
+        if (!breadcrumbs.isRendered()) {
             return;
+        }
         ResponseWriter writer = context.getResponseWriter();
         Theme theme = ThemeUtilities.getTheme(context);
         Hyperlink[] hyperlinks = breadcrumbs.getPages();
@@ -106,13 +106,15 @@ public class BreadcrumbsRenderer extends javax.faces.render.Renderer {
                     hyperlinks[i].setParent(breadcrumbs);
                     renderBreadcrumbsLink(context, hyperlinks[i], theme);
                     hyperlinks[i].setParent(parent);
-                    if (i < hyperlinks.length - 2 || hyperlinks[i + 1].isRendered())
+                    if (i < hyperlinks.length - 2 || hyperlinks[i + 1].isRendered()) {
                         renderBreadcrumbsSeparator(context, breadcrumbs, theme);
+                    }
                 }
                 i++;
             }
-            if (hyperlinks[i].isRendered())
+            if (hyperlinks[i].isRendered()) {
                 renderBreadcrumbsText(context, hyperlinks[i], theme);
+            }
         } else if (breadcrumbs.getChildCount() > 0) {
             // Render hyperlinks that are children of this breadcrumbs component
             List<UIComponent> childrenList = breadcrumbs.getChildren();
@@ -122,35 +124,37 @@ public class BreadcrumbsRenderer extends javax.faces.render.Renderer {
                     Hyperlink hyperlink = (Hyperlink) childrenList.get(i);
                     if (hyperlink.isRendered()) {
                         renderBreadcrumbsLink(context, hyperlink, theme);
-                        if (i < childrenList.size() - 2 || childrenList.get(i + 1).isRendered())
+                        if (i < childrenList.size() - 2 || childrenList.get(i + 1).isRendered()) {
                             renderBreadcrumbsSeparator(context, breadcrumbs, theme);
+                        }
                     }
                 }
                 i++;
             }
             if (childrenList.get(i).isRendered() &&
-                    Hyperlink.class.isAssignableFrom(childrenList.get(i).getClass()))
+                    Hyperlink.class.isAssignableFrom(childrenList.get(i).getClass())) {
                 renderBreadcrumbsText(context, (Hyperlink) childrenList.get(i), theme);
+            }
         }
     }
-    
+
     @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
         // Close the top-most DIV element
-        if (!component.isRendered())
+        if (!component.isRendered()) {
             return;
+        }
         ResponseWriter writer = context.getResponseWriter();
         writer.endElement(HTMLElements.DIV);
         writer.writeText("\n", null); //NOI18N
     }
-    
     private String separator;
-    
+
     /**
      * Renders a separator, in between two breadcrumb hyperlinks.
      */
     private void renderBreadcrumbsSeparator(FacesContext context, Breadcrumbs breadcrumbs, Theme theme)
-    throws IOException {
+            throws IOException {
         ResponseWriter writer = context.getResponseWriter();
         writer.startElement(HTMLElements.SPAN, breadcrumbs);
         String separatorStyle =
@@ -162,39 +166,41 @@ public class BreadcrumbsRenderer extends javax.faces.render.Renderer {
         writer.write(this.separator);
         writer.endElement(HTMLElements.SPAN);
     }
-    
+
     /**
      * Renders a breadcrumb hyperlink.
      */
     private static void renderBreadcrumbsLink(FacesContext context, Hyperlink crumb, Theme theme)
-    throws IOException {
+            throws IOException {
         String linkStyle = theme.getStyleClass(ThemeStyles.BREADCRUMB_LINK);
         Map attributes = crumb.getAttributes();
-        if (attributes != null && attributes.get("styleClass") == null)
+        if (attributes != null && attributes.get("styleClass") == null) {
             attributes.put("styleClass", linkStyle);
+        }
         RenderingUtilities.renderComponent(crumb, context);
     }
-    
+
     /**
      * Renders the final breadcrumb hyperlink as static text.
      */
     private static void renderBreadcrumbsText(FacesContext context, Hyperlink hyperlink, Theme theme)
-    throws IOException {
+            throws IOException {
         ResponseWriter writer = context.getResponseWriter();
         String text = ConversionUtilities.convertValueToString(hyperlink, hyperlink.getText());
-        if (text == null || text.length() <= 0)
+        if (text == null || text.length() <= 0) {
             return;
+        }
         writer.startElement(HTMLElements.SPAN, hyperlink);
         String textStyle = theme.getStyleClass(ThemeStyles.BREADCRUMB_TEXT);
         writer.writeAttribute(HTMLAttributes.CLASS, textStyle, null);
         writer.writeText(text, null);
         writer.endElement(HTMLElements.SPAN);
     }
-    
+
     private static String escapeCharacterEntities(String str) {
         StringBuffer buffer = new StringBuffer();
         for (char c : str.toCharArray()) {
-            switch(c) {
+            switch (c) {
                 case ('<'):
                     buffer.append("&lt;");
                     break;
@@ -210,5 +216,4 @@ public class BreadcrumbsRenderer extends javax.faces.render.Renderer {
         }
         return buffer.toString();
     }
-    
 }

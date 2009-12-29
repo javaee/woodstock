@@ -20,54 +20,33 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 
- /*
-  * $Id: HtmlRenderer.java,v 1.1 2007-02-16 01:38:45 bob_yennaco Exp $
-  */
-
+/*
+ * $Id: HtmlRenderer.java,v 1.1.20.1 2009-12-29 04:52:45 jyeary Exp $
+ */
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.Html;
-import com.sun.webui.theme.Theme;
-import com.sun.webui.jsf.theme.ThemeImages;
-import com.sun.webui.jsf.theme.ThemeStyles;
-import com.sun.webui.jsf.util.MessageUtil;
-
 import java.io.IOException;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.faces.component.EditableValueHolder;
-import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-
 import com.sun.webui.jsf.util.RenderingUtilities;
 
 /**
  * <p>Renderer for a {@link Html} component.</p>
  */
-
-@Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.Html"))
+@Renderer(@Renderer.Renders(componentFamily = "com.sun.webui.jsf.Html"))
 public class HtmlRenderer extends AbstractRenderer {
 
 
     // ======================================================== Static Variables
-
-
     /**
      * <p>The set of String pass-through attributes to be rendered.</p>
      */
-    private static final String stringAttributes[] =
-    { "xmlns", "lang"}; //NOI18N
+    private static final String stringAttributes[] = {"xmlns", "lang"}; //NOI18N
 
-      // -------------------------------------------------------- Renderer Methods
-
-
+    // -------------------------------------------------------- Renderer Methods
     /**
      * <p>Render the appropriate element start, depending on whether the
      * <code>for</code> property is set or not.</p>
@@ -79,15 +58,15 @@ public class HtmlRenderer extends AbstractRenderer {
      *
      * @exception IOException if an input/output error occurs
      */
+    @Override
     protected void renderStart(FacesContext context, UIComponent component,
-                               ResponseWriter writer) throws IOException {
+            ResponseWriter writer) throws IOException {
 
         // Start the appropriate element
-         if (!RenderingUtilities.isPortlet(context)) {
+        if (!RenderingUtilities.isPortlet(context)) {
             writer.startElement("html", component); //NOI18N
-         }
+        }
     }
-
 
     /**
      * <p>Render the appropriate element attributes, 
@@ -100,21 +79,21 @@ public class HtmlRenderer extends AbstractRenderer {
      *
      * @exception IOException if an input/output error occurs
      */
+    @Override
     protected void renderAttributes(FacesContext context, UIComponent component,
-                                    ResponseWriter writer) throws IOException {
-                                        
+            ResponseWriter writer) throws IOException {
+
         if (!RenderingUtilities.isPortlet(context)) {
             addStringAttributes(context, component, writer, stringAttributes);
             //these attributes needed for accessibility support
             writer.writeAttribute("xmlns:wairole",
-                          "http://www.w3.org/2005/01/wai-rdf/GUIRoleTaxonomy#",null);
-            writer.writeAttribute("xmlns:waistate", 
-                                  "http://www.w3.org/2005/07/aaa",null);
+                    "http://www.w3.org/2005/01/wai-rdf/GUIRoleTaxonomy#", null);
+            writer.writeAttribute("xmlns:waistate",
+                    "http://www.w3.org/2005/07/aaa", null);
             writer.write("\n");
         }
     }
 
- 
     /**
      * <p>Render the appropriate element end, depending on whether the
      * <code>for</code> property is set or not.</p>
@@ -126,16 +105,14 @@ public class HtmlRenderer extends AbstractRenderer {
      *
      * @exception IOException if an input/output error occurs
      */
+    @Override
     protected void renderEnd(FacesContext context, UIComponent component,
-                             ResponseWriter writer) throws IOException {
+            ResponseWriter writer) throws IOException {
 
         if (!RenderingUtilities.isPortlet(context)) {
             writer.endElement("html"); //NOI18N
             writer.write("\n"); //NOI18N
         }
     }
-
-
     // --------------------------------------------------------- Private Methods
-
 }

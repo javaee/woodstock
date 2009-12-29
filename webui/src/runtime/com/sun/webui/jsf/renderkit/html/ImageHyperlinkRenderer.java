@@ -19,24 +19,17 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
-
 package com.sun.webui.jsf.renderkit.html;
-
 
 import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.ImageHyperlink;
-import com.sun.webui.jsf.component.ImageComponent;
 import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.jsf.util.RenderingUtilities;
 import java.io.IOException;
 import javax.faces.component.UIComponent;
-
 import java.util.Map;
-
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-
 
 /**
  * <p>This class is responsible for rendering the {@link ImageHyperlink} component for the
@@ -44,16 +37,16 @@ import javax.faces.context.ResponseWriter;
  * plain hyperlink or a hyperlink that submits the form depending on how the
  * properites are filled out for the component </p>
  */
-@Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.ImageHyperlink"))
+@Renderer(@Renderer.Renders(componentFamily = "com.sun.webui.jsf.ImageHyperlink"))
 public class ImageHyperlinkRenderer extends HyperlinkRenderer {
-    
+
     // -------------------------------------------------------- Static Variables
-    
     // for positioning of the label.
-    private static final String LABEL_LEFT="left"; //NOI8N
-    private static final String LABEL_RIGHT="right"; //NOI8N
-    
+    private static final String LABEL_LEFT = "left"; //NOI8N
+    private static final String LABEL_RIGHT = "right"; //NOI8N
+
     // -------------------------------------------------------- Renderer Methods
+    @Override
     protected void finishRenderAttributes(FacesContext context,
             UIComponent component,
             ResponseWriter writer)
@@ -62,44 +55,41 @@ public class ImageHyperlinkRenderer extends HyperlinkRenderer {
         //write out image as escaped text
         //TODO: suppress the text field from the XML
         ImageHyperlink ilink = (ImageHyperlink) component;
-              
+
         // If there is no text property set, then label == null which prevents
         // rendering anything at all
-	//
+        //
         Object text = ilink.getText();
-        String label = (text == null) ? null : 
-		ConversionUtilities.convertValueToString(component, text);
-        
-	String textPosition = ilink.getTextPosition();
+        String label = (text == null) ? null : ConversionUtilities.convertValueToString(component, text);
 
-	if (label != null && textPosition.equalsIgnoreCase(LABEL_LEFT)) {
-	    writer.writeText(label, null);
+        String textPosition = ilink.getTextPosition();
+
+        if (label != null && textPosition.equalsIgnoreCase(LABEL_LEFT)) {
+            writer.writeText(label, null);
             writer.write("&nbsp;");
-	}
+        }
 
         // ImageURL
-	UIComponent ic = ilink.getImageFacet();
-	if (ic != null) {
-	    // GF-required 508 change
-	    Map<String, Object> atts = ic.getAttributes();
-	    Object value = atts.get("alt");
-	    if ((value == null) || (value.equals(""))) {
-		atts.put("alt", label);
-	    }   
-	    value = atts.get("toolTip");
-	    if ((value == null) || (value.equals(""))) {
-		atts.put("toolTip", label);
-	    }  
-	    RenderingUtilities.renderComponent(ic, context);
-	}
+        UIComponent ic = ilink.getImageFacet();
+        if (ic != null) {
+            // GF-required 508 change
+            Map<String, Object> atts = ic.getAttributes();
+            Object value = atts.get("alt");
+            if ((value == null) || (value.equals(""))) {
+                atts.put("alt", label);
+            }
+            value = atts.get("toolTip");
+            if ((value == null) || (value.equals(""))) {
+                atts.put("toolTip", label);
+            }
+            RenderingUtilities.renderComponent(ic, context);
+        }
 
-	if (label != null && textPosition.equalsIgnoreCase(LABEL_RIGHT)) {
+        if (label != null && textPosition.equalsIgnoreCase(LABEL_RIGHT)) {
             writer.write("&nbsp;");
-	    writer.writeText(label, null);
-	}
- 
+            writer.writeText(label, null);
+        }
+
     }
-    
     // --------------------------------------------------------- Private Methods
-    
 }

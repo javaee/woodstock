@@ -19,30 +19,26 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.renderkit.html;
+
 import com.sun.faces.annotation.Renderer;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.component.UIParameter;
-
 import com.sun.webui.jsf.component.PageAlert;
-import com.sun.webui.jsf.component.PageSeparator;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeStyles;
 import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 
-
 /**
  * <p>Renders a full page alert.</p>
  */
-@Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.PageAlert"))
+@Renderer(@Renderer.Renders(componentFamily = "com.sun.webui.jsf.PageAlert"))
 public class PageAlertRenderer extends AbstractRenderer {
 
     /**
@@ -53,7 +49,7 @@ public class PageAlertRenderer extends AbstractRenderer {
     /** Creates a new instance of MastheadRenderer */
     public PageAlertRenderer() {
     }
-    
+
     /**
      * Render the full page alert.
      * 
@@ -63,24 +59,25 @@ public class PageAlertRenderer extends AbstractRenderer {
      *
      * @exception IOException if an input/output error occurss
      */
+    @Override
     protected void renderEnd(FacesContext context, UIComponent component,
             ResponseWriter writer) throws IOException {
         if (context == null || component == null || writer == null) {
             throw new NullPointerException();
         }
 
-	PageAlert pagealert = (PageAlert) component;
+        PageAlert pagealert = (PageAlert) component;
 
         writer.startElement("div", component); //NO18N
-        
+
         addCoreAttributes(context, component, writer, null);
-        
-	renderAlert(context, component, writer);
-	renderSeparator(context, component, writer);
-	renderButtons(context, component, writer);
-        
+
+        renderAlert(context, component, writer);
+        renderSeparator(context, component, writer);
+        renderButtons(context, component, writer);
+
         writer.endElement("div"); //NOI18N
-    }    
+    }
 
     /**
      * Renders alert summary message
@@ -92,26 +89,27 @@ public class PageAlertRenderer extends AbstractRenderer {
      *
      * @exception IOException if an input/output error occurs
      */
-    protected void renderAlertSummary(FacesContext context, UIComponent component, 
-	    Theme theme, ResponseWriter writer) throws IOException {
+    protected void renderAlertSummary(FacesContext context, UIComponent component,
+            Theme theme, ResponseWriter writer) throws IOException {
 
-	PageAlert pagealert = (PageAlert) component;
-	String summary = pagealert.getSummary();
+        PageAlert pagealert = (PageAlert) component;
+        String summary = pagealert.getSummary();
         // If a summary message is not specified, nothing to render.
-        if (summary == null || summary.trim().length() == 0)
+        if (summary == null || summary.trim().length() == 0) {
             return;
+        }
 
         writer.startElement("div", pagealert); //NOI18N
         // Set the containing div style based on the theme
         String style = theme.getStyleClass(ThemeStyles.ALERT_HEADER_DIV);
         RenderingUtilities.renderStyleClass(context, writer, component, style);
-	writer.startElement("span", pagealert); //NOI18N
-	style = theme.getStyleClass(ThemeStyles.ALERT_HEADER_TXT);
-	writer.writeAttribute("class", style, null); //NOI18N
-	renderFormattedMessage(writer, component, context, summary);
+        writer.startElement("span", pagealert); //NOI18N
+        style = theme.getStyleClass(ThemeStyles.ALERT_HEADER_TXT);
+        writer.writeAttribute("class", style, null); //NOI18N
+        renderFormattedMessage(writer, component, context, summary);
         // Close the span, div
-	writer.endElement("span"); //NOI18N	
-	writer.endElement("div"); //NOI18N
+        writer.endElement("span"); //NOI18N
+        writer.endElement("div"); //NOI18N
 
         writer.writeText("\n", null); //NOI18N     
     }
@@ -126,27 +124,28 @@ public class PageAlertRenderer extends AbstractRenderer {
      *
      * @exception IOException if an input/output error occurs
      */
-    protected void renderAlertDetail(FacesContext context, 
-	    UIComponent component, Theme theme, 
-	    ResponseWriter writer) throws IOException {
+    protected void renderAlertDetail(FacesContext context,
+            UIComponent component, Theme theme,
+            ResponseWriter writer) throws IOException {
 
-	PageAlert pagealert = (PageAlert) component;
-	String detail = pagealert.getDetail();
+        PageAlert pagealert = (PageAlert) component;
+        String detail = pagealert.getDetail();
         // If a detail message is not specified, nothing to render.
-        if (detail == null || detail.trim().length() == 0)
+        if (detail == null || detail.trim().length() == 0) {
             return;
+        }
 
         writer.startElement("div", pagealert); //NOI18N
         // Set the containing div style based on the theme
         String style = theme.getStyleClass(ThemeStyles.ALERT_MESSAGE_DIV);
-	writer.writeAttribute("class", style, null); //NOI18N
-	writer.startElement("span", pagealert); //NOI18N
-	style = theme.getStyleClass(ThemeStyles.ALERT_MESSAGE_TEXT);
-	writer.writeAttribute("class", style, null); //NOI18N	
+        writer.writeAttribute("class", style, null); //NOI18N
+        writer.startElement("span", pagealert); //NOI18N
+        style = theme.getStyleClass(ThemeStyles.ALERT_MESSAGE_TEXT);
+        writer.writeAttribute("class", style, null); //NOI18N
         renderFormattedMessage(writer, component, context, detail);
         // Close the span, div
-	writer.endElement("span"); //NOI18N	
-	writer.endElement("div"); //NOI18N
+        writer.endElement("span"); //NOI18N
+        writer.endElement("div"); //NOI18N
 
         writer.writeText("\n", null); //NOI18N     
     }
@@ -161,11 +160,11 @@ public class PageAlertRenderer extends AbstractRenderer {
      *
      * @exception IOException if an input/output error occurs
      */
-    protected void renderAlertIcon(FacesContext context, 
-	    UIComponent component, Theme theme, 
-	    ResponseWriter writer) throws IOException {
+    protected void renderAlertIcon(FacesContext context,
+            UIComponent component, Theme theme,
+            ResponseWriter writer) throws IOException {
 
-	PageAlert pagealert = (PageAlert) component;
+        PageAlert pagealert = (PageAlert) component;
 
         writer.startElement("table", component); //NOI18N
         writer.writeAttribute("title", "", null); //NOI18N
@@ -176,35 +175,35 @@ public class PageAlertRenderer extends AbstractRenderer {
         writer.startElement("tr", component); //NOI18N
         writer.startElement("td", component); //NOI18N
         writer.startElement("div", component); //NOI18N
-        
-        UIComponent titleFacet = pagealert.getFacet(pagealert.PAGEALERT_TITLE_FACET);            
-        if (titleFacet == null) {                          
+
+        UIComponent titleFacet = pagealert.getFacet(pagealert.PAGEALERT_TITLE_FACET);
+        if (titleFacet == null) {
             String style;
             style = theme.getStyleClass(ThemeStyles.TITLE_TEXT_DIV);
             writer.writeAttribute("class", style, null); //NOI18N           
-            
+
             writer.startElement("span", component); //NOI18N
             style = theme.getStyleClass(ThemeStyles.TITLE_TEXT);
             writer.writeAttribute("class", style, null); //NOI18N                 
-            
+
             // Get the image specified via the type attribute or the image facet.
-            UIComponent image = pagealert.getPageAlertImage();                      
-            RenderingUtilities.renderComponent(image, context); 
-            
-            writer.write(pagealert.getSafeTitle());        
-            writer.endElement("span");                
-        } else {                                                      
+            UIComponent image = pagealert.getPageAlertImage();
+            RenderingUtilities.renderComponent(image, context);
+
+            writer.write(pagealert.getSafeTitle());
+            writer.endElement("span");
+        } else {
             // Render the title facet
-            RenderingUtilities.renderComponent(titleFacet, context);            
+            RenderingUtilities.renderComponent(titleFacet, context);
         }
-        
+
         writer.endElement("div"); //NOI18N
         writer.endElement("td"); //NOI18N
         writer.endElement("tr"); //NOI18N
         writer.endElement("table"); //NOI18N
- 
-    }    
-    
+
+    }
+
     /**
      * Renders alert - summary message, detail message and any input 
      * components contained in the facet.
@@ -215,115 +214,113 @@ public class PageAlertRenderer extends AbstractRenderer {
      *
      * @exception IOException if an input/output error occurs
      */
-    protected void renderAlert(FacesContext context, 
+    protected void renderAlert(FacesContext context,
             UIComponent component, ResponseWriter writer) throws IOException {
 
-	PageAlert pagealert = (PageAlert) component;
+        PageAlert pagealert = (PageAlert) component;
         // Get the theme
         Theme theme = ThemeUtilities.getTheme(context);
-	// Render the Alert summary and detail message
+        // Render the Alert summary and detail message
         renderAlertIcon(context, component, theme, writer);
-	renderAlertSummary(context, component, theme, writer);
-	renderAlertDetail(context, component, theme, writer);
-	
-	// Render any input component specified in a facet.
-	UIComponent inputComponent = pagealert.getPageAlertInput();
+        renderAlertSummary(context, component, theme, writer);
+        renderAlertDetail(context, component, theme, writer);
 
-	if (inputComponent != null) {
-	    writer.startElement("div", pagealert); //NOI18N
-	    // Set the containing div style based on the theme
-	    String style = theme.getStyleClass(ThemeStyles.ALERT_FORM_DIV);
-	    RenderingUtilities.renderStyleClass(context, writer, component, style);
-	    RenderingUtilities.renderComponent(inputComponent, context);
-	    writer.endElement("div"); //NOI18N
-	    writer.writeText("\n", null); //NOI18N     
-	}
+        // Render any input component specified in a facet.
+        UIComponent inputComponent = pagealert.getPageAlertInput();
+
+        if (inputComponent != null) {
+            writer.startElement("div", pagealert); //NOI18N
+            // Set the containing div style based on the theme
+            String style = theme.getStyleClass(ThemeStyles.ALERT_FORM_DIV);
+            RenderingUtilities.renderStyleClass(context, writer, component, style);
+            RenderingUtilities.renderComponent(inputComponent, context);
+            writer.endElement("div"); //NOI18N
+            writer.writeText("\n", null); //NOI18N
+        }
     }
 
-     private void renderSeparator(FacesContext context, 
+    private void renderSeparator(FacesContext context,
             UIComponent component, ResponseWriter writer) throws IOException {
-            
-            PageAlert pageAlert = (PageAlert) component;
-            UIComponent separator = pageAlert.getPageAlertSeparator();
-            RenderingUtilities.renderComponent(separator, context);
+
+        PageAlert pageAlert = (PageAlert) component;
+        UIComponent separator = pageAlert.getPageAlertSeparator();
+        RenderingUtilities.renderComponent(separator, context);
     }
 
-    private void renderButtons(FacesContext context, 
+    private void renderButtons(FacesContext context,
             UIComponent component, ResponseWriter writer) throws IOException {
 
-	PageAlert pagealert = (PageAlert) component;
-	UIComponent buttonFacet = pagealert.getPageAlertButtons();
+        PageAlert pagealert = (PageAlert) component;
+        UIComponent buttonFacet = pagealert.getPageAlertButtons();
 
-	if (buttonFacet == null) {
-	    return;
-	}
+        if (buttonFacet == null) {
+            return;
+        }
 
         // Get the theme
         Theme theme = ThemeUtilities.getTheme(context);
 
-	writer.startElement("table", pagealert);
-	writer.writeAttribute("border", "0", null); // NOI18N
-	writer.writeAttribute("width", "100%", null); // NOI18N
-	writer.writeAttribute("cellpadding", "0", null); // NOI18N
-	writer.writeAttribute("cellspacing", "0", null); // NOI18N
-	
-	writer.startElement("tr", pagealert); // NOI18N
-	String style = theme.getStyleClass(ThemeStyles.TITLE_BUTTON_BOTTOM_DIV); 
+        writer.startElement("table", pagealert);
+        writer.writeAttribute("border", "0", null); // NOI18N
+        writer.writeAttribute("width", "100%", null); // NOI18N
+        writer.writeAttribute("cellpadding", "0", null); // NOI18N
+        writer.writeAttribute("cellspacing", "0", null); // NOI18N
+
+        writer.startElement("tr", pagealert); // NOI18N
+        String style = theme.getStyleClass(ThemeStyles.TITLE_BUTTON_BOTTOM_DIV);
 
         writer.startElement("td", pagealert); // NOI18N
         writer.writeAttribute("align", "right", null); // NOI18N
-        writer.writeAttribute("nowrap",  "nowrap", null); // NOI18N
-        
+        writer.writeAttribute("nowrap", "nowrap", null); // NOI18N
+
         writer.startElement("div", pagealert); // NOI18N
         writer.writeAttribute("class", style, null); // NOI18N
 
-        RenderingUtilities.renderComponent(buttonFacet, context);        
+        RenderingUtilities.renderComponent(buttonFacet, context);
 
         writer.endElement("div"); // NOI18N
         writer.endElement("td"); // NOI18N
 
-	writer.endElement("tr"); // NOI18N
-	writer.endElement("table"); // NOI18N
+        writer.endElement("tr"); // NOI18N
+        writer.endElement("table"); // NOI18N
     }
-    
-     private void renderFormattedMessage(ResponseWriter writer, 
-            UIComponent component, FacesContext context, 
+
+    private void renderFormattedMessage(ResponseWriter writer,
+            UIComponent component, FacesContext context,
             String msg) throws IOException {
         java.util.ArrayList parameterList = new ArrayList();
 
-            // get UIParameter children...
+        // get UIParameter children...
         java.util.Iterator kids = component.getChildren().iterator();
-            while (kids.hasNext()) {
-               UIComponent kid = (UIComponent) kids.next();
+        while (kids.hasNext()) {
+            UIComponent kid = (UIComponent) kids.next();
 
-                //PENDING(rogerk) ignore if child is not UIParameter?
-                if (!(kid instanceof UIParameter)) {
-                    continue;
-                }
-                parameterList.add(((UIParameter) kid).getValue());
+            //PENDING(rogerk) ignore if child is not UIParameter?
+            if (!(kid instanceof UIParameter)) {
+                continue;
             }
-
-            // If at least one substitution parameter was specified,
-            // use the string as a MessageFormat instance.
-            String message = null;
-            if (parameterList.size() > 0) {
-                message = MessageFormat.format
-                    (msg, parameterList.toArray
-                                   (new Object[parameterList.size()]));
-            } else {
-                message = msg;
-            }
-
-            if (message != null) {
-             PageAlert pa = (PageAlert)component;   
-             
-             // Check if it the message be HTML escaped (true by default).
-                if(!pa.isEscape()) {
-                    writer.write(message);
-                } else {
-                    writer.writeText(message,"message");
-                }
-                
+            parameterList.add(((UIParameter) kid).getValue());
         }
-     }
+
+        // If at least one substitution parameter was specified,
+        // use the string as a MessageFormat instance.
+        String message = null;
+        if (parameterList.size() > 0) {
+            message = MessageFormat.format(msg, parameterList.toArray(new Object[parameterList.size()]));
+        } else {
+            message = msg;
+        }
+
+        if (message != null) {
+            PageAlert pa = (PageAlert) component;
+
+            // Check if it the message be HTML escaped (true by default).
+            if (!pa.isEscape()) {
+                writer.write(message);
+            } else {
+                writer.writeText(message, "message");
+            }
+
+        }
+    }
 }

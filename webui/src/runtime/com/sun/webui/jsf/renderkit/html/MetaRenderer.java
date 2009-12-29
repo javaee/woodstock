@@ -19,24 +19,12 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
-
 package com.sun.webui.jsf.renderkit.html;
-
 
 import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.Meta;
-import com.sun.webui.jsf.component.util.Util;
-import java.beans.Beans;
-
 import java.io.IOException;
-import java.lang.NullPointerException;
-import java.lang.StringBuffer;
-import java.net.URL;
-import java.util.Map;
-
 import javax.faces.component.UIComponent;
-
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
@@ -44,36 +32,31 @@ import javax.faces.context.ResponseWriter;
  * <p>This class is responsible for rendering the meta component for the
  * HTML Render Kit.</p> <p> The meta component can be used as an Meta</p>
  */
-@Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.Meta"))
+@Renderer(@Renderer.Renders(componentFamily = "com.sun.webui.jsf.Meta"))
 public class MetaRenderer extends AbstractRenderer {
-    
+
     // -------------------------------------------------------- Static Variables
-        
     /**
      * <p>The set of String pass-through attributes to be rendered.</p>
      */
-    private static final String stringAttributes[] =
-    { "name", "content", "scheme"}; //NOI18N
+    private static final String stringAttributes[] = {"name", "content", "scheme"}; //NOI18N
 
-      
-      // -------------------------------------------------------- Renderer Methods
-         
-      
-      /**
-       * <p>Render the start of an Meta (Meta) tag.</p>
-       * @param context <code>FacesContext</code> for the current request
-       * @param component <code>UIComponent</code> to be rendered
-       * @param writer <code>ResponseWriter</code> to which the element
-       * start should be rendered
-       * @exception IOException if an input/output error occurs
-       */
-      protected void renderStart(FacesContext context, UIComponent component,
-      ResponseWriter writer) throws IOException {
+    // -------------------------------------------------------- Renderer Methods
+    /**
+     * <p>Render the start of an Meta (Meta) tag.</p>
+     * @param context <code>FacesContext</code> for the current request
+     * @param component <code>UIComponent</code> to be rendered
+     * @param writer <code>ResponseWriter</code> to which the element
+     * start should be rendered
+     * @exception IOException if an input/output error occurs
+     */
+    @Override
+    protected void renderStart(FacesContext context, UIComponent component,
+            ResponseWriter writer) throws IOException {
 
-       //intentionally left blank
-      
-      }
-      
+        //intentionally left blank
+    }
+
     /**
      * <p>Render the attributes for an Meta tag.  The onclick attribute will contain
      * extra javascript that will appropriately submit the form if the URL field is
@@ -84,11 +67,12 @@ public class MetaRenderer extends AbstractRenderer {
      * attributes should be rendered
      * @exception IOException if an input/output error occurs
      */
+    @Override
     protected void renderAttributes(FacesContext context, UIComponent component,
-    ResponseWriter writer) throws IOException {
+            ResponseWriter writer) throws IOException {
         //intentionally left blank
     }
-      
+
     /**
      * <p>Close off the Meta tag.</p>
      * @param context <code>FacesContext</code> for the current request
@@ -97,15 +81,16 @@ public class MetaRenderer extends AbstractRenderer {
      * end should be rendered
      * @exception IOException if an input/output error occurs
      */
+    @Override
     protected void renderEnd(FacesContext context, UIComponent component,
-        ResponseWriter writer) throws IOException {
+            ResponseWriter writer) throws IOException {
         // End the appropriate element
-        
+
         Meta meta = (Meta) component;
-        
+
         writer.startElement("meta", meta);
         addCoreAttributes(context, component, writer, null);
-        
+
         String header = meta.getHttpEquiv();
         if (header != null) {
             writer.writeAttribute("http-equiv", header, null);
@@ -115,7 +100,5 @@ public class MetaRenderer extends AbstractRenderer {
         writer.write("\n"); //NOI18N
 
     }
-            
-      // --------------------------------------------------------- Private Methods
-      
+    // --------------------------------------------------------- Private Methods
 }

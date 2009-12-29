@@ -19,18 +19,15 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.faces.annotation.Renderer;
 import java.io.IOException;
 import java.util.Map;
-
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-
 import com.sun.webui.jsf.component.Checkbox;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeStyles;
@@ -139,11 +136,12 @@ import com.sun.webui.jsf.util.ThemeUtilities;
  * was not submitted, and the state of the component is unchanged.
  * </p>
  */
-@Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.Checkbox"))
+@Renderer(@Renderer.Renders(componentFamily = "com.sun.webui.jsf.Checkbox"))
+//FIXME check about making SelectGroupRenderer a public abstract class
 public class CheckboxRenderer extends RbCbRendererBase {
 
     private final String MSG_COMPONENT_NOT_CHECKBOX =
-	"CheckboxRenderer only renders Checkbox components.";
+            "CheckboxRenderer only renders Checkbox components.";
 
     /**
      * Creates a new instance of CheckboxRenderer
@@ -151,7 +149,7 @@ public class CheckboxRenderer extends RbCbRendererBase {
     public CheckboxRenderer() {
         super();
     }
-    
+
     /**
      * <p>Decode the <code>Checkbox</code> selection.</p>
      * <p>
@@ -190,121 +188,121 @@ public class CheckboxRenderer extends RbCbRendererBase {
      * @param component The <code>Checkbox</code>
      * component to be decoded.
      */
+    @Override
     public void decode(FacesContext context, UIComponent component) {
 
-	// We need to know if the last state of the component before decoding
-	// this checkbox. This disabled check is not to determine
-	// if the checkbox was disabled on the client.
-	// We assume that the disabled state is in the same state as it was
-	// when this checkbox was last rendered.
-	// If the checkbox was disabled then it can not have changed on
-	// the client. We ignore the case that it might have been
-	// enabled in javascript on the client.
-	// This allows us to distinguish that no checkbox was selected.
-	// No checkboxes are selected when "isDisabled || isReadOnly -> false
-	// and no request parameters match the name attribute if part of a
-	// group or the clientId, if a single checkbox.
-	//
+        // We need to know if the last state of the component before decoding
+        // this checkbox. This disabled check is not to determine
+        // if the checkbox was disabled on the client.
+        // We assume that the disabled state is in the same state as it was
+        // when this checkbox was last rendered.
+        // If the checkbox was disabled then it can not have changed on
+        // the client. We ignore the case that it might have been
+        // enabled in javascript on the client.
+        // This allows us to distinguish that no checkbox was selected.
+        // No checkboxes are selected when "isDisabled || isReadOnly -> false
+        // and no request parameters match the name attribute if part of a
+        // group or the clientId, if a single checkbox.
+        //
         if (isDisabled(component) || isReadOnly(component)) {
-	    return;
-	}
+            return;
+        }
 
-	// If there is a request parameter that that matches the
-	// name property, this component is one of the possible
-	// selections. We need to match the value of the parameter to the
-	// the component's value to see if this is the selected component,
-	// unless it is a group of Boolean checkboxes.
-	//
-	Checkbox checkbox = (Checkbox)component;
-	String name = checkbox.getName();
-	boolean inGroup = name != null;
+        // If there is a request parameter that that matches the
+        // name property, this component is one of the possible
+        // selections. We need to match the value of the parameter to the
+        // the component's value to see if this is the selected component,
+        // unless it is a group of Boolean checkboxes.
+        //
+        Checkbox checkbox = (Checkbox) component;
+        String name = checkbox.getName();
+        boolean inGroup = name != null;
 
-	// If name not set look for clientId.
-	// Boolean checkboxes decode correctly when they are not
-	// in a group, since the submitted attribute
-	// value in the clientId and is unique for each check box.
-	//
-	if (name == null) {
-	    name = component.getClientId(context);
-	}
+        // If name not set look for clientId.
+        // Boolean checkboxes decode correctly when they are not
+        // in a group, since the submitted attribute
+        // value in the clientId and is unique for each check box.
+        //
+        if (name == null) {
+            name = component.getClientId(context);
+        }
 
-	Map requestParameterValuesMap = context.getExternalContext().
-	    getRequestParameterValuesMap();
+        Map requestParameterValuesMap = context.getExternalContext().
+                getRequestParameterValuesMap();
 
-	// If a parameter with key == name does not exist, the component
-	// was not submitted. This only means that it is 
-	// unchecked, since we already know that is it not in the
-	// map because is was readonly or disabled. (based on the
-	// server side state)
-	//
-	if (requestParameterValuesMap.containsKey(name)) {
+        // If a parameter with key == name does not exist, the component
+        // was not submitted. This only means that it is
+        // unchecked, since we already know that is it not in the
+        // map because is was readonly or disabled. (based on the
+        // server side state)
+        //
+        if (requestParameterValuesMap.containsKey(name)) {
 
-	    String[] newValues = (String[])
-		requestParameterValuesMap.get(name);
+            String[] newValues = (String[]) requestParameterValuesMap.get(name);
 
-	    if (newValues != null || newValues.length != 0) {
+            if (newValues != null || newValues.length != 0) {
 
-		String selectedValueAsString = null;
-		Object selectedValue = checkbox.getSelectedValue();
+                String selectedValueAsString = null;
+                Object selectedValue = checkbox.getSelectedValue();
 
-		// We need to discern the case where the checkbox
-		// is part of a group and it is a boolean checkbox.
-		// If the checkbox is part of a group and it is a
-		// boolean checkbox then the submitted value contains the
-		// value of "component.getClientId()". If 
-		// the value was not a unique value within the group
-		// of boolean checkboxes, then all will appear selected,
-		// since name will be the same for all the checkboxes
-		// and the submitted value would always be "true" and then
-		// every checkbox component in the group would decode
-		// as selected.
-		//
-		if (inGroup && selectedValue instanceof Boolean) {
-		    selectedValueAsString = component.getClientId(context);
-		    // See if one of the values of the attribute
-		    // is equal to the component id.
-		    //
-		    // Use the toString value of selectedValue even if
-		    // Boolean in case it is FALSE and the application
-		    // wants checked to be "FALSE == FALSE"
-		    //
-		    for (int i = 0; i < newValues.length; ++i) {
-			if (selectedValueAsString.equals(newValues[i])) {
-			    ((UIInput)component).setSubmittedValue(
-				    new String[] { selectedValue.toString() });
+                // We need to discern the case where the checkbox
+                // is part of a group and it is a boolean checkbox.
+                // If the checkbox is part of a group and it is a
+                // boolean checkbox then the submitted value contains the
+                // value of "component.getClientId()". If
+                // the value was not a unique value within the group
+                // of boolean checkboxes, then all will appear selected,
+                // since name will be the same for all the checkboxes
+                // and the submitted value would always be "true" and then
+                // every checkbox component in the group would decode
+                // as selected.
+                //
+                if (inGroup && selectedValue instanceof Boolean) {
+                    selectedValueAsString = component.getClientId(context);
+                    // See if one of the values of the attribute
+                    // is equal to the component id.
+                    //
+                    // Use the toString value of selectedValue even if
+                    // Boolean in case it is FALSE and the application
+                    // wants checked to be "FALSE == FALSE"
+                    //
+                    for (int i = 0; i < newValues.length; ++i) {
+                        if (selectedValueAsString.equals(newValues[i])) {
+                            ((UIInput) component).setSubmittedValue(
+                                    new String[]{selectedValue.toString()});
 
-			    return;
-			}
-		    }
-		} else {
-		    selectedValueAsString =
-			ConversionUtilities.convertValueToString(
-			    component, selectedValue);
+                            return;
+                        }
+                    }
+                } else {
+                    selectedValueAsString =
+                            ConversionUtilities.convertValueToString(
+                            component, selectedValue);
 
-		    for (int i = 0; i < newValues.length; ++i) {
-			if (selectedValueAsString.equals(newValues[i])) {
-			    ((UIInput)component).setSubmittedValue(
-				    new String[] { newValues[i] });
+                    for (int i = 0; i < newValues.length; ++i) {
+                        if (selectedValueAsString.equals(newValues[i])) {
+                            ((UIInput) component).setSubmittedValue(
+                                    new String[]{newValues[i]});
 
-			    return;
-			}
-		    }
-		}
-		// Not selected.
-		// But this results in an update to the model object
-		// of every checkbox, even if the value is the same.
-		// However only those that experience a state change issue
-		// a ValueChangeEvent.
-		//
-		((UIInput)component).setSubmittedValue(new String[0]);
-		return;
-	    }
-	}
-	// Not disabled and this checkbox is not selected.
-	//
-	((UIInput)component).setSubmittedValue(new String[0]);
+                            return;
+                        }
+                    }
+                }
+                // Not selected.
+                // But this results in an update to the model object
+                // of every checkbox, even if the value is the same.
+                // However only those that experience a state change issue
+                // a ValueChangeEvent.
+                //
+                ((UIInput) component).setSubmittedValue(new String[0]);
+                return;
+            }
+        }
+        // Not disabled and this checkbox is not selected.
+        //
+        ((UIInput) component).setSubmittedValue(new String[0]);
 
-	return;
+        return;
     }
 
     /**
@@ -314,17 +312,17 @@ public class CheckboxRenderer extends RbCbRendererBase {
      * @param context FacesContext for the request we are processing.
      * @param component UIComponent to be decoded.
      */
+    @Override
     public void renderStart(FacesContext context, UIComponent component,
-	ResponseWriter writer)
-	throws IOException {
+            ResponseWriter writer)
+            throws IOException {
 
-	// Bail out if the component is not a Checkbox component.
-	if (!(component instanceof Checkbox)) {
-	    throw new
-		IllegalArgumentException(
-			MessageUtil.getMessage(context,
-				BUNDLE, MSG_COMPONENT_NOT_CHECKBOX));
-	}
+        // Bail out if the component is not a Checkbox component.
+        if (!(component instanceof Checkbox)) {
+            throw new IllegalArgumentException(
+                    MessageUtil.getMessage(context,
+                    BUNDLE, MSG_COMPONENT_NOT_CHECKBOX));
+        }
     }
 
     /**
@@ -336,13 +334,14 @@ public class CheckboxRenderer extends RbCbRendererBase {
      * @param context FacesContext for the request we are processing.
      * @param component UIComponent to be decoded.
      */
+    @Override
     public void renderEnd(FacesContext context, UIComponent component,
-	ResponseWriter writer)
-	throws IOException {
+            ResponseWriter writer)
+            throws IOException {
 
-	Theme theme = ThemeUtilities.getTheme(context);
-	renderSelection(context, component, theme, writer, "checkbox");
-        
+        Theme theme = ThemeUtilities.getTheme(context);
+        renderSelection(context, component, theme, writer, "checkbox");
+
     }
 
     /**
@@ -353,19 +352,17 @@ public class CheckboxRenderer extends RbCbRendererBase {
      * @param component UIComponent to test for selected
      */
     protected boolean isSelected(FacesContext context, UIComponent component) {
-	return ((Checkbox)component).isChecked();
+        return ((Checkbox) component).isChecked();
     }
-
     protected String[] styles = {
-	ThemeStyles.CHECKBOX,	 		/* INPUT */
-	ThemeStyles.CHECKBOX_DISABLED, 		/* INPUT_DIS */
-	ThemeStyles.CHECKBOX_LABEL,		/* LABEL */
-	ThemeStyles.CHECKBOX_LABEL_DISABLED, 	/* LABEL_DIS */
-	ThemeStyles.CHECKBOX_IMAGE,		/* IMAGE */
-	ThemeStyles.CHECKBOX_IMAGE_DISABLED, 	/* IMAGE_DIS */
-	ThemeStyles.CHECKBOX_SPAN, 		/* SPAN */
-	ThemeStyles.CHECKBOX_SPAN_DISABLED, 	/* SPAN_DIS */
-    };
+        ThemeStyles.CHECKBOX, /* INPUT */
+        ThemeStyles.CHECKBOX_DISABLED, /* INPUT_DIS */
+        ThemeStyles.CHECKBOX_LABEL, /* LABEL */
+        ThemeStyles.CHECKBOX_LABEL_DISABLED, /* LABEL_DIS */
+        ThemeStyles.CHECKBOX_IMAGE, /* IMAGE */
+        ThemeStyles.CHECKBOX_IMAGE_DISABLED, /* IMAGE_DIS */
+        ThemeStyles.CHECKBOX_SPAN, /* SPAN */
+        ThemeStyles.CHECKBOX_SPAN_DISABLED, /* SPAN_DIS */};
 
     /**
      * Return the style class name for the structural element indicated
@@ -376,12 +373,12 @@ public class CheckboxRenderer extends RbCbRendererBase {
      * to be rendered.
      */
     protected String getStyle(Theme theme, int styleCode) {
-	String style = null;
-	try {
-	    style = theme.getStyleClass(styles[styleCode]);
-	} catch (Exception e) {
-	    // Don't care
-	}
-	return style;
+        String style = null;
+        try {
+            style = theme.getStyleClass(styles[styleCode]);
+        } catch (Exception e) {
+            // Don't care
+        }
+        return style;
     }
 }

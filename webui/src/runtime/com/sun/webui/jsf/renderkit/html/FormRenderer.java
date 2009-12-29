@@ -20,10 +20,9 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 
- /*
-  * $Id: FormRenderer.java,v 1.1 2007-02-16 01:37:53 bob_yennaco Exp $
-  */
-
+/*
+ * $Id: FormRenderer.java,v 1.1.20.1 2009-12-29 04:52:44 jyeary Exp $
+ */
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.faces.annotation.Renderer;
@@ -32,41 +31,29 @@ import com.sun.webui.jsf.model.Markup;
 import com.sun.webui.jsf.model.ScriptMarkup;
 import com.sun.webui.jsf.util.LogUtil;
 import com.sun.webui.jsf.util.RenderingUtilities;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UINamingContainer;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-
 
 /**
  * <p>Renderer for a {@link Form} component.</p>
  */
-
-@Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.Form"))
+@Renderer(@Renderer.Renders(componentFamily = "com.sun.webui.jsf.Form"))
 public class FormRenderer extends AbstractRenderer {
 
 
     // ======================================================== Static Variables
-
-
     /**
      * <p>The set of String pass-through attributes to be rendered.</p>
      */
-    private static final String stringAttributes[] =
-    { "enctype", "accessKey", "onReset", "onSubmit", "target" }; //NOI18N
-    
+    private static final String stringAttributes[] = {"enctype", "accessKey", "onReset", "onSubmit", "target"}; //NOI18N
     private static final String SUBMISSION_COMPONENT_HIDDEN_FIELD = "_submissionComponentId";  //NOI18N
     private static final String FORM_HIDDEN_FIELD = "_hidden";  //NOI18N
 
-    
     // -------------------------------------------------------- Renderer Methods
-
-
     /**
      * <p>Record a flag indicating whether this was the form (of the several
      * forms on the current page) that was submitted. Also, if the submission 
@@ -79,6 +66,7 @@ public class FormRenderer extends AbstractRenderer {
      * @exception NullPointerException if <code>context</code> or
      *  <code>component</code> is <code>null</code>
      */
+    @Override
     public void decode(FacesContext context, UIComponent component) {
 
         if ((context == null) || (component == null)) {
@@ -91,20 +79,19 @@ public class FormRenderer extends AbstractRenderer {
         form.setSubmitted(b);
         if (LogUtil.fineEnabled()) {
             LogUtil.fine("Form(id=" + form.getId() + ",submitted=" +
-                      form.isSubmitted() + ")");
+                    form.isSubmitted() + ")");
         }
-        
-        String hiddenFieldClientId = SUBMISSION_COMPONENT_HIDDEN_FIELD;
-        String submissionComponentId = (String)map.get(hiddenFieldClientId);
-        if (submissionComponentId != null) {
-           Form.VirtualFormDescriptor vfd = form.getVirtualFormComponentSubmits(submissionComponentId);
-           if (vfd != null) {
-               form.setSubmittedVirtualForm(vfd);
-           }
-        }
-        
-    }
 
+        String hiddenFieldClientId = SUBMISSION_COMPONENT_HIDDEN_FIELD;
+        String submissionComponentId = (String) map.get(hiddenFieldClientId);
+        if (submissionComponentId != null) {
+            Form.VirtualFormDescriptor vfd = form.getVirtualFormComponentSubmits(submissionComponentId);
+            if (vfd != null) {
+                form.setSubmittedVirtualForm(vfd);
+            }
+        }
+
+    }
 
     /**
      * <p>Render the appropriate element start for the outermost
@@ -118,8 +105,9 @@ public class FormRenderer extends AbstractRenderer {
      *
      * @exception IOException if an input/output error occurs
      */
+    @Override
     protected void renderStart(FacesContext context, UIComponent component,
-                               ResponseWriter writer) throws IOException {
+            ResponseWriter writer) throws IOException {
 
         // Start the appropriate element
         Form form = (Form) component;
@@ -132,7 +120,6 @@ public class FormRenderer extends AbstractRenderer {
         form.restoreNonParticipatingSubmittedValues();
     }
 
-
     /**
      * <p>Render the appropriate element attributes.</p>
      *
@@ -144,8 +131,9 @@ public class FormRenderer extends AbstractRenderer {
      *
      * @exception IOException if an input/output error occurs
      */
+    @Override
     protected void renderAttributes(FacesContext context, UIComponent component,
-                                    ResponseWriter writer) throws IOException {
+            ResponseWriter writer) throws IOException {
 
         Form form = (Form) component;
 
@@ -155,8 +143,8 @@ public class FormRenderer extends AbstractRenderer {
         writer.writeAttribute("action", action(context), null); //NOI18N
         addStringAttributes(context, form, writer, EVENTS_ATTRIBUTES);
         addStringAttributes(context, form, writer, stringAttributes);
-        
-        if (!form.isAutoComplete()) { 
+
+        if (!form.isAutoComplete()) {
             //only render it if it's false
             writer.writeAttribute("autocomplete", "off", null); // NOI18N
         }
@@ -164,7 +152,6 @@ public class FormRenderer extends AbstractRenderer {
         writer.write("\n"); //NOI18N
 
     }
-
 
     /**
      * <p>Render the appropriate element end.</p>
@@ -177,8 +164,9 @@ public class FormRenderer extends AbstractRenderer {
      *
      * @exception IOException if an input/output error occurs
      */
+    @Override
     protected void renderEnd(FacesContext context, UIComponent component,
-                             ResponseWriter writer) throws IOException {
+            ResponseWriter writer) throws IOException {
 
         Form form = (Form) component;
         List list = null;
@@ -187,15 +175,15 @@ public class FormRenderer extends AbstractRenderer {
         writer.write("\n"); //NOI18N
         // Render the hidden field noting this form as being submitted
         RenderingUtilities.renderHiddenField(component, writer,
-                                             form.getClientId(context) + FORM_HIDDEN_FIELD, 
-                                             form.getClientId(context) + FORM_HIDDEN_FIELD);
-        
+                form.getClientId(context) + FORM_HIDDEN_FIELD,
+                form.getClientId(context) + FORM_HIDDEN_FIELD);
+
         writer.write("\n"); //NOI18N
         context.getApplication().getViewHandler().writeState(context);
         writer.write("\n"); //NOI18N
         // Render the end of the form element
         writer.endElement("form"); //NOI18N
-         writer.write("\n"); //NOI18N
+        writer.write("\n"); //NOI18N
 
         if (LogUtil.finestEnabled()) {
             LogUtil.finest("  Rendering completed"); //NOI18N
@@ -204,8 +192,6 @@ public class FormRenderer extends AbstractRenderer {
 
 
     // --------------------------------------------------------- Private Methods
-
-
     /**
      * <p>Return the URI to which this form should be submitted.</p>
      *
@@ -215,12 +201,11 @@ public class FormRenderer extends AbstractRenderer {
 
         String viewId = context.getViewRoot().getViewId();
         String url =
-            context.getApplication().getViewHandler().
-            getActionURL(context, viewId);
+                context.getApplication().getViewHandler().
+                getActionURL(context, viewId);
         return context.getExternalContext().encodeActionURL(url);
 
     }
-
 
     /**
      * <p>Return the name of a JavaScript function that will be called
@@ -237,7 +222,6 @@ public class FormRenderer extends AbstractRenderer {
 
     }
 
-
     /**
      * <p>Create and return the markup for the specified event handler.</p>
      *
@@ -247,13 +231,13 @@ public class FormRenderer extends AbstractRenderer {
      * @param list List of code elements to be included
      */
     private Markup handler(FacesContext context, Form form,
-                           String name, List list) {
+            String name, List list) {
 
         String code = null;
         Markup markup = new ScriptMarkup();
         markup.writeRaw("function " + //NOI18N
-                        function(context, form, name) + //NOI18N
-                        "(form) {\n", null); //NOI18N
+                function(context, form, name) + //NOI18N
+                "(form) {\n", null); //NOI18N
         code = (String) form.getAttributes().get(name);
         if (code != null) {
             markup.writeRaw("    ", null); //NOI18N

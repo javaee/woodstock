@@ -34,44 +34,48 @@ import javax.faces.context.ResponseWriter;
  *
  * @author gjmurphy
  */
-@Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.PanelLayout"))
+@Renderer(@Renderer.Renders(componentFamily = "com.sun.webui.jsf.PanelLayout"))
 public class PanelLayoutRenderer extends AbstractRenderer {
-    
-    protected void renderStart(FacesContext context, UIComponent component, ResponseWriter writer) 
-    throws IOException {
+
+    @Override
+    protected void renderStart(FacesContext context, UIComponent component, ResponseWriter writer)
+            throws IOException {
         writer.startElement("div", component); //NOI18N
     }
 
-    protected void renderAttributes(FacesContext context, UIComponent component, ResponseWriter writer) 
-    throws IOException {
-        PanelLayout panelLayout = (PanelLayout)component;
+    @Override
+    protected void renderAttributes(FacesContext context, UIComponent component, ResponseWriter writer)
+            throws IOException {
+        PanelLayout panelLayout = (PanelLayout) component;
         StringBuffer buffer = new StringBuffer();
-        
+
         // Write id attribute
         String id = component.getId();
         writer.writeAttribute("id", panelLayout.getClientId(context), "id");
-        
+
         // Write style attribute
-        if (PanelLayout.GRID_LAYOUT.equals(panelLayout.getPanelLayout()))
-	    buffer.append("position: relative; -rave-layout: grid;"); //NOI18N
+        if (PanelLayout.GRID_LAYOUT.equals(panelLayout.getPanelLayout())) {
+            buffer.append("position: relative; -rave-layout: grid;"); //NOI18N
+        }
         String style = panelLayout.getStyle();
         if (style != null && style.length() > 0) {
             buffer.append(" ");
             buffer.append(style);
         }
         writer.writeAttribute("style", buffer.toString(), "style");
-        
+
         // Write style class attribute
         RenderingUtilities.renderStyleClass(context, writer, component, null);
     }
 
-    protected void renderEnd(FacesContext context, UIComponent component, ResponseWriter writer) 
-    throws IOException {
+    @Override
+    protected void renderEnd(FacesContext context, UIComponent component, ResponseWriter writer)
+            throws IOException {
         writer.endElement("div"); //NOI18N
     }
 
+    @Override
     public boolean getRendersChildren() {
         return true;
     }
-    
 }

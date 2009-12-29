@@ -20,37 +20,16 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 
- /*
-  * $Id: SelectRenderer.java,v 1.1 2007-02-16 01:43:50 bob_yennaco Exp $
-  */
-
+/*
+ * $Id: SelectRenderer.java,v 1.1.20.1 2009-12-29 04:52:44 jyeary Exp $
+ */
 package com.sun.webui.jsf.renderkit.html;
-
-import com.sun.webui.jsf.component.Listbox;
-import com.sun.webui.theme.Theme;
-
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.Map;
-
-import javax.faces.FacesException;
-import javax.faces.component.EditableValueHolder;
-import javax.faces.component.NamingContainer;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
-import javax.faces.event.ActionEvent;
-import javax.faces.render.Renderer;
-import com.sun.webui.jsf.component.DropDown;
-
 
 /**
  * <p>This is a dummy renderer - it is only used to appease the generator.</p>
  */
-
 public class SelectRenderer extends ListRendererBase {
-    
+
     public SelectRenderer() {
     }
-
 }

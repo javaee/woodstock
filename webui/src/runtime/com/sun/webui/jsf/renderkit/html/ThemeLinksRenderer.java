@@ -19,13 +19,11 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.faces.annotation.Renderer;
-import java.io.IOException; 
+import java.io.IOException;
 import javax.faces.FacesException;
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
@@ -35,33 +33,34 @@ import com.sun.webui.jsf.util.MessageUtil;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
-import com.sun.webui.jsf.util.WidgetUtilities;
 
 /**
  * <p>Renderer for a {@link Theme} component.</p>
  */
-@Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.ThemeLinks"))
+@Renderer(@Renderer.Renders(componentFamily = "com.sun.webui.jsf.ThemeLinks"))
 public class ThemeLinksRenderer extends javax.faces.render.Renderer {
-    public void encodeEnd(FacesContext context, UIComponent component) 
+
+    @Override
+    public void encodeEnd(FacesContext context, UIComponent component)
             throws IOException {
-        return; 
+        return;
     }
 
+    @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         if (!(component instanceof ThemeLinks)) {
-            Object[] params = { component.toString(),
+            Object[] params = {component.toString(),
                 this.getClass().getName(),
-                ThemeLinks.class.getName() 
+                ThemeLinks.class.getName()
             };
-            String message = MessageUtil.getMessage
-                ("com.sun.webui.jsf.resources.LogMessages", //NOI18N
-                "Renderer.component", params);              //NOI18N
+            String message = MessageUtil.getMessage("com.sun.webui.jsf.resources.LogMessages", //NOI18N
+                    "Renderer.component", params);              //NOI18N
             throw new FacesException(message);
         }
-        
-        ThemeLinks themeLinks = (ThemeLinks)component;
+
+        ThemeLinks themeLinks = (ThemeLinks) component;
         ResponseWriter writer = context.getResponseWriter();
-        
+
         // Link and Scripts
         Theme theme = ThemeUtilities.getTheme(context);
         if (themeLinks.isStyleSheetInline()) {
@@ -77,7 +76,7 @@ public class ThemeLinksRenderer extends javax.faces.render.Renderer {
 
         // Render Dojo config.
         JavaScriptUtilities.renderJavaScript(component, writer,
-            JavaScriptUtilities.getDojoConfig(themeLinks.isDebug(),
+                JavaScriptUtilities.getDojoConfig(themeLinks.isDebug(),
                 themeLinks.isParseWidgets()));
 
         // Render Dojo include.
@@ -91,19 +90,21 @@ public class ThemeLinksRenderer extends javax.faces.render.Renderer {
 
         // Render JSF Extensions include.
         JavaScriptUtilities.renderJsfxInclude(component, writer);
-        
+
         // Render module config after including dojo.
         JavaScriptUtilities.renderJavaScript(component, writer,
-            JavaScriptUtilities.getModuleConfig(themeLinks.isDebug()));
+                JavaScriptUtilities.getModuleConfig(themeLinks.isDebug()));
 
         // Render global include.
         JavaScriptUtilities.renderGlobalInclude(component, writer);
     }
 
+    @Override
     public boolean getRendersChildren() {
-        return true; 
+        return true;
     }
 
+    @Override
     public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
         return;
     }

@@ -20,46 +20,38 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 
- /*
-  * $Id: PageSeparatorRenderer.java,v 1.1 2007-02-16 01:41:45 bob_yennaco Exp $
-  */
-
+/*
+ * $Id: PageSeparatorRenderer.java,v 1.1.20.1 2009-12-29 04:52:46 jyeary Exp $
+ */
 package com.sun.webui.jsf.renderkit.html;
+
 import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.PageSeparator;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeStyles;
 import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
-
 import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
-
 /**
  * <p>Renderer for a {@link PageSeparator} component.</p>
  */
-
-@Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.PageSeparator"))
+@Renderer(@Renderer.Renders(componentFamily = "com.sun.webui.jsf.PageSeparator"))
 public class PageSeparatorRenderer extends AbstractRenderer {
 
 
     // ======================================================== Static Variables
-
-
     /**
      * <p>The set of String pass-through attributes to be rendered.</p>
      */
-    private static final String stringAttributes[] =
-    { "onClick", "onDblClick",  "onMouseUp", //NOI18N
-       "onMouseDown", "onMouseMove", "onMouseOut", "onMouseOver"}; //NOI18N
+    private static final String stringAttributes[] = {"onClick", "onDblClick", "onMouseUp", //NOI18N
+        "onMouseDown", "onMouseMove", "onMouseOut", "onMouseOver"}; //NOI18N
 
 
-      // -------------------------------------------------------- Renderer Methods
-
-
+    // -------------------------------------------------------- Renderer Methods
     /**
      * <p>Render the appropriate element start, depending on whether the
      * <code>for</code> property is set or not.</p>
@@ -71,11 +63,10 @@ public class PageSeparatorRenderer extends AbstractRenderer {
      *
      * @exception IOException if an input/output error occurs
      */
+    @Override
     protected void renderStart(FacesContext context, UIComponent component,
-                               ResponseWriter writer) throws IOException {
-
+            ResponseWriter writer) throws IOException {
     }
-
 
     /**
      * <p>Render the appropriate element attributes, followed by the
@@ -89,11 +80,10 @@ public class PageSeparatorRenderer extends AbstractRenderer {
      *
      * @exception IOException if an input/output error occurs
      */
+    @Override
     protected void renderAttributes(FacesContext context, UIComponent component,
-                                    ResponseWriter writer) throws IOException {
-
-     }
-
+            ResponseWriter writer) throws IOException {
+    }
 
     /**
      * <p>Render the appropriate element end, depending on whether the
@@ -107,10 +97,11 @@ public class PageSeparatorRenderer extends AbstractRenderer {
      *
      * @exception IOException if an input/output error occurs
      */
+    @Override
     protected void renderEnd(FacesContext context, UIComponent component,
-                             ResponseWriter writer) throws IOException {
+            ResponseWriter writer) throws IOException {
         PageSeparator pageSep = (PageSeparator) component;
-        
+
         writer.startElement("table", component);
         String style = pageSep.getStyle();
         if (style != null) {
@@ -124,32 +115,27 @@ public class PageSeparatorRenderer extends AbstractRenderer {
         writer.startElement("tr", component);
         writer.startElement("td", component);
         writer.writeAttribute("colspan", "3", null); // NOI18N
-        
-        RenderingUtilities.renderSpacer(context, writer, component, 30, 1);        
+
+        RenderingUtilities.renderSpacer(context, writer, component, 30, 1);
         writer.endElement("td");
         writer.endElement("tr");
         writer.startElement("tr", component);
-        writer.startElement("td", component);        
-        RenderingUtilities.renderSpacer(context, writer, component, 1, 10);        
-         writer.endElement("td");
+        writer.startElement("td", component);
+        RenderingUtilities.renderSpacer(context, writer, component, 1, 10);
+        writer.endElement("td");
         writer.startElement("td", component);
         Theme theme = ThemeUtilities.getTheme(context);
 
         writer.writeAttribute("class", theme.getStyleClass(
-            ThemeStyles.TITLE_LINE), null); // NOI18N
+                ThemeStyles.TITLE_LINE), null); // NOI18N
         writer.writeAttribute("width", "100%", null); // NOI18N
-        RenderingUtilities.renderSpacer(context, writer, component, 1, 1);        
+        RenderingUtilities.renderSpacer(context, writer, component, 1, 1);
         writer.endElement("td");
         writer.startElement("td", component);
-        RenderingUtilities.renderSpacer(context, writer, component, 1, 10);        
+        RenderingUtilities.renderSpacer(context, writer, component, 1, 10);
         writer.endElement("td");
         writer.endElement("tr");
         writer.endElement("table");
     }
-
-
     // --------------------------------------------------------- Private Methods
-
-
-
 }

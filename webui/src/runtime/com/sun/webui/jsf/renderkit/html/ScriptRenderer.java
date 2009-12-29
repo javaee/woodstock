@@ -19,19 +19,13 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
-
 package com.sun.webui.jsf.renderkit.html;
-
 
 import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.Script;
 import com.sun.webui.jsf.util.RenderingUtilities;
-
 import java.io.IOException;
-
 import javax.faces.component.UIComponent;
-
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
@@ -39,34 +33,30 @@ import javax.faces.context.ResponseWriter;
  * <p>This class is responsible for rendering the script component for the
  * HTML Render Kit.</p> <p> The script component can be used as an Script</p>
  */
-@Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.Script"))
+@Renderer(@Renderer.Renders(componentFamily = "com.sun.webui.jsf.Script"))
 public class ScriptRenderer extends AbstractRenderer {
-    
+
     // -------------------------------------------------------- Static Variables
-        
     /**
      * <p>The set of String pass-through attributes to be rendered.</p>
      */
-    private static final String stringAttributes[] =
-    { "charset", "type"}; //NOI18N
+    private static final String stringAttributes[] = {"charset", "type"}; //NOI18N
 
-      
-      // -------------------------------------------------------- Renderer Methods
-         
-      
-      /**
-       * <p>Render the start of an Script (Script) tag.</p>
-       * @param context <code>FacesContext</code> for the current request
-       * @param component <code>UIComponent</code> to be rendered
-       * @param writer <code>ResponseWriter</code> to which the element
-       * start should be rendered
-       * @exception IOException if an input/output error occurs
-       */
+    // -------------------------------------------------------- Renderer Methods
+    /**
+     * <p>Render the start of an Script (Script) tag.</p>
+     * @param context <code>FacesContext</code> for the current request
+     * @param component <code>UIComponent</code> to be rendered
+     * @param writer <code>ResponseWriter</code> to which the element
+     * start should be rendered
+     * @exception IOException if an input/output error occurs
+     */
+    @Override
     protected void renderStart(FacesContext context, UIComponent component,
             ResponseWriter writer) throws IOException {
-        writer.startElement("script", component);     
+        writer.startElement("script", component);
     }
-      
+
     /**
      * <p>Render the attributes for an Script tag.  The onclick attribute will contain
      * extra javascript that will appropriately submit the form if the URL field is
@@ -77,8 +67,9 @@ public class ScriptRenderer extends AbstractRenderer {
      * attributes should be rendered
      * @exception IOException if an input/output error occurs
      */
+    @Override
     protected void renderAttributes(FacesContext context, UIComponent component,
-    ResponseWriter writer) throws IOException {
+            ResponseWriter writer) throws IOException {
 
         Script script = (Script) component;
         addCoreAttributes(context, component, writer, null);
@@ -88,12 +79,11 @@ public class ScriptRenderer extends AbstractRenderer {
         if (url != null) {
             // Get resource URL -- bugtraq #6305522.
             RenderingUtilities.renderURLAttribute(context, writer, script, "src", //NO18N
-                context.getApplication().getViewHandler()
-                    .getResourceURL(context, url),
-                "url"); //NO18N         
+                    context.getApplication().getViewHandler().getResourceURL(context, url),
+                    "url"); //NO18N
         }
     }
-      
+
     /**
      * <p>Close off the Script tag.</p>
      * @param context <code>FacesContext</code> for the current request
@@ -102,18 +92,13 @@ public class ScriptRenderer extends AbstractRenderer {
      * end should be rendered
      * @exception IOException if an input/output error occurs
      */
+    @Override
     protected void renderEnd(FacesContext context, UIComponent component,
-        ResponseWriter writer) throws IOException {
+            ResponseWriter writer) throws IOException {
         // End the appropriate element
-
         Script script = (Script) component;
-        
         writer.endElement("script"); //NOI18N
         writer.write("\n"); //NOI18N
-       
-
     }
-            
-      // --------------------------------------------------------- Private Methods
-      
+    // --------------------------------------------------------- Private Methods
 }

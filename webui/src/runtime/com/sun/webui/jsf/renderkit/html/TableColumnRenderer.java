@@ -19,7 +19,6 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.faces.annotation.Renderer;
@@ -32,10 +31,8 @@ import com.sun.webui.jsf.theme.ThemeStyles;
 import com.sun.webui.jsf.util.LogUtil;
 import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
-
 import java.io.IOException;
 import java.util.Iterator;
-
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
@@ -62,8 +59,9 @@ import javax.faces.context.ResponseWriter;
  * See TLD docs for more information.
  * </p>
  */
-@Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.TableColumn"))
+@Renderer(@Renderer.Renders(componentFamily = "com.sun.webui.jsf.TableColumn"))
 public class TableColumnRenderer extends javax.faces.render.Renderer {
+
     /**
      * The set of String pass-through attributes to be rendered.
      * <p>
@@ -99,7 +97,6 @@ public class TableColumnRenderer extends javax.faces.render.Renderer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Renderer methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Render the beginning of the specified UIComponent to the output stream or 
      * writer associated with the response we are creating.
@@ -110,11 +107,12 @@ public class TableColumnRenderer extends javax.faces.render.Renderer {
      * @exception IOException if an input/output error occurs.
      * @exception NullPointerException if context or component is null.
      */
+    @Override
     public void encodeBegin(FacesContext context, UIComponent component)
             throws IOException {
         if (context == null || component == null) {
             log("encodeBegin", //NOI18N
-                "Cannot render, FacesContext or UIComponent is null"); //NOI18N
+                    "Cannot render, FacesContext or UIComponent is null"); //NOI18N
             throw new NullPointerException();
         }
         if (!component.isRendered()) {
@@ -141,11 +139,12 @@ public class TableColumnRenderer extends javax.faces.render.Renderer {
      * @exception IOException if an input/output error occurs.
      * @exception NullPointerException if context or component is null.
      */
+    @Override
     public void encodeChildren(FacesContext context, UIComponent component)
             throws IOException {
         if (context == null || component == null) {
             log("encodeChildren", //NOI18N
-                "Cannot render, FacesContext or UIComponent is null"); //NOI18N
+                    "Cannot render, FacesContext or UIComponent is null"); //NOI18N
             throw new NullPointerException();
         }
         if (!component.isRendered()) {
@@ -161,7 +160,7 @@ public class TableColumnRenderer extends javax.faces.render.Renderer {
                 TableColumn kid = (TableColumn) kids.next();
                 if (!kid.isRendered()) {
                     log("encodeChildren", //NOI18N
-                        "TableColumn not rendered, nothing to display"); //NOI18N
+                            "TableColumn not rendered, nothing to display"); //NOI18N
                     continue;
                 }
                 RenderingUtilities.renderComponent(kid, context);
@@ -183,7 +182,7 @@ public class TableColumnRenderer extends javax.faces.render.Renderer {
                     UIComponent kid = (UIComponent) kids.next();
                     if (!kid.isRendered()) {
                         log("encodeChildren", //NOI18N
-                            "TableColumn child not rendered, nothing to display"); //NOI18N
+                                "TableColumn child not rendered, nothing to display"); //NOI18N
                         continue;
                     }
                     RenderingUtilities.renderComponent(kid, context);
@@ -191,7 +190,7 @@ public class TableColumnRenderer extends javax.faces.render.Renderer {
                     // Render a separator bar between each child component.
                     if (kids.hasNext() && col.isEmbeddedActions()) {
                         RenderingUtilities.renderComponent(
-                            col.getEmbeddedActionSeparatorIcon(), context);
+                                col.getEmbeddedActionSeparatorIcon(), context);
                         ResponseWriter writer = context.getResponseWriter();
                         writer.writeText(" ", null); //NOI18N
                     }
@@ -210,11 +209,12 @@ public class TableColumnRenderer extends javax.faces.render.Renderer {
      * @exception IOException if an input/output error occurs.
      * @exception NullPointerException if context or component is null.
      */
+    @Override
     public void encodeEnd(FacesContext context, UIComponent component)
             throws IOException {
         if (context == null || component == null) {
             log("encodeEnd", //NOI18N
-                "Cannot render, FacesContext or UIComponent is null"); //NOI18N
+                    "Cannot render, FacesContext or UIComponent is null"); //NOI18N
             throw new NullPointerException();
         }
         if (!component.isRendered()) {
@@ -236,6 +236,7 @@ public class TableColumnRenderer extends javax.faces.render.Renderer {
      * for rendering the children the component it is asked to render.
      * The default implementation returns false.
      */
+    @Override
     public boolean getRendersChildren() {
         return true;
     }
@@ -243,7 +244,6 @@ public class TableColumnRenderer extends javax.faces.render.Renderer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Enclosing tag methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Render enclosing tag for TableColumn components.
      *
@@ -257,23 +257,22 @@ public class TableColumnRenderer extends javax.faces.render.Renderer {
             TableColumn component, ResponseWriter writer) throws IOException {
         if (component == null) {
             log("renderEnclosingTagStart", //NOI18N
-                "Cannot render enclosing tag, UIComponent is null"); //NOI18N
+                    "Cannot render enclosing tag, UIComponent is null"); //NOI18N
             return;
         }
-        
+
         // Note: Row header is not valid for select column.
-        boolean isRowHeader = component.isRowHeader()
-            && component.getSelectId() == null;
+        boolean isRowHeader = component.isRowHeader() && component.getSelectId() == null;
 
         writer.writeText("\n", null); //NOI18N
         writer.startElement(isRowHeader ? "th" : "td", component); //NOI18N
 
         // Render client id.
         writer.writeAttribute("id", component.getClientId(context), null); //NOI18N
-           
+
         // Render style class.
         RenderingUtilities.renderStyleClass(context, writer, component,
-            getStyleClass(component));
+                getStyleClass(component));
 
         // Render align.
         if (component.getAlign() != null) {
@@ -290,13 +289,13 @@ public class TableColumnRenderer extends javax.faces.render.Renderer {
         // Render colspan.
         if (component.getColSpan() > -1) {
             writer.writeAttribute("colspan", //NOI18N
-                Integer.toString(component.getColSpan()), null); //NOI18N
+                    Integer.toString(component.getColSpan()), null); //NOI18N
         }
 
         // Render rowspan.
         if (component.getRowSpan() > -1) {
             writer.writeAttribute("rowspan", //NOI18N
-                Integer.toString(component.getRowSpan()), null); //NOI18N
+                    Integer.toString(component.getRowSpan()), null); //NOI18N
         }
 
         // Render nowrap.
@@ -310,8 +309,8 @@ public class TableColumnRenderer extends javax.faces.render.Renderer {
         }
 
         // Render pass through attributes.
-        RenderingUtilities.writeStringAttributes(component, writer, 
-            stringAttributes);
+        RenderingUtilities.writeStringAttributes(component, writer,
+                stringAttributes);
     }
 
     /**
@@ -327,13 +326,12 @@ public class TableColumnRenderer extends javax.faces.render.Renderer {
             TableColumn component, ResponseWriter writer) throws IOException {
         if (component == null) {
             log("renderEnclosingTagEnd", //NOI18N
-                "Cannot render enclosing tag, UIComponent is null"); //NOI18N
+                    "Cannot render enclosing tag, UIComponent is null"); //NOI18N
             return;
         }
 
         // Note: Row header is not valid for select column.
-        boolean isRowHeader = component.isRowHeader()
-            && component.getSelectId() == null;
+        boolean isRowHeader = component.isRowHeader() && component.getSelectId() == null;
 
         writer.endElement(isRowHeader ? "th" : "td"); //NOI18N
     }
@@ -341,7 +339,6 @@ public class TableColumnRenderer extends javax.faces.render.Renderer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Helper method to get column style class for TableColumn components.
      *
@@ -353,10 +350,10 @@ public class TableColumnRenderer extends javax.faces.render.Renderer {
         String styleClass = null;
         if (component == null) {
             log("getStyleClass", //NOI18N
-                "Cannot obtain style class, TableColumn is null"); //NOI18N
+                    "Cannot obtain style class, TableColumn is null"); //NOI18N
             return styleClass;
         }
-        
+
         // Get sort level.
         TableRowGroup group = component.getTableRowGroupAncestor();
         SortCriteria criteria = component.getSortCriteria();
@@ -365,8 +362,7 @@ public class TableColumnRenderer extends javax.faces.render.Renderer {
         // Get style class.
         if (component.isSpacerColumn()) {
             styleClass = ThemeStyles.TABLE_TD_SPACER;
-        } else if (component.getSeverity() != null
-                && !component.getSeverity().equals(Alarm.SEVERITY_OK)) {
+        } else if (component.getSeverity() != null && !component.getSeverity().equals(Alarm.SEVERITY_OK)) {
             styleClass = ThemeStyles.TABLE_TD_ALARM;
         } else if (level == 1) {
             if (component.getSelectId() != null) {
@@ -386,7 +382,7 @@ public class TableColumnRenderer extends javax.faces.render.Renderer {
 
     /** Helper method to get Theme objects. */
     private Theme getTheme() {
-	return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
+        return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
     }
 
     /**
@@ -395,7 +391,7 @@ public class TableColumnRenderer extends javax.faces.render.Renderer {
     private void log(String method, String message) {
         // Get class.
         Class clazz = this.getClass();
-	if (LogUtil.fineEnabled(clazz)) {
+        if (LogUtil.fineEnabled(clazz)) {
             // Log method name and message.
             LogUtil.fine(clazz, clazz.getName() + "." + method + ": " + message); //NOI18N
         }

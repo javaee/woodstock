@@ -20,10 +20,9 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 
- /*
-  * $Id: FrameSetRenderer.java,v 1.1 2007-02-16 01:38:07 bob_yennaco Exp $
-  */
-
+/*
+ * $Id: FrameSetRenderer.java,v 1.1.12.1 2009-12-29 04:52:47 jyeary Exp $
+ */
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.faces.annotation.Renderer;
@@ -37,26 +36,18 @@ import com.sun.webui.jsf.util.RenderingUtilities;
 /**
  * <p>Renderer for a {@link FrameSet} component.</p>
  */
-
-@Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.FrameSet"))
+@Renderer(@Renderer.Renders(componentFamily = "com.sun.webui.jsf.FrameSet"))
 public class FrameSetRenderer extends AbstractRenderer {
-    
-    
-    // ======================================================== Static Variables
 
-     /**
+    // ======================================================== Static Variables
+    /**
      * <p>The set of String pass-through attributes to be rendered.</p>
      */
-    private static final String stringAttributes[] =
-    { "rows", "cols", "borderColor"}; //NOI18N
-    private static final String integerAttributes[] =
-    { "border", "frameSpacing"}; //NOI18N
-    private static final String booleanAttributes[] =
-    { "frameBorder" }; //NOI18N
-    
+    private static final String stringAttributes[] = {"rows", "cols", "borderColor"}; //NOI18N
+    private static final String integerAttributes[] = {"border", "frameSpacing"}; //NOI18N
+    private static final String booleanAttributes[] = {"frameBorder"}; //NOI18N
+
     // -------------------------------------------------------- Renderer Methods
-    
-    
     /**
      * <p>Render the appropriate element start for the outermost
      * element.</p>
@@ -68,21 +59,20 @@ public class FrameSetRenderer extends AbstractRenderer {
      *
      * @exception IOException if an input/output error occurs
      */
+    @Override
     protected void renderStart(FacesContext context, UIComponent component,
             ResponseWriter writer) throws IOException {
         FrameSet frameset = (FrameSet) component;
-        
+
         // I don't think this is the correct way to write the XML
         // header /avk
-        
+
         if (!RenderingUtilities.isPortlet(context)) {
             writer.startElement("frameset", component);
-       }
-        
+        }
+
     }
-    
-    
-    
+
     /**
      * <p>Render the appropriate element attributes, followed by the
      * nested <code>&lt;head&gt;</code> element, plus the beginning
@@ -95,15 +85,16 @@ public class FrameSetRenderer extends AbstractRenderer {
      *
      * @exception IOException if an input/output error occurs
      */
+    @Override
     protected void renderAttributes(FacesContext context, UIComponent component,
             ResponseWriter writer) throws IOException {
-        
+
         FrameSet frameset = (FrameSet) component;
-        
+
         // Render a nested "head" element
         if (!RenderingUtilities.isPortlet(context)) {
             //id
-            String id=frameset.getClientId(context);
+            String id = frameset.getClientId(context);
             if (id != null) {
                 writer.writeAttribute("id", id, null); //NOI18N
             }
@@ -127,9 +118,10 @@ public class FrameSetRenderer extends AbstractRenderer {
             addBooleanAttributes(context, component, writer, booleanAttributes);
             addIntegerAttributes(context, component, writer, integerAttributes);
             writer.write("\n"); //NOI18N
-         }
-        
+        }
+
     }
+
     /**
      * <p>Render the appropriate element end.</p>
      *
@@ -140,19 +132,18 @@ public class FrameSetRenderer extends AbstractRenderer {
      *
      * @exception IOException if an input/output error occurs
      */
+    @Override
     protected void renderEnd(FacesContext context, UIComponent component,
             ResponseWriter writer) throws IOException {
-        
+
         FrameSet frameset = (FrameSet) component;
-        
+
         // End the outermost "html" element
         if (!RenderingUtilities.isPortlet(context)) {
             writer.endElement("frameset"); //NOI18N
             writer.write("\n"); //NOI18N
         }
-                
+
     }
-    
-    
     // --------------------------------------------------------- Private Methods
 }

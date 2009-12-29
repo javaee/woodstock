@@ -19,38 +19,22 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
- 
-
 package com.sun.webui.jsf.renderkit.html;
-
 
 import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.Hyperlink;
-import com.sun.webui.jsf.component.Form;
 import com.sun.webui.jsf.component.util.Util;
 import com.sun.webui.theme.Theme;
-import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.jsf.theme.ThemeStyles;
 import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.jsf.util.LogUtil;
-
 import java.io.IOException;
-import java.lang.NullPointerException;
-import java.lang.StringBuffer;
 import java.util.Iterator;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIParameter;
-import javax.faces.component.UICommand;
-import javax.faces.component.UIForm;
-
-
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.event.ActionEvent;
@@ -61,141 +45,131 @@ import javax.faces.event.ActionEvent;
  * plain hyperlink or a hyperlink that submits the form depending on how the
  * properites are filled out for the component </p>
  */
-@Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.Hyperlink"))
+@Renderer(@Renderer.Renders(componentFamily = "com.sun.webui.jsf.Hyperlink"))
 public class HyperlinkRenderer extends AbstractRenderer {
-    
+
     // -------------------------------------------------------- Static Variables
-    
     //TODO: figure out a way to do anchors better than specifying the entire context path
     //TODO: use the style factories Rick is going to setup
     //TODO: move the javascript created here to a function in the default javascript.
-    
     /**
      * <p>The set of boolean pass-through attributes to be rendered.
      *    <br />Note: if you add a boolean here and you want it rendered
      *    if the hyperlink is disabled then you must fix the renderer to 
      *    work properly! </p>
      */
-    private static final String booleanAttributes[] =
-    { "disabled" }; //NOI18N
-    
+    private static final String booleanAttributes[] = {"disabled"}; //NOI18N
     /**
      * <p>The set of integer pass-through attributes to be rendered.</p>
      */
-    private static final String integerAttributes[] =
-    { "tabIndex" }; //NOI18N
-    
-    
+    private static final String integerAttributes[] = {"tabIndex"}; //NOI18N
     /**
      * <p>The set of String pass-through attributes to be rendered.</p>
      */
-    private static final String stringAttributes[] =
-    { "onBlur", "onFocus", "onDblClick", "onKeyDown", "onKeyPress", "onMouseUp", //NOI18N
-      "onKeyUp", "onMouseDown", "onMouseMove", "onMouseOut", "onMouseOver"}; //NOI18N
-
+    private static final String stringAttributes[] = {"onBlur", "onFocus", "onDblClick", "onKeyDown", "onKeyPress", "onMouseUp", //NOI18N
+        "onKeyUp", "onMouseDown", "onMouseMove", "onMouseOut", "onMouseOver"}; //NOI18N
     /**
      * <p>The log message to be displayed if name and/or value attribute is null</p>
      */
-    
     private static final String paramErr = "Hyperlink UIParameter child attribute name and/or value not set, id = "; //NOI18N
-   
-      // -------------------------------------------------------- Renderer Methods
-      
-      public boolean getRendersChildren() {
-          return true;
-      }
-      
-      /**
-       * <p>Decode will determine if this component was the one that submitted the form.
-       * It determines this by looking for the hidden field with the link's name 
-       * appended with an "_submittedField"
-       * If this hidden field contains the id of the component then this component submitted
-       * the form.</p>
-       * @param context <code>FacesContext</code> for the current request
-       * @param component <code>UIComponent</code> to be decoded
-       * @exception NullPointerException if <code>context</code> or
-       * <code>component</code> is <code>null</code>
-       */
-      public void decode(FacesContext context, UIComponent component) {
-          // Enforce NPE requirements in the Javadocs
-          if ((context == null) || (component == null)) {
-              throw new NullPointerException();
-          }
-          Hyperlink link = (Hyperlink) component;
-                  
-          if (isSubmitLink(link)) {
-              String paramId = this.getSubmittedParameterId(context, component);
-              String value = (String) 
-                  context.getExternalContext().getRequestParameterMap().get(paramId);
-              
-              if ((value == null) || !value.equals(component.getClientId(context))) {
-                  return;
-              }
 
-              //add the event to the queue so we know that a command happened.
-              //this should automatically take care of actionlisteners and actions
-              link.queueEvent(new ActionEvent(link));
-          }
-      }
-      
-      /**
-       * Returns the identifier for the parameter that corresponds to the hidden field
-       * used to pass the value of the component that submitted the page.
-       */
-      protected String getSubmittedParameterId(FacesContext context, UIComponent component) {
-          return component.getClientId(context) + "_submittedField";
-      }
-      
-      
-        /**
-        * <p>Render the start of an anchor (hyperlink) tag.</p>
-        * @param context <code>FacesContext</code> for the current request
-        * @param component <code>UIComponent</code> to be rendered
-        * @param writer <code>ResponseWriter</code> to which the element
-        * start should be rendered
-        * @exception IOException if an input/output error occurs
-        */
-       protected void renderStart(FacesContext context, UIComponent component,
-            ResponseWriter writer) throws IOException {
-            //intentionally left blank
-       }
-      
-      
-      /**
-       * <p>Render the attributes for an anchor tag.  The onclick attribute will contain
-       * extra javascript that will appropriately submit the form if the URL field is
-       * not set.</p>
-       * @param context <code>FacesContext</code> for the current request
-       * @param component <code>UIComponent</code> to be rendered
-       * @param writer <code>ResponseWriter</code> to which the element
-       * attributes should be rendered
-       * @exception IOException if an input/output error occurs
-       */
-    protected void renderAttributes(FacesContext context, UIComponent component,
-        ResponseWriter writer) throws IOException {
-            //intentionally left blank.
+    // -------------------------------------------------------- Renderer Methods
+    @Override
+    public boolean getRendersChildren() {
+        return true;
+    }
+
+    /**
+     * <p>Decode will determine if this component was the one that submitted the form.
+     * It determines this by looking for the hidden field with the link's name
+     * appended with an "_submittedField"
+     * If this hidden field contains the id of the component then this component submitted
+     * the form.</p>
+     * @param context <code>FacesContext</code> for the current request
+     * @param component <code>UIComponent</code> to be decoded
+     * @exception NullPointerException if <code>context</code> or
+     * <code>component</code> is <code>null</code>
+     */
+    @Override
+    public void decode(FacesContext context, UIComponent component) {
+        // Enforce NPE requirements in the Javadocs
+        if ((context == null) || (component == null)) {
+            throw new NullPointerException();
         }
-      
-    protected void finishRenderAttributes(FacesContext context, UIComponent component,
-              ResponseWriter writer) throws IOException {
-        
-          Hyperlink link = (Hyperlink) component;
-          
-          // Set up local variables we will need
-	  String label = ConversionUtilities.convertValueToString(component,
-	      link.getText());
-          if (label != null) {
-              writer.writeText(label, null);
-          }
+        Hyperlink link = (Hyperlink) component;
 
-      }  
-         
-     public  void encodeChildren(FacesContext context, UIComponent component)
-        throws IOException {
-         //purposefully don't want to do anything here!
-         
-     }
-              
+        if (isSubmitLink(link)) {
+            String paramId = this.getSubmittedParameterId(context, component);
+            String value = (String) context.getExternalContext().getRequestParameterMap().get(paramId);
+
+            if ((value == null) || !value.equals(component.getClientId(context))) {
+                return;
+            }
+
+            //add the event to the queue so we know that a command happened.
+            //this should automatically take care of actionlisteners and actions
+            link.queueEvent(new ActionEvent(link));
+        }
+    }
+
+    /**
+     * Returns the identifier for the parameter that corresponds to the hidden field
+     * used to pass the value of the component that submitted the page.
+     */
+    protected String getSubmittedParameterId(FacesContext context, UIComponent component) {
+        return component.getClientId(context) + "_submittedField";
+    }
+
+    /**
+     * <p>Render the start of an anchor (hyperlink) tag.</p>
+     * @param context <code>FacesContext</code> for the current request
+     * @param component <code>UIComponent</code> to be rendered
+     * @param writer <code>ResponseWriter</code> to which the element
+     * start should be rendered
+     * @exception IOException if an input/output error occurs
+     */
+    @Override
+    protected void renderStart(FacesContext context, UIComponent component,
+            ResponseWriter writer) throws IOException {
+        //intentionally left blank
+    }
+
+    /**
+     * <p>Render the attributes for an anchor tag.  The onclick attribute will contain
+     * extra javascript that will appropriately submit the form if the URL field is
+     * not set.</p>
+     * @param context <code>FacesContext</code> for the current request
+     * @param component <code>UIComponent</code> to be rendered
+     * @param writer <code>ResponseWriter</code> to which the element
+     * attributes should be rendered
+     * @exception IOException if an input/output error occurs
+     */
+    @Override
+    protected void renderAttributes(FacesContext context, UIComponent component,
+            ResponseWriter writer) throws IOException {
+        //intentionally left blank.
+        }
+
+    protected void finishRenderAttributes(FacesContext context, UIComponent component,
+            ResponseWriter writer) throws IOException {
+
+        Hyperlink link = (Hyperlink) component;
+
+        // Set up local variables we will need
+        String label = ConversionUtilities.convertValueToString(component,
+                link.getText());
+        if (label != null) {
+            writer.writeText(label, null);
+        }
+
+    }
+
+    @Override
+    public void encodeChildren(FacesContext context, UIComponent component)
+            throws IOException {
+        //purposefully don't want to do anything here!
+    }
+
     /**
      * <p>Close off the anchor tag.</p>
      * @param context <code>FacesContext</code> for the current request
@@ -204,27 +178,28 @@ public class HyperlinkRenderer extends AbstractRenderer {
      * end should be rendered
      * @exception IOException if an input/output error occurs
      */
+    @Override
     protected void renderEnd(FacesContext context, UIComponent component,
             ResponseWriter writer) throws IOException {
-        renderLink(context, component, writer);        
+        renderLink(context, component, writer);
     }
-    
+
     protected void renderLink(FacesContext context, UIComponent component,
             ResponseWriter writer) throws IOException {
         Hyperlink link = (Hyperlink) component;
-        
+
         if (!link.isDisabled()) {
-          // Start the appropriate element
-          writer.startElement("a", link); //NOI18N
+            // Start the appropriate element
+            writer.startElement("a", link); //NOI18N
         } else {
-          writer.startElement("span", link); //NOI18N
+            writer.startElement("span", link); //NOI18N
         }
 
         // Set up local variables we will need
-	String label = ConversionUtilities.convertValueToString(component,
-	    link.getText());
+        String label = ConversionUtilities.convertValueToString(component,
+                link.getText());
 
-        String url   = link.getUrl();
+        String url = link.getUrl();
         String target = link.getTarget();
         String tooltip = link.getToolTip();
         String onclick = link.getOnClick();
@@ -255,20 +230,20 @@ public class HyperlinkRenderer extends AbstractRenderer {
                     // components may implement their own solution for 
                     // prepending the right context
                     url = getCorrectURL(context, link, url);
-                    
-                    RenderingUtilities.renderURLAttribute(context, 
-                        writer, 
-                        component, 
-                        "href", //NOI18N  
-                        url,
-                        "url"); //NOI18N
+
+                    RenderingUtilities.renderURLAttribute(context,
+                            writer,
+                            component,
+                            "href", //NOI18N
+                            url,
+                            "url"); //NOI18N
                 }
                 if (onclick != null) {
                     writer.writeAttribute("onclick", onclick, "onclick");
                 }
             } else {
                 UIComponent form = Util.getForm(context, component);
-                if (form != null)  {
+                if (form != null) {
                     String formClientId = form.getClientId(context);
 
                     StringBuffer buff = new StringBuffer(200);
@@ -279,12 +254,11 @@ public class HyperlinkRenderer extends AbstractRenderer {
                         }
                     }
                     buff.append("return ") //NOI18N
-                        .append(JavaScriptUtilities.getModuleName(
+                            .append(JavaScriptUtilities.getModuleName(
                             "hyperlink.submit")) //NOI18N
-                        .append("(this, '") //NOI18N
-                        .append(formClientId)
-                        .append("', "); //NOI18N
-                    
+                            .append("(this, '") //NOI18N
+                            .append(formClientId).append("', "); //NOI18N
+
                     boolean didOnce = false;
                     Iterator kids = component.getChildren().iterator();
                     while (kids.hasNext()) {
@@ -295,8 +269,8 @@ public class HyperlinkRenderer extends AbstractRenderer {
                         String name = (String) kid.getAttributes().get("name"); //NOI18N
                         String value = (String) kid.getAttributes().get("value"); //NOI18N
 
-                        if (name == null || value == null) {                           
-                           log(paramErr+kid.getId());
+                        if (name == null || value == null) {
+                            log(paramErr + kid.getId());
                             continue;
                         }
                         if (!didOnce) {
@@ -304,7 +278,7 @@ public class HyperlinkRenderer extends AbstractRenderer {
                         }
 
                         //add to map for later use.
-                       if (!didOnce) {
+                        if (!didOnce) {
                             buff.append("'");
                         } else {
                             buff.append(",'");
@@ -315,13 +289,13 @@ public class HyperlinkRenderer extends AbstractRenderer {
                         buff.append("'"); //NOI18N
                         didOnce = true;
                     }
-                    
+
                     if (!didOnce) {
                         buff.append("null");
                     } else {
                         buff.append(")");
                     }
-                    
+
                     buff.append(");");
                     writer.writeAttribute("onclick", buff.toString(), null);
                     writer.writeAttribute("href", "#", null); //NOI18N
@@ -339,23 +313,23 @@ public class HyperlinkRenderer extends AbstractRenderer {
             if (null != urlLang) {
                 writer.writeAttribute("hreflang", urlLang, "urlLang"); //NOI18N
             }
-            
+
         }
         //for hyperlink, this will encodeChildren as well, but not for subclasses
         //unless they explicitly do it!
         finishRenderAttributes(context, component, writer);
 
         renderChildren(context, component);
- 
+
         // End the appropriate element
         if (!link.isDisabled()) {
             writer.endElement("a"); //NOI18N
-         } else {
+        } else {
             // no need to render params for disabled link
             writer.endElement("span"); //NOI18N 
-        }        
+        }
     }
-    
+
     /**
      * This method is called by renderEnd. It is provided so renderers that
      * extend HyperlinkRenderer (such as TabRenderer) may override it in order 
@@ -366,57 +340,55 @@ public class HyperlinkRenderer extends AbstractRenderer {
      */
     protected void renderChildren(FacesContext context, UIComponent component)
             throws IOException {
-        super.encodeChildren(context, component);        
+        super.encodeChildren(context, component);
     }
-      
-      /**
-       * This function returns the style classes necessary to display the {@link Hyperlink} component as it's state indicates
-       * @return the style classes needed to display the current state of the component
-       */
-      protected String getStyles(FacesContext context, UIComponent component) {
-          Hyperlink link = (Hyperlink) component;
-          
-          StringBuffer sb = new StringBuffer();
-          Theme theme = ThemeUtilities.getTheme(context);
-          if (link.isDisabled()) {
-              sb.append(" "); //NOI18N
-              sb.append(theme.getStyleClass(ThemeStyles.LINK_DISABLED));
-          }
-          return (sb.length() > 0) ? sb.toString() : null;
-      }
-      
-      /**
-       * This method returns the most appropriate URL under the 
-       * circumstances. In some cases viewhandler.getActionURL() needs
-       * to be invoked while in other cases viewhandler.getResourceURL() 
-       * needs to be invoked. The hyperlink renderer, by default, will 
-       * always use latter while generating the complete URL. Subclasses
-       * of this renderer can do it their own way.
-       */
-      protected String getCorrectURL(FacesContext context, UIComponent component,
-          String url) {
-          
-          if (url == null) {
-              return null;
-          }
-          
-          return context.getApplication().getViewHandler().
-                        getResourceURL(context, url);
-      }
-      
+
+    /**
+     * This function returns the style classes necessary to display the {@link Hyperlink} component as it's state indicates
+     * @return the style classes needed to display the current state of the component
+     */
+    protected String getStyles(FacesContext context, UIComponent component) {
+        Hyperlink link = (Hyperlink) component;
+
+        StringBuffer sb = new StringBuffer();
+        Theme theme = ThemeUtilities.getTheme(context);
+        if (link.isDisabled()) {
+            sb.append(" "); //NOI18N
+            sb.append(theme.getStyleClass(ThemeStyles.LINK_DISABLED));
+        }
+        return (sb.length() > 0) ? sb.toString() : null;
+    }
+
+    /**
+     * This method returns the most appropriate URL under the
+     * circumstances. In some cases viewhandler.getActionURL() needs
+     * to be invoked while in other cases viewhandler.getResourceURL()
+     * needs to be invoked. The hyperlink renderer, by default, will
+     * always use latter while generating the complete URL. Subclasses
+     * of this renderer can do it their own way.
+     */
+    protected String getCorrectURL(FacesContext context, UIComponent component,
+            String url) {
+
+        if (url == null) {
+            return null;
+        }
+
+        return context.getApplication().getViewHandler().
+                getResourceURL(context, url);
+    }
+
 // --------------------------------------------------------- Private Methods
-      
-      private boolean isSubmitLink(Hyperlink h) {
-          return (h.getUrl() == null);
-      }
-      
+    private boolean isSubmitLink(Hyperlink h) {
+        return (h.getUrl() == null);
+    }
+
     /**
      * Log an error 
      */
-      private void log(String s) {
-          if (LogUtil.fineEnabled(HyperlinkRenderer.class)) {
-              LogUtil.fine(HyperlinkRenderer.class, s);
-          }
-      }
-
-  }
+    private void log(String s) {
+        if (LogUtil.fineEnabled(HyperlinkRenderer.class)) {
+            LogUtil.fine(HyperlinkRenderer.class, s);
+        }
+    }
+}

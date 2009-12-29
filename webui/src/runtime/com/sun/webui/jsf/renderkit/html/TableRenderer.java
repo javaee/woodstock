@@ -19,22 +19,17 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.faces.annotation.Renderer;
 import com.sun.data.provider.RowKey;
 import com.sun.data.provider.SortCriteria;
-import com.sun.webui.jsf.component.DropDown;
-import com.sun.webui.jsf.component.Label;
 import com.sun.webui.jsf.component.Table;
 import com.sun.webui.jsf.component.TableActions;
 import com.sun.webui.jsf.component.TableColumn;
 import com.sun.webui.jsf.component.TableHeader;
 import com.sun.webui.jsf.component.TablePanels;
 import com.sun.webui.jsf.component.TableRowGroup;
-import com.sun.webui.jsf.component.util.Util;
-import com.sun.webui.jsf.model.Option;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeStyles;
 import com.sun.webui.jsf.util.LogUtil;
@@ -42,17 +37,12 @@ import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.jsf.theme.ThemeImages;
-
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -79,11 +69,11 @@ import org.json.JSONObject;
  * See TLD docs for more information.
  * </p>
  */
-@Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.Table"))
+@Renderer(@Renderer.Renders(componentFamily = "com.sun.webui.jsf.Table"))
 public class TableRenderer extends javax.faces.render.Renderer {
     // Javascript object name.
-    private static final String JAVASCRIPT_OBJECT_CLASS = "Table"; //NOI18N
 
+    private static final String JAVASCRIPT_OBJECT_CLASS = "Table"; //NOI18N
     /**
      * The set of String pass-through attributes to be rendered.
      * <p>
@@ -114,7 +104,6 @@ public class TableRenderer extends javax.faces.render.Renderer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Renderer methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Render the beginning of the specified UIComponent to the output stream or 
      * writer associated with the response we are creating.
@@ -125,11 +114,12 @@ public class TableRenderer extends javax.faces.render.Renderer {
      * @exception IOException if an input/output error occurs.
      * @exception NullPointerException if context or component is null.
      */
+    @Override
     public void encodeBegin(FacesContext context, UIComponent component)
             throws IOException {
         if (context == null || component == null) {
             log("encodeBegin", //NOI18N
-                "Cannot render, FacesContext or UIComponent is null"); //NOI18N
+                    "Cannot render, FacesContext or UIComponent is null"); //NOI18N
             throw new NullPointerException();
         }
         if (!component.isRendered()) {
@@ -155,11 +145,12 @@ public class TableRenderer extends javax.faces.render.Renderer {
      * @exception IOException if an input/output error occurs.
      * @exception NullPointerException if context or component is null.
      */
+    @Override
     public void encodeChildren(FacesContext context, UIComponent component)
             throws IOException {
         if (context == null || component == null) {
             log("encodeChildren", //NOI18N
-                "Cannot render, FacesContext or UIComponent is null"); //NOI18N
+                    "Cannot render, FacesContext or UIComponent is null"); //NOI18N
             throw new NullPointerException();
         }
         if (!component.isRendered()) {
@@ -188,11 +179,12 @@ public class TableRenderer extends javax.faces.render.Renderer {
      * @exception IOException if an input/output error occurs.
      * @exception NullPointerException if context or component is null.
      */
+    @Override
     public void encodeEnd(FacesContext context, UIComponent component)
             throws IOException {
         if (context == null || component == null) {
             log("encodeEnd", //NOI18N
-                "Cannot render, FacesContext or UIComponent is null"); //NOI18N
+                    "Cannot render, FacesContext or UIComponent is null"); //NOI18N
             throw new NullPointerException();
         }
         if (!component.isRendered()) {
@@ -213,6 +205,7 @@ public class TableRenderer extends javax.faces.render.Renderer {
      * for rendering the children the component it is asked to render.
      * The default implementation returns false.
      */
+    @Override
     public boolean getRendersChildren() {
         return true;
     }
@@ -220,7 +213,6 @@ public class TableRenderer extends javax.faces.render.Renderer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Action bar methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Render the bottom actions for Table components.
      *
@@ -234,7 +226,7 @@ public class TableRenderer extends javax.faces.render.Renderer {
             Table component, ResponseWriter writer) throws IOException {
         if (component == null) {
             log("renderActionsBottom", //NOI18N
-                "Cannot render actions bar, Table is null"); //NOI18N
+                    "Cannot render actions bar, Table is null"); //NOI18N
             return;
         }
 
@@ -242,14 +234,14 @@ public class TableRenderer extends javax.faces.render.Renderer {
         UIComponent actions = component.getTableActionsBottom();
         if (!(actions != null && actions.isRendered())) {
             log("renderActionsBottom", //NOI18N
-                "Actions bar not rendered, nothing to display"); //NOI18N
+                    "Actions bar not rendered, nothing to display"); //NOI18N
             return;
         }
 
         writer.writeText("\n", null); //NOI18N
         writer.startElement("tr", component); //NOI18N
         writer.writeAttribute("id", getId(component, //NOI18N
-            Table.TABLE_ACTIONS_BOTTOM_BAR_ID), null);
+                Table.TABLE_ACTIONS_BOTTOM_BAR_ID), null);
 
         // Render embedded panels.
         RenderingUtilities.renderComponent(actions, context);
@@ -269,7 +261,7 @@ public class TableRenderer extends javax.faces.render.Renderer {
             Table component, ResponseWriter writer) throws IOException {
         if (component == null) {
             log("renderActionsTop", //NOI18N
-                "Cannot render actions bar, Table is null"); //NOI18N
+                    "Cannot render actions bar, Table is null"); //NOI18N
             return;
         }
 
@@ -277,14 +269,14 @@ public class TableRenderer extends javax.faces.render.Renderer {
         UIComponent actions = component.getTableActionsTop();
         if (!(actions != null && actions.isRendered())) {
             log("renderActionsTop", //NOI18N
-                "Actions bar not rendered, nothing to display"); //NOI18N
+                    "Actions bar not rendered, nothing to display"); //NOI18N
             return;
         }
 
         writer.writeText("\n", null); //NOI18N
         writer.startElement("tr", component); //NOI18N
         writer.writeAttribute("id", getId(component, //NOI18N
-            Table.TABLE_ACTIONS_TOP_BAR_ID), null);
+                Table.TABLE_ACTIONS_TOP_BAR_ID), null);
 
         // Render embedded panels.
         RenderingUtilities.renderComponent(actions, context);
@@ -294,7 +286,6 @@ public class TableRenderer extends javax.faces.render.Renderer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Embedded panel methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Render embedded panels for Table components.
      *
@@ -308,7 +299,7 @@ public class TableRenderer extends javax.faces.render.Renderer {
             Table component, ResponseWriter writer) throws IOException {
         if (component == null) {
             log("renderEmbeddedPanels", //NOI18N
-                "Cannot render embedded panels, Table is null"); //NOI18N
+                    "Cannot render embedded panels, Table is null"); //NOI18N
             return;
         }
 
@@ -316,14 +307,14 @@ public class TableRenderer extends javax.faces.render.Renderer {
         UIComponent panels = component.getEmbeddedPanels();
         if (!(panels != null && panels.isRendered())) {
             log("renderEmbeddedPanels", //NOI18N
-                "Embedded panels not rendered, nothing to display"); //NOI18N
+                    "Embedded panels not rendered, nothing to display"); //NOI18N
             return;
         }
 
         writer.writeText("\n", null); //NOI18N
         writer.startElement("tr", component); //NOI18N
         writer.writeAttribute("id", getId(component, //NOI18N
-            Table.EMBEDDED_PANELS_BAR_ID), null);
+                Table.EMBEDDED_PANELS_BAR_ID), null);
 
         // Render embedded panels.
         RenderingUtilities.renderComponent(panels, context);
@@ -333,7 +324,6 @@ public class TableRenderer extends javax.faces.render.Renderer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Footer methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Render table footer for Table components.
      *
@@ -347,7 +337,7 @@ public class TableRenderer extends javax.faces.render.Renderer {
             ResponseWriter writer) throws IOException {
         if (component == null) {
             log("renderTableFooter", //NOI18N
-                "Cannot render table foter, Table is null"); //NOI18N
+                    "Cannot render table foter, Table is null"); //NOI18N
             return;
         }
 
@@ -355,7 +345,7 @@ public class TableRenderer extends javax.faces.render.Renderer {
         UIComponent footer = component.getTableFooter();
         if (!(footer != null && footer.isRendered())) {
             log("renderTableFooter", //NOI18N
-                "Table footer not rendered, nothing to display"); //NOI18N
+                    "Table footer not rendered, nothing to display"); //NOI18N
             return;
         }
 
@@ -363,7 +353,7 @@ public class TableRenderer extends javax.faces.render.Renderer {
         writer.writeText("\n", null); //NOI18N
         writer.startElement("tr", component); //NOI18N
         writer.writeAttribute("id", getId(component, Table.TABLE_FOOTER_BAR_ID), //NOI18N
-            null);
+                null);
 
         // Render footer.
         RenderingUtilities.renderComponent(footer, context);
@@ -373,7 +363,6 @@ public class TableRenderer extends javax.faces.render.Renderer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Title methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Render title for Table components.
      *
@@ -408,9 +397,9 @@ public class TableRenderer extends javax.faces.render.Renderer {
         // Get filter augment.
         Theme theme = getTheme();
         String filter = (component.getFilterText() != null)
-            ? theme.getMessage("table.title.filterApplied", //NOI18N
-                new String[] {component.getFilterText()})
-            : ""; //NOI18N
+                ? theme.getMessage("table.title.filterApplied", //NOI18N
+                new String[]{component.getFilterText()})
+                : ""; //NOI18N
 
         // Get TableRowGroup component.
         TableRowGroup group = component.getTableRowGroupChild();
@@ -432,31 +421,31 @@ public class TableRenderer extends javax.faces.render.Renderer {
                 // Get first and last rows augment.
                 String first = Integer.toString(maxFirst + 1);
                 String last = Integer.toString(Math.min(maxFirst + maxRows,
-                    totalRows));
+                        totalRows));
 
                 if (component.getItemsText() != null) {
                     title = theme.getMessage("table.title.paginatedItems", //NOI18N
-                        new String[] {component.getTitle(), first, last,
-                            Integer.toString(totalRows), component.getItemsText(), filter});
+                            new String[]{component.getTitle(), first, last,
+                                Integer.toString(totalRows), component.getItemsText(), filter});
                 } else {
                     title = theme.getMessage("table.title.paginated", //NOI18N
-                        new String[] {component.getTitle(), first, last,
-                            Integer.toString(totalRows), filter});
+                            new String[]{component.getTitle(), first, last,
+                                Integer.toString(totalRows), filter});
                 }
             } else {
                 if (component.getItemsText() != null) {
                     title = theme.getMessage("table.title.scrollItems", //NOI18N
-                        new String[] {component.getTitle(), Integer.toString(totalRows),
-                            component.getItemsText(), filter});
+                            new String[]{component.getTitle(), Integer.toString(totalRows),
+                                component.getItemsText(), filter});
                 } else {
                     title = theme.getMessage("table.title.scroll", //NOI18N
-                        new String[] {component.getTitle(), Integer.toString(totalRows),
-                            filter});
+                            new String[]{component.getTitle(), Integer.toString(totalRows),
+                                filter});
                 }
             }
         } else {
             log("renderTitle", //NOI18N
-                "Title not augmented, itemsText & filterText not displayed"); //NOI18N
+                    "Title not augmented, itemsText & filterText not displayed"); //NOI18N
         }
 
         renderTitleStart(context, component, writer);
@@ -465,15 +454,15 @@ public class TableRenderer extends javax.faces.render.Renderer {
         if (component.isHiddenSelectedRows()) {
             writer.startElement("span", component); //NOI18N
             writer.writeAttribute("class", //NOI18N
-                theme.getStyleClass(ThemeStyles.TABLE_TITLE_TEXT_SPAN), null);
+                    theme.getStyleClass(ThemeStyles.TABLE_TITLE_TEXT_SPAN), null);
             writer.writeText(title, null);
             writer.endElement("span"); //NOI18N
             writer.startElement("span", component); //NOI18N
             writer.writeAttribute("class", //NOI18N
-                theme.getStyleClass(ThemeStyles.TABLE_TITLE_MESSAGE_SPAN), null);
+                    theme.getStyleClass(ThemeStyles.TABLE_TITLE_MESSAGE_SPAN), null);
             writer.writeText(theme.getMessage("table.hiddenSelections", //NOI18N
-                new String[] {Integer.toString(
-                    component.getHiddenSelectedRowsCount())}), null);
+                    new String[]{Integer.toString(
+                        component.getHiddenSelectedRowsCount())}), null);
             writer.endElement("span"); //NOI18N
         } else {
             // Render default title text.
@@ -492,18 +481,18 @@ public class TableRenderer extends javax.faces.render.Renderer {
      * @exception IOException if an input/output error occurs.
      */
     private void renderTitleStart(FacesContext context, Table component,
-            ResponseWriter writer)throws IOException {
+            ResponseWriter writer) throws IOException {
         writer.writeText("\n", null); //NOI18N
         writer.startElement("caption", component); //NOI18N
         writer.writeAttribute("id", getId(component, Table.TITLE_BAR_ID), //NOI18N
-            null);
+                null);
         writer.writeAttribute("class", //NOI18N
-            getTheme().getStyleClass(ThemeStyles.TABLE_TITLE_TEXT), null);
+                getTheme().getStyleClass(ThemeStyles.TABLE_TITLE_TEXT), null);
 
         // Render extra HTML.
         if (component.getExtraTitleHtml() != null) {
-            RenderingUtilities.renderExtraHtmlAttributes(writer, 
-                component.getExtraTitleHtml());
+            RenderingUtilities.renderExtraHtmlAttributes(writer,
+                    component.getExtraTitleHtml());
         }
     }
 
@@ -523,7 +512,6 @@ public class TableRenderer extends javax.faces.render.Renderer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Enclosing tag methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Render enclosing tag for Table components.
      *
@@ -537,7 +525,7 @@ public class TableRenderer extends javax.faces.render.Renderer {
             Table component, ResponseWriter writer) throws IOException {
         if (component == null) {
             log("renderEnclosingTagStart", //NOI18N
-                "Cannot render enclosing tag, Table is null"); //NOI18N
+                    "Cannot render enclosing tag, Table is null"); //NOI18N
             return;
         }
 
@@ -549,7 +537,7 @@ public class TableRenderer extends javax.faces.render.Renderer {
         writer.writeAttribute("id", component.getClientId(context), null); //NOI18N
 
         // Render style.
-	String style = component.getStyle();
+        String style = component.getStyle();
         if (style != null) {
             writer.writeAttribute("style", style, null); //NOI18N
         }
@@ -562,7 +550,7 @@ public class TableRenderer extends javax.faces.render.Renderer {
         writer.startElement("div", component); //NOI18N
 
         // Render width.
-	String width = component.getWidth();
+        String width = component.getWidth();
         if (width != null) {
             // If not a percentage, units are in pixels.
             if (width.indexOf("%") == -1) { //NOI18N
@@ -582,7 +570,7 @@ public class TableRenderer extends javax.faces.render.Renderer {
         String styleClass = theme.getStyleClass(ThemeStyles.TABLE);
         if (component.isLite()) {
             styleClass += " " + //NOI18N
-		theme.getStyleClass(ThemeStyles.TABLE_LITE);
+                    theme.getStyleClass(ThemeStyles.TABLE_LITE);
         }
 
         // Render style class.
@@ -592,18 +580,18 @@ public class TableRenderer extends javax.faces.render.Renderer {
         writer.writeAttribute("width", "100%", null); //NOI18N
 
         // Render height for Creator which sets property via style.
-	if (style != null) {
-	    int first = style.indexOf("height:");
-	    if (first > -1) {
-		int last = style.indexOf(";", first);
-		if (last > -1) {
-		    writer.writeAttribute("style", style.substring(first, last + 1), null); //NOI18N
-		} else {
-		    writer.writeAttribute("style", style.substring(first), null); //NOI18N
-		}
-	    }
-	}
-	renderTableAttributes(context, component, writer);
+        if (style != null) {
+            int first = style.indexOf("height:");
+            if (first > -1) {
+                int last = style.indexOf(";", first);
+                if (last > -1) {
+                    writer.writeAttribute("style", style.substring(first, last + 1), null); //NOI18N
+                } else {
+                    writer.writeAttribute("style", style.substring(first), null); //NOI18N
+                }
+            }
+        }
+        renderTableAttributes(context, component, writer);
     }
 
     /**
@@ -617,19 +605,19 @@ public class TableRenderer extends javax.faces.render.Renderer {
      * @exception IOException if an input/output error occurs.
      */
     protected void renderTableAttributes(FacesContext context, Table component,
-	   ResponseWriter writer) throws IOException {
+            ResponseWriter writer) throws IOException {
 
         // Render border.
-	int border = component.getBorder();
+        int border = component.getBorder();
         if (border > -1) {
             writer.writeAttribute("border", //NOI18N
-                Integer.toString(border), null); //NOI18N
+                    Integer.toString(border), null); //NOI18N
         } else {
             writer.writeAttribute("border", "0", null); //NOI18N
         }
 
         // Render cellpadding.
-	String value = component.getCellPadding();
+        String value = component.getCellPadding();
         if (value != null) {
             writer.writeAttribute("cellpadding", value, null); //NOI18N
         } else {
@@ -637,7 +625,7 @@ public class TableRenderer extends javax.faces.render.Renderer {
         }
 
         // Render cellspacing.
-	value = component.getCellSpacing();
+        value = component.getCellSpacing();
         if (value != null) {
             writer.writeAttribute("cellspacing", value, null); //NOI18N
         } else {
@@ -645,14 +633,14 @@ public class TableRenderer extends javax.faces.render.Renderer {
         }
 
         // Render tooltip.
-	value = component.getToolTip();
+        value = component.getToolTip();
         if (value != null) {
             writer.writeAttribute("title", value, "toolTip"); //NOI18N
         }
 
         // Render pass through attributes.
         RenderingUtilities.writeStringAttributes(component, writer,
-            stringAttributes);
+                stringAttributes);
     }
 
     /**
@@ -672,7 +660,6 @@ public class TableRenderer extends javax.faces.render.Renderer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Get component id.
      *
@@ -699,7 +686,7 @@ public class TableRenderer extends javax.faces.render.Renderer {
             log("getSelectId", "Cannot obtain select Id, TableColumn is null"); //NOI18N
             return selectId;
         }
-    
+
         // Render nested TableColumn children.
         Iterator kids = component.getTableColumnChildren();
         if (kids.hasNext()) {
@@ -721,12 +708,12 @@ public class TableRenderer extends javax.faces.render.Renderer {
                 if (group != null) {
                     // Get column and group id.
                     String colId = component.getClientId(context);
-                    String groupId = group.getClientId(context) + 
-                        NamingContainer.SEPARATOR_CHAR;
+                    String groupId = group.getClientId(context) +
+                            NamingContainer.SEPARATOR_CHAR;
                     try {
-                        selectId = colId.substring(groupId.length(), 
-                            colId.length()) + NamingContainer.SEPARATOR_CHAR +
-                            component.getSelectId();
+                        selectId = colId.substring(groupId.length(),
+                                colId.length()) + NamingContainer.SEPARATOR_CHAR +
+                                component.getSelectId();
                     } catch (IndexOutOfBoundsException e) {
                         // Do nothing.
                     }
@@ -761,7 +748,7 @@ public class TableRenderer extends javax.faces.render.Renderer {
             }
         } else {
             log("getSelectSortMenuOptionValue", //NOI18N
-                "Cannot obtain select sort menu option value, TableRowGroup is null"); //NOI18N
+                    "Cannot obtain select sort menu option value, TableRowGroup is null"); //NOI18N
         }
         return null;
     }
@@ -805,8 +792,8 @@ public class TableRenderer extends javax.faces.render.Renderer {
             boolean descending) {
         // Get undetermined tooltip.
         String tooltip = (descending)
-            ? "table.sort.augment.undeterminedDescending" //NOI18N
-            : "table.sort.augment.undeterminedAscending"; //NOI18N
+                ? "table.sort.augment.undeterminedDescending" //NOI18N
+                : "table.sort.augment.undeterminedAscending"; //NOI18N
 
         // Append array of ascending sort order tooltips.
         JSONArray json = new JSONArray();
@@ -828,7 +815,7 @@ public class TableRenderer extends javax.faces.render.Renderer {
             }
         } else {
             log("getSortToolTipJavascript", //NOI18N
-                "Cannot obtain Javascript array of sort tool tips, TableRowGroup is null"); //NOI18N
+                    "Cannot obtain Javascript array of sort tool tips, TableRowGroup is null"); //NOI18N
         }
         return json;
     }
@@ -858,7 +845,7 @@ public class TableRenderer extends javax.faces.render.Renderer {
 
     /** Helper method to get Theme objects. */
     private Theme getTheme() {
-	return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
+        return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
     }
 
     /**
@@ -867,7 +854,7 @@ public class TableRenderer extends javax.faces.render.Renderer {
     private void log(String method, String message) {
         // Get class.
         Class clazz = this.getClass();
-	if (LogUtil.fineEnabled(clazz)) {
+        if (LogUtil.fineEnabled(clazz)) {
             // Log method name and message.
             LogUtil.fine(clazz, clazz.getName() + "." + method + ": " + message); //NOI18N
         }
@@ -894,7 +881,7 @@ public class TableRenderer extends javax.faces.render.Renderer {
             StringBuffer buff = new StringBuffer(1024);
             JSONObject json = new JSONObject();
             json.put("id", component.getClientId(context));
-            
+
             appendPanelProperties(context, component, json);
             appendFilterProperties(context, component, json);
             appendSortPanelProperties(context, component, json);
@@ -902,17 +889,15 @@ public class TableRenderer extends javax.faces.render.Renderer {
             appendGroupPanelProperties(context, component, json);
 
             // Append JavaScript.
-            buff.append(JavaScriptUtilities.getModule("table"))
-                .append("\n") // NOI18N
-                .append(JavaScriptUtilities.getModuleName("table.init")) // NOI18N
-                .append("(") //NOI18N
-                .append(json.toString(JavaScriptUtilities.INDENT_FACTOR))
-                .append(");"); //NOI18N
+            buff.append(JavaScriptUtilities.getModule("table")).append("\n") // NOI18N
+                    .append(JavaScriptUtilities.getModuleName("table.init")) // NOI18N
+                    .append("(") //NOI18N
+                    .append(json.toString(JavaScriptUtilities.INDENT_FACTOR)).append(");"); //NOI18N
 
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(component, writer,
-                buff.toString());
-        } catch(JSONException e) {
+                    buff.toString());
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
@@ -926,11 +911,11 @@ public class TableRenderer extends javax.faces.render.Renderer {
      *
      * @exception IOException if an input/output error occurs.
      */
-    private void appendPanelProperties(FacesContext context, 
+    private void appendPanelProperties(FacesContext context,
             Table component, JSONObject json) throws IOException, JSONException {
         if (component == null) {
             log("appendPanelProperties", //NOI18N
-                "Cannot obtain properties, Table is null"); //NOI18N
+                    "Cannot obtain properties, Table is null"); //NOI18N
             return;
         }
 
@@ -940,18 +925,16 @@ public class TableRenderer extends javax.faces.render.Renderer {
         UIComponent panels = component.getFacet(Table.EMBEDDED_PANELS_ID);
         if (panels == null) {
             log("appendPanelProperties", //NOI18N
-                "Cannot obtain panel properties, embedded panels facet is null"); //NOI18N
+                    "Cannot obtain panel properties, embedded panels facet is null"); //NOI18N
             return;
         }
 
         Theme theme = getTheme();
         String prefix = panels.getClientId(context) + NamingContainer.SEPARATOR_CHAR;
-        
+
         // Append array of panel Ids.
         JSONArray ary1 = new JSONArray();
-        ary1.put(prefix + TablePanels.SORT_PANEL_ID)
-            .put(prefix + TablePanels.PREFERENCES_PANEL_ID)
-            .put(prefix + TablePanels.FILTER_PANEL_ID);
+        ary1.put(prefix + TablePanels.SORT_PANEL_ID).put(prefix + TablePanels.PREFERENCES_PANEL_ID).put(prefix + TablePanels.FILTER_PANEL_ID);
         json.put("panelIds", ary1);
 
         // Don't invoke component.getTableActionsTop() here because it will
@@ -960,7 +943,7 @@ public class TableRenderer extends javax.faces.render.Renderer {
         UIComponent actions = component.getFacet(Table.TABLE_ACTIONS_TOP_ID);
         if (actions == null) {
             log("appendPanelProperties", //NOI18N
-                "Cannot obtain properties, facet is null"); //NOI18N
+                    "Cannot obtain properties, facet is null"); //NOI18N
             return;
         }
 
@@ -968,11 +951,10 @@ public class TableRenderer extends javax.faces.render.Renderer {
         JSONArray ary2 = new JSONArray();
         ary2.put((component.getSortPanelFocusId() != null)
                 ? component.getSortPanelFocusId()
-                : prefix + TablePanels.PRIMARY_SORT_COLUMN_MENU_ID)
-            .put((component.getPreferencesPanelFocusId() != null)
+                : prefix + TablePanels.PRIMARY_SORT_COLUMN_MENU_ID).put((component.getPreferencesPanelFocusId() != null)
                 ? component.getPreferencesPanelFocusId() //NOI18N
                 : JSONObject.NULL) //NOI18N
-            .put((component.getFilterPanelFocusId() != null)
+                .put((component.getFilterPanelFocusId() != null)
                 ? component.getFilterPanelFocusId() //NOI18N
                 : JSONObject.NULL); //NOI18N
         json.put("panelFocusIds", ary2);
@@ -981,24 +963,18 @@ public class TableRenderer extends javax.faces.render.Renderer {
 
         // Append array of panel toggle Ids.
         JSONArray ary3 = new JSONArray();
-        ary3.put(prefix + TableActions.SORT_PANEL_TOGGLE_BUTTON_ID)
-            .put(prefix + TableActions.PREFERENCES_PANEL_TOGGLE_BUTTON_ID)
-            .put((component.getFilterId() != null)
+        ary3.put(prefix + TableActions.SORT_PANEL_TOGGLE_BUTTON_ID).put(prefix + TableActions.PREFERENCES_PANEL_TOGGLE_BUTTON_ID).put((component.getFilterId() != null)
                 ? component.getFilterId() : JSONObject.NULL); //NOI18N
         json.put("panelToggleIds", ary3);
 
         // Append array of toggle icons for open panels.
         JSONArray ary4 = new JSONArray();
-        ary4.put(theme.getImagePath(ThemeImages.TABLE_SORT_PANEL_FLIP))
-            .put(theme.getImagePath(ThemeImages.TABLE_PREFERENCES_PANEL_FLIP))
-            .put(JSONObject.NULL);
+        ary4.put(theme.getImagePath(ThemeImages.TABLE_SORT_PANEL_FLIP)).put(theme.getImagePath(ThemeImages.TABLE_PREFERENCES_PANEL_FLIP)).put(JSONObject.NULL);
         json.put("panelToggleIconsOpen", ary4);
 
         // Append array of toggle icons for closed panels.
         JSONArray ary5 = new JSONArray();
-        ary5.put(theme.getImagePath(ThemeImages.TABLE_SORT_PANEL))
-            .put(theme.getImagePath(ThemeImages.TABLE_PREFERENCES_PANEL))
-            .put(JSONObject.NULL); //NOI18N
+        ary5.put(theme.getImagePath(ThemeImages.TABLE_SORT_PANEL)).put(theme.getImagePath(ThemeImages.TABLE_PREFERENCES_PANEL)).put(JSONObject.NULL); //NOI18N
         json.put("panelToggleIconsClose", ary5);
     }
 
@@ -1011,19 +987,16 @@ public class TableRenderer extends javax.faces.render.Renderer {
      *
      * @exception IOException if an input/output error occurs.
      */
-    private void appendFilterProperties(FacesContext context, 
+    private void appendFilterProperties(FacesContext context,
             Table component, JSONObject json) throws IOException, JSONException {
         if (component == null) {
             log("apppendFilterProperties", //NOI18N
-                "Cannot obtain properties, Table is null"); //NOI18N
+                    "Cannot obtain properties, Table is null"); //NOI18N
             return;
         }
 
         Theme theme = getTheme();
-        json.put("basicFilterStyleClass", theme.getStyleClass(ThemeStyles.MENU_JUMP))
-            .put("customFilterStyleClass", theme.getStyleClass(ThemeStyles.TABLE_CUSTOM_FILTER_MENU))
-            .put("customFilterOptionValue", Table.CUSTOM_FILTER)
-            .put("customFilterAppliedOptionValue", Table.CUSTOM_FILTER_APPLIED);
+        json.put("basicFilterStyleClass", theme.getStyleClass(ThemeStyles.MENU_JUMP)).put("customFilterStyleClass", theme.getStyleClass(ThemeStyles.TABLE_CUSTOM_FILTER_MENU)).put("customFilterOptionValue", Table.CUSTOM_FILTER).put("customFilterAppliedOptionValue", Table.CUSTOM_FILTER_APPLIED);
     }
 
     /**
@@ -1035,11 +1008,11 @@ public class TableRenderer extends javax.faces.render.Renderer {
      *
      * @exception IOException if an input/output error occurs.
      */
-    private void appendGroupProperties(FacesContext context, 
+    private void appendGroupProperties(FacesContext context,
             Table component, JSONObject json) throws IOException, JSONException {
         if (component == null) {
             log("appendGroupProperties", //NOI18N
-                "Cannot obtain properties, Table is null"); //NOI18N
+                    "Cannot obtain properties, Table is null"); //NOI18N
             return;
         }
 
@@ -1051,7 +1024,7 @@ public class TableRenderer extends javax.faces.render.Renderer {
         Iterator kids = component.getTableRowGroupChildren();
         while (kids.hasNext()) {
             TableRowGroup group = (TableRowGroup) kids.next();
-            
+
             // Iterate over each TableColumn chlid to find selectId.
             String selectId = null;
             Iterator grandkids = group.getTableColumnChildren();
@@ -1112,10 +1085,7 @@ public class TableRenderer extends javax.faces.render.Renderer {
                 ary4.put(0); //NOI18N
             }
         }
-        json.put("hiddenSelectedRowCounts", ary4)
-            .put("hiddenSelectionsMsg", theme.getMessage("table.confirm.hiddenSelections"))
-            .put("totalSelectionsMsg", theme.getMessage("table.confirm.totalSelections"))
-            .put("deleteSelectionsMsg", theme.getMessage("table.confirm.deleteSelections"));
+        json.put("hiddenSelectedRowCounts", ary4).put("hiddenSelectionsMsg", theme.getMessage("table.confirm.hiddenSelections")).put("totalSelectionsMsg", theme.getMessage("table.confirm.totalSelections")).put("deleteSelectionsMsg", theme.getMessage("table.confirm.deleteSelections"));
     }
 
     /**
@@ -1127,40 +1097,24 @@ public class TableRenderer extends javax.faces.render.Renderer {
      *
      * @exception IOException if an input/output error occurs.
      */
-    private void appendGroupPanelProperties(FacesContext context, 
+    private void appendGroupPanelProperties(FacesContext context,
             Table component, JSONObject json) throws IOException, JSONException {
         if (component == null) {
             log("appendGroupPanelProperties", //NOI18N
-                "Cannot obtain properties, Table is null"); //NOI18N
+                    "Cannot obtain properties, Table is null"); //NOI18N
             return;
         }
 
         // Get ID prefix for TableHeader components.
         String prefix = TableRowGroup.GROUP_HEADER_ID +
-            NamingContainer.SEPARATOR_CHAR; 
+                NamingContainer.SEPARATOR_CHAR;
 
         Theme theme = getTheme();
-        json.put("columnFooterId", TableRowGroup.COLUMN_FOOTER_BAR_ID)
-            .put("columnHeaderId", TableRowGroup.COLUMN_HEADER_BAR_ID)
-            .put("tableColumnFooterId", TableRowGroup.TABLE_COLUMN_FOOTER_BAR_ID)
-            .put("groupFooterId", TableRowGroup.GROUP_FOOTER_BAR_ID)
-            .put("groupPanelToggleButtonId", prefix + TableHeader.GROUP_PANEL_TOGGLE_BUTTON_ID)
-            .put("groupPanelToggleButtonToolTipOpen", theme.getMessage("table.group.collapse"))
-            .put("groupPanelToggleButtonToolTipClose", theme.getMessage("table.group.expand"))
-            .put("groupPanelToggleIconOpen", theme.getImagePath(
-		ThemeImages.TABLE_GROUP_PANEL_FLIP))
-            .put("groupPanelToggleIconClose", theme.getImagePath(
-		ThemeImages.TABLE_GROUP_PANEL))
-            .put("warningIconId", prefix + TableHeader.WARNING_ICON_ID)
-            .put("warningIconOpen", theme.getImagePath(ThemeImages.DOT))
-            .put("warningIconClose", theme.getImagePath(
-		ThemeImages.ALERT_WARNING_SMALL))
-            .put("warningIconToolTipOpen", JSONObject.NULL) // No tooltip for place holder icon.
-            .put("warningIconToolTipClose", theme.getMessage("table.group.warning"))     
-            .put("collapsedHiddenFieldId", prefix + TableHeader.COLLAPSED_HIDDEN_FIELD_ID)
-            .put("selectMultipleToggleButtonId", prefix + TableHeader.SELECT_MULTIPLE_TOGGLE_BUTTON_ID)
-            .put("selectMultipleToggleButtonToolTip", theme.getMessage("table.group.selectMultiple"))
-            .put("selectMultipleToggleButtonToolTipSelected", theme.getMessage("table.group.deselectMultiple"));
+        json.put("columnFooterId", TableRowGroup.COLUMN_FOOTER_BAR_ID).put("columnHeaderId", TableRowGroup.COLUMN_HEADER_BAR_ID).put("tableColumnFooterId", TableRowGroup.TABLE_COLUMN_FOOTER_BAR_ID).put("groupFooterId", TableRowGroup.GROUP_FOOTER_BAR_ID).put("groupPanelToggleButtonId", prefix + TableHeader.GROUP_PANEL_TOGGLE_BUTTON_ID).put("groupPanelToggleButtonToolTipOpen", theme.getMessage("table.group.collapse")).put("groupPanelToggleButtonToolTipClose", theme.getMessage("table.group.expand")).put("groupPanelToggleIconOpen", theme.getImagePath(
+                ThemeImages.TABLE_GROUP_PANEL_FLIP)).put("groupPanelToggleIconClose", theme.getImagePath(
+                ThemeImages.TABLE_GROUP_PANEL)).put("warningIconId", prefix + TableHeader.WARNING_ICON_ID).put("warningIconOpen", theme.getImagePath(ThemeImages.DOT)).put("warningIconClose", theme.getImagePath(
+                ThemeImages.ALERT_WARNING_SMALL)).put("warningIconToolTipOpen", JSONObject.NULL) // No tooltip for place holder icon.
+                .put("warningIconToolTipClose", theme.getMessage("table.group.warning")).put("collapsedHiddenFieldId", prefix + TableHeader.COLLAPSED_HIDDEN_FIELD_ID).put("selectMultipleToggleButtonId", prefix + TableHeader.SELECT_MULTIPLE_TOGGLE_BUTTON_ID).put("selectMultipleToggleButtonToolTip", theme.getMessage("table.group.selectMultiple")).put("selectMultipleToggleButtonToolTipSelected", theme.getMessage("table.group.deselectMultiple"));
     }
 
     /**
@@ -1172,11 +1126,11 @@ public class TableRenderer extends javax.faces.render.Renderer {
      *
      * @exception IOException if an input/output error occurs.
      */
-    private void appendSortPanelProperties(FacesContext context, 
+    private void appendSortPanelProperties(FacesContext context,
             Table component, JSONObject json) throws IOException, JSONException {
         if (component == null) {
             log("appendSortPanelProperties", //NOI18N
-                "Cannot obtain properties, Table is null"); //NOI18N
+                    "Cannot obtain properties, Table is null"); //NOI18N
             return;
         }
 
@@ -1186,7 +1140,7 @@ public class TableRenderer extends javax.faces.render.Renderer {
         UIComponent panels = component.getFacet(Table.EMBEDDED_PANELS_ID);
         if (panels == null) {
             log("appendSortPanelProperties", //NOI18N
-                "Cannot obtain properties, Embedded panels facet is null"); //NOI18N
+                    "Cannot obtain properties, Embedded panels facet is null"); //NOI18N
             return;
         }
 
@@ -1195,36 +1149,26 @@ public class TableRenderer extends javax.faces.render.Renderer {
 
         // Append array of sort column menu Ids.
         JSONArray ary1 = new JSONArray();
-        ary1.put(prefix + TablePanels.PRIMARY_SORT_COLUMN_MENU_ID)
-            .put(prefix + TablePanels.SECONDARY_SORT_COLUMN_MENU_ID)
-            .put(prefix + TablePanels.TERTIARY_SORT_COLUMN_MENU_ID);
+        ary1.put(prefix + TablePanels.PRIMARY_SORT_COLUMN_MENU_ID).put(prefix + TablePanels.SECONDARY_SORT_COLUMN_MENU_ID).put(prefix + TablePanels.TERTIARY_SORT_COLUMN_MENU_ID);
         json.put("sortColumnMenuIds", ary1);
 
         // Append array of sort order menu Ids.
         JSONArray ary2 = new JSONArray();
-        ary2.put(prefix + TablePanels.PRIMARY_SORT_ORDER_MENU_ID)
-            .put(prefix + TablePanels.SECONDARY_SORT_ORDER_MENU_ID)
-            .put(prefix + TablePanels.TERTIARY_SORT_ORDER_MENU_ID);
+        ary2.put(prefix + TablePanels.PRIMARY_SORT_ORDER_MENU_ID).put(prefix + TablePanels.SECONDARY_SORT_ORDER_MENU_ID).put(prefix + TablePanels.TERTIARY_SORT_ORDER_MENU_ID);
         json.put("sortOrderMenuIds", ary2);
 
         // Append array of sort order tooltips.
         JSONArray ary3 = new JSONArray();
         ary3.put(theme.getMessage("table.panel.primarySortOrder")) //NOI18N
-            .put(theme.getMessage("table.panel.secondarySortOrder")) //NOI18N
-            .put(theme.getMessage("table.panel.tertiarySortOrder")); //NOI18N
+                .put(theme.getMessage("table.panel.secondarySortOrder")) //NOI18N
+                .put(theme.getMessage("table.panel.tertiarySortOrder")); //NOI18N
         json.put("sortOrderToolTips", ary3);
-        
+
         // Append sort menu option value for select column and paginated flag.
         String value = getSelectSortMenuOptionValue(component);
         TableRowGroup group = component.getTableRowGroupChild();
-        json.put("sortOrderToolTipsAscending", getSortToolTipJavascript(component, false))
-            .put("sortOrderToolTipsDescending", getSortToolTipJavascript(component, true))
-            .put("duplicateSelectionMsg", theme.getMessage(
-                "table.panel.duplicateSelectionError"))
-            .put("missingSelectionMsg", theme.getMessage(
-                "table.panel.missingSelectionError"))
-            .put("selectSortMenuOptionValue", (value != null) ? value : null)
-            .put("hiddenSelectedRows", component.isHiddenSelectedRows())
-            .put("paginated", group != null ? group.isPaginated() : false);
+        json.put("sortOrderToolTipsAscending", getSortToolTipJavascript(component, false)).put("sortOrderToolTipsDescending", getSortToolTipJavascript(component, true)).put("duplicateSelectionMsg", theme.getMessage(
+                "table.panel.duplicateSelectionError")).put("missingSelectionMsg", theme.getMessage(
+                "table.panel.missingSelectionError")).put("selectSortMenuOptionValue", (value != null) ? value : null).put("hiddenSelectedRows", component.isHiddenSelectedRows()).put("paginated", group != null ? group.isPaginated() : false);
     }
 }

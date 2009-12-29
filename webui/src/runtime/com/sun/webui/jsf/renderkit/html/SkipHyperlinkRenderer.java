@@ -19,82 +19,75 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
-
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.faces.annotation.Renderer;
 import java.io.IOException;
-
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-
-import com.sun.webui.jsf.component.Icon;
 import com.sun.webui.jsf.component.SkipHyperlink;
 import com.sun.webui.theme.Theme;
-import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.jsf.theme.ThemeStyles;
 import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
-
-
-
 
 /**
  * <p>This class is responsible for rendering the {@link SkipHyperlink}
  * component.</p>
  */
-@Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.SkipHyperlink"))
+@Renderer(@Renderer.Renders(componentFamily = "com.sun.webui.jsf.SkipHyperlink"))
 public class SkipHyperlinkRenderer extends javax.faces.render.Renderer {
-        
+
     /** Creates a new instance of AlertRenderer */
     public SkipHyperlinkRenderer() {
         // default constructor
     }
-    
+
     // We don't render our own children - defer to the default behaviour,
     // which allows for interweaving compoenents with non-components.
+    @Override
     public boolean getRendersChildren() {
         return false;
     }
-    
+
+    @Override
     public void encodeBegin(FacesContext context, UIComponent component)
-    throws IOException {
-        
+            throws IOException {
+
         SkipHyperlink link = (SkipHyperlink) component;
-        if(!link.isRendered()) {
+        if (!link.isRendered()) {
             return;
         }
         ResponseWriter writer = context.getResponseWriter();
-        
+
         // Get the theme
         Theme theme = ThemeUtilities.getTheme(context);
-        
+
         // Components must have a top-level element with the component ID
-        Integer index = null; 
-        int tabIndex = link.getTabIndex(); 
-        if(tabIndex != Integer.MIN_VALUE) { 
-            index = new Integer(tabIndex); 
-        }        
-        
+        Integer index = null;
+        int tabIndex = link.getTabIndex();
+        if (tabIndex != Integer.MIN_VALUE) {
+            index = new Integer(tabIndex);
+        }
+
         String styleClass = (link.getStyleClass() != null)
-            ? link.getStyleClass()
-            : theme.getStyleClass(ThemeStyles.SKIP_WHITE);
-        
-        RenderingUtilities.renderSkipLink("", styleClass, link.getStyle(), 
-                       link.getDescription(), index, link, context);
+                ? link.getStyleClass()
+                : theme.getStyleClass(ThemeStyles.SKIP_WHITE);
+
+        RenderingUtilities.renderSkipLink("", styleClass, link.getStyle(),
+                link.getDescription(), index, link, context);
         writer.write("\n"); //NOI18N        
     }
-    
-    
+
+    @Override
     public void encodeEnd(FacesContext context, UIComponent component)
-    throws IOException {
-        
+            throws IOException {
+
         SkipHyperlink link = (SkipHyperlink) component;
-        if(!link.isRendered()) {
+        if (!link.isRendered()) {
             return;
         }
-        RenderingUtilities.renderAnchor("", component, context);   
+        RenderingUtilities.renderAnchor("", component, context);
     }
 }

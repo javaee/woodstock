@@ -20,52 +20,38 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 
- /*
-  * $Id: StaticTextRenderer.java,v 1.1 2007-02-16 01:44:25 bob_yennaco Exp $
-  */
-
+/*
+ * $Id: StaticTextRenderer.java,v 1.1.20.1 2009-12-29 04:52:44 jyeary Exp $
+ */
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.StaticText;
-import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.util.ConversionUtilities;
-
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Iterator;
-
-import javax.faces.component.EditableValueHolder;
-import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
-
 /**
  * <p>Renderer for a {@link StaticText} component.</p>
  */
-
-@Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.StaticText"))
+@Renderer(@Renderer.Renders(componentFamily = "com.sun.webui.jsf.StaticText"))
 public class StaticTextRenderer extends AbstractRenderer {
 
 
     // ======================================================== Static Variables
-
-
     /**
      * <p>The set of String pass-through attributes to be rendered.</p>
      */
-    private static final String stringAttributes[] =
-    { "onClick", "onDblClick", "onMouseUp", //NOI18N
-      "onMouseDown", "onMouseMove", "onMouseOut", "onMouseOver"}; //NOI18N
+    private static final String stringAttributes[] = {"onClick", "onDblClick", "onMouseUp", //NOI18N
+        "onMouseDown", "onMouseMove", "onMouseOut", "onMouseOver"}; //NOI18N
 
 
-      // -------------------------------------------------------- Renderer Methods
-
-
+    // -------------------------------------------------------- Renderer Methods
     /**
      * <p>Render the appropriate element start, depending on whether the
      * <code>for</code> property is set or not.</p>
@@ -77,13 +63,13 @@ public class StaticTextRenderer extends AbstractRenderer {
      *
      * @exception IOException if an input/output error occurs
      */
+    @Override
     protected void renderStart(FacesContext context, UIComponent component,
-                               ResponseWriter writer) throws IOException {
+            ResponseWriter writer) throws IOException {
 
-	writer.writeText("\n", null); //NOI18N
+        writer.writeText("\n", null); //NOI18N
         writer.startElement("span", component);
     }
-
 
     /**
      * <p>Render the appropriate element attributes, followed by the
@@ -97,8 +83,9 @@ public class StaticTextRenderer extends AbstractRenderer {
      *
      * @exception IOException if an input/output error occurs
      */
+    @Override
     protected void renderAttributes(FacesContext context, UIComponent component,
-                                    ResponseWriter writer) throws IOException {
+            ResponseWriter writer) throws IOException {
 
         StaticText st = (StaticText) component;
         addCoreAttributes(context, component, writer, null);
@@ -106,8 +93,7 @@ public class StaticTextRenderer extends AbstractRenderer {
         if (st.getToolTip() != null) {
             writer.writeAttribute("title", st.getToolTip(), null);
         }
-     }
-
+    }
 
     /**
      * <p>Render the appropriate element end, depending on whether the
@@ -121,13 +107,14 @@ public class StaticTextRenderer extends AbstractRenderer {
      *
      * @exception IOException if an input/output error occurs
      */
+    @Override
     protected void renderEnd(FacesContext context, UIComponent component,
-                             ResponseWriter writer) throws IOException {
+            ResponseWriter writer) throws IOException {
         StaticText staticText = (StaticText) component;
 
         String currentValue =
-		ConversionUtilities.convertValueToString(component,
-			staticText.getText());
+                ConversionUtilities.convertValueToString(component,
+                staticText.getText());
 
         String style = staticText.getStyle();
         String styleClass = staticText.getStyleClass();
@@ -154,9 +141,7 @@ public class StaticTextRenderer extends AbstractRenderer {
             // use the string as a MessageFormat instance.
             String message = null;
             if (parameterList.size() > 0) {
-                message = MessageFormat.format
-                    (currentValue, parameterList.toArray
-                                   (new Object[parameterList.size()]));
+                message = MessageFormat.format(currentValue, parameterList.toArray(new Object[parameterList.size()]));
             } else {
                 message = currentValue;
             }
@@ -171,10 +156,5 @@ public class StaticTextRenderer extends AbstractRenderer {
         }
         writer.endElement("span");
     }
-
-
     // --------------------------------------------------------- Private Methods
-
-
-
 }

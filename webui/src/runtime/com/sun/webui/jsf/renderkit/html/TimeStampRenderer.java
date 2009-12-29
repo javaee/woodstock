@@ -19,7 +19,6 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.faces.annotation.Renderer;
@@ -27,11 +26,9 @@ import java.util.Date;
 import java.util.Locale;
 import java.io.IOException;
 import java.text.DateFormat;
-
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.component.UIComponent;
-
 import com.sun.webui.jsf.component.TimeStamp;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeStyles;
@@ -43,17 +40,15 @@ import com.sun.webui.jsf.util.RenderingUtilities;
  *
  * @author Sean Comerford
  */
-@Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.TimeStamp"))
+@Renderer(@Renderer.Renders(componentFamily = "com.sun.webui.jsf.TimeStamp"))
 public class TimeStampRenderer extends AbstractRenderer {
-    
+
     /** Creates a new instance of TimeStampRenderer */
     public TimeStampRenderer() {
     }
-    
     // Core attributes that are simple pass throughs
-    private static final String coreAttributes[] =
-    { "style", "title" }; // NOI18N
-    
+    private static final String coreAttributes[] = {"style", "title"}; // NOI18N
+
     /**
      * <p>Render the end element for the TimeStamp.</p>
      *
@@ -65,56 +60,57 @@ public class TimeStampRenderer extends AbstractRenderer {
      *
      * @exception IOException if an input/output error occurs
      */
+    @Override
     protected void renderEnd(FacesContext context, UIComponent component,
             ResponseWriter writer) throws IOException {
         TimeStamp timeStamp = (TimeStamp) component;
         Theme theme = ThemeUtilities.getTheme(context);
-        
+
         if (!timeStamp.isRendered()) {
             return;
-        }        
-        
+        }
+
         String textStyle = theme.getStyleClass(ThemeStyles.TIMESTAMP_TEXT);
-        
+
         StringBuffer sb = new StringBuffer(timeStamp.getClientId(context));
-        int idlen = sb.length(); 
-        
+        int idlen = sb.length();
+
         writer.startElement("span", timeStamp); // NOI18N
         writer.writeAttribute("id", sb.toString(), "id"); // NOI18N
         writer.startElement("span", timeStamp); // NOI18N
-        
+
         writer.writeAttribute("id", sb.append("_span1"), "id"); // NOI18N
         //Reset the length
-        sb.setLength(idlen); 
-        
+        sb.setLength(idlen);
+
         RenderingUtilities.renderStyleClass(context, writer, component, textStyle);
         addStringAttributes(context, component, writer, coreAttributes);
-        
-        String message = timeStamp.getText();        
+
+        String message = timeStamp.getText();
         if (message == null) {
             // use the default "Last updated:" message
             message = theme.getMessage("TimeStamp.lastUpdate"); // NOI18N
         }
-        
+
         writer.write(message);
         writer.endElement("span"); // NOI18N
         writer.write("&nbsp;"); // NOI18N
         writer.startElement("span", timeStamp); // NOI18N
-        
+
         writer.writeAttribute("id", sb.append("_span2"), "id"); // NOI18N
-        
+
         RenderingUtilities.renderStyleClass(context, writer, component, textStyle);
         addStringAttributes(context, component, writer, coreAttributes);
-        
-        Locale locale =                
-            FacesContext.getCurrentInstance().getViewRoot().getLocale();        
-        
+
+        Locale locale =
+                FacesContext.getCurrentInstance().getViewRoot().getLocale();
+
         DateFormat dateFormat = DateFormat.getDateTimeInstance(
-            Integer.parseInt(theme.getMessage("TimeStamp.dateStyle")), // NOI18N
+                Integer.parseInt(theme.getMessage("TimeStamp.dateStyle")), // NOI18N
                 Integer.parseInt(theme.getMessage("TimeStamp.timeStyle")), locale); // NOI18N
-        
+
         writer.write(dateFormat.format(new Date())); // NOI18N
-        
+
         writer.endElement("span"); // NOI18N
         writer.endElement("span"); // NOI18N
     }

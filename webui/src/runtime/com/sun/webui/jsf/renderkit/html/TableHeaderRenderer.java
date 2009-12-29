@@ -19,12 +19,9 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.faces.annotation.Renderer;
-import com.sun.data.provider.SortCriteria;
-import com.sun.webui.jsf.component.Table;
 import com.sun.webui.jsf.component.TableColumn;
 import com.sun.webui.jsf.component.TableHeader;
 import com.sun.webui.jsf.component.TableRowGroup;
@@ -34,10 +31,8 @@ import com.sun.webui.jsf.util.FocusManager;
 import com.sun.webui.jsf.util.LogUtil;
 import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
-
 import java.io.IOException;
 import java.util.Iterator;
-
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -53,8 +48,9 @@ import javax.faces.context.ResponseWriter;
  * com.sun.webui.jsf.renderkit.html.TableHeaderRenderer.level = FINE
  * </pre></p>
  */
-@Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.TableHeader"))
+@Renderer(@Renderer.Renders(componentFamily = "com.sun.webui.jsf.TableHeader"))
 public class TableHeaderRenderer extends javax.faces.render.Renderer {
+
     /**
      * The set of String pass-through attributes to be rendered.
      * <p>
@@ -92,7 +88,6 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Renderer methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Render the beginning of the specified UIComponent to the output stream or 
      * writer associated with the response we are creating.
@@ -103,11 +98,12 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
      * @exception IOException if an input/output error occurs.
      * @exception NullPointerException if context or component is null.
      */
+    @Override
     public void encodeBegin(FacesContext context, UIComponent component)
             throws IOException {
         if (context == null || component == null) {
             log("encodeBegin", //NOI18N
-                "Cannot render, FacesContext or UIComponent is null"); //NOI18N
+                    "Cannot render, FacesContext or UIComponent is null"); //NOI18N
             throw new NullPointerException();
         }
         if (!component.isRendered()) {
@@ -130,11 +126,12 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
      * @exception IOException if an input/output error occurs.
      * @exception NullPointerException if context or component is null.
      */
+    @Override
     public void encodeChildren(FacesContext context, UIComponent component)
             throws IOException {
         if (context == null || component == null) {
             log("encodeChildren", //NOI18N
-                "Cannot render, FacesContext or UIComponent is null"); //NOI18N
+                    "Cannot render, FacesContext or UIComponent is null"); //NOI18N
             throw new NullPointerException();
         }
         if (!component.isRendered()) {
@@ -167,11 +164,12 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
      * @exception IOException if an input/output error occurs.
      * @exception NullPointerException if context or component is null.
      */
+    @Override
     public void encodeEnd(FacesContext context, UIComponent component)
             throws IOException {
         if (context == null || component == null) {
             log("encodeEnd", //NOI18N
-                "Cannot render, FacesContext or UIComponent is null"); //NOI18N
+                    "Cannot render, FacesContext or UIComponent is null"); //NOI18N
             throw new NullPointerException();
         }
         if (!component.isRendered()) {
@@ -189,6 +187,7 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
      * for rendering the children the component it is asked to render.
      * The default implementation returns false.
      */
+    @Override
     public boolean getRendersChildren() {
         return true;
     }
@@ -196,7 +195,6 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Header methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Render column headers for TableHeader components.
      *
@@ -210,14 +208,14 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
             TableHeader component, ResponseWriter writer) throws IOException {
         if (component == null) {
             log("renderColumnHeader", //NOI18N
-                "Cannot render column header, TableHeader is null"); //NOI18N
+                    "Cannot render column header, TableHeader is null"); //NOI18N
             return;
         }
 
         // Get facet.
         TableColumn col = component.getTableColumnAncestor();
         UIComponent facet = (col != null)
-            ? col.getFacet(TableColumn.HEADER_FACET) : null;
+                ? col.getFacet(TableColumn.HEADER_FACET) : null;
         if (facet != null && facet.isRendered()) {
             RenderingUtilities.renderComponent(facet, context);
         } else {
@@ -225,15 +223,15 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
             TableColumn parent = (col != null) ? col.getTableColumnAncestor() : null;
             Iterator kids = (col != null) ? col.getTableColumnChildren() : null;
             String styleClass = (kids != null && kids.hasNext())
-                ? ThemeStyles.TABLE_MULTIPLE_HEADER_TEXT
-                : ThemeStyles.TABLE_HEADER_TEXT;
+                    ? ThemeStyles.TABLE_MULTIPLE_HEADER_TEXT
+                    : ThemeStyles.TABLE_HEADER_TEXT;
 
             //  If TableColumn has a parent, then it is a leaf node.
             if (parent != null) {
                 writer.writeText("\n", null); //NOI18N
                 writer.startElement("table", component); //NOI18N
                 writer.writeAttribute("class", //NOI18N
-                    getTheme().getStyleClass(ThemeStyles.TABLE_HEADER_TABLE), null);
+                        getTheme().getStyleClass(ThemeStyles.TABLE_HEADER_TABLE), null);
                 writer.writeAttribute("border", "0", null); //NOI18N
                 writer.writeAttribute("cellpadding", "0", "cellPadding"); //NOI18N
                 writer.writeAttribute("cellspacing", "0", "cellSpacing"); //NOI18N
@@ -243,7 +241,7 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
                 writer.startElement("td", component); //NOI18N
                 writer.startElement("span", component); //NOI18N
                 writer.writeAttribute("class", //NOI18N
-                    getTheme().getStyleClass(styleClass), null);
+                        getTheme().getStyleClass(styleClass), null);
 
                 // Render header text.
                 if (col != null && col.getHeaderText() != null) {
@@ -256,7 +254,7 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
             } else {
                 writer.startElement("span", component); //NOI18N
                 writer.writeAttribute("class", //NOI18N
-                    getTheme().getStyleClass(styleClass), null);
+                        getTheme().getStyleClass(styleClass), null);
 
                 // Render header text.
                 if (col != null && col.getHeaderText() != null) {
@@ -280,14 +278,14 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
             TableHeader component, ResponseWriter writer) throws IOException {
         if (component == null) {
             log("renderSelectHeader", //NOI18N
-                "Cannot render select header, TableHeader is null"); //NOI18N
+                    "Cannot render select header, TableHeader is null"); //NOI18N
             return;
         }
 
         // Get facet.
         TableColumn col = component.getTableColumnAncestor();
         UIComponent facet = (col != null)
-            ? col.getFacet(TableColumn.HEADER_FACET) : null;
+                ? col.getFacet(TableColumn.HEADER_FACET) : null;
         if (facet != null && facet.isRendered()) {
             RenderingUtilities.renderComponent(facet, context);
         } else {
@@ -295,7 +293,7 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
             writer.writeText("\n", null); //NOI18N
             writer.startElement("table", component); //NOI18N
             writer.writeAttribute("class", //NOI18N
-                getTheme().getStyleClass(ThemeStyles.TABLE_HEADER_TABLE), null);
+                    getTheme().getStyleClass(ThemeStyles.TABLE_HEADER_TABLE), null);
             writer.writeAttribute("border", "0", null); //NOI18N
             writer.writeAttribute("cellpadding", "0", "cellPadding"); //NOI18N
             writer.writeAttribute("cellspacing", "0", "cellSpacing"); //NOI18N
@@ -307,7 +305,7 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
             writer.startElement("td", component); //NOI18N
             writer.writeAttribute("align", component.getAlign(), null); //NOI18N
             RenderingUtilities.renderComponent(
-                component.getSelectSortButton(), context);
+                    component.getSelectSortButton(), context);
             writer.endElement("td"); //NOI18N
 
             // Get sort button.
@@ -326,9 +324,9 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
                 RenderingUtilities.renderComponent(child, context);
                 writer.endElement("td"); //NOI18N
 
-		// Set the focus to the current sort control.
-		//
-		setSortFocus(context, component, child);
+                // Set the focus to the current sort control.
+                //
+                setSortFocus(context, component, child);
             }
             writer.endElement("tr"); //NOI18N
             writer.endElement("table"); //NOI18N
@@ -349,14 +347,14 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
             ResponseWriter writer) throws IOException {
         if (component == null) {
             log("renderSortHeader", //NOI18N
-                "Cannot render sort header, TableHeader is null"); //NOI18N
+                    "Cannot render sort header, TableHeader is null"); //NOI18N
             return;
         }
 
         // Get facet.
         TableColumn col = component.getTableColumnAncestor();
         UIComponent facet = (col != null)
-            ? col.getFacet(TableColumn.HEADER_FACET) : null;
+                ? col.getFacet(TableColumn.HEADER_FACET) : null;
         if (facet != null && facet.isRendered()) {
             RenderingUtilities.renderComponent(facet, context);
         } else {
@@ -364,7 +362,7 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
             writer.writeText("\n", null); //NOI18N
             writer.startElement("table", component); //NOI18N
             writer.writeAttribute("class", //NOI18N
-                getTheme().getStyleClass(ThemeStyles.TABLE_HEADER_TABLE), null);
+                    getTheme().getStyleClass(ThemeStyles.TABLE_HEADER_TABLE), null);
             writer.writeAttribute("border", "0", null); //NOI18N
             writer.writeAttribute("cellpadding", "0", "cellPadding"); //NOI18N
             writer.writeAttribute("cellspacing", "0", "cellSpacing"); //NOI18N
@@ -376,9 +374,9 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
                 writer.writeText("\n", null); //NOI18N
                 writer.startElement("td", component); //NOI18N
                 writer.writeAttribute("align", //NOI18N
-                    component.getAlign(), null); //NOI18N
+                        component.getAlign(), null); //NOI18N
                 RenderingUtilities.renderComponent(
-                    component.getPrimarySortLink(), context);
+                        component.getPrimarySortLink(), context);
                 writer.endElement("td"); //NOI18N
             }
 
@@ -393,11 +391,11 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
                 // Render primary sort button when no sorting has been applied.
                 child = component.getPrimarySortButton();
             }
-	    if (child != null) {
-		// Set the focus to the current sort control.
-		//
-		setSortFocus(context, component, child);
-	    }
+            if (child != null) {
+                // Set the focus to the current sort control.
+                //
+                setSortFocus(context, component, child);
+            }
 
             // Render sort button.
             writer.writeText("\n", null); //NOI18N
@@ -422,14 +420,14 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
             TableHeader component, ResponseWriter writer) throws IOException {
         if (component == null) {
             log("renderGroupHeader", //NOI18N
-                "Cannot render group header, TableHeader is null"); //NOI18N
+                    "Cannot render group header, TableHeader is null"); //NOI18N
             return;
         }
 
         TableRowGroup group = component.getTableRowGroupAncestor();
         if (group == null) {
             log("renderGroupHeader", //NOI18N
-                "Cannot render group header, TableRowGroup is null"); //NOI18N
+                    "Cannot render group header, TableRowGroup is null"); //NOI18N
             return;
         }
 
@@ -437,11 +435,9 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
         UIComponent facet = group.getFacet(TableRowGroup.HEADER_FACET);
         boolean renderHeader = facet != null && facet.isRendered();
         boolean renderText = group.getHeaderText() != null && !renderHeader;
-        
+
         // Don't render controls for an empty group.        
-        boolean renderTableRowGroupControls = !isEmptyGroup(component)
-            && (group != null && group.isSelectMultipleToggleButton()
-            || group.isGroupToggleButton());
+        boolean renderTableRowGroupControls = !isEmptyGroup(component) && (group != null && group.isSelectMultipleToggleButton() || group.isGroupToggleButton());
 
         if (renderText || renderTableRowGroupControls) {
             // Render alignment span.
@@ -449,7 +445,7 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
             writer.writeText("\n", null); //NOI18N
             writer.startElement("span", component); //NOI18N
             writer.writeAttribute("class", //NOI18N
-                theme.getStyleClass(ThemeStyles.TABLE_GROUP_HEADER_LEFT), null);
+                    theme.getStyleClass(ThemeStyles.TABLE_GROUP_HEADER_LEFT), null);
 
             // Render table row group controls.
             if (renderTableRowGroupControls) {
@@ -457,7 +453,7 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
                 if (group.isSelectMultipleToggleButton()) {
                     writer.writeText("\n", null); //NOI18N
                     RenderingUtilities.renderComponent(
-                        component.getSelectMultipleToggleButton(), context);
+                            component.getSelectMultipleToggleButton(), context);
                 }
 
                 // Do not render warning icon unless selectId is used.
@@ -465,11 +461,11 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
                     writer.writeText("\n", null); //NOI18N
                     writer.startElement("span", component); //NOI18N
                     writer.writeAttribute("class", //NOI18N
-                        theme.getStyleClass(ThemeStyles.TABLE_GROUP_HEADER_IMAGE),
-                        null);
+                            theme.getStyleClass(ThemeStyles.TABLE_GROUP_HEADER_IMAGE),
+                            null);
                     writer.writeText("\n", null); //NOI18N
                     RenderingUtilities.renderComponent(
-                        component.getWarningIcon(), context);
+                            component.getWarningIcon(), context);
                     writer.endElement("span"); //NOI18N
                 }
 
@@ -477,11 +473,11 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
                 if (group.isGroupToggleButton()) {
                     writer.writeText("\n", null); //NOI18N
                     RenderingUtilities.renderComponent(
-                        component.getGroupPanelToggleButton(), context);
+                            component.getGroupPanelToggleButton(), context);
 
                     // Render hidden field for collapsed property.
                     RenderingUtilities.renderComponent(
-                        component.getCollapsedHiddenField(), context);
+                            component.getCollapsedHiddenField(), context);
                 }
 
                 // Add space between controls and facet text.
@@ -495,15 +491,15 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
                 writer.writeText("\n", null); //NOI18N
                 writer.startElement("span", component); //NOI18N
                 writer.writeAttribute("class", //NOI18N
-                    theme.getStyleClass(ThemeStyles.TABLE_GROUP_HEADER_TEXT),
-                    null);
+                        theme.getStyleClass(ThemeStyles.TABLE_GROUP_HEADER_TEXT),
+                        null);
                 writer.writeText(group.getHeaderText(), null);
                 writer.endElement("span"); //NOI18N
             }
             writer.endElement("span"); //NOI18N
         } else {
             log("renderGroupHeader", //NOI18N
-                "Group controls not rendered, empty group found"); //NOI18N
+                    "Group controls not rendered, empty group found"); //NOI18N
         }
 
         // Render facet.
@@ -515,7 +511,6 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Enclosing tag methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Render enclosing tag for TableHeader components.
      *
@@ -529,7 +524,7 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
             TableHeader component, ResponseWriter writer) throws IOException {
         if (component == null) {
             log("renderEnclosingTagStart", //NOI18N
-                "Cannot render enclosing tag, TableHeader is null"); //NOI18N
+                    "Cannot render enclosing tag, TableHeader is null"); //NOI18N
             return;
         }
 
@@ -539,37 +534,33 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
 
         // Render style class.
         String extraHtml = RenderingUtilities.renderStyleClass(context, writer,
-            component, getStyleClass(component), component.getExtraHtml());
+                component, getStyleClass(component), component.getExtraHtml());
 
         // Render colspan.
-        if (component.getColSpan() > -1
-                && (extraHtml == null || extraHtml.indexOf("colspan=") == -1)) { //NOI18N
+        if (component.getColSpan() > -1 && (extraHtml == null || extraHtml.indexOf("colspan=") == -1)) { //NOI18N
             writer.writeAttribute("colspan", //NOI18N
-                Integer.toString(component.getColSpan()), null); //NOI18N
+                    Integer.toString(component.getColSpan()), null); //NOI18N
         }
 
         // Render rowspan.
-        if (component.getRowSpan() > -1
-                && (extraHtml == null || extraHtml.indexOf("rowspan=") == -1)) { //NOI18N
+        if (component.getRowSpan() > -1 && (extraHtml == null || extraHtml.indexOf("rowspan=") == -1)) { //NOI18N
             writer.writeAttribute("rowspan", //NOI18N
-                Integer.toString(component.getRowSpan()), null); //NOI18N
+                    Integer.toString(component.getRowSpan()), null); //NOI18N
         }
 
         // Render nowrap.
-        if (component.isNoWrap()
-                && (extraHtml == null || extraHtml.indexOf("nowrap=") == -1)) { //NOI18N
+        if (component.isNoWrap() && (extraHtml == null || extraHtml.indexOf("nowrap=") == -1)) { //NOI18N
             writer.writeAttribute("nowrap", "nowrap", null); //NOI18N
         }
 
         // Render tooltip.
-        if (component.getToolTip() != null
-                && (extraHtml == null || extraHtml.indexOf("title=") == -1)) { //NOI18N
+        if (component.getToolTip() != null && (extraHtml == null || extraHtml.indexOf("title=") == -1)) { //NOI18N
             writer.writeAttribute("title", component.getToolTip(), "toolTip"); //NOI18N
         }
 
         // Render pass through attributes.
-        RenderingUtilities.writeStringAttributes(component, writer, 
-            stringAttributes, extraHtml);
+        RenderingUtilities.writeStringAttributes(component, writer,
+                stringAttributes, extraHtml);
     }
 
     /**
@@ -585,7 +576,7 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
             TableHeader component, ResponseWriter writer) throws IOException {
         if (component == null) {
             log("renderEnclosingTagEnd", //NOI18N
-                "Cannot render enclosing tag, TableHeader is null"); //NOI18N
+                    "Cannot render enclosing tag, TableHeader is null"); //NOI18N
             return;
         }
         writer.endElement("th"); //NOI18N
@@ -594,7 +585,6 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Helper method to get the selectId from TableRowGroup components.
      *
@@ -604,10 +594,10 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
     private String getSelectId(TableHeader component) {
         String selectId = null;
         TableRowGroup group = (component != null)
-            ? component.getTableRowGroupAncestor() : null;
+                ? component.getTableRowGroupAncestor() : null;
         if (group == null) {
             log("getSelectId", //NOI18N
-                "Cannot obtain select Id, TableRowGroup is null"); //NOI18N
+                    "Cannot obtain select Id, TableRowGroup is null"); //NOI18N
             return selectId;
         }
 
@@ -634,10 +624,10 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
     private String getSelectId(TableColumn component) {
         if (component == null) {
             log("getSelectId", //NOI18N
-                "Cannot obtain select Id, TableColumn is null"); //NOI18N
+                    "Cannot obtain select Id, TableColumn is null"); //NOI18N
             return null;
         }
-    
+
         // Render nested TableColumn children.
         Iterator kids = component.getTableColumnChildren();
         if (kids.hasNext()) {
@@ -665,7 +655,7 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
         String styleClass = null;
         if (component == null) {
             log("getStyleClass", //NOI18N
-                "Cannot obtain style class, TableHeader is null"); //NOI18N
+                    "Cannot obtain style class, TableHeader is null"); //NOI18N
             return styleClass;
         }
 
@@ -709,7 +699,7 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
 
     /** Helper method to get Theme objects. */
     private Theme getTheme() {
-	return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
+        return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
     }
 
     /**
@@ -721,7 +711,7 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
         boolean result = false;
         if (component == null) {
             log("isEmptyGroup", //NOI18N
-                "Cannot determine if group is empty, TableHeader is null"); //NOI18N
+                    "Cannot determine if group is empty, TableHeader is null"); //NOI18N
             return result;
         }
 
@@ -730,7 +720,7 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
             result = (group.getRowCount() == 0);
         } else {
             log("isEmptyGroup", //NOI18N
-                "Cannot determine if group is empty, TableRowGroup is null"); //NOI18N
+                    "Cannot determine if group is empty, TableRowGroup is null"); //NOI18N
         }
         return result;
     }
@@ -741,7 +731,7 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
     private void log(String method, String message) {
         // Get class.
         Class clazz = this.getClass();
-	if (LogUtil.fineEnabled(clazz)) {
+        if (LogUtil.fineEnabled(clazz)) {
             // Log method name and message.
             LogUtil.fine(clazz, clazz.getName() + "." + method + ": " + message); //NOI18N
         }
@@ -751,28 +741,26 @@ public class TableHeaderRenderer extends javax.faces.render.Renderer {
      * Set focus when sort buttons are displayed.
      */
     private void setSortFocus(FacesContext context, TableHeader tableHeader,
-	    UIComponent sortControl) {
+            UIComponent sortControl) {
 
         // Get the client ID of the last component to have focus.
-	// If it's null do nothing.
-	//
+        // If it's null do nothing.
+        //
         String id = FocusManager.getRequestFocusElementId(context);
         if (id == null) {
             return;
         }
 
         // Get prefix for all IDs.
-        String prefix = tableHeader.getClientId(context) + 
-		NamingContainer.SEPARATOR_CHAR;
+        String prefix = tableHeader.getClientId(context) +
+                NamingContainer.SEPARATOR_CHAR;
 
         // Set component focus if any match was found. Don't include select
         // sort button here as that component does not change.
-	//
-        if (id.equals(prefix + TableHeader.ADD_SORT_BUTTON_ID)
-                || id.equals(prefix + TableHeader.PRIMARY_SORT_BUTTON_ID)
-                || id.equals(prefix + TableHeader.TOGGLE_SORT_BUTTON_ID)) {
-            FocusManager.setRequestFocusElementId(context, 
-		RenderingUtilities.getFocusElementId(context, sortControl));
-        }        
+        //
+        if (id.equals(prefix + TableHeader.ADD_SORT_BUTTON_ID) || id.equals(prefix + TableHeader.PRIMARY_SORT_BUTTON_ID) || id.equals(prefix + TableHeader.TOGGLE_SORT_BUTTON_ID)) {
+            FocusManager.setRequestFocusElementId(context,
+                    RenderingUtilities.getFocusElementId(context, sortControl));
+        }
     }
 }

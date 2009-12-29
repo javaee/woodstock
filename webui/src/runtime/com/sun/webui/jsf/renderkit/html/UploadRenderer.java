@@ -20,10 +20,9 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 
- /*
-  * $Id: UploadRenderer.java,v 1.1.4.1 2007-03-13 17:14:33 rratta Exp $
-  */
-
+/*
+ * $Id: UploadRenderer.java,v 1.1.4.1.2.1 2009-12-29 04:52:45 jyeary Exp $
+ */
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.faces.annotation.Renderer;
@@ -44,12 +43,11 @@ import com.sun.webui.jsf.util.ThemeUtilities;
 /**
  * <p>Renderer for a {@link Upload} component.</p>
  */
-
-@Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.Upload"))
+@Renderer(@Renderer.Renders(componentFamily = "com.sun.webui.jsf.Upload"))
 public class UploadRenderer extends FieldRenderer {
-    
+
     private static final boolean DEBUG = false;
-     
+
     /**
      * <p>Override the default implementation to conditionally trim the
      * leading and trailing spaces from the submitted value.</p>
@@ -57,67 +55,74 @@ public class UploadRenderer extends FieldRenderer {
      * @param context <code>FacesContext</code> for the current request
      * @param component <code>Upload</code> component being processed
      */
+    @Override
     public void decode(FacesContext context, UIComponent component) {
 
-        if(DEBUG) log("decode()"); 
-        Upload upload = (Upload)component; 
-        String id = component.getClientId(context).concat(upload.INPUT_ID); 
-        if(DEBUG) log("\tLooking for id " + id); 
-        Map map = context.getExternalContext().getRequestMap(); 
-        
-        if(map.containsKey(id)) { 
-           if(DEBUG) log("\tFound id " + id); 
-           upload.setSubmittedValue(id);
+        if (DEBUG) {
+            log("decode()");
         }
-         
+        Upload upload = (Upload) component;
+        String id = component.getClientId(context).concat(upload.INPUT_ID);
+        if (DEBUG) {
+            log("\tLooking for id " + id);
+        }
+        Map map = context.getExternalContext().getRequestMap();
+
+        if (map.containsKey(id)) {
+            if (DEBUG) {
+                log("\tFound id " + id);
+            }
+            upload.setSubmittedValue(id);
+        }
+
         return;
     }
 
-    public void encodeEnd(FacesContext context, UIComponent component) 
-	    throws IOException {
-          
-        if(!(component instanceof Upload)) { 
-            Object[] params = { component.toString(), 
-                                this.getClass().getName(), 
-                                Upload.class.getName() };
-            String message = MessageUtil.getMessage
-                ("com.sun.webui.jsf.resources.LogMessages", //NOI18N
-                 "Upload.renderer", params);              //NOI18N
-            throw new FacesException(message);  
+    @Override
+    public void encodeEnd(FacesContext context, UIComponent component)
+            throws IOException {
+
+        if (!(component instanceof Upload)) {
+            Object[] params = {component.toString(),
+                this.getClass().getName(),
+                Upload.class.getName()};
+            String message = MessageUtil.getMessage("com.sun.webui.jsf.resources.LogMessages", //NOI18N
+                    "Upload.renderer", params);              //NOI18N
+            throw new FacesException(message);
         }
 
         Theme theme = ThemeUtilities.getTheme(context);
-        Map map = context.getExternalContext().getRequestMap(); 
-        Object error =  map.get(Upload.UPLOAD_ERROR_KEY);
+        Map map = context.getExternalContext().getRequestMap();
+        Object error = map.get(Upload.UPLOAD_ERROR_KEY);
         if (error != null) {
             if (error instanceof Throwable) {
-                if (error instanceof org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException ) {
+                if (error instanceof org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException) {
                     // Caused by the file size is too big
-                    String maxSize = (String)map.get(Upload.FILE_SIZE_KEY);
-                    String [] detailArgs = {maxSize};
+                    String maxSize = (String) map.get(Upload.FILE_SIZE_KEY);
+                    String[] detailArgs = {maxSize};
                     String summaryMsg = theme.getMessage("FileUpload.noFile");
-                    String detailMsg = 
-			theme.getMessage("Upload.error", detailArgs);
+                    String detailMsg =
+                            theme.getMessage("Upload.error", detailArgs);
                     FacesMessage fmsg = new FacesMessage(summaryMsg, detailMsg);
                     context.addMessage(
-			((Upload)component).getClientId(context), fmsg);
-                } else {   
+                            ((Upload) component).getClientId(context), fmsg);
+                } else {
                     String summaryMsg = theme.getMessage("FileUpload.noFile");
                     FacesException fe = new FacesException(summaryMsg);
-                    fe.initCause((Throwable)error);
+                    fe.initCause((Throwable) error);
                     throw fe;
                 }
             }
         }
-        
-        boolean spanRendered = super.renderField(context, (Upload)component, 
-            "file", getStyles(context));
 
-	String id = component.getClientId(context);
+        boolean spanRendered = super.renderField(context, (Upload) component,
+                "file", getStyles(context));
+
+        String id = component.getClientId(context);
 
         StringBuilder jsString = new StringBuilder(256);
         jsString.append(JavaScriptUtilities.getModuleName(
-            "upload.setEncodingType")); //NOI18N
+                "upload.setEncodingType")); //NOI18N
         jsString.append("(\'"); //NOI18N
         jsString.append(id);
         jsString.append("\');\n"); //NOI18N
@@ -125,11 +130,11 @@ public class UploadRenderer extends FieldRenderer {
         // Render JavaScript.
         ResponseWriter writer = context.getResponseWriter();
         JavaScriptUtilities.renderJavaScript(component, writer,
-            jsString.toString());
+                jsString.toString());
 
-	if (!spanRendered) {
-	    String param = id.concat(Upload.INPUT_PARAM_ID);
-	    RenderingUtilities.renderHiddenField(component, writer, param, id);
-	}
+        if (!spanRendered) {
+            String param = id.concat(Upload.INPUT_PARAM_ID);
+            RenderingUtilities.renderHiddenField(component, writer, param, id);
+        }
     }
 }

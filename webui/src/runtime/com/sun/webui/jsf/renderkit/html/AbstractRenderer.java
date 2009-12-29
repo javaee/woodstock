@@ -19,15 +19,13 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
- /*
-  * $Id: AbstractRenderer.java,v 1.1 2007-02-16 01:35:10 bob_yennaco Exp $
-  */
-
+/*
+ * $Id: AbstractRenderer.java,v 1.1.12.1 2009-12-29 04:52:46 jyeary Exp $
+ */
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.webui.jsf.model.Markup;
 import com.sun.webui.jsf.util.RenderingUtilities;
-
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
@@ -42,51 +40,35 @@ import javax.faces.convert.Converter;
 import javax.el.ValueExpression;
 import javax.faces.render.Renderer;
 
-
 /**
  * <p>Abstract base class for concrete implementations of
  * <code>javax.faces.render.Renderer</code> for JavaServer Faces
  * component libraries.</p>
  */
-
 public abstract class AbstractRenderer extends Renderer {
-    
+
     // ------------------------------------------------------ Manifest Constants
-    
-    
     /**
      * <p>Base naem of the resource bundle we will use for localization.</p>
      */
     protected static final String BUNDLE =
             "com.sun.webui.jsf.renderkit.html.Bundle"; // NOI18N
-    
-    
     /**
      * <p>The list of attribute names in the HTML 4.01 Specification that
      * correspond to the entity type <em>%events;</em>.</p>
      */
-    public static final String EVENTS_ATTRIBUTES[] =
-    { "onClick", "onDblClick", "onChange", // NOI18N
-      "onMouseDown", "onMouseUp", "onMouseOver", "onMouseMove", "onMouseOut", // NOI18N
-              "onKeyPress", "onKeyDown", "onKeyUp", // NOI18N
+    public static final String EVENTS_ATTRIBUTES[] = {"onClick", "onDblClick", "onChange", // NOI18N
+        "onMouseDown", "onMouseUp", "onMouseOver", "onMouseMove", "onMouseOut", // NOI18N
+        "onKeyPress", "onKeyDown", "onKeyUp", // NOI18N
     };
-    
-    
     /**
      * <p>The list of attribute names in the HTML 4.01 Specification that
      * correspond to the entity type <em>%i18n;</em>.</p>
      */
-    public static final String I18N_ATTRIBUTES[] =
-    { "dir", "lang", }; // NOI18N
-    
-    
+    public static final String I18N_ATTRIBUTES[] = {"dir", "lang",}; // NOI18N
+
     // -------------------------------------------------------- Static Variables
-    
-    
-    
     // ---------------------------------------------------------- Public Methods
-    
-    
     /**
      * <p>Decode any new state of the specified <code>UIComponent</code>
      * from the request contained in the specified <code>FacesContext</code>,
@@ -101,22 +83,22 @@ public abstract class AbstractRenderer extends Renderer {
      * @exception NullPointerException if <code>context</code> or
      *  <code>component</code> is <code>null</code>
      */
+    @Override
     public void decode(FacesContext context, UIComponent component) {
-        
+
         // Enforce NPE requirements in the Javadocs
         if ((context == null) || (component == null)) {
             throw new NullPointerException();
         }
-        
+
         // Save submitted value on EditableValueHolder components
         // unless they are disabled or read only
         if (component instanceof EditableValueHolder) {
             setSubmittedValue(context, component);
         }
-        
+
     }
-    
-    
+
     /**
      * <p>Render the beginning of the specified <code>UIComponent</code>
      * to the output stream or writer associated with the response we are
@@ -133,32 +115,32 @@ public abstract class AbstractRenderer extends Renderer {
      *
      * @exception IOException if an input/output error occurs
      */
+    @Override
     public void encodeBegin(FacesContext context, UIComponent component)
-    throws IOException {
-        
+            throws IOException {
+
         // Enforce NPE requirements in the Javadocs
         if ((context == null) || (component == null)) {
             throw new NullPointerException();
         }
-        
-/*
+
+        /*
         if (LogUtil.finestEnabled()) {
-            LogUtil.finest("encodeBegin(id=" + component.getId() +
-                      ", family=" + component.getFamily() +
-                      ", rendererType=" + component.getRendererType() + ")");
+        LogUtil.finest("encodeBegin(id=" + component.getId() +
+        ", family=" + component.getFamily() +
+        ", rendererType=" + component.getRendererType() + ")");
         }
- */
-        
+         */
+
         // Render the element and attributes for this component
         if (component.isRendered()) {
             ResponseWriter writer = context.getResponseWriter();
             renderStart(context, component, writer);
             renderAttributes(context, component, writer);
         }
-        
+
     }
-    
-    
+
     /**
      * <p>Render the children of the specified <code>UIComponent</code>
      * to the output stream or writer associated with the response we are
@@ -178,23 +160,23 @@ public abstract class AbstractRenderer extends Renderer {
     // We shouldn't bother with a default implementation - this is exactly
     // what happens when you rendersChildren = false. Why duplicate the
     // code here?
-    
+    @Override
     public void encodeChildren(FacesContext context, UIComponent component)
-    throws IOException {
-        
+            throws IOException {
+
         // Enforce NPE requirements in the Javadocs
         if (context == null || component == null) {
             throw new NullPointerException();
         }
-        
-/*
+
+        /*
         if (LogUtil.finestEnabled()) {
-            LogUtil.finest("encodeChildren(id=" + component.getId() +
-                      ", family=" + component.getFamily() +
-                      ", rendererType=" + component.getRendererType() + ")");
+        LogUtil.finest("encodeChildren(id=" + component.getId() +
+        ", family=" + component.getFamily() +
+        ", rendererType=" + component.getRendererType() + ")");
         }
- */
-        
+         */
+
         if (component.isRendered()) {
             Iterator kids = component.getChildren().iterator();
             while (kids.hasNext()) {
@@ -202,10 +184,9 @@ public abstract class AbstractRenderer extends Renderer {
                 RenderingUtilities.renderComponent(kid, context);
             }
         }
-        
+
     }
-    
-    
+
     /**
      * <p>Render the ending of the specified <code>UIComponent</code>
      * to the output stream or writer associated with the response we are
@@ -221,39 +202,33 @@ public abstract class AbstractRenderer extends Renderer {
      *
      * @exception IOException if an input/output error occurs
      */
+    @Override
     public void encodeEnd(FacesContext context, UIComponent component)
-    throws IOException {
-        
+            throws IOException {
+
         // Enforce NPE requirements in the Javadocs
         if ((context == null) || (component == null)) {
             throw new NullPointerException();
         }
-        
-/*
+
+        /*
         if (LogUtil.finestEnabled()) {
-            LogUtil.finest("encodeEnd(id=" + component.getId() +
-                      ", family=" + component.getFamily() +
-                      ", rendererType=" + component.getRendererType() + ")");
+        LogUtil.finest("encodeEnd(id=" + component.getId() +
+        ", family=" + component.getFamily() +
+        ", rendererType=" + component.getRendererType() + ")");
         }
- */
-        
+         */
+
         // Render the element closing for this component
         if (component.isRendered()) {
             ResponseWriter writer = context.getResponseWriter();
             renderEnd(context, component, writer);
         }
-        
+
     }
-    
-    
+
     // --------------------------------------------------------- Package Methods
-    
-    
     // ------------------------------------------------------- Protected Methods
-    
-    
-    
-    
     /**
      * <p>Render any boolean attributes on the specified list that have
      * <code>true</code> values on the corresponding attribute of the
@@ -273,7 +248,7 @@ public abstract class AbstractRenderer extends Renderer {
             UIComponent component,
             ResponseWriter writer,
             String names[]) throws IOException {
-        
+
         if (names == null) {
             return;
         }
@@ -295,16 +270,11 @@ public abstract class AbstractRenderer extends Renderer {
                 }
             }
         }
-        
+
     }
-    
-    
     // Core attributes that are simple pass throughs
-    private static final String coreAttributes[] =
-    { "style", "title" };
-    
-    
-    
+    private static final String coreAttributes[] = {"style", "title"};
+
     /**
      * <p>Render the "core" set of attributes for this <code>UIComponent</code>.
      * The default implementation conditionally generates the following
@@ -339,19 +309,16 @@ public abstract class AbstractRenderer extends Renderer {
             UIComponent component,
             ResponseWriter writer,
             String styles) throws IOException {
-        
+
         String id = component.getId();
-  
+
         writer.writeAttribute("id", component.getClientId(context), "id");
-        
+
         RenderingUtilities.renderStyleClass(context, writer, component, styles);
         addStringAttributes(context, component, writer, coreAttributes);
-        
-    }
-    
-    
 
-    
+    }
+
     /**
      * <p>Render any Integer attributes on the specified list that do not have
      * Integer.MIN_VALUE values on the corresponding attribute of the
@@ -371,7 +338,7 @@ public abstract class AbstractRenderer extends Renderer {
             UIComponent component,
             ResponseWriter writer,
             String names[]) throws IOException {
-        
+
         if (names == null) {
             return;
         }
@@ -387,10 +354,9 @@ public abstract class AbstractRenderer extends Renderer {
                 }
             }
         }
-        
+
     }
-    
-    
+
     /**
      * <p>Add any attributes on the specified list directly to the
      * specified <code>ResponseWriter</code> for which the specified
@@ -412,7 +378,7 @@ public abstract class AbstractRenderer extends Renderer {
             UIComponent component,
             ResponseWriter writer,
             String names[]) throws IOException {
-        
+
         if (names == null) {
             return;
         }
@@ -430,21 +396,16 @@ public abstract class AbstractRenderer extends Renderer {
                 }
             }
         }
-        
     }
-    
-    
+
     /**
      * <p>Return the <code>Application</code> instance for this
      * web application.</p>
      */
     protected Application getApplication() {
-        
         return getFacesContext().getApplication();
-        
     }
-    
-    
+
     /**
      * <p>Return the value to be stored, as an Object that has been
      * converted from the String representation (if necessary), or
@@ -457,7 +418,7 @@ public abstract class AbstractRenderer extends Renderer {
      */
     protected Object getAsObject(FacesContext context, UIComponent component,
             String value) {
-        
+
         if (value == null) {
             return null;
         }
@@ -477,10 +438,9 @@ public abstract class AbstractRenderer extends Renderer {
         } else {
             return value;
         }
-        
+
     }
-    
-    
+
     /**
      * <p>Return the value to be rendered, as a String (converted
      * if necessary), or <code>null</code> if the value is null.</p>
@@ -513,30 +473,23 @@ public abstract class AbstractRenderer extends Renderer {
             return value.toString();
         }
     }
-    
-    
+
     /**
      * <p>Return the <code>ExternalContext</code> instance for the current
      * request.</p>
      */
     protected ExternalContext getExternalContext() {
-        
         return (FacesContext.getCurrentInstance().getExternalContext());
-        
     }
-    
-    
+
     /**
      * <p>Return the <code>FacesContext</code> instance for the current
      * request.</p>
      */
     protected FacesContext getFacesContext() {
-        
         return (FacesContext.getCurrentInstance());
-        
     }
-    
-    
+
     /**
      * <p>Retrieve the submitted value from the request parameters for
      * this request.  The default implementation retrieves the parameter
@@ -547,20 +500,18 @@ public abstract class AbstractRenderer extends Renderer {
      *  submitted value is to be retrieved
      */
     protected Object getSubmittedValue(FacesContext context, UIComponent component) {
-        
         String clientId = component.getClientId(context);
         Map parameters = context.getExternalContext().getRequestParameterMap();
         return parameters.get(clientId);
-        
     }
-    
+
     /**
      * <p>Return <code>true</code> if the specified component is disabled.</p>
      *
      * @param component <code>UIComponent</code> to be checked
      */
     protected boolean isDisabled(UIComponent component) {
-        
+
         Object disabled = component.getAttributes().get("disabled");
         if (disabled == null) {
             return (false);
@@ -570,10 +521,8 @@ public abstract class AbstractRenderer extends Renderer {
         } else {
             return (disabled.equals(Boolean.TRUE));
         }
-        
     }
-    
-    
+
     /**
      * <p>Return <code>true</code> if we are we running in a portlet
      * environment, as opposed to a servlet based web application.</p>
@@ -581,19 +530,16 @@ public abstract class AbstractRenderer extends Renderer {
      * @param context <code>FacesContext</code> for the current request
      */
     protected boolean isPortlet(FacesContext context) {
-        
         return false; // TODO - implement a dynamic check
-        
     }
-    
-    
+
     /**
      * <p>Return <code>true</code> if the specified component is read only.</p>
      *
      * @param component <code>UIComponent</code> to be checked
      */
     protected boolean isReadOnly(UIComponent component) {
-        
+
         Object readonly = component.getAttributes().get("readonly");
         if (readonly == null) {
             return (false);
@@ -603,10 +549,9 @@ public abstract class AbstractRenderer extends Renderer {
         } else {
             return (readonly.equals(Boolean.TRUE));
         }
-        
+
     }
-    
-    
+
     /**
      * <p>Render the element attributes for the generated markup related to this
      * component.  Simple renderers that create a single markup element
@@ -626,10 +571,8 @@ public abstract class AbstractRenderer extends Renderer {
      */
     protected void renderAttributes(FacesContext context, UIComponent component,
             ResponseWriter writer) throws IOException {
-        
     }
-    
-    
+
     /**
      * <p>Render the element end for the generated markup related to this
      * component.  Simple renderers that create a single markup element
@@ -649,11 +592,8 @@ public abstract class AbstractRenderer extends Renderer {
      */
     protected void renderEnd(FacesContext context, UIComponent component,
             ResponseWriter writer) throws IOException {
-        
     }
-    
-     
-    
+
     /**
      * <p>Render the specified markup to the current response.</p>
      *
@@ -666,12 +606,11 @@ public abstract class AbstractRenderer extends Renderer {
     protected void renderMarkup(FacesContext context, UIComponent component,
             ResponseWriter writer, Markup markup)
             throws IOException {
-        
+
         writer.write(markup.getMarkup());
-        
+
     }
-    
-    
+
     /**
      * <p>Render the element start for the generated markup related to this
      * component.  Simple renderers that create a single markup element
@@ -691,10 +630,8 @@ public abstract class AbstractRenderer extends Renderer {
      */
     protected void renderStart(FacesContext context, UIComponent component,
             ResponseWriter writer) throws IOException {
-        
     }
-    
-    
+
     /**
      * <p>If a submitted value was included on this request, store it in the
      * component as appropriate.</p>
@@ -710,16 +647,12 @@ public abstract class AbstractRenderer extends Renderer {
      * @param component <code>EditableValueHolder</code> component whose
      *  submitted value is to be stored
      */
-    protected void setSubmittedValue
-            (FacesContext context, UIComponent component) {
-        
+    protected void setSubmittedValue(FacesContext context, UIComponent component) {
+
         if (!(component instanceof EditableValueHolder)) {
             return;
         }
         component.getAttributes().put("submittedValue", // NOI18N
                 getSubmittedValue(context, component));
-        
     }
-      
-    
 }

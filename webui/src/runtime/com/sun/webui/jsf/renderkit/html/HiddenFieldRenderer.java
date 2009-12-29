@@ -20,16 +20,14 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 
- /*
-  * HiddenFieldRenderer.java
-  */
-
+/*
+ * HiddenFieldRenderer.java
+ */
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.faces.annotation.Renderer;
 import java.io.IOException;
 import java.util.Map;
-
 import javax.faces.FacesException;
 import javax.faces.component.EditableValueHolder;
 import javax.faces.component.UIComponent;
@@ -44,111 +42,118 @@ import com.sun.webui.jsf.util.MessageUtil;
 /**
  * <p>Renderer for HiddenFieldRenderer {@link HiddenField} component.</p>
  */
-
-@Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.HiddenField"))
+@Renderer(@Renderer.Renders(componentFamily = "com.sun.webui.jsf.HiddenField"))
 public class HiddenFieldRenderer extends javax.faces.render.Renderer {
-    
+
     private static final boolean DEBUG = false;
-       
+
+    @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
-        
-        if(!(component instanceof HiddenField)) {
-            Object[] params = { component.toString(),
-                    this.getClass().getName(),
-                    HiddenField.class.getName() };
-                    String message = MessageUtil.getMessage
-                            ("com.sun.webui.jsf.resources.LogMessages", //NOI18N
-                            "Renderer.component", params);              //NOI18N
-                    throw new FacesException(message);
+
+        if (!(component instanceof HiddenField)) {
+            Object[] params = {component.toString(),
+                this.getClass().getName(),
+                HiddenField.class.getName()};
+            String message = MessageUtil.getMessage("com.sun.webui.jsf.resources.LogMessages", //NOI18N
+                    "Renderer.component", params);              //NOI18N
+            throw new FacesException(message);
         }
-        
-        HiddenField field = (HiddenField)component;
+
+        HiddenField field = (HiddenField) component;
         ResponseWriter writer = context.getResponseWriter();
         writer.startElement("input", field); //NOI18N
         writer.writeAttribute("type", "hidden", null); //NOI18N
         String id = field.getClientId(context);
-        writer.writeAttribute("id", id , null); //NOI18N
+        writer.writeAttribute("id", id, null); //NOI18N
         writer.writeAttribute("name", id, null); //NOI18N
 
-	// Record the value that is rendered.
-	// Note that getValueAsString conforms to JSF conventions
-	// for NULL values, in that it returns "" if the component
-	// value is NULL. This value cannot be trusted since
-	// the fidelity of the data must be preserved, i.e. if the
-	// value is null, it must remain null if the component is unchanged
-	// by the user..
-	//
-	// What should be done in the case of submittedValue != null ?
-	// This call to getValue may not be value is used by
-	// getValueAsString, it may use the submittedValue.
-	// Then should the previously set rendered value be 
-	// preserved ?
-	// 
-	// If submittedValue is not null then the component's
-	// model value or local value has not been updated
-	// therefore assume that this is an immediate or premature
-	// render response. Therefore just assume that if the rendered
-	// value was null, the saved information is still valid.
-	// 
-	if (((HiddenField)component).getSubmittedValue() == null) {
-	    ConversionUtilities.setRenderedValue(component,
-		((HiddenField)component).getText());
-	}
+        // Record the value that is rendered.
+        // Note that getValueAsString conforms to JSF conventions
+        // for NULL values, in that it returns "" if the component
+        // value is NULL. This value cannot be trusted since
+        // the fidelity of the data must be preserved, i.e. if the
+        // value is null, it must remain null if the component is unchanged
+        // by the user..
+        //
+        // What should be done in the case of submittedValue != null ?
+        // This call to getValue may not be value is used by
+        // getValueAsString, it may use the submittedValue.
+        // Then should the previously set rendered value be
+        // preserved ?
+        //
+        // If submittedValue is not null then the component's
+        // model value or local value has not been updated
+        // therefore assume that this is an immediate or premature
+        // render response. Therefore just assume that if the rendered
+        // value was null, the saved information is still valid.
+        //
+        if (((HiddenField) component).getSubmittedValue() == null) {
+            ConversionUtilities.setRenderedValue(component,
+                    ((HiddenField) component).getText());
+        }
 
-	// Still call the component's getValueAsString method
-	// in order to render it.
-	//
-	String value = field.getValueAsString(context);
+        // Still call the component's getValueAsString method
+        // in order to render it.
+        //
+        String value = field.getValueAsString(context);
         writer.writeAttribute("value", value, "value"); //NOI18N
-        
-        if(field.isDisabled()) {
+
+        if (field.isDisabled()) {
             writer.writeAttribute("disabled", "disabled", null); //NOI18N
         }
         writer.endElement("input");
     }
-    
+
+    @Override
     public void decode(FacesContext context, UIComponent component) {
         decodeInput(context, component);
     }
-    
+
     /**
      * Decode the component component
      * @param context The FacesContext associated with this request
      * @param component The TextField component to decode
      */
     static void decodeInput(FacesContext context, UIComponent component) {
-        
-        if(DEBUG) log("decodeInput()"); 
-        
-        String id = component.getClientId(context); 
+
+        if (DEBUG) {
+            log("decodeInput()");
+        }
+
+        String id = component.getClientId(context);
         Map params = context.getExternalContext().getRequestParameterMap();
         Object valueObject = params.get(id);
-        String value = null; 
-        
-        if(valueObject == null && component instanceof Field) { 
+        String value = null;
+
+        if (valueObject == null && component instanceof Field) {
             if (component instanceof ComplexComponent) {
-                id = ((Field)component).getLabeledElementId(context);
+                id = ((Field) component).getLabeledElementId(context);
             } else {
                 id = component.getClientId(context);
             }
-            valueObject = params.get(id); 
-        } 
-       
-        if(valueObject != null) { 
-            value = (String)valueObject;
-            if(DEBUG) log("Submitted value is " + value); 
-       
-            if(component instanceof Field && ((Field)component).isTrim()) {
-                value = value.toString().trim();
-                if(DEBUG) log("Trimmed value is " + String.valueOf(value)); 
+            valueObject = params.get(id);
+        }
+
+        if (valueObject != null) {
+            value = (String) valueObject;
+            if (DEBUG) {
+                log("Submitted value is " + value);
             }
-        } 
-        else if(DEBUG) log("\tNo relevant input parameter");
-      
-        ((EditableValueHolder)component).setSubmittedValue(value);
+
+            if (component instanceof Field && ((Field) component).isTrim()) {
+                value = value.toString().trim();
+                if (DEBUG) {
+                    log("Trimmed value is " + String.valueOf(value));
+                }
+            }
+        } else if (DEBUG) {
+            log("\tNo relevant input parameter");
+        }
+
+        ((EditableValueHolder) component).setSubmittedValue(value);
     }
-    
+
     static protected void log(String s) {
-        System.out.println( s);
+        System.out.println(s);
     }
 }

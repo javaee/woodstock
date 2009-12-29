@@ -20,28 +20,17 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 
- /*
-  * TextFieldRenderer.java
-  */
-
+/*
+ * TextFieldRenderer.java
+ */
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.faces.annotation.Renderer;
-import java.io.IOException;
-import java.util.Map; 
-
-import javax.faces.FacesException;
-import javax.faces.component.UIComponent;
-import javax.faces.context.ResponseWriter;
-import javax.faces.context.FacesContext;
 import com.sun.webui.jsf.component.TextField;
-import com.sun.webui.jsf.util.MessageUtil;
 
 /**
  * <p>Renderer for TextFieldRenderer {@link TextField} component.</p>
  */
-
-@Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.TextField"))
+@Renderer(@Renderer.Renders(componentFamily = "com.sun.webui.jsf.TextField"))
 public class TextFieldRenderer extends FieldRenderer {
-
 }

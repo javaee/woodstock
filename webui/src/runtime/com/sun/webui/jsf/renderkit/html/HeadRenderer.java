@@ -19,20 +19,16 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.faces.annotation.Renderer;
 import java.io.IOException;
-import java.net.URL; 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-
 import com.sun.webui.jsf.component.Head;
 import com.sun.webui.jsf.component.util.Util;
 import com.sun.webui.theme.Theme;
-import com.sun.webui.jsf.theme.ThemeStyles;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
@@ -40,12 +36,13 @@ import com.sun.webui.jsf.util.ThemeUtilities;
 /**
  * <p>Renderer for a {@link Head} component.</p>
  */
-@Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.Head"))
+@Renderer(@Renderer.Renders(componentFamily = "com.sun.webui.jsf.Head"))
 public class HeadRenderer extends AbstractRenderer {
+
     /**
      * <p>The set of String pass-through attributes to be rendered.</p>
      */
-    private static final String stringAttributes[] = { "profile" }; //NOI18N
+    private static final String stringAttributes[] = {"profile"}; //NOI18N
 
     /**
      * <p>Render the appropriate element start, depending on whether the
@@ -58,12 +55,13 @@ public class HeadRenderer extends AbstractRenderer {
      *
      * @exception IOException if an input/output error occurs
      */
+    @Override
     protected void renderStart(FacesContext context, UIComponent component,
             ResponseWriter writer) throws IOException {
         // Start the appropriate element
-	if (!RenderingUtilities.isPortlet(context)) {
+        if (!RenderingUtilities.isPortlet(context)) {
             writer.startElement("head", component); //NOI18N
-	}
+        }
     }
 
     /**
@@ -77,36 +75,37 @@ public class HeadRenderer extends AbstractRenderer {
      *
      * @exception IOException if an input/output error occurs
      */
-    protected void renderAttributes(FacesContext context, UIComponent component, 
+    @Override
+    protected void renderAttributes(FacesContext context, UIComponent component,
             ResponseWriter writer) throws IOException {
         Head head = (Head) component;
         if (!RenderingUtilities.isPortlet(context)) {
-	    // Profile
+            // Profile
             addStringAttributes(context, component, writer, stringAttributes);
 
-	    // Meta tags
+            // Meta tags
             if (head.isMeta()) {
-	        writer.write("\n"); //NOI18N
-	        renderMetaTag("no-cache", "Pragma", writer, head); 
-	        renderMetaTag("no-cache", "Cache-Control", writer, head); 
-	        renderMetaTag("no-store", "Cache-Control", writer, head); 
-	        renderMetaTag("max-age=0", "Cache-Control", writer, head); 
-	        renderMetaTag("1", "Expires", writer, head); 
+                writer.write("\n"); //NOI18N
+                renderMetaTag("no-cache", "Pragma", writer, head);
+                renderMetaTag("no-cache", "Cache-Control", writer, head);
+                renderMetaTag("no-store", "Cache-Control", writer, head);
+                renderMetaTag("max-age=0", "Cache-Control", writer, head);
+                renderMetaTag("1", "Expires", writer, head);
             }
 
             // Title
-            String title = head.getTitle();            
+            String title = head.getTitle();
             if (title == null) {
                 title = "";
             }
-            
-	    writer.startElement("title",  head);
+
+            writer.startElement("title", head);
             writer.write(title);
             writer.endElement("title");
             writer.write("\n"); //NOI18N
-            
-	    // Base
-            if(head.isDefaultBase()) {
+
+            // Base
+            if (head.isDefaultBase()) {
                 writer.startElement("base", head); //NOI18N
                 // TODO - verify the requirements w.r.t. printing this href
                 writer.writeURIAttribute("href", Util.getBase(context), null); //NOI18N
@@ -125,7 +124,7 @@ public class HeadRenderer extends AbstractRenderer {
 
             // Render Dojo config.
             JavaScriptUtilities.renderJavaScript(component, writer,
-                JavaScriptUtilities.getDojoConfig(head.isDebug(),
+                    JavaScriptUtilities.getDojoConfig(head.isDebug(),
                     head.isParseWidgets()));
 
             // Render Dojo include.
@@ -139,14 +138,14 @@ public class HeadRenderer extends AbstractRenderer {
 
             // Render JSF Extensions include.
             JavaScriptUtilities.renderJsfxInclude(component, writer);
-        
+
             // Render module config after including dojo.
             JavaScriptUtilities.renderJavaScript(component, writer,
-                JavaScriptUtilities.getModuleConfig(head.isDebug()));
+                    JavaScriptUtilities.getModuleConfig(head.isDebug()));
 
             // Render global include.
             JavaScriptUtilities.renderGlobalInclude(component, writer);
-	}
+        }
     }
 
     /**
@@ -160,6 +159,7 @@ public class HeadRenderer extends AbstractRenderer {
      *
      * @exception IOException if an input/output error occurs
      */
+    @Override
     protected void renderEnd(FacesContext context, UIComponent component,
             ResponseWriter writer) throws IOException {
         // Start the appropriate element.
@@ -169,12 +169,12 @@ public class HeadRenderer extends AbstractRenderer {
         }
     }
 
-    private void renderMetaTag(String content, String httpEquivalent, 
-            ResponseWriter writer, Head head) throws IOException { 
-	writer.startElement("meta", head); 
-	writer.writeAttribute("content", content, null); 
-	writer.writeAttribute("http-equiv", httpEquivalent, null); 
-	writer.endElement("meta"); 
-	writer.writeText("\n", null); 
+    private void renderMetaTag(String content, String httpEquivalent,
+            ResponseWriter writer, Head head) throws IOException {
+        writer.startElement("meta", head);
+        writer.writeAttribute("content", content, null);
+        writer.writeAttribute("http-equiv", httpEquivalent, null);
+        writer.endElement("meta");
+        writer.writeText("\n", null);
     }
 }

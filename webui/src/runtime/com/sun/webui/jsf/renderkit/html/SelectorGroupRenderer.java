@@ -19,35 +19,20 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.renderkit.html;
 
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Collection;
-import java.util.StringTokenizer;
-
-import javax.faces.component.NamingContainer;
 import javax.faces.component.UIInput;
 import javax.faces.component.UIComponent;
-import javax.faces.component.ValueHolder;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-
-import com.sun.webui.jsf.component.Checkbox;
 import com.sun.webui.jsf.component.Label;
-import com.sun.webui.jsf.component.ImageComponent;
-import com.sun.webui.jsf.component.RadioButton;
 import com.sun.webui.jsf.component.Selector;
 import com.sun.webui.jsf.component.RbCbSelector;
-import com.sun.webui.jsf.component.util.Util;
 import com.sun.webui.jsf.model.Option;
 import com.sun.webui.theme.Theme;
-import com.sun.webui.jsf.theme.ThemeStyles;
-import com.sun.webui.jsf.renderkit.html.RadioButtonGroupRenderer; // for javadoc
-import com.sun.webui.jsf.renderkit.html.CheckboxGroupRenderer; // for javadoc
-import com.sun.webui.jsf.renderkit.html.RowColumnRenderer; // for javadoc
 import com.sun.webui.jsf.util.ComponentUtilities;
 import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.jsf.util.RenderingUtilities;
@@ -66,8 +51,9 @@ import com.sun.webui.jsf.util.RenderingUtilities;
  * the <code>RadioButtonGroup</code> component the value is decoded as a
  * <code>String[]</code> of at least one element.
  */
+//FIXME this should probably be a public or protected abstract class
 abstract class SelectorGroupRenderer extends RowColumnRenderer {
-    
+
     /**
      * The define constant indicating the style class 
      * for the top level TABLE element.
@@ -158,7 +144,6 @@ abstract class SelectorGroupRenderer extends RowColumnRenderer {
      * for a LABEL element.
      */
     protected final static int LABEL_LVL_DEF = 0;
-
     private final static int LABEL_LVL = IMAGE_DIS;
 
     /**
@@ -167,7 +152,7 @@ abstract class SelectorGroupRenderer extends RowColumnRenderer {
     public SelectorGroupRenderer() {
         super();
     }
-    
+
     /**
      * Return style constants for the controls in the group.
      * The getStyles method is implemented by subclasses
@@ -188,7 +173,7 @@ abstract class SelectorGroupRenderer extends RowColumnRenderer {
      * @param option the <code>Option</code> being rendered.
      */
     protected abstract UIComponent getSelectorComponent(FacesContext context,
-	UIComponent component, Theme theme, String id, Option option);
+            UIComponent component, Theme theme, String id, Option option);
 
     /**
      * Decode the <code>RadioButtonGroup</code> or
@@ -211,43 +196,43 @@ abstract class SelectorGroupRenderer extends RowColumnRenderer {
      * @param context FacesContext for the request we are processing.
      * @param component The RadioButtonGroup component to be decoded.
      */
+    @Override
     public void decode(FacesContext context, UIComponent component) {
 
         if (context == null || component == null) {
             throw new NullPointerException();
         }
 
-	if (isDisabled(component)|| isReadOnly(component)) {
-	    return;
-	}
+        if (isDisabled(component) || isReadOnly(component)) {
+            return;
+        }
 
-	setSubmittedValues(context, component);
+        setSubmittedValues(context, component);
     }
 
     private void setSubmittedValues(FacesContext context,
-	    UIComponent component) {
+            UIComponent component) {
 
-	String clientId = component.getClientId(context);
+        String clientId = component.getClientId(context);
 
-	Map requestParameterValuesMap = context.getExternalContext().
-	    getRequestParameterValuesMap();
+        Map requestParameterValuesMap = context.getExternalContext().
+                getRequestParameterValuesMap();
 
-	// If the clientId is found some controls are checked
-	//
-	if (requestParameterValuesMap.containsKey(clientId)) {
-	    String[] newValues = (String[])
-		requestParameterValuesMap.get(clientId);
+        // If the clientId is found some controls are checked
+        //
+        if (requestParameterValuesMap.containsKey(clientId)) {
+            String[] newValues = (String[]) requestParameterValuesMap.get(clientId);
 
-	    ((UIInput) component).setSubmittedValue(newValues);
-	    return;
-	}
-	// Return if there are no disabledCheckedValues and there
-	// were no controls checked
-	//
-	((UIInput) component).setSubmittedValue(new String[0]);
-	return;
+            ((UIInput) component).setSubmittedValue(newValues);
+            return;
+        }
+        // Return if there are no disabledCheckedValues and there
+        // were no controls checked
+        //
+        ((UIInput) component).setSubmittedValue(new String[0]);
+        return;
     }
-    
+
     /**
      * Render the child components of this UIComponent, following the rules
      * described for encodeBegin() to acquire the appropriate value to be
@@ -257,8 +242,9 @@ abstract class SelectorGroupRenderer extends RowColumnRenderer {
      * @param context FacesContext for the request we are processing.
      * @param component UIComponent to be decoded.
      */
+    @Override
     public void encodeChildren(FacesContext context, UIComponent component)
-	throws IOException {
+            throws IOException {
     }
 
     /**
@@ -272,88 +258,84 @@ abstract class SelectorGroupRenderer extends RowColumnRenderer {
      * @param columns the number of columns to use when rendering the controls
      */
     protected void renderSelectorGroup(FacesContext context,
-	    UIComponent component, Theme theme,
-	    ResponseWriter writer, int columns)
-	    throws IOException {
+            UIComponent component, Theme theme,
+            ResponseWriter writer, int columns)
+            throws IOException {
 
-	// If there are more items than columns, render additional rows.
-	//
-	Selector selector = (Selector)component;
+        // If there are more items than columns, render additional rows.
+        //
+        Selector selector = (Selector) component;
 
-	// See if we are rendering null for nothing selected
-	//
-	Object selected = selector.getSelected();
+        // See if we are rendering null for nothing selected
+        //
+        Object selected = selector.getSelected();
 
-	// If the submittedValue is null record the rendered value
-	// If the submittedValue is not null then it contains the
-	// String values of the selected controls.
-	// If the submittedValue is not null but zero in length
-	// then nothing is selected. Assume that the component still
-	// has the appropriate rendered state.
-	//
-	if (selector.getSubmittedValue() == null) {
-	    ConversionUtilities.setRenderedValue(component, selected);
-	}
+        // If the submittedValue is null record the rendered value
+        // If the submittedValue is not null then it contains the
+        // String values of the selected controls.
+        // If the submittedValue is not null but zero in length
+        // then nothing is selected. Assume that the component still
+        // has the appropriate rendered state.
+        //
+        if (selector.getSubmittedValue() == null) {
+            ConversionUtilities.setRenderedValue(component, selected);
+        }
 
-	// If there aren't any items don't render anything
-	//
-	Option[] items = getItems((Selector)component);
-	if (items == null) {
-	    return;
-	}
-	int length = items.length;
-	if (length == 0) {
-	    return;
-	}
+        // If there aren't any items don't render anything
+        //
+        Option[] items = getItems((Selector) component);
+        if (items == null) {
+            return;
+        }
+        int length = items.length;
+        if (length == 0) {
+            return;
+        }
 
-	columns = columns <= 0 ? 1 :
-		(columns > length ? length : columns);
-	int rows = (length + (columns - 1)) / columns;
+        columns = columns <= 0 ? 1 : (columns > length ? length : columns);
+        int rows = (length + (columns - 1)) / columns;
 
-	// Render the table layout
-	renderRowColumnLayout(context, component, theme,
-		writer, rows, columns);
+        // Render the table layout
+        renderRowColumnLayout(context, component, theme,
+                writer, rows, columns);
     }
 
     // Should be in component
     //
     protected Option[] getItems(Selector selector) {
-	Object items = selector.getItems();
-	if (items == null) {
-	    return null;
-	} else
-	if (items instanceof Option[]) {
-	    return (Option[])items;
-	} else
-	if (items instanceof Map) {
-	    int size = ((Map)items).size();
-	    return (Option[])((Map)items).values().toArray(new Option[size]);
-	} else
-	if (items instanceof Collection) {
-	    int size = ((Collection)items).size();
-	    return (Option[])((Collection)items).toArray(new Option[size]);
-	} else {
-	    throw new IllegalArgumentException(
-		"Selector.items is not Option[], Map, or Collection");
-	}
+        Object items = selector.getItems();
+        if (items == null) {
+            return null;
+        } else if (items instanceof Option[]) {
+            return (Option[]) items;
+        } else if (items instanceof Map) {
+            int size = ((Map) items).size();
+            return (Option[]) ((Map) items).values().toArray(new Option[size]);
+        } else if (items instanceof Collection) {
+            int size = ((Collection) items).size();
+            return (Option[]) ((Collection) items).toArray(new Option[size]);
+        } else {
+            throw new IllegalArgumentException(
+                    "Selector.items is not Option[], Map, or Collection");
+        }
     }
 
     protected void renderCellContent(FacesContext context,
-				    UIComponent component,
-				    Theme theme,
-				    ResponseWriter writer,
-				    int itemN) throws IOException {
+            UIComponent component,
+            Theme theme,
+            ResponseWriter writer,
+            int itemN) throws IOException {
 
-	Option[] items = getItems((Selector)component);
-	if (itemN >= items.length) {
-	    renderEmptyCell(context, component, theme, writer);
-	    return;
-	}
+        Option[] items = getItems((Selector) component);
+        if (itemN >= items.length) {
+            renderEmptyCell(context, component, theme, writer);
+            return;
+        }
 
-	String id = component.getId().concat("_") + itemN; //NOI18N
-	UIComponent content = getSelectorComponent(context, component,
-		theme, id, items[itemN]);
-	RenderingUtilities.renderComponent(content, context);
+        String id = component.getId().concat("_") + itemN; //NOI18N
+        UIComponent content = getSelectorComponent(context, component,
+                theme, id, items[itemN]);
+        RenderingUtilities.renderComponent(content, context);
     }
 
     /**
@@ -367,94 +349,93 @@ abstract class SelectorGroupRenderer extends RowColumnRenderer {
      * be output
      */
     protected void renderCaption(FacesContext context,
-	    UIComponent component, 
-	    Theme theme, ResponseWriter writer)
-	    throws IOException {
+            UIComponent component,
+            Theme theme, ResponseWriter writer)
+            throws IOException {
 
-	UIComponent captionComponent = getCaptionComponent(context,
-	    component, theme, component.getId().concat("_caption")); //NOI18N
-	if (captionComponent != null) {
-	    RenderingUtilities.renderComponent(captionComponent, context);
-	}
+        UIComponent captionComponent = getCaptionComponent(context,
+                component, theme, component.getId().concat("_caption")); //NOI18N
+        if (captionComponent != null) {
+            RenderingUtilities.renderComponent(captionComponent, context);
+        }
     }
 
     private UIComponent getCaptionComponent(FacesContext context,
-	    UIComponent component, Theme theme,
-	    String captionId) throws IOException {
+            UIComponent component, Theme theme,
+            String captionId) throws IOException {
 
-	// Check if the page author has defined a label facet
-	//
-	// What if the component is readonly ? Do we need to modify
-	// the facet to be readonly, disabled, or required ?
-	// What about styles, etc.
-	//
-	UIComponent labelComponent = component.getFacet("label"); //NOI18N
-	if (labelComponent != null) {
-	    return labelComponent;
-	}
+        // Check if the page author has defined a label facet
+        //
+        // What if the component is readonly ? Do we need to modify
+        // the facet to be readonly, disabled, or required ?
+        // What about styles, etc.
+        //
+        UIComponent labelComponent = component.getFacet("label"); //NOI18N
+        if (labelComponent != null) {
+            return labelComponent;
+        }
 
-	// If we find a label, define a label component
-	//
-	String attrvalue = 
-		(String)component.getAttributes().get("label"); //NOI18N
-	if (attrvalue == null || attrvalue.length() <= 0) { 
-	    return null;
-	}
+        // If we find a label, define a label component
+        //
+        String attrvalue =
+                (String) component.getAttributes().get("label"); //NOI18N
+        if (attrvalue == null || attrvalue.length() <= 0) {
+            return null;
+        }
 
-	// This code should be in the component.
-	// But it is more complicated than that since the argument is
-	// "UIComponent" and not RadioButtonGroup or CheckboxGroup.
-	// Too much needs to be done so leave this way for now until
-	// we fix all renderers with similar problems.
-	//
-	Label label= (Label)ComponentUtilities.getPrivateFacet(component,
-		"label", true); //NOI18N
-	if (label == null) {
-	    label= new Label();
-	    label.setId(ComponentUtilities.createPrivateFacetId(
-		component, "label")); //NOI18N
-	    ComponentUtilities.putPrivateFacet(component, "label", //NOI18N
-		label);
-	}
+        // This code should be in the component.
+        // But it is more complicated than that since the argument is
+        // "UIComponent" and not RadioButtonGroup or CheckboxGroup.
+        // Too much needs to be done so leave this way for now until
+        // we fix all renderers with similar problems.
+        //
+        Label label = (Label) ComponentUtilities.getPrivateFacet(component,
+                "label", true); //NOI18N
+        if (label == null) {
+            label = new Label();
+            label.setId(ComponentUtilities.createPrivateFacetId(
+                    component, "label")); //NOI18N
+            ComponentUtilities.putPrivateFacet(component, "label", //NOI18N
+                    label);
+        }
 
-	label.setText(attrvalue);
+        label.setText(attrvalue);
 
-	// Set the for attribute. This will eventually resolve to the
-	// the first control.
-	//
-	label.setFor(component.getClientId(context));
+        // Set the for attribute. This will eventually resolve to the
+        // the first control.
+        //
+        label.setFor(component.getClientId(context));
 
-	// Give the group's tooltip to the group label
-	//
-	attrvalue =
-	    (String)component.getAttributes().get("toolTip"); //NOI18N
-	if (attrvalue != null) {
-	    label.setToolTip(attrvalue);
-	}
+        // Give the group's tooltip to the group label
+        //
+        attrvalue =
+                (String) component.getAttributes().get("toolTip"); //NOI18N
+        if (attrvalue != null) {
+            label.setToolTip(attrvalue);
+        }
 
-	Integer lblLvl = (Integer)
-	   component.getAttributes().get("labelLevel"); //NOI18N
+        Integer lblLvl = (Integer) component.getAttributes().get("labelLevel"); //NOI18N
 
-	// Need to synch up defaults
-	//
-	if (lblLvl == null) {
-	    lblLvl = new Integer(2);
-	}
+        // Need to synch up defaults
+        //
+        if (lblLvl == null) {
+            lblLvl = new Integer(2);
+        }
 
-	label.setLabelLevel(lblLvl == null ? 2 : lblLvl.intValue());
+        label.setLabelLevel(lblLvl == null ? 2 : lblLvl.intValue());
 
-	int styleCode = GRP_LABEL;
-	Boolean disabled =
-	    (Boolean)component.getAttributes().get("disabled"); //NOI18N
-	if (disabled != null && disabled.booleanValue() == true) {
-	    styleCode = GRP_LABEL_DIS;
-	}
+        int styleCode = GRP_LABEL;
+        Boolean disabled =
+                (Boolean) component.getAttributes().get("disabled"); //NOI18N
+        if (disabled != null && disabled.booleanValue() == true) {
+            styleCode = GRP_LABEL_DIS;
+        }
 
-	String captionStyle = getStyle(theme, styleCode);
-	if (captionStyle != null) {
-	    label.setStyleClass(captionStyle);
-	}
-	return label;
+        String captionStyle = getStyle(theme, styleCode);
+        if (captionStyle != null) {
+            label.setStyleClass(captionStyle);
+        }
+        return label;
     }
 
     /**
@@ -468,19 +449,19 @@ abstract class SelectorGroupRenderer extends RowColumnRenderer {
      * be output
      */
     protected void renderEmptyCell(FacesContext context,
-	    UIComponent component, Theme theme,
-	    ResponseWriter writer) throws IOException {
+            UIComponent component, Theme theme,
+            ResponseWriter writer) throws IOException {
 
-	/*
+        /*
         writer.writeText("&nbsp;", null); //NOI18N
-	*/
+         */
     }
 
     // Structural styles
     //
     private int[] rowcolstyle = {
-	GRP, GRP_CAPTION, GRP_ROW_EVEN, GRP_ROW_ODD,
-	GRP_CELL_EVEN, GRP_CELL_ODD
+        GRP, GRP_CAPTION, GRP_ROW_EVEN, GRP_ROW_ODD,
+        GRP_CELL_EVEN, GRP_CELL_ODD
     };
 
     /**
@@ -492,7 +473,7 @@ abstract class SelectorGroupRenderer extends RowColumnRenderer {
      * @param styleCode the desired style class constant
      */
     protected final String getRowColumnStyle(Theme theme, int styleCode) {
-	return getStyle(theme, rowcolstyle[styleCode]);
+        return getStyle(theme, rowcolstyle[styleCode]);
     }
 
     /**
@@ -503,13 +484,13 @@ abstract class SelectorGroupRenderer extends RowColumnRenderer {
      * to be rendered.
      */
     private String getStyle(Theme theme, int styleCode) {
-	String style = null;
-	try {
-	    style = theme.getStyleClass(getStyles()[styleCode]);
-	} catch (Exception e) {
-	    // Don't care
-	}
-	return style;
+        String style = null;
+        try {
+            style = theme.getStyleClass(getStyles()[styleCode]);
+        } catch (Exception e) {
+            // Don't care
+        }
+        return style;
     }
 
     /**
@@ -522,61 +503,61 @@ abstract class SelectorGroupRenderer extends RowColumnRenderer {
      * element about to be rendered.
      */
     protected String getStyle(Theme theme,
-		int styleCode, int styleLevelCode) {
+            int styleCode, int styleLevelCode) {
 
-	String style = getStyle(theme, styleCode);
-	if (style == null) {
-	    return null;
-	}
+        String style = getStyle(theme, styleCode);
+        if (style == null) {
+            return null;
+        }
 
-	StringBuffer styleBuf = new StringBuffer(style);
+        StringBuffer styleBuf = new StringBuffer(style);
 
-	String styleLevel = null;
-	if (styleLevelCode != LABEL_LVL_DEF) {
-	    styleLevel = getStyle(theme, styleLevelCode);
-	}
+        String styleLevel = null;
+        if (styleLevelCode != LABEL_LVL_DEF) {
+            styleLevel = getStyle(theme, styleLevelCode);
+        }
 
-	// No style code for the desired one, get the default
-	//
-	if (styleLevel != null) {
-	    if (styleBuf.length() != 0) {
-		styleBuf.append(" "); //NOI18N
-	    }
-	    styleBuf.append(styleLevel);
-	} else {
-	    style = null;
-	    switch (styleCode) {
-	    case GRP_CAPTION:
-		style = getStyle(theme, LABEL_LVL2);
-	    break;
-	    case LABEL:
-		style = getStyle(theme, LABEL_LVL3);
-	    break;
-	    }
-	    if (style != null) {
-		if (styleBuf.length() != 0) {
-		    styleBuf.append(" "); //NOI18N
-		}
-		styleBuf.append(style);
-	    }
-	}
-	return styleBuf.toString();
+        // No style code for the desired one, get the default
+        //
+        if (styleLevel != null) {
+            if (styleBuf.length() != 0) {
+                styleBuf.append(" "); //NOI18N
+            }
+            styleBuf.append(styleLevel);
+        } else {
+            style = null;
+            switch (styleCode) {
+                case GRP_CAPTION:
+                    style = getStyle(theme, LABEL_LVL2);
+                    break;
+                case LABEL:
+                    style = getStyle(theme, LABEL_LVL3);
+                    break;
+            }
+            if (style != null) {
+                if (styleBuf.length() != 0) {
+                    styleBuf.append(" "); //NOI18N
+                }
+                styleBuf.append(style);
+            }
+        }
+        return styleBuf.toString();
     }
-    
+
     // mbohm 6300361,6300362
     // Transfer event attributes from a radiobuttongroup/checkboxgroup to a
     // radiobutton/checkbox.
     protected void transferEventAttributes(Selector group, RbCbSelector rbcb) {
         Map groupAttributes = group.getAttributes();
         Map rbcbAttributes = rbcb.getAttributes();
-        final String[] eventAttributeNames = 
+        final String[] eventAttributeNames =
                 AbstractRenderer.EVENTS_ATTRIBUTES;
         for (int i = 0; i < eventAttributeNames.length; i++) {
-            Object eventAttributeValue = 
+            Object eventAttributeValue =
                     groupAttributes.get(eventAttributeNames[i]);
             if (eventAttributeValue != null) {
-                rbcbAttributes.put(eventAttributeNames[i], 
-                    eventAttributeValue);
+                rbcbAttributes.put(eventAttributeNames[i],
+                        eventAttributeValue);
             }
         }
     }

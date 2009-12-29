@@ -19,18 +19,13 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.faces.annotation.Renderer;
-import java.util.Locale;
 import java.io.IOException;
-
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.component.UIComponent;
-
-import com.sun.webui.jsf.component.ImageComponent;
 import com.sun.webui.jsf.component.JobStatus;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeStyles;
@@ -43,13 +38,13 @@ import com.sun.webui.jsf.util.ThemeUtilities;
  *
  * @author Sean Comerford
  */
-@Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.JobStatus"))
+@Renderer(@Renderer.Renders(componentFamily = "com.sun.webui.jsf.JobStatus"))
 public class JobStatusRenderer extends HyperlinkRenderer {
-    
+
     /** Creates a new instance of JobStatusRenderer */
     public JobStatusRenderer() {
     }
-    
+
     /**
      * <p>Render the start of the JobStatus component.</p>
      *
@@ -59,33 +54,33 @@ public class JobStatusRenderer extends HyperlinkRenderer {
      * start should be rendered
      * @exception IOException if an input/output error occurs
      */
+    @Override
     protected void renderStart(FacesContext context, UIComponent component,
             ResponseWriter writer) throws IOException {
-        JobStatus jobStatus = (JobStatus) component;        
-        
+        JobStatus jobStatus = (JobStatus) component;
+
         UIComponent image = jobStatus.getImageFacet();
         if (image != null) {
             RenderingUtilities.renderComponent(image, context);
         }
-        
+
         writer.write("&nbsp;");
     }
-    
+
+    @Override
     protected void finishRenderAttributes(FacesContext context,
             UIComponent component, ResponseWriter writer) throws IOException {
         JobStatus jobStatus = (JobStatus) component;
-        Theme theme = ThemeUtilities.getTheme(context);       
-                
-	Object textObj = jobStatus.getText();
-        String text = textObj != null ? 
-	    ConversionUtilities.convertValueToString(component, textObj) :
-            theme.getMessage("masthead.tasksRunning");        
-        
+        Theme theme = ThemeUtilities.getTheme(context);
+
+        Object textObj = jobStatus.getText();
+        String text = textObj != null ? ConversionUtilities.convertValueToString(component, textObj) : theme.getMessage("masthead.tasksRunning");
+
         writer.startElement("span", jobStatus);
-        addCoreAttributes(context, jobStatus, writer, 
-            theme.getStyleClass(ThemeStyles.MASTHEAD_TEXT));
+        addCoreAttributes(context, jobStatus, writer,
+                theme.getStyleClass(ThemeStyles.MASTHEAD_TEXT));
         writer.write(text);
         writer.write("&nbsp;" + jobStatus.getNumJobs()); // NOI18N
-        writer.endElement("span");        
+        writer.endElement("span");
     }
 }

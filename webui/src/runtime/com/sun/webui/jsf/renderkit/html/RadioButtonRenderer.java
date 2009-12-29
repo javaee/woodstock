@@ -19,23 +19,19 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.faces.annotation.Renderer;
 import java.io.IOException;
 import java.util.Map;
-
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-
 import com.sun.webui.jsf.component.RadioButton;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeStyles;
 import com.sun.webui.jsf.util.ConversionUtilities;
-import com.sun.webui.jsf.util.MessageUtil;
 import com.sun.webui.jsf.util.ThemeUtilities;
 
 /**
@@ -149,12 +145,12 @@ import com.sun.webui.jsf.util.ThemeUtilities;
  * will be selected.
  * </p>
  */
-@Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.RadioButton"))
+@Renderer(@Renderer.Renders(componentFamily = "com.sun.webui.jsf.RadioButton"))
+//FIXME check about making RbCbRendererBase a public abstract class
 public class RadioButtonRenderer extends RbCbRendererBase {
-    
 
     private final String MSG_COMPONENT_NOT_RADIOBUTTON =
-	"RadioButtonRenderer only renders RadioButton components.";
+            "RadioButtonRenderer only renders RadioButton components.";
 
     /**
      * Creates a new instance of RadioButtonRenderer
@@ -162,7 +158,7 @@ public class RadioButtonRenderer extends RbCbRendererBase {
     public RadioButtonRenderer() {
         super();
     }
-    
+
     /**
      * <p>Decode the <code>RadioButton</code> selection.</p>
      * <p>
@@ -199,92 +195,93 @@ public class RadioButtonRenderer extends RbCbRendererBase {
      * @param component The <code>RadioButton</code>
      * component to be decoded.
      */
+    @Override
     public void decode(FacesContext context, UIComponent component) {
 
-	// We need to know the last state of the component before decoding
-	// this radio button. This disabled check is not to determine
-	// if the radio button was disabled on the client.
-	// We assume that the disabled state is in the same state as it was
-	// when this radio button was last rendered.
-	// If the radio button was disabled then it can not have changed on
-	// the client. We ignore the case that it might have been
-	// enabled in javascript on the client.
-	// This allows us to distinguish that no radio button was selected.
-	// No radio buttons are selected when "isDisabled || isReadOnly -> false
-	// and no request parameters match the name attribute if part of a
-	// group or the clientId if a single radio button.
-	//
+        // We need to know the last state of the component before decoding
+        // this radio button. This disabled check is not to determine
+        // if the radio button was disabled on the client.
+        // We assume that the disabled state is in the same state as it was
+        // when this radio button was last rendered.
+        // If the radio button was disabled then it can not have changed on
+        // the client. We ignore the case that it might have been
+        // enabled in javascript on the client.
+        // This allows us to distinguish that no radio button was selected.
+        // No radio buttons are selected when "isDisabled || isReadOnly -> false
+        // and no request parameters match the name attribute if part of a
+        // group or the clientId if a single radio button.
+        //
         if (isDisabled(component) || isReadOnly(component)) {
-	    return;
-	}
-	// If there is a request parameter that that matches the
-	// name property, this component is one of the possible
-	// selections. We need to match the value of the parameter to the
-	// the component's value to see if this is the selected component.
-	//
-	RadioButton radioButton = (RadioButton)component;
-	String name = radioButton.getName();
-	boolean inGroup = name != null;
+            return;
+        }
+        // If there is a request parameter that that matches the
+        // name property, this component is one of the possible
+        // selections. We need to match the value of the parameter to the
+        // the component's value to see if this is the selected component.
+        //
+        RadioButton radioButton = (RadioButton) component;
+        String name = radioButton.getName();
+        boolean inGroup = name != null;
 
-	// If name is null use the clientId.
-	//
-	if (name == null) {
-	    name = component.getClientId(context);
-	}
+        // If name is null use the clientId.
+        //
+        if (name == null) {
+            name = component.getClientId(context);
+        }
 
-	Map requestParameterMap = context.getExternalContext().
-	    getRequestParameterMap();
+        Map requestParameterMap = context.getExternalContext().
+                getRequestParameterMap();
 
-	// The request parameter map contains the INPUT element
-	// name attribute value as a parameter. The value is the
-	// the "selectedValue" value of the RadioButton component.
-	//
-	if (requestParameterMap.containsKey(name)) {
+        // The request parameter map contains the INPUT element
+        // name attribute value as a parameter. The value is the
+        // the "selectedValue" value of the RadioButton component.
+        //
+        if (requestParameterMap.containsKey(name)) {
 
-	    String newValue = (String)requestParameterMap.get(name);
+            String newValue = (String) requestParameterMap.get(name);
 
-	    // We need to discern the case where the radio button
-	    // is part of a group and it is a boolean radio button.
-	    // If the radio button is part of a group and it is a
-	    // boolean radio button then the submitted value contains the
-	    // value of "component.getClientId()". If 
-	    // the value was not a unique value within the group
-	    // of boolean radio buttons, then all will appear selected,
-	    // since name will be the same for all the radio buttons
-	    // and the submitted value would always be "true" and then
-	    // every radio button component in the group would decode
-	    // as selected. Due to the HTML implementation of radio
-	    // buttons, only the last radio button will appear selected.
-	    //
+            // We need to discern the case where the radio button
+            // is part of a group and it is a boolean radio button.
+            // If the radio button is part of a group and it is a
+            // boolean radio button then the submitted value contains the
+            // value of "component.getClientId()". If
+            // the value was not a unique value within the group
+            // of boolean radio buttons, then all will appear selected,
+            // since name will be the same for all the radio buttons
+            // and the submitted value would always be "true" and then
+            // every radio button component in the group would decode
+            // as selected. Due to the HTML implementation of radio
+            // buttons, only the last radio button will appear selected.
+            //
             Object selectedValue = radioButton.getSelectedValue();
-	    String selectedValueAsString = null;
+            String selectedValueAsString = null;
 
-	    if (inGroup && selectedValue instanceof Boolean) {
-		selectedValueAsString = component.getClientId(context);
-		// Use the toString value of selectedValue even if
-		// it is a Boolean control, in case the application
-		// wants "FALSE == FALSE" to mean checked.
-		//
-		if (selectedValueAsString.equals(newValue)) {
-		    ((UIInput)component).setSubmittedValue(
-			    new String[] { selectedValue.toString() });
-		    return;
-		}
-	    } else {
-		selectedValueAsString =
-		    ConversionUtilities.convertValueToString(component,
-			selectedValue);
-		if (selectedValueAsString.equals(newValue)) {
-		    ((UIInput)component).setSubmittedValue(
-			    new String[] { newValue });
-		    return;
-		}
-	    }
-	    // Not selected possibly deselected.
-	    // 
-	    ((UIInput) component).setSubmittedValue(new String[0]);
-	}
-	return;
+            if (inGroup && selectedValue instanceof Boolean) {
+                selectedValueAsString = component.getClientId(context);
+                // Use the toString value of selectedValue even if
+                // it is a Boolean control, in case the application
+                // wants "FALSE == FALSE" to mean checked.
+                //
+                if (selectedValueAsString.equals(newValue)) {
+                    ((UIInput) component).setSubmittedValue(
+                            new String[]{selectedValue.toString()});
+                    return;
+                }
+            } else {
+                selectedValueAsString =
+                        ConversionUtilities.convertValueToString(component,
+                        selectedValue);
+                if (selectedValueAsString.equals(newValue)) {
+                    ((UIInput) component).setSubmittedValue(
+                            new String[]{newValue});
+                    return;
+                }
+            }
+            // Not selected possibly deselected.
+            //
+            ((UIInput) component).setSubmittedValue(new String[0]);
+        }
+        return;
     }
 
     /**
@@ -294,17 +291,17 @@ public class RadioButtonRenderer extends RbCbRendererBase {
      * @param context FacesContext for the request we are processing.
      * @param component UIComponent to be decoded.
      */
+    @Override
     public void renderStart(FacesContext context, UIComponent component,
-	ResponseWriter writer)
-	throws IOException {
+            ResponseWriter writer)
+            throws IOException {
 
-	// Bail out if the component is not a RadioButton component.
-	// This message should be logged.
-	//
-	if (!(component instanceof RadioButton)) {
-	    throw new
-		IllegalArgumentException(MSG_COMPONENT_NOT_RADIOBUTTON);
-	}
+        // Bail out if the component is not a RadioButton component.
+        // This message should be logged.
+        //
+        if (!(component instanceof RadioButton)) {
+            throw new IllegalArgumentException(MSG_COMPONENT_NOT_RADIOBUTTON);
+        }
     }
 
     /**
@@ -314,13 +311,14 @@ public class RadioButtonRenderer extends RbCbRendererBase {
      * @param context FacesContext for the request we are processing.
      * @param component UIComponent to be decoded.
      */
+    @Override
     public void renderEnd(FacesContext context, UIComponent component,
-	ResponseWriter writer)
-	throws IOException {
+            ResponseWriter writer)
+            throws IOException {
 
-	Theme theme = ThemeUtilities.getTheme(context);
-	renderSelection(context, component, theme, writer, "radio");
-        
+        Theme theme = ThemeUtilities.getTheme(context);
+        renderSelection(context, component, theme, writer, "radio");
+
     }
 
     /**
@@ -331,19 +329,17 @@ public class RadioButtonRenderer extends RbCbRendererBase {
      * @param component UIComponent to test for selected.
      */
     protected boolean isSelected(FacesContext context, UIComponent component) {
-	return ((RadioButton)component).isChecked();
+        return ((RadioButton) component).isChecked();
     }
-
     protected String[] styles = {
-	ThemeStyles.RADIOBUTTON,	 	/* INPUT */
-	ThemeStyles.RADIOBUTTON_DISABLED, 	/* INPUT_DIS */
-	ThemeStyles.RADIOBUTTON_LABEL,		/* LABEL */
-	ThemeStyles.RADIOBUTTON_LABEL_DISABLED, /* LABEL_DIS */
-	ThemeStyles.RADIOBUTTON_IMAGE,		/* IMAGE */
-	ThemeStyles.RADIOBUTTON_IMAGE_DISABLED, /* IMAGE_DIS */
-	ThemeStyles.RADIOBUTTON_SPAN,		/* SPAN */
-	ThemeStyles.RADIOBUTTON_SPAN_DISABLED	/* SPAN_DIS */
-    };
+        ThemeStyles.RADIOBUTTON, /* INPUT */
+        ThemeStyles.RADIOBUTTON_DISABLED, /* INPUT_DIS */
+        ThemeStyles.RADIOBUTTON_LABEL, /* LABEL */
+        ThemeStyles.RADIOBUTTON_LABEL_DISABLED, /* LABEL_DIS */
+        ThemeStyles.RADIOBUTTON_IMAGE, /* IMAGE */
+        ThemeStyles.RADIOBUTTON_IMAGE_DISABLED, /* IMAGE_DIS */
+        ThemeStyles.RADIOBUTTON_SPAN, /* SPAN */
+        ThemeStyles.RADIOBUTTON_SPAN_DISABLED /* SPAN_DIS */};
 
     /**
      * Return the style class name for the structural element indicated
@@ -354,12 +350,12 @@ public class RadioButtonRenderer extends RbCbRendererBase {
      * to be rendered.
      */
     protected String getStyle(Theme theme, int styleCode) {
-	String style = null;
-	try {
-	    style = theme.getStyleClass(styles[styleCode]);
-	} catch (Exception e) {
-	    // Don't care
-	}
-	return style;
+        String style = null;
+        try {
+            style = theme.getStyleClass(styles[styleCode]);
+        } catch (Exception e) {
+            // Don't care
+        }
+        return style;
     }
 }

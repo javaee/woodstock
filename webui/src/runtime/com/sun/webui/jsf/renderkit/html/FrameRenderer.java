@@ -20,10 +20,9 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 
- /*
-  * $Id: FrameRenderer.java,v 1.1 2007-02-16 01:38:00 bob_yennaco Exp $
-  */
-
+/*
+ * $Id: FrameRenderer.java,v 1.1.16.1 2009-12-29 04:52:46 jyeary Exp $
+ */
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.faces.annotation.Renderer;
@@ -37,22 +36,16 @@ import com.sun.webui.jsf.util.RenderingUtilities;
 /**
  * <p>Renderer for a {@link Frame} component.</p>
  */
-
-@Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.Frame"))
+@Renderer(@Renderer.Renders(componentFamily = "com.sun.webui.jsf.Frame"))
 public class FrameRenderer extends AbstractRenderer {
-    
-    
-    // ======================================================== Static Variables
 
-     /**
+    // ======================================================== Static Variables
+    /**
      * <p>The set of String pass-through attributes to be rendered.</p>
      */
-    private static final String stringAttributes[] =
-    { "name",  "scrolling"}; //NOI18N
-    
+    private static final String stringAttributes[] = {"name", "scrolling"}; //NOI18N
+
     // -------------------------------------------------------- Renderer Methods
-    
-    
     /**
      * <p>Render the appropriate element start for the outermost
      * element.</p>
@@ -64,21 +57,20 @@ public class FrameRenderer extends AbstractRenderer {
      *
      * @exception IOException if an input/output error occurs
      */
+    @Override
     protected void renderStart(FacesContext context, UIComponent component,
             ResponseWriter writer) throws IOException {
         Frame frame = (Frame) component;
-        
+
         // I don't think this is the correct way to write the XML
         // header /avk
-        
+
         if (!RenderingUtilities.isPortlet(context)) {
             writer.startElement("frame", component);
-       }
-        
+        }
+
     }
-    
-    
-    
+
     /**
      * <p>Render the appropriate element attributes, followed by the
      * nested <code>&lt;head&gt;</code> element, plus the beginning
@@ -91,15 +83,16 @@ public class FrameRenderer extends AbstractRenderer {
      *
      * @exception IOException if an input/output error occurs
      */
+    @Override
     protected void renderAttributes(FacesContext context, UIComponent component,
             ResponseWriter writer) throws IOException {
-        
+
         Frame frame = (Frame) component;
-        
+
         // Render a nested "head" element
         if (!RenderingUtilities.isPortlet(context)) {
             //id
-            String id=frame.getClientId(context);
+            String id = frame.getClientId(context);
             if (id != null) {
                 writer.writeAttribute("id", id, null); //NOI18N
             }
@@ -108,14 +101,14 @@ public class FrameRenderer extends AbstractRenderer {
             if (url != null) {
                 // Append context path to relative URLs -- bugtraq #6338307.
                 url = context.getApplication().getViewHandler().
-                    getResourceURL(context, url);
+                        getResourceURL(context, url);
 
-                RenderingUtilities.renderURLAttribute(context, 
-                    writer, 
-                    component, 
-                    "src", //NOI18N    
-                    url, 
-                    null); //NOI18N                       
+                RenderingUtilities.renderURLAttribute(context,
+                        writer,
+                        component,
+                        "src", //NOI18N
+                        url,
+                        null); //NOI18N
             }
             //class
             String styleClass = frame.getStyleClass();
@@ -129,7 +122,7 @@ public class FrameRenderer extends AbstractRenderer {
             }
             //write out the rest of the attributes
             addStringAttributes(context, component, writer, stringAttributes);
-             
+
             //frameborder
             boolean border = frame.isFrameBorder();
             if (border) {
@@ -143,7 +136,7 @@ public class FrameRenderer extends AbstractRenderer {
                 writer.writeAttribute("longdesc", longdesc, null); //NOI18N
             }
             //marginWidth
-            Integer  marginWidth = new Integer(frame.getMarginWidth());
+            Integer marginWidth = new Integer(frame.getMarginWidth());
             if (frame.getMarginWidth() >= 0) {
                 writer.writeAttribute("marginwidth", marginWidth.toString(), null); //NOI18N
             }
@@ -152,17 +145,18 @@ public class FrameRenderer extends AbstractRenderer {
             if (frame.getMarginHeight() >= 0) {
                 writer.writeAttribute("marginheight", marginHeight.toString(), null); //NOI18N
             }
-            
+
             renderResizeAttribute(writer, component);
- 
+
             //tooltip
             String toolTip = frame.getToolTip();
             if (toolTip != null) {
                 writer.writeAttribute("title", toolTip, "toolTip"); //NOI18N
             }
-          }
-        
+        }
+
     }
+
     /**
      * <p>Render the appropriate element end.</p>
      *
@@ -173,26 +167,25 @@ public class FrameRenderer extends AbstractRenderer {
      *
      * @exception IOException if an input/output error occurs
      */
+    @Override
     protected void renderEnd(FacesContext context, UIComponent component,
             ResponseWriter writer) throws IOException {
-        
+
         Frame frame = (Frame) component;
-        
+
         // End the outermost "html" element
         if (!RenderingUtilities.isPortlet(context)) {
             writer.write(" />"); //NOI18N
             writer.write("\n"); //NOI18N
         }
-                
-    }
-    
-    
-    // ---------------------------------------------------s- protected Methods
 
-    protected void renderResizeAttribute(ResponseWriter writer, UIComponent comp) 
+    }
+
+    // ---------------------------------------------------s- protected Methods
+    protected void renderResizeAttribute(ResponseWriter writer, UIComponent comp)
             throws IOException {
         //noresize
-        boolean noresize = ((Frame)comp).isNoResize();
+        boolean noresize = ((Frame) comp).isNoResize();
         if (noresize) {
             writer.writeAttribute("noresize", "noresize", null); //NOI18N
         }

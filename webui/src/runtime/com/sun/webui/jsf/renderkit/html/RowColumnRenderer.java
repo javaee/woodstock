@@ -19,20 +19,15 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.renderkit.html;
 
-import com.sun.faces.annotation.Renderer;
 import java.io.IOException;
-
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-
 import com.sun.webui.html.HTMLElements;
 import com.sun.webui.html.HTMLAttributes;
-
-import com.sun.webui.theme.Theme; 
+import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.util.RenderingUtilities;
 
 /**
@@ -126,7 +121,7 @@ abstract class RowColumnRenderer extends AbstractRenderer {
      * Create a RowColumnRenderer instance.
      */
     public RowColumnRenderer() {
-	super();
+        super();
     }
 
     /**
@@ -139,127 +134,126 @@ abstract class RowColumnRenderer extends AbstractRenderer {
      * @param columns the number of columns to render
      */
     protected void renderRowColumnLayout(FacesContext context,
-	    UIComponent component, Theme theme, ResponseWriter writer,
-	    int rows, int columns) throws IOException {
+            UIComponent component, Theme theme, ResponseWriter writer,
+            int rows, int columns) throws IOException {
 
-	writer.startElement(HTMLElements.TABLE, component);
+        writer.startElement(HTMLElements.TABLE, component);
 
-	writer.writeAttribute(HTMLAttributes.ID, 
-		component.getClientId(context), HTMLAttributes.ID);
+        writer.writeAttribute(HTMLAttributes.ID,
+                component.getClientId(context), HTMLAttributes.ID);
 
-	// Set the CSS table style
-	//
-	writeStyleAttribute(component, writer, null);
+        // Set the CSS table style
+        //
+        writeStyleAttribute(component, writer, null);
 
-	// Set the class attribute.
-	// Include the hidden attribute
-	//
-	String styles = RenderingUtilities.getStyleClasses(context, component,
-		getRowColumnStyle(theme, TABLE_STYLE));
-	if (styles != null) {
-	    writer.writeAttribute(HTMLAttributes.CLASS, styles, null);
-	}
+        // Set the class attribute.
+        // Include the hidden attribute
+        //
+        String styles = RenderingUtilities.getStyleClasses(context, component,
+                getRowColumnStyle(theme, TABLE_STYLE));
+        if (styles != null) {
+            writer.writeAttribute(HTMLAttributes.CLASS, styles, null);
+        }
 
-	// Assume contained elements inherit from these
-	// span attributes
-	//
-	addStringAttributes(context, component, writer,
-		I18N_ATTRIBUTES);
-        
+        // Assume contained elements inherit from these
+        // span attributes
+        //
+        addStringAttributes(context, component, writer,
+                I18N_ATTRIBUTES);
+
         // mbohm 6300361,6300362
         // commenting out this call to addStringAttributes
         // see RadioButtonGroupRenderer.getSelectorComponent and 
         // CheckboxGroupRenderer.getSelectorComponent
-	// addStringAttributes(context, component, writer,
-	//	EVENTS_ATTRIBUTES);
+        // addStringAttributes(context, component, writer,
+        //	EVENTS_ATTRIBUTES);
 
-	renderRows(context, component, theme, writer, rows, columns);
+        renderRows(context, component, theme, writer, rows, columns);
 
-	writer.endElement(HTMLElements.TABLE);
+        writer.endElement(HTMLElements.TABLE);
 
     }
 
     /**
      * Render the rows of the table
      */
-    private void renderRows(FacesContext context, 
-                            UIComponent component,
-                            Theme theme, 
-                            ResponseWriter writer, 
-                            int rows, 
-                            int columns) throws IOException {
+    private void renderRows(FacesContext context,
+            UIComponent component,
+            Theme theme,
+            ResponseWriter writer,
+            int rows,
+            int columns) throws IOException {
 
-	// Create a cell for the caption
-	//
-	int row = 0;
-	writer.startElement(HTMLElements.TR, component);
-	writer.writeAttribute(HTMLAttributes.CLASS,
-	    getRowColumnStyle(theme, ROWODD_STYLE), null);
+        // Create a cell for the caption
+        //
+        int row = 0;
+        writer.startElement(HTMLElements.TR, component);
+        writer.writeAttribute(HTMLAttributes.CLASS,
+                getRowColumnStyle(theme, ROWODD_STYLE), null);
 
-	writer.startElement(HTMLElements.TD, component);
-	String style = getRowColumnStyle(theme, CAPTION_STYLE);
-	if (style != null) {
-	    writer.writeAttribute(HTMLAttributes.CLASS, style, null);
-	}
-	renderCaption(context, component, theme, writer);
-	writer.endElement(HTMLElements.TD);
+        writer.startElement(HTMLElements.TD, component);
+        String style = getRowColumnStyle(theme, CAPTION_STYLE);
+        if (style != null) {
+            writer.writeAttribute(HTMLAttributes.CLASS, style, null);
+        }
+        renderCaption(context, component, theme, writer);
+        writer.endElement(HTMLElements.TD);
 
-	int itemN = 0;
-	for (row = 1; row <= rows; ++row) {
+        int itemN = 0;
+        for (row = 1; row <= rows; ++row) {
 
-	    for (int column = 0; column < columns; ++column) {
+            for (int column = 0; column < columns; ++column) {
 
-		writer.startElement(HTMLElements.TD, component);
+                writer.startElement(HTMLElements.TD, component);
 
-		// Use "1" based cells so that the first cell is odd
-		// vs. "0th" cell which would be even
-		//
-		// Don't inlcude the hidden attribute
-		String styles = getRowColumnStyle(theme,
-		    (column & 0x00000001) == 0 ?
-			CELLEVEN_STYLE : CELLODD_STYLE);
-		if (styles != null) {
-		    writer.writeAttribute(HTMLAttributes.CLASS, styles, null);
-		}
+                // Use "1" based cells so that the first cell is odd
+                // vs. "0th" cell which would be even
+                //
+                // Don't inlcude the hidden attribute
+                String styles = getRowColumnStyle(theme,
+                        (column & 0x00000001) == 0 ? CELLEVEN_STYLE : CELLODD_STYLE);
+                if (styles != null) {
+                    writer.writeAttribute(HTMLAttributes.CLASS, styles, null);
+                }
 
-		renderCellContent(context, component, theme, writer, itemN);
-		++itemN;
+                renderCellContent(context, component, theme, writer, itemN);
+                ++itemN;
 
-		writer.endElement(HTMLElements.TD);
+                writer.endElement(HTMLElements.TD);
 
-	    }
-	    writer.endElement(HTMLElements.TR);
+            }
+            writer.endElement(HTMLElements.TR);
 
-	    // Don't start any more rows if the loop is ending
-	    //
-	    if (row + 1 <= rows) {
-		writer.startElement(HTMLElements.TR, component);
-		// Use "1" based rows so that the first row is odd
-		// vs. "0th" row which would be even
-		//
-		String styles = getRowColumnStyle(theme,
-		    (row & 0x00000001) == 0 ? ROWODD_STYLE : ROWEVEN_STYLE);
-		if (styles != null) {
-		    writer.writeAttribute(HTMLAttributes.CLASS, styles, 
-			HTMLAttributes.CLASS);
-		}
+            // Don't start any more rows if the loop is ending
+            //
+            if (row + 1 <= rows) {
+                writer.startElement(HTMLElements.TR, component);
+                // Use "1" based rows so that the first row is odd
+                // vs. "0th" row which would be even
+                //
+                String styles = getRowColumnStyle(theme,
+                        (row & 0x00000001) == 0 ? ROWODD_STYLE : ROWEVEN_STYLE);
+                if (styles != null) {
+                    writer.writeAttribute(HTMLAttributes.CLASS, styles,
+                            HTMLAttributes.CLASS);
+                }
 
-		writer.startElement(HTMLElements.TD, component);
-		writer.endElement(HTMLElements.TD);
-	    }
+                writer.startElement(HTMLElements.TD, component);
+                writer.endElement(HTMLElements.TD);
+            }
 
-	}
+        }
 
-	// FIXME
-	// Need to know if rows can ever be zero.
-	// If rows is 0 then this is the only time this 
-	// row needs to be terminated.
-	//
-	if (rows == 0) {
-	    // End the row started outside the loop
-	    //
-	    writer.endElement(HTMLElements.TR);
-	}
+        // FIXME
+        // Need to know if rows can ever be zero.
+        // If rows is 0 then this is the only time this
+        // row needs to be terminated.
+        //
+        if (rows == 0) {
+            // End the row started outside the loop
+            //
+            writer.endElement(HTMLElements.TR);
+        }
     }
 
     /**
@@ -273,8 +267,8 @@ abstract class RowColumnRenderer extends AbstractRenderer {
      * @param itemN the nth cell to be rendered.
      */
     protected abstract void renderCellContent(FacesContext context,
-	UIComponent component, Theme theme, ResponseWriter writer, int itemN)
-	throws IOException;
+            UIComponent component, Theme theme, ResponseWriter writer, int itemN)
+            throws IOException;
 
     /**
      * Implemented by a subclass.
@@ -285,11 +279,11 @@ abstract class RowColumnRenderer extends AbstractRenderer {
      * @param component component being rendered
      * @param writer <code>ResponseWriter</code> to which the HTML is rendered
      */
-    protected abstract void renderCaption(FacesContext context, 
-					    UIComponent component, 
-					    Theme theme, 
-					    ResponseWriter writer)
-	throws IOException;
+    protected abstract void renderCaption(FacesContext context,
+            UIComponent component,
+            Theme theme,
+            ResponseWriter writer)
+            throws IOException;
 
     /**
      * Get the style class for a structural element of the table.
@@ -309,27 +303,25 @@ abstract class RowColumnRenderer extends AbstractRenderer {
      * @param styleCode one the predefined constants.
      */
     protected abstract String getRowColumnStyle(Theme theme,
-	int styleCode);
+            int styleCode);
 
+    private void writeStyleAttribute(UIComponent component,
+            ResponseWriter writer, String style) throws IOException {
 
-    private void writeStyleAttribute(UIComponent component, 
-	    ResponseWriter writer, String style) throws IOException {
-
-	StringBuffer styleBuf = new StringBuffer();
-	String compStyle = (String)
-	    component.getAttributes().get("style"); //NOI18N
-	if (compStyle != null) {
-	    styleBuf.append(compStyle);
-	}
-	if (style != null) {
-	    if (styleBuf.length() != 0) {
-		styleBuf.append(" "); //NOI18N
-	    }
-	    styleBuf.append(style);
-	}
-	if (styleBuf.length() != 0) {
-	    writer.writeAttribute(HTMLAttributes.STYLE, styleBuf.toString(),
-		HTMLAttributes.STYLE);
-	}
+        StringBuffer styleBuf = new StringBuffer();
+        String compStyle = (String) component.getAttributes().get("style"); //NOI18N
+        if (compStyle != null) {
+            styleBuf.append(compStyle);
+        }
+        if (style != null) {
+            if (styleBuf.length() != 0) {
+                styleBuf.append(" "); //NOI18N
+            }
+            styleBuf.append(style);
+        }
+        if (styleBuf.length() != 0) {
+            writer.writeAttribute(HTMLAttributes.STYLE, styleBuf.toString(),
+                    HTMLAttributes.STYLE);
+        }
     }
 }

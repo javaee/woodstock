@@ -25,23 +25,9 @@
  *
  * Created on November 16, 2004, 2:29 PM
  */
-
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.faces.annotation.Renderer;
-import com.sun.webui.jsf.component.Icon;
-
-import java.io.IOException;
-import java.lang.NullPointerException;
-
-import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
-import javax.faces.component.UIComponent;
-
-import com.sun.webui.jsf.component.Icon;
-import com.sun.webui.theme.Theme;
-import com.sun.webui.jsf.theme.ThemeImages;
-import com.sun.webui.jsf.util.ThemeUtilities;
 
 /**
  * Renders an Icon component. An Icon is essentially an Image picked from the 
@@ -51,8 +37,6 @@ import com.sun.webui.jsf.util.ThemeUtilities;
  * 
  * @author  Sean Comerford
  */
-@Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.Icon"))
+@Renderer(@Renderer.Renders(componentFamily = "com.sun.webui.jsf.Icon"))
 public class IconRenderer extends ImageRenderer {
-    
-    
 }

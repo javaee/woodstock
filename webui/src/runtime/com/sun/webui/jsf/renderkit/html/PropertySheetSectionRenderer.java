@@ -19,28 +19,18 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.renderkit.html;
 
-import java.beans.Beans;
 import java.io.IOException;
 import java.util.List;
-
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
-
 import com.sun.webui.html.HTMLElements;
 import com.sun.webui.html.HTMLAttributes;
-
-import com.sun.webui.jsf.component.Anchor;
-import com.sun.webui.jsf.component.Legend;
-import com.sun.webui.jsf.component.Property;
 import com.sun.webui.jsf.component.PropertySheetSection;
-
 import com.sun.webui.theme.Theme;
-import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.jsf.theme.ThemeStyles;
 import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
@@ -48,8 +38,7 @@ import com.sun.webui.jsf.util.ThemeUtilities;
 /**
  * <p>Renders a version page.</p>
  */
-@com.sun.faces.annotation.Renderer(
-        @com.sun.faces.annotation.Renderer.Renders(componentFamily="com.sun.webui.jsf.PropertySheetSection"))
+@com.sun.faces.annotation.Renderer(@com.sun.faces.annotation.Renderer.Renders(componentFamily = "com.sun.webui.jsf.PropertySheetSection"))
 public class PropertySheetSectionRenderer extends Renderer {
 
     /**
@@ -57,12 +46,13 @@ public class PropertySheetSectionRenderer extends Renderer {
      */
     public PropertySheetSectionRenderer() {
     }
-    
+
     /**
      * This renderer renders the component's children.
      */
+    @Override
     public boolean getRendersChildren() {
-	return true;
+        return true;
     }
 
     /**
@@ -73,28 +63,29 @@ public class PropertySheetSectionRenderer extends Renderer {
      *
      * @exception IOException if an input/output error occurs
      */
+    @Override
     public void encodeEnd(FacesContext context, UIComponent component)
             throws IOException {
         if (context == null || component == null) {
             throw new NullPointerException();
         }
 
-	if (!component.isRendered()) {
-	    return;
-	}
+        if (!component.isRendered()) {
+            return;
+        }
 
-	ResponseWriter writer = context.getResponseWriter();
+        ResponseWriter writer = context.getResponseWriter();
 
-	PropertySheetSection propertySheetSection =
-		(PropertySheetSection) component;
+        PropertySheetSection propertySheetSection =
+                (PropertySheetSection) component;
 
-	// Get the theme
-	//
-	Theme theme = ThemeUtilities.getTheme(context);
+        // Get the theme
+        //
+        Theme theme = ThemeUtilities.getTheme(context);
 
-	renderPropertySheetSection(context, propertySheetSection, theme,
-	    writer);
-    }    
+        renderPropertySheetSection(context, propertySheetSection, theme,
+                writer);
+    }
 
     // There is an extensive use of the request map by the
     // template renderer.
@@ -112,47 +103,47 @@ public class PropertySheetSectionRenderer extends Renderer {
      * @exception IOException if an input/output error occurs
      */
     protected void renderPropertySheetSection(FacesContext context,
-	    PropertySheetSection propertySheetSection, Theme theme, 
-	    ResponseWriter writer) throws IOException {
+            PropertySheetSection propertySheetSection, Theme theme,
+            ResponseWriter writer) throws IOException {
 
-	int numChildren = propertySheetSection.getSectionChildrenCount();
-	if (numChildren <= 0) {
-	    return;
-	}
+        int numChildren = propertySheetSection.getSectionChildrenCount();
+        if (numChildren <= 0) {
+            return;
+        }
 
-	writer.startElement(HTMLElements.DIV, propertySheetSection);
-	writer.writeAttribute(HTMLAttributes.ID,
-		propertySheetSection.getClientId(context), "id");//NOI18N
-	String propValue = RenderingUtilities.getStyleClasses(context,
-		propertySheetSection,
-		theme.getStyleClass(ThemeStyles.CONTENT_FIELDSET));
-	writer.writeAttribute(HTMLAttributes.CLASS, propValue, null);
+        writer.startElement(HTMLElements.DIV, propertySheetSection);
+        writer.writeAttribute(HTMLAttributes.ID,
+                propertySheetSection.getClientId(context), "id");//NOI18N
+        String propValue = RenderingUtilities.getStyleClasses(context,
+                propertySheetSection,
+                theme.getStyleClass(ThemeStyles.CONTENT_FIELDSET));
+        writer.writeAttribute(HTMLAttributes.CLASS, propValue, null);
 
-	// There was a distinction made between ie and other browsers.
-	// If the browser was ie, fieldsets were used, and if not
-	// divs were used. Why ? Just use divs here.
-	//
-	writer.startElement(HTMLElements.DIV, propertySheetSection);
-	writer.writeAttribute(HTMLAttributes.CLASS,
-		theme.getStyleClass(ThemeStyles.CONTENT_FIELDSET_DIV), null);
+        // There was a distinction made between ie and other browsers.
+        // If the browser was ie, fieldsets were used, and if not
+        // divs were used. Why ? Just use divs here.
+        //
+        writer.startElement(HTMLElements.DIV, propertySheetSection);
+        writer.writeAttribute(HTMLAttributes.CLASS,
+                theme.getStyleClass(ThemeStyles.CONTENT_FIELDSET_DIV), null);
 
-	// Render the section label
-	// Why isn't this a label facet on PropertySheetSection, too ?
-	//
-	propValue = propertySheetSection.getLabel();
-	if (propValue != null) {
-	    writer.startElement(HTMLElements.DIV, propertySheetSection);
-	    writer.writeAttribute(HTMLAttributes.CLASS,
-		theme.getStyleClass(ThemeStyles.CONTENT_FIELDSET_LEGEND_DIV),
-		null);
-	    writer.writeText(propValue, null);
-	    writer.endElement(HTMLElements.DIV);
-	}
+        // Render the section label
+        // Why isn't this a label facet on PropertySheetSection, too ?
+        //
+        propValue = propertySheetSection.getLabel();
+        if (propValue != null) {
+            writer.startElement(HTMLElements.DIV, propertySheetSection);
+            writer.writeAttribute(HTMLAttributes.CLASS,
+                    theme.getStyleClass(ThemeStyles.CONTENT_FIELDSET_LEGEND_DIV),
+                    null);
+            writer.writeText(propValue, null);
+            writer.endElement(HTMLElements.DIV);
+        }
 
-	renderProperties(context, propertySheetSection, theme, writer);
+        renderProperties(context, propertySheetSection, theme, writer);
 
-	writer.endElement(HTMLElements.DIV);
-	writer.endElement(HTMLElements.DIV);
+        writer.endElement(HTMLElements.DIV);
+        writer.endElement(HTMLElements.DIV);
     }
 
     /**
@@ -168,31 +159,31 @@ public class PropertySheetSectionRenderer extends Renderer {
      * @exception IOException if an input/output error occurs
      */
     protected void renderProperties(FacesContext context,
-	    PropertySheetSection propertySheetSection, Theme theme,
-	    ResponseWriter writer) throws IOException {
+            PropertySheetSection propertySheetSection, Theme theme,
+            ResponseWriter writer) throws IOException {
 
 
-	List properties = propertySheetSection.getVisibleSectionChildren();
+        List properties = propertySheetSection.getVisibleSectionChildren();
 
-	writer.startElement(HTMLElements.TABLE, propertySheetSection);
-	writer.writeAttribute(HTMLAttributes.BORDER, 0, null);
-	writer.writeAttribute(HTMLAttributes.CELLSPACING, 0, null);
-	writer.writeAttribute(HTMLAttributes.CELLPADDING, 0, null);
-	writer.writeAttribute(HTMLAttributes.TITLE, "", null); //NOI18N
+        writer.startElement(HTMLElements.TABLE, propertySheetSection);
+        writer.writeAttribute(HTMLAttributes.BORDER, 0, null);
+        writer.writeAttribute(HTMLAttributes.CELLSPACING, 0, null);
+        writer.writeAttribute(HTMLAttributes.CELLPADDING, 0, null);
+        writer.writeAttribute(HTMLAttributes.TITLE, "", null); //NOI18N
 
-	// Unfortunately the PropertyRenderer needs to render
-	// a TR and TD since we are opening a table context here.
-	// This can't be changed easily unless a strategy like the
-	// radio button and checkbox group renderer is used, where there is 
-	// a table layout renderer. I'm not sure if that is sufficiently
-	// robust to handle "properties".
-	//
+        // Unfortunately the PropertyRenderer needs to render
+        // a TR and TD since we are opening a table context here.
+        // This can't be changed easily unless a strategy like the
+        // radio button and checkbox group renderer is used, where there is
+        // a table layout renderer. I'm not sure if that is sufficiently
+        // robust to handle "properties".
+        //
 
-	for (Object property : properties) {
-	    RenderingUtilities.renderComponent((UIComponent)property, context);
-	}
+        for (Object property : properties) {
+            RenderingUtilities.renderComponent((UIComponent) property, context);
+        }
 
-	writer.endElement(HTMLElements.TABLE);
+        writer.endElement(HTMLElements.TABLE);
     }
 
     /**
@@ -203,10 +194,11 @@ public class PropertySheetSectionRenderer extends Renderer {
      *
      * @exception IOException if an input/output error occurs
      */
+    @Override
     public void encodeChildren(FacesContext context, UIComponent component)
             throws IOException {
         if (context == null || component == null) {
             throw new NullPointerException();
         }
-    }    
+    }
 }

@@ -19,19 +19,15 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.faces.annotation.Renderer;
 import java.io.IOException;
-
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-
 import com.sun.webui.jsf.component.RadioButton;
 import com.sun.webui.jsf.component.RadioButtonGroup;
-import com.sun.webui.jsf.component.Selector;
 import com.sun.webui.jsf.model.Option;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeStyles;
@@ -106,11 +102,12 @@ import com.sun.webui.jsf.util.ThemeUtilities;
  * </p>
  *
  */
-@Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.RadioButtonGroup"))
+@Renderer(@Renderer.Renders(componentFamily = "com.sun.webui.jsf.RadioButtonGroup"))
+//FIXME check about making SelectGroupRenderer a public abstract class
 public class RadioButtonGroupRenderer extends SelectorGroupRenderer {
-    
+
     private final String MSG_COMPONENT_NOT_RADIOBUTTONGROUP =
-    "RadioButtonGroupRender only renders RadioButtonGroup components."; //NOI18N
+            "RadioButtonGroupRender only renders RadioButtonGroup components."; //NOI18N
 
     /**
      * Creates a new instance of RadioButtonGroupRenderer
@@ -118,7 +115,7 @@ public class RadioButtonGroupRenderer extends SelectorGroupRenderer {
     public RadioButtonGroupRenderer() {
         super();
     }
-    
+
     /**
      * Ensure that the component to be rendered is a RadioButtonGroup instance.
      * Actual rendering occurs during <code>renderEnd</code>
@@ -126,15 +123,15 @@ public class RadioButtonGroupRenderer extends SelectorGroupRenderer {
      * @param context FacesContext for the request we are processing.
      * @param component UIComponent to be decoded.
      */
+    @Override
     public void renderStart(FacesContext context, UIComponent component,
-	ResponseWriter writer)
-	throws IOException {
+            ResponseWriter writer)
+            throws IOException {
 
-	// Bail out if the component is not a RadioButtonGroup component.
-	if (!(component instanceof RadioButtonGroup)) {
-	    throw new
-		IllegalArgumentException(MSG_COMPONENT_NOT_RADIOBUTTONGROUP);
-	}
+        // Bail out if the component is not a RadioButtonGroup component.
+        if (!(component instanceof RadioButtonGroup)) {
+            throw new IllegalArgumentException(MSG_COMPONENT_NOT_RADIOBUTTONGROUP);
+        }
     }
 
     /**
@@ -144,19 +141,20 @@ public class RadioButtonGroupRenderer extends SelectorGroupRenderer {
      * @param context FacesContext for the request we are processing.
      * @param component UIComponent to be decoded.
      */
+    @Override
     public void renderEnd(FacesContext context, UIComponent component,
-	ResponseWriter writer)
-	throws IOException {
+            ResponseWriter writer)
+            throws IOException {
 
-	// Use only the cols value. If not valid render a single column.
-	// If there are more items than columns, render additional rows.
-	//
-	RadioButtonGroup rbgrp = (RadioButtonGroup)component;
+        // Use only the cols value. If not valid render a single column.
+        // If there are more items than columns, render additional rows.
+        //
+        RadioButtonGroup rbgrp = (RadioButtonGroup) component;
 
-	Theme theme = ThemeUtilities.getTheme(context);
-	renderSelectorGroup(context, component, theme,
-		writer, rbgrp.getColumns());
-        
+        Theme theme = ThemeUtilities.getTheme(context);
+        renderSelectorGroup(context, component, theme,
+                writer, rbgrp.getColumns());
+
     }
 
     /**
@@ -168,52 +166,51 @@ public class RadioButtonGroupRenderer extends SelectorGroupRenderer {
      * @param option the <code>Option</code> being rendered.
      */
     protected UIComponent getSelectorComponent(FacesContext context,
-	UIComponent component, Theme theme, String id, Option option) {
+            UIComponent component, Theme theme, String id, Option option) {
 
-	RadioButtonGroup rbgrp = (RadioButtonGroup)component;
+        RadioButtonGroup rbgrp = (RadioButtonGroup) component;
 
-	RadioButton rb = new RadioButton();
-	rb.setId(id);
-	rb.setParent(component);
+        RadioButton rb = new RadioButton();
+        rb.setId(id);
+        rb.setParent(component);
 
-	rb.setName(rbgrp.getClientId(context));
-	rb.setToolTip(option.getTooltip());
-	rb.setImageURL(option.getImage());
-	rb.setSelectedValue(option.getValue());
-	rb.setLabel(option.getLabel());
-	rb.setDisabled(rbgrp.isDisabled());
-	rb.setReadOnly(rbgrp.isReadOnly());
-	rb.setTabIndex(rbgrp.getTabIndex());
+        rb.setName(rbgrp.getClientId(context));
+        rb.setToolTip(option.getTooltip());
+        rb.setImageURL(option.getImage());
+        rb.setSelectedValue(option.getValue());
+        rb.setLabel(option.getLabel());
+        rb.setDisabled(rbgrp.isDisabled());
+        rb.setReadOnly(rbgrp.isReadOnly());
+        rb.setTabIndex(rbgrp.getTabIndex());
 
         // mbohm 6300361,6300362
         // transfer event attributes from cbgrp to cb 
         // see RowColumnRenderer.renderRowColumnLayout 
         transferEventAttributes(rbgrp, rb);
-        
-	// Default to not selected
-	//
-	rb.setSelected(null);
 
-	// Need to check the submittedValue for immediate condition
-	// 
-	String[] subValue = (String[])rbgrp.getSubmittedValue();
-	if (subValue == null) {
-	    if (isSelected(option, rbgrp.getSelected())) {
-		rb.setSelected(rb.getSelectedValue());
-	    }
-	} else
-	if (subValue.length != 0) {
-	    Object selectedValue = rb.getSelectedValue();
-	    String selectedValueAsString =
-		ConversionUtilities.convertValueToString(component,
-			selectedValue);
-	    if (subValue[0] != null && 
-			subValue[0].equals(selectedValueAsString)) {
-		rb.setSelected(rb.getSelectedValue());
-	    }
-	}
+        // Default to not selected
+        //
+        rb.setSelected(null);
 
-	return rb;
+        // Need to check the submittedValue for immediate condition
+        //
+        String[] subValue = (String[]) rbgrp.getSubmittedValue();
+        if (subValue == null) {
+            if (isSelected(option, rbgrp.getSelected())) {
+                rb.setSelected(rb.getSelectedValue());
+            }
+        } else if (subValue.length != 0) {
+            Object selectedValue = rb.getSelectedValue();
+            String selectedValueAsString =
+                    ConversionUtilities.convertValueToString(component,
+                    selectedValue);
+            if (subValue[0] != null &&
+                    subValue[0].equals(selectedValueAsString)) {
+                rb.setSelected(rb.getSelectedValue());
+            }
+        }
+
+        return rb;
     }
 
     /**
@@ -226,34 +223,32 @@ public class RadioButtonGroupRenderer extends SelectorGroupRenderer {
      * @param currentValue the value of the current selected radio button.
      */
     private boolean isSelected(Option item, Object currentValue) {
-	return currentValue != null && item.getValue() != null &&
-		item.getValue().equals(currentValue);
+        return currentValue != null && item.getValue() != null &&
+                item.getValue().equals(currentValue);
     }
-
     protected String[] styles = {
-	ThemeStyles.RADIOBUTTON_GROUP, 		/* GRP */
-	ThemeStyles.RADIOBUTTON_GROUP_CAPTION,	/* GRP_CAPTION */
-	ThemeStyles.RADIOBUTTON_GROUP_LABEL,	/* GRP_LABEL */
-	ThemeStyles.RADIOBUTTON_GROUP_LABEL_DISABLED, /* GRP_CAPTION_DIS */
-	ThemeStyles.RADIOBUTTON_GROUP_ROW_EVEN,	/* GRP_ROW_EVEN */
-	ThemeStyles.RADIOBUTTON_GROUP_ROW_ODD,	/* GRP_ROW_EVEN */
-	ThemeStyles.RADIOBUTTON_GROUP_CELL_EVEN,/* GRP_CELL_EVEN */
-	ThemeStyles.RADIOBUTTON_GROUP_CELL_ODD,	/* GRP_CELL_ODD */
-	ThemeStyles.RADIOBUTTON,	 	/* INPUT */
-	ThemeStyles.RADIOBUTTON_DISABLED, 	/* INPUT_DIS */
-	ThemeStyles.RADIOBUTTON_LABEL,		/* LABEL */
-	ThemeStyles.RADIOBUTTON_LABEL_DISABLED, /* LABEL_DIS */
-	ThemeStyles.RADIOBUTTON_IMAGE,		/* IMAGE */
-	ThemeStyles.RADIOBUTTON_IMAGE_DISABLED, /* IMAGE_DIS */
-	ThemeStyles.LABEL_LEVEL_ONE_TEXT,	/* LABEL_LVL1 */
-	ThemeStyles.LABEL_LEVEL_TWO_TEXT,	/* LABEL_LVL2 */
-	ThemeStyles.LABEL_LEVEL_THREE_TEXT	/* LABLE_LVL3 */
-    };
+        ThemeStyles.RADIOBUTTON_GROUP, /* GRP */
+        ThemeStyles.RADIOBUTTON_GROUP_CAPTION, /* GRP_CAPTION */
+        ThemeStyles.RADIOBUTTON_GROUP_LABEL, /* GRP_LABEL */
+        ThemeStyles.RADIOBUTTON_GROUP_LABEL_DISABLED, /* GRP_CAPTION_DIS */
+        ThemeStyles.RADIOBUTTON_GROUP_ROW_EVEN, /* GRP_ROW_EVEN */
+        ThemeStyles.RADIOBUTTON_GROUP_ROW_ODD, /* GRP_ROW_EVEN */
+        ThemeStyles.RADIOBUTTON_GROUP_CELL_EVEN,/* GRP_CELL_EVEN */
+        ThemeStyles.RADIOBUTTON_GROUP_CELL_ODD, /* GRP_CELL_ODD */
+        ThemeStyles.RADIOBUTTON, /* INPUT */
+        ThemeStyles.RADIOBUTTON_DISABLED, /* INPUT_DIS */
+        ThemeStyles.RADIOBUTTON_LABEL, /* LABEL */
+        ThemeStyles.RADIOBUTTON_LABEL_DISABLED, /* LABEL_DIS */
+        ThemeStyles.RADIOBUTTON_IMAGE, /* IMAGE */
+        ThemeStyles.RADIOBUTTON_IMAGE_DISABLED, /* IMAGE_DIS */
+        ThemeStyles.LABEL_LEVEL_ONE_TEXT, /* LABEL_LVL1 */
+        ThemeStyles.LABEL_LEVEL_TWO_TEXT, /* LABEL_LVL2 */
+        ThemeStyles.LABEL_LEVEL_THREE_TEXT /* LABLE_LVL3 */};
 
     /**
      * Return style constants for a <code>RadioButton</code> component.
      */
     protected String[] getStyles() {
-	return styles;
+        return styles;
     }
 }
