@@ -39,10 +39,11 @@ import javax.faces.convert.Converter;
 /**
  * The Alert component is used to render an inline alert message.
  */
-@Component(type="com.sun.webui.jsf.Alert", family="com.sun.webui.jsf.Alert",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_alert",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_alert_props")
+@Component(type = "com.sun.webui.jsf.Alert", family = "com.sun.webui.jsf.Alert",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_alert",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_alert_props")
 public class Alert extends UIOutput implements NamingContainer {
+
     /**
      * Facet name for alert image
      */
@@ -63,6 +64,7 @@ public class Alert extends UIOutput implements NamingContainer {
     /**
      * <p>Return the family for this component.</p>
      */
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.Alert";
     }
@@ -90,30 +92,30 @@ public class Alert extends UIOutput implements NamingContainer {
      */
     public UIComponent getAlertIcon() {
 
-	UIComponent imageFacet =  getFacet(ALERT_IMAGE_FACET);
-	if (imageFacet != null) {
-	    return imageFacet;
-	}
+        UIComponent imageFacet = getFacet(ALERT_IMAGE_FACET);
+        if (imageFacet != null) {
+            return imageFacet;
+        }
 
-	// No need to save it as a facet.
-	// Make sure to set parent, for clientId.
-	//
-	Theme theme =
-	    ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
-	String iconidentifier = getIconIdentifier();
-	Icon icon = ThemeUtilities.getIcon(theme, iconidentifier);
+        // No need to save it as a facet.
+        // Make sure to set parent, for clientId.
+        //
+        Theme theme =
+                ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
+        String iconidentifier = getIconIdentifier();
+        Icon icon = ThemeUtilities.getIcon(theme, iconidentifier);
 
-	icon.setId(ALERT_IMAGE_FACET);
-	icon.setParent(this);
+        icon.setId(ALERT_IMAGE_FACET);
+        icon.setParent(this);
 
-	String iconalt = getAlt();
-	if (iconalt != null) {
-	    icon.setAlt(iconalt);
-	}
-	    
-	return icon;
+        String iconalt = getAlt();
+        if (iconalt != null) {
+            icon.setAlt(iconalt);
+        }
+
+        return icon;
     }
-    
+
     /**
      * Return a component that implements an alert link.
      * If a facet named <code>alertLink</code> is found
@@ -139,51 +141,51 @@ public class Alert extends UIOutput implements NamingContainer {
      * @return - alertLink facet or a IconHyperlink instance or null
      */
     public UIComponent getAlertLink() {
- 	UIComponent linkFacet =  getFacet(ALERT_LINK_FACET);
-	if (linkFacet != null) {
-	    return linkFacet;
-	}
+        UIComponent linkFacet = getFacet(ALERT_LINK_FACET);
+        if (linkFacet != null) {
+            return linkFacet;
+        }
 
-	// Get the private facet.
-	IconHyperlink h = (IconHyperlink)ComponentUtilities.getPrivateFacet(
-		this, ALERT_LINK_FACET, false);	
+        // Get the private facet.
+        IconHyperlink h = (IconHyperlink) ComponentUtilities.getPrivateFacet(
+                this, ALERT_LINK_FACET, false);
 
-	// If getLinkText() returns null, null is returned. 
-	//
-	String linktext = getLinkText();
-	if (linktext == null) {
-	    // Remove the previously created private facet.
-	    if (h != null) {
-	        ComponentUtilities.removePrivateFacet(this, ALERT_LINK_FACET);
-	    }
-	    return null;
-	}
+        // If getLinkText() returns null, null is returned.
+        //
+        String linktext = getLinkText();
+        if (linktext == null) {
+            // Remove the previously created private facet.
+            if (h != null) {
+                ComponentUtilities.removePrivateFacet(this, ALERT_LINK_FACET);
+            }
+            return null;
+        }
 
-	// Return the private facet or create one, but initialize
-	// it every time, except for the id.
-	//
-	if (h == null) {
-	    h = new IconHyperlink();
-	    h.setId(ALERT_LINK_FACET); // NOI18N
-	    ComponentUtilities.putPrivateFacet(this, ALERT_LINK_FACET, h);
-	}
+        // Return the private facet or create one, but initialize
+        // it every time, except for the id.
+        //
+        if (h == null) {
+            h = new IconHyperlink();
+            h.setId(ALERT_LINK_FACET); // NOI18N
+            ComponentUtilities.putPrivateFacet(this, ALERT_LINK_FACET, h);
+        }
 
-	h.setIcon(ThemeImages.HREF_LINK);
-	h.setTarget(getLinkTarget());
-	h.setText(linktext);
-	h.setToolTip(getLinkToolTip());
-	h.setUrl(getLinkURL());
-	
-	MethodExpression action = getLinkActionExpression();
-	if (action != null) {
-	      h.setActionExpression(action);
-	}
+        h.setIcon(ThemeImages.HREF_LINK);
+        h.setTarget(getLinkTarget());
+        h.setText(linktext);
+        h.setToolTip(getLinkToolTip());
+        h.setUrl(getLinkURL());
+
+        MethodExpression action = getLinkActionExpression();
+        if (action != null) {
+            h.setActionExpression(action);
+        }
 
         return h;
     }
 
     private String getIconIdentifier() {
-        
+
         String type = getType();
         if (type != null) {
             String lower = type.toLowerCase();
@@ -195,8 +197,8 @@ public class Alert extends UIOutput implements NamingContainer {
             } else if (lower.startsWith("info")) { // NOI18N
                 return ThemeImages.ALERT_INFO_LARGE;
             } else if (lower.startsWith("succ")) { // NOI18N
-		return ThemeImages.ALERT_SUCCESS_LARGE;
-	    }
+                return ThemeImages.ALERT_SUCCESS_LARGE;
+            }
         }
         return ThemeImages.ALERT_ERROR_LARGE;
     }
@@ -204,12 +206,12 @@ public class Alert extends UIOutput implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -221,29 +223,31 @@ public class Alert extends UIOutput implements NamingContainer {
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
 
     // Hide converter
-    @Property(name="converter", isHidden=true, isAttribute=false)
+    @Property(name = "converter", isHidden = true, isAttribute = false)
+    @Override
     public Converter getConverter() {
         return super.getConverter();
     }
-    
+
     // Hide value 
-    @Property(name="value", isHidden=true, isAttribute=false)
+    @Property(name = "value", isHidden = true, isAttribute = false)
+    @Override
     public Object getValue() {
         return super.getValue();
     }
-  
     /**
      * <p>Alternative textual description of the image rendered by this component. The alt
      * text can be used by screen readers and in tool tips, and when image display is turned off in
      * the web browser.</p>
      */
-    @Property(name="alt", displayName="Alt Text", category="Accessibility", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "alt", displayName = "Alt Text", category = "Accessibility", editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String alt = null;
 
     /**
@@ -271,11 +275,10 @@ public class Alert extends UIOutput implements NamingContainer {
     public void setAlt(String alt) {
         this.alt = alt;
     }
-   
     /**
      * <p>Optional detailed message text for the alert. This message might include more information about the alert and instructions for what to do about the alert.</p>
-     */ 
-    @Property(name="detail", displayName="Detail Message", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+     */
+    @Property(name = "detail", displayName = "Detail Message", category = "Appearance", editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String detail = null;
 
     /**
@@ -298,8 +301,7 @@ public class Alert extends UIOutput implements NamingContainer {
      */
     public void setDetail(String detail) {
         this.detail = detail;
-    }  
-
+    }
     /**
      * <p>The linkActionExpression attribute is used to specify the action to take when the 
      * embedded hyperlink component is activated by the user. The value of the 
@@ -316,8 +318,8 @@ public class Alert extends UIOutput implements NamingContainer {
      * interface.</li>
      * </ul></p>
      */
-    @Property(name="linkActionExpression", isHidden=true, displayName="Link Action Method Expression", category="Navigation")
-    @Property.Method(signature="java.lang.String action()")
+    @Property(name = "linkActionExpression", isHidden = true, displayName = "Link Action Method Expression", category = "Navigation")
+    @Property.Method(signature = "java.lang.String action()")
     private javax.el.MethodExpression linkActionExpression = null;
 
     /**
@@ -367,11 +369,10 @@ public class Alert extends UIOutput implements NamingContainer {
     public void setLinkActionExpression(javax.el.MethodExpression linkActionExpression) {
         this.linkActionExpression = linkActionExpression;
     }
-
     /**
      * <p>The window (target) in which to load the link that is specified with linkText.</p>
      */
-    @Property(name="linkTarget", displayName="Link Target", category="Navigation", editorClassName="com.sun.webui.jsf.component.propertyeditors.FrameTargetsEditor")
+    @Property(name = "linkTarget", displayName = "Link Target", category = "Navigation", editorClassName = "com.sun.webui.jsf.component.propertyeditors.FrameTargetsEditor")
     private String linkTarget = null;
 
     /**
@@ -395,11 +396,10 @@ public class Alert extends UIOutput implements NamingContainer {
     public void setLinkTarget(String linkTarget) {
         this.linkTarget = linkTarget;
     }
-
     /**
      * <p>The text for an optional link that is appended to the detail message.</p>
      */
-    @Property(name="linkText", displayName="Link Text", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "linkText", displayName = "Link Text", category = "Appearance", editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String linkText = null;
 
     /**
@@ -423,11 +423,10 @@ public class Alert extends UIOutput implements NamingContainer {
     public void setLinkText(String linkText) {
         this.linkText = linkText;
     }
-
     /**
      * <p>Sets the value of the title attribute for the HTML element. The specified text will display as a tooltip if the mouse cursor hovers over the link that is specified with linkText.</p>
      */
-    @Property(name="linkToolTip", displayName="Link Tooltip", category="Behavior", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "linkToolTip", displayName = "Link Tooltip", category = "Behavior", editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String linkToolTip = null;
 
     /**
@@ -451,12 +450,11 @@ public class Alert extends UIOutput implements NamingContainer {
     public void setLinkToolTip(String linkToolTip) {
         this.linkToolTip = linkToolTip;
     }
-
     /**
      * <p>Absolute, relative, or context relative (starting with "/") URL to the 
      * resource to navigate to when the link that is specified with linkText is selected.</p>
      */
-    @Property(name="linkURL", displayName="Link URL", category="Navigation", editorClassName="com.sun.webui.jsf.component.propertyeditors.SunWebUrlPropertyEditor")
+    @Property(name = "linkURL", displayName = "Link URL", category = "Navigation", editorClassName = "com.sun.webui.jsf.component.propertyeditors.SunWebUrlPropertyEditor")
     private String linkURL = null;
 
     /**
@@ -482,12 +480,11 @@ public class Alert extends UIOutput implements NamingContainer {
     public void setLinkURL(String linkURL) {
         this.linkURL = linkURL;
     }
-
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
+    @Property(name = "style", displayName = "CSS Style(s)", category = "Appearance", editorClassName = "com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
@@ -513,12 +510,11 @@ public class Alert extends UIOutput implements NamingContainer {
     public void setStyle(String style) {
         this.style = style;
     }
-
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)", category = "Appearance", editorClassName = "com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
@@ -544,12 +540,11 @@ public class Alert extends UIOutput implements NamingContainer {
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-
     /**
      * <p>Summary message text for the alert. This brief message is prominently 
      * displayed next to the icon.</p>
      */
-    @Property(name="summary", displayName="Summary Message", category="Appearance", isDefault=true, editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "summary", displayName = "Summary Message", category = "Appearance", isDefault = true, editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String summary = null;
 
     /**
@@ -575,14 +570,13 @@ public class Alert extends UIOutput implements NamingContainer {
     public void setSummary(String summary) {
         this.summary = summary;
     }
-
     /**
      * <p>Position of this element in the tabbing order of the current document. 
      * Tabbing order determines the sequence in which elements receive 
      * focus when the tab key is pressed. The value must be an integer 
      * between 0 and 32767.</p>
      */
-    @Property(name="tabIndex", displayName="Tab Index", category="Accessibility", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "tabIndex", displayName = "Tab Index", category = "Accessibility", editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int tabIndex = Integer.MIN_VALUE;
     private boolean tabIndex_set = false;
 
@@ -619,13 +613,12 @@ public class Alert extends UIOutput implements NamingContainer {
         this.tabIndex = tabIndex;
         this.tabIndex_set = true;
     }
-
     /**
      * <p>The type or category of alert. This type can be set to
      * "information", "success", "warning" or "error". The type specified determines
      * which icon is rendered for the alert.</p>
      */
-    @Property(name="type", displayName="Alert Type", category="Advanced", editorClassName="com.sun.webui.jsf.component.propertyeditors.AlertTypesEditor")
+    @Property(name = "type", displayName = "Alert Type", category = "Advanced", editorClassName = "com.sun.webui.jsf.component.propertyeditors.AlertTypesEditor")
     private String type = null;
 
     /**
@@ -653,7 +646,6 @@ public class Alert extends UIOutput implements NamingContainer {
     public void setType(String type) {
         this.type = type;
     }
-
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -663,7 +655,7 @@ public class Alert extends UIOutput implements NamingContainer {
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @Property(name="visible", displayName="Visible", category="Behavior")
+    @Property(name = "visible", displayName = "Visible", category = "Behavior")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -710,7 +702,8 @@ public class Alert extends UIOutput implements NamingContainer {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.alt = (String) _values[1];
@@ -733,6 +726,7 @@ public class Alert extends UIOutput implements NamingContainer {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[16];
         _values[0] = super.saveState(_context);

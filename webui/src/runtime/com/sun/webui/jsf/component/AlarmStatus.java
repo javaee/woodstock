@@ -31,11 +31,11 @@ import javax.faces.context.FacesContext;
  * The AlarmStatus component is used to display alarm information in the 
  * Masthead component.
  */
-@Component(type="com.sun.webui.jsf.AlarmStatus", family="com.sun.webui.jsf.AlarmStatus", displayName="Alarm Status",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_alarm_status",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_alarm_status_props")
+@Component(type = "com.sun.webui.jsf.AlarmStatus", family = "com.sun.webui.jsf.AlarmStatus", displayName = "Alarm Status",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_alarm_status",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_alarm_status_props")
 public class AlarmStatus extends ImageHyperlink {
-    
+
     /** Creates a new instance of AlarmStatus */
     public AlarmStatus() {
         super();
@@ -45,6 +45,7 @@ public class AlarmStatus extends ImageHyperlink {
     /**
      * <p>Return the family for this component.</p>
      */
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.AlarmStatus";
     }
@@ -52,41 +53,43 @@ public class AlarmStatus extends ImageHyperlink {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
     /**
      * Scripting code executed when a mouse double click occurs over this 
      * component.
      */
-    @Property(name="onDblClick", isHidden=false, isAttribute=true)
+    @Property(name = "onDblClick", isHidden = false, isAttribute = true)
+    @Override
     public String getOnDblClick() {
         return super.getOnDblClick();
     }
-    
+
     /**
      * The current value of this component.
      */
-    @Property(name="value", isHidden=false, isAttribute=true)
+    @Property(name = "value", isHidden = false, isAttribute = true)
+    @Override
     public Object getValue() {
         return super.getValue();
     }
-    
+
     // Hide textPosition 
-    @Property(name="textPosition", isHidden=true, isAttribute=false)
+    @Property(name = "textPosition", isHidden = true, isAttribute = false)
+    @Override
     public String getTextPosition() {
         return super.getTextPosition();
     }
-    
+
     // Hide icon 
-    @Property(name="icon", isHidden=true, isAttribute=false)
-    public String getIcon(){
+    @Property(name = "icon", isHidden = true, isAttribute = false)
+    @Override
+    public String getIcon() {
         return super.getIcon();
     }
-
     /**
      * <p>Specify if the critical alarm count should be displayed. Set to false to 
      * prevent display of critical alarm count and icon.</p>
      */
-    @Property(name="criticalAlarms", displayName="Critical Alarms")
+    @Property(name = "criticalAlarms", displayName = "Critical Alarms")
     private boolean criticalAlarms = false;
     private boolean criticalAlarms_set = false;
 
@@ -119,11 +122,10 @@ public class AlarmStatus extends ImageHyperlink {
         this.criticalAlarms = criticalAlarms;
         this.criticalAlarms_set = true;
     }
-
     /**
      * <p>The key identifier for the theme image to use for the critical alarms icon.</p>
      */
-    @Property(name="criticalIcon", displayName="Critical Icon")
+    @Property(name = "criticalIcon", displayName = "Critical Icon")
     private String criticalIcon = null;
 
     /**
@@ -147,12 +149,11 @@ public class AlarmStatus extends ImageHyperlink {
     public void setCriticalIcon(String criticalIcon) {
         this.criticalIcon = criticalIcon;
     }
-
     /**
      * <p>Specify if the down alarm count should be displayed.  
      * Set to false to prevent display of down alarm count and icon.</p>
      */
-    @Property(name="downAlarms", displayName="Down Alarms")
+    @Property(name = "downAlarms", displayName = "Down Alarms")
     private boolean downAlarms = false;
     private boolean downAlarms_set = false;
 
@@ -185,11 +186,10 @@ public class AlarmStatus extends ImageHyperlink {
         this.downAlarms = downAlarms;
         this.downAlarms_set = true;
     }
-
     /**
      * <p>The key identifier for the theme image to use for the down alarms icon.</p>
      */
-    @Property(name="downIcon", displayName="Down Icon")
+    @Property(name = "downIcon", displayName = "Down Icon")
     private String downIcon = null;
 
     /**
@@ -213,12 +213,11 @@ public class AlarmStatus extends ImageHyperlink {
     public void setDownIcon(String downIcon) {
         this.downIcon = downIcon;
     }
-
     /**
      * <p>Specify if the major alarm count should be displayed. Set to false to 
      * prevent display of minor alarm count and icon.</p>
      */
-    @Property(name="majorAlarms", displayName="Major Alarms")
+    @Property(name = "majorAlarms", displayName = "Major Alarms")
     private boolean majorAlarms = false;
     private boolean majorAlarms_set = false;
 
@@ -251,11 +250,10 @@ public class AlarmStatus extends ImageHyperlink {
         this.majorAlarms = majorAlarms;
         this.majorAlarms_set = true;
     }
-
     /**
      * <p>The key identifier for the theme image to use for the major alarms icon.</p>
      */
-    @Property(name="majorIcon", displayName="Major Icon")
+    @Property(name = "majorIcon", displayName = "Major Icon")
     private String majorIcon = null;
 
     /**
@@ -279,12 +277,11 @@ public class AlarmStatus extends ImageHyperlink {
     public void setMajorIcon(String majorIcon) {
         this.majorIcon = majorIcon;
     }
-
     /**
      * <p>Specify if the minor alarm count should be displayed. Set to false to 
      * prevent display of minor alarm count and icon.</p>
      */
-    @Property(name="minorAlarms", displayName="Minor Alarms")
+    @Property(name = "minorAlarms", displayName = "Minor Alarms")
     private boolean minorAlarms = false;
     private boolean minorAlarms_set = false;
 
@@ -317,11 +314,10 @@ public class AlarmStatus extends ImageHyperlink {
         this.minorAlarms = minorAlarms;
         this.minorAlarms_set = true;
     }
-
     /**
      * <p>The key identifier for the theme image to use for the minor alarms icon.</p>
      */
-    @Property(name="minorIcon", displayName="Minor Icon")
+    @Property(name = "minorIcon", displayName = "Minor Icon")
     private String minorIcon = null;
 
     /**
@@ -345,11 +341,10 @@ public class AlarmStatus extends ImageHyperlink {
     public void setMinorIcon(String minorIcon) {
         this.minorIcon = minorIcon;
     }
-
     /**
      * <p>The number of critical alarms, to display next to the appropriate icon.</p>
      */
-    @Property(name="numCriticalAlarms", displayName="Number of Critical Alarms")
+    @Property(name = "numCriticalAlarms", displayName = "Number of Critical Alarms")
     private int numCriticalAlarms = Integer.MIN_VALUE;
     private boolean numCriticalAlarms_set = false;
 
@@ -380,11 +375,10 @@ public class AlarmStatus extends ImageHyperlink {
         this.numCriticalAlarms = numCriticalAlarms;
         this.numCriticalAlarms_set = true;
     }
-
     /**
      * <p>The number of down alarms, to display next to the appropriate icon.</p>
      */
-    @Property(name="numDownAlarms", displayName="Number of Down Alarms")
+    @Property(name = "numDownAlarms", displayName = "Number of Down Alarms")
     private int numDownAlarms = Integer.MIN_VALUE;
     private boolean numDownAlarms_set = false;
 
@@ -415,11 +409,10 @@ public class AlarmStatus extends ImageHyperlink {
         this.numDownAlarms = numDownAlarms;
         this.numDownAlarms_set = true;
     }
-
     /**
      * <p>The number of major alarms, to display next to the appropriate icon.</p>
      */
-    @Property(name="numMajorAlarms", displayName="Number of Major Alarms")
+    @Property(name = "numMajorAlarms", displayName = "Number of Major Alarms")
     private int numMajorAlarms = Integer.MIN_VALUE;
     private boolean numMajorAlarms_set = false;
 
@@ -450,11 +443,10 @@ public class AlarmStatus extends ImageHyperlink {
         this.numMajorAlarms = numMajorAlarms;
         this.numMajorAlarms_set = true;
     }
-
     /**
      * <p>The number of minor alarms, to display next to the appropriate icon.</p>
      */
-    @Property(name="numMinorAlarms", displayName="Number of Minor Alarms")
+    @Property(name = "numMinorAlarms", displayName = "Number of Minor Alarms")
     private int numMinorAlarms = Integer.MIN_VALUE;
     private boolean numMinorAlarms_set = false;
 
@@ -485,18 +477,18 @@ public class AlarmStatus extends ImageHyperlink {
         this.numMinorAlarms = numMinorAlarms;
         this.numMinorAlarms_set = true;
     }
-
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="style", displayName="CSS Style(s)")
+    @Property(name = "style", displayName = "CSS Style(s)")
     private String style = null;
 
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
+    @Override
     public String getStyle() {
         if (this.style != null) {
             return this.style;
@@ -513,21 +505,22 @@ public class AlarmStatus extends ImageHyperlink {
      * component is rendered.</p>
      * @see #getStyle()
      */
+    @Override
     public void setStyle(String style) {
         this.style = style;
     }
-
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)")
     private String styleClass = null;
 
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
+    @Override
     public String getStyleClass() {
         if (this.styleClass != null) {
             return this.styleClass;
@@ -544,10 +537,10 @@ public class AlarmStatus extends ImageHyperlink {
      * component is rendered.</p>
      * @see #getStyleClass()
      */
+    @Override
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -557,7 +550,7 @@ public class AlarmStatus extends ImageHyperlink {
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @Property(name="visible", displayName="Visible")
+    @Property(name = "visible", displayName = "Visible")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -570,6 +563,7 @@ public class AlarmStatus extends ImageHyperlink {
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
+    @Override
     public boolean isVisible() {
         if (this.visible_set) {
             return this.visible;
@@ -596,6 +590,7 @@ public class AlarmStatus extends ImageHyperlink {
      * submissions because the HTML is present.</p>
      * @see #isVisible()
      */
+    @Override
     public void setVisible(boolean visible) {
         this.visible = visible;
         this.visible_set = true;
@@ -604,7 +599,8 @@ public class AlarmStatus extends ImageHyperlink {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.criticalAlarms = ((Boolean) _values[1]).booleanValue();
@@ -636,6 +632,7 @@ public class AlarmStatus extends ImageHyperlink {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[25];
         _values[0] = super.saveState(_context);

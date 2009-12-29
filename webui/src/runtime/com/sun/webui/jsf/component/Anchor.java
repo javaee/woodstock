@@ -31,9 +31,9 @@ import com.sun.faces.annotation.Property;
 /**
  * The Anchor component is used to create an XHTML &lt;a&gt; anchor element.
  */
-@Component(type="com.sun.webui.jsf.Anchor", family="com.sun.webui.jsf.Anchor",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_anchor",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_anchor_props")
+@Component(type = "com.sun.webui.jsf.Anchor", family = "com.sun.webui.jsf.Anchor",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_anchor",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_anchor_props")
 public class Anchor extends UIComponentBase {
 
     /**
@@ -54,12 +54,12 @@ public class Anchor extends UIComponentBase {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -71,16 +71,16 @@ public class Anchor extends UIComponentBase {
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
-
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
+    @Property(name = "style", displayName = "CSS Style(s)", category = "Appearance", editorClassName = "com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
@@ -106,12 +106,11 @@ public class Anchor extends UIComponentBase {
     public void setStyle(String style) {
         this.style = style;
     }
-
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when
      * this component is rendered.</p>
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)", category = "Appearance", editorClassName = "com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
@@ -141,7 +140,8 @@ public class Anchor extends UIComponentBase {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.style = (String) _values[1];
@@ -151,6 +151,7 @@ public class Anchor extends UIComponentBase {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[3];
         _values[0] = super.saveState(_context);

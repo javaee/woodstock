@@ -19,8 +19,6 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
- 
-
 package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
@@ -35,22 +33,21 @@ import javax.faces.context.FacesContext;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.jsf.util.FocusManager;
 import com.sun.webui.jsf.util.LogUtil;
-
 import com.sun.webui.theme.Theme;
 
 /**
  * The Body component is used to contain the other components of the page.
  */
-@Component(type="com.sun.webui.jsf.Body", family="com.sun.webui.jsf.Body", displayName="Body", tagName="body",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_body",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_body_props")
+@Component(type = "com.sun.webui.jsf.Body", family = "com.sun.webui.jsf.Body", displayName = "Body", tagName = "body",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_body",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_body_props")
 public class Body extends UIComponentBase {
-    
+
     /**
      * @deprecated
      */
-    public static final String FOCUS_PARAM = 
-	    "com.sun.webui.jsf_body_focusComponent";
+    public static final String FOCUS_PARAM =
+            "com.sun.webui.jsf_body_focusComponent";
     /**
      * @deprecated
      */
@@ -77,42 +74,42 @@ public class Body extends UIComponentBase {
      */
     public String getFocusID(FacesContext context) {
 
-	// Note that this code is duplicated in 
-	// Body renderer because we don't want to 
-	// reference a deprecated method.
-	//
-	String id = getFocus();
+        // Note that this code is duplicated in
+        // Body renderer because we don't want to
+        // reference a deprecated method.
+        //
+        String id = getFocus();
         if (id != null || id.length() == 0) {
             // Need absolute id.
-	    //
-	    String absid = id;
-	    if (id.charAt(0) != NamingContainer.SEPARATOR_CHAR) {
-		absid = 
-		    String.valueOf(NamingContainer.SEPARATOR_CHAR).concat(id);
-	    }
-	    try {
-		// Since a developer using setFocus may not be able to
-		// identify a sub component of a ComplexComponent, that
-		// must be done here.
-		//
-		UIComponent comp = findComponent(absid);
-		if (comp != null && comp instanceof ComplexComponent) {
-		    id = ((ComplexComponent) comp).getFocusElementId(context);
-		}
-	    } catch (Exception e) {
-		if (LogUtil.finestEnabled()) {
-		    LogUtil.finest("Body.getFocusId, couldn't find " +
-			" component with id " + id);
-		}
-	    }
+            //
+            String absid = id;
+            if (id.charAt(0) != NamingContainer.SEPARATOR_CHAR) {
+                absid =
+                        String.valueOf(NamingContainer.SEPARATOR_CHAR).concat(id);
+            }
+            try {
+                // Since a developer using setFocus may not be able to
+                // identify a sub component of a ComplexComponent, that
+                // must be done here.
+                //
+                UIComponent comp = findComponent(absid);
+                if (comp != null && comp instanceof ComplexComponent) {
+                    id = ((ComplexComponent) comp).getFocusElementId(context);
+                }
+            } catch (Exception e) {
+                if (LogUtil.finestEnabled()) {
+                    LogUtil.finest("Body.getFocusId, couldn't find " +
+                            " component with id " + id);
+                }
+            }
         } else {
             // Get client id cached in request map -- bugtraq #6316565.
             // Note: This must be a client Id to identify table children.
-	    // This interface is expected to be the actual id and does
-	    // not require checking for ComplexComponent.
-	    //
+            // This interface is expected to be the actual id and does
+            // not require checking for ComplexComponent.
+            //
             id = FocusManager.getRequestFocusElementId(context);
-        }        
+        }
         return id;
     }
 
@@ -126,12 +123,12 @@ public class Body extends UIComponentBase {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -143,11 +140,11 @@ public class Body extends UIComponentBase {
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
-
     /**
      * <p>Specify the ID of the component that should receive 
      * focus when the page is loaded. If the focus attribute is not set, or if the value
@@ -156,7 +153,7 @@ public class Body extends UIComponentBase {
      * receives focus.  By setting the focus attribute, you can ensure that
      * a particular component receives focus each time.</p>
      */
-    @Property(name="focus", displayName="Component to receive focus", category="Behavior", isDefault=true, editorClassName="com.sun.webui.jsf.component.propertyeditors.EventClientIdsEditor")
+    @Property(name = "focus", displayName = "Component to receive focus", category = "Behavior", isDefault = true, editorClassName = "com.sun.webui.jsf.component.propertyeditors.EventClientIdsEditor")
     private String focus = null;
 
     /**
@@ -190,14 +187,13 @@ public class Body extends UIComponentBase {
     public void setFocus(String focus) {
         this.focus = focus;
     }
-
     /**
      * <p>The path to an image to be used as a background for the page. </p>
      */
-    @Property(name="imageURL", displayName="Image URL", category="Appearance", editorClassName="com.sun.rave.propertyeditors.ImageUrlPropertyEditor")
+    @Property(name = "imageURL", displayName = "Image URL", category = "Appearance", editorClassName = "com.sun.rave.propertyeditors.ImageUrlPropertyEditor")
     private String imageURL = null;
 
-     /**
+    /**
      * <p>The path to an image to be used as a background for the page. </p>
      */
     public String getImageURL() {
@@ -218,11 +214,10 @@ public class Body extends UIComponentBase {
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
     }
-
     /**
      * <p>Scripting code executed when this element loses focus.</p>
      */
-    @Property(name="onBlur", displayName="Blur Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onBlur", displayName = "Blur Script", category = "Javascript", editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onBlur = null;
 
     /**
@@ -246,12 +241,11 @@ public class Body extends UIComponentBase {
     public void setOnBlur(String onBlur) {
         this.onBlur = onBlur;
     }
-
     /**
      * <p>Scripting code executed when a mouse click
      * occurs over this component.</p>
      */
-    @Property(name="onClick", displayName="Click Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onClick", displayName = "Click Script", category = "Javascript", editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onClick = null;
 
     /**
@@ -277,12 +271,11 @@ public class Body extends UIComponentBase {
     public void setOnClick(String onClick) {
         this.onClick = onClick;
     }
-
     /**
      * <p>Scripting code executed when a mouse double click
      * occurs over this component.</p>
      */
-    @Property(name="onDblClick", displayName="Double Click Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onDblClick", displayName = "Double Click Script", category = "Javascript", editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onDblClick = null;
 
     /**
@@ -308,13 +301,12 @@ public class Body extends UIComponentBase {
     public void setOnDblClick(String onDblClick) {
         this.onDblClick = onDblClick;
     }
-
     /**
      * <p>Scripting code executed when this component  receives focus. An
      * element receives focus when the user selects the element by pressing
      * the tab key or clicking the mouse.</p>
      */
-    @Property(name="onFocus", displayName="Focus Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onFocus", displayName = "Focus Script", category = "Javascript", editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onFocus = null;
 
     /**
@@ -342,12 +334,11 @@ public class Body extends UIComponentBase {
     public void setOnFocus(String onFocus) {
         this.onFocus = onFocus;
     }
-
     /**
      * <p>Scripting code executed when the user presses down on a key while the
      * component has focus.</p>
      */
-    @Property(name="onKeyDown", displayName="Key Down Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onKeyDown", displayName = "Key Down Script", category = "Javascript", editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyDown = null;
 
     /**
@@ -373,12 +364,11 @@ public class Body extends UIComponentBase {
     public void setOnKeyDown(String onKeyDown) {
         this.onKeyDown = onKeyDown;
     }
-
     /**
      * <p>Scripting code executed when the user presses and releases a key while
      * the component has focus.</p>
      */
-    @Property(name="onKeyPress", displayName="Key Press Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onKeyPress", displayName = "Key Press Script", category = "Javascript", editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyPress = null;
 
     /**
@@ -404,12 +394,11 @@ public class Body extends UIComponentBase {
     public void setOnKeyPress(String onKeyPress) {
         this.onKeyPress = onKeyPress;
     }
-
     /**
      * <p>Scripting code executed when the user releases a key while the
      * component has focus.</p>
      */
-    @Property(name="onKeyUp", displayName="Key Up Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onKeyUp", displayName = "Key Up Script", category = "Javascript", editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyUp = null;
 
     /**
@@ -435,11 +424,10 @@ public class Body extends UIComponentBase {
     public void setOnKeyUp(String onKeyUp) {
         this.onKeyUp = onKeyUp;
     }
-
     /**
      * <p>Scripting code executed when when this page is loaded in a browser.</p>
      */
-    @Property(name="onLoad", displayName="Onload Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onLoad", displayName = "Onload Script", category = "Javascript", editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onLoad = null;
 
     /**
@@ -463,12 +451,11 @@ public class Body extends UIComponentBase {
     public void setOnLoad(String onLoad) {
         this.onLoad = onLoad;
     }
-
     /**
      * <p>Scripting code executed when the user presses a mouse button while the
      * mouse pointer is on the component.</p>
      */
-    @Property(name="onMouseDown", displayName="Mouse Down Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseDown", displayName = "Mouse Down Script", category = "Javascript", editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseDown = null;
 
     /**
@@ -494,12 +481,11 @@ public class Body extends UIComponentBase {
     public void setOnMouseDown(String onMouseDown) {
         this.onMouseDown = onMouseDown;
     }
-
     /**
      * <p>Scripting code executed when the user moves the mouse pointer while
      * over the component.</p>
      */
-    @Property(name="onMouseMove", displayName="Mouse Move Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseMove", displayName = "Mouse Move Script", category = "Javascript", editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseMove = null;
 
     /**
@@ -525,12 +511,11 @@ public class Body extends UIComponentBase {
     public void setOnMouseMove(String onMouseMove) {
         this.onMouseMove = onMouseMove;
     }
-
     /**
      * <p>Scripting code executed when a mouse out movement
      * occurs over this component.</p>
      */
-    @Property(name="onMouseOut", displayName="Mouse Out Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseOut", displayName = "Mouse Out Script", category = "Javascript", editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseOut = null;
 
     /**
@@ -556,12 +541,11 @@ public class Body extends UIComponentBase {
     public void setOnMouseOut(String onMouseOut) {
         this.onMouseOut = onMouseOut;
     }
-
     /**
      * <p>Scripting code executed when the user moves the  mouse pointer into
      * the boundary of this component.</p>
      */
-    @Property(name="onMouseOver", displayName="Mouse In Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseOver", displayName = "Mouse In Script", category = "Javascript", editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseOver = null;
 
     /**
@@ -587,12 +571,11 @@ public class Body extends UIComponentBase {
     public void setOnMouseOver(String onMouseOver) {
         this.onMouseOver = onMouseOver;
     }
-
     /**
      * <p>Scripting code executed when the user releases a mouse button while
      * the mouse pointer is on the component.</p>
      */
-    @Property(name="onMouseUp", displayName="Mouse Up Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseUp", displayName = "Mouse Up Script", category = "Javascript", editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseUp = null;
 
     /**
@@ -618,11 +601,10 @@ public class Body extends UIComponentBase {
     public void setOnMouseUp(String onMouseUp) {
         this.onMouseUp = onMouseUp;
     }
-
     /**
      * <p>Scripting code executed when this page is unloaded from a browser as a user exits the page.</p>
      */
-    @Property(name="onUnload", displayName="Unload Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onUnload", displayName = "Unload Script", category = "Javascript", editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onUnload = null;
 
     /**
@@ -646,7 +628,6 @@ public class Body extends UIComponentBase {
     public void setOnUnload(String onUnload) {
         this.onUnload = onUnload;
     }
-
     /**
      * <p>Use the preserveFocus attribute to indicate whether the last 
      * element to have the focus, receives the focus the
@@ -656,7 +637,7 @@ public class Body extends UIComponentBase {
      * is set then the element identified by that id will receive the
      * focus. The default value is true.</p>
      */
-    @Property(name="preserveFocus", displayName="Preserve Focus", category="Behavior")
+    @Property(name = "preserveFocus", displayName = "Preserve Focus", category = "Behavior")
     private boolean preserveFocus = true;
     private boolean preserveFocus_set = false;
 
@@ -682,16 +663,16 @@ public class Body extends UIComponentBase {
                 return ((Boolean) _result).booleanValue();
             }
         }
-	// Get the default behavior from the theme.
-	//
-	String defaultPreserveFocus = null;
-	Theme theme =
-	    ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
-	try {
-	    defaultPreserveFocus = theme.getMessage("body.preserveFocus");
-	    return Boolean.valueOf(defaultPreserveFocus).booleanValue();
-	} catch (Exception e) {
-	}
+        // Get the default behavior from the theme.
+        //
+        String defaultPreserveFocus = null;
+        Theme theme =
+                ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
+        try {
+            defaultPreserveFocus = theme.getMessage("body.preserveFocus");
+            return Boolean.valueOf(defaultPreserveFocus).booleanValue();
+        } catch (Exception e) {
+        }
         return this.preserveFocus;
     }
 
@@ -708,12 +689,11 @@ public class Body extends UIComponentBase {
         this.preserveFocus = preserveFocus;
         this.preserveFocus_set = true;
     }
-
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
+    @Property(name = "style", displayName = "CSS Style(s)", category = "Appearance", editorClassName = "com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
@@ -739,12 +719,11 @@ public class Body extends UIComponentBase {
     public void setStyle(String style) {
         this.style = style;
     }
-
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)", category = "Appearance", editorClassName = "com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
@@ -770,7 +749,6 @@ public class Body extends UIComponentBase {
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -780,7 +758,7 @@ public class Body extends UIComponentBase {
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @Property(name="visible", displayName="Visible", category="Behavior")
+    @Property(name = "visible", displayName = "Visible", category = "Behavior")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -827,7 +805,8 @@ public class Body extends UIComponentBase {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.focus = (String) _values[1];
@@ -850,13 +829,14 @@ public class Body extends UIComponentBase {
         this.styleClass = (String) _values[18];
         this.visible = ((Boolean) _values[19]).booleanValue();
         this.visible_set = ((Boolean) _values[20]).booleanValue();
-	this.preserveFocus = ((Boolean) _values[21]).booleanValue();
-	this.preserveFocus_set = ((Boolean) _values[22]).booleanValue();
+        this.preserveFocus = ((Boolean) _values[21]).booleanValue();
+        this.preserveFocus_set = ((Boolean) _values[22]).booleanValue();
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[23];
         _values[0] = super.saveState(_context);
@@ -880,8 +860,8 @@ public class Body extends UIComponentBase {
         _values[18] = this.styleClass;
         _values[19] = this.visible ? Boolean.TRUE : Boolean.FALSE;
         _values[20] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
-	_values[21] = this.preserveFocus ? Boolean.TRUE : Boolean.FALSE;
-	_values[22] = this.preserveFocus_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[21] = this.preserveFocus ? Boolean.TRUE : Boolean.FALSE;
+        _values[22] = this.preserveFocus_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 }
