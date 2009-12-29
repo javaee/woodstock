@@ -19,23 +19,16 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
- 
-
 package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-
 import com.sun.webui.jsf.el.DropDownMethodExpression;
 import com.sun.webui.jsf.event.MethodExprActionListener;
-
 import com.sun.webui.jsf.util.MethodBindingMethodExpressionAdapter;
 import com.sun.webui.jsf.util.MethodExpressionMethodBindingAdapter;
-import com.sun.webui.jsf.util.RenderingUtilities;
-
 import java.util.Iterator;
 import java.util.Map;
-
 import javax.el.ValueExpression;
 import javax.faces.component.ActionSource2;
 import javax.faces.component.UIComponent;
@@ -53,16 +46,15 @@ import javax.el.MethodExpression;
  * The DropDown component is used to display a drop down menu to allow
  * users to select one or more items from a list.
  */
-@Component(type="com.sun.webui.jsf.DropDown", family="com.sun.webui.jsf.DropDown", displayName="Drop Down List", tagName="dropDown",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_dropdown_list",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_drop_down_props")
+@Component(type = "com.sun.webui.jsf.DropDown", family = "com.sun.webui.jsf.DropDown",
+displayName = "Drop Down List", tagName = "dropDown",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_dropdown_list",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_drop_down_props")
 public class DropDown extends ListSelector implements ActionSource2 {
-   
+
     public final static String SUBMIT = "_submitter";
-    private boolean fireAction = false; 
-    
+    private boolean fireAction = false;
     private static final boolean DEBUG = false;
-    
     private MethodBinding methodBindingActionListener;
     private MethodExpression actionExpression;
 
@@ -77,6 +69,7 @@ public class DropDown extends ListSelector implements ActionSource2 {
     /**
      * <p>Return the family for this component.</p>
      */
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.DropDown";
     }
@@ -86,15 +79,16 @@ public class DropDown extends ListSelector implements ActionSource2 {
      * @return Value of property Rows.
      */
     private int _getRows() {
-        return 1; 
+        return 1;
     }
 
     /**
      * Setter for property Rows.
      * @param DisplayRows New value of property DisplayRows.
      */
+    @Override
     public void setRows(int DisplayRows) {
-        setRows(1); 
+        setRows(1);
     }
 
     /**
@@ -103,18 +97,19 @@ public class DropDown extends ListSelector implements ActionSource2 {
      */
     public boolean getMultiple() {
 
-        return false; 
+        return false;
     }
-    
+
     /**
      * Setter for property multiple
      * @param multiple New value of property multiple
      */
+    @Override
     public void setMultiple(boolean multiple) {
 
-        super.setMultiple(false); 
+        super.setMultiple(false);
     }
-    
+
     /**
      * <p>Add a new {@link ActionListener} to the set of listeners interested
      * in being notified when {@link ActionEvent}s occur.</p>
@@ -128,7 +123,7 @@ public class DropDown extends ListSelector implements ActionSource2 {
         // add the specified action listener
         addFacesListener(listener);
     }
-    
+
     /**
      * <p>Return the set of registered {@link ActionListener}s for this
      * {@link ActionSource2} instance.  If there are no registered listeners,
@@ -137,10 +132,10 @@ public class DropDown extends ListSelector implements ActionSource2 {
     public ActionListener[] getActionListeners() {
         // return all ActionListener instances associated with this component
         ActionListener listeners[] =
-                (ActionListener []) getFacesListeners(ActionListener.class);
+                (ActionListener[]) getFacesListeners(ActionListener.class);
         return listeners;
     }
-    
+
     /**
      * <p>Remove an existing {@link ActionListener} (if any) from the set of
      * listeners interested in being notified when {@link ActionEvent}s
@@ -155,7 +150,7 @@ public class DropDown extends ListSelector implements ActionSource2 {
         // remove the specified ActionListener from the list of listeners
         removeFacesListener(listener);
     }
-    
+
     /**
      * <p>The DropDown needs to override the standard decoding 
      * behaviour since it may also be an action source. We 
@@ -163,15 +158,18 @@ public class DropDown extends ListSelector implements ActionSource2 {
      * validate it if the component is immediate. Then we 
      * fire an action event.</p>
      * @exception NullPointerException  
-     */ 
+     */
+    @Override
     public void processDecodes(FacesContext context) {
 
-        if(DEBUG) log("processDecodes()");
+        if (DEBUG) {
+            log("processDecodes()");
+        }
         // Skip processing if our rendered flag is false
-        if(!isRendered()) {
+        if (!isRendered()) {
             return;
         }
-        
+
         // Decode the component and any children 
         // Do we really want to decode any children? 
         // Process all facets and children of this component
@@ -188,7 +186,7 @@ public class DropDown extends ListSelector implements ActionSource2 {
             context.renderResponse();
             throw e;
         }
-        
+
         // Testing isSubmitter() alone is deceiving here.
         // The component may have been the submitter but its
         // submittedValue may still be null.
@@ -207,8 +205,8 @@ public class DropDown extends ListSelector implements ActionSource2 {
         // Also not that the submittedValue check has been added to
         // validate, as in UIInput's validate method.
         //
-        boolean isSubmitter = isSubmitter(context); 
-        
+        boolean isSubmitter = isSubmitter(context);
+
         // Should we fire an action?
         //
         // Check submittedValue. Let the code fall through to
@@ -216,48 +214,57 @@ public class DropDown extends ListSelector implements ActionSource2 {
         //
         fireAction = isSubmitter && isSubmitForm() &&
                 getSubmittedValue() != null;
-        
+
         // If we are supposed to fire an action and navigate to the value
         // of the component, we get the submitted value now and pass
         // it to the DropDownMethodBinding.
-        if(fireAction  && isNavigateToValue()) {  
-            if(DEBUG) log("\tHanding navigateToValue...");
-            MethodExpression mb = getActionExpression();
-            if(DEBUG) { 
-                if(mb != null) log("\tMethod binding is " + mb.toString()); 
-                else log("\tMethod binding is null");
+        if (fireAction && isNavigateToValue()) {
+            if (DEBUG) {
+                log("\tHanding navigateToValue...");
             }
-          
-            if(mb instanceof DropDownMethodExpression) {
+            MethodExpression mb = getActionExpression();
+            if (DEBUG) {
+                if (mb != null) {
+                    log("\tMethod binding is " + mb.toString());
+                } else {
+                    log("\tMethod binding is null");
+                }
+            }
+
+            if (mb instanceof DropDownMethodExpression) {
                 String outcome = null;
                 Object values = getSubmittedValue();
-                if(values instanceof String[]) { 
-                    String[] stringValues = (String[])values;
-                    if(stringValues.length > 0) { 
+                if (values instanceof String[]) {
+                    String[] stringValues = (String[]) values;
+                    if (stringValues.length > 0) {
                         outcome = stringValues[0];
-                        if(DEBUG) log("Outcome is " + outcome);
+                        if (DEBUG) {
+                            log("Outcome is " + outcome);
+                        }
                     }
                 }
-           
-                ((DropDownMethodExpression)mb).setValue(outcome);
-                if(DEBUG) log("\tNavigate to " + outcome);             
+
+                ((DropDownMethodExpression) mb).setValue(outcome);
+                if (DEBUG) {
+                    log("\tNavigate to " + outcome);
+                }
             }
         }
-        
+
         // Next, if the component is immediate, we validate the component        
-        if(isImmediate()) {
+        if (isImmediate()) {
             try {
                 validate(context);
-            } catch(RuntimeException e) {
+            } catch (RuntimeException e) {
                 context.renderResponse();
                 throw e;
-            }         
+            }
             if (!isValid()) {
                 context.renderResponse();
             }
-        }       
+        }
     }
-   
+
     /**
      * <p>In addition to to the default {@link UIComponent#broadcast} 
      * processing, pass the {@link ActionEvent} being broadcast to the method 
@@ -273,8 +280,9 @@ public class DropDown extends ListSelector implements ActionSource2 {
      * @exception NullPointerException if <code>event</code> is
      * <code>null</code>
      */
-    public void broadcast(FacesEvent event) throws AbortProcessingException {        
-        
+    @Override
+    public void broadcast(FacesEvent event) throws AbortProcessingException {
+
         // Perform standard superclass processing
         super.broadcast(event);
 
@@ -283,34 +291,34 @@ public class DropDown extends ListSelector implements ActionSource2 {
 
             // Notify the specified action expression method (if any)
             /* FIXME : Temporary hack to prevent to "actionListenerExpression"
-               events.
+            events.
 
             MethodExpression mb= getActionListenerExpression();
             if (mb != null) {
-                mb.invoke(context.getELContext(), new Object[] { event });
+            mb.invoke(context.getELContext(), new Object[] { event });
             }
-            */
+             */
 
             // Invoke the default ActionListener
             ActionListener listener =
-              context.getApplication().getActionListener();
-            if (listener != null) {                
+                    context.getApplication().getActionListener();
+            if (listener != null) {
                 listener.processAction((ActionEvent) event);
             }
         }
     }
 
-  
     /**
      * <p>Intercept <code>queueEvent</code> and, for {@link ActionEvent}s, mark 
      * the phaseId for the event to be <code>PhaseId.APPLY_REQUEST_VALUES</code>
      * if the <code>immediate</code> flag is true, 
      * <code>PhaseId.INVOKE_APPLICATION</code> otherwise.</p>
      */
+    @Override
     public void queueEvent(FacesEvent e) {
         // If this is an action event, we set the phase according to whether
         // the component is immediate or not. 
-        if(isSubmitForm()) {
+        if (isSubmitForm()) {
             if (e instanceof ActionEvent) {
                 if (isImmediate()) {
                     e.setPhaseId(PhaseId.APPLY_REQUEST_VALUES);
@@ -319,22 +327,27 @@ public class DropDown extends ListSelector implements ActionSource2 {
                 }
             }
         }
-        
+
         super.queueEvent(e);
     }
-    
-      private boolean isSubmitter(FacesContext context) {
-       
-        if(DEBUG) log("isSubmitter()"); 
-        String compID = getClientId(context).concat(SUBMIT); 
+
+    private boolean isSubmitter(FacesContext context) {
+
+        if (DEBUG) {
+            log("isSubmitter()");
+        }
+        String compID = getClientId(context).concat(SUBMIT);
         Map requestParameters =
-            context.getExternalContext().getRequestParameterMap();
-        
-        String submitter = (String)requestParameters.get(compID);
-        if(DEBUG) log("\tValue of submitter field " + submitter); 
-        return (submitter != null) ? submitter.equals("true") : false; 
+                context.getExternalContext().getRequestParameterMap();
+
+        String submitter = (String) requestParameters.get(compID);
+        if (DEBUG) {
+            log("\tValue of submitter field " + submitter);
+        }
+        return (submitter != null) ? submitter.equals("true") : false;
     }
 
+    @Override
     public void validate(FacesContext context) {
 
         // From UIInput
@@ -348,16 +361,18 @@ public class DropDown extends ListSelector implements ActionSource2 {
         }
 
         super.validate(context);
-        
-        if(isValid() && fireAction) { 
-            if(DEBUG) log("\tQueue the component event");
+
+        if (isValid() && fireAction) {
+            if (DEBUG) {
+                log("\tQueue the component event");
+            }
             // queue an event
-            queueEvent(new ActionEvent(this));      
+            queueEvent(new ActionEvent(this));
         }
     }
-    
-    // ----------------------------------------------------- StateHolder Methods
 
+    // ----------------------------------------------------- StateHolder Methods
+    @Override
     public Object saveState(FacesContext context) {
 
         Object values[] = new Object[4];
@@ -366,41 +381,40 @@ public class DropDown extends ListSelector implements ActionSource2 {
         values[2] = saveAttachedState(context, actionExpression);
         values[3] = saveAttachedState(context, actionListenerExpression);
         return (values);
-
     }
 
+    @Override
     public void restoreState(FacesContext context, Object state) {
         Object values[] = (Object[]) state;
         _restoreState(context, values[0]);
-        methodBindingActionListener = (MethodBinding)
-            restoreAttachedState(context, values[1]);
-        actionExpression = 
-            (MethodExpression) restoreAttachedState(context, values[2]);
-        actionListenerExpression =(MethodExpression) restoreAttachedState(context, values[3]);
+        methodBindingActionListener = (MethodBinding) restoreAttachedState(context, values[1]);
+        actionExpression = (MethodExpression) restoreAttachedState(context, values[2]);
+        actionListenerExpression = (MethodExpression) restoreAttachedState(context, values[3]);
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
     // Hide onSelect
-    @Property(name="onSelect", isHidden=true, isAttribute=false)
+    @Property(name = "onSelect", isHidden = true, isAttribute = false)
+    @Override
     public String getOnSelect() {
         return super.getOnSelect();
     }
-    
+
     // Hide rows
-    @Property(name="rows", isHidden=true, isAttribute=false)
+    @Property(name = "rows", isHidden = true, isAttribute = false)
+    @Override
     public int getRows() {
         return _getRows();
     }
-    
+
     // Hide value
-    @Property(name="value", isHidden=true, isAttribute=false)
+    @Property(name = "value", isHidden = true, isAttribute = false)
+    @Override
     public Object getValue() {
         return super.getValue();
     }
-
 
     /**  
      * <p>The actionExpression attribute is used to specify the action to take when this
@@ -417,15 +431,15 @@ public class DropDown extends ListSelector implements ActionSource2 {
      * <code>javax.faces.component.StateHolder</code> interface.</li></ul> 
      * <p>When you use the actionExpression attribute in the DropDown component, you must also
      * set the submitForm attribute to true. 
-     */      
-    @Property(name="actionExpression", isHidden=true, displayName="Action Expression")
-    @Property.Method(signature="java.lang.String action()")
+     */
+    @Property(name = "actionExpression", isHidden = true, displayName = "Action Expression")
+    @Property.Method(signature = "java.lang.String action()")
     public MethodExpression getActionExpression() {
-        
-        if(this.actionExpression == null && isNavigateToValue()) {        
+
+        if (this.actionExpression == null && isNavigateToValue()) {
             setActionExpression(new DropDownMethodExpression());
         }
-        
+
         return this.actionExpression;
     }
 
@@ -444,11 +458,11 @@ public class DropDown extends ListSelector implements ActionSource2 {
      * <code>javax.faces.component.StateHolder</code> interface.</li></ul> 
      * <p>When you use the actionExpression attribute in the DropDown component, you must also
      * set the submitForm attribute to true. 
-     */  
+     */
     public void setActionExpression(MethodExpression me) {
         this.actionExpression = me;
     }
-    
+
     /**@deprecated*/
     //emulating UICommand
     public javax.faces.el.MethodBinding getAction() {
@@ -459,9 +473,8 @@ public class DropDown extends ListSelector implements ActionSource2 {
             // if the MethodExpression is an instance of our private
             // wrapper class.
             if (me.getClass() == MethodExpressionMethodBindingAdapter.class) {
-                result = ((MethodExpressionMethodBindingAdapter)me).getWrapped();
-            }
-            else {
+                result = ((MethodExpressionMethodBindingAdapter) me).getWrapped();
+            } else {
                 // otherwise, this is a real MethodExpression.  Wrap it
                 // in a MethodBinding.
                 result = new MethodBindingMethodExpressionAdapter(me);
@@ -469,7 +482,7 @@ public class DropDown extends ListSelector implements ActionSource2 {
         }
         return result;
     }
-    
+
     /**@deprecated*/
     //emulating UICommand
     public void setAction(javax.faces.el.MethodBinding action) {
@@ -477,24 +490,22 @@ public class DropDown extends ListSelector implements ActionSource2 {
         if (null != action) {
             adapter = new MethodExpressionMethodBindingAdapter(action);
             setActionExpression(adapter);
-        }
-        else {
+        } else {
             setActionExpression(null);
         }
     }
-    
+
     /**@deprecated*/
     //emulating UICommand
     public javax.faces.el.MethodBinding getActionListener() {
         return this.methodBindingActionListener;
     }
-    
+
     /**@deprecated*/
     //emulating UICommand
     public void setActionListener(javax.faces.el.MethodBinding actionListener) {
         this.methodBindingActionListener = actionListener;
     }
-    
     /**
      * <p>The actionListenerExpression attribute is used to specify a method to handle
      * an action event that is triggered when this
@@ -507,9 +518,10 @@ public class DropDown extends ListSelector implements ActionSource2 {
      * 
      * <p>The actionListenerExpression method is only invoked when the submitForm attribute
      * is true.
-     */            
-    @Property(name="actionListenerExpression", isHidden=true, isAttribute=true, displayName="Action Listener Expression", category="Advanced")
-    @Property.Method(signature="void processAction(javax.faces.event.ActionEvent)")
+     */
+    @Property(name = "actionListenerExpression", isHidden = true, isAttribute = true,
+    displayName = "Action Listener Expression", category = "Advanced")
+    @Property.Method(signature = "void processAction(javax.faces.event.ActionEvent)")
     private MethodExpression actionListenerExpression;
 
     /**
@@ -524,9 +536,9 @@ public class DropDown extends ListSelector implements ActionSource2 {
      * 
      * <p>The actionListenerExpression method is only invoked when the submitForm attribute
      * is true.
-     */     
+     */
     public MethodExpression getActionListenerExpression() {
-            return this.actionListenerExpression;
+        return this.actionListenerExpression;
     }
 
     /**
@@ -541,40 +553,38 @@ public class DropDown extends ListSelector implements ActionSource2 {
      * 
      * <p>The actionListenerExpression method is only invoked when the submitForm attribute
      * is true.
-     */     
+     */
     public void setActionListenerExpression(MethodExpression me) {
         //call thru
-        ActionListener [] curActionListeners = getActionListeners();
+        ActionListener[] curActionListeners = getActionListeners();
         // see if we need to remove existing actionListener.
         // only need to if this.actionListenerExpression != null (since curMethodExpression won't be null)
         if (null != curActionListeners && this.actionListenerExpression != null) {
             for (int i = 0; i < curActionListeners.length; i++) {
                 if (curActionListeners[i] instanceof MethodExprActionListener) {
-                    MethodExprActionListener curActionListener = (MethodExprActionListener)curActionListeners[i];
+                    MethodExprActionListener curActionListener = (MethodExprActionListener) curActionListeners[i];
                     MethodExpression curMethodExpression = curActionListener.getMethodExpression();
                     if (this.actionListenerExpression.equals(curMethodExpression)) {
-                            removeActionListener(curActionListener);
-                            break;
+                        removeActionListener(curActionListener);
+                        break;
                     }
                 }
             }
         }
         if (me == null) {
             this.actionListenerExpression = null;
-        }
-        else {
+        } else {
             this.actionListenerExpression = me;
             addActionListener(new MethodExprActionListener(this.actionListenerExpression));
         }
     }
-
     /**
      * <p>If this flag is set to true, then the component is always
      * rendered with no initial selection. By default, the component displays 
      * the selection that was made in the last submit of the page. This value
      * should be set to true when the drop down is used for navigation.</p>
      */
-    @Property(name="forgetValue", displayName="Do not display selected value", category="Advanced", isHidden=true)
+    @Property(name = "forgetValue", displayName = "Do not display selected value", category = "Advanced", isHidden = true)
     private boolean forgetValue = false;
     private boolean forgetValue_set = false;
 
@@ -611,7 +621,6 @@ public class DropDown extends ListSelector implements ActionSource2 {
         this.forgetValue = forgetValue;
         this.forgetValue_set = true;
     }
-
     /**
      * <p>When this attribute is set to true, the value of the menu selection 
      * is used as the action, to determine which page is displayed next 
@@ -620,7 +629,8 @@ public class DropDown extends ListSelector implements ActionSource2 {
      * navigation.  
      * When you set navigateToValue to true, you must also set submitForm to true.</p>
      */
-    @Property(name="navigateToValue", displayName="Navigate to Component Value", category="Advanced", isHidden=true)
+    @Property(name = "navigateToValue", displayName = "Navigate to Component Value",
+    category = "Advanced", isHidden = true)
     private boolean navigateToValue = false;
     private boolean navigateToValue_set = false;
 
@@ -661,13 +671,12 @@ public class DropDown extends ListSelector implements ActionSource2 {
         this.navigateToValue = navigateToValue;
         this.navigateToValue_set = true;
     }
-
     /**
      * <p>When the submitForm attribute is set to true, 
      * the form is immediately submitted when the user changes the 
      * selection in the drop down list.</p>
      */
-    @Property(name="submitForm", displayName="Submit the Page on Change", isHidden=true)
+    @Property(name = "submitForm", displayName = "Submit the Page on Change", isHidden = true)
     private boolean submitForm = false;
     private boolean submitForm_set = false;
 
@@ -702,13 +711,12 @@ public class DropDown extends ListSelector implements ActionSource2 {
         this.submitForm = submitForm;
         this.submitForm_set = true;
     }
-
     /**
      * <p>Sets the value of the title attribute for the HTML element.
      * The specified text will display as a tooltip if the mouse cursor hovers 
      * over the HTML element.</p>
      */
-    @Property(name="toolTip", displayName="Tool Tip", category="Behavior")
+    @Property(name = "toolTip", displayName = "Tool Tip", category = "Behavior")
     private String toolTip = null;
 
     /**
@@ -716,6 +724,7 @@ public class DropDown extends ListSelector implements ActionSource2 {
      * The specified text will display as a tooltip if the mouse cursor hovers 
      * over the HTML element.</p>
      */
+    @Override
     public String getToolTip() {
         if (this.toolTip != null) {
             return this.toolTip;
@@ -733,6 +742,7 @@ public class DropDown extends ListSelector implements ActionSource2 {
      * over the HTML element.</p>
      * @see #getToolTip()
      */
+    @Override
     public void setToolTip(String toolTip) {
         this.toolTip = toolTip;
     }
@@ -740,7 +750,7 @@ public class DropDown extends ListSelector implements ActionSource2 {
     /**
      * <p>Restore the state of this component.</p>
      */
-    private void _restoreState(FacesContext _context,Object _state) {
+    private void _restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.forgetValue = ((Boolean) _values[1]).booleanValue();

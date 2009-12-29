@@ -31,8 +31,6 @@ import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.jsf.validator.StringLengthValidator;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.RenderingUtilities;
-
 import java.lang.reflect.Array;
 import java.io.Serializable;
 import java.text.Collator;
@@ -42,7 +40,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
-
 import javax.el.MethodExpression;
 import javax.el.ValueExpression;
 import javax.faces.FacesException;
@@ -55,9 +52,6 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
-import javax.faces.event.ValueChangeListener;
-import javax.faces.validator.Validator;
-
 
 /**
  * The EditableList component allows users to create and modify a list of 
@@ -112,12 +106,13 @@ import javax.faces.validator.Validator;
  * <li>NONE yet</li>
  * </ul>
  */
-@Component(type="com.sun.webui.jsf.EditableList", family="com.sun.webui.jsf.EditableList", displayName="Editable List", tagName="editableList",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_editable_list",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_editable_list_props")   
+@Component(type = "com.sun.webui.jsf.EditableList", family = "com.sun.webui.jsf.EditableList",
+displayName = "Editable List", tagName = "editableList",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_editable_list",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_editable_list_props")
 public class EditableList extends WebuiInput implements ListManager,
         NamingContainer {
-    
+
     /**
      * The component id for the ADD button
      */
@@ -154,12 +149,12 @@ public class EditableList extends WebuiInput implements ListManager,
      * The text key for the StringLengthValidator "too long" message.
      */
     public static final String SLV_TOOLONG_KEY =
-                    "EditableList.itemTooLong"; //NOI18N
+            "EditableList.itemTooLong"; //NOI18N
     /**
      * The text key for the StringLengthValidator "too short" message.
      */
     public static final String SLV_TOOSHORT_KEY =
-                "EditableList.fieldEmpty"; // NOI18N
+            "EditableList.fieldEmpty"; // NOI18N
     /**
      * The component ID for the textfield
      */
@@ -172,8 +167,7 @@ public class EditableList extends WebuiInput implements ListManager,
      * The list default label text key.
      */
     public static final String LIST_LABEL_TEXT_KEY =
-                "EditableList.defaultListLabel"; //NOI18N
-    
+            "EditableList.defaultListLabel"; //NOI18N
     /**
      * The component ID for the textfield
      */
@@ -186,8 +180,7 @@ public class EditableList extends WebuiInput implements ListManager,
      * The default field label text key.
      */
     public static final String FIELD_LABEL_TEXT_KEY =
-                            "EditableList.defaultFieldLabel"; //NOI18N
-    
+            "EditableList.defaultFieldLabel"; //NOI18N
     /**
      * The component ID for the textfield
      */
@@ -196,40 +189,33 @@ public class EditableList extends WebuiInput implements ListManager,
      * The read only facet name.
      */
     public static final String READ_ONLY_FACET = "readOnly"; //NOI18N
-    
     /**
      * Facet name for the header facet
      */
     public static final String HEADER_FACET = "header"; //NOI18N
-    
     /**
      * Facet name for the footer facet
      */
     public static final String FOOTER_FACET = "footer"; //NOI18N
-    
     /**
      * Name of the JavaScript function which is responsible for adding elements from the availble list to the selected list
      */
     public static final String ADD_FUNCTION = ".add(); ";
-    
     /**
      * Name of the JavaScript function which is responsible for
      * enabling/disabling the add button
      */
     public static final String ENABLE_ADD_FUNCTION = ".enableAdd(); ";
-    
     /**
      * Name of the JavaScript function which is responsible for
      * enabling/disabling the add button
      */
     public static final String SET_ADD_DISABLED_FUNCTION = ".setAddDisabled(false);";
-    
     /**
      * Name of the JavaScript function which is responsible for
      * enabling/disabling the remove button
      */
     public static final String ENABLE_REMOVE_FUNCTION = ".enableRemove(); ";
-    
     /**
      * Name of the JavaScript function that updates the buttons
      */
@@ -241,7 +227,6 @@ public class EditableList extends WebuiInput implements ListManager,
      * Read only separator string
      */
     private static final String READ_ONLY_SEPARATOR = ", "; //NOI18N
-    
     /**
      * Facet name for the search facet
      */
@@ -250,16 +235,12 @@ public class EditableList extends WebuiInput implements ListManager,
     // FIXME: This should be part of the theme.
     //
     public static final String SPACER_STRING = "_"; //NOI18N
-
     private static final String KEY_STRING = "a"; //NOI18N
     private static final String DUP_STRING = "\t"; //NOI18N
-    
     // FIXME: This should be part of the theme.
     //
     private static final int MIN_LENGTH = 20;
-    
     private static final boolean DEBUG = false;
-    
     private TreeMap listItems = null;
     private Collator collator = null;
     private transient Theme theme = null;
@@ -277,6 +258,7 @@ public class EditableList extends WebuiInput implements ListManager,
     /**
      * <p>Return the family for this component.</p>
      */
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.EditableList";
     }
@@ -290,17 +272,17 @@ public class EditableList extends WebuiInput implements ListManager,
     public int getMaxLength() {
         int length = _getMaxLength();
 
-        if(length < 1) {
+        if (length < 1) {
             // FIXME: Should be part of Theme.
             length = 25;
-            // Shouldn't reset the length, it clobbers a 
-            // developers value. Just return the default.
-            //
-            //super.setMaxLength(length);
+        // Shouldn't reset the length, it clobbers a
+        // developers value. Just return the default.
+        //
+        //super.setMaxLength(length);
         }
         return length;
     }
-    
+
     // Buttons
     /**
      * Return a component that implements the add button.
@@ -316,11 +298,12 @@ public class EditableList extends WebuiInput implements ListManager,
      * @return an add button component
      */
     public UIComponent getAddButtonComponent() {
-        
-        if(DEBUG) log("getAddButtonComponent()"); //NOI18N
 
+        if (DEBUG) {
+            log("getAddButtonComponent()"); //NOI18N
+        }
         return getButtonFacet(ADD_BUTTON_FACET, false,
-            getTheme().getMessage(ADD_BUTTON_TEXT_KEY), new AddListener());
+                getTheme().getMessage(ADD_BUTTON_TEXT_KEY), new AddListener());
     }
 
     /**
@@ -337,14 +320,15 @@ public class EditableList extends WebuiInput implements ListManager,
      * @return a remove button component
      */
     public UIComponent getRemoveButtonComponent() {
-        
-        if(DEBUG) log("getRemoveButtonComponent()"); //NOI18N
 
+        if (DEBUG) {
+            log("getRemoveButtonComponent()"); //NOI18N
+        }
         return getButtonFacet(REMOVE_BUTTON_FACET, false,
                 getTheme().getMessage(REMOVE_BUTTON_TEXT_KEY),
                 new RemoveListener());
     }
-    
+
     /**
      * Return a component that implements a button facet.
      * If a facet named <code>facetName</code> is found
@@ -364,17 +348,18 @@ public class EditableList extends WebuiInput implements ListManager,
      * @return a button facet component
      */
     private UIComponent getButtonFacet(String facetName, boolean primary,
-        String text, ActionListener actionListener) { 
+            String text, ActionListener actionListener) {
 
-        if (DEBUG) log("getButtonFacet() " + facetName);  //NOI18N
-
+        if (DEBUG) {
+            log("getButtonFacet() " + facetName);  //NOI18N
+        }
         // Check if the page author has defined the facet
         //
-        UIComponent buttonComponent = getFacet(facetName); 
+        UIComponent buttonComponent = getFacet(facetName);
         if (buttonComponent != null) {
-            if (DEBUG) { 
+            if (DEBUG) {
                 log("\tFound facet"); //NOI18N
-            } 
+            }
             return buttonComponent;
         }
 
@@ -383,21 +368,23 @@ public class EditableList extends WebuiInput implements ListManager,
         //
         // We know it's a Button
         //
-        Button button = (Button)ComponentUtilities.getPrivateFacet(this,
+        Button button = (Button) ComponentUtilities.getPrivateFacet(this,
                 facetName, true);
         if (button == null) {
-            if (DEBUG) log("create Button"); 
-            button = new Button(); 
+            if (DEBUG) {
+                log("create Button");
+            }
+            button = new Button();
             button.setId(ComponentUtilities.createPrivateFacetId(this,
-                facetName));
+                    facetName));
             button.addActionListener(actionListener);
             ComponentUtilities.putPrivateFacet(this, facetName, button);
         }
         initButtonFacet(button, primary, text);
 
-        return button; 
+        return button;
     }
-    
+
     /**
      * Initialize a <code>Button</code> facet.
      *
@@ -405,9 +392,10 @@ public class EditableList extends WebuiInput implements ListManager,
      * @param text the button text
      */
     private void initButtonFacet(Button button, boolean primary, String text) {
-        
-        if(DEBUG) log("initButtonFacet()"); //NOI18N
-        
+
+        if (DEBUG) {
+            log("initButtonFacet()"); //NOI18N
+        }
         button.setText(text);
         int tindex = getTabIndex();
         if (tindex > 0) {
@@ -417,7 +405,7 @@ public class EditableList extends WebuiInput implements ListManager,
         button.setPrimary(primary);
         button.setDisabled(isDisabled());
     }
-    
+
     // Labels
     //
     /**
@@ -434,16 +422,17 @@ public class EditableList extends WebuiInput implements ListManager,
      * @return a list label component
      */
     public UIComponent getListLabelComponent() {
-        
-        if(DEBUG) log("getListLabelComponent()"); //NOI18N
 
+        if (DEBUG) {
+            log("getListLabelComponent()"); //NOI18N
+        }
         String labelString = getListLabel();
-        if(labelString == null || labelString.length() == 0) {
+        if (labelString == null || labelString.length() == 0) {
             labelString = getTheme().getMessage(LIST_LABEL_TEXT_KEY);
         }
         return getLabelFacet(LIST_LABEL_FACET, labelString, this);
     }
-    
+
     /**
      * Return a component that implements a label for the input field.
      * If a facet named <code>fieldLabel</code> is found
@@ -458,11 +447,12 @@ public class EditableList extends WebuiInput implements ListManager,
      * @return a field label component
      */
     public UIComponent getFieldLabelComponent() {
-        
-        if(DEBUG) log("getFieldLabelComponent()"); //NOI18N
 
+        if (DEBUG) {
+            log("getFieldLabelComponent()"); //NOI18N
+        }
         String labelString = getFieldLabel();
-        if(labelString == null || labelString.length() == 0) {
+        if (labelString == null || labelString.length() == 0) {
             labelString = getTheme().getMessage(FIELD_LABEL_TEXT_KEY);
         }
         // This will cause two initializations of the private field 
@@ -471,9 +461,9 @@ public class EditableList extends WebuiInput implements ListManager,
         // getFieldComponent()
         //
         return getLabelFacet(FIELD_LABEL_FACET, labelString,
-                getFieldComponent());    
+                getFieldComponent());
     }
-    
+
     /**
      * Return a component that implements a label facet.
      * If a facet named <code>facetName</code> is found
@@ -492,17 +482,18 @@ public class EditableList extends WebuiInput implements ListManager,
      * @return a label facet component
      */
     private UIComponent getLabelFacet(String facetName, String text,
-                UIComponent forComponent) {
+            UIComponent forComponent) {
 
-        if (DEBUG) log("getLabelFacet() " + facetName);  //NOI18N
-
+        if (DEBUG) {
+            log("getLabelFacet() " + facetName);  //NOI18N
+        }
         // Check if the page author has defined the facet
         //
-        UIComponent labelComponent = getFacet(facetName); 
+        UIComponent labelComponent = getFacet(facetName);
         if (labelComponent != null) {
-            if (DEBUG) { 
+            if (DEBUG) {
                 log("\tFound facet"); //NOI18N
-            } 
+            }
             return labelComponent;
         }
 
@@ -511,20 +502,22 @@ public class EditableList extends WebuiInput implements ListManager,
         //
         // We know it's a Label
         //
-        Label label = (Label)ComponentUtilities.getPrivateFacet(this,
+        Label label = (Label) ComponentUtilities.getPrivateFacet(this,
                 facetName, true);
         if (label == null) {
-            if (DEBUG) log("create Label"); 
-            label = new Label(); 
+            if (DEBUG) {
+                log("create Label");
+            }
+            label = new Label();
             label.setId(ComponentUtilities.createPrivateFacetId(this,
-                facetName));
+                    facetName));
             ComponentUtilities.putPrivateFacet(this, facetName, label);
         }
         initLabelFacet(label, text, forComponent.getClientId(getFacesContext()));
 
-        return label; 
+        return label;
     }
-    
+
     /**
      * Initialize a label facet.
      *
@@ -534,10 +527,11 @@ public class EditableList extends WebuiInput implements ListManager,
      */
     private void initLabelFacet(Label label, String labelString,
             String forComponentId) {
-        
-        if(DEBUG) log("initLabelFacet()"); //NOI18N
-        
-        if(labelString == null || labelString.length() < 1) {
+
+        if (DEBUG) {
+            log("initLabelFacet()"); //NOI18N
+        }
+        if (labelString == null || labelString.length() < 1) {
             // TODO - maybe print a default?
             // A Theme default value.
             labelString = new String();
@@ -549,7 +543,7 @@ public class EditableList extends WebuiInput implements ListManager,
             label.setFor(forComponentId);
         }
     }
-    
+
     // Other
     /**
      * Return the actual facet or private facet without
@@ -565,11 +559,11 @@ public class EditableList extends WebuiInput implements ListManager,
 
         // Check if the page author has defined the facet
         //
-        UIComponent fieldComponent = getFacet(FIELD_FACET); 
+        UIComponent fieldComponent = getFacet(FIELD_FACET);
         if (fieldComponent != null) {
-            if (DEBUG) { 
+            if (DEBUG) {
                 log("\tFound facet"); //NOI18N
-            } 
+            }
             return fieldComponent;
         }
 
@@ -580,7 +574,7 @@ public class EditableList extends WebuiInput implements ListManager,
         // request processing.
         //
         fieldComponent = ComponentUtilities.getPrivateFacet(this,
-            FIELD_FACET, false);
+                FIELD_FACET, false);
 
         return fieldComponent == null ? getFieldComponent() : fieldComponent;
     }
@@ -600,15 +594,16 @@ public class EditableList extends WebuiInput implements ListManager,
      */
     public UIComponent getFieldComponent() {
 
-        if (DEBUG) log("getFieldComponent()");  //NOI18N
-
+        if (DEBUG) {
+            log("getFieldComponent()");  //NOI18N
+        }
         // Check if the page author has defined the facet
         //
-        UIComponent fieldComponent = getFacet(FIELD_FACET); 
+        UIComponent fieldComponent = getFacet(FIELD_FACET);
         if (fieldComponent != null) {
-            if (DEBUG) { 
+            if (DEBUG) {
                 log("\tFound facet"); //NOI18N
-            } 
+            }
             return fieldComponent;
         }
 
@@ -617,36 +612,39 @@ public class EditableList extends WebuiInput implements ListManager,
         //
         // We know it's a TextField
         //
-        TextField field = (TextField)ComponentUtilities.getPrivateFacet(this,
-            FIELD_FACET, true);
+        TextField field = (TextField) ComponentUtilities.getPrivateFacet(this,
+                FIELD_FACET, true);
         if (field == null) {
-            if (DEBUG) log("create Field"); //NOI18N
-            field = new TextField(); 
+            if (DEBUG) {
+                log("create Field"); //NOI18N
+            }
+            field = new TextField();
             field.setId(ComponentUtilities.createPrivateFacetId(this,
-                FIELD_FACET));
+                    FIELD_FACET));
             field.setTrim(true);
             ComponentUtilities.putPrivateFacet(this, FIELD_FACET, field);
 
-	    // Add the validator ONCE !
-	    //
-	    StringLengthValidator strl =
-		    new StringLengthValidator(getMaxLength(), 1);
+            // Add the validator ONCE !
+            //
+            StringLengthValidator strl =
+                    new StringLengthValidator(getMaxLength(), 1);
 
-	    Theme theme = getTheme();
-	    strl.setTooLongMessage(theme.getMessage(SLV_TOOLONG_KEY));
-	    strl.setTooShortMessage(theme.getMessage(SLV_TOOSHORT_KEY));
+            Theme theme = getTheme();
+            strl.setTooLongMessage(theme.getMessage(SLV_TOOLONG_KEY));
+            strl.setTooShortMessage(theme.getMessage(SLV_TOOSHORT_KEY));
 
-	    field.addValidator(strl);
+            field.addValidator(strl);
 
         }
         initFieldFacet(field);
 
-        return field; 
+        return field;
     }
 
     private void initFieldFacet(TextField field) {
-        if(DEBUG) log("initFieldFacet()"); //NOI18N
-
+        if (DEBUG) {
+            log("initFieldFacet()"); //NOI18N
+        }
         // FIXME should use formElements.js function for return key
         //
         String jsObjectName = getJavaScriptObjectName();
@@ -657,25 +655,25 @@ public class EditableList extends WebuiInput implements ListManager,
         onkeypressBuffer.append("return false; } "); //NOI18N
 
         field.setOnKeyPress(onkeypressBuffer.toString());
-        
+
         StringBuffer onfocusBuffer = new StringBuffer(128);
         onfocusBuffer.append(jsObjectName);
         onfocusBuffer.append(SET_ADD_DISABLED_FUNCTION);
         onfocusBuffer.append("return false;"); //NOI18N
-        
+
         field.setOnFocus(onfocusBuffer.toString());
 
         StringBuffer onfocuslostBuffer = new StringBuffer(128);
         onfocuslostBuffer.append(jsObjectName);
         onfocuslostBuffer.append(ENABLE_ADD_FUNCTION);
         onfocuslostBuffer.append("return false;"); //NOI18N
-        
+
         field.setOnBlur(onfocuslostBuffer.toString());
 
         // FIXME: MIN_LENGTH should be part of Theme
         //
         int columns = getMaxLength();
-        if(columns < MIN_LENGTH) {
+        if (columns < MIN_LENGTH) {
             columns = MIN_LENGTH;
         }
         field.setColumns(columns);
@@ -684,14 +682,14 @@ public class EditableList extends WebuiInput implements ListManager,
         if (tindex > 0) {
             field.setTabIndex(tindex);
         }
-        
+
         field.setDisabled(isDisabled());
 
-	// Now add an application field validator expression
-	// Do this every time in case it was changed on the
-	// EditableList.
-	//
-	field.setValidatorExpression(getFieldValidatorExpression());
+        // Now add an application field validator expression
+        // Do this every time in case it was changed on the
+        // EditableList.
+        //
+        field.setValidatorExpression(getFieldValidatorExpression());
     }
 
     /**
@@ -709,27 +707,30 @@ public class EditableList extends WebuiInput implements ListManager,
      * @return a component that represents the read only value of this EditableList
      */
     public UIComponent getReadOnlyValueComponent() {
-        
-        if(DEBUG) log("getReadOnlyValueComponent()"); //NOI18N
-        
+
+        if (DEBUG) {
+            log("getReadOnlyValueComponent()"); //NOI18N
+        }
         // Check if the page author has defined the facet
         //
-        UIComponent textComponent = getFacet(READ_ONLY_FACET); 
+        UIComponent textComponent = getFacet(READ_ONLY_FACET);
         if (textComponent != null) {
-            if (DEBUG) { 
+            if (DEBUG) {
                 log("\tFound facet"); //NOI18N
-            } 
+            }
             return textComponent;
         }
 
         // Just create it every time.
         //
-        if (DEBUG) log("create StaticText"); //NOI18N
-        StaticText text = new StaticText(); 
+        if (DEBUG) {
+            log("create StaticText"); //NOI18N
+        }
+        StaticText text = new StaticText();
         text.setId(ComponentUtilities.createPrivateFacetId(this,
                 READ_ONLY_FACET));
         text.setParent(this);
-        
+
         FacesContext context = FacesContext.getCurrentInstance();
         String readOnlyString = getValueAsReadOnly(context);
         if (readOnlyString == null || readOnlyString.length() < 1) {
@@ -737,9 +738,9 @@ public class EditableList extends WebuiInput implements ListManager,
             readOnlyString = new String();
         }
         text.setText(readOnlyString);
-        return text; 
+        return text;
     }
-    
+
     // Readonly value
     /**
      * Return a string suitable for displaying the value in read only mode.
@@ -749,40 +750,41 @@ public class EditableList extends WebuiInput implements ListManager,
      * @throws javax.faces.FacesException If the list items cannot be processed
      */
     protected String getValueAsReadOnly(FacesContext context)
-    throws FacesException {
-        
+            throws FacesException {
+
         // The comma format READ_ONLY_SEPARATOR should be part of the theme
         // and/or configurable by the application
         //
         StringBuffer valueBuffer = new StringBuffer(200);
-        
+
         Iterator iterator = getListItems(context, false);
-        
-        while(iterator.hasNext()) {
-            String string = ((ListItem)(iterator.next())).getLabel();
+
+        while (iterator.hasNext()) {
+            String string = ((ListItem) (iterator.next())).getLabel();
             // Do this with a boolean on getListItems instead
-            if(string.indexOf("nbsp") > -1) {  //NOI18N
+            if (string.indexOf("nbsp") > -1) {  //NOI18N
                 continue;
             }
             valueBuffer.append(string);
-            if(iterator.hasNext()) {
+            if (iterator.hasNext()) {
                 valueBuffer.append(READ_ONLY_SEPARATOR);
             }
         }
         return valueBuffer.toString();
     }
-    
+
     // The following methods overrides default behaviour that does not
     // make sense for this component
     /**
      *
      * @param converter
      */
+    @Override
     public void setConverter(javax.faces.convert.Converter converter) {
         String msg = getTheme().getMessage("EditableList.noConversion"); //NOI18N
         throw new RuntimeException(msg);
     }
-    
+
     public String getJavaScriptObjectName() {
         return JavaScriptUtilities.getDomNode(getFacesContext(), this);
     }
@@ -790,7 +792,7 @@ public class EditableList extends WebuiInput implements ListManager,
     private Theme getTheme() {
         return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
     }
-    
+
     public String getOnChange() {
         StringBuffer onchangeBuffer = new StringBuffer(128);
         onchangeBuffer.append(getJavaScriptObjectName());
@@ -816,16 +818,16 @@ public class EditableList extends WebuiInput implements ListManager,
      * <code>for</code> attribute.
      */
     public String getLabeledElementId(FacesContext context) {
-	// If this component is marked read only then it is 
-	// not appropriate for a label's for attribute.
-	//
-	if (isReadOnly()) {
-	    return null;
-	} else {
-	    return getClientId(context).concat(ListSelector.LIST_ID);
-	}
+        // If this component is marked read only then it is
+        // not appropriate for a label's for attribute.
+        //
+        if (isReadOnly()) {
+            return null;
+        } else {
+            return getClientId(context).concat(ListSelector.LIST_ID);
+        }
     }
-    
+
     /**
      * Returns the id of an HTML element suitable to
      * receive the focus.
@@ -851,7 +853,7 @@ public class EditableList extends WebuiInput implements ListManager,
         // be either the field or the label. Ah well. I can get around this
         // if I implement some extra bits on the label.
         // TODO
-	return getLabeledElementId(context);
+        return getLabeledElementId(context);
     }
 
     /**
@@ -868,29 +870,29 @@ public class EditableList extends WebuiInput implements ListManager,
      * @see #getFocusElementId
      */
     public String getPrimaryElementID(FacesContext context) {
-	// In case callers can't handle null do not
-	// return getLabeledElementId here.
-	//
+        // In case callers can't handle null do not
+        // return getLabeledElementId here.
+        //
         return getClientId(context).concat(ListSelector.LIST_ID);
     }
-    
+
     /**
      * Getter for property valuesToRemove.
      * @return Value of property valuesToRemove.
      */
     public String[] getValuesToRemove() {
-        if(valuesToRemove == null) {
+        if (valuesToRemove == null) {
             return new String[0];
         }
         return this.valuesToRemove;
     }
-    
+
     /**
      * Setter for property valuesToRemove.
      * @param valuesToRemove New value of property valuesToRemove.
      */
     public void setValuesToRemove(String[] valuesToRemove) {
-        
+
         this.valuesToRemove = valuesToRemove;
     }
 
@@ -901,12 +903,16 @@ public class EditableList extends WebuiInput implements ListManager,
      * @throws javax.faces.FacesException
      */
     public Iterator getListItems(FacesContext context, boolean rulerAtEnd) throws FacesException {
-        
-        if(DEBUG) log("getListItems()");
-        
+
+        if (DEBUG) {
+            log("getListItems()");
+        }
+
         Locale locale = context.getViewRoot().getLocale();
-        if(DEBUG) log("\tLocale is " + locale.toString());
-        collator =  Collator.getInstance(locale);
+        if (DEBUG) {
+            log("\tLocale is " + locale.toString());
+        }
+        collator = Collator.getInstance(locale);
         listItems = new TreeMap(collator);
 
         // Are we sorting ?
@@ -917,7 +923,7 @@ public class EditableList extends WebuiInput implements ListManager,
         // to support duplicates when sorting.
         //
         Map keysSeen = sorted ? new HashMap() : null;
-        
+
         // We have to make sure that the long empty list item (whose
         // purpose is to guarantee that the size of the list stays
         // constant) is alwasy at the bottom of the list.  (=has the
@@ -929,16 +935,16 @@ public class EditableList extends WebuiInput implements ListManager,
         // for example).
         String lastKey = ""; //NOI18N
         String[] currentValues = getCurrentValueAsStringArray();
-        if(DEBUG) {
+        if (DEBUG) {
             log("\tValues are:");
-            for(int i=0; i<currentValues.length; ++i) {
+            for (int i = 0; i < currentValues.length; ++i) {
                 log(currentValues[i]);
             }
         }
-        
+
         // The string currently being evaluated
         String currentString = null;
-        
+
         // Two cases:
         // First case: the page author requested a sorted map (by
         // character), in which case we sort by the strings
@@ -969,26 +975,24 @@ public class EditableList extends WebuiInput implements ListManager,
         //
         // Only need this when not sorting
         //
-        StringBuffer unsortedKeyBuffer = sorted ? null :
-                new StringBuffer(KEY_STRING);
+        StringBuffer unsortedKeyBuffer = sorted ? null : new StringBuffer(KEY_STRING);
 
-        for (int counter=0; counter < currentValues.length; ++ counter) {
+        for (int counter = 0; counter < currentValues.length; ++counter) {
             currentString = currentValues[counter];
 
-            if(DEBUG) {
+            if (DEBUG) {
                 log("Current string is " + currentString); //NOI18N
-                log("SelectedValue is " + 
+                log("SelectedValue is " +
                         String.valueOf(selectedValue)); //NOI18N
             }
-            
+
             if (currentString == null) {
-                String msg = MessageUtil.getMessage
-                        ("com.sun.webui.jsf.resources.LogMessages",
-                        "EditableList.badValue", 
-                        new Object[]{ getClientId(context) });
+                String msg = MessageUtil.getMessage("com.sun.webui.jsf.resources.LogMessages",
+                        "EditableList.badValue",
+                        new Object[]{getClientId(context)});
                 throw new FacesException(msg);
             }
-            
+
             listItem = new ListItem(currentString);
             listItem.setValue(currentString);
 
@@ -1000,11 +1004,13 @@ public class EditableList extends WebuiInput implements ListManager,
             // Keep track of last ListItem that matches the selectedValue
             // and at the end mark the last one found as selected.
             //
-            if(currentString.equals(selectedValue)) {
-                if(DEBUG) log("Selected value seen");
+            if (currentString.equals(selectedValue)) {
+                if (DEBUG) {
+                    log("Selected value seen");
+                }
                 selectedItem = listItem;
             }
-            if(sorted) {
+            if (sorted) {
                 // Since duplicates are allowed, if a duplicate occurs
                 // the key must be unique but must sort next
                 // to the duplicate. Add an increasing string of
@@ -1013,14 +1019,14 @@ public class EditableList extends WebuiInput implements ListManager,
                 //
                 String key = currentString;
                 if (keysSeen.containsKey(key)) {
-                    String dup_string = (String)keysSeen.get(key);
+                    String dup_string = (String) keysSeen.get(key);
                     dup_string = dup_string.concat(DUP_STRING);
                     key = key.concat(dup_string);
                     keysSeen.put(currentString, dup_string);
                 } else {
                     keysSeen.put(key, DUP_STRING);
                 }
-                if(collator.compare(key, lastKey) > 0) {
+                if (collator.compare(key, lastKey) > 0) {
                     lastKey = key;
                 }
                 listItems.put(key, listItem);
@@ -1037,61 +1043,66 @@ public class EditableList extends WebuiInput implements ListManager,
             selectedItem.setSelected(true);
         }
 
-        if(!sorted) {
+        if (!sorted) {
             lastKey = unsortedKeyBuffer.toString();
         }
-        
+
         // rulerAtEnd will be true if the invoker needs a blank
         // disabled list option at the end. Typically this is
         // needed by the renderer, to guarantee that the widget
         // stays the same in size when items are added and removed.
-        if(rulerAtEnd) {
-            
+        if (rulerAtEnd) {
+
             int length = getMaxLength();
-            if(length < MIN_LENGTH) {
+            if (length < MIN_LENGTH) {
                 length = MIN_LENGTH;
             }
             StringBuffer labelBuffer = new StringBuffer(length);
-            
-            for(int counter=0; counter < length; ++counter) {
+
+            for (int counter = 0; counter < length; ++counter) {
                 labelBuffer.append(SPACER_STRING);
             }
             ListItem item = new ListItem(labelBuffer.toString());
             item.setDisabled(true);
             listItems.put(lastKey.concat(KEY_STRING), item);
         }
-        
+
         return listItems.values().iterator();
     }
-    
+
     private String[] getCurrentValueAsStringArray() {
-        
-        
-        if(DEBUG) log("getCurrentValueAsStringArray()");
+
+
+        if (DEBUG) {
+            log("getCurrentValueAsStringArray()");
+        }
         Object value = getSubmittedValue();
-        if(value == null) {
-            if(DEBUG) log("\tUsing regular value");
+        if (value == null) {
+            if (DEBUG) {
+                log("\tUsing regular value");
+            }
             value = getValue();
-        } else if(DEBUG) log("\tUsing submitted value");
-        
-        if(value == null) {
+        } else if (DEBUG) {
+            log("\tUsing submitted value");
+        }
+
+        if (value == null) {
             return new String[0];
         }
-        if(value instanceof String[]) {
-            return (String[])value;
+        if (value instanceof String[]) {
+            return (String[]) value;
         }
-        
-        String msg = MessageUtil.getMessage
-                ("com.sun.webui.jsf.resources.LogMessages",
-                "EditableList.badValue", 
-                new Object[]{ getClientId(FacesContext.getCurrentInstance()) });
+
+        String msg = MessageUtil.getMessage("com.sun.webui.jsf.resources.LogMessages",
+                "EditableList.badValue",
+                new Object[]{getClientId(FacesContext.getCurrentInstance())});
         throw new FacesException(msg);
     }
-    
+
     private void log(String s) {
         System.out.println(this.getClass().getName() + "::" + s); //NOI18N
     }
-    
+
     /**
      * Retrieve the value of this component (the "selected" property) as an
      * object. This method is invoked by the JSF engine during the validation
@@ -1102,44 +1113,47 @@ public class EditableList extends WebuiInput implements ListManager,
      * @param context The FacesContext of the request
      * @param submittedValue The submitted value of the component
      */
-    
+    @Override
     public Object getConvertedValue(FacesContext context,
             Object submittedValue)
             throws ConverterException {
-        
-        if(DEBUG) log("getConvertedValue()");
-        
-        if(!(submittedValue instanceof String[])) {
+
+        if (DEBUG) {
+            log("getConvertedValue()");
+        }
+
+        if (!(submittedValue instanceof String[])) {
             throw new ConverterException(
                     "Submitted value must be a String array");
         }
-        String[] rawValues = (String[])submittedValue;
-        
+        String[] rawValues = (String[]) submittedValue;
+
         // If there are no elements in rawValues nothing was submitted.
         // If null was rendered, return null
         //
-        if(rawValues.length == 0) {
+        if (rawValues.length == 0) {
             if (ConversionUtilities.renderedNull(this)) {
                 return null;
             }
         }
         return submittedValue;
     }
-    
+
     /**
      * @exception NullPointerException
      */
+    @Override
     public void processValidators(FacesContext context) {
-        
+
         if (context == null) {
             throw new NullPointerException();
         }
-        
+
         // Skip processing if our rendered flag is false
         if (!isRendered()) {
             return;
         }
-        
+
         // This component may be a developer defined facet.
         // It is explicitly validated during an Add action.
         // It must not be validated during a submit. The assumption
@@ -1154,7 +1168,7 @@ public class EditableList extends WebuiInput implements ListManager,
         //
         UIComponent field = getRenderedFieldComponent();
         String fieldId = field.getId();
-        
+
         // Process all the facets and children of this component
         Iterator kids = getFacetsAndChildren();
         while (kids.hasNext()) {
@@ -1168,113 +1182,137 @@ public class EditableList extends WebuiInput implements ListManager,
             }
             kid.processValidators(context);
         }
-        
+
         // Validate the EditableList
         //
         checkValid(context);
     }
-    
+
     public void processAddAction() {
-        
-        if(DEBUG) log("processAddAction()");
-        
+
+        if (DEBUG) {
+            log("processAddAction()");
+        }
+
         // If we are rendering prematurely don't do anything
         //
         if (FacesContext.getCurrentInstance().getRenderResponse()) {
             return;
         }
-        
+
         selectedValue = null;
-        
+
         String[] values = getCurrentValueAsStringArray();
-        
+
         Object value = getAddedObject();
-        if(value == null) {
+        if (value == null) {
             return;
         }
         //TODO - fix this when implementing conversion for this component
         selectedValue = value.toString();
-        
+
         int numValues = values.length;
-        
+
         String[] newValues = new String[numValues + 1];
         int counter;
-        for(counter=0; counter < numValues; ++counter) {
+        for (counter = 0; counter < numValues; ++counter) {
             newValues[counter] = values[counter];
-            if(DEBUG) log("\tAdding " + newValues[counter]);
+            if (DEBUG) {
+                log("\tAdding " + newValues[counter]);
+            }
         }
         newValues[counter] = selectedValue;
-        if(DEBUG) log("\tAdding " + newValues[counter]);
+        if (DEBUG) {
+            log("\tAdding " + newValues[counter]);
+        }
         setSubmittedValue(newValues);
     }
-    
+
     public void processRemoveAction() {
-        
-        if(DEBUG) log("processRemoveAction()");
-        
+
+        if (DEBUG) {
+            log("processRemoveAction()");
+        }
+
         // If we are rendering prematurely don't do anything
         //
         if (FacesContext.getCurrentInstance().getRenderResponse()) {
             return;
         }
-        
+
         // Reset the selected value
         selectedValue = null;
-        
+
         ArrayList items = new ArrayList();
         int counter;
-        
-        if(getValue() != null) {
-            if(DEBUG) log("\tList was not empty");
+
+        if (getValue() != null) {
+            if (DEBUG) {
+                log("\tList was not empty");
+            }
             String[] strings = getCurrentValueAsStringArray();
             int length = strings.length;
-            for(counter=0; counter<length; ++counter) {
+            for (counter = 0; counter < length; ++counter) {
                 items.add(strings[counter]);
-                if(DEBUG) log("Added " + strings[counter]);
+                if (DEBUG) {
+                    log("Added " + strings[counter]);
+                }
             }
         }
-        
+
         String[] valuesToRemove = getValuesToRemove();
-        for(counter=0; counter < valuesToRemove.length; ++counter) {
+        for (counter = 0; counter < valuesToRemove.length; ++counter) {
             items.remove(valuesToRemove[counter]);
-            if(DEBUG) log("remove " + valuesToRemove[counter]);
+            if (DEBUG) {
+                log("remove " + valuesToRemove[counter]);
+            }
         }
-        
+
         String[] newValues = new String[items.size()];
-        for(counter=0; counter < items.size(); ++counter) {
-            newValues[counter] = (String)(items.get(counter));
-            if(DEBUG) log("\tAdding back " + newValues[counter]);
+        for (counter = 0; counter < items.size(); ++counter) {
+            newValues[counter] = (String) (items.get(counter));
+            if (DEBUG) {
+                log("\tAdding back " + newValues[counter]);
+            }
         }
-        
+
         setValuesToRemove(null);
         setSubmittedValue(newValues);
     }
-    
+
     private void checkValid(FacesContext context) {
-        
-        
-        if(DEBUG) log("checkValid()");
-        
+
+
+        if (DEBUG) {
+            log("checkValid()");
+        }
+
         try {
             validate(context);
         } catch (RuntimeException e) {
-            if(DEBUG) log("Error during validation");
+            if (DEBUG) {
+                log("Error during validation");
+            }
             context.renderResponse();
             throw e;
         }
-        
+
         if (!isValid()) {
-            if(DEBUG) log("Component is not valid");
+            if (DEBUG) {
+                log("Component is not valid");
+            }
             context.renderResponse();
         }
     }
-    
+
     private Object getAddedObject() {
-        
+
         FacesContext context = FacesContext.getCurrentInstance();
-        
-        if(DEBUG) log("\tAdd a new item");
-        
+
+        if (DEBUG) {
+            log("\tAdd a new item");
+        }
+
         // Need to get the field's value validated first
         // The field can't be immediate because we don't want
         // to validate it if the value is not going to be added.
@@ -1283,9 +1321,8 @@ public class EditableList extends WebuiInput implements ListManager,
         // Get the last rendered Field component, not necessarily
         // a newly initialized one.
         //
-        EditableValueHolder field = (EditableValueHolder)
-                getRenderedFieldComponent();
-        
+        EditableValueHolder field = (EditableValueHolder) getRenderedFieldComponent();
+
         // This is ok to do here.
         // We are currently after the APPLY_REQUEST_VALUES phase
         // and before the PROCESS_VALIDATIONS phase.
@@ -1296,26 +1333,28 @@ public class EditableList extends WebuiInput implements ListManager,
         // henavior. But we don't want the side effect of immediate
         // behavior from external immediate components.
         //
-        ((UIComponent)field).processValidators(context);
-        
+        ((UIComponent) field).processValidators(context);
+
         if (!field.isValid()) {
             return null;
         }
         // Get the value from the field.
         //
         Object value = field.getValue();
-        
+
         // This is a policy of the EditableList.
         // An emptyString or null value cannot be added to the list.
         //
         if (value == null ||
                 (value instanceof String && value.toString().length() == 0)) {
-            
+
             field.setValid(false);
             context.renderResponse();
-            
-            if(DEBUG) log("No value from the field");
-            
+
+            if (DEBUG) {
+                log("No value from the field");
+            }
+
             String message = ThemeUtilities.getTheme(context).
                     getMessage("EditableList.fieldEmpty");
             context.addMessage(getClientId(context), new FacesMessage(message));
@@ -1326,27 +1365,28 @@ public class EditableList extends WebuiInput implements ListManager,
         // defined facet. This will cause an update to the model
         // before the value change event.
         //
-        if(DEBUG) log("\tFound new value: " + value);
+        if (DEBUG) {
+            log("\tFound new value: " + value);
+        }
         field.setValue(null);
-        
+
         return value;
     }
-    
+
     /* Don't need this. Only needed for debugging.
     public void setValue(Object value) {
-     
-        if(DEBUG) log("setValue()...");
-        super.setValue(value);
-        if(DEBUG) log("\tLocal value set: " +
-                String.valueOf(isLocalValueSet()));
+
+    if(DEBUG) log("setValue()...");
+    super.setValue(value);
+    if(DEBUG) log("\tLocal value set: " +
+    String.valueOf(isLocalValueSet()));
     }
      */
-    
     /** Always returns false for EditableList **/
     private boolean _isImmediate() {
         return false;
     }
-    
+
     /**
      * <p>Return <code>true</code> if the new value is different from the
      * previous value.</p>
@@ -1363,8 +1403,9 @@ public class EditableList extends WebuiInput implements ListManager,
      * @param previous old value of this component (if any)
      * @param value new value of this component (if any)
      */
+    @Override
     protected boolean compareValues(Object previous, Object value) {
-        
+
         // Let super take care of null cases
         //
         if (previous == null || value == null) {
@@ -1381,10 +1422,10 @@ public class EditableList extends WebuiInput implements ListManager,
             // elementa at index "i" in value.
             //
             for (int i = 0; i < length; ++i) {
-                
+
                 Object newValue = Array.get(value, i);
                 Object prevValue = Array.get(previous, i);
-                
+
                 // This is probably not necessary since
                 // an Option's value cannot be null
                 //
@@ -1398,7 +1439,7 @@ public class EditableList extends WebuiInput implements ListManager,
                 if (prevValue == null) {
                     return true;
                 }
-                
+
                 if (!prevValue.equals(newValue)) {
                     return true;
                 }
@@ -1407,23 +1448,25 @@ public class EditableList extends WebuiInput implements ListManager,
         }
         return super.compareValues(previous, value);
     }
-    
+
     public String[] getValueAsStringArray(FacesContext context) {
-        
-        if(DEBUG) log("getValueAsStringArray)");
-        
+
+        if (DEBUG) {
+            log("getValueAsStringArray)");
+        }
+
         Iterator iterator = getListItems(context, false);
         int numItems = listItems.size();
         String[] values = new String[numItems];
-        
+
         int counter = 0;
-        while(counter < numItems) {
-            values[counter] = ((ListItem)(iterator.next())).getValue();
+        while (counter < numItems) {
+            values[counter] = ((ListItem) (iterator.next())).getValue();
             ++counter;
         }
         return values;
     }
-    
+
     public boolean mainListSubmits() {
         return true;
     }
@@ -1431,13 +1474,13 @@ public class EditableList extends WebuiInput implements ListManager,
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * <p>Return the <code>ValueExpression</code> stored for the
      * specified name (if any), respecting any property aliases.</p>
      *
      * @param name Name of value binding expression to retrieve
      */
+    @Override
     public ValueExpression getValueExpression(String name) {
         if (name.equals("list")) {
             return super.getValueExpression("value");
@@ -1453,38 +1496,41 @@ public class EditableList extends WebuiInput implements ListManager,
      * @param name    Name of value binding to set
      * @param binding ValueExpression to set, or null to remove
      */
-    public void setValueExpression(String name,ValueExpression binding) {
+    @Override
+    public void setValueExpression(String name, ValueExpression binding) {
         if (name.equals("list")) {
             super.setValueExpression("value", binding);
             return;
         }
         super.setValueExpression(name, binding);
     }
-    
+
     // Hide converter
-    @Property(name="converter", isHidden=true, isAttribute=false)
+    @Property(name = "converter", isHidden = true, isAttribute = false)
+    @Override
     public Converter getConverter() {
         return super.getConverter();
     }
-    
+
     // Hide immediate
-    @Property(name="immediate", isHidden=true, isAttribute=false)
+    @Property(name = "immediate", isHidden = true, isAttribute = false)
+    @Override
     public boolean isImmediate() {
         return _isImmediate();
     }
-    
+
     // Hide value
-    @Property(name="value", isHidden=true, isAttribute=false)
+    @Property(name = "value", isHidden = true, isAttribute = false)
+    @Override
     public Object getValue() {
         return super.getValue();
     }
-
     /**
      * <p>Flag indicating that the user is not permitted to activate this
      * component, and that the component's value will not be submitted with the
      * form.</p>
      */
-    @Property(name="disabled", displayName="Disabled", category="Behavior")
+    @Property(name = "disabled", displayName = "Disabled", category = "Behavior")
     private boolean disabled = false;
     private boolean disabled_set = false;
 
@@ -1519,11 +1565,10 @@ public class EditableList extends WebuiInput implements ListManager,
         this.disabled = disabled;
         this.disabled_set = true;
     }
-
     /**
      * <p>Text to be used as the label next to the input text field.</p>
      */
-    @Property(name="fieldLabel", displayName="Textfield Label", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "fieldLabel", displayName = "Textfield Label", category = "Appearance", editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String fieldLabel = null;
 
     /**
@@ -1547,12 +1592,11 @@ public class EditableList extends WebuiInput implements ListManager,
     public void setFieldLabel(String fieldLabel) {
         this.fieldLabel = fieldLabel;
     }
-
     /**
      * <p>Sets the style level for the generated labels. Valid values
      * are 1 (largest), 2 and 3 (smallest). The default value is 2.</p>
      */
-    @Property(name="labelLevel", displayName="Label Level", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.LabelLevelsEditor")
+    @Property(name = "labelLevel", displayName = "Label Level", category = "Appearance", editorClassName = "com.sun.webui.jsf.component.propertyeditors.LabelLevelsEditor")
     private int labelLevel = Integer.MIN_VALUE;
     private boolean labelLevel_set = false;
 
@@ -1591,7 +1635,8 @@ public class EditableList extends WebuiInput implements ListManager,
      * The object that represents the list. The list attribute must be an EL
      * expression that evaluates to an object of type<code>java.lang.String[]</code>.</p>
      */
-    @Property(name="list", displayName="List", category="Data", editorClassName="com.sun.rave.propertyeditors.binding.ValueBindingPropertyEditor")
+    @Property(name = "list", displayName = "List", category = "Data",
+    editorClassName = "com.sun.rave.propertyeditors.binding.ValueBindingPropertyEditor")
     public Object getList() {
         return getValue();
     }
@@ -1605,11 +1650,11 @@ public class EditableList extends WebuiInput implements ListManager,
     public void setList(Object list) {
         setValue(list);
     }
-
     /**
      * <p>Text to be used as the label next to the list box.</p>
      */
-    @Property(name="listLabel", displayName="List Label", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "listLabel", displayName = "List Label", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String listLabel = null;
 
     /**
@@ -1633,13 +1678,12 @@ public class EditableList extends WebuiInput implements ListManager,
     public void setListLabel(String listLabel) {
         this.listLabel = listLabel;
     }
-
     /**
      * <p>Specifies the display order of the parts of this component. When set to 
      * true, the listOnTop attribute causes the list box to be displayed above 
      * the text input field. By default, the list box is displayed below the input field.</p>
      */
-    @Property(name="listOnTop", displayName="Show List On Top", category="Advanced")
+    @Property(name = "listOnTop", displayName = "Show List On Top", category = "Advanced")
     private boolean listOnTop = false;
     private boolean listOnTop_set = false;
 
@@ -1674,11 +1718,11 @@ public class EditableList extends WebuiInput implements ListManager,
         this.listOnTop = listOnTop;
         this.listOnTop_set = true;
     }
-
     /**
      * <p>The maximum number of characters allowed for each string in the list.</p>
      */
-    @Property(name="maxLength", displayName="Maximum String Length", category="Appearance", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "maxLength", displayName = "Maximum String Length",
+    category = "Appearance", editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int maxLength = Integer.MIN_VALUE;
     private boolean maxLength_set = false;
 
@@ -1709,12 +1753,11 @@ public class EditableList extends WebuiInput implements ListManager,
         this.maxLength = maxLength;
         this.maxLength_set = true;
     }
-
     /**
      * <p>Flag indicating that the application user can select
      * more than one option at a time in the listbox.</p>
      */
-    @Property(name="multiple", displayName="Multiple", category="Data")
+    @Property(name = "multiple", displayName = "Multiple", category = "Data")
     private boolean multiple = false;
     private boolean multiple_set = false;
 
@@ -1747,12 +1790,11 @@ public class EditableList extends WebuiInput implements ListManager,
         this.multiple = multiple;
         this.multiple_set = true;
     }
-
     /**
      * <p>If this attribute is set to true, the value of the component is
      * rendered as text, preceded by the label if one was defined.</p>
      */
-    @Property(name="readOnly", displayName="Read-only", category="Behavior")
+    @Property(name = "readOnly", displayName = "Read-only", category = "Behavior")
     private boolean readOnly = false;
     private boolean readOnly_set = false;
 
@@ -1785,12 +1827,12 @@ public class EditableList extends WebuiInput implements ListManager,
         this.readOnly = readOnly;
         this.readOnly_set = true;
     }
-
     /**
      * <p>The number of items to display, which determines the length of the 
      * rendered listbox. The default value is 6.</p>
      */
-    @Property(name="rows", displayName="Number of Items to Display", category="Appearance", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "rows", displayName = "Number of Items to Display",
+    category = "Appearance", editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int rows = Integer.MIN_VALUE;
     private boolean rows_set = false;
 
@@ -1823,14 +1865,13 @@ public class EditableList extends WebuiInput implements ListManager,
         this.rows = rows;
         this.rows_set = true;
     }
-
     /**
      * <p>Set sorted to true if the list items should be
      * sorted in locale-specific alphabetical order. The sorting is 
      * performed using a Collator configured
      * with the locale from the FacesContext.</p>
      */
-    @Property(name="sorted", displayName="Sorted", category="Advanced")
+    @Property(name = "sorted", displayName = "Sorted", category = "Advanced")
     private boolean sorted = false;
     private boolean sorted_set = false;
 
@@ -1867,12 +1908,12 @@ public class EditableList extends WebuiInput implements ListManager,
         this.sorted = sorted;
         this.sorted_set = true;
     }
-
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
+    @Property(name = "style", displayName = "CSS Style(s)", category = "Appearance",
+    editorClassName = "com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
@@ -1898,12 +1939,12 @@ public class EditableList extends WebuiInput implements ListManager,
     public void setStyle(String style) {
         this.style = style;
     }
-
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
@@ -1929,14 +1970,14 @@ public class EditableList extends WebuiInput implements ListManager,
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-
     /**
      * <p>Position of this element in the tabbing order of the current document. 
      * Tabbing order determines the sequence in which elements receive 
      * focus when the tab key is pressed. The value must be an integer 
      * between 0 and 32767.</p>
      */
-    @Property(name="tabIndex", displayName="Tab Index", category="Accessibility", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "tabIndex", displayName = "Tab Index", category = "Accessibility",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int tabIndex = Integer.MIN_VALUE;
     private boolean tabIndex_set = false;
 
@@ -1973,13 +2014,13 @@ public class EditableList extends WebuiInput implements ListManager,
         this.tabIndex = tabIndex;
         this.tabIndex_set = true;
     }
-
     /**
      * <p>Sets the value of the title attribute for the HTML element.
      * The specified text will display as a tooltip if the mouse cursor hovers 
      * over the HTML element.</p>
      */
-    @Property(name="toolTip", displayName="Tool Tip", category="Behavior", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "toolTip", displayName = "Tool Tip", category = "Behavior",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String toolTip = null;
 
     /**
@@ -2007,7 +2048,6 @@ public class EditableList extends WebuiInput implements ListManager,
     public void setToolTip(String toolTip) {
         this.toolTip = toolTip;
     }
-
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -2017,7 +2057,7 @@ public class EditableList extends WebuiInput implements ListManager,
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @Property(name="visible", displayName="Visible", category="Behavior")
+    @Property(name = "visible", displayName = "Visible", category = "Behavior")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -2060,7 +2100,6 @@ public class EditableList extends WebuiInput implements ListManager,
         this.visible = visible;
         this.visible_set = true;
     }
-    
     /**
      * <p>
      * A validator that will be applied to entries made into the
@@ -2069,11 +2108,12 @@ public class EditableList extends WebuiInput implements ListManager,
      * to another method with the same argument structure and
      * exceptions.  </p>
      */
-    @Property(name="fieldValidatorExpression", displayName="Field Validator Expression", editorClassName="com.sun.rave.propertyeditors.ValidatorPropertyEditor")
-    @Property.Method(signature="void validate(javax.faces.context.FacesContext,javax.faces.component.UIComponent,java.lang.Object)")
+    @Property(name = "fieldValidatorExpression", displayName = "Field Validator Expression",
+    editorClassName = "com.sun.rave.propertyeditors.ValidatorPropertyEditor")
+    @Property.Method(signature = "void validate(javax.faces.context.FacesContext,javax.faces.component.UIComponent,java.lang.Object)")
     private MethodExpression fieldValidatorExpression;
-    
-     /**
+
+    /**
      * <p>
      * A validator that will be applied to entries made into the
      * textfield. Specify this to be the <code>validate()</code>
@@ -2082,9 +2122,9 @@ public class EditableList extends WebuiInput implements ListManager,
      * exceptions.  </p>
      */
     public MethodExpression getFieldValidatorExpression() {
-       return this.fieldValidatorExpression;
+        return this.fieldValidatorExpression;
     }
-    
+
     /**
      * <p>
      * A validator that will be applied to entries made into the
@@ -2095,9 +2135,9 @@ public class EditableList extends WebuiInput implements ListManager,
      * @see #getFieldValidatorExpression()
      */
     public void setFieldValidatorExpression(MethodExpression me) {
-	this.fieldValidatorExpression = me;
+        this.fieldValidatorExpression = me;
     }
-    
+
     /**
      * <p>
      * A validator which will be applied to the contents of the list
@@ -2107,8 +2147,9 @@ public class EditableList extends WebuiInput implements ListManager,
      * to another method with the same argument structure and
      * exceptions.  </p>
      */
-    @Property(name="listValidatorExpression", isHidden=false, displayName="List Validator Expression", editorClassName="com.sun.rave.propertyeditors.ValidatorPropertyEditor")
-    @Property.Method(signature="void validate(javax.faces.context.FacesContext,javax.faces.component.UIComponent,java.lang.Object)")
+    @Property(name = "listValidatorExpression", isHidden = false,
+    displayName = "List Validator Expression", editorClassName = "com.sun.rave.propertyeditors.ValidatorPropertyEditor")
+    @Property.Method(signature = "void validate(javax.faces.context.FacesContext,javax.faces.component.UIComponent,java.lang.Object)")
     public MethodExpression getListValidatorExpression() {
         return getValidatorExpression();
     }
@@ -2127,7 +2168,8 @@ public class EditableList extends WebuiInput implements ListManager,
         setValidatorExpression(listValidator);
     }
 
-    @Property(name="validatorExpression", isHidden=true, isAttribute=false)
+    @Property(name = "validatorExpression", isHidden = true, isAttribute = false)
+    @Override
     public MethodExpression getValidatorExpression() {
         return super.getValidatorExpression();
     }
@@ -2135,7 +2177,8 @@ public class EditableList extends WebuiInput implements ListManager,
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.disabled = ((Boolean) _values[1]).booleanValue();
@@ -2163,12 +2206,13 @@ public class EditableList extends WebuiInput implements ListManager,
         this.toolTip = (String) _values[23];
         this.visible = ((Boolean) _values[24]).booleanValue();
         this.visible_set = ((Boolean) _values[25]).booleanValue();
-        this.fieldValidatorExpression = (MethodExpression)restoreAttachedState(_context, _values[26]);
+        this.fieldValidatorExpression = (MethodExpression) restoreAttachedState(_context, _values[26]);
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[27];
         _values[0] = super.saveState(_context);
@@ -2203,25 +2247,29 @@ public class EditableList extends WebuiInput implements ListManager,
 }
 
 class AddListener implements ActionListener, Serializable {
-    
+
+    private static final long serialVersionUID = -5204715231205041623L;
+
     public void processAction(ActionEvent event) {
-        
+
         UIComponent comp = event.getComponent();
         comp = comp.getParent();
-        if(comp instanceof EditableList) {
-            ((EditableList)comp).processAddAction();
+        if (comp instanceof EditableList) {
+            ((EditableList) comp).processAddAction();
         }
     }
 }
 
 class RemoveListener implements ActionListener, Serializable {
-    
+
+    private static final long serialVersionUID = -7559203083988359751L;
+
     public void processAction(ActionEvent event) {
-        
+
         UIComponent comp = event.getComponent();
         comp = comp.getParent();
-        if(comp instanceof EditableList) {
-            ((EditableList)comp).processRemoveAction();
+        if (comp instanceof EditableList) {
+            ((EditableList) comp).processRemoveAction();
         }
-    }   
+    }
 }
