@@ -20,40 +20,9 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 /*
- * $Id: Theme.java,v 1.1 2007-02-16 01:53:03 bob_yennaco Exp $
+ * $Id: Theme.java,v 1.1.6.1 2009-12-29 05:05:17 jyeary Exp $
  */
-
 package com.sun.webui.theme;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.Map;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
-import java.util.Set;
-import java.util.StringTokenizer;
-
-import javax.faces.context.FacesContext;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
-import javax.portlet.PortletRequest;
-
-import com.sun.webui.jsf.component.Icon;
-import com.sun.webui.jsf.util.ClassLoaderFinder;
-import com.sun.webui.jsf.util.ClientSniffer;
-import com.sun.webui.jsf.util.ClientType;
-import com.sun.webui.jsf.util.MessageUtil;
-
-import com.sun.webui.jsf.theme.ThemeStyles;
-import com.sun.webui.jsf.theme.ThemeImages;
-
 
 /**
  * <p>The Sun Java Web UI Components rely on non-Java resources 
@@ -90,16 +59,16 @@ import com.sun.webui.jsf.theme.ThemeImages;
  * regardless of whether the themes share a prefix or not.</p>
  *
  */
-
-public interface Theme  {
+public interface Theme {
 
     /**
      * Attribute name used to store the user's theme name in the Session
      */
     public static final String THEME_ATTR = "com.sun.webui.jsf.Theme";
     /** The context parameter name used to specify a console path, if one is used. */
-    public static final String RESOURCE_PATH_ATTR = 
-	"com.sun.web.console.resource_path";
+    public static final String RESOURCE_PATH_ATTR =
+            "com.sun.web.console.resource_path";
+
     /**
      * Use this method to retrieve a String array of URIs
      * to the JavaScript files that should be included 
@@ -124,7 +93,7 @@ public interface Theme  {
      * @param key Key to retrieve the javascript file
      */
     public String getPathToJSFile(String key);
- 
+
     /**
      * Retrieves a String from the JavaScript ResourceBundle without the theme
      * path prefix.
@@ -133,12 +102,12 @@ public interface Theme  {
      * @return A localized message string
      */
     public String getJSString(String key);
-    
+
     public String[] getMasterStylesheets();
 
     public String[] getStylesheets(String key);
 
-     /**
+    /**
      * Returns a String that represents a valid path to the HTML template
      * corresponding to the key
      * @return  A String that represents a valid path to the HTML template
@@ -156,7 +125,7 @@ public interface Theme  {
      * corresponding to the key
      * @param name The style class name to be used
      * @return the name of a CSS style.
-     */  
+     */
     public String getStyleClass(String name);
 
     /**

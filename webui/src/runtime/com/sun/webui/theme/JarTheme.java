@@ -20,41 +20,22 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 /*
- * $Id: JarTheme.java,v 1.1 2007-02-16 01:52:41 bob_yennaco Exp $
+ * $Id: JarTheme.java,v 1.1.6.1 2009-12-29 05:05:17 jyeary Exp $
  */
-
 package com.sun.webui.theme;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Locale;
-import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import java.util.Set;
 import java.util.StringTokenizer;
-
 import javax.faces.context.FacesContext;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
-import javax.portlet.PortletRequest;
-
-import com.sun.webui.jsf.component.Icon;
-import com.sun.webui.jsf.util.ClassLoaderFinder;
 import com.sun.webui.jsf.util.ClientSniffer;
 import com.sun.webui.jsf.util.ClientType;
 import com.sun.webui.jsf.util.MessageUtil;
-
 import com.sun.webui.jsf.theme.ThemeStyles;
-import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.jsf.theme.ThemeJavascript;
-
 
 /**
  * <p>The Sun Java Web UI Components rely on non-Java resources 
@@ -91,21 +72,18 @@ import com.sun.webui.jsf.theme.ThemeJavascript;
  * regardless of whether the themes share a prefix or not.</p>
  *
  */
-
 public class JarTheme implements Theme {
 
     static ThreadLocal themeContext = new ThreadLocal();
-    
-    private ResourceBundle bundle = null; 
-    private ResourceBundle fallbackBundle = null; 
+    private ResourceBundle bundle = null;
+    private ResourceBundle fallbackBundle = null;
     private ResourceBundle classMapper = null;
-    private ResourceBundle imageResources = null; 
-    private ResourceBundle jsFiles = null; 
+    private ResourceBundle imageResources = null;
+    private ResourceBundle jsFiles = null;
     private ResourceBundle stylesheets = null;
-    private ResourceBundle templates = null; 
+    private ResourceBundle templates = null;
     private String[] globalJSFiles = null;
     private String[] globalStylesheets = null;
-     
     /**
      * Attribute name used to store the user's theme name in the Session
      */
@@ -113,35 +91,31 @@ public class JarTheme implements Theme {
     /** The context parameter name used to specify a console path, if one is 
      * used.
      */
-    public static final String RESOURCE_PATH_ATTR = 
-	"com.sun.web.console.resource_path";
-
-
+    public static final String RESOURCE_PATH_ATTR = "com.sun.web.console.resource_path";
     private static final String HEIGHT_SUFFIX = "_HEIGHT";
     private static final String WIDTH_SUFFIX = "_WIDTH";
     private static final String ALT_SUFFIX = "_ALT";
     private static final String GLOBAL_JSFILES = ThemeJavascript.GLOBAL;
     private static final String GLOBAL_STYLESHEETS = ThemeStyles.GLOBAL;
     private static final String MASTER_STYLESHEET = ThemeStyles.MASTER;
-    private String prefix = null; 
-    private Locale locale = null; 
+    private String prefix = null;
+    private Locale locale = null;
     //private boolean realServer = true;
 
     void setThemeContext(ThemeContext themeContext) {
-	this.themeContext.set(themeContext);
+        this.themeContext.set(themeContext);
     }
 
     ThemeContext getThemeContext() {
-	return (ThemeContext)themeContext.get();
+        return (ThemeContext) themeContext.get();
     }
-    
     private static final boolean DEBUG = false;
-   
-    public JarTheme(Locale locale) { 
+
+    public JarTheme(Locale locale) {
         //realServer = !java.beans.Beans.isDesignTime();   
         this.locale = locale;
     }
-    
+
     /**
      * Use this method to retrieve a String array of URIs
      * to the JavaScript files that should be included 
@@ -149,41 +123,42 @@ public class JarTheme implements Theme {
      * @return String array of URIs to the JavaScript files
      */
     public String[] getGlobalJSFiles() {
-	 
-	if(DEBUG) log("getGlobalJSFiles()"); 
 
-	if(globalJSFiles == null) { 
+        if (DEBUG) {
+            log("getGlobalJSFiles()");
+        }
 
-	    try {
+        if (globalJSFiles == null) {
 
-		String files = jsFiles.getString(GLOBAL_JSFILES);
-		StringTokenizer tokenizer = new StringTokenizer(files, " ");
-		String pathKey = null;
-		String path = null; 
+            try {
 
-		ArrayList fileNames = new ArrayList();
+                String files = jsFiles.getString(GLOBAL_JSFILES);
+                StringTokenizer tokenizer = new StringTokenizer(files, " ");
+                String pathKey = null;
+                String path = null;
 
-		while(tokenizer.hasMoreTokens()) {
-		    pathKey = tokenizer.nextToken();
-		    path = jsFiles.getString(pathKey); 
-		    fileNames.add(translateURI(path));
-		}
-		int numFiles = fileNames.size(); 
-		globalJSFiles = new String[numFiles]; 
-		for(int i = 0; i < numFiles; ++i) {
+                ArrayList fileNames = new ArrayList();
+
+                while (tokenizer.hasMoreTokens()) {
+                    pathKey = tokenizer.nextToken();
+                    path = jsFiles.getString(pathKey);
+                    fileNames.add(translateURI(path));
+                }
+                int numFiles = fileNames.size();
+                globalJSFiles = new String[numFiles];
+                for (int i = 0; i < numFiles; ++i) {
                     Object fileName = fileNames.get(i);
                     if (fileName != null) {
                         globalJSFiles[i] = fileName.toString();
                     }
-		}
-	    } 
-	    catch(MissingResourceException npe) {
-		// Do nothing - there are no global javascript files
-		//globalJSFiles = new String[0];
-		return null;
-	    }
-	}       
-        return globalJSFiles; 
+                }
+            } catch (MissingResourceException npe) {
+                // Do nothing - there are no global javascript files
+                //globalJSFiles = new String[0];
+                return null;
+            }
+        }
+        return globalJSFiles;
     }
 
     /**
@@ -193,35 +168,35 @@ public class JarTheme implements Theme {
      * @return String array of URIs to the stylesheets
      */
     public String[] getGlobalStylesheets() {
-	if(globalStylesheets == null) { 
+        if (globalStylesheets == null) {
 
-	    try {
-		String files = stylesheets.getString(GLOBAL_STYLESHEETS);
-		StringTokenizer tokenizer = new StringTokenizer(files, " ");
-		String pathKey = null; 
-		String path = null;
-		ArrayList fileNames = new ArrayList();
+            try {
+                String files = stylesheets.getString(GLOBAL_STYLESHEETS);
+                StringTokenizer tokenizer = new StringTokenizer(files, " ");
+                String pathKey = null;
+                String path = null;
+                ArrayList fileNames = new ArrayList();
 
-		while(tokenizer.hasMoreTokens()) {
+                while (tokenizer.hasMoreTokens()) {
 
-		    pathKey = tokenizer.nextToken();
-		    path = stylesheets.getString(pathKey); 
-		    fileNames.add(translateURI(path));
-		}
-		int numFiles = fileNames.size(); 
-		globalStylesheets = new String[numFiles]; 
-		for(int i=0;i<numFiles; ++i) { 
-		    globalStylesheets[i] = fileNames.get(i).toString(); 
-		}
- 
-	    } catch(MissingResourceException npe) {
-		// There was no "global" key
-		// Do nothing
-		//globalStylesheets = new String[0];
-		return null;
-	    }
-	}
-	return globalStylesheets;
+                    pathKey = tokenizer.nextToken();
+                    path = stylesheets.getString(pathKey);
+                    fileNames.add(translateURI(path));
+                }
+                int numFiles = fileNames.size();
+                globalStylesheets = new String[numFiles];
+                for (int i = 0; i < numFiles; ++i) {
+                    globalStylesheets[i] = fileNames.get(i).toString();
+                }
+
+            } catch (MissingResourceException npe) {
+                // There was no "global" key
+                // Do nothing
+                //globalStylesheets = new String[0];
+                return null;
+            }
+        }
+        return globalStylesheets;
     }
 
     /**
@@ -232,12 +207,16 @@ public class JarTheme implements Theme {
      * @param key Key to retrieve the javascript file
      */
     public String getPathToJSFile(String key) {
-	if(DEBUG) log("getPathToJSFile()"); 
-        String path = jsFiles.getString(key); 
-	if(DEBUG) log("path is " + translateURI(path)); 
-        return translateURI(path); 
-    } 
- 
+        if (DEBUG) {
+            log("getPathToJSFile()");
+        }
+        String path = jsFiles.getString(key);
+        if (DEBUG) {
+            log("path is " + translateURI(path));
+        }
+        return translateURI(path);
+    }
+
     /**
      * Retrieves a String from the JavaScript ResourceBundle without the theme
      * path prefix.
@@ -248,7 +227,7 @@ public class JarTheme implements Theme {
     public String getJSString(String key) {
         return jsFiles.getString(key);
     }
-    
+
     /**
      * Returns a String that represents a valid path to the CSS stylesheet
      * corresponding to the key
@@ -257,32 +236,35 @@ public class JarTheme implements Theme {
      * corresponding to the key
      */
     private String getPathToStylesheet(FacesContext context) {
-        
-	if(DEBUG) log("getPathToStyleSheet()"); 
+
+        if (DEBUG) {
+            log("getPathToStyleSheet()");
+        }
 
         ClientType clientType = ClientSniffer.getClientType(context);
-        if(DEBUG) log("Client type is " + clientType.toString());
-        try { 
-            String path = stylesheets.getString(clientType.toString()); 
-            if(DEBUG) { 
+        if (DEBUG) {
+            log("Client type is " + clientType.toString());
+        }
+        try {
+            String path = stylesheets.getString(clientType.toString());
+            if (DEBUG) {
                 log(path);
-                log(translateURI(path)); 
-            } 
+                log(translateURI(path));
+            }
             if (path == null || path.length() == 0) {
                 return null;
             } else {
-                return translateURI(path); 
+                return translateURI(path);
             }
-        }
-        catch(MissingResourceException mre) { 
+        } catch (MissingResourceException mre) {
             StringBuffer msgBuffer = new StringBuffer("Could not find propery ");
-            msgBuffer.append(clientType.toString()); 
-            msgBuffer.append(" in ResourceBundle "); 
+            msgBuffer.append(clientType.toString());
+            msgBuffer.append(" in ResourceBundle ");
             msgBuffer.append(stylesheets.toString());
             throw new RuntimeException(msgBuffer.toString());
         }
     }
-    
+
     /**
      * Returns a String that represents a valid path to the CSS stylesheet
      * corresponding to the key
@@ -290,28 +272,27 @@ public class JarTheme implements Theme {
      * corresponding to the key
      */
     private String getPathToMasterStylesheet() {
-        
-        try { 
-            String path = stylesheets.getString(MASTER_STYLESHEET); 
+
+        try {
+            String path = stylesheets.getString(MASTER_STYLESHEET);
             if (path == null || path.length() == 0) {
                 return null;
             } else {
-                return translateURI(path); 
+                return translateURI(path);
             }
-        }
-        catch(MissingResourceException mre) { 
+        } catch (MissingResourceException mre) {
             StringBuffer msgBuffer = new StringBuffer("Could not find master ");
-            msgBuffer.append("stylesheet in ResourceBundle "); 
+            msgBuffer.append("stylesheet in ResourceBundle ");
             msgBuffer.append(stylesheets.toString());
             throw new RuntimeException(msgBuffer.toString());
         }
     }
 
     public String[] getMasterStylesheets() {
-	String css = getPathToMasterStylesheet();
-	return css == null ? null : new String[] { css };
+        String css = getPathToMasterStylesheet();
+        return css == null ? null : new String[]{css};
     }
-    
+
     /**
      * Returns a String that represents a valid path to the CSS stylesheet
      * corresponding to the key
@@ -319,29 +300,30 @@ public class JarTheme implements Theme {
      * corresponding to the key
      */
     private String getPathToStylesheet(String clientName) {
-        
-	if(DEBUG) log("getPathToStyleSheet()"); 
 
-        try { 
-            String path = stylesheets.getString(clientName); 
+        if (DEBUG) {
+            log("getPathToStyleSheet()");
+        }
+
+        try {
+            String path = stylesheets.getString(clientName);
             if (path == null || path.length() == 0) {
                 return null;
             } else {
-                return translateURI(path); 
+                return translateURI(path);
             }
-        }
-        catch(MissingResourceException mre) { 
+        } catch (MissingResourceException mre) {
             StringBuffer msgBuffer = new StringBuffer("Could not find propery ");
-            msgBuffer.append(clientName); 
-            msgBuffer.append(" in ResourceBundle "); 
+            msgBuffer.append(clientName);
+            msgBuffer.append(" in ResourceBundle ");
             msgBuffer.append(stylesheets.toString());
             throw new RuntimeException(msgBuffer.toString());
         }
     }
 
     public String[] getStylesheets(String key) {
-	String css = getPathToStylesheet(key);
-	return css == null ? null : new String[] { css };
+        String css = getPathToStylesheet(key);
+        return css == null ? null : new String[]{css};
     }
 
     /**
@@ -351,21 +333,22 @@ public class JarTheme implements Theme {
      * corresponding to the key
      */
     public String getPathToTemplate(String clientName) {
-        
-	if(DEBUG) log("getPathToTemplate()"); 
 
-        try { 
-            String path = templates.getString(clientName); 
+        if (DEBUG) {
+            log("getPathToTemplate()");
+        }
+
+        try {
+            String path = templates.getString(clientName);
             if (path == null || path.length() == 0) {
                 return null;
             } else {
-                return translateURI(path); 
+                return translateURI(path);
             }
-        }
-        catch(MissingResourceException mre) { 
+        } catch (MissingResourceException mre) {
             StringBuffer msgBuffer = new StringBuffer("Could not find propery ");
-            msgBuffer.append(clientName); 
-            msgBuffer.append(" in ResourceBundle "); 
+            msgBuffer.append(clientName);
+            msgBuffer.append(" in ResourceBundle ");
             msgBuffer.append(templates.toString());
             throw new RuntimeException(msgBuffer.toString());
         }
@@ -381,13 +364,13 @@ public class JarTheme implements Theme {
      * corresponding to the key
      * @param name The style class name to be used
      * @return the name of a CSS style.
-     */  
+     */
     public String getStyleClass(String name) {
-        if(classMapper == null) { 
-            return name; 
+        if (classMapper == null) {
+            return name;
         }
-        String styleClass = classMapper.getString(name); 
-        return (styleClass == null) ? name : styleClass; 
+        String styleClass = classMapper.getString(name);
+        return (styleClass == null) ? name : styleClass;
     }
 
     /**
@@ -400,21 +383,18 @@ public class JarTheme implements Theme {
      * @return A localized message string
      */
     public String getMessage(String key) {
-	String message = null; 
-        try { 
-            message = bundle.getString(key); 
-        }
-        catch(MissingResourceException mre) { 
-            try { 
-                message = fallbackBundle.getString(key); 
-            }
-            catch(NullPointerException npe) {
-                throw mre;  
+        String message = null;
+        try {
+            message = bundle.getString(key);
+        } catch (MissingResourceException mre) {
+            try {
+                message = fallbackBundle.getString(key);
+            } catch (NullPointerException npe) {
+                throw mre;
             }
         }
-	return message;
+        return message;
     }
-
 
     /**
      * Retrieves a message from the appropriate ResourceBundle.
@@ -428,9 +408,9 @@ public class JarTheme implements Theme {
      * @return A localized message string
      */
     public String getMessage(String key, Object[] params) {
-	String message = getMessage(key);
-	MessageFormat mf = new MessageFormat(message, locale); 
-        return mf.format(params); 
+        String message = getMessage(key);
+        MessageFormat mf = new MessageFormat(message, locale);
+        return mf.format(params);
     }
 
 
@@ -441,9 +421,9 @@ public class JarTheme implements Theme {
      * @param p prefix for all URIs in the theme
      */
     protected void setPrefix(String p) {
-        prefix = p;     
+        prefix = p;
     }
-    
+
     /**
      * Configures a resource bundle which overrides the standard keys for 
      * retrieving style class names.
@@ -453,7 +433,7 @@ public class JarTheme implements Theme {
     protected void configureClassMapper(ResourceBundle classMapper) {
         this.classMapper = classMapper;
     }
-    
+
     /**
      * <p>Configures the message bundles. All Themes must contain a default 
      * ResourceBundle for messages, which is configured in the Theme 
@@ -472,17 +452,20 @@ public class JarTheme implements Theme {
      * in a context parameter, to override messages from the base bundle.
      */
     protected void configureMessages(ResourceBundle base, ResourceBundle override) {
-        if(DEBUG) log("configureMessages()"); 
-        if(override == null) { 
-            if(DEBUG) log("override is null, bundle is " + base.toString());
-            bundle = base;
+        if (DEBUG) {
+            log("configureMessages()");
         }
-        else { 
-            bundle = override; 
+        if (override == null) {
+            if (DEBUG) {
+                log("override is null, bundle is " + base.toString());
+            }
+            bundle = base;
+        } else {
+            bundle = override;
             fallbackBundle = base;
         }
     }
-    
+
     /**
      * <p>Configures the image resource bundle.</p>
      *
@@ -492,7 +475,7 @@ public class JarTheme implements Theme {
     protected void configureImages(ResourceBundle imageResources) {
         this.imageResources = imageResources;
     }
-    
+
     /**
      * <p>Configures the JS resource files.</p>
      *
@@ -536,14 +519,13 @@ public class JarTheme implements Theme {
         if (uri == null || uri.length() == 0) {
             return null;
         }
-        
-	ThemeContext themeContext = getThemeContext();
-	return themeContext.getResourcePath(uri);
-    }    
-    
-    
-    private void log(String s) { 
-	System.out.println(getClass().getName() + "::" + s); //NOI18N
+
+        ThemeContext themeContext = getThemeContext();
+        return themeContext.getResourcePath(uri);
+    }
+
+    private void log(String s) {
+        System.out.println(getClass().getName() + "::" + s); //NOI18N
     }
 
     /**
@@ -555,32 +537,32 @@ public class JarTheme implements Theme {
      * @throws RuntimeException if <code>key</code> cannot be found.
      */
     public String getImagePath(String key) {
-	String path = null;
-	try {
-	    path = imageResources.getString(key);
-	    if (path == null || path.trim().length() == 0) {
-		return null;
-	    }
-            path = translateURI(path);        
+        String path = null;
+        try {
+            path = imageResources.getString(key);
+            if (path == null || path.trim().length() == 0) {
+                return null;
+            }
+            path = translateURI(path);
 
-	    /*
-	    path = (String)getProperty(
-		themeReferences,
-		ThemeResourceBundle.ThemeBundle.IMAGES,
-		key, locale, classLoader);
-	    */
-	} catch (MissingResourceException mre) {
-	    Object[] params = { key }; 
-	    String message = MessageUtil.getMessage
-		    ("com.sun.webui.jsf.resources.LogMessages", 
-		     "Theme.noIcon", params); 
-	    throw new RuntimeException(message, mre);
-	    /*
-	    return null;
-	    */
-	}
-	return path;
+        /*
+        path = (String)getProperty(
+        themeReferences,
+        ThemeResourceBundle.ThemeBundle.IMAGES,
+        key, locale, classLoader);
+         */
+        } catch (MissingResourceException mre) {
+            Object[] params = {key};
+            String message = MessageUtil.getMessage("com.sun.webui.jsf.resources.LogMessages",
+                    "Theme.noIcon", params);
+            throw new RuntimeException(message, mre);
+        /*
+        return null;
+         */
+        }
+        return path;
     }
+
     /**
      * Return a <code>ThemeImage</code> instance for an image identified
      * by <code>key</code> from the
@@ -602,116 +584,115 @@ public class JarTheme implements Theme {
      * If <code>key</code> is not defined <code>key</code> is returned.
      */
     public ThemeImage getImage(String key) {
-	// make sure to setIcon on parent and not the icon itself which
-	// now does the theme stuff in the component
-       
-	String path = null;
+        // make sure to setIcon on parent and not the icon itself which
+        // now does the theme stuff in the component
+
+        String path = null;
+        /*
+        ThemeResources themeResources =
+        (ThemeResources)threadThemeResources.get();
+        ThemeReference[] themeReferences = themeResources.getThemeReferences();
+        ClassLoader classLoader =
+        themeResources.getThemeContext().getDefaultClassLoader();
+        Locale locale = themeResources.getLocale() == null ?
+        themeResources.getThemeContext().getDefaultLocale() :
+        themeResources.getLocale();
+         */
+
+        try {
+            path = imageResources.getString(key);
+            path = translateURI(path);
+
+        /*
+        path = (String)getProperty(
+        themeReferences,
+        ThemeResourceBundle.ThemeBundle.IMAGES,
+        key, locale, classLoader);
+         */
+        } catch (MissingResourceException mre) {
+            Object[] params = {key};
+            String message = MessageUtil.getMessage("com.sun.webui.jsf.resources.LogMessages",
+                    "Theme.noIcon", params);
+            throw new RuntimeException(message, mre);
+        /*
+        return null;
+         */
+        }
+
+        String alt = null;
+        try {
+            alt = getMessage(imageResources.getString(key.concat(ALT_SUFFIX)));
+        /*
+        alt = (String)getProperty(
+        themeReferences,
+        ThemeResourceBundle.ThemeBundle.IMAGES,
+        key.concat(ThemeImage.ALT_SUFFIX), locale, classLoader);
+         */
+        } catch (MissingResourceException mre) {
+        }
+
+        String title = null;
+        /*
+        try {
+        title = (String)getProperty(
+        themeReferences,
+        ThemeResourceBundle.ThemeBundle.IMAGES,
+        key.concat(ThemeImage.TITLE_SUFFIX), locale, classLoader);
+        } catch (MissingResourceException mre) {
+        }
+         */
+
+        int ht = Integer.MIN_VALUE;
+        try {
+            String height =
+                    imageResources.getString(key.concat(HEIGHT_SUFFIX));
+            /*
+            String height = (String)getProperty(
+            themeReferences,
+            ThemeResourceBundle.ThemeBundle.IMAGES,
+            key.concat(ThemeImage.HEIGHT_SUFFIX), locale, classLoader);
+             */
+            ht = Integer.parseInt(height);
+        } catch (MissingResourceException mre) {
+        } catch (NumberFormatException nfe) {
+        }
+
+        int wt = Integer.MIN_VALUE;
+        try {
+            String width =
+                    imageResources.getString(key.concat(WIDTH_SUFFIX));
+            /*
+            String width = (String)getProperty(
+            themeReferences,
+            ThemeResourceBundle.ThemeBundle.IMAGES,
+            key.concat(ThemeImage.WIDTH_SUFFIX), locale, classLoader);
+             */
+            wt = Integer.parseInt(width);
+        } catch (MissingResourceException mre) {
+        } catch (NumberFormatException nfe) {
+        }
+
+        /*
+        ThemeImage.UNITS units = ThemeImage.UNITS.none;
+        try {
+        String unitString = (String)getProperty(
+        themeReferences,
+        ThemeResourceBundle.ThemeBundle.IMAGES,
+        key.concat(ThemeImage.UNITS_SUFFIX), locale, classLoader);
+        units = ThemeImage.UNITS.valueOf(unitString);
+        } catch (MissingResourceException mre) {
+        } catch (NullPointerException npe) {
+        }
+         */
+
+        // We either need to pass themeContext or "fixUpPath".
+        // It would be nice to provide both. The actual src
+        // and the fixed up path
+        //
 	/*
-	ThemeResources themeResources =
-	    (ThemeResources)threadThemeResources.get();
-	ThemeReference[] themeReferences = themeResources.getThemeReferences();
-	ClassLoader classLoader = 
-	    themeResources.getThemeContext().getDefaultClassLoader();
-	Locale locale = themeResources.getLocale() == null ?
-	    themeResources.getThemeContext().getDefaultLocale() :
-		themeResources.getLocale();
-	*/
-
-	try {
-	    path = imageResources.getString(key);
-            path = translateURI(path);        
-
-	    /*
-	    path = (String)getProperty(
-		themeReferences,
-		ThemeResourceBundle.ThemeBundle.IMAGES,
-		key, locale, classLoader);
-	    */
-	} catch (MissingResourceException mre) {
-	    Object[] params = { key }; 
-	    String message = MessageUtil.getMessage
-		    ("com.sun.webui.jsf.resources.LogMessages", 
-		     "Theme.noIcon", params); 
-	    throw new RuntimeException(message, mre);
-	    /*
-	    return null;
-	    */
-	}
-
-	String alt = null;
-	try {
-	    alt = getMessage(imageResources.getString(key.concat(ALT_SUFFIX)));
-	    /*
-	    alt = (String)getProperty(
-		themeReferences,
-		ThemeResourceBundle.ThemeBundle.IMAGES,
-		key.concat(ThemeImage.ALT_SUFFIX), locale, classLoader);
-	    */
-	} catch (MissingResourceException mre) {
-	}
-
-	String title = null;
-	/*
-	try {
-	    title = (String)getProperty(
-		themeReferences,
-		ThemeResourceBundle.ThemeBundle.IMAGES,
-		key.concat(ThemeImage.TITLE_SUFFIX), locale, classLoader);
-	} catch (MissingResourceException mre) {
-	}
-	*/
-	
-	int ht = Integer.MIN_VALUE;
-	try {
-	    String height =
-		imageResources.getString(key.concat(HEIGHT_SUFFIX));
-	    /*
-	    String height = (String)getProperty(
-		themeReferences,
-		ThemeResourceBundle.ThemeBundle.IMAGES,
-		key.concat(ThemeImage.HEIGHT_SUFFIX), locale, classLoader);
-	    */
-	    ht = Integer.parseInt(height); 
-	} catch (MissingResourceException mre) {
-	} catch (NumberFormatException nfe) {
-	}
-
-	int wt = Integer.MIN_VALUE;
-	try {
-	    String width =
-		imageResources.getString(key.concat(WIDTH_SUFFIX));
-	    /*
-	    String width = (String)getProperty(
-		themeReferences,
-		ThemeResourceBundle.ThemeBundle.IMAGES,
-		key.concat(ThemeImage.WIDTH_SUFFIX), locale, classLoader);
-	    */
-	    wt = Integer.parseInt(width); 
-	} catch (MissingResourceException mre) {
-	} catch (NumberFormatException nfe) {
-	}
-
-	/*
-	ThemeImage.UNITS units = ThemeImage.UNITS.none;
-	try {
-	    String unitString = (String)getProperty(
-		themeReferences,
-		ThemeResourceBundle.ThemeBundle.IMAGES,
-		key.concat(ThemeImage.UNITS_SUFFIX), locale, classLoader);
-	    units = ThemeImage.UNITS.valueOf(unitString);
-	} catch (MissingResourceException mre) {
-	} catch (NullPointerException npe) {
-	}
-	*/
-
-	// We either need to pass themeContext or "fixUpPath".
-	// It would be nice to provide both. The actual src
-	// and the fixed up path
-	//
-	/*
-	return new ThemeImage(wt, ht, null, alt, title, fixUpPath(path));
-	*/
-	return new ThemeImage(wt, ht, null, alt, title, path);
+        return new ThemeImage(wt, ht, null, alt, title, fixUpPath(path));
+         */
+        return new ThemeImage(wt, ht, null, alt, title, path);
     }
 
     /**

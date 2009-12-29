@@ -19,7 +19,6 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.theme;
 
 /**
@@ -28,7 +27,8 @@ package com.sun.webui.theme;
  * but will also work in a 1.3 environment.</p>
  */
 public class ThemeConfigurationException extends RuntimeException {
-    
+
+    private static final long serialVersionUID = 3798546969459906555L;
 
     /**
      * <p>Construct a ThemeConfigurationException with a message.</p>

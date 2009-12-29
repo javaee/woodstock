@@ -21,9 +21,8 @@
  */
 
 /*
- * $Id: ThemeServlet.java,v 1.1.4.2.2.1 2009-08-19 23:17:38 kenpaulsen Exp $
+ * $Id: ThemeServlet.java,v 1.1.4.2.2.2 2009-12-29 05:05:17 jyeary Exp $
  */
-
 package com.sun.webui.theme;
 
 import java.io.BufferedInputStream;
@@ -33,11 +32,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Locale;
 import java.util.Map;
-import java.util.Set; 
-
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -108,6 +103,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ThemeServlet extends HttpServlet {
 
+    private static final long serialVersionUID = -8112024913542109274L;
     /**
      * For advanced use only
      */
@@ -115,77 +111,79 @@ public class ThemeServlet extends HttpServlet {
     private final static Map respType = new HashMap();
 
     // Some mime-types... by extension
+
+
     static {
-	// There is no IANA registered type for JS files. See 
-	// http://annevankesteren.nl/archives/2005/02/javascript-mime-type 
-	// for a discussion. I picked text/javascript because that's
-	// what we use in the script tag. Apache defaults to 
-	// application/x-javascript
-	respType.put("js", "text/javascript");
-	respType.put("css", "text/css"); 
-	respType.put("htm", "text/html"); 
-	respType.put("html", "text/html");
-	respType.put("wml", "text/wml");
-	respType.put("txt", "text/plain");
-	respType.put("xml", "text/xml");
-	respType.put("jpeg", "image/jpeg");
-	respType.put("jpe", "image/jpeg");
-	respType.put("jpg", "image/jpeg");
-	respType.put("png", "image/png");
-	respType.put("tif", "image/tiff");
-	respType.put("tiff", "image/tiff");
-	respType.put("bmp", "image/bmp"); 
-	respType.put("xbm", "image/xbm"); 
-	respType.put("ico", "image/x-icon"); 
-	respType.put("gif", "image/gif");
-	respType.put("pdf", "application/pdf");
-	respType.put("ps", "application/postscript");
-	respType.put("mim", "application/mime"); 
-	respType.put("mime", "application/mime"); 
-	respType.put("mid", "application/midi"); 
-	respType.put("midi", "application/midi"); 
-	respType.put("wav", "audio/wav"); 
-	respType.put("bwf", "audio/wav"); 
-	respType.put("cpr", "image/cpr"); 
-	respType.put("avi", "video/x-msvideo"); 
-	respType.put("mpeg", "video/mpeg"); 
-	respType.put("mpg", "video/mpeg"); 
-	respType.put("mpm", "video/mpeg"); 
-	respType.put("mpv", "video/mpeg"); 
-	respType.put("mpa", "video/mpeg"); 
-	respType.put("au", "audio/basic"); 
-	respType.put("snd", "audio/basic"); 
-	respType.put("ulw", "audio/basic"); 
-	respType.put("aiff", "audio/x-aiff"); 
-	respType.put("aif", "audio/x-aiff"); 
-	respType.put("aifc", "audio/x-aiff"); 
-	respType.put("cdda", "audio/x-aiff"); 
-	respType.put("pict", "image/x-pict"); 
-	respType.put("pic", "image/x-pict"); 
-	respType.put("pct", "image/x-pict"); 
-	respType.put("mov", "video/quicktime"); 
-	respType.put("qt", "video/quicktime"); 
-	respType.put("pdf", "application/pdf"); 
-	respType.put("pdf", "application/pdf"); 
-	respType.put("ssm", "application/smil"); 
-	respType.put("rsml", "application/vnd.rn-rsml"); 
-	respType.put("ra", "application/vnd.rn-realaudio"); 
-	respType.put("rm", "application/vnd.rn-realmedia"); 
-	respType.put("rv", "application/vnd.rn-realvideo"); 
-	respType.put("rf", "application/vnd.rn-realflash"); 
-	respType.put("rf", "application/vnd.rn-realflash"); 
-	respType.put("asf", "application/x-ms-asf"); 
-	respType.put("asx", "application/x-ms-asf"); 
-	respType.put("wm", "application/x-ms-wm"); 
-	respType.put("wma", "application/x-ms-wma"); 
-	respType.put("wax", "application/x-ms-wax"); 
-	respType.put("wmw", "application/x-ms-wmw"); 
-	respType.put("wvx", "application/x-ms-wvx"); 
-	respType.put("swf", "application/x-shockwave-flash"); 
-	respType.put("spl", "application/futuresplash"); 
-	respType.put("avi", "video/msvideo"); 
-	respType.put("flc", "video/flc"); 
-	respType.put("mp4", "video/mpeg4"); 
+        // There is no IANA registered type for JS files. See
+        // http://annevankesteren.nl/archives/2005/02/javascript-mime-type
+        // for a discussion. I picked text/javascript because that's
+        // what we use in the script tag. Apache defaults to
+        // application/x-javascript
+        respType.put("js", "text/javascript");
+        respType.put("css", "text/css");
+        respType.put("htm", "text/html");
+        respType.put("html", "text/html");
+        respType.put("wml", "text/wml");
+        respType.put("txt", "text/plain");
+        respType.put("xml", "text/xml");
+        respType.put("jpeg", "image/jpeg");
+        respType.put("jpe", "image/jpeg");
+        respType.put("jpg", "image/jpeg");
+        respType.put("png", "image/png");
+        respType.put("tif", "image/tiff");
+        respType.put("tiff", "image/tiff");
+        respType.put("bmp", "image/bmp");
+        respType.put("xbm", "image/xbm");
+        respType.put("ico", "image/x-icon");
+        respType.put("gif", "image/gif");
+        respType.put("pdf", "application/pdf");
+        respType.put("ps", "application/postscript");
+        respType.put("mim", "application/mime");
+        respType.put("mime", "application/mime");
+        respType.put("mid", "application/midi");
+        respType.put("midi", "application/midi");
+        respType.put("wav", "audio/wav");
+        respType.put("bwf", "audio/wav");
+        respType.put("cpr", "image/cpr");
+        respType.put("avi", "video/x-msvideo");
+        respType.put("mpeg", "video/mpeg");
+        respType.put("mpg", "video/mpeg");
+        respType.put("mpm", "video/mpeg");
+        respType.put("mpv", "video/mpeg");
+        respType.put("mpa", "video/mpeg");
+        respType.put("au", "audio/basic");
+        respType.put("snd", "audio/basic");
+        respType.put("ulw", "audio/basic");
+        respType.put("aiff", "audio/x-aiff");
+        respType.put("aif", "audio/x-aiff");
+        respType.put("aifc", "audio/x-aiff");
+        respType.put("cdda", "audio/x-aiff");
+        respType.put("pict", "image/x-pict");
+        respType.put("pic", "image/x-pict");
+        respType.put("pct", "image/x-pict");
+        respType.put("mov", "video/quicktime");
+        respType.put("qt", "video/quicktime");
+        respType.put("pdf", "application/pdf");
+        respType.put("pdf", "application/pdf");
+        respType.put("ssm", "application/smil");
+        respType.put("rsml", "application/vnd.rn-rsml");
+        respType.put("ra", "application/vnd.rn-realaudio");
+        respType.put("rm", "application/vnd.rn-realmedia");
+        respType.put("rv", "application/vnd.rn-realvideo");
+        respType.put("rf", "application/vnd.rn-realflash");
+        respType.put("rf", "application/vnd.rn-realflash");
+        respType.put("asf", "application/x-ms-asf");
+        respType.put("asx", "application/x-ms-asf");
+        respType.put("wm", "application/x-ms-wm");
+        respType.put("wma", "application/x-ms-wma");
+        respType.put("wax", "application/x-ms-wax");
+        respType.put("wmw", "application/x-ms-wmw");
+        respType.put("wvx", "application/x-ms-wvx");
+        respType.put("swf", "application/x-shockwave-flash");
+        respType.put("spl", "application/futuresplash");
+        respType.put("avi", "video/msvideo");
+        respType.put("flc", "video/flc");
+        respType.put("mp4", "video/mpeg4");
     }
 
     /**
@@ -195,28 +193,31 @@ public class ThemeServlet extends HttpServlet {
      * @throws ServletException If the Servlet fails to serve the resource file
      * @throws IOException If the Servlet cannot locate and read a requested ThemeFile
      */
+    @Override
     protected void doGet(HttpServletRequest request,
-			 HttpServletResponse response)
-	throws ServletException, IOException {
+            HttpServletResponse response)
+            throws ServletException, IOException {
 
-        if(DEBUG) log("doGet()");
-	String resourceName = request.getPathInfo();
-	InputStream inStream = null;
-	OutputStream outStream = null;
-	try {
-	    // The issue here is, do we try and get the resource
-	    // from the jar that defined this resource ?
-	    // Or hope that it is unique enough to come from the
-	    // jar it was defined in.
-	    //
-	    // Get InputStream
-	    inStream = this.getClass().getResourceAsStream(resourceName);
-	    if (inStream == null) {
-		//Send 404 (without the original URI for XSS security reasons)
-		response.sendError(HttpServletResponse.SC_NOT_FOUND);
-		return;
-	    }
-	    inStream = new BufferedInputStream(inStream, 4096);
+        if (DEBUG) {
+            log("doGet()");
+        }
+        String resourceName = request.getPathInfo();
+        InputStream inStream = null;
+        OutputStream outStream = null;
+        try {
+            // The issue here is, do we try and get the resource
+            // from the jar that defined this resource ?
+            // Or hope that it is unique enough to come from the
+            // jar it was defined in.
+            //
+            // Get InputStream
+            inStream = this.getClass().getResourceAsStream(resourceName);
+            if (inStream == null) {
+                //Send 404 (without the original URI for XSS security reasons)
+                response.sendError(HttpServletResponse.SC_NOT_FOUND);
+                return;
+            }
+            inStream = new BufferedInputStream(inStream, 4096);
 
             // Ask the container to resolve the MIME type if possible
             String type = getServletContext().getMimeType(resourceName);
@@ -224,7 +225,7 @@ public class ThemeServlet extends HttpServlet {
                 // Otherwise, use our own hard coded list
                 int lastDot = resourceName.lastIndexOf('.');
                 if (lastDot != -1) {
-                    String suffix = resourceName.substring(lastDot+1);
+                    String suffix = resourceName.substring(lastDot + 1);
                     type = (String) respType.get(suffix.toLowerCase());
                 }
             }
@@ -237,72 +238,78 @@ public class ThemeServlet extends HttpServlet {
             response.setDateHeader("Last-Modified", getLastModified(request));
 
             // Get the OutputStream
-	    outStream = response.getOutputStream();
-	    outStream = new BufferedOutputStream(outStream, 4096);
+            outStream = response.getOutputStream();
+            outStream = new BufferedOutputStream(outStream, 4096);
 
-	    int character;
-	    while ((character = inStream.read()) != -1) {
-		outStream.write(character);
-	    }
-	} catch(IOException ioex) {
-	    //Log an error
-	} finally {
-	    try { inStream.close(); } catch(Throwable t) {}
-	    try { outStream.close(); } catch(Throwable t) {}
-	}
-	return;
+            int character;
+            while ((character = inStream.read()) != -1) {
+                outStream.write(character);
+            }
+        } catch (IOException ioex) {
+            //Log an error
+        } finally {
+            try {
+                inStream.close();
+            } catch (Throwable t) {
+            }
+            try {
+                outStream.close();
+            } catch (Throwable t) {
+            }
+        }
+        return;
     }
 
     /**
      * Returns a short description of the servlet.
      * @return A String that names the Servlet
      */
+    @Override
     public String getServletInfo() {
-	return "Theme Servlet for Sun Web Components";
+        return "Theme Servlet for Sun Web Components";
     }
 
     /**
      * Initializes the ThemeServlet
      * @param config The ServletConfig object
      */
+    @Override
     public void init(ServletConfig config) throws ServletException {
-        super.init(config);     
+        super.init(config);
 
-	// Note that there is no control exerted here to direct a
-	// request to a particular theme or override a theme.
-	// The assumption is that the rendered output has exerted that
-	// control by obtaining a reference to the appropriate resource
-	// and rendering that reference. This servlet just has the 
-	// opportunity of setting up the theme ASAP, before any 
-	// pages are rendered, and for sharing resources. The context
-	// of this servlet is known by several applications or possibly
-	// given to the Theme subsystem by the console. Then the
-	// theme subsystem returns actual references to the appropriate
-	// resource based on the "theme context", i.e. overrides etc.
-	// 
-	// Consider the Console as implementing ThemeContext. by the
-	// time this servlet's init method has been called the
-	// Console will have "installed" an appropriate ThemeContext
-	// instance. The call to getInstance will return that ThemeContext
-	// instance and configure the ThemeFactory with it.
-	//
-	// Actually there is no need to set up the ThemeContext here.
-	// The idea is that the application framework will have 
-	// implemented an "XXXThemeContext" which will have been 
-	// created to set up the Theme environment as necesary.
-	// If fact doing this here in a JSF environment may not
-	// provide enough information like the context URL which
-	// doesn't appear to be available at this point.
-	//
-	// Forget this now and assume that JSFServletContext is
-	// available.
-	//
-	// ThemeContext themeContext = ServletThemeContext.getInstance(
-	// 	getServletContext());
-	
+    // Note that there is no control exerted here to direct a
+    // request to a particular theme or override a theme.
+    // The assumption is that the rendered output has exerted that
+    // control by obtaining a reference to the appropriate resource
+    // and rendering that reference. This servlet just has the
+    // opportunity of setting up the theme ASAP, before any
+    // pages are rendered, and for sharing resources. The context
+    // of this servlet is known by several applications or possibly
+    // given to the Theme subsystem by the console. Then the
+    // theme subsystem returns actual references to the appropriate
+    // resource based on the "theme context", i.e. overrides etc.
+    //
+    // Consider the Console as implementing ThemeContext. by the
+    // time this servlet's init method has been called the
+    // Console will have "installed" an appropriate ThemeContext
+    // instance. The call to getInstance will return that ThemeContext
+    // instance and configure the ThemeFactory with it.
+    //
+    // Actually there is no need to set up the ThemeContext here.
+    // The idea is that the application framework will have
+    // implemented an "XXXThemeContext" which will have been
+    // created to set up the Theme environment as necesary.
+    // If fact doing this here in a JSF environment may not
+    // provide enough information like the context URL which
+    // doesn't appear to be available at this point.
+    //
+    // Forget this now and assume that JSFServletContext is
+    // available.
+    //
+    // ThemeContext themeContext = ServletThemeContext.getInstance(
+    // 	getServletContext());
+
     }
-    
-
     /**
      * <p>The "last modified" timestamp we should broadcast for all resources
      * provided by this servlet.  This will enable browsers that cache static
@@ -310,7 +317,6 @@ public class ThemeServlet extends HttpServlet {
      * return a "Not Modified" response.</p>
      */
     private long lastModified = (new Date()).getTime();
-
 
     /**
      * <p>Return the timestamp for when resources provided by this servlet
@@ -321,6 +327,7 @@ public class ThemeServlet extends HttpServlet {
      * @param request The HttpServletRequest being processed
      * @return The date when the resource was last modified
      */
+    @Override
     public long getLastModified(HttpServletRequest request) {
         return this.lastModified;
     }

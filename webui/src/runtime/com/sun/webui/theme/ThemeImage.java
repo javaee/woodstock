@@ -19,12 +19,8 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-/* $Id: ThemeImage.java,v 1.1 2007-02-16 01:53:30 bob_yennaco Exp $ */
-
+/* $Id: ThemeImage.java,v 1.1.6.1 2009-12-29 05:05:17 jyeary Exp $ */
 package com.sun.webui.theme;
-
-import java.net.MalformedURLException;
-import java.net.URL;
 
 /**
  * <code>ThemeImage</code> encapsulates the properties of a theme image
@@ -71,8 +67,10 @@ public class ThemeImage {
      * Defines the recognized units that the height and width can be
      * expressed in.
      */
-    public enum UNITS { px, em, percent, none };
+    public enum UNITS {
 
+        px, em, percent, none
+    };
     private int width;
     private int height;
     private UNITS units;
@@ -84,14 +82,14 @@ public class ThemeImage {
      * Construct a <code>ThemeImage</code> from the passed arguments.
      */
     public ThemeImage(int width, int height, ThemeImage.UNITS units,
-	String alt, String title, String path) {
+            String alt, String title, String path) {
 
-	this.width = width;
-	this.height = height;
-	this.units = units;
-	this.alt = alt;
-	this.title = title;
-	this.path = path;
+        this.width = width;
+        this.height = height;
+        this.units = units;
+        this.alt = alt;
+        this.title = title;
+        this.path = path;
     }
 
     /**
@@ -100,16 +98,18 @@ public class ThemeImage {
      * @see #getUnits()
      */
     public int getWidth() {
-	return width;
+        return width;
     }
+
     /**
      * Returns the height of the image in units defined in the 
      * <code>units</code> member.
      * @see #getUnits()
      */
     public int getHeight() {
-	return height;
+        return height;
     }
+
     /**
      * Returns the <code>UNITS</code> expressed in the <code>height</code>
      * and <code>width</code>  members.
@@ -120,70 +120,79 @@ public class ThemeImage {
      * @see #setWidth(int)
      */
     public ThemeImage.UNITS getUnits() {
-	return units;
+        return units;
     }
+
     /**
      * Returns the <code>alt</code> member or alternate text to display if the
      * client cannot render the image.
      */
     public String getAlt() {
-	return alt;
+        return alt;
     }
+
     /**
      * Returns the <code>title</code> member sometimes used to display a
      * tooltip on the client.
      */
     public String getTitle() {
-	return title;
+        return title;
     }
+
     /**
      * Returns the application or jar relative path of this image resource.
      * The path is relative to location that can be found on the application
      * class path.
      */
     public String getPath() {
-	return path;
+        return path;
     }
+
     /**
      * Set the width of the image in units defined by the <code>units</code>
      * member.
      */
     public void setWidth(int width) {
-	this.width = width;
+        this.width = width;
     }
+
     /**
      * Set the height of the image in units defined by the <code>units</code>
      * member.
      */
     public void setHeight(int height) {
-	this.height = height;
+        this.height = height;
     }
+
     /**
      * Set the units used by the <code>height</code> and <code>width</code>
      * members.
      */
     public void setUnits(ThemeImage.UNITS units) {
-	this.units = units;
+        this.units = units;
     }
+
     /**
      * Set the text that will appear on the client if the image cannot be
      * loaded.
      */
     public void setAlt(String alt) {
-	this.alt = alt;
+        this.alt = alt;
     }
+
     /**
      * Set the text that may appear as a tooltip on the client.
      */
     public void setTitle(String title) {
-	this.title = title;
+        this.title = title;
     }
+
     /**
      * Set the application or jar relative path of the image. 
      * The path is relative to location that can be found on the application
      * class path. This path must begin with a "/".
      */
     public void setPath(String path) {
-	this.path = path;
+        this.path = path;
     }
 }

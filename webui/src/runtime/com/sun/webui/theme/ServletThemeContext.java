@@ -19,18 +19,14 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-/* $Id: ServletThemeContext.java,v 1.1 2007-02-16 01:52:55 bob_yennaco Exp $ */
-
+/* $Id: ServletThemeContext.java,v 1.1.6.1 2009-12-29 05:05:17 jyeary Exp $ */
 package com.sun.webui.theme;
 
 import java.util.Locale;
 import java.util.Map;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.servlet.ServletContext;
-
-import com.sun.webui.theme.ThemeContext;
 
 /**
  * The Servlet implementation of <code>ThemeContext</code>.
@@ -76,86 +72,86 @@ public class ServletThemeContext extends ThemeContext {
      * initialization parameters.
      */
     protected ServletThemeContext(Map initParamMap) {
-	super();
-	// deprecated
-	String value = (String)initParamMap.get(THEME_MESSAGES);
-	if (value != null) {
-	    setMessages(value);
-	}
-	// deprecated
-	value = (String)initParamMap.get(SUPPORTED_LOCALES);
-	if (value != null) {
-	    setSupportedLocales(getLocales(value));
-	}
-	value = (String)initParamMap.get(DEFAULT_THEME);
-	if (value != null) {
-	    setDefaultTheme(value);
-	}
-	value = (String)initParamMap.get(DEFAULT_THEME_VERSION);
-	if (value != null) {
-	    setDefaultThemeVersion(value);
-	}
-	value = (String)initParamMap.get(THEME_RESOURCES);
-	if (value != null) {
-	    setThemeResources(value.trim().split(" "));
-	}
-	value = (String)initParamMap.get(DEFAULT_LOCALE);
-	if (value != null) {
-	    setDefaultLocale(value);
-	}
-	value = (String)initParamMap.get(THEME_FACTORY_CLASS_NAME);
-	if (value != null) {
-	    setThemeFactoryClassName(value);
-	}
-	// This must be the same as the ThemeServlet's context
-	//
-	value = (String)initParamMap.get(THEME_SERVLET_CONTEXT);
-	if (value != null) {
-	    setThemeServletContext(value);
-	}
+        super();
+        // deprecated
+        String value = (String) initParamMap.get(THEME_MESSAGES);
+        if (value != null) {
+            setMessages(value);
+        }
+        // deprecated
+        value = (String) initParamMap.get(SUPPORTED_LOCALES);
+        if (value != null) {
+            setSupportedLocales(getLocales(value));
+        }
+        value = (String) initParamMap.get(DEFAULT_THEME);
+        if (value != null) {
+            setDefaultTheme(value);
+        }
+        value = (String) initParamMap.get(DEFAULT_THEME_VERSION);
+        if (value != null) {
+            setDefaultThemeVersion(value);
+        }
+        value = (String) initParamMap.get(THEME_RESOURCES);
+        if (value != null) {
+            setThemeResources(value.trim().split(" "));
+        }
+        value = (String) initParamMap.get(DEFAULT_LOCALE);
+        if (value != null) {
+            setDefaultLocale(value);
+        }
+        value = (String) initParamMap.get(THEME_FACTORY_CLASS_NAME);
+        if (value != null) {
+            setThemeFactoryClassName(value);
+        }
+        // This must be the same as the ThemeServlet's context
+        //
+        value = (String) initParamMap.get(THEME_SERVLET_CONTEXT);
+        if (value != null) {
+            setThemeServletContext(value);
+        }
     }
 
     /**
      * Constructor controlled in <code>getInstance</code>.
      */
     protected ServletThemeContext(ServletContext context) {
-	super();
-	// deprecated
-	String value = (String)context.getInitParameter(THEME_MESSAGES);
-	if (value != null) {
-	    setMessages(value);
-	}
-	// deprecated
-	value = (String)context.getInitParameter(SUPPORTED_LOCALES);
-	if (value != null) {
-	    setSupportedLocales(getLocales(value));
-	}
-	value = (String)context.getInitParameter(DEFAULT_THEME);
-	if (value != null) {
-	    setDefaultTheme(value);
-	}
-	value = (String)context.getInitParameter(DEFAULT_THEME_VERSION);
-	if (value != null) {
-	    setDefaultThemeVersion(value);
-	}
-	value = (String)context.getInitParameter(THEME_RESOURCES);
-	if (value != null) {
-	    setThemeResources(value.trim().split(" "));
-	}
-	value = (String)context.getInitParameter(DEFAULT_LOCALE);
-	if (value != null) {
-	    setDefaultLocale(value);
-	}
-	value = (String)context.getInitParameter(THEME_FACTORY_CLASS_NAME);
-	if (value != null) {
-	    setThemeFactoryClassName(value);
-	}
-	// Not sure why this is needed.
-	//
-	value = (String)context.getInitParameter(THEME_SERVLET_CONTEXT);
-	if (value != null) {
-	    setThemeServletContext(value);
-	}
+        super();
+        // deprecated
+        String value = (String) context.getInitParameter(THEME_MESSAGES);
+        if (value != null) {
+            setMessages(value);
+        }
+        // deprecated
+        value = (String) context.getInitParameter(SUPPORTED_LOCALES);
+        if (value != null) {
+            setSupportedLocales(getLocales(value));
+        }
+        value = (String) context.getInitParameter(DEFAULT_THEME);
+        if (value != null) {
+            setDefaultTheme(value);
+        }
+        value = (String) context.getInitParameter(DEFAULT_THEME_VERSION);
+        if (value != null) {
+            setDefaultThemeVersion(value);
+        }
+        value = (String) context.getInitParameter(THEME_RESOURCES);
+        if (value != null) {
+            setThemeResources(value.trim().split(" "));
+        }
+        value = (String) context.getInitParameter(DEFAULT_LOCALE);
+        if (value != null) {
+            setDefaultLocale(value);
+        }
+        value = (String) context.getInitParameter(THEME_FACTORY_CLASS_NAME);
+        if (value != null) {
+            setThemeFactoryClassName(value);
+        }
+        // Not sure why this is needed.
+        //
+        value = (String) context.getInitParameter(THEME_SERVLET_CONTEXT);
+        if (value != null) {
+            setThemeServletContext(value);
+        }
     }
 
     /**
@@ -163,30 +159,31 @@ public class ServletThemeContext extends ThemeContext {
      */
     public static ThemeContext getInstance(ServletContext context) {
 
-	// The JSF ApplicationMap is the ServletContext and therefore
-	// objects set in the JSF ApplicationMap use "getAttribute" and
-	// "setAttribute" on ServletContext.
-	//
-	// Should there be a JSFThemeServlet to complement the 
-	// JSFThemeContext's use of "ApplicationMap" ?
-	//
-	// I think we need synchronization here.
-	//
-	ThemeContext themeContext =
-		(ThemeContext)context.getAttribute(THEME_CONTEXT);
-	if (themeContext == null) {
-	    synchronized(synchObj) {
-		// Need to make sure another thread didn't just finish
-		//
-		themeContext = (ThemeContext)
-			context.getAttribute(THEME_CONTEXT);
-		if (themeContext == null) {
-		    themeContext = new ServletThemeContext(context);
-		    context.setAttribute(THEME_CONTEXT, themeContext);
-		}
-	    }
-	}
-	return themeContext;
+        // The JSF ApplicationMap is the ServletContext and therefore
+        // objects set in the JSF ApplicationMap use "getAttribute" and
+        // "setAttribute" on ServletContext.
+        //
+        // Should there be a JSFThemeServlet to complement the
+        // JSFThemeContext's use of "ApplicationMap" ?
+        //
+        // I think we need synchronization here.
+        //
+        ThemeContext themeContext =
+                (ThemeContext) context.getAttribute(THEME_CONTEXT);
+        if (themeContext == null) {
+
+            //FIXME synchronization on a non-final field
+            synchronized (synchObj) {
+                // Need to make sure another thread didn't just finish
+                //
+                themeContext = (ThemeContext) context.getAttribute(THEME_CONTEXT);
+                if (themeContext == null) {
+                    themeContext = new ServletThemeContext(context);
+                    context.setAttribute(THEME_CONTEXT, themeContext);
+                }
+            }
+        }
+        return themeContext;
     }
 
     /** 
@@ -194,33 +191,31 @@ public class ServletThemeContext extends ThemeContext {
      * @return set containing the support locales.
      */
     private Set getLocales(String locales) {
-    
-        String[] localeArray = locales.split(LOCALE_SEPARATOR);
-        Set localeSet = new HashSet(); 
 
-        
-        for(int counter = 0; counter < localeArray.length; ++counter) { 
+        String[] localeArray = locales.split(LOCALE_SEPARATOR);
+        Set localeSet = new HashSet();
+
+
+        for (int counter = 0; counter < localeArray.length; ++counter) {
 
             String localeString = localeArray[counter].trim();
-            if (localeString.length() == 0) { 
-                continue; 
-            } 
+            if (localeString.length() == 0) {
+                continue;
+            }
 
-	    Locale locale = null; 
-       
-	    // The basename cannot have underscore in it.
+            Locale locale = null;
+
+            // The basename cannot have underscore in it.
             String[] strings = localeString.split("_"); //NOI18N
-            if(strings.length > 2) { 
-                locale = new Locale(strings[0], strings[1], strings[2]); 
-            } 
-            else if (strings.length > 1) { 
-                locale = new Locale(strings[0], strings[1]); 
-            } 
-            else if(strings.length > 0) { 
-                locale = new Locale(strings[0]); 
-            } 
+            if (strings.length > 2) {
+                locale = new Locale(strings[0], strings[1], strings[2]);
+            } else if (strings.length > 1) {
+                locale = new Locale(strings[0], strings[1]);
+            } else if (strings.length > 0) {
+                locale = new Locale(strings[0]);
+            }
             localeSet.add(locale);
-        }        
+        }
         return localeSet;
-    }  
+    }
 }
