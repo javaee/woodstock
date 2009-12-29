@@ -28,7 +28,6 @@ import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.jsf.model.Option;
 import com.sun.webui.jsf.model.ScheduledEvent;
 import com.sun.webui.jsf.util.ThemeUtilities;
-
 import java.beans.Beans;
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -38,7 +37,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.TimeZone;
-
 import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
 import javax.faces.component.UIComponent;
@@ -46,35 +44,32 @@ import javax.faces.component.UIOutput;
 import javax.faces.component.NamingContainer;
 import javax.faces.convert.IntegerConverter;
 import javax.faces.event.ActionEvent;
-import javax.faces.event.ActionListener; 
-import javax.faces.event.ValueChangeEvent;
-import javax.faces.event.ValueChangeListener;
+import javax.faces.event.ActionListener;
 
 /**
  * <h3>NOT FOR DEVELOPER USE - base renderer class for ui:calendar and ui:scheduler</h3>
  * <p>Do not release as API.</p>
  */
-@Component(type="com.sun.webui.jsf.CalendarMonth", family="com.sun.webui.jsf.CalendarMonth", displayName="Calendar Month", isTag=false,
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_calendar_month",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_calendar_month_props")
+//TODO remove unused comments, and code.
+@Component(type = "com.sun.webui.jsf.CalendarMonth", family = "com.sun.webui.jsf.CalendarMonth",
+displayName = "Calendar Month", isTag = false,
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_calendar_month",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_calendar_month_props")
 public class CalendarMonth extends UIOutput implements NamingContainer {
+
     public static final String MONTH_MENU_ID = "monthMenu"; //NOI18N
     public static final String YEAR_MENU_ID = "yearMenu"; //NOI18N
-    public static final String PREVIOUS_MONTH_LINK_ID =
-        "previousMonthLink"; //NOI18N
+    public static final String PREVIOUS_MONTH_LINK_ID = "previousMonthLink"; //NOI18N
     public static final String NEXT_MONTH_LINK_ID = "nextMonthLink";//NOI18N
     public static final String DATE_LINK_ID = "dateLink";//NOI18N
     public static final String DATE_FIELD_ID = "dateField";//NOI18N
     public static final String DATE_FORMAT_ATTR = "dateFormatAttr"; //NOI18N
-    public static final String DATE_FORMAT_PATTERN_ATTR =
-        "dateFormatPatternAttr"; //NOI18N
+    public static final String DATE_FORMAT_PATTERN_ATTR = "dateFormatPatternAttr"; //NOI18N
     private static final String TIME_ZONE_ATTR = "timeZoneAttr"; //NOI18N
-        
     /**
      * <p>The java.util.Calendar object to use for this CalendarMonth component.</p>
      */
     private java.util.Calendar calendar = null;
-    
     private static final boolean DEBUG = false;
 
     /**
@@ -88,35 +83,43 @@ public class CalendarMonth extends UIOutput implements NamingContainer {
     /**
      * <p>Return the family for this component.</p>
      */
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.CalendarMonth";
     }
 
-    public boolean isDateSelected(java.util.Calendar current, 
-                                  java.util.Calendar endDate) {
-        
-        if(DEBUG) log("isDateSelected()"); //NOI18N
-        
-        Object value = getValue(); 
-        if(value == null) { 
-            if(DEBUG) log("Value is null"); //NOI18N
-            return false; 
+    public boolean isDateSelected(java.util.Calendar current,
+            java.util.Calendar endDate) {
+
+        if (DEBUG) {
+            log("isDateSelected()"); //NOI18N
         }
-        else if(value instanceof Date) {
-            if(DEBUG) log("Value is date"); //NOI18N
+        Object value = getValue();
+        if (value == null) {
+            if (DEBUG) {
+                log("Value is null"); //NOI18N
+            }
+            return false;
+        } else if (value instanceof Date) {
+            if (DEBUG) {
+                log("Value is date"); //NOI18N
+            }
             Calendar calendar = getCalendar();
-            calendar.setTime((Date)value);
+            calendar.setTime((Date) value);
             return compareDate(calendar, current);
-        }
-        else if(value instanceof ScheduledEvent) {        
-            if(DEBUG) log("Value is ScheduledEvent");//NOI18N
-            if(DEBUG) log("Checking dates before " + endDate.getTime().toString()); //NOI18N
-            Iterator dates = ((ScheduledEvent)value).getDates(endDate);
+        } else if (value instanceof ScheduledEvent) {
+            if (DEBUG) {
+                log("Value is ScheduledEvent");//NOI18N
+            }
+            if (DEBUG) {
+                log("Checking dates before " + endDate.getTime().toString()); //NOI18N
+            }
+            Iterator dates = ((ScheduledEvent) value).getDates(endDate);
             Calendar calendar = null;
-            
-            while(dates.hasNext()) {
-                calendar = (Calendar)(dates.next());
-                if(compareDate(calendar, current)) {
+
+            while (dates.hasNext()) {
+                calendar = (Calendar) (dates.next());
+                if (compareDate(calendar, current)) {
                     return true;
                 }
             }
@@ -124,21 +127,27 @@ public class CalendarMonth extends UIOutput implements NamingContainer {
         }
         return false;
     }
-    
-    public boolean compareDate(java.util.Calendar selected, 
-                                java.util.Calendar current) { 
-       
-        if(DEBUG) log("Rendered data is " + current.getTime().toString()); //NOI18N
-        if(DEBUG) log("Compare to " + selected.getTime().toString()); //NOI18N
-        if(selected.get(Calendar.YEAR) == current.get(Calendar.YEAR) &&
-           selected.get(Calendar.MONTH) == current.get(Calendar.MONTH) &&
-           selected.get(Calendar.DAY_OF_MONTH) == current.get(Calendar.DAY_OF_MONTH)) {
-            if(DEBUG) log("Found match");//NOI18N
+
+    public boolean compareDate(java.util.Calendar selected,
+            java.util.Calendar current) {
+
+        if (DEBUG) {
+            log("Rendered data is " + current.getTime().toString()); //NOI18N
+        }
+        if (DEBUG) {
+            log("Compare to " + selected.getTime().toString()); //NOI18N
+        }
+        if (selected.get(Calendar.YEAR) == current.get(Calendar.YEAR) &&
+                selected.get(Calendar.MONTH) == current.get(Calendar.MONTH) &&
+                selected.get(Calendar.DAY_OF_MONTH) == current.get(Calendar.DAY_OF_MONTH)) {
+            if (DEBUG) {
+                log("Found match");//NOI18N
+            }
             return true;
-        } 
+        }
         return false;
-    } 
-    
+    }
+
     /**
      * <p>Convenience function to return the locale of the current context.</p>
      */
@@ -146,7 +155,7 @@ public class CalendarMonth extends UIOutput implements NamingContainer {
         FacesContext context = FacesContext.getCurrentInstance();
         return context.getViewRoot().getLocale();
     }
-    
+
     /**
      * <p>Returns a new Calendar instance.</p>
      *
@@ -155,14 +164,18 @@ public class CalendarMonth extends UIOutput implements NamingContainer {
      */
     public java.util.Calendar getCalendar() {
 
-        if(DEBUG) log("getCalendar()"); //NOI18N
-        if(calendar == null) { 
-            if(DEBUG) log("...Initializing...."); //NOI18N
-            initializeCalendar(); 
+        if (DEBUG) {
+            log("getCalendar()"); //NOI18N
         }
-        return (java.util.Calendar)(calendar.clone());
+        if (calendar == null) {
+            if (DEBUG) {
+                log("...Initializing...."); //NOI18N
+            }
+            initializeCalendar();
+        }
+        return (java.util.Calendar) (calendar.clone());
     }
-    
+
     /**
      * <p>Returns a new Calendar instance.</p>
      *
@@ -171,7 +184,9 @@ public class CalendarMonth extends UIOutput implements NamingContainer {
      */
     private void initializeCalendar() {
 
-        if(DEBUG) log("initializeCalendar()"); //NOI18N
+        if (DEBUG) {
+            log("initializeCalendar()"); //NOI18N
+        }
         Locale locale = getLocale();
         TimeZone tz = getTimeZone();
         if (tz == null) {
@@ -179,39 +194,45 @@ public class CalendarMonth extends UIOutput implements NamingContainer {
         } else {
             calendar = java.util.Calendar.getInstance(tz, locale);
         }
-        if(DEBUG) log("Initial date is " + calendar.getTime().toString()); //NOI18N
-        
-        if(DEBUG) log("initializeCalendar() - END"); //NOI18N
+        if (DEBUG) {
+            log("Initial date is " + calendar.getTime().toString()); //NOI18N
+        }
+        if (DEBUG) {
+            log("initializeCalendar() - END"); //NOI18N
+        }
     }
 
     /** <p>Return the DateFormat object for this CalendarMonth.</p> */
     public DateFormat getDateFormat() {
-        
-        if(DEBUG) log("getDateFormat()");  //NOI18N
-        
+
+        if (DEBUG) {
+            log("getDateFormat()");  //NOI18N
+        }
         Object o = getAttributes().get(DATE_FORMAT_ATTR);
-        DateFormat dateFormat = null; 
-        if(o != null && o instanceof DateFormat) {
-            if(DEBUG) log("DateFormat was already set");  //NOI18N
-            dateFormat = (DateFormat)o; 
+        DateFormat dateFormat = null;
+        if (o != null && o instanceof DateFormat) {
+            if (DEBUG) {
+                log("DateFormat was already set");  //NOI18N
+            }
+            dateFormat = (DateFormat) o;
             return dateFormat;
         }
 
         // Derive it
 
-        if(DEBUG) log("Dateformat not calculated"); //NOI18N
-
-        SimpleDateFormat simpleDateFormat = (SimpleDateFormat)
-            SimpleDateFormat.getDateInstance(DateFormat.SHORT, getLocale());
+        if (DEBUG) {
+            log("Dateformat not calculated"); //NOI18N
+        }
+        SimpleDateFormat simpleDateFormat = (SimpleDateFormat) SimpleDateFormat.getDateInstance(DateFormat.SHORT, getLocale());
 
         // We need to set the locale and the timeZone of the dateFormat. 
         // I can't tell from the spec whether just setting the Calendar 
         // does this correctly (the Calendar does know both). 
-        
+
         simpleDateFormat.setCalendar(getCalendar());
-        ((SimpleDateFormat)simpleDateFormat).applyPattern(
+        ((SimpleDateFormat) simpleDateFormat).applyPattern(
                 getDateFormatPattern(simpleDateFormat));
-        
+
         // For creator don't store the value, always derive it.
         // It's not clear if storing the value prevents responding
         // to a dymnamic locale change.
@@ -222,35 +243,40 @@ public class CalendarMonth extends UIOutput implements NamingContainer {
 
         return simpleDateFormat;
     }
-    
-     /**
-      * <p>Return the TimeZone object for this CalendarMonth.</p>
-      * If the parent is a DateManager, return its TimeZone
-      * property, else return the time zone from a java.util.Calendar
-      * based on the locale.
-      */
-    @Property(name="timeZone", category="Advanced")
+
+    /**
+     * <p>Return the TimeZone object for this CalendarMonth.</p>
+     * If the parent is a DateManager, return its TimeZone
+     * property, else return the time zone from a java.util.Calendar
+     * based on the locale.
+     */
+    @Property(name = "timeZone", category = "Advanced")
     public TimeZone getTimeZone() {
-        
-        if(DEBUG) log("getTimeZone()");  //NOI18N
-        
+
+        if (DEBUG) {
+            log("getTimeZone()");  //NOI18N
+        }
         Object tzo = getAttributes().get(TIME_ZONE_ATTR);
-        if(tzo != null && tzo instanceof TimeZone) {
-            return (TimeZone)tzo;
-        } 
+        if (tzo != null && tzo instanceof TimeZone) {
+            return (TimeZone) tzo;
+        }
 
         UIComponent parent = getParent();
         TimeZone tz = null;
         try {
-            tz = ((DateManager)parent).getTimeZone();
-            if(DEBUG) log("Parent is date manager"); //NOI18N
+            tz = ((DateManager) parent).getTimeZone();
+            if (DEBUG) {
+                log("Parent is date manager"); //NOI18N
+            }
         } catch (Exception e) {
-            if(DEBUG) log("Parent is not date manager or is null"); //NOI18N
+            if (DEBUG) {
+                log("Parent is not date manager or is null"); //NOI18N
+            }
         }
         if (tz == null) {
             tz = java.util.Calendar.getInstance(getLocale()).getTimeZone();
         }
-        
+
         // For creator don't store this.
         //
         if (!Beans.isDesignTime()) {
@@ -275,74 +301,77 @@ public class CalendarMonth extends UIOutput implements NamingContainer {
      * 
      * @return The DropDown instance to use for the year menu
      */
-    public DropDown getMonthMenu() {    
-         
-        if(DEBUG) log("getMonthMenu()");//NOI18N
-         
+    public DropDown getMonthMenu() {
+
+        if (DEBUG) {
+            log("getMonthMenu()");//NOI18N
+        }
         UIComponent comp = getFacet(MONTH_MENU_ID);
-        DropDown monthMenu = null; 
-        
-        if(comp == null || !(comp instanceof DropDown)) {
-            
+        DropDown monthMenu = null;
+
+        if (comp == null || !(comp instanceof DropDown)) {
+
             monthMenu = new DropDown();
             monthMenu.setSubmitForm(true);
-            
+
             monthMenu.setConverter(new IntegerConverter());
             monthMenu.setId(MONTH_MENU_ID);
-            
+
             // The year menu is controlled by JavaScript when
             // this component is shown in popup mode. When used
             // in the Scheduler, we need to do the following
             // to control the behaviour on submit
-            if(!isPopup()) {
+            if (!isPopup()) {
                 monthMenu.setImmediate(true);
-                //yearMenu.addValueChangeListener(new MonthListener());
+            //yearMenu.addValueChangeListener(new MonthListener());
             }
-            
+
             // add the year menu to the facet list
             getFacets().put(MONTH_MENU_ID, monthMenu);
         } else {
-            monthMenu = (DropDown)comp;
+            monthMenu = (DropDown) comp;
         }
-        
-        if(DEBUG) log("getMonthMenu() - END");//NOI18N
+
+        if (DEBUG) {
+            log("getMonthMenu() - END");//NOI18N
+        }
         return monthMenu;
     }
-    
-        /**
+
+    /**
      * <p>Get the JumpDropDown menu instance to use for thie
      * CalendarMonth's year menu.</p>
      *
      * @return The JumpDropDown instance to use for the year menu
      */
     public DropDown getYearMenu() {
-         
-        if(DEBUG) log("getYearMenu()");//NOI18N
-         
+
+        if (DEBUG) {
+            log("getYearMenu()");//NOI18N
+        }
         DropDown yearMenu = (DropDown) getFacets().get(YEAR_MENU_ID);
-        
-        if(yearMenu == null) {
+
+        if (yearMenu == null) {
             yearMenu = new DropDown();
             yearMenu.setSubmitForm(true);
             yearMenu.setId(YEAR_MENU_ID);
-            yearMenu.setConverter(new IntegerConverter());          
-    
+            yearMenu.setConverter(new IntegerConverter());
+
             // The year menu is controlled by JavaScript when
             // this component is shown in popup mode. When used
             // in the Scheduler, we need to do the following 
             // to control the behaviour on submit
-            if(!isPopup()) {
+            if (!isPopup()) {
                 yearMenu.setImmediate(true);
-                //yearMenu.addValueChangeListener(new YearListener());
+            //yearMenu.addValueChangeListener(new YearListener());
             }
-            
+
             // add the year menu to the facet list            
             getFacets().put(YEAR_MENU_ID, yearMenu);
         }
-        
+
         return yearMenu;
     }
-
 
     /**
      * <p>Get the IconHyperlink instance to use for the previous year
@@ -350,31 +379,29 @@ public class CalendarMonth extends UIOutput implements NamingContainer {
      * @return The IconHyperlink instance to use for the previous year link
      */
     public IconHyperlink getPreviousMonthLink() {
-        IconHyperlink link = (IconHyperlink)
-            getFacets().get(PREVIOUS_MONTH_LINK_ID);
-        
+        IconHyperlink link = (IconHyperlink) getFacets().get(PREVIOUS_MONTH_LINK_ID);
+
         if (link == null) {
             link = new IconHyperlink();
             link.setId(PREVIOUS_MONTH_LINK_ID);
             link.setIcon(ThemeImages.SCHEDULER_BACKWARD);
             link.setBorder(0);
-            
+
             // The link is controlled by JavaScript when
             // this component is shown in popup mode. When used
             // in the Scheduler, we need to do the following
             // to control the behaviour on submit
-            if(!isPopup()) {
-                link.setImmediate(true);         
+            if (!isPopup()) {
+                link.setImmediate(true);
                 link.addActionListener(new PreviousMonthListener());
             }
 
             getFacets().put(PREVIOUS_MONTH_LINK_ID, link);
         }
-        
+
         return (IconHyperlink) link;
     }
 
-    
     /**
      * <p>Get the IconHyperlink instance to use for the next year
      * link.</p> 
@@ -382,121 +409,128 @@ public class CalendarMonth extends UIOutput implements NamingContainer {
      * @return The IconHyperlink instance to use for the next year link
      */
     public IconHyperlink getNextMonthLink() {
-        IconHyperlink link = (IconHyperlink)
-            getFacets().get(NEXT_MONTH_LINK_ID);
-        
+        IconHyperlink link = (IconHyperlink) getFacets().get(NEXT_MONTH_LINK_ID);
+
         if (link == null) {
             link = new IconHyperlink();
             link.setId(NEXT_MONTH_LINK_ID);
-            
+
             link.setIcon(ThemeImages.SCHEDULER_FORWARD);
             link.setBorder(0);
-            
+
             // The link is controlled by JavaScript when
             // this component is shown in popup mode. When used
             // in the Scheduler, we need to do the following
             // to control the behaviour on submit
-            if(!isPopup()) {
+            if (!isPopup()) {
                 link.addActionListener(new NextMonthListener());
                 link.setImmediate(true);
             }
 
             getFacets().put(NEXT_MONTH_LINK_ID, link);
         }
-        
+
         return link;
     }
-    
 
     /** <p>Convience function to get the current Theme.</p> */
     protected Theme getTheme() {
         return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
     }
-    
+
     public void initCalendarControls(String jsName) {
-        
-        if(DEBUG) log("initCalendarControls()"); //NOI18N
-        
+
+        if (DEBUG) {
+            log("initCalendarControls()"); //NOI18N
+        }
         StringBuffer js = new StringBuffer() //NOI18N
-            .append(jsName)
-            .append(".decreaseMonth(); return false;"); //NOI18N
+                .append(jsName).append(".decreaseMonth(); return false;"); //NOI18N
 
         // Don't set Javascript as the URL -- bugtraq #6306848.
         ImageHyperlink link = getPreviousMonthLink();
         link.setIcon(ThemeImages.CALENDAR_BACKWARD);
         link.setOnClick(js.toString());
-        
+
         js = new StringBuffer()//NOI18N
-            .append(jsName)
-            .append(".increaseMonth(); return false;");//NOI18N
+                .append(jsName).append(".increaseMonth(); return false;");//NOI18N
 
         // Don't set Javascript as the URL -- bugtraq #6306848.
         link = getNextMonthLink();
         link.setIcon(ThemeImages.CALENDAR_FORWARD);
         link.setOnClick(js.toString());
-        
+
         getMonthMenu().setOnChange(jsName.concat(".redrawCalendar(false); return false;"));//NOI18N
         getYearMenu().setOnChange(jsName.concat(".redrawCalendar(false); return false;"));//NOI18N
     }
 
     public void showNextMonth() {
-        
-        if(DEBUG) log("showNextMonth"); //NOI18N
+
+        if (DEBUG) {
+            log("showNextMonth"); //NOI18N
+        }
+
         Integer month = getCurrentMonth();
-        if(DEBUG) log("Current month is " + month.toString()); //NOI18N
+
+        if (DEBUG) {
+            log("Current month is " + month.toString()); //NOI18N
+        }
         DropDown monthMenu = getMonthMenu();
-        
-        if(month.intValue() < 12) {
-            if(DEBUG) log("Month is not December"); //NOI18N
-            int newMonth = month.intValue() + 1;     
-            monthMenu.setSubmittedValue(new String[]{ String.valueOf(newMonth)});
-        } else if(showNextYear()) {
-            if(DEBUG) log("Month is December"); //NOI18N
+
+        if (month.intValue() < 12) {
+            if (DEBUG) {
+                log("Month is not December"); //NOI18N
+            }
+            int newMonth = month.intValue() + 1;
+            monthMenu.setSubmittedValue(new String[]{String.valueOf(newMonth)});
+        } else if (showNextYear()) {
+            if (DEBUG) {
+                log("Month is December"); //NOI18N
+            }
             monthMenu.setSubmittedValue(new String[]{"1"});//NOI18N
         }
-        // otherwise we do nothing
+    // otherwise we do nothing
     }
-    
+
     public void showPreviousMonth() {
-       
+
         Integer month = getCurrentMonth();
         DropDown monthMenu = getMonthMenu();
-        
-        if(month.intValue() > 1) {
-            int newMonth = month.intValue()-1; 
+
+        if (month.intValue() > 1) {
+            int newMonth = month.intValue() - 1;
             monthMenu.setSubmittedValue(new String[]{String.valueOf(newMonth)});
-        } 
-        else if(showPreviousYear()) {
+        } else if (showPreviousYear()) {
             monthMenu.setSubmittedValue(new String[]{"12"});//NOI18N
         }
-        // otherwise we do nothing
+    // otherwise we do nothing
     }
-   
+
     private boolean showNextYear() {
-        
-        if(DEBUG) log("showNextYear"); //NOI18N
-        
+
+        if (DEBUG) {
+            log("showNextYear"); //NOI18N
+        }
         DropDown yearMenu = getYearMenu();
         int year = getCurrentYear().intValue();
         year++;
         Option[] options = yearMenu.getOptions();
-        Integer lastYear = (Integer)(options[options.length -1].getValue());
-        if(lastYear.intValue() >= year) {
+        Integer lastYear = (Integer) (options[options.length - 1].getValue());
+        if (lastYear.intValue() >= year) {
             yearMenu.setSubmittedValue(new String[]{String.valueOf(year)});
             return true;
         }
         return false;
     }
-    
+
     private boolean showPreviousYear() {
-        
+
         DropDown yearMenu = getYearMenu();
         int year = getCurrentYear().intValue();
         year--;
-        
+
         Option[] options = yearMenu.getOptions();
-        Integer firstYear = (Integer)(options[0].getValue());
-        if(firstYear.intValue() <= year) {
+        Integer firstYear = (Integer) (options[0].getValue());
+        if (firstYear.intValue() <= year) {
             yearMenu.setSubmittedValue(new String[]{String.valueOf(year)});
             return true;
         }
@@ -507,43 +541,41 @@ public class CalendarMonth extends UIOutput implements NamingContainer {
         DropDown monthMenu = getMonthMenu();
         Object value = monthMenu.getSubmittedValue();
         Integer month = null;
-        if(value != null) {
+        if (value != null) {
             try {
-                String[] vals = (String[])value;
+                String[] vals = (String[]) value;
                 month = Integer.decode(vals[0]);
-            } catch(Exception ex) {
+            } catch (Exception ex) {
                 // do nothing
             }
         } else {
             value = monthMenu.getValue();
-            if(value != null && value instanceof Integer) {
-                month = ((Integer)value);
+            if (value != null && value instanceof Integer) {
+                month = ((Integer) value);
             }
         }
         return month;
     }
-    
+
     public Integer getCurrentYear() {
         DropDown yearMenu = getYearMenu();
         Object value = yearMenu.getSubmittedValue();
         Integer year = null;
-        if(value != null) {
+        if (value != null) {
             try {
-                String[] vals = (String[])value;
+                String[] vals = (String[]) value;
                 year = Integer.decode(vals[0]);
-            } 
-            catch(NumberFormatException ex) {
+            } catch (NumberFormatException ex) {
                 // do nothing
             }
         } else {
             value = yearMenu.getValue();
-            if(value != null && value instanceof Integer) {
-                year = ((Integer)value);
+            if (value != null && value instanceof Integer) {
+                year = ((Integer) value);
             }
         }
-        return year;      
-     } 
-     
+        return year;
+    }
     /**
      * Holds value of property javaScriptObject.
      */
@@ -566,8 +598,8 @@ public class CalendarMonth extends UIOutput implements NamingContainer {
 
         this.javaScriptObjectName = javaScriptObjectName;
     }
-    
-    private void log(String s) { 
+
+    private void log(String s) {
         System.out.println(this.getClass().getName() + "::" + s); //NOI18N
     }
 
@@ -581,8 +613,8 @@ public class CalendarMonth extends UIOutput implements NamingContainer {
      * separators will be locale dependent.<br/>
      * Note that the characterts in the pattern are not localized.
      */
-    @Property(name="dateFormatPattern", category="Appearance")
-    public String getDateFormatPattern() { 
+    @Property(name = "dateFormatPattern", category = "Appearance")
+    public String getDateFormatPattern() {
         return getDateFormatPattern(null);
     }
 
@@ -599,9 +631,10 @@ public class CalendarMonth extends UIOutput implements NamingContainer {
      * Note that the characterts in the pattern are not localized.
      */
     public String getDateFormatPattern(SimpleDateFormat dateFormat) {
-        
-        if(DEBUG) log("getDateFormatPattern()"); //NOI18N
 
+        if (DEBUG) {
+            log("getDateFormatPattern()"); //NOI18N
+        }
         // If dateFormat is null, always derive the dateFormatPattern
         //
         if (dateFormat == null) {
@@ -612,36 +645,40 @@ public class CalendarMonth extends UIOutput implements NamingContainer {
             // For creator, don't store the derived date format pattern,
             // i.e. "Beans.isDesignTime == true"
             //
-            Object dfp = getAttributes().get(DATE_FORMAT_PATTERN_ATTR); 
-            String pattern = null; 
-            if(dfp != null && dfp instanceof String) { 
-                return (String)dfp;
+            Object dfp = getAttributes().get(DATE_FORMAT_PATTERN_ATTR);
+            String pattern = null;
+            if (dfp != null && dfp instanceof String) {
+                return (String) dfp;
             }
-            dateFormat = (SimpleDateFormat)SimpleDateFormat.getDateInstance(
+            dateFormat = (SimpleDateFormat) SimpleDateFormat.getDateInstance(
                     DateFormat.SHORT, getLocale());
         }
 
         // Derive the date format pattern.
 
         String pattern = null;
-        UIComponent parent = getParent(); 
-        if(parent != null && parent instanceof DateManager) {
-            pattern = ((DateManager)parent).getDateFormatPattern();
+        UIComponent parent = getParent();
+        if (parent != null && parent instanceof DateManager) {
+            pattern = ((DateManager) parent).getDateFormatPattern();
         }
-        
+
         if (pattern == null) {
 
             pattern = dateFormat.toPattern();
 
-            if(DEBUG) log("Default pattern " + pattern); //NOI18N
+            if (DEBUG) {
+                log("Default pattern " + pattern); //NOI18N
+            }
 
-            if(pattern.indexOf("yyyy") == -1) {//NOI18N
+            if (pattern.indexOf("yyyy") == -1) {//NOI18N
                 pattern = pattern.replaceFirst("yy", "yyyy");//NOI18N
             }
-            if(pattern.indexOf("MM") == -1) {//NOI18N
+
+            if (pattern.indexOf("MM") == -1) {//NOI18N
                 pattern = pattern.replaceFirst("M", "MM");//NOI18N
             }
-            if(pattern.indexOf("dd") == -1) {//NOI18N
+
+            if (pattern.indexOf("dd") == -1) {//NOI18N
                 pattern = pattern.replaceFirst("d", "dd");//NOI18N
             }
         }
@@ -666,65 +703,81 @@ public class CalendarMonth extends UIOutput implements NamingContainer {
         getAttributes().remove(DATE_FORMAT_PATTERN_ATTR);
         getAttributes().remove(DATE_FORMAT_ATTR);
     }
-    
+
     // Cause the month display to move to the current value, not what the 
     // use was looking at last time... 
     public void displayValue() {
-         
-        if(DEBUG) log("displayValue()"); //NOI18N
-        DropDown monthMenu = getMonthMenu(); 
-        DropDown yearMenu = getYearMenu(); 
-        Object value = getValue(); 
-        if(value == null) { 
-           if(DEBUG) log("Value is null"); //NOI18N
-           monthMenu.setValue(null);
-           yearMenu.setValue(null);    
+
+        if (DEBUG) {
+            log("displayValue()"); //NOI18N
         }
-        else if(value instanceof Date) {
-            if(DEBUG) log("Value is date"); //NOI18N
+
+        DropDown monthMenu = getMonthMenu();
+        DropDown yearMenu = getYearMenu();
+        Object value = getValue();
+        if (value == null) {
+            if (DEBUG) {
+                log("Value is null"); //NOI18N
+            }
+            monthMenu.setValue(null);
+            yearMenu.setValue(null);
+        } else if (value instanceof Date) {
+            if (DEBUG) {
+                log("Value is date"); //NOI18N
+            }
             Calendar calendar = getCalendar();
-            calendar.setTime((Date)value);
-            int newMonth = calendar.get(Calendar.MONTH) + 1; 
-            if(DEBUG) log("new month value " + String.valueOf(newMonth));          //NOI18N
-            monthMenu.setValue(new Integer(newMonth)); 
-            
+            calendar.setTime((Date) value);
+            int newMonth = calendar.get(Calendar.MONTH) + 1;
+            if (DEBUG) {
+                log("new month value " + String.valueOf(newMonth));          //NOI18N
+            }
+            monthMenu.setValue(new Integer(newMonth));
+
             int newYear = calendar.get(Calendar.YEAR);
-            if(DEBUG) log("new year value " + String.valueOf(newYear));//NOI18N
-            yearMenu.setValue(new Integer(newYear)); 
-        }
-       else if(value instanceof ScheduledEvent) {
-            if(DEBUG) log("Value is ScheduledEvent");//NOI18N
-            Date date = ((ScheduledEvent)value).getStartTime();
-            if(date != null) {
+            if (DEBUG) {
+                log("new year value " + String.valueOf(newYear));//NOI18N
+            }
+            yearMenu.setValue(new Integer(newYear));
+        } else if (value instanceof ScheduledEvent) {
+            if (DEBUG) {
+                log("Value is ScheduledEvent");//NOI18N
+            }
+            Date date = ((ScheduledEvent) value).getStartTime();
+            if (date != null) {
                 Calendar calendar = getCalendar();
                 calendar.setTime(date);
                 int newMonth = calendar.get(Calendar.MONTH) + 1;
-                if(DEBUG) log("new month value " + String.valueOf(newMonth));//NOI18N
+                if (DEBUG) {
+                    log("new month value " + String.valueOf(newMonth));//NOI18N
+                }
                 monthMenu.setValue(new Integer(newMonth));
-                
+
                 int newYear = calendar.get(Calendar.YEAR);
-                if(DEBUG) log("new year value " + String.valueOf(newYear));//NOI18N
+                if (DEBUG) {
+                    log("new year value " + String.valueOf(newYear));//NOI18N
+                }
                 yearMenu.setValue(new Integer(newYear));
             } else {
-                if(DEBUG) log("Value is null");//NOI18N
+                if (DEBUG) {
+                    log("Value is null");//NOI18N
+                }
                 monthMenu.setValue(null);
                 yearMenu.setValue(null);
-            }           
-       }
-        monthMenu.setSubmittedValue(null);   
-        yearMenu.setSubmittedValue(null);          
+            }
+        }
+        monthMenu.setSubmittedValue(null);
+        yearMenu.setSubmittedValue(null);
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * <p>Flag determining whether the component should be rendered in its
      * popup version (as used by Calendar), or in the
      * inline version used by Scheduler.</p>
      */
-    @Property(name="popup", displayName="Popup Version", category="Behavior")
+    @Property(name = "popup", displayName = "Popup Version", category = "Behavior")
     private boolean popup = false;
     private boolean popup_set = false;
 
@@ -763,7 +816,8 @@ public class CalendarMonth extends UIOutput implements NamingContainer {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.popup = ((Boolean) _values[1]).booleanValue();
@@ -773,6 +827,7 @@ public class CalendarMonth extends UIOutput implements NamingContainer {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[3];
         _values[0] = super.saveState(_context);
@@ -783,66 +838,71 @@ public class CalendarMonth extends UIOutput implements NamingContainer {
 }
 
 class PreviousMonthListener implements ActionListener, Serializable {
-    
+
+    private static final long serialVersionUID = 214378156127977786L;
+
     public void processAction(ActionEvent event) {
-        
+
         FacesContext.getCurrentInstance().renderResponse();
         UIComponent comp = event.getComponent();
         comp = comp.getParent();
-        if(comp instanceof CalendarMonth) {
-            ((CalendarMonth)comp).showPreviousMonth(); 
+        if (comp instanceof CalendarMonth) {
+            ((CalendarMonth) comp).showPreviousMonth();
         }
-    }   
+    }
 }
 
 class NextMonthListener implements ActionListener, Serializable {
-    
+
+    private static final long serialVersionUID = -6726256680698229686L;
+
     public void processAction(ActionEvent event) {
-        
+
         FacesContext.getCurrentInstance().renderResponse();
         UIComponent comp = event.getComponent();
         comp = comp.getParent();
-        if(comp instanceof CalendarMonth) {
-            ((CalendarMonth)comp).showNextMonth();
-        }
-    }   
-}
-
-/*
-class MonthListener implements ValueChangeListener, Serializable {
-    
-    public void processValueChange(ValueChangeEvent event) {
-           
-        FacesContext.getCurrentInstance().renderResponse();
-        Object value = event.getNewValue();
-        System.out.println(value.toString());
-        if(value != null && value instanceof Integer) {
-            int newvalue = ((Integer)value).intValue() -1;
-            UIComponent comp = event.getComponent();
-            comp = comp.getParent();
-            if(comp instanceof CalendarMonth) {
-                ((CalendarMonth)comp).setDisplayDateField(Calendar.MONTH, newvalue);
-            }
+        if (comp instanceof CalendarMonth) {
+            ((CalendarMonth) comp).showNextMonth();
         }
     }
+}
+
+//TODO Determine if this should be implemented, or removed
+/*
+class MonthListener implements ValueChangeListener, Serializable {
+
+public void processValueChange(ValueChangeEvent event) {
+
+FacesContext.getCurrentInstance().renderResponse();
+Object value = event.getNewValue();
+System.out.println(value.toString());
+if(value != null && value instanceof Integer) {
+int newvalue = ((Integer)value).intValue() -1;
+UIComponent comp = event.getComponent();
+comp = comp.getParent();
+if(comp instanceof CalendarMonth) {
+((CalendarMonth)comp).setDisplayDateField(Calendar.MONTH, newvalue);
+}
+}
+}
 } 
 
 class YearListener implements ValueChangeListener, Serializable {
-    
-    public void processValueChange(ValueChangeEvent event) {
-        
-        FacesContext.getCurrentInstance().renderResponse();
-        Object value = event.getNewValue();
-        System.out.println(value.toString());
-        if(value != null && value instanceof Integer) {
-            int newvalue = ((Integer)value).intValue();
-            UIComponent comp = event.getComponent();
-            comp = comp.getParent();
-            if(comp instanceof CalendarMonth) {
-                ((CalendarMonth)comp).setDisplayDateField(Calendar.YEAR, newvalue);
-            }
-        }
-    }   
+
+public void processValueChange(ValueChangeEvent event) {
+
+FacesContext.getCurrentInstance().renderResponse();
+Object value = event.getNewValue();
+System.out.println(value.toString());
+if(value != null && value instanceof Integer) {
+int newvalue = ((Integer)value).intValue();
+UIComponent comp = event.getComponent();
+comp = comp.getParent();
+if(comp instanceof CalendarMonth) {
+((CalendarMonth)comp).setDisplayDateField(Calendar.YEAR, newvalue);
+}
+}
+}   
 }
 
  */
