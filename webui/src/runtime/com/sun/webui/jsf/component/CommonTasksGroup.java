@@ -24,8 +24,6 @@ package com.sun.webui.jsf.component;
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
 import javax.faces.context.FacesContext;
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIComponentBase; /* For javadoc */
 import javax.faces.component.NamingContainer;
 import javax.el.ValueExpression;
 
@@ -33,22 +31,20 @@ import javax.el.ValueExpression;
  * The CommonTasksGroup component is used to group related CommonTasks
  * in a CommonTasksSection component.
  */
-@Component(
-        type="com.sun.webui.jsf.CommonTasksGroup",
-        family="com.sun.webui.jsf.CommonTasksGroup",
-        displayName="Common Tasks Group",
-        instanceName="commonTasksGroup",
-        tagName="commonTasksGroup")
-        
-public class CommonTasksGroup  extends javax.faces.component.UIComponentBase  implements 
-        NamingContainer{
-    
+@Component(type = "com.sun.webui.jsf.CommonTasksGroup",
+family = "com.sun.webui.jsf.CommonTasksGroup",
+displayName = "Common Tasks Group",
+instanceName = "commonTasksGroup",
+tagName = "commonTasksGroup")
+public class CommonTasksGroup extends javax.faces.component.UIComponentBase implements
+        NamingContainer {
+
     /** Creates a new instance of CommonTaskGroup */
     public CommonTasksGroup() {
         super();
         setRendererType("com.sun.webui.jsf.CommonTasksGroup");
     }
-    
+
     /**
      * <p>Return the family for this component.</p>
      */
@@ -59,12 +55,12 @@ public class CommonTasksGroup  extends javax.faces.component.UIComponentBase  im
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -76,16 +72,16 @@ public class CommonTasksGroup  extends javax.faces.component.UIComponentBase  im
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
-
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
-     */    
-    @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
+     */
+    @Property(name = "style", displayName = "CSS Style(s)", category = "Appearance", editorClassName = "com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
@@ -111,12 +107,11 @@ public class CommonTasksGroup  extends javax.faces.component.UIComponentBase  im
     public void setStyle(String style) {
         this.style = style;
     }
-
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
-     */    
-    @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
+     */
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)", category = "Appearance", editorClassName = "com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
@@ -142,11 +137,12 @@ public class CommonTasksGroup  extends javax.faces.component.UIComponentBase  im
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-
     /**
      * <p>The title text to be displayed for the common tasks group.</p>
-     */    
-    @Property(name="title", displayName="Common Tasks Group Text", category="Appearance", isDefault=true, editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+     */
+    @Property(name = "title", displayName = "Common Tasks Group Text",
+    category = "Appearance", isDefault = true,
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String title = null;
 
     /**
@@ -170,7 +166,6 @@ public class CommonTasksGroup  extends javax.faces.component.UIComponentBase  im
     public void setTitle(String title) {
         this.title = title;
     }
-
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -180,7 +175,7 @@ public class CommonTasksGroup  extends javax.faces.component.UIComponentBase  im
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @Property(name="visible", displayName="Visible", category="Behavior")
+    @Property(name = "visible", displayName = "Visible", category = "Behavior")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -227,7 +222,8 @@ public class CommonTasksGroup  extends javax.faces.component.UIComponentBase  im
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.style = (String) _values[1];
@@ -240,6 +236,7 @@ public class CommonTasksGroup  extends javax.faces.component.UIComponentBase  im
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[6];
         _values[0] = super.saveState(_context);

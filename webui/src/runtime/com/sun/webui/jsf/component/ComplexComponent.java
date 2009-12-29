@@ -20,7 +20,8 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 package com.sun.webui.jsf.component;
-import javax.faces.context.FacesContext; 
+
+import javax.faces.context.FacesContext;
 
 /**
  * <p>Most components whose renderers write more than one HTML 
@@ -31,6 +32,7 @@ import javax.faces.context.FacesContext;
  * focus, and to set the <code>for</code>attribute on labels.</p>
  */
 public interface ComplexComponent {
+
     /**
      * Implement this method so that it returns the DOM ID of the 
      * HTML element which should receive focus when the component 
@@ -43,8 +45,8 @@ public interface ComplexComponent {
      * @see #getLabeledElementId
      * @see #getFocusElementId
      */
-     public String getPrimaryElementID(FacesContext context);
-     
+    public String getPrimaryElementID(FacesContext context);
+
     /**
      * Returns the absolute ID of an HTML element suitable for use as
      * the value of an HTML LABEL element's <code>for</code> attribute.
@@ -59,7 +61,7 @@ public interface ComplexComponent {
      * @return An abolute id suitable for the value of an HTML LABEL element's
      * <code>for</code> attribute.
      */
-     public String getLabeledElementId(FacesContext context);
+    public String getLabeledElementId(FacesContext context);
 
     /**
      * Returns the id of an HTML element suitable to

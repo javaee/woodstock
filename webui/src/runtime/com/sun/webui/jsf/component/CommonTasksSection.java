@@ -24,50 +24,40 @@ package com.sun.webui.jsf.component;
 import java.util.List;
 import java.util.Iterator;
 import java.beans.Beans;
-
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIComponentBase; /* For javadoc */
 import javax.faces.component.NamingContainer;
 import javax.faces.context.FacesContext;
-
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.jsf.util.ComponentUtilities;
-
-import com.sun.webui.jsf.component.CommonTasksGroup;
-import com.sun.webui.jsf.component.CommonTask;
 import javax.el.ValueExpression;
 
 /**
  * The CommonTasksSection component is used to present a number
  * of tasks that might commonly be performed by the user.
  */
-@Component(
-        type="com.sun.webui.jsf.CommonTasksSection",
-        family="com.sun.webui.jsf.CommonTasksSection",
-        displayName="Common Tasks Section",
-        instanceName="commonTasksSection",
-        tagName="commonTasksSection")
-public class CommonTasksSection extends javax.faces.component.UIComponentBase implements 
-        NamingContainer{
-    
+@Component(type = "com.sun.webui.jsf.CommonTasksSection",
+family = "com.sun.webui.jsf.CommonTasksSection",
+displayName = "Common Tasks Section",
+instanceName = "commonTasksSection",
+tagName = "commonTasksSection")
+public class CommonTasksSection extends javax.faces.component.UIComponentBase implements
+        NamingContainer {
+
     /**
      *Inline help text facet
      */
     public static final String HELP_INLINE_FACET = "help";
-    
     public static final String SECTION_HELP = "commonTasks.sectionHelp";
-
     private UIComponent component;
- 
+
     /** Creates a new instance of CommonTasksSection */
     public CommonTasksSection() {
         super();
         setRendererType("com.sun.webui.jsf.CommonTasksSection");
-       
+
     }
 
     /**
@@ -80,12 +70,11 @@ public class CommonTasksSection extends javax.faces.component.UIComponentBase im
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
     public void setId(String id) {
         super.setId(id);
     }
@@ -97,15 +86,15 @@ public class CommonTasksSection extends javax.faces.component.UIComponentBase im
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
-
     /**
      * <p>The help text to be displayed for the common tasks section.</p>
      */
-    @Property(name="helpText", displayName="Inline help to be displayed", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "helpText", displayName = "Inline help to be displayed", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String helpText = null;
 
     /**
@@ -129,12 +118,12 @@ public class CommonTasksSection extends javax.faces.component.UIComponentBase im
     public void setHelpText(String helpText) {
         this.helpText = helpText;
     }
-
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
+    @Property(name = "style", displayName = "CSS Style(s)", category = "Appearance",
+    editorClassName = "com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
@@ -160,12 +149,12 @@ public class CommonTasksSection extends javax.faces.component.UIComponentBase im
     public void setStyle(String style) {
         this.style = style;
     }
-
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
@@ -191,11 +180,11 @@ public class CommonTasksSection extends javax.faces.component.UIComponentBase im
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-
     /**
      * <p>The title text to be displayed for the common tasks section.</p>
      */
-    @Property(name="title", displayName="Common Tasks section Text", category="Appearance", isDefault=true, editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "title", displayName = "Common Tasks section Text", category = "Appearance",
+    isDefault = true, editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String title = null;
 
     /**
@@ -219,7 +208,6 @@ public class CommonTasksSection extends javax.faces.component.UIComponentBase im
     public void setTitle(String title) {
         this.title = title;
     }
-
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -229,7 +217,7 @@ public class CommonTasksSection extends javax.faces.component.UIComponentBase im
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @Property(name="visible", displayName="Visible", category="Behavior")
+    @Property(name = "visible", displayName = "Visible", category = "Behavior")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -272,12 +260,12 @@ public class CommonTasksSection extends javax.faces.component.UIComponentBase im
         this.visible = visible;
         this.visible_set = true;
     }
-
     /**
      * <p>Specify the number of task columns to display in the common tasks section.
      * </p>
      */
-    @Property(name="columns", displayName="columns" , category="Appearance", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "columns", displayName = "columns", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int columns = Integer.MIN_VALUE;
     private boolean columns_set = false;
 
@@ -313,7 +301,8 @@ public class CommonTasksSection extends javax.faces.component.UIComponentBase im
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.helpText = (String) _values[1];
@@ -329,6 +318,7 @@ public class CommonTasksSection extends javax.faces.component.UIComponentBase im
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[9];
         _values[0] = super.saveState(_context);
@@ -342,7 +332,7 @@ public class CommonTasksSection extends javax.faces.component.UIComponentBase im
         _values[8] = this.columns_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
-    
+
     /**
      * Return the total number of {@link com.sun.webui.jsf.component.CommonTask}s that are present in a
      * {@link CommonTasksSection}</br>
@@ -352,22 +342,22 @@ public class CommonTasksSection extends javax.faces.component.UIComponentBase im
      *@return - number of visible commonTask elements on the page
      */
     public int getCommonTaskCount() {
-         int totalCount = 0;
-         int tmp = 0;
-         CommonTasksGroup ctg;
-         List children = this.getChildren();
-        
-         if (children.size() > 0) {
-            for (int i=0; i<children.size(); i++) {
+        int totalCount = 0;
+        int tmp = 0;
+        CommonTasksGroup ctg;
+        List children = this.getChildren();
+
+        if (children.size() > 0) {
+            for (int i = 0; i < children.size(); i++) {
                 if (children.get(i) instanceof CommonTasksGroup) {
-                    ctg = (CommonTasksGroup)children.get(i);
-                    
+                    ctg = (CommonTasksGroup) children.get(i);
+
                     // Get the number of commonTask elements for each commonTasksGroup
                     // that are to be rendered and are visible.
                     tmp = getSingleGroupTaskCount(ctg);
                     if (ctg.isRendered() && ctg.isVisible()) {
-                       totalCount +=tmp;
-                    } 
+                        totalCount += tmp;
+                    }
                 } else {
                     // If some other component is put as a child of the 
                     // commonTasksSection, we just take it as a single component
@@ -389,40 +379,38 @@ public class CommonTasksSection extends javax.faces.component.UIComponentBase im
      * @return An help component to be displayed below the title.
      */
     public UIComponent getHelp(FacesContext context) {
-         component = this.getFacet(HELP_INLINE_FACET);
-         
-         if (component != null) {
-             return component;
-         }
-         
-         Theme theme = ThemeUtilities.getTheme(context);
-         HelpInline hil;
-         UIComponent component = ComponentUtilities.getPrivateFacet(this, 
-                 HELP_INLINE_FACET, true);
-         
-         if (component == null) {
-             hil = new HelpInline();
-             hil.setType("page");
-             hil.setId(ComponentUtilities.createPrivateFacetId(this,
-		HELP_INLINE_FACET));
-             ComponentUtilities.putPrivateFacet(this, HELP_INLINE_FACET, hil);
-             component = hil;
-         }
-         
-         try {
-             hil = (HelpInline)component;
-             if (getHelpText() == null) {
+        component = this.getFacet(HELP_INLINE_FACET);
+
+        if (component != null) {
+            return component;
+        }
+
+        Theme theme = ThemeUtilities.getTheme(context);
+        HelpInline hil;
+        UIComponent component = ComponentUtilities.getPrivateFacet(this,
+                HELP_INLINE_FACET, true);
+
+        if (component == null) {
+            hil = new HelpInline();
+            hil.setType("page");
+            hil.setId(ComponentUtilities.createPrivateFacetId(this,
+                    HELP_INLINE_FACET));
+            ComponentUtilities.putPrivateFacet(this, HELP_INLINE_FACET, hil);
+            component = hil;
+        }
+
+        try {
+            hil = (HelpInline) component;
+            if (getHelpText() == null) {
                 hil.setText(theme.getMessage(SECTION_HELP));
-             } else { 
-                 hil.setText(getHelpText());
-             }
-         } catch (ClassCastException e) {
-             
-         }        
-         return component;
+            } else {
+                hil.setText(getHelpText());
+            }
+        } catch (ClassCastException e) {
+        }
+        return component;
     }
-    
-    
+
     /**
      * Returns the number of {@link commonTask} components contained in a {@link commonTasksGroup}. </br>
      * Check whether atleast one of the {@link commonTask} for a particular {@link commonTasksGroup} </br>
@@ -432,28 +420,27 @@ public class CommonTasksSection extends javax.faces.component.UIComponentBase im
      * @param - The commonTasksGroup for which the number of commonTasks should be calculated
      * @return - The number of visible commonTask components. 
      */
-    
     private int getSingleGroupTaskCount(CommonTasksGroup group) {
-       CommonTask task;
-       int count = 0;
-       boolean flag = false;
+        CommonTask task;
+        int count = 0;
+        boolean flag = false;
         Iterator it = group.getChildren().iterator();
         while (it.hasNext()) {
-            component = (UIComponent)it.next();
+            component = (UIComponent) it.next();
             if (component.isRendered()) {
                 count++;
                 flag = true;
             }
-            
+
             if (component instanceof CommonTask) {
-                if(((CommonTask)component).isVisible()) {
+                if (((CommonTask) component).isVisible()) {
                     flag = true;
                 }
-                
+
             }
-            
+
         }
-        
+
         if (!Beans.isDesignTime()) {
             if (!flag) {
                 group.setRendered(false);

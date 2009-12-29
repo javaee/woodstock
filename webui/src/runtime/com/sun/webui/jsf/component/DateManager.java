@@ -21,25 +21,23 @@
  */
 package com.sun.webui.jsf.component;
 
-import com.sun.faces.annotation.Component;
-import com.sun.faces.annotation.Property;
-import java.text.DateFormat; 
-import java.util.Date; 
-import java.util.TimeZone; 
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 /**
  *
  * @author avk
  */
 public interface DateManager {
-    
-    public DateFormat getDateFormat(); 
-    
+
+    public DateFormat getDateFormat();
+
     public String getDateFormatPattern();
-    
+
     public TimeZone getTimeZone();
-    
+
     public Date getFirstAvailableDate();
-    
+
     public Date getLastAvailableDate();
 }

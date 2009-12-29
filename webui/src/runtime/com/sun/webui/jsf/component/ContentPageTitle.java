@@ -24,7 +24,6 @@ package com.sun.webui.jsf.component;
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
 import com.sun.webui.jsf.util.ComponentUtilities;
-
 import javax.el.ValueExpression;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
@@ -34,13 +33,14 @@ import javax.faces.context.FacesContext;
 /**
  * The ContentPageTitle component is used to display a page title.
  */
-@Component(type="com.sun.webui.jsf.ContentPageTitle", family="com.sun.webui.jsf.ContentPageTitle", displayName="Content Area", instanceName="contentArea", tagName="contentPageTitle",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_content_page_title",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_content_page_title_props")
-public class ContentPageTitle extends UIComponentBase 
+@Component(type = "com.sun.webui.jsf.ContentPageTitle", family = "com.sun.webui.jsf.ContentPageTitle",
+displayName = "Content Area", instanceName = "contentArea", tagName = "contentPageTitle",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_content_page_title",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_content_page_title_props")
+public class ContentPageTitle extends UIComponentBase
         implements NamingContainer {
-    public static final String CONTENT_BOTTOM_SEPARATOR = 
-            "pageSeparator"; //NOI18N
+
+    public static final String CONTENT_BOTTOM_SEPARATOR = "pageSeparator"; //NOI18N
 
     /**
      * Default Constructor.
@@ -72,7 +72,7 @@ public class ContentPageTitle extends UIComponentBase
      */
     public UIComponent getBottomPageSeparator() {
         // First check if a buttons facet was defined 
-        UIComponent bottomFacet =  getFacet(CONTENT_BOTTOM_SEPARATOR);
+        UIComponent bottomFacet = getFacet(CONTENT_BOTTOM_SEPARATOR);
         if (bottomFacet != null) {
             return bottomFacet;
         }
@@ -83,17 +83,17 @@ public class ContentPageTitle extends UIComponentBase
         bottomFacet.setParent(this);
 
         return bottomFacet;
-    }    
+    }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -105,15 +105,16 @@ public class ContentPageTitle extends UIComponentBase
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
-
     /**
      * <p>The help text to display just below the page title.</p>
      */
-    @Property(name="helpText", displayName="Help Text", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "helpText", displayName = "Help Text", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String helpText = null;
 
     /**
@@ -137,7 +138,6 @@ public class ContentPageTitle extends UIComponentBase
     public void setHelpText(String helpText) {
         this.helpText = helpText;
     }
-
     /**
      * <p>Indicates that the page title separator should be displayed, when set 
      * to true. The separator is a thin line that displays by default when 
@@ -145,7 +145,7 @@ public class ContentPageTitle extends UIComponentBase
      * should not be displayed. This attribute also determines whether to 
      * display the pageSeparator facet.</p>
      */
-    @Property(name="separator", displayName="Separator")
+    @Property(name = "separator", displayName = "Separator")
     private boolean separator = false;
     private boolean separator_set = false;
 
@@ -184,12 +184,12 @@ public class ContentPageTitle extends UIComponentBase
         this.separator = separator;
         this.separator_set = true;
     }
-
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
+    @Property(name = "style", displayName = "CSS Style(s)", category = "Appearance",
+    editorClassName = "com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
@@ -215,12 +215,12 @@ public class ContentPageTitle extends UIComponentBase
     public void setStyle(String style) {
         this.style = style;
     }
-
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
@@ -246,11 +246,11 @@ public class ContentPageTitle extends UIComponentBase
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-
     /**
      * <p>The text to display as the page title.</p>
      */
-    @Property(name="title", displayName="Title", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "title", displayName = "Title", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String title = null;
 
     /**
@@ -274,7 +274,6 @@ public class ContentPageTitle extends UIComponentBase
     public void setTitle(String title) {
         this.title = title;
     }
-
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -284,7 +283,7 @@ public class ContentPageTitle extends UIComponentBase
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @Property(name="visible", displayName="Visible")
+    @Property(name = "visible", displayName = "Visible")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -331,7 +330,8 @@ public class ContentPageTitle extends UIComponentBase
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.helpText = (String) _values[1];
@@ -347,6 +347,7 @@ public class ContentPageTitle extends UIComponentBase
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[9];
         _values[0] = super.saveState(_context);

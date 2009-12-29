@@ -21,84 +21,69 @@
  */
 package com.sun.webui.jsf.component;
 
-
-import java.util.List;
-import java.util.Map;
-import java.beans.Beans;
-
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIComponentBase; /* For javadoc */
 import javax.faces.component.NamingContainer;
-import javax.faces.component.UICommand;
 import javax.faces.context.FacesContext;
-
-
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-
 import com.sun.webui.theme.Theme;
-import com.sun.webui.jsf.theme.ThemeStyles;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.jsf.util.ComponentUtilities;
-
-import com.sun.webui.jsf.component.StaticText;
-import com.sun.webui.jsf.component.Hyperlink;
-import com.sun.webui.jsf.component.ImageComponent;
-
 import javax.el.ValueExpression;
-
 
 /**
  * The CommonTask component is used to greate a single task within
  * a CommonTasksSection or CommonTasksGroup component.
  */
-@Component(
-        type="com.sun.webui.jsf.CommonTask",
-        family="com.sun.webui.jsf.CommonTask",
-        displayName="Common Task",
-        instanceName="commonTask",
-        tagName="commonTask")
-public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand 
-        implements NamingContainer{
+@Component(type = "com.sun.webui.jsf.CommonTask",
+family = "com.sun.webui.jsf.CommonTask",
+displayName = "Common Task",
+instanceName = "commonTask",
+tagName = "commonTask")
+public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
+        implements NamingContainer {
+
     /**
      *Common Task facet identifier
      */
-    public static final String COMMONTASK_FACET="taskAction";
-    
+    public static final String COMMONTASK_FACET = "taskAction";
     /**
      *Info panel facet identifier
      */
-    public static final String INFOPANEL_FACET="infoPanel";
-    
+    public static final String INFOPANEL_FACET = "infoPanel";
     /**
      *Info link facet identifier
      */
-    public static final String INFOLINK_FACET="infoLink";
-    
+    public static final String INFOLINK_FACET = "infoLink";
+
     /** Creates a new instance of Task */
     public CommonTask() {
         super();
         setRendererType("com.sun.webui.jsf.CommonTask");
     }
-    
+
     /**
      * <p>Return the family for this component.</p>
      */
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.CommonTask";
     }
-    
+
     // Hide value
-    @Property(name="value", isHidden=true, isAttribute=false)
+    @Property(name = "value", isHidden = true, isAttribute = false)
+    @Override
     public Object getValue() {
         return super.getValue();
     }
+
     /**
      * <p>Return the <code>ValueExpression</code> stored for the
      * specified name (if any), respecting any property aliases.</p>
      *
      * @param name Name of value binding expression to retrieve
      */
+    @Override
     public ValueExpression getValueExpression(String name) {
         if (name.equals("text")) {
             return super.getValueExpression("value");
@@ -114,7 +99,8 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
      * @param name    Name of value binding to set
      * @param binding ValueExpression to set, or null to remove
      */
-    public void setValueExpression(String name,ValueExpression binding) {
+    @Override
+    public void setValueExpression(String name, ValueExpression binding) {
         if (name.equals("text")) {
             super.setValueExpression("value", binding);
             return;
@@ -123,7 +109,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     // disabled
-    @Property(name="disabled", displayName="Disabled", isHidden=true, isAttribute=false)
+    @Property(name = "disabled", displayName = "Disabled", isHidden = true, isAttribute = false)
     private boolean disabled = false;
     private boolean disabled_set = false;
 
@@ -155,13 +141,13 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
         this.disabled = disabled;
         this.disabled_set = true;
     }
-
     /**
      * <p>Specify a theme key for an image to be displayed in front of the text for
      * the task. The key <code>CTS_OVERVIEW</code> will generate 
      * an image that can be used to mark tasks that are for overview information about the task</p>
      */
-    @Property(name="icon", displayName="icon", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.ThemeIconsEditor")
+    @Property(name = "icon", displayName = "icon", category = "Appearance",
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.ThemeIconsEditor")
     private String icon = null;
 
     /**
@@ -181,7 +167,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-    * <p>Specify a theme key for an image to be displayed in front of the text for
+     * <p>Specify a theme key for an image to be displayed in front of the text for
      * the task. The key <code>CTS_OVERVIEW</code> will generate 
      * an image that can be used to mark tasks that are for overview information about the task</p>
      * @see #getIcon()
@@ -189,19 +175,19 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     public void setIcon(String icon) {
         this.icon = icon;
     }
-
     /**
      * <p>Specify the height in pixels of the image that is specified with the imageUrl attribute
      * </p>
-     */    
-    @Property(name="imageHeight", displayName="imageHeight" , category="Appearance", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+     */
+    @Property(name = "imageHeight", displayName = "imageHeight", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int imageHeight = Integer.MIN_VALUE;
     private boolean imageHeight_set = false;
 
     /**
      * <p>Specify the height in pixels of the image that is specified with the imageUrl attribute
      * </p>
-     */  
+     */
     public int getImageHeight() {
         if (this.imageHeight_set) {
             return this.imageHeight;
@@ -227,13 +213,13 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
         this.imageHeight = imageHeight;
         this.imageHeight_set = true;
     }
-
     /**
      * <p>The path to an image to be displayed in front of the text 
      * for the task. If both icon and imageUrl are provided, the icon takes
      * precedence over the path specified for the image.</p>
      */
-    @Property(name="imageUrl", displayName="imageURL", category="Appearance", editorClassName="com.sun.rave.propertyeditors.ImageUrlPropertyEditor")
+    @Property(name = "imageUrl", displayName = "imageURL", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.ImageUrlPropertyEditor")
     private String imageUrl = null;
 
     /**
@@ -261,12 +247,12 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-
     /**
      * <p>Specify the width in pixels of the image that is specified with the imageUrl attribute.
      * </p>
-     */    
-    @Property(name="imageWidth", displayName="imageWidth", category="Appearance", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+     */
+    @Property(name = "imageWidth", displayName = "imageWidth", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int imageWidth = Integer.MIN_VALUE;
     private boolean imageWidth_set = false;
 
@@ -301,7 +287,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     // immediate
-    @Property(name="immediate", displayName="Immediate", isHidden=true, isAttribute=false)
+    @Property(name = "immediate", displayName = "Immediate", isHidden = true, isAttribute = false)
     private boolean immediate = false;
     private boolean immediate_set = false;
 
@@ -310,6 +296,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
      * immediately (in Apply Request Values phase) rather than waiting until
      * Invoke Application phase.
      */
+    @Override
     public boolean isImmediate() {
         if (this.immediate_set) {
             return this.immediate;
@@ -331,17 +318,18 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
      * immediately (in Apply Request Values phase) rather than waiting until
      * Invoke Application phase.
      */
+    @Override
     public void setImmediate(boolean immediate) {
         this.immediate = immediate;
         this.immediate_set = true;
     }
-
     /**
      * <p>Specify the text for the link that is displayed at the bottom of the task's information
      * panel. 
      * </p>
-     */    
-    @Property(name="infoLinkText", displayName="infoLinkText", category="Appearance",  editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+     */
+    @Property(name = "infoLinkText", displayName = "infoLinkText", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String infoLinkText = null;
 
     /**
@@ -369,20 +357,20 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     public void setInfoLinkText(String infoLinkText) {
         this.infoLinkText = infoLinkText;
     }
-
     /**
      * <p>Specify the URL for the link that is displayed at the bottom of the task's 
      * information panel.
      * </p>
-     */    
-    @Property(name="infoLinkUrl", displayName="infoLinkUrl", category="Behavior", editorClassName="com.sun.webui.jsf.component.propertyeditors.SunWebUrlPropertyEditor")
+     */
+    @Property(name = "infoLinkUrl", displayName = "infoLinkUrl", category = "Behavior",
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.SunWebUrlPropertyEditor")
     private String infoLinkUrl = null;
 
     /**
      * <p>Specify the URL for the link that is displayed at the bottom of the task's 
      * information panel.
      * </p>
-     */    
+     */
     public String getInfoLinkUrl() {
         if (this.infoLinkUrl != null) {
             return this.infoLinkUrl;
@@ -403,11 +391,11 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     public void setInfoLinkUrl(String infoLinkUrl) {
         this.infoLinkUrl = infoLinkUrl;
     }
-
     /**
      * <p>Specify the text to be displayed in the information panel for this task. </p>
      */
-    @Property(name="infoText", displayName="infoText", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "infoText", displayName = "infoText", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String infoText = null;
 
     /**
@@ -431,11 +419,11 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     public void setInfoText(String infoText) {
         this.infoText = infoText;
     }
-
     /**
      * <p>Specify the title text to be displayed in the information panel for this task. </p>
      */
-    @Property(name="infoTitle", displayName="infoTitle", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "infoTitle", displayName = "infoTitle", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String infoTitle = null;
 
     /**
@@ -459,11 +447,11 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     public void setInfoTitle(String infoTitle) {
         this.infoTitle = infoTitle;
     }
-
     /**
      * <p>Scripting code executed when this element loses focus.</p>
-     */    
-    @Property(name="onBlur", displayName="Blur Script",category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+     */
+    @Property(name = "onBlur", displayName = "Blur Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onBlur = null;
 
     /**
@@ -487,12 +475,12 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     public void setOnBlur(String onBlur) {
         this.onBlur = onBlur;
     }
-
     /**
      * <p>Scripting code executed when a mouse click
      * occurs over this component.</p>
-     */    
-    @Property(name="onClick", displayName="Click Script",category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+     */
+    @Property(name = "onClick", displayName = "Click Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onClick = null;
 
     /**
@@ -518,12 +506,12 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     public void setOnClick(String onClick) {
         this.onClick = onClick;
     }
-
     /**
      * <p>Scripting code executed when a mouse double click
      * occurs over this component.</p>
      */
-    @Property(name="onDblClick", displayName="Double Click Script",category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onDblClick", displayName = "Double Click Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onDblClick = null;
 
     /**
@@ -549,13 +537,13 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     public void setOnDblClick(String onDblClick) {
         this.onDblClick = onDblClick;
     }
-
     /**
      * <p>Scripting code executed when this component  receives focus. An
      * element receives focus when the user selects the element by pressing
      * the tab key or clicking the mouse.</p>
-     */        
-    @Property(name="onFocus", displayName="Focus Script",category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+     */
+    @Property(name = "onFocus", displayName = "Focus Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onFocus = null;
 
     /**
@@ -583,12 +571,12 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     public void setOnFocus(String onFocus) {
         this.onFocus = onFocus;
     }
-
     /**
      * <p>Scripting code executed when the user presses down on a key while the
      * component has focus.</p>
      */
-    @Property(name="onKeyDown", displayName="Key Down Script",category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onKeyDown", displayName = "Key Down Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyDown = null;
 
     /**
@@ -614,12 +602,12 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     public void setOnKeyDown(String onKeyDown) {
         this.onKeyDown = onKeyDown;
     }
-
     /**
      * <p>Scripting code executed when the user presses and releases a key while
      * the component has focus.</p>
      */
-    @Property(name="onKeyPress", displayName="Key Press Script",category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onKeyPress", displayName = "Key Press Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyPress = null;
 
     /**
@@ -645,12 +633,12 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     public void setOnKeyPress(String onKeyPress) {
         this.onKeyPress = onKeyPress;
     }
-
     /**
      * <p>Scripting code executed when the user releases a key while the
      * component has focus.</p>
      */
-    @Property(name="onKeyUp", displayName="Key Up Script",category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onKeyUp", displayName = "Key Up Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyUp = null;
 
     /**
@@ -676,12 +664,12 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     public void setOnKeyUp(String onKeyUp) {
         this.onKeyUp = onKeyUp;
     }
-
     /**
      * <p>Scripting code executed when the user presses a mouse button while the
      * mouse pointer is on the component.</p>
      */
-    @Property(name="onMouseDown", displayName="Mouse Down Script",category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseDown", displayName = "Mouse Down Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseDown = null;
 
     /**
@@ -707,12 +695,12 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     public void setOnMouseDown(String onMouseDown) {
         this.onMouseDown = onMouseDown;
     }
-
     /**
      * <p>Scripting code executed when the user moves the mouse pointer while
      * it is over the component.</p>
-     */    
-    @Property(name="onMouseMove", displayName="Mouse Move Script",category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+     */
+    @Property(name = "onMouseMove", displayName = "Mouse Move Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseMove = null;
 
     /**
@@ -738,11 +726,11 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     public void setOnMouseMove(String onMouseMove) {
         this.onMouseMove = onMouseMove;
     }
-
     /**
      * <p>Scripting code executed when the user moves the mouse pointer off this component.</p>
-     */    
-    @Property(name="onMouseOut", displayName="Mouse Out Script",category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+     */
+    @Property(name = "onMouseOut", displayName = "Mouse Out Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseOut = null;
 
     /**
@@ -766,12 +754,12 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     public void setOnMouseOut(String onMouseOut) {
         this.onMouseOut = onMouseOut;
     }
-
     /**
      * <p>Scripting code executed when the user moves the  mouse pointer into
      * the boundary of this component.</p>
      */
-    @Property(name="onMouseOver", displayName="Mouse In Script",category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseOver", displayName = "Mouse In Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseOver = null;
 
     /**
@@ -797,12 +785,12 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     public void setOnMouseOver(String onMouseOver) {
         this.onMouseOver = onMouseOver;
     }
-
     /**
      * <p>Scripting code executed when the user releases a mouse button while
      * the mouse pointer is on the component.</p>
-     */    
-    @Property(name="onMouseUp", displayName="Mouse Up Script",category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+     */
+    @Property(name = "onMouseUp", displayName = "Mouse Up Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseUp = null;
 
     /**
@@ -828,12 +816,12 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     public void setOnMouseUp(String onMouseUp) {
         this.onMouseUp = onMouseUp;
     }
-
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
-     */    
-    @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
+     */
+    @Property(name = "style", displayName = "CSS Style(s)", category = "Appearance",
+    editorClassName = "com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
@@ -859,12 +847,12 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     public void setStyle(String style) {
         this.style = style;
     }
-
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
-     */    
-    @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
+     */
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
@@ -890,14 +878,14 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-
     /**
      * <p>Position of this element in the tabbing order of the current document. 
      * Tabbing order determines the sequence in which elements receive 
      * focus when the tab key is pressed. The value must be an integer 
      * between 0 and 32767.</p>
-     */    
-    @Property(name="tabIndex", displayName="Tab Index", category="Accessibility", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+     */
+    @Property(name = "tabIndex", displayName = "Tab Index", category = "Accessibility",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int tabIndex = Integer.MIN_VALUE;
     private boolean tabIndex_set = false;
 
@@ -934,14 +922,14 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
         this.tabIndex = tabIndex;
         this.tabIndex_set = true;
     }
-
     /**
      * <p>The resource at the specified URL is displayed in the frame that is 
      * specified with the target attribute. Values such as "_blank" that are 
      * valid for the target attribute of a HTML anchor element are also valid 
      * for this attribute in this component</p>
-     */    
-    @Property(name="target", displayName="Target", category="Behavior", editorClassName="com.sun.webui.jsf.component.propertyeditors.FrameTargetsEditor")
+     */
+    @Property(name = "target", displayName = "Target", category = "Behavior",
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.FrameTargetsEditor")
     private String target = null;
 
     /**
@@ -975,7 +963,8 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     /**
      * <p>The text to be displayed for the task.</p>
      */
-    @Property(name="text", displayName="text", category="Appearance", isDefault=true, editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "text", displayName = "text", category = "Appearance", isDefault = true,
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     public Object getText() {
         return getValue();
     }
@@ -989,7 +978,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     // title
-    @Property(name="title", displayName="Title", isHidden=true, isAttribute=false)
+    @Property(name = "title", displayName = "Title", isHidden = true, isAttribute = false)
     private String title = null;
 
     /**
@@ -1012,13 +1001,13 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     public void setTitle(String title) {
         this.title = title;
     }
-
     /**
      * <p>Sets the value of the title attribute for the HTML element.
      * The specified text will display as a tooltip if the mouse cursor hovers 
      * over the HTML element.</p>
      */
-    @Property(name="toolTip", displayName="Tool Tip", category="Behavior", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "toolTip", displayName = "Tool Tip", category = "Behavior",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String toolTip = null;
 
     /**
@@ -1046,7 +1035,6 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     public void setToolTip(String toolTip) {
         this.toolTip = toolTip;
     }
-
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -1056,7 +1044,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @Property(name="visible", displayName="Visible", category="Behavior")
+    @Property(name = "visible", displayName = "Visible", category = "Behavior")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -1103,7 +1091,8 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.disabled = ((Boolean) _values[1]).booleanValue();
@@ -1146,6 +1135,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[36];
         _values[0] = super.saveState(_context);
@@ -1186,19 +1176,19 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
         _values[35] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
-   
-   /**
-    * Returns a component that represents the action element for the {@link CommonTask}.<br />
-    * When the user clicks on this action element, it takes him to the corresponding task.<br />
-    * In the default case, when no facet is specified,<br />
-    * an hyperlink is created, with the default styles <br />
-    * applied to it and is returned back to the invoking function.<br />
-    *
-    *@return - The commonTask action component.
-    *
-    */
+
+    /**
+     * Returns a component that represents the action element for the {@link CommonTask}.<br />
+     * When the user clicks on this action element, it takes him to the corresponding task.<br />
+     * In the default case, when no facet is specified,<br />
+     * an hyperlink is created, with the default styles <br />
+     * applied to it and is returned back to the invoking function.<br />
+     *
+     *@return - The commonTask action component.
+     *
+     */
     public UIComponent getTaskAction() {
-       
+
         UIComponent comp = getFacet(COMMONTASK_FACET);
         FacesContext context = FacesContext.getCurrentInstance();
         Theme theme = ThemeUtilities.getTheme(context);
@@ -1207,7 +1197,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
         }
         return null;
     }
-    
+
     /**
      * Checks whether a facet has been specified for the {@link com.sun.webui.jsf.component.Hyperlink}<br />
      * inside the info panel. If not, it checks whether the infoLinkUrl<br />
@@ -1219,35 +1209,35 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
      */
     public UIComponent getInfoLink() {
         UIComponent comp = getFacet(INFOLINK_FACET);
-        
+
         if (comp != null) {
             return comp;
-        }       
-        
-         comp = ComponentUtilities.getPrivateFacet(this, 
-         INFOLINK_FACET, true);
-        
-        
+        }
+
+        comp = ComponentUtilities.getPrivateFacet(this,
+                INFOLINK_FACET, true);
+
+
         if (getInfoLinkText() != null && getInfoLinkUrl() != null) {
-           if (comp == null) {
+            if (comp == null) {
                 Hyperlink link = new Hyperlink();
                 link.setId(ComponentUtilities.createPrivateFacetId(this, INFOLINK_FACET));
                 ComponentUtilities.putPrivateFacet(this, INFOLINK_FACET, link);
                 comp = link;
             }
-           
-           try {
-               Hyperlink link = (Hyperlink)comp;
+
+            try {
+                Hyperlink link = (Hyperlink) comp;
                 link.setUrl(getInfoLinkUrl());
                 link.setTarget("_blank");
                 link.setText(getInfoLinkText());
-           }catch (ClassCastException e) {
-               // The comp object did not contain a hyperlink.
-           }
+            } catch (ClassCastException e) {
+                // The comp object did not contain a hyperlink.
+            }
         }
         return comp;
     }
-    
+
     /**
      *Checks whether a facet has been specified for the infoPanel. 
      * TODO: Is it possible to create the default info panel here instead
