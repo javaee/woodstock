@@ -19,7 +19,6 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.faces;
 
 import com.sun.faces.annotation.Resolver;
@@ -114,27 +113,26 @@ import java.util.Arrays;
 @Resolver
 public class DataProviderELResolver extends ELResolver {
 
-    public static final String VALUE_KEY        = "value";       // NOI18N
+    public static final String VALUE_KEY = "value";       // NOI18N
     public static final String SELECT_ITEMS_KEY = "selectItems"; // NOI18N   
-    public static final String OPTIONS_KEY      = "options";     // NOI18N
-    public static final String STRING_LIST_KEY  = "stringList";  // NOI18N
-    public static final String ROWID_FKEY       = ":ROWID:";     // NOI18N
-    public static final String ROWKEY_FKEY      = ":ROWKEY:";    // NOI18N
-
+    public static final String OPTIONS_KEY = "options";     // NOI18N
+    public static final String STRING_LIST_KEY = "stringList";  // NOI18N
+    public static final String ROWID_FKEY = ":ROWID:";     // NOI18N
+    public static final String ROWKEY_FKEY = ":ROWKEY:";    // NOI18N
 
     /**
      * {@inheritDoc}
      */
     public Object getValue(ELContext context, Object base, Object property) {
-        
-        if(context == null) {
+
+        if (context == null) {
             throw new NullPointerException();
         }
-        
+
         Object result = null;
 
         if (base instanceof DataProvider) {
-            DataProvider provider = (DataProvider)base;
+            DataProvider provider = (DataProvider) base;
 
             if (VALUE_KEY.equals(property)) {
                 result = new ValueData(provider);
@@ -158,12 +156,12 @@ public class DataProviderELResolver extends ELResolver {
             }
 
         } else if (base instanceof ValueData) {
-            result = ((ValueData)base).getValue(property.toString());
+            result = ((ValueData) base).getValue(property.toString());
             context.setPropertyResolved(true);
             return result;
 
         } else if (base instanceof SelectItemsData) {
-            result = ((SelectItemsData)base).getSelectItems(property.toString());
+            result = ((SelectItemsData) base).getSelectItems(property.toString());
             context.setPropertyResolved(true);
             return result;
         }
@@ -175,13 +173,13 @@ public class DataProviderELResolver extends ELResolver {
      * {@inheritDoc}
      */
     public void setValue(ELContext context, Object base, Object property, Object value) {
-        
-        if(context == null) {
+
+        if (context == null) {
             throw new NullPointerException();
         }
 
         if (base instanceof ValueData) {
-            ((ValueData)base).setValue("" + property, value);
+            ((ValueData) base).setValue("" + property, value);
             context.setPropertyResolved(true);
         }
     }
@@ -190,13 +188,13 @@ public class DataProviderELResolver extends ELResolver {
      * {@inheritDoc}
      */
     public boolean isReadOnly(ELContext context, Object base, Object property) {
-        
-        if(context == null) {
+
+        if (context == null) {
             throw new NullPointerException();
         }
-        
+
         if (base instanceof ValueData) {
-            boolean result = ((ValueData)base).isReadOnly("" + property);
+            boolean result = ((ValueData) base).isReadOnly("" + property);
             context.setPropertyResolved(true);
             return result;
         }
@@ -212,8 +210,8 @@ public class DataProviderELResolver extends ELResolver {
                 return true;
 
             } else if (SELECT_ITEMS_KEY.equals(property) ||
-                OPTIONS_KEY.equals(property) ||
-                STRING_LIST_KEY.equals(property)) {
+                    OPTIONS_KEY.equals(property) ||
+                    STRING_LIST_KEY.equals(property)) {
                 context.setPropertyResolved(true);
                 return true;
             }
@@ -227,11 +225,11 @@ public class DataProviderELResolver extends ELResolver {
      * {@inheritDoc}
      */
     public Class getType(ELContext context, Object base, Object property) {
-        
-        if(context == null) {
+
+        if (context == null) {
             throw new NullPointerException();
         }
-        
+
         if (base instanceof DataProvider) {
             if (VALUE_KEY.equals(property)) {
                 context.setPropertyResolved(true);
@@ -251,7 +249,7 @@ public class DataProviderELResolver extends ELResolver {
             }
 
         } else if (base instanceof ValueData) {
-            Class result = ((ValueData)base).getType("" + property);
+            Class result = ((ValueData) base).getType("" + property);
             context.setPropertyResolved(true);
             return result;
 
@@ -262,25 +260,25 @@ public class DataProviderELResolver extends ELResolver {
 
         return null;
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public Iterator<FeatureDescriptor> getFeatureDescriptors(ELContext context, Object base) {
-        
+
         if (context == null) {
             throw new NullPointerException();
         }
-        
+
         if (base == null) {
             return Arrays.asList(new FeatureDescriptor[0]).iterator();
         }
-        
+
         List<FeatureDescriptor> result = new ArrayList<FeatureDescriptor>();
-        
+
         if (base instanceof DataProvider) {
-            DataProvider provider = (DataProvider)base;
-            
+            DataProvider provider = (DataProvider) base;
+
             //for now, don't expose other keys, as they might confuse users
             String[] exposedKeys = {VALUE_KEY, SELECT_ITEMS_KEY, OPTIONS_KEY};
             for (int i = 0; i < exposedKeys.length; i++) {
@@ -291,10 +289,10 @@ public class DataProviderELResolver extends ELResolver {
                 desc.setValue(ELResolver.RESOLVABLE_AT_DESIGN_TIME, true);
                 result.add(desc);
             }
-            
+
 
         } else if (base instanceof ValueData) {
-            DataProvider provider = ((ValueData)base).getProvider();
+            DataProvider provider = ((ValueData) base).getProvider();
             FieldKey[] fieldKeys = provider.getFieldKeys();
             if (fieldKeys != null) {
                 for (int i = 0; i < fieldKeys.length; i++) {
@@ -322,32 +320,31 @@ public class DataProviderELResolver extends ELResolver {
             //too complex
             return null;
         }
-        
+
         return result.iterator();
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public Class getCommonPropertyType(ELContext context,
-                                                Object base) {
+            Object base) {
         if (context == null) {
             throw new NullPointerException();
         }
-        
+
         if (base instanceof DataProvider) {
             return String.class;
         }
-        
+
         if (base instanceof ValueData || base instanceof SelectItemsData) {
             return Object.class;
         }
-        
+
         return null;
     }
 
     // --------------------------------------------------------------- ValueData
-
     /**
      *
      */
@@ -364,7 +361,7 @@ public class DataProviderELResolver extends ELResolver {
         public ValueData(DataProvider provider) {
             this.provider = provider;
         }
-        
+
         //expose to outer class via getter
         protected DataProvider getProvider() {
             return provider;
@@ -383,18 +380,18 @@ public class DataProviderELResolver extends ELResolver {
 
             if (ROWKEY_FKEY.equals(fieldId)) {
                 if (provider instanceof TableDataProvider) {
-                    return ((TableDataProvider)provider).getCursorRow();
+                    return ((TableDataProvider) provider).getCursorRow();
                 }
                 if (provider instanceof TableRowDataProvider) {
-                    return ((TableRowDataProvider)provider).getTableRow();
+                    return ((TableRowDataProvider) provider).getTableRow();
                 }
 
             } else if (ROWID_FKEY.equals(fieldId)) {
                 if (provider instanceof TableDataProvider) {
-                    return ((TableDataProvider)provider).getCursorRow().getRowId();
+                    return ((TableDataProvider) provider).getCursorRow().getRowId();
                 }
                 if (provider instanceof TableRowDataProvider) {
-                    return ((TableRowDataProvider)provider).getTableRow().getRowId();
+                    return ((TableRowDataProvider) provider).getTableRow().getRowId();
                 }
 
             } else {
@@ -408,7 +405,7 @@ public class DataProviderELResolver extends ELResolver {
                         } catch (IndexOutOfBoundsException e) {
                             value = null;
                         }
-                        // </RAVE>
+                    // </RAVE>
                     } else {
                         throw new PropertyNotFoundException("Field '" + fieldId + "' not found in DataProvider.");
                     }
@@ -432,7 +429,7 @@ public class DataProviderELResolver extends ELResolver {
             if (ROWKEY_FKEY.equals(fieldId) && value instanceof RowKey) {
                 if (provider instanceof TableDataProvider) {
                     try {
-                        ((TableDataProvider)provider).setCursorRow((RowKey)value);
+                        ((TableDataProvider) provider).setCursorRow((RowKey) value);
                         return;
                     } catch (Exception x) {
                         x.printStackTrace();
@@ -440,7 +437,7 @@ public class DataProviderELResolver extends ELResolver {
                 }
                 if (provider instanceof TableRowDataProvider) {
                     try {
-                        ((TableRowDataProvider)provider).setTableRow((RowKey)value);
+                        ((TableRowDataProvider) provider).setTableRow((RowKey) value);
                         return;
                     } catch (Exception x) {
                         x.printStackTrace();
@@ -450,9 +447,8 @@ public class DataProviderELResolver extends ELResolver {
             } else if (ROWID_FKEY.equals(fieldId) && value instanceof String) {
                 if (provider instanceof TableDataProvider) {
                     try {
-                        RowKey row = ((TableDataProvider)provider).
-                            getRowKey((String)value);
-                        ((TableDataProvider)provider).setCursorRow(row);
+                        RowKey row = ((TableDataProvider) provider).getRowKey((String) value);
+                        ((TableDataProvider) provider).setCursorRow(row);
                         return;
                     } catch (Exception x) {
                         x.printStackTrace();
@@ -460,9 +456,8 @@ public class DataProviderELResolver extends ELResolver {
                 }
                 if (provider instanceof TableRowDataProvider) {
                     try {
-                        RowKey row = ((TableRowDataProvider)provider).
-                            getTableDataProvider().getRowKey((String)value);
-                        ((TableRowDataProvider)provider).setTableRow(row);
+                        RowKey row = ((TableRowDataProvider) provider).getTableDataProvider().getRowKey((String) value);
+                        ((TableRowDataProvider) provider).setTableRow(row);
                         return;
                     } catch (Exception x) {
                         x.printStackTrace();
@@ -478,9 +473,9 @@ public class DataProviderELResolver extends ELResolver {
                         try {
                             provider.setValue(fk, value);
                         } catch (IndexOutOfBoundsException e) {
-                            ; // Swallow and ignore
+                            // Swallow and ignore
                         }
-                        // </RAVE>
+                    // </RAVE>
                     } else {
                         throw new PropertyNotFoundException("Field '" + fieldId + "' not found in DataProvider.");
                     }
@@ -496,7 +491,7 @@ public class DataProviderELResolver extends ELResolver {
         public boolean isReadOnly(String fieldId) throws PropertyNotFoundException {
 
             if (ROWKEY_FKEY.equals(fieldId) ||
-                ROWID_FKEY.equals(fieldId)) {
+                    ROWID_FKEY.equals(fieldId)) {
                 return false;
             }
 
@@ -538,7 +533,6 @@ public class DataProviderELResolver extends ELResolver {
     }
 
     // --------------------------------------------------------- SelectItemsData
-
     /**
      *
      */
@@ -569,16 +563,16 @@ public class DataProviderELResolver extends ELResolver {
 
             if (ROWKEY_FKEY.equals(fieldId)) {
                 value = row != null
-                    ? row
-                    : (provider instanceof TableRowDataProvider
-                        ? ((TableRowDataProvider)provider).getTableRow()
+                        ? row
+                        : (provider instanceof TableRowDataProvider
+                        ? ((TableRowDataProvider) provider).getTableRow()
                         : null);
 
             } else if (ROWID_FKEY.equals(fieldId)) {
                 value = row != null
-                    ? row.getRowId()
-                    : (provider instanceof TableRowDataProvider
-                        ? ((TableRowDataProvider)provider).getTableRow().getRowId()
+                        ? row.getRowId()
+                        : (provider instanceof TableRowDataProvider
+                        ? ((TableRowDataProvider) provider).getTableRow().getRowId()
                         : null);
 
             } else {
@@ -586,21 +580,20 @@ public class DataProviderELResolver extends ELResolver {
                     FieldKey fk = provider.getFieldKey(fieldId);
                     if (fk != null) {
                         if (row != null &&
-                            provider instanceof TableDataProvider) {
-                            value = ((TableDataProvider)provider).getValue(fk, row);
-                        }
-                        else {
+                                provider instanceof TableDataProvider) {
+                            value = ((TableDataProvider) provider).getValue(fk, row);
+                        } else {
                             value = provider.getValue(fk);
                         }
                     }
                 } catch (Exception x) {
                     // throw the puppy to help out the developer
                     // diagnose *his* application problem.
-                    if ( x instanceof RuntimeException) {
-                        throw (RuntimeException)x ;
+                    if (x instanceof RuntimeException) {
+                        throw (RuntimeException) x;
                     } else {
                         // should never be here....
-                        x.printStackTrace() ;
+                        x.printStackTrace();
                     }
                 }
             }
@@ -615,13 +608,9 @@ public class DataProviderELResolver extends ELResolver {
 
             if (itemValue != null && itemLabel != null && itemDescr != null) {
                 return new SelectItem(itemValue, itemLabel.toString(), itemDescr.toString());
-            }
-
-            else if (itemValue != null && itemLabel != null) {
+            } else if (itemValue != null && itemLabel != null) {
                 return new SelectItem(itemValue, itemLabel.toString());
-            }
-
-            else if (itemValue != null) {
+            } else if (itemValue != null) {
                 return new SelectItem(itemValue);
             }
 
@@ -666,8 +655,7 @@ public class DataProviderELResolver extends ELResolver {
                 char c = columns.charAt(i);
                 if (c == '\'') {
                     quoteOpen = !quoteOpen;
-                }
-                else if (c == ',' && !quoteOpen) {
+                } else if (c == ',' && !quoteOpen) {
                     col = columns.substring(currStart, i);
                     if (col.length() > 0) {
                         cols.add(col);
@@ -682,7 +670,7 @@ public class DataProviderELResolver extends ELResolver {
                 cols.add(col);
             }
 
-            String[] args = (String[])cols.toArray(new String[cols.size()]);
+            String[] args = (String[]) cols.toArray(new String[cols.size()]);
             if (args.length < 1) {
                 throw new IllegalArgumentException();
             }
@@ -698,7 +686,7 @@ public class DataProviderELResolver extends ELResolver {
 
             if (provider instanceof TableDataProvider) {
 
-                TableDataProvider tableProvider = (TableDataProvider)provider;
+                TableDataProvider tableProvider = (TableDataProvider) provider;
                 int rowCount = tableProvider.getRowCount();
                 if (rowCount < 0) {
                     rowCount = 999;
@@ -736,33 +724,23 @@ public class DataProviderELResolver extends ELResolver {
     }
 
     // ------------------------------------------------------------- OptionsData
-
     /**
      *
      */
     private class OptionsData extends SelectItemsData {
 
-        /**
-         *
-         */
         public OptionsData(DataProvider provider) {
             super(provider);
         }
 
-        /**
-         *
-         */
+        @Override
         protected Object getSelectItem(Object itemValue, Object itemLabel, Object itemDescr) {
 
             if (itemValue != null && itemLabel != null && itemDescr != null) {
                 return new Option(itemValue, itemLabel.toString(), itemDescr.toString());
-            }
-
-            else if (itemValue != null && itemLabel != null) {
+            } else if (itemValue != null && itemLabel != null) {
                 return new Option(itemValue, itemLabel.toString());
-            }
-
-            else if (itemValue != null) {
+            } else if (itemValue != null) {
                 return new Option(itemValue);
             }
 
@@ -770,21 +748,13 @@ public class DataProviderELResolver extends ELResolver {
         }
     }
 
-    /**
-     *
-     */
     private class StringListData extends SelectItemsData {
 
-        /**
-         *
-         */
         public StringListData(DataProvider provider) {
             super(provider);
         }
 
-        /**
-         *
-         */
+        @Override
         protected Object getSelectItem(Object itemValue, Object itemLabel, Object itemDescr) {
             if (itemValue != null) {
                 return new String(itemValue.toString());

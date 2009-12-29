@@ -19,7 +19,6 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.faces;
 
 import com.sun.data.provider.FieldKey;
@@ -32,7 +31,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import javax.faces.FacesException;
 import javax.faces.model.DataModel;
 import javax.faces.model.DataModelEvent;
 import javax.faces.model.DataModelListener;
@@ -46,17 +44,13 @@ import javax.faces.model.DataModelListener;
  */
 public class TableDataProviderDataModel extends DataModel {
 
-    
     // ------------------------------------------------------------ Constructors
-
-
     /**
      * <p>Construct an unitialized {@link TableDataProviderDataModel}.</p>
      */
     public TableDataProviderDataModel() {
         this(null);
     }
-
 
     /**
      * <p>Construct an {@link TableDataProviderDataModel} that wraps the
@@ -65,39 +59,29 @@ public class TableDataProviderDataModel extends DataModel {
     public TableDataProviderDataModel(TableDataProvider tdp) {
         setTableDataProvider(tdp);
     }
-
-
     // ------------------------------------------------------ Instance Variables
-
-
     /**
      * <p>The set of {@link FieldKey}s for the currently wrapped
      * {@link TableDataProvider}.</p>
      */
     private FieldKey fieldKeys[] = null;
-
-
     /**
      * <p>The row index to which this <code>DataModel</code>
      * is positioned.</p>
      */
     private int rowIndex = -1;
-
-
     // -------------------------------------------------------------- Properties
-
-
     /**
      * <p>The {@link TableDataProvider} that we are wrapping.</p>
      */
     private TableDataProvider tdp = null;
 
-
     /**
      * <p>Return the {@link TableDataProvider} we are wrapping.</p>
      */
-    public TableDataProvider getTableDataProvider() { return this.tdp; }
-
+    public TableDataProvider getTableDataProvider() {
+        return this.tdp;
+    }
 
     /**
      * <p>Set the {@link TableDataProvider} we are wrapping.</p>
@@ -116,8 +100,6 @@ public class TableDataProviderDataModel extends DataModel {
 
 
     // ---------------------------------------------------- DataModel Properties
-
-
     /**
      * <p>Return <code>true</code> if the wrapped {@link TableDataProvider}
      * has an available row at the currently specified <code>rowIndex</code>.</p>
@@ -129,7 +111,6 @@ public class TableDataProviderDataModel extends DataModel {
         return getTableDataProvider().isRowAvailable(getRowKey());
     }
 
-
     /**
      * <p>Return the number of rows available in the wrapped
      * {@link TableDataProvider}, or <code>-1</code> if unknown.</p>
@@ -140,7 +121,6 @@ public class TableDataProviderDataModel extends DataModel {
         }
         return getTableDataProvider().getRowCount();
     }
-
 
     /**
      * <p>Return a <code>Map</code> representing the data elements in the
@@ -164,7 +144,6 @@ public class TableDataProviderDataModel extends DataModel {
         }
         return map;
     }
-
 
     /**
      * <p>Return the currently selected <code>rowIndex</code>, or -1 for
@@ -206,13 +185,12 @@ public class TableDataProviderDataModel extends DataModel {
                 rowData = getRowData();
             }
             DataModelEvent event =
-              new DataModelEvent(this, rowIndex, rowData);
+                    new DataModelEvent(this, rowIndex, rowData);
             for (int i = 0; i < listeners.length; i++) {
                 listeners[i].rowSelected(event);
             }
         }
     }
-
 
     /**
      * <p>Return the wrapped {@link TableDataProvider} instance, if any.</p>
@@ -220,7 +198,6 @@ public class TableDataProviderDataModel extends DataModel {
     public Object getWrappedData() {
         return getTableDataProvider();
     }
-
 
     /**
      * <p>Set the wrapped {@link TableDataProvider} instance (if any).</p>
@@ -234,8 +211,6 @@ public class TableDataProviderDataModel extends DataModel {
 
 
     // --------------------------------------------------------- Private Classes
-
-
     /**
      * <p>Private implementation of <code>Map</code> that delegates
      * <code>get()</code> and <code>put()</code> operations to
@@ -248,16 +223,17 @@ public class TableDataProviderDataModel extends DataModel {
             this.rowIndex = TableDataProviderDataModel.this.getRowIndex();
             this.rowKey = TableDataProviderDataModel.this.getRowKey();
         }
-
         private int rowIndex;
         private RowKey rowKey;
         private FieldKey fieldKeys[] = TableDataProviderDataModel.this.fieldKeys;
         private TableDataProvider tdp = TableDataProviderDataModel.this.tdp;
 
+        @Override
         public void clear() {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public boolean containsValue(Object value) {
             Iterator keys = keySet().iterator();
             while (keys.hasNext()) {
@@ -280,6 +256,7 @@ public class TableDataProviderDataModel extends DataModel {
             return new TableDataProviderEntries(this);
         }
 
+        @Override
         public Object get(Object key) {
             int columnIndex = index(key);
             if (columnIndex < 0) {
@@ -288,10 +265,12 @@ public class TableDataProviderDataModel extends DataModel {
             return tdp.getValue(fieldKeys[columnIndex], rowKey);
         }
 
+        @Override
         public Set keySet() {
             return new TableDataProviderKeys(this);
         }
 
+        @Override
         public Object put(Object key, Object value) {
             int columnIndex = index(key);
             if (columnIndex < 0) {
@@ -302,6 +281,7 @@ public class TableDataProviderDataModel extends DataModel {
             return previous;
         }
 
+        @Override
         public void putAll(Map map) {
             Iterator keys = map.keySet().iterator();
             while (keys.hasNext()) {
@@ -310,10 +290,12 @@ public class TableDataProviderDataModel extends DataModel {
             }
         }
 
+        @Override
         public Object remove(Object key) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public Collection values() {
             return new TableDataProviderValues(this);
         }
@@ -336,9 +318,7 @@ public class TableDataProviderDataModel extends DataModel {
         Iterator realKeys() {
             return super.keySet().iterator();
         }
-
     }
-
 
     /**
      * <p>Private implementation of <code>Set</code> for implementing the
@@ -349,21 +329,24 @@ public class TableDataProviderDataModel extends DataModel {
         public TableDataProviderEntries(TableDataProviderMap map) {
             this.map = map;
         }
-
         private TableDataProviderMap map = null;
 
+        @Override
         public boolean add(Object o) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public boolean addAll(Collection c) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public void clear() {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public boolean contains(Object o) {
             if (o == null) {
                 throw new NullPointerException();
@@ -384,6 +367,7 @@ public class TableDataProviderDataModel extends DataModel {
             }
         }
 
+        @Override
         public boolean isEmpty() {
             return map.isEmpty();
         }
@@ -392,14 +376,17 @@ public class TableDataProviderDataModel extends DataModel {
             return new TableDataProviderIterator(map);
         }
 
+        @Override
         public boolean remove(Object o) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public boolean removeAll(Collection c) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public boolean retainAll(Collection c) {
             throw new UnsupportedOperationException();
         }
@@ -407,9 +394,7 @@ public class TableDataProviderDataModel extends DataModel {
         public int size() {
             return map.size();
         }
-
     }
-
 
     /**
      * <p>Private implementation of <code>Iterator</code> for the
@@ -421,7 +406,6 @@ public class TableDataProviderDataModel extends DataModel {
             this.map = map;
             this.keys = map.keySet().iterator();
         }
-
         private TableDataProviderMap map = null;
         private Iterator keys = null;
 
@@ -437,9 +421,7 @@ public class TableDataProviderDataModel extends DataModel {
         public void remove() {
             throw new UnsupportedOperationException();
         }
-
     }
-
 
     /**
      * <p>Private implementation of <code>Map.Entry</code> that implements
@@ -452,10 +434,10 @@ public class TableDataProviderDataModel extends DataModel {
             this.map = map;
             this.key = key;
         }
-
         private TableDataProviderMap map = null;
         private Object key = null;
 
+        @Override
         public boolean equals(Object o) {
             if (o == null) {
                 return false;
@@ -494,6 +476,7 @@ public class TableDataProviderDataModel extends DataModel {
             return map.get(key);
         }
 
+        @Override
         public int hashCode() {
             Object value = map.get(key);
             return ((key == null) ? 0 : key.hashCode()) ^
@@ -505,9 +488,7 @@ public class TableDataProviderDataModel extends DataModel {
             map.put(key, value);
             return previous;
         }
-
     }
-
 
     /**
      * <p>Private implementation of <code>Set</code> that implements the
@@ -518,25 +499,29 @@ public class TableDataProviderDataModel extends DataModel {
         public TableDataProviderKeys(TableDataProviderMap map) {
             this.map = map;
         }
-
         private TableDataProviderMap map = null;
 
+        @Override
         public boolean add(Object o) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public boolean addAll(Collection c) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public void clear() {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public boolean contains(Object o) {
             return map.containsKey(o);
         }
 
+        @Override
         public boolean isEmpty() {
             return map.isEmpty();
         }
@@ -545,14 +530,17 @@ public class TableDataProviderDataModel extends DataModel {
             return new TableDataProviderKeysIterator(map);
         }
 
+        @Override
         public boolean remove(Object o) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public boolean removeAll(Collection c) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public boolean retainAll(Collection c) {
             throw new UnsupportedOperationException();
         }
@@ -560,9 +548,7 @@ public class TableDataProviderDataModel extends DataModel {
         public int size() {
             return map.size();
         }
-
     }
-
 
     /**
      * <p>Private implementation of <code>Iterator</code> that implements the
@@ -574,7 +560,6 @@ public class TableDataProviderDataModel extends DataModel {
             this.map = map;
             this.keys = map.realKeys();
         }
-
         private TableDataProviderMap map = null;
         private Iterator keys = null;
 
@@ -589,9 +574,7 @@ public class TableDataProviderDataModel extends DataModel {
         public void remove() {
             throw new UnsupportedOperationException();
         }
-
     }
-
 
     /**
      * <p>Private implementation of <code>Collection</code> that implements
@@ -602,21 +585,24 @@ public class TableDataProviderDataModel extends DataModel {
         public TableDataProviderValues(TableDataProviderMap map) {
             this.map = map;
         }
-
         private TableDataProviderMap map = null;
 
+        @Override
         public boolean add(Object o) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public boolean addAll(Collection c) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public void clear() {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public boolean contains(Object value) {
             return map.containsValue(value);
         }
@@ -625,14 +611,17 @@ public class TableDataProviderDataModel extends DataModel {
             return new TableDataProviderValuesIterator(map);
         }
 
+        @Override
         public boolean remove(Object o) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public boolean removeAll(Collection c) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public boolean retainAll(Collection c) {
             throw new UnsupportedOperationException();
         }
@@ -640,9 +629,7 @@ public class TableDataProviderDataModel extends DataModel {
         public int size() {
             return map.size();
         }
-
     }
-
 
     /**
      * <p>Private implementation of <code>Iterator</code> that implements the
@@ -655,7 +642,6 @@ public class TableDataProviderDataModel extends DataModel {
             this.map = map;
             this.keys = map.keySet().iterator();
         }
-
         private TableDataProviderMap map = null;
         private Iterator keys = null;
 
@@ -670,12 +656,5 @@ public class TableDataProviderDataModel extends DataModel {
         public void remove() {
             throw new UnsupportedOperationException();
         }
-
     }
-
-
-
-
-
-
 }

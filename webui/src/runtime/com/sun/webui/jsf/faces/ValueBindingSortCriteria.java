@@ -19,7 +19,6 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.faces;
 
 import java.io.IOException;
@@ -35,23 +34,26 @@ import com.sun.data.provider.TableDataProvider;
 import com.sun.data.provider.impl.TableRowDataProvider;
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
+import javax.faces.el.ValueBinding;
 
 /**
  * <p>The ValueBindingSortCriteria class is an implementation of SortCriteria
  * that simply retrieves the sort value from the {@link ValueBinding}.</p>
  *
- * @author Joe Nuxoll
+ * @author Joe Nuxoll, John Yeary
  */
 
 // TODO: rename the class not to have ValueBinding???
-
-@Component(isTag=false)
+@Component(isTag = false)
 public class ValueBindingSortCriteria extends SortCriteria {
+
+    private static final long serialVersionUID = 3213170928687846906L;
 
     /**
      * Constructs a ValueBindingSortCriteria with no associated {@link ValueExpression}.
      */
-    public ValueBindingSortCriteria() {}
+    public ValueBindingSortCriteria() {
+    }
 
     /**
      * Constructs a ValueBindingSortCriteria with the specified {@link ValueExpression}.
@@ -122,6 +124,7 @@ public class ValueBindingSortCriteria extends SortCriteria {
      *
      * {@inheritDoc}
      */
+    @Override
     public String getDisplayName() {
         String name = super.getDisplayName();
         if ((name == null || "".equals(name)) && valueExpression != null) {
@@ -153,7 +156,7 @@ public class ValueBindingSortCriteria extends SortCriteria {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Map requestMap = facesContext.getExternalContext().getRequestMap();
         Object value = null;
-
+        //FIXME synchronization on a non-final field
         synchronized (rowProviderLock) {
 
             Object storedRequestMapValue = null;
@@ -180,51 +183,47 @@ public class ValueBindingSortCriteria extends SortCriteria {
 
         return value;
     }
-
-    @Property(displayName="Value Binding",isAttribute=false)
+    @Property(displayName = "Value Binding", isAttribute = false)
     private transient ValueExpression valueExpression;
-    
-    @Property(displayName="Request Map Key")
+    @Property(displayName = "Request Map Key")
     private String requestMapKey = "currentRow";
-    
     private transient TableRowDataProvider rowProvider;
     private String rowProviderLock = "rowProviderLock"; // this is a monitor lock for rowProvider
 
     private void writeObject(ObjectOutputStream out) throws IOException {
 
-	// Serialize simple objects first
-	out.writeObject(requestMapKey);
-	out.writeObject(rowProviderLock);
+        // Serialize simple objects first
+        out.writeObject(requestMapKey);
+        out.writeObject(rowProviderLock);
 
-	// Serialize valueExpression specially
+        // Serialize valueExpression specially
         if (valueExpression != null) {
             out.writeObject(valueExpression.getExpressionString());
-	} else {
+        } else {
             out.writeObject((String) null);
         }
 
-	// NOTE - rowProvider is reconstituted on demand,
-	// so we don't need to serialize it
+    // NOTE - rowProvider is reconstituted on demand,
+    // so we don't need to serialize it
 
     }
 
     private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException {
+            throws IOException, ClassNotFoundException {
 
-	// Deserialize simple objects first
-	requestMapKey = (String) in.readObject();
-	rowProviderLock = (String) in.readObject();
+        // Deserialize simple objects first
+        requestMapKey = (String) in.readObject();
+        rowProviderLock = (String) in.readObject();
 
         // Deserialize valueExpression specially
         String s = (String) in.readObject();
         if (s != null) {
             FacesContext facesContext = FacesContext.getCurrentInstance();
             ELContext elContext = FacesContext.getCurrentInstance().getELContext();
-            valueExpression = 
-                    facesContext.getApplication().getExpressionFactory().createValueExpression(elContext,s,Object.class); 
+            valueExpression =
+                    facesContext.getApplication().getExpressionFactory().createValueExpression(elContext, s, Object.class);
         } else {
             valueExpression = null;
         }
     }
-
 }

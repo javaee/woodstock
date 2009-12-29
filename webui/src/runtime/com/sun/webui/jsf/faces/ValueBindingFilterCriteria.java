@@ -19,7 +19,6 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.faces;
 
 import java.io.IOException;
@@ -29,7 +28,6 @@ import java.util.Locale;
 import java.util.Map;
 import javax.faces.context.FacesContext;
 import javax.el.ValueExpression;
-import javax.el.ELContext;
 import com.sun.data.provider.FilterCriteria;
 import com.sun.data.provider.RowKey;
 import com.sun.data.provider.TableDataFilter;
@@ -51,12 +49,14 @@ import com.sun.faces.annotation.Property;
  * @see TableDataProvider
  * @see TableDataFilter
  *
- * @author Joe Nuxoll
+ * @author Joe Nuxoll, John Yeary
  */
-@Component(isTag=false)
+@Component(isTag = false)
 public class ValueBindingFilterCriteria extends FilterCriteria {
+    private static final long serialVersionUID = 7979125228842716689L;
 
-    public ValueBindingFilterCriteria() {}
+    public ValueBindingFilterCriteria() {
+    }
 
     /**
      *
@@ -93,7 +93,7 @@ public class ValueBindingFilterCriteria extends FilterCriteria {
      * @param matchGreaterThan boolean
      */
     public ValueBindingFilterCriteria(ValueExpression valueExpression, Object compareValue,
-        boolean matchLessThan, boolean matchEqualTo, boolean matchGreaterThan) {
+            boolean matchLessThan, boolean matchEqualTo, boolean matchGreaterThan) {
 
         this.valueExpression = valueExpression;
         this.compareValue = compareValue;
@@ -194,7 +194,6 @@ public class ValueBindingFilterCriteria extends FilterCriteria {
     public Object getCompareValue() {
         return compareValue;
     }
-
     /**
      * Storage for the compare locale
      */
@@ -215,7 +214,6 @@ public class ValueBindingFilterCriteria extends FilterCriteria {
     public Locale getCompareLocale() {
         return compareLocale;
     }
-
     /**
      *
      */
@@ -236,7 +234,6 @@ public class ValueBindingFilterCriteria extends FilterCriteria {
     public boolean isMatchEqualTo() {
         return matchEqualTo;
     }
-
     /**
      *
      */
@@ -257,7 +254,6 @@ public class ValueBindingFilterCriteria extends FilterCriteria {
     public boolean isMatchLessThan() {
         return matchLessThan;
     }
-
     /**
      *
      */
@@ -300,6 +296,7 @@ public class ValueBindingFilterCriteria extends FilterCriteria {
         Map requestMap = facesContext.getExternalContext().getRequestMap();
         Object value = null;
 
+        //FIXME synchronization on a non-final field
         synchronized (rowProviderLock) {
 
             Object storedRequestMapValue = null;
@@ -335,35 +332,31 @@ public class ValueBindingFilterCriteria extends FilterCriteria {
         }
         return false; // This should never be reached
     }
-
-    @Property(displayName="Value Binding",isAttribute=false)
+    @Property(displayName = "Value Binding", isAttribute = false)
     private transient ValueExpression valueExpression;
-    
-    @Property(displayName="Compare Value")
+    @Property(displayName = "Compare Value")
     private Object compareValue;
-    
-    @Property(displayName="Request Map Key")
+    @Property(displayName = "Request Map Key")
     private String requestMapKey = "currentRow"; // NOI18N
-    
     private transient TableRowDataProvider rowProvider;
     private String rowProviderLock = "rowProviderLock"; // this is a monitor lock for rowProvider
 
     private void writeObject(ObjectOutputStream out) throws IOException {
 
-	// Serialize simple objects first
-	out.writeObject(compareValue);
-	out.writeObject(requestMapKey);
-	out.writeObject(rowProviderLock);
+        // Serialize simple objects first
+        out.writeObject(compareValue);
+        out.writeObject(requestMapKey);
+        out.writeObject(rowProviderLock);
 
-	// Serialize valueExpression specially
+        // Serialize valueExpression specially
         if (valueExpression != null) {
             out.writeObject(valueExpression.getExpressionString());
-	} else {
+        } else {
             out.writeObject((String) null);
         }
 
-	// NOTE - rowProvider is reconstituted on demand,
-	// so we don't need to serialize it
+        // NOTE - rowProvider is reconstituted on demand,
+        // so we don't need to serialize it
 
 
 
@@ -373,21 +366,20 @@ public class ValueBindingFilterCriteria extends FilterCriteria {
     }
 
     private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException {
+            throws IOException, ClassNotFoundException {
 
-	// Deserialize simple objects first
+        // Deserialize simple objects first
         compareValue = in.readObject();
-	requestMapKey = (String) in.readObject();
-	rowProviderLock = (String) in.readObject();
+        requestMapKey = (String) in.readObject();
+        rowProviderLock = (String) in.readObject();
 
         // Deserialize valueExpression specially
         String s = (String) in.readObject();
         if (s != null) {
             FacesContext facesContext = FacesContext.getCurrentInstance();
-            valueExpression = facesContext.getApplication().getExpressionFactory().createValueExpression(facesContext.getELContext(),s,Object.class);
+            valueExpression = facesContext.getApplication().getExpressionFactory().createValueExpression(facesContext.getELContext(), s, Object.class);
         } else {
             valueExpression = null;
         }
     }
-
 }

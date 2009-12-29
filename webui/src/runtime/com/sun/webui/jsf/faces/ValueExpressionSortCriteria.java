@@ -19,7 +19,6 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.faces;
 
 import java.util.Map;
@@ -37,15 +36,18 @@ import com.sun.faces.annotation.Property;
  * that simply retrieves the sort value from a {@link ValueExpression} which is
  * created using the specified value expression.</p>
  *
- * @author Joe Nuxoll
+ * @author Joe Nuxoll, John Yeary
  */
-@Component(isTag=false)
+@Component(isTag = false)
 public class ValueExpressionSortCriteria extends SortCriteria {
+
+    private static final long serialVersionUID = -1400195724479592404L;
 
     /**
      * Constructs a ValueExpressionSortCriteria with no value expression
      */
-    public ValueExpressionSortCriteria() {}
+    public ValueExpressionSortCriteria() {
+    }
 
     /**
      * Constructs a ValueExpressionSortCriteria with the specified value
@@ -116,6 +118,7 @@ public class ValueExpressionSortCriteria extends SortCriteria {
      *
      * {@inheritDoc}
      */
+    @Override
     public String getDisplayName() {
         String name = super.getDisplayName();
         if ((name == null || "".equals(name)) && valueExpression != null && !"".equals(valueExpression)) {
@@ -146,7 +149,7 @@ public class ValueExpressionSortCriteria extends SortCriteria {
 
         FacesContext facesContext = FacesContext.getCurrentInstance();
         ValueExpression valueBinding = facesContext.getApplication().getExpressionFactory().createValueExpression(
-                facesContext.getELContext(),valueExpression,Object.class);
+                facesContext.getELContext(), valueExpression, Object.class);
 
         if (valueBinding == null) {
             return null;
@@ -155,6 +158,7 @@ public class ValueExpressionSortCriteria extends SortCriteria {
         Map requestMap = facesContext.getExternalContext().getRequestMap();
         Object value = null;
 
+        //FIXME synchronization on a non-final field
         synchronized (rowProviderLock) {
 
             Object storedRequestMapValue = null;
@@ -181,13 +185,10 @@ public class ValueExpressionSortCriteria extends SortCriteria {
 
         return value;
     }
-
-    @Property(displayName="Value Expression")
+    @Property(displayName = "Value Expression")
     private String valueExpression;
-    
-    @Property(displayName="Request Map Key")
+    @Property(displayName = "Request Map Key")
     private String requestMapKey = "currentRow"; // NOI18N
-    
     private transient TableRowDataProvider rowProvider;
     private String rowProviderLock = "rowProviderLock"; // this is a monitor lock for rowProvider
 }

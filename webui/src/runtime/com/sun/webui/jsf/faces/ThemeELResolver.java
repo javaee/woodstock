@@ -28,15 +28,11 @@ import com.sun.webui.jsf.theme.ThemeStyles;
 import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.theme.Theme;
-import com.sun.webui.theme.ThemeImage;
-
 import java.beans.FeatureDescriptor;
 import java.lang.reflect.Field;
 import java.util.Iterator;
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.el.ELResolver;
 import javax.el.ELContext;
 import javax.el.PropertyNotFoundException;
@@ -78,6 +74,7 @@ import javax.faces.context.FacesContext;
  */
 @Resolver
 public class ThemeELResolver extends ELResolver {
+
     private final String THEME_IMAGES = "themeImages";
     private final String THEME_JAVASCRIPT = "themeJavascript";
     private final String THEME_MESSAGES = "themeMessages";
@@ -95,9 +92,9 @@ public class ThemeELResolver extends ELResolver {
      */
     public Object getValue(ELContext context, Object base, Object property) {
         if (property == null) {
-            throw new PropertyNotFoundException("Property cannot be null."); 
+            throw new PropertyNotFoundException("Property cannot be null.");
         }
-        if(context == null) {
+        if (context == null) {
             throw new NullPointerException();
         }
 
@@ -153,26 +150,18 @@ public class ThemeELResolver extends ELResolver {
             return;
         }
         if (property == null) {
-            throw new PropertyNotFoundException("Property cannot be null."); 
+            throw new PropertyNotFoundException("Property cannot be null.");
         }
         if (base != null) {
             // Regardless of the base object, all properties are read only.
-            if (base instanceof Images
-                    || base instanceof Javascript
-                    || base instanceof Messages
-                    || base instanceof Styles
-                    || base instanceof Templates) {
+            if (base instanceof Images || base instanceof Javascript || base instanceof Messages || base instanceof Styles || base instanceof Templates) {
                 throw new PropertyNotWritableException(property.toString());
             }
         } else {
             // Variable resolution is a special case of property resolution
             // where the base is null. Thus, We need to provide an object to 
             // resolve the next property.
-            if (THEME_IMAGES.equals(property)
-                    || THEME_JAVASCRIPT.equals(property)
-                    || THEME_MESSAGES.equals(property)
-                    || THEME_STYLES.equals(property)
-                    || THEME_TEMPLATES.equals(property)) {
+            if (THEME_IMAGES.equals(property) || THEME_JAVASCRIPT.equals(property) || THEME_MESSAGES.equals(property) || THEME_STYLES.equals(property) || THEME_TEMPLATES.equals(property)) {
                 throw new PropertyNotWritableException(property.toString());
             }
         }
@@ -183,19 +172,15 @@ public class ThemeELResolver extends ELResolver {
      */
     public boolean isReadOnly(ELContext context, Object base, Object property) {
         if (property == null) {
-            throw new PropertyNotFoundException("Property cannot be null."); 
+            throw new PropertyNotFoundException("Property cannot be null.");
         }
-        if(context == null) {
+        if (context == null) {
             throw new NullPointerException();
         }
         boolean result = false;
         if (base != null) {
             // Regardless of the base object, all properties are read only.
-            if (base instanceof Images
-                    || base instanceof Javascript
-                    || base instanceof Messages
-                    || base instanceof Styles
-                    || base instanceof Templates) {
+            if (base instanceof Images || base instanceof Javascript || base instanceof Messages || base instanceof Styles || base instanceof Templates) {
                 result = true;
                 context.setPropertyResolved(true);
             }
@@ -203,11 +188,7 @@ public class ThemeELResolver extends ELResolver {
             // Variable resolution is a special case of property resolution
             // where the base is null. Thus, We need to provide an object to 
             // resolve the next property.
-            if (THEME_IMAGES.equals(property)
-                    || THEME_JAVASCRIPT.equals(property)
-                    || THEME_MESSAGES.equals(property)
-                    || THEME_STYLES.equals(property)
-                    || THEME_TEMPLATES.equals(property)) {
+            if (THEME_IMAGES.equals(property) || THEME_JAVASCRIPT.equals(property) || THEME_MESSAGES.equals(property) || THEME_STYLES.equals(property) || THEME_TEMPLATES.equals(property)) {
                 result = true;
                 context.setPropertyResolved(true);
             }
@@ -220,19 +201,15 @@ public class ThemeELResolver extends ELResolver {
      */
     public Class getType(ELContext context, Object base, Object property) {
         if (property == null) {
-            throw new PropertyNotFoundException("Property cannot be null."); 
+            throw new PropertyNotFoundException("Property cannot be null.");
         }
-        if(context == null) {
+        if (context == null) {
             throw new NullPointerException();
         }
         Class result = null;
         if (base != null) {
             // Regardless of the base object, all properties are Strings.
-            if (base instanceof Images
-                    || base instanceof Javascript
-                    || base instanceof Messages
-                    || base instanceof Styles
-                    || base instanceof Templates) {
+            if (base instanceof Images || base instanceof Javascript || base instanceof Messages || base instanceof Styles || base instanceof Templates) {
                 result = String.class;
                 context.setPropertyResolved(true);
             }
@@ -240,18 +217,14 @@ public class ThemeELResolver extends ELResolver {
             // Variable resolution is a special case of property resolution
             // where the base is null. Thus, We need to provide an object to 
             // resolve the next property.
-            if (THEME_IMAGES.equals(property)
-                    || THEME_JAVASCRIPT.equals(property)
-                    || THEME_MESSAGES.equals(property)
-                    || THEME_STYLES.equals(property)
-                    || THEME_TEMPLATES.equals(property)) {
+            if (THEME_IMAGES.equals(property) || THEME_JAVASCRIPT.equals(property) || THEME_MESSAGES.equals(property) || THEME_STYLES.equals(property) || THEME_TEMPLATES.equals(property)) {
                 result = String.class;
                 context.setPropertyResolved(true);
             }
         }
         return result;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -262,7 +235,7 @@ public class ThemeELResolver extends ELResolver {
         if (base != null) {
             return null;
         }
-        if(context == null) {
+        if (context == null) {
             throw new NullPointerException();
         }
         List<FeatureDescriptor> result = new ArrayList<FeatureDescriptor>();
@@ -273,11 +246,11 @@ public class ThemeELResolver extends ELResolver {
         result.add(getFeatureDescriptor(THEME_TEMPLATES, String.class));
         return result.iterator();
     }
-    
+
     /**
      * {@inheritDoc}
      */
-    public Class getCommonPropertyType(ELContext context, Object base) {       
+    public Class getCommonPropertyType(ELContext context, Object base) {
         // Variable resolution is a special case of property resolution
         // where the base is null. Thus, if the object is not null, we're not 
         // meant to resolve it.
@@ -290,7 +263,6 @@ public class ThemeELResolver extends ELResolver {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
     private FeatureDescriptor getFeatureDescriptor(String name, Class clazz) {
         FeatureDescriptor desc = new FeatureDescriptor();
         desc.setName(name);
@@ -306,6 +278,7 @@ public class ThemeELResolver extends ELResolver {
 
     // Private class to resolve ThemeImage constants.
     private class Images {
+
         private static final String HEIGHT_SUFFIX = "_HEIGHT";
         private static final String WIDTH_SUFFIX = "_WIDTH";
         private static final String ALT_SUFFIX = "_ALT";
@@ -317,7 +290,7 @@ public class ThemeELResolver extends ELResolver {
          */
         public Object getValue(String property) {
             if (property == null) {
-                throw new PropertyNotFoundException("Property cannot be null."); 
+                throw new PropertyNotFoundException("Property cannot be null.");
             }
 
             Object result = null;
@@ -342,7 +315,7 @@ public class ThemeELResolver extends ELResolver {
                     // Resolve image paths.
                     result = theme.getImage(value).getPath();
                 }
-            } catch(Exception e) {
+            } catch (Exception e) {
                 // Try to resolve as resource key, bypassing ThemeImages.
                 result = theme.getImageString(property);
             }
@@ -353,6 +326,7 @@ public class ThemeELResolver extends ELResolver {
     // Private class to resolve ThemeJavascript constants.
     private class Javascript {
         // Special constant which does not prefix the theme path.
+
         private static final String JS_PREFIX = "JS_PREFIX"; // Deprecated.
         private static final String MODULE_PATH = "MODULE_PATH";
         private static final String MODULE_PREFIX = "MODULE_PREFIX";
@@ -364,7 +338,7 @@ public class ThemeELResolver extends ELResolver {
          */
         public Object getValue(String property) {
             if (property == null) {
-                throw new PropertyNotFoundException("Property cannot be null."); 
+                throw new PropertyNotFoundException("Property cannot be null.");
             }
 
             Object result = null;
@@ -375,15 +349,13 @@ public class ThemeELResolver extends ELResolver {
                 String value = field.get(null).toString();
 
                 // This is a special case where the theme path is not prefixed.
-                if (JS_PREFIX.equals(property)
-                        || MODULE_PATH.equals(property)
-                        || MODULE_PREFIX.equals(property)) {
+                if (JS_PREFIX.equals(property) || MODULE_PATH.equals(property) || MODULE_PREFIX.equals(property)) {
                     result = theme.getJSString(value);
                 } else {
                     // Resolve Javascript file path.
                     result = theme.getPathToJSFile(value);
                 }
-            } catch(Exception e) {
+            } catch (Exception e) {
                 // Try to resolve as resource key, bypassing ThemeJavascript.
                 result = theme.getJSString(property);
             }
@@ -393,6 +365,7 @@ public class ThemeELResolver extends ELResolver {
 
     // Private class to resolve messages.properties keys.
     private class Messages {
+
         /**
          * Reslove messages.properties keys.
          *
@@ -400,7 +373,7 @@ public class ThemeELResolver extends ELResolver {
          */
         public Object getValue(String property) {
             if (property == null) {
-                throw new PropertyNotFoundException("Property cannot be null."); 
+                throw new PropertyNotFoundException("Property cannot be null.");
             }
 
             Object result = null;
@@ -414,6 +387,7 @@ public class ThemeELResolver extends ELResolver {
 
     // Private class to resolve ThemeStyles constants.
     private class Styles {
+
         /**
          * Reslove ThemeStyles constants.
          *
@@ -421,7 +395,7 @@ public class ThemeELResolver extends ELResolver {
          */
         public Object getValue(String property) {
             if (property == null) {
-                throw new PropertyNotFoundException("Property cannot be null."); 
+                throw new PropertyNotFoundException("Property cannot be null.");
             }
 
             Object result = null;
@@ -431,7 +405,7 @@ public class ThemeELResolver extends ELResolver {
                 // Resolve the style selector.
                 Field field = ThemeStyles.class.getField(property);
                 result = theme.getStyleClass(field.get(null).toString());
-            } catch(Exception e) {
+            } catch (Exception e) {
                 // Try to resolve as resource key, bypassing ThemeStyles.
                 result = theme.getStyleClass(property);
             }
@@ -441,6 +415,7 @@ public class ThemeELResolver extends ELResolver {
 
     // Private class to resolve ThemeTemplates constants.
     private class Templates {
+
         /**
          * Reslove ThemeTemplates constants.
          *
@@ -448,7 +423,7 @@ public class ThemeELResolver extends ELResolver {
          */
         public Object getValue(String property) {
             if (property == null) {
-                throw new PropertyNotFoundException("Property cannot be null."); 
+                throw new PropertyNotFoundException("Property cannot be null.");
             }
 
             Object result = null;
@@ -458,7 +433,7 @@ public class ThemeELResolver extends ELResolver {
                 // Resolve the HTML template path.
                 Field field = ThemeTemplates.class.getField(property);
                 result = theme.getPathToTemplate(field.get(null).toString());
-            } catch(Exception e) {
+            } catch (Exception e) {
                 // Try to resolve as resource key, bypassing ThemeTemplates.
                 result = theme.getPathToTemplate(property);
             }

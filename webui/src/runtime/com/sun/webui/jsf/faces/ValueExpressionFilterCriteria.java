@@ -19,7 +19,6 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.faces;
 
 import java.util.Locale;
@@ -46,15 +45,18 @@ import com.sun.faces.annotation.Property;
  * @see TableDataProvider
  * @see TableDataFilter
  *
- * @author Joe Nuxoll
+ * @author Joe Nuxoll, John Yeary
  */
-@Component(isTag=false)
+@Component(isTag = false)
 public class ValueExpressionFilterCriteria extends FilterCriteria {
+
+    private static final long serialVersionUID = 8984072154367845774L;
 
     /**
      *
      */
-    public ValueExpressionFilterCriteria() {}
+    public ValueExpressionFilterCriteria() {
+    }
 
     /**
      *
@@ -91,7 +93,7 @@ public class ValueExpressionFilterCriteria extends FilterCriteria {
      * @param matchGreaterThan boolean
      */
     public ValueExpressionFilterCriteria(String valueExpression, Object compareValue,
-        boolean matchLessThan, boolean matchEqualTo, boolean matchGreaterThan) {
+            boolean matchLessThan, boolean matchEqualTo, boolean matchGreaterThan) {
 
         this.valueExpression = valueExpression;
         this.compareValue = compareValue;
@@ -192,7 +194,6 @@ public class ValueExpressionFilterCriteria extends FilterCriteria {
     public Object getCompareValue() {
         return compareValue;
     }
-
     /**
      * Storage for the compare locale
      */
@@ -213,7 +214,6 @@ public class ValueExpressionFilterCriteria extends FilterCriteria {
     public Locale getCompareLocale() {
         return compareLocale;
     }
-
     /**
      *
      */
@@ -234,7 +234,6 @@ public class ValueExpressionFilterCriteria extends FilterCriteria {
     public boolean isMatchEqualTo() {
         return matchEqualTo;
     }
-
     /**
      *
      */
@@ -255,7 +254,6 @@ public class ValueExpressionFilterCriteria extends FilterCriteria {
     public boolean isMatchLessThan() {
         return matchLessThan;
     }
-
     /**
      *
      */
@@ -295,7 +293,7 @@ public class ValueExpressionFilterCriteria extends FilterCriteria {
 
         FacesContext facesContext = FacesContext.getCurrentInstance();
         ValueExpression valueBinding = facesContext.getApplication().getExpressionFactory().createValueExpression(
-                facesContext.getELContext(),valueExpression,Object.class);
+                facesContext.getELContext(), valueExpression, Object.class);
 
         if (valueBinding == null) {
             return true;
@@ -304,6 +302,7 @@ public class ValueExpressionFilterCriteria extends FilterCriteria {
         Map requestMap = facesContext.getExternalContext().getRequestMap();
         Object value = null;
 
+        //FIXME synchronization on a non-final field
         synchronized (rowProviderLock) {
 
             Object storedRequestMapValue = null;
@@ -339,16 +338,12 @@ public class ValueExpressionFilterCriteria extends FilterCriteria {
         }
         return false; // This should never be reached
     }
-
-    @Property(displayName="Value Expression")
+    @Property(displayName = "Value Expression")
     private String valueExpression;
-    
-    @Property(displayName="Compare Value")
+    @Property(displayName = "Compare Value")
     private Object compareValue;
-    
-    @Property(displayName="Request Map Key")
+    @Property(displayName = "Request Map Key")
     private String requestMapKey = "currentRow";
-    
     private transient TableRowDataProvider rowProvider;
     private String rowProviderLock = "rowProviderLock"; // this is a monitor lock for rowProvider
 }

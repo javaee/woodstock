@@ -19,22 +19,18 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.faces;
 
 import com.sun.faces.annotation.Resolver;
 import com.sun.webui.jsf.util.LogUtil;
-
 import java.util.List;
 import java.util.ArrayList;
 import javax.faces.component.UIComponent;
-import javax.el.PropertyNotFoundException;
 import javax.el.ELResolver;
 import javax.el.ELContext;
 import java.util.Iterator;
 import java.beans.FeatureDescriptor;
 import java.util.Arrays;
-
 
 /**
  * <p>Custom <code>ELResolver that, when the <code>base</code>
@@ -43,20 +39,12 @@ import java.util.Arrays;
  */
 @Resolver
 public class UIComponentELResolver extends ELResolver {
-    
+
 
     // -------------------------------------------------------- Static Variables
-
-
     // ------------------------------------------------------ Instance Variables
-
-
     // ------------------------------------------------------------ Constructors
-    
-
     // ------------------------------------------------ ELResolver Methods
-
-
     /**
      * <p>When the base object is a <code>UIComponent</code>, treat the
      * property name as the <code>id</code> of a child component to be
@@ -68,32 +56,32 @@ public class UIComponentELResolver extends ELResolver {
      * @param property Property name
      */
     public Object getValue(ELContext context, Object base, Object property) {
-        
+
         log("getValue(ctx, " + base + "," + property + ")");
-        
-        if(context == null) {
+
+        if (context == null) {
             throw new NullPointerException();
         }
 
         if ((base == null) || (!(base instanceof UIComponent)) ||
-            (property == null)) {
+                (property == null)) {
             log("argument is null or not of applicable type. returning");
             return null;
         }
 
-	// Try to resolve to facet or child UIComponent
+        // Try to resolve to facet or child UIComponent
         UIComponent component = (UIComponent) base;
         String id = property.toString();
 
-	// First check for a facet w/ that name
-	UIComponent kid = (UIComponent) component.getFacets().get(id);
-	if (kid != null) {
+        // First check for a facet w/ that name
+        UIComponent kid = (UIComponent) component.getFacets().get(id);
+        if (kid != null) {
             context.setPropertyResolved(true);
             log("returning facet " + kid);
-	    return kid;
-	}
+            return kid;
+        }
 
-	// Now check for child component w/ that id
+        // Now check for child component w/ that id
         if (component.getChildCount() < 1) {
             log("child count less than 1. returning");
             return null;
@@ -108,11 +96,10 @@ public class UIComponentELResolver extends ELResolver {
             }
         }
 
-	// Not found
+        // Not found
         log("can't resolve. returning");
         return null;
     }
-
 
     /**
      * <p>When the base object is a <code>UIComponent</code>, treat the
@@ -126,30 +113,30 @@ public class UIComponentELResolver extends ELResolver {
      * @param value Replacement component
      */
     public void setValue(ELContext context, Object base, Object property, Object value) {
-        
+
         log("setValue(ctx, " + base + "," + property + "," + value + ")");
-        
-        if(context == null) {
+
+        if (context == null) {
             throw new NullPointerException();
         }
 
         if ((base == null) || (!(base instanceof UIComponent)) ||
-            (property == null) ||
-            (value == null) || (!(value instanceof UIComponent))) {
+                (property == null) ||
+                (value == null) || (!(value instanceof UIComponent))) {
             log("argument is null or not of applicable type. returning");
             return;
         }
 
         UIComponent component = (UIComponent) base;
         String id = property.toString();
-	// First check to for facet w/ this name
-	if (component.getFacets().get(id) != null) {
-	    component.getFacets().put(id, (UIComponent)value);
+        // First check to for facet w/ this name
+        if (component.getFacets().get(id) != null) {
+            component.getFacets().put(id, (UIComponent) value);
             context.setPropertyResolved(true);
             log("set facet");
-	    return;
-	}
-	// Not a facet, see if it's a child
+            return;
+        }
+        // Not a facet, see if it's a child
         if (component.getChildCount() < 1) {
             log("child count less than 1. returning");
             return;
@@ -164,10 +151,9 @@ public class UIComponentELResolver extends ELResolver {
                 return;
             }
         }
-        
+
         log("can't resolve. returning");
     }
-
 
     /**
      * <p>When the base object is a <code>UIComponent</code>, treat the
@@ -182,26 +168,26 @@ public class UIComponentELResolver extends ELResolver {
      * @param property Property name
      */
     public boolean isReadOnly(ELContext context, Object base, Object property) {
-        
+
         log("isReadOnly(ctx, " + base + "," + property + ")");
-        
-        if(context == null) {
+
+        if (context == null) {
             throw new NullPointerException();
         }
 
         if ((base == null) || (!(base instanceof UIComponent)) ||
-            (property == null)) {
+                (property == null)) {
             log("argument is null or not of applicable type. returning");
             return false;
         }
 
         UIComponent component = (UIComponent) base;
         String id = property.toString();
-	if (component.getFacets().get(id) != null) {
+        if (component.getFacets().get(id) != null) {
             context.setPropertyResolved(true);
             log("not read-only. found facet");
-	    return false;
-	}
+            return false;
+        }
         if (component.getChildCount() < 1) {
             log("child count less than 1. returning");
             return false;
@@ -215,12 +201,11 @@ public class UIComponentELResolver extends ELResolver {
                 return false;
             }
         }
-        
+
         log("can't resolve. returning");
         return false;
 
     }
-
 
     /**
      * <p>When the base object is a <code>UIComponent</code>, treat the
@@ -235,26 +220,26 @@ public class UIComponentELResolver extends ELResolver {
      * @param property Property name
      */
     public Class getType(ELContext context, Object base, Object property) {
-        
+
         log("getType(ctx, " + base + "," + property + ")");
-        
-        if(context == null) {
+
+        if (context == null) {
             throw new NullPointerException();
         }
 
         if ((base == null) || (!(base instanceof UIComponent)) ||
-            (property == null)) {
+                (property == null)) {
             log("argument is null or not of applicable type. returning");
             return null;
         }
 
         UIComponent component = (UIComponent) base;
         String id = property.toString();
-	if (component.getFacets().get(id) != null) {
+        if (component.getFacets().get(id) != null) {
             context.setPropertyResolved(true);
             log("found facet. returning UIComponent.class");
-	    return UIComponent.class;
-	}
+            return UIComponent.class;
+        }
         if (component.getChildCount() < 1) {
             log("child count less than 1. returning");
             return null;
@@ -272,13 +257,12 @@ public class UIComponentELResolver extends ELResolver {
         log("can't resolve. returning");
         return null;
     }
-    
+
     private void log(String message) {
         if (LogUtil.finestEnabled(UIComponentELResolver.class)) {
             LogUtil.finest(UIComponentELResolver.class, message);
         }
     }
-
 
     /**
      * <p>When the base object is a <code>UIComponent</code>, return
@@ -290,28 +274,28 @@ public class UIComponentELResolver extends ELResolver {
      *
      * @param context the ELContext
      * @param base Base object
-     */    
+     */
     public Iterator<FeatureDescriptor> getFeatureDescriptors(ELContext context, Object base) {
-        
+
         log("getFeatureDescriptors(ctx, " + base + ")");
-        
+
         if (context == null) {
             throw new NullPointerException();
         }
-        
+
         if (base == null) {
             return Arrays.asList(new FeatureDescriptor[0]).iterator();
         }
-        
-        if (! (base instanceof UIComponent)) {
+
+        if (!(base instanceof UIComponent)) {
             return null;
         }
-        
+
         List<FeatureDescriptor> result = new ArrayList<FeatureDescriptor>();
-        
-        UIComponent baseUic = (UIComponent)base;
+
+        UIComponent baseUic = (UIComponent) base;
         Iterator<UIComponent> facetsAndChildren = baseUic.getFacetsAndChildren();
-        while(facetsAndChildren.hasNext()) {
+        while (facetsAndChildren.hasNext()) {
             UIComponent kid = facetsAndChildren.next();
             FeatureDescriptor desc = new FeatureDescriptor();
             String kidId = kid.getId();
@@ -321,10 +305,10 @@ public class UIComponentELResolver extends ELResolver {
             desc.setValue(ELResolver.RESOLVABLE_AT_DESIGN_TIME, true);
             result.add(desc);
         }
-        
+
         return result.iterator();
     }
-    
+
     /**
      * <p>When the base object is a <code>UIComponent</code>, return
      * <code>String.class</code>. If
@@ -333,19 +317,19 @@ public class UIComponentELResolver extends ELResolver {
      *
      * @param context the ELContext
      * @param base Base object
-     */    
+     */
     public Class getCommonPropertyType(ELContext context,
-                                                Object base) {
+            Object base) {
         log("getCommonPropertyType(ctx, " + base + ")");
-        
+
         if (context == null) {
             throw new NullPointerException();
         }
-        
-        if (! (base instanceof UIComponent)) {
+
+        if (!(base instanceof UIComponent)) {
             return null;
         }
-        
+
         return String.class;
     }
 }
