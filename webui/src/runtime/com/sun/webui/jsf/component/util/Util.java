@@ -23,7 +23,6 @@ package com.sun.webui.jsf.component.util;
 
 import java.beans.Beans;
 import java.util.Iterator;
-
 import javax.faces.FactoryFinder;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIForm;
@@ -60,7 +59,7 @@ public class Util {
      *	@return	The child <code>UIComponent</code> if it exists, null otherwise.
      */
     public static UIComponent getChild(UIComponent parent, String id) {
-	return findChild(parent, id, id);
+        return findChild(parent, id, id);
     }
 
     /**
@@ -78,33 +77,33 @@ public class Util {
      *	@return	The child <code>UIComponent</code> if it exists, null otherwise.
      */
     public static UIComponent findChild(UIComponent parent, String id, String facetName) {
-	// Sanity Check
-	if (parent == null) {
-	    return null;
-	}
+        // Sanity Check
+        if (parent == null) {
+            return null;
+        }
 
-	// First search for facet
-	UIComponent child = null;
-	if (facetName != null) {
-	    child = (UIComponent)parent.getFacets().get(facetName);
-	    if (child != null) {
-		return child;
-	    }
-	}
+        // First search for facet
+        UIComponent child = null;
+        if (facetName != null) {
+            child = (UIComponent) parent.getFacets().get(facetName);
+            if (child != null) {
+                return child;
+            }
+        }
 
-	// Search for component by id
-	if (id != null) {
-	    Iterator it = parent.getChildren().iterator();
-	    while (it.hasNext()) {
-		child = (UIComponent)it.next();
-		if (id.equals(child.getId())) {
-		    return (child);
-		}
-	    }
-	}
+        // Search for component by id
+        if (id != null) {
+            Iterator it = parent.getChildren().iterator();
+            while (it.hasNext()) {
+                child = (UIComponent) it.next();
+                if (id.equals(child.getId())) {
+                    return (child);
+                }
+            }
+        }
 
-	// Not found, return null
-	return null;
+        // Not found, return null
+        return null;
     }
 
     /**
@@ -117,22 +116,22 @@ public class Util {
      *	@return	Returns the <code>UIForm</code> component that contains this element
      */
     public static UIComponent getForm(FacesContext context, UIComponent component) {
-	//make sure component is not null
-	if (component != null) {
-	    //make sure we don't already have a form
-	    if (component instanceof UIForm) {
-		return component;
-	    }
-	    
-	    UIComponent form = component;
-	    do {
-		form = form.getParent();
-		if (form != null && form instanceof UIForm) {
-		    return form;
-		}
-	    } while (form != null);
-	}
-	return null;
+        //make sure component is not null
+        if (component != null) {
+            //make sure we don't already have a form
+            if (component instanceof UIForm) {
+                return component;
+            }
+
+            UIComponent form = component;
+            do {
+                form = form.getParent();
+                if (form != null && form instanceof UIForm) {
+                    return form;
+                }
+            } while (form != null);
+        }
+        return null;
     }
 
     /**
@@ -145,14 +144,14 @@ public class Util {
      *		element.
      */
     public static String getFormName(FacesContext context, UIComponent component) {
-	UIComponent form = getForm(context, component);
-	if (form != null) {
-	    return form.getClientId(context);
-	}
-	return null;
+        UIComponent form = getForm(context, component);
+        if (form != null) {
+            return form.getClientId(context);
+        }
+        return null;
     }
 
-   /**
+    /**
      * <p>Return the base URI for the view identifier of the current view.</p>
      *
      * @param context <code>FacesContext</code> for the current request
@@ -162,7 +161,6 @@ public class Util {
         return getContext(context) + context.getViewRoot().getViewId();
 
     }
-
 
     /**
      * <p>Return an absolute URL to our server and context path.</p>
@@ -176,17 +174,14 @@ public class Util {
             return "http://localhost:18080/myapp";
         }
 
-        // FIXME - portlet environment variation?
-        HttpServletRequest request = (HttpServletRequest)
-            context.getExternalContext().getRequest();
+        //FIXME - portlet environment variation?
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         StringBuffer sb = new StringBuffer(request.getScheme());
         sb.append("://"); //NOI18N
         sb.append(request.getServerName());
-        if ("http".equals(request.getScheme()) && //NOI18N
-            (80 == request.getServerPort())) {
+        if ("http".equals(request.getScheme()) && (80 == request.getServerPort())) {//NOI18N
             ;
-        } else if ("https".equals(request.getScheme()) && //NOI18N
-                   (443 == request.getServerPort())) {
+        } else if ("https".equals(request.getScheme()) && (443 == request.getServerPort())) {//NOI18N
             ;
         } else {
             sb.append(":" + request.getServerPort()); //NOI18N
@@ -195,14 +190,10 @@ public class Util {
         return sb.toString();
 
     }
- 
-       
+
     public static String getActionURL(FacesContext context, String url) {
-        return context.getApplication().getViewHandler()
-                    .getActionURL(context, url);
+        return context.getApplication().getViewHandler().getActionURL(context, url);
     }
-
-
 
     /**
      * Add a PhaseListener.
@@ -211,11 +202,10 @@ public class Util {
      */
     public static void addPhaseListener(PhaseListener phaseListener) {
 
-        LifecycleFactory factory = (LifecycleFactory)
-            FactoryFinder.getFactory(FactoryFinder.LIFECYCLE_FACTORY);
+        LifecycleFactory factory = (LifecycleFactory) FactoryFinder.getFactory(FactoryFinder.LIFECYCLE_FACTORY);
         Lifecycle lifecycle =
-            factory.getLifecycle(LifecycleFactory.DEFAULT_LIFECYCLE);
-	lifecycle.addPhaseListener(phaseListener);
+                factory.getLifecycle(LifecycleFactory.DEFAULT_LIFECYCLE);
+        lifecycle.addPhaseListener(phaseListener);
     }
 
     /**
@@ -225,11 +215,9 @@ public class Util {
      */
     public static void removePhaseListener(PhaseListener phaseListener) {
 
-        LifecycleFactory factory = (LifecycleFactory)
-            FactoryFinder.getFactory(FactoryFinder.LIFECYCLE_FACTORY);
+        LifecycleFactory factory = (LifecycleFactory) FactoryFinder.getFactory(FactoryFinder.LIFECYCLE_FACTORY);
         Lifecycle lifecycle =
-            factory.getLifecycle(LifecycleFactory.DEFAULT_LIFECYCLE);
-	lifecycle.removePhaseListener(phaseListener);
+                factory.getLifecycle(LifecycleFactory.DEFAULT_LIFECYCLE);
+        lifecycle.removePhaseListener(phaseListener);
     }
-
 }
