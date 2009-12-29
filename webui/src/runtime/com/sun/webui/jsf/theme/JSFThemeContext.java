@@ -20,20 +20,14 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 /*
- * $Id: JSFThemeContext.java,v 1.1 2007-02-16 01:47:53 bob_yennaco Exp $
+ * $Id: JSFThemeContext.java,v 1.1.6.1 2009-12-29 04:57:17 jyeary Exp $
  */
-
 package com.sun.webui.jsf.theme;
 
 import java.beans.Beans;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Locale;
 import java.util.Map;
-
-import javax.faces.FacesException;
 import javax.faces.context.FacesContext;
-
 import com.sun.webui.jsf.util.ClassLoaderFinder;
 import com.sun.webui.theme.ServletThemeContext;
 import com.sun.webui.theme.ThemeContext;
@@ -57,7 +51,7 @@ public class JSFThemeContext extends ServletThemeContext {
      * Construction is controlled by <code>getInstance</code>.
      */
     protected JSFThemeContext(FacesContext context) {
-	super(context.getExternalContext().getInitParameterMap());
+        super(context.getExternalContext().getInitParameterMap());
     }
 
     // Note that since a ThemeServlet MUST be defined then 
@@ -69,53 +63,58 @@ public class JSFThemeContext extends ServletThemeContext {
      */
     public static ThemeContext getInstance(FacesContext context) {
 
-	// Does it make sense call a "super.getInstance()" ?
-	//
-	// In a servlet environment the JSF ApplicationMap is the 
-	// ServletContext and entires in the map are references by
-	// ServletContext.{get/set}Attribute().
-	// But a PortletContext is not a direct descendant of 
-	// ServletContext and there is not "interface compatible".
-	//
-	// We need synchronization here because there is one
-	// ThemeContext per application servlet.
-	//
-	Map map = context.getExternalContext().getApplicationMap();
-	ThemeContext themeContext = (ThemeContext)map.get(THEME_CONTEXT);
-	if (themeContext == null) {
-	    synchronized(synchObj) {
-		// try again in case another thread created it.
-		//
-		themeContext = (ThemeContext)map.get(THEME_CONTEXT);
-		if (themeContext == null) {
-		    themeContext = new JSFThemeContext(context);
-		    map.put(THEME_CONTEXT, themeContext);
-		}
-	    }
-	}
-	// It's not clear if this is necessary. Since this is a
-	// JSFThemeContext, it would not be unreasonable to just
-	// call "FacesContext.getCurrentInstance()" whenever 
-	// a value from that context is required like the 
-	// request context path, or referenced when calling
-	// "ThemeContext.getResourcePath()". 
-	//
-	//String path = context.getExternalContext().getRequestContextPath();
-	//themeContext.setRequestContextPath(path);
+        // Does it make sense call a "super.getInstance()" ?
+        //
+        // In a servlet environment the JSF ApplicationMap is the
+        // ServletContext and entires in the map are references by
+        // ServletContext.{get/set}Attribute().
+        // But a PortletContext is not a direct descendant of
+        // ServletContext and there is not "interface compatible".
+        //
+        // We need synchronization here because there is one
+        // ThemeContext per application servlet.
+        //
+        Map map = context.getExternalContext().getApplicationMap();
+        ThemeContext themeContext = (ThemeContext) map.get(THEME_CONTEXT);
+        if (themeContext == null) {
 
-	return themeContext;
+            //FIXME synchronization on a non-final field.
+            synchronized (synchObj) {
+                // try again in case another thread created it.
+                //
+                themeContext = (ThemeContext) map.get(THEME_CONTEXT);
+                if (themeContext == null) {
+                    themeContext = new JSFThemeContext(context);
+                    map.put(THEME_CONTEXT, themeContext);
+                }
+            }
+        }
+        // It's not clear if this is necessary. Since this is a
+        // JSFThemeContext, it would not be unreasonable to just
+        // call "FacesContext.getCurrentInstance()" whenever
+        // a value from that context is required like the
+        // request context path, or referenced when calling
+        // "ThemeContext.getResourcePath()".
+        //
+        //String path = context.getExternalContext().getRequestContextPath();
+        //themeContext.setRequestContextPath(path);
+
+        return themeContext;
     }
 
     /**
      * Return the default ClassLoader using ClassLoaderFinder.
      * ClassLoaderFinder encapsulates Creator requirements.
      */
+    @Override
     public ClassLoader getDefaultClassLoader() {
-	return ClassLoaderFinder.getCurrentLoader(JSFThemeContext.class);
+        return ClassLoaderFinder.getCurrentLoader(JSFThemeContext.class);
     }
+
     /**
      * This implementation is a no-op. See ClassLoaderFinder.
      */
+    @Override
     public void setDefaultClassLoader(ClassLoader classLoader) {
     }
 
@@ -125,14 +124,17 @@ public class JSFThemeContext extends ServletThemeContext {
      * This depends on the implementation of
      * <code>{@link com.sun.webui.theme.ThemeContext#getResourcePath()}</code>
      */
+    @Override
     public String getRequestContextPath() {
-	 return FacesContext.getCurrentInstance().getExternalContext().
-		getRequestContextPath();
+        return FacesContext.getCurrentInstance().getExternalContext().
+                getRequestContextPath();
     }
+
     /**
      * This implementation is a no-op.
      * @see #getRequestContextPath()
      */
+    @Override
     public void setRequestContextPath(String path) {
     }
 
@@ -142,31 +144,32 @@ public class JSFThemeContext extends ServletThemeContext {
      * being appended. Creator handles doing the right thing with 
      * getRequestContextPath()
      */
+    @Override
     public String getResourcePath(String path) {
         String resourcePath = path;
-	if (Beans.isDesignTime()) {
-	    ClassLoader cl = getDefaultClassLoader();
-	    URL url = cl.getResource(path);
+        if (Beans.isDesignTime()) {
+            ClassLoader cl = getDefaultClassLoader();
+            URL url = cl.getResource(path);
             if (url != null) {
                 resourcePath = url.toExternalForm();
-	    }
-	} else if (path != null) {
-	    FacesContext context = FacesContext.getCurrentInstance();
-	    String servletContext = getThemeServletContext();
-	    StringBuilder sb = new StringBuilder(128);
-	    // Just to make sure 
-	    //
-	    if (!servletContext.startsWith("/")) {
-		sb.append("/");
-	    }
-	    sb.append(servletContext);
-	    if (!path.startsWith("/") && !servletContext.endsWith("/")) {
-		sb.append("/");
-	    }
-	    sb.append(path);
-	    resourcePath = context.getApplication().getViewHandler().
-		getResourceURL(context, sb.toString());
-	}
+            }
+        } else if (path != null) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            String servletContext = getThemeServletContext();
+            StringBuilder sb = new StringBuilder(128);
+            // Just to make sure
+            //
+            if (!servletContext.startsWith("/")) {
+                sb.append("/");
+            }
+            sb.append(servletContext);
+            if (!path.startsWith("/") && !servletContext.endsWith("/")) {
+                sb.append("/");
+            }
+            sb.append(path);
+            resourcePath = context.getApplication().getViewHandler().
+                    getResourceURL(context, sb.toString());
+        }
         return resourcePath;
     }
 }

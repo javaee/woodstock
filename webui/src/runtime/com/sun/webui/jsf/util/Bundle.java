@@ -19,7 +19,6 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.util;
 
 import java.text.MessageFormat;
@@ -35,11 +34,9 @@ import java.util.ResourceBundle;
  * </p>
  */
 public class Bundle {
-    
+
 
     // ------------------------------------------------------------- Constructor
-
-
     /**
      * <p>Construct a <code>Bundle</code> instance for the specified
      * class.</p>
@@ -56,23 +53,15 @@ public class Bundle {
         }
         name += "Bundle-DT";
         bundle =
-          ResourceBundle.getBundle(name, format.getLocale(), clazz.getClassLoader());
+                ResourceBundle.getBundle(name, format.getLocale(), clazz.getClassLoader());
     }
-
-
     // -------------------------------------------------------- Static Variables
-
-
     /**
      * <p>The <code>MessageFormat</code> instance we will use for messages
      * that require parameter replacement.</p>
      */
     private MessageFormat format = new MessageFormat("");
-
-
     // ------------------------------------------------------ Instance Variables
-
-
     /**
      * <p>The <code>ResourceBundle</code> containing our messages.</p>
      */
@@ -80,8 +69,6 @@ public class Bundle {
 
 
     // ---------------------------------------------------------- Public Methods
-
-
     /**
      * <p>Return the message for the specified key.</p>
      *
@@ -90,7 +77,6 @@ public class Bundle {
     public String message(String key) {
         return bundle.getString(key);
     }
-
 
     /**
      * <p>Return the message for the specified key, after substituting
@@ -101,11 +87,11 @@ public class Bundle {
      */
     public String message(String key, Object params[]) {
         String pattern = message(key);
+
+        //FIXME synchronization on a non-final variable
         synchronized (format) {
             format.applyPattern(pattern);
             return format.format(params);
         }
     }
-
-
 }

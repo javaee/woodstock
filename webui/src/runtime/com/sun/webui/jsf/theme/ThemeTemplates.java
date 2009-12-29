@@ -19,28 +19,25 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.theme;
 
 /**
  * <p> This class contains HTML template related theme constants.</p>
  */
 public class ThemeTemplates {
+
     /**
      * A template file that contains HTML for the Button component.
      */
     public static final String BUTTON = "button";
-
     /**
      * A template file that contains HTML for the Table2 component.
      */
     public static final String TABLE2 = "table2";
-
     /**
      * A template file that contains HTML for the Table2RowGroup component.
      */
     public static final String TABLE2ROWGROUP = "table2RowGroup";
-
     /**
      * A template file that contains HTML for the ProgressBar component.
      */
@@ -51,7 +48,7 @@ public class ThemeTemplates {
      * directly as its only purpose is to provide image constants.
      */
     private ThemeTemplates() {
-	// do nothing
+        // do nothing
     }
 }
 

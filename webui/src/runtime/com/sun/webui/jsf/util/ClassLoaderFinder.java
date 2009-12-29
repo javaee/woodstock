@@ -19,7 +19,6 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.util;
 
 /**
@@ -30,7 +29,7 @@ package com.sun.webui.jsf.util;
  * this utility when you need to get hold of the current loader.
  */
 public class ClassLoaderFinder {
-    
+
     /**
      * <p>Optional Special ClassLoader to use. For example, at
      * designtime the Creator IDE will set it to the project classloader - 
@@ -38,7 +37,7 @@ public class ClassLoaderFinder {
      * <code>FacesContainer.initialize()</code> is called.</p>
      */
     private static ClassLoader customClassLoader = null;
-    
+
     /**
      * <p>Set a preferred ClassLoader to use for loading resources such
      * as themes and messages (via {@link #getCurrentLoader}). If not set 
@@ -46,11 +45,10 @@ public class ClassLoaderFinder {
      * used.</p>
      * @param customClassLoader The new class loader to use
      */
-    public static void setCustomClassLoader(ClassLoader
-            customClassLoader) {
+    public static void setCustomClassLoader(ClassLoader customClassLoader) {
         ClassLoaderFinder.customClassLoader = customClassLoader;
     }
-    
+
     /**
      * <p>Return the best class loader to use for loading resources.
      * This is normally the thread context class loader but can 
@@ -66,9 +64,9 @@ public class ClassLoaderFinder {
             loader = Thread.currentThread().getContextClassLoader();
         }
         if (loader == null) {
-            loader   = fallbackClass.getClass().getClassLoader();
+            loader = fallbackClass.getClass().getClassLoader();
         }
         return loader;
-    }  
+    }
 }
 

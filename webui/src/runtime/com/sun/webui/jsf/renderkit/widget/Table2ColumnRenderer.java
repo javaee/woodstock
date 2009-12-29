@@ -19,21 +19,14 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.renderkit.widget;
 
 import com.sun.faces.annotation.Renderer;
-
 import com.sun.webui.jsf.component.Table2Column;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
-
 import java.io.IOException;
-import java.util.List;
-
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,10 +34,10 @@ import org.json.JSONObject;
 /**
  * This class renders Table2Column components.
  */
-@Renderer(@Renderer.Renders(
-    rendererType="com.sun.webui.jsf.widget.Table2Column",
-    componentFamily="com.sun.webui.jsf.Table2Column"))
+@Renderer(@Renderer.Renders(rendererType = "com.sun.webui.jsf.widget.Table2Column",
+componentFamily = "com.sun.webui.jsf.Table2Column"))
 public class Table2ColumnRenderer extends RendererBase {
+
     /**
      * The set of pass-through attributes to be rendered.
      * <p>
@@ -80,7 +73,6 @@ public class Table2ColumnRenderer extends RendererBase {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // RendererBase methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Get the Dojo modules required to instantiate the widget.
      *
@@ -115,7 +107,6 @@ public class Table2ColumnRenderer extends RendererBase {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Property methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /** 
      * Helper method to obtain footer properties.
      *
@@ -128,8 +119,8 @@ public class Table2ColumnRenderer extends RendererBase {
         // Get footer facet.
         UIComponent facet = component.getFacet(Table2Column.FOOTER_FACET);
         if (facet != null && facet.isRendered()) {
-            WidgetUtilities.addProperties(json, "footerText", 
-                WidgetUtilities.renderComponent(context, facet));
+            WidgetUtilities.addProperties(json, "footerText",
+                    WidgetUtilities.renderComponent(context, facet));
         } else {
             // Add footer text.
             json.put("footerText", component.getFooterText());
@@ -148,8 +139,8 @@ public class Table2ColumnRenderer extends RendererBase {
         // Get header facet.
         UIComponent facet = component.getFacet(Table2Column.HEADER_FACET);
         if (facet != null && facet.isRendered()) {
-            WidgetUtilities.addProperties(json, "headerText", 
-                WidgetUtilities.renderComponent(context, facet));
+            WidgetUtilities.addProperties(json, "headerText",
+                    WidgetUtilities.renderComponent(context, facet));
         } else {
             // Add header text.
             json.put("headerText", component.getHeaderText());

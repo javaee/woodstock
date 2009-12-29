@@ -21,9 +21,8 @@
  */
 
 /*
- * $Id: ComponentUtilities.java,v 1.1 2007-02-16 01:48:59 bob_yennaco Exp $
+ * $Id: ComponentUtilities.java,v 1.1.6.1 2009-12-29 04:59:21 jyeary Exp $
  */
-
 package com.sun.webui.jsf.util;
 
 import javax.faces.component.UIComponent;
@@ -50,12 +49,12 @@ public class ComponentUtilities {
      * @param facet the private facet component instance
      */
     public static void putPrivateFacet(UIComponent parent,
-	    String facetName, UIComponent facet) {
+            String facetName, UIComponent facet) {
 
-	if (parent == null || facet == null || facetName == null) {
-	    return;
-	}
-	parent.getFacets().put(createPrivateFacetName(facetName), facet);
+        if (parent == null || facet == null || facetName == null) {
+            return;
+        }
+        parent.getFacets().put(createPrivateFacetName(facetName), facet);
     }
 
     /**
@@ -68,13 +67,14 @@ public class ComponentUtilities {
      * @param facetName the public facet name
      */
     public static void removePrivateFacet(UIComponent parent,
-	    String facetName) {
+            String facetName) {
 
-	if (parent == null || facetName == null) {
-	    return;
-	}
-	parent.getFacets().remove(createPrivateFacetName(facetName));
+        if (parent == null || facetName == null) {
+            return;
+        }
+        parent.getFacets().remove(createPrivateFacetName(facetName));
     }
+
     /**
      * Return a private facet from the the parent component's facet map.
      * Look for a private facet name by calling
@@ -92,30 +92,30 @@ public class ComponentUtilities {
      * @return a UIComponent if the facet is found else null.
      */
     public static UIComponent getPrivateFacet(UIComponent parent,
-	    String facetName, boolean matchId) {
+            String facetName, boolean matchId) {
 
-	if (parent == null || facetName == null) {
-	    return null;
-	}
+        if (parent == null || facetName == null) {
+            return null;
+        }
 
-	String pfacetName = createPrivateFacetName(facetName);
-	UIComponent facet = (UIComponent)parent.getFacets().get(pfacetName);
-	if (facet == null) {
-	    return null;
-	}
+        String pfacetName = createPrivateFacetName(facetName);
+        UIComponent facet = (UIComponent) parent.getFacets().get(pfacetName);
+        if (facet == null) {
+            return null;
+        }
 
-	if (matchId == false) {
-	    return facet;
-	}
+        if (matchId == false) {
+            return facet;
+        }
 
-	// Will never be null as long as facetName is not null.
-	//
-	String id = createPrivateFacetId(parent, facetName);
-	if (!id.equals(facet.getId())) {
-	    parent.getFacets().remove(pfacetName);
-	    return null;
-	}
-	return facet;
+        // Will never be null as long as facetName is not null.
+        //
+        String id = createPrivateFacetId(parent, facetName);
+        if (!id.equals(facet.getId())) {
+            parent.getFacets().remove(pfacetName);
+            return null;
+        }
+        return facet;
     }
 
     /**
@@ -125,7 +125,7 @@ public class ComponentUtilities {
      * @return a private facet name
      */
     public static String createPrivateFacetName(String facetName) {
-	return USCORE.concat(facetName);
+        return USCORE.concat(facetName);
     }
 
     /**
@@ -139,13 +139,13 @@ public class ComponentUtilities {
      * @return an id for a private facet.
      */
     public static String createPrivateFacetId(UIComponent parent,
-	    String facetName) {
+            String facetName) {
 
-	String pfacetName = createPrivateFacetName(facetName);
-	String id = parent.getId();
-	if (id != null) {
-	    pfacetName = id.concat(pfacetName);
-	}
-	return pfacetName;
+        String pfacetName = createPrivateFacetName(facetName);
+        String id = parent.getId();
+        if (id != null) {
+            pfacetName = id.concat(pfacetName);
+        }
+        return pfacetName;
     }
 }

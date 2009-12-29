@@ -25,7 +25,6 @@
  *
  * Created on March 25, 2005, 7:55 AM
  */
-
 package com.sun.webui.jsf.util;
 
 import java.io.File;
@@ -44,14 +43,11 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper; 
-
+import javax.servlet.http.HttpServletRequestWrapper;
 import org.apache.commons.fileupload.DiskFileUpload;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUpload;
-import org.apache.commons.fileupload.FileUploadBase;
 import org.apache.commons.fileupload.FileUploadException;
 
 import com.sun.webui.jsf.component.Upload;
@@ -63,18 +59,18 @@ import java.util.Arrays;
  * <p>Configure the filter by declaring the filter element in the web application's
  * deployment descriptor.</p> 
  * <pre> 
-  &lt;filter&gt;
-    &lt;filter-name&gt;UploadFilter&lt;/filter-name&gt;
-    &lt;filter-class&gt;com.sun.webui.jsf.util.UploadFilter&lt;/filter-class&gt;
-  &lt;/filter&gt;
- </pre>
+&lt;filter&gt;
+&lt;filter-name&gt;UploadFilter&lt;/filter-name&gt;
+&lt;filter-class&gt;com.sun.webui.jsf.util.UploadFilter&lt;/filter-class&gt;
+&lt;/filter&gt;
+</pre>
  *<p>Map the filter to the FacesServlet, for example</p>
  *<pre>
-  &lt;filter-mapping&gt;
-    &lt;filter-name&gt;UploadFilter&lt;/filter-name&gt;
-    &lt;servlet-name&gt;FacesServlet&lt;/servlet-name&gt;
-  &lt;/filter-mapping&gt;
- </pre> 
+&lt;filter-mapping&gt;
+&lt;filter-name&gt;UploadFilter&lt;/filter-name&gt;
+&lt;servlet-name&gt;FacesServlet&lt;/servlet-name&gt;
+&lt;/filter-mapping&gt;
+</pre> 
  *<p>The UploadFilter uses the Apache commons fileupload package. You can 
  *configure the parameters of the DiskFileUpload class by specifying init 
  *parameters to the Filter. The following parameters are available: 
@@ -96,7 +92,7 @@ import java.util.Arrays;
 
  */
 public class UploadFilter implements Filter {
-    
+
     /**
      * The name of the filter init parameter used to specify the maximum 
      * allowable file upload size.
@@ -113,15 +109,12 @@ public class UploadFilter implements Filter {
      * uploaded files.
      */
     public static final String TMP_DIR = "tmpDir";
-    
     private long maxSize = 1000000;
-    private int sizeThreshold = 4096; 
+    private int sizeThreshold = 4096;
     private String tmpDir = System.getProperty("java.io.tmpdir");
     private String messages = "com.sun.webui.jsf.resources.LogMessages";
-    
     private static final boolean DEBUG = false;
-    
-    
+
     /**
      * <p>The upload filter checks if the incoming request has multipart content. 
      * If it doesn't, the request is passed on as is to the next filter in the chain. 
@@ -151,14 +144,14 @@ public class UploadFilter implements Filter {
             throws IOException, ServletException {
 
 
-        HttpServletRequest req = (HttpServletRequest)request;
-        
-        if(FileUpload.isMultipartContent(req)) {
-            
+        HttpServletRequest req = (HttpServletRequest) request;
+
+        if (FileUpload.isMultipartContent(req)) {
+
             DiskFileUpload fu = new DiskFileUpload();
             // maximum size before a FileUploadException will be thrown
             // Store this in a context parameter perhaps?
-            
+
             // Enforce the maxSize. File larger than the maxSize will not be uploaded (FileUploadExcetpion will be thrown instead)
             // Note: do not set the maxSize to -1, which means no size limitation is enforced. 
             //       It is a big security hole to allow any file to be uploaded
@@ -168,7 +161,7 @@ public class UploadFilter implements Filter {
             fu.setSizeThreshold(sizeThreshold);
             // the location for saving data that is larger than getSizeThreshold()  
             fu.setRepositoryPath(tmpDir);
-            
+
             // files with names in other languages (like Japanese) are not
             // being uploaded with the proper names. Proper encoding has to 
             // be set for this to happen.
@@ -178,30 +171,31 @@ public class UploadFilter implements Filter {
                 fu.setHeaderEncoding("UTF-8");
             }
             List fileItems = null;
-            Hashtable parameters = null; 
+            Hashtable parameters = null;
             try {
                 fileItems = fu.parseRequest(req);
-                
-            } catch(FileUploadException fue) {
-                request.setAttribute(Upload.UPLOAD_ERROR_KEY, fue); 
+
+            } catch (FileUploadException fue) {
+                request.setAttribute(Upload.UPLOAD_ERROR_KEY, fue);
                 request.setAttribute(Upload.FILE_SIZE_KEY, String.valueOf(maxSize));
             }
 
-            if(fileItems != null) 
-                parameters = parseRequest(fileItems, req); 
-            else
-                parameters = new Hashtable(); 
+            if (fileItems != null) {
+                parameters = parseRequest(fileItems, req);
+            } else {
+                parameters = new Hashtable();
+            }
 
-	    // Need to add the parameters from the original request
-	    // into parameters
-	    //
-	    Enumeration names = request.getParameterNames();
-	    while (names.hasMoreElements()) {
-		String param = (String)names.nextElement();
-                
+            // Need to add the parameters from the original request
+            // into parameters
+            //
+            Enumeration names = request.getParameterNames();
+            while (names.hasMoreElements()) {
+                String param = (String) names.nextElement();
+
                 String paramValue = request.getParameter(param);
-                
-                if(!parameters.containsKey(param)) {
+
+                if (!parameters.containsKey(param)) {
                     parameters.put(param, paramValue);
                 } else {
                     // The value of the parameters map entry can be either String or String[]
@@ -209,44 +203,44 @@ public class UploadFilter implements Filter {
                     // If the value is a String, then need to make the value to String[]
                     Object origParamValue = parameters.get(param);
                     String[] newParamValue;
-                    if(origParamValue instanceof String) {
+                    if (origParamValue instanceof String) {
                         newParamValue = new String[2];
-                        newParamValue[0] = (String)origParamValue;
+                        newParamValue[0] = (String) origParamValue;
                         newParamValue[1] = paramValue;
                     } else { // Must be String[]
-                        List paramList = Arrays.asList( (String[])origParamValue );
+                        List paramList = Arrays.asList((String[]) origParamValue);
                         paramList.add(paramValue);
-                        newParamValue = (String[])paramList.toArray( new String[0] );
+                        newParamValue = (String[]) paramList.toArray(new String[0]);
                     }
-                    
+
                     // Add it back to the parameters map
                     parameters.put(param, newParamValue);
                 }
-	    }
+            }
 
-            UploadRequest wrappedRequest  = new UploadRequest(req, parameters);
+            UploadRequest wrappedRequest = new UploadRequest(req, parameters);
 
             chain.doFilter(wrappedRequest, response);
 
-            Enumeration e = request.getAttributeNames(); 
-            while (e.hasMoreElements()) { 
-                Object o = request.getAttribute(e.nextElement().toString()); 
-                if(o instanceof FileItem) { 
-                    ((FileItem)o).delete();
+            Enumeration e = request.getAttributeNames();
+            while (e.hasMoreElements()) {
+                Object o = request.getAttribute(e.nextElement().toString());
+                if (o instanceof FileItem) {
+                    ((FileItem) o).delete();
                 }
             }
+        } else {
+            chain.doFilter(request, response);
         }
-        else { 
-             chain.doFilter(request, response);
-        }        
     }
-    
 
-    private Hashtable parseRequest(List fileItems, 
-			           HttpServletRequest request) { 
-        
-        if(DEBUG) log("parseRequest()");
-        
+    private Hashtable parseRequest(List fileItems,
+            HttpServletRequest request) {
+
+        if (DEBUG) {
+            log("parseRequest()");
+        }
+
         // Iterate over the FileItems to see if any of them correspond
         // to the ID of an input type="file" that is rendered inside a 
         // a span. This happens if the component has a label attribute or 
@@ -255,36 +249,41 @@ public class UploadFilter implements Filter {
         // can match it directly. If there is a match, a request attribute 
         // is added for the corresponding FileItem . If there is no match, 
         // add the fileItem to a map, with the fieldID as the key. 
-    
-	Iterator iterator = fileItems.iterator();
-	String fieldID = null; 
-	FileItem fileItem = null; 
-        Map fileItemsMap = new TreeMap(); 
-        
-        if(DEBUG) log("\tFirst pass through the parameters which are"); 
-	while(iterator.hasNext()) {
-	    fileItem = (FileItem)(iterator.next());
-	    fieldID = fileItem.getFieldName(); 
-            if(DEBUG) log("\t\t" + fieldID); 
-	    if(fieldID.endsWith(Upload.INPUT_ID)) {                       
-		request.setAttribute(fieldID, fileItem);
-                if(DEBUG) log(fieldID + " added to the request parameters"); 
+
+        Iterator iterator = fileItems.iterator();
+        String fieldID = null;
+        FileItem fileItem = null;
+        Map fileItemsMap = new TreeMap();
+
+        if (DEBUG) {
+            log("\tFirst pass through the parameters which are");
+        }
+        while (iterator.hasNext()) {
+            fileItem = (FileItem) (iterator.next());
+            fieldID = fileItem.getFieldName();
+            if (DEBUG) {
+                log("\t\t" + fieldID);
             }
-            else { 
+            if (fieldID.endsWith(Upload.INPUT_ID)) {
+                request.setAttribute(fieldID, fileItem);
+                if (DEBUG) {
+                    log(fieldID + " added to the request parameters");
+                }
+            } else {
                 // Need to store the value as an ArrayList because some
                 // fieldID has multiple values, for exampe, the selected
                 // values for the add remove component (see CR6504432)
                 ArrayList valueList;
-                if(!fileItemsMap.containsKey(fieldID)) {
+                if (!fileItemsMap.containsKey(fieldID)) {
                     valueList = new ArrayList();
                 } else {
-                    valueList = (ArrayList)fileItemsMap.get(fieldID);
+                    valueList = (ArrayList) fileItemsMap.get(fieldID);
                 }
                 valueList.add(fileItem);
                 fileItemsMap.put(fieldID, valueList);
             }
-	} 
-        
+        }
+
         // Iterate over the FileItems to see if any of them correspond
         // to a hidden field used to identify a FileUpload which does
         // not have an associated label. (In that case, the ID of the 
@@ -294,146 +293,155 @@ public class UploadFilter implements Filter {
         // get the corresponding file item. Both the ID of the hidden 
         // component and that of the input itself are added to the 
         // parameters to be ignored. 
-      
-        if(DEBUG) log("\tSecond pass through the parameters"); 
+
+        if (DEBUG) {
+            log("\tSecond pass through the parameters");
+        }
         ArrayList removes = new ArrayList();
-        ArrayList unlabeledUploads = new ArrayList(); 
-	    iterator = fileItemsMap.keySet().iterator(); 
-        String param = null; 
-	    while(iterator.hasNext()) {
-	    fieldID = (String)(iterator.next()); 
-	    if(fieldID.endsWith(Upload.INPUT_PARAM_ID)) {
-                fileItem = (FileItem)((ArrayList)fileItemsMap.get(fieldID)).get(0);
-                param = fileItem.getString(); 
+        ArrayList unlabeledUploads = new ArrayList();
+        iterator = fileItemsMap.keySet().iterator();
+        String param = null;
+        while (iterator.hasNext()) {
+            fieldID = (String) (iterator.next());
+            if (fieldID.endsWith(Upload.INPUT_PARAM_ID)) {
+                fileItem = (FileItem) ((ArrayList) fileItemsMap.get(fieldID)).get(0);
+                param = fileItem.getString();
                 unlabeledUploads.add(param);
                 removes.add(fieldID);
-                if(DEBUG) log("\tFound other fileUpload for parameter " + param); 
-            } 
-        } 
-        
+                if (DEBUG) {
+                    log("\tFound other fileUpload for parameter " + param);
+                }
+            }
+        }
+
         // If we found IDs of any unlabeled Uploads, we create request 
         // attributes for them too, and add their IDs to the list of IDs
         // to remove. 
-        if(!unlabeledUploads.isEmpty()) {
-            if(DEBUG) log("\tFound unlabeledUploads ");
+        if (!unlabeledUploads.isEmpty()) {
+            if (DEBUG) {
+                log("\tFound unlabeledUploads ");
+            }
             iterator = unlabeledUploads.iterator();
-            while(iterator.hasNext()) {
+            while (iterator.hasNext()) {
                 fieldID = iterator.next().toString();
-                if(fileItemsMap.get(fieldID) != null) {
-                    fileItem = (FileItem)((ArrayList)fileItemsMap.get(fieldID)).get(0);   
+                if (fileItemsMap.get(fieldID) != null) {
+                    fileItem = (FileItem) ((ArrayList) fileItemsMap.get(fieldID)).get(0);
                     request.setAttribute(fieldID.concat(Upload.INPUT_ID), fileItem);
                     removes.add(fieldID);
-                    if(DEBUG) log("\tAdd FileItem for " + fieldID.concat(Upload.INPUT_ID));
+                    if (DEBUG) {
+                        log("\tAdd FileItem for " + fieldID.concat(Upload.INPUT_ID));
+                    }
                 }
             }
         }
-        
+
         // If we have any fields to be removed from the parameter map,
         // we do so
-        if(!removes.isEmpty()) {
+        if (!removes.isEmpty()) {
             iterator = removes.iterator();
-            while(iterator.hasNext()) {
+            while (iterator.hasNext()) {
                 fileItemsMap.remove(iterator.next());
             }
         }
-          
+
         // Create a hashtable to use for the parameters, and add the remaining
         // fileItems
-        Hashtable parameters = new Hashtable();  
+        Hashtable parameters = new Hashtable();
         iterator = fileItemsMap.keySet().iterator();
         Object id = null;
-        if(DEBUG) log("\tFinally, create regular parameters for ");
-        while(iterator.hasNext()) {
+        if (DEBUG) {
+            log("\tFinally, create regular parameters for ");
+        }
+        while (iterator.hasNext()) {
             id = iterator.next();
-            
-            ArrayList valueList = (ArrayList)fileItemsMap.get(id);
-            if(valueList.size() == 1 ) {
-                parameters.put(id, ((FileItem)valueList.get(0)).getString());
-                if(DEBUG) log("\t\t " + id + ":" + ((FileItem)valueList.get(0)).getString());
+
+            ArrayList valueList = (ArrayList) fileItemsMap.get(id);
+            if (valueList.size() == 1) {
+                parameters.put(id, ((FileItem) valueList.get(0)).getString());
+                if (DEBUG) {
+                    log("\t\t " + id + ":" + ((FileItem) valueList.get(0)).getString());
+                }
             } else {
                 String[] params = new String[valueList.size()];
-                for( int i = 0; i < valueList.size(); i ++ ) {
-                    params[i] = ((FileItem)valueList.get(i)).getString();
+                for (int i = 0; i < valueList.size(); i++) {
+                    params[i] = ((FileItem) valueList.get(i)).getString();
                 }
-                
+
                 parameters.put(id, params);
-                if(DEBUG) log("\t\t " + id + ":" + params.toString());
+                if (DEBUG) {
+                    log("\t\t " + id + ":" + params.toString());
+                }
             }
         }
-                                   
-        return parameters; 
-    } 
-    
-    
+
+        return parameters;
+    }
+
     /**
      * Initializes the Upload filter by reading any init parameters.
      * @param filterConfig the filter configuration
      */
     public void init(FilterConfig filterConfig) {
-        
-        StringBuffer errorMessageBuffer = new StringBuffer(300); 
-        String param = filterConfig.getInitParameter(MAX_SIZE); 
-        if(param != null) { 
-            try { 
-                maxSize = Long.parseLong(param); 
-            }
-            catch(NumberFormatException nfe) { 
-                Object[] params = { MAX_SIZE, param }; 
-                String msg = MessageUtil.getMessage
-                    (messages, "Upload.invalidLong", params);
+
+        StringBuffer errorMessageBuffer = new StringBuffer(300);
+        String param = filterConfig.getInitParameter(MAX_SIZE);
+        if (param != null) {
+            try {
+                maxSize = Long.parseLong(param);
+            } catch (NumberFormatException nfe) {
+                Object[] params = {MAX_SIZE, param};
+                String msg = MessageUtil.getMessage(messages, "Upload.invalidLong", params);
                 errorMessageBuffer.append(msg);
             }
-        } 
+        }
         param = filterConfig.getInitParameter(SIZE_THRESHOLD);
-        if(param != null) {       
-            try { 
-                 sizeThreshold = Integer.parseInt(param); 
-            }
-            catch(NumberFormatException nfe) { 
-                Object[] params = { SIZE_THRESHOLD, param }; 
+        if (param != null) {
+            try {
+                sizeThreshold = Integer.parseInt(param);
+            } catch (NumberFormatException nfe) {
+                Object[] params = {SIZE_THRESHOLD, param};
                 errorMessageBuffer.append(" ");
-                String msg = MessageUtil.getMessage
-                    (messages, "Upload.invalidInt", params);
-                errorMessageBuffer.append(msg); 
+                String msg = MessageUtil.getMessage(messages, "Upload.invalidInt", params);
+                errorMessageBuffer.append(msg);
             }
         }
         param = filterConfig.getInitParameter(TMP_DIR);
-        if(param != null) { 
-            tmpDir = param; 
-            File dir = new File(tmpDir); 
-            if(!dir.canWrite()) { 
-                Object[] params = { TMP_DIR, param }; 
+        if (param != null) {
+            tmpDir = param;
+            File dir = new File(tmpDir);
+            if (!dir.canWrite()) {
+                Object[] params = {TMP_DIR, param};
                 errorMessageBuffer.append(" ");
-                String msg = MessageUtil.getMessage(messages, 
-                                                    "Upload.invalidDir", 
-                                                    params);
+                String msg = MessageUtil.getMessage(messages,
+                        "Upload.invalidDir",
+                        params);
                 errorMessageBuffer.append(msg);
             }
-        } 
-        String error = errorMessageBuffer.toString(); 
-        if(error.length() > 0) { 
+        }
+        String error = errorMessageBuffer.toString();
+        if (error.length() > 0) {
             throw new RuntimeException(error);
         }
     }
-    
+
     /**
      * Return a String representation of the UploadFilter
      * @return A String representation of the UploadFilter
      */
     public String toString() {
-        
-        return (this.getClass().getName());      
+
+        return (this.getClass().getName());
     }
 
-    /** Invoked when the Filter is destroyed */ 
+    /** Invoked when the Filter is destroyed */
     public void destroy() {
         // do nothing
     }
-    
-    private void log(String s) { 
-        System.out.println(getClass().getName() + "::" + s); 
+
+    private void log(String s) {
+        System.out.println(getClass().getName() + "::" + s);
     }
-      
+
     /**
      *  This request wrapper class extends the support class HttpServletRequestWrapper,
      *  which implements all the methods in the HttpServletRequest interface, as
@@ -442,65 +450,64 @@ public class UploadFilter implements Filter {
      *  You can get access to the wrapped request using the method getRequest()
      */
     class UploadRequest extends HttpServletRequestWrapper {
-        
+
         private Hashtable parameters;
         private static final boolean DEBUG = false;
-        
+
         public UploadRequest(HttpServletRequest request, Hashtable parameters) {
             super(request);
             this.parameters = parameters;
         }
-        
-        
+
         public String getParameter(String name) {
             //Thread.currentThread().dumpStack();
             Object param = parameters.get(name);
-            
-            if(param instanceof String) {
-                return (String)param;
+
+            if (param instanceof String) {
+                return (String) param;
             }
-            if(param instanceof String[]) {
-                String[] params = (String[])param;
+            if (param instanceof String[]) {
+                String[] params = (String[]) param;
                 return params[0];
             }
             return (param == null ? null : param.toString());
         }
-        
-	// From the servlet spec
-	// getParameterValues(String) public java.lang.String[]
-	//	getParameterValues(java.lang.String name)
-	// Returns an array of String objects containing all of the values
-	// the given request parameter has, or null if the parameter does
-	// not exist. If the parameter has a single value, the array
-	// has a length of 1.
-	/**
-	 * Returns an array of String objects containing all of the
-	 * values the given request parameter has, 
-	 * or null if the parameter does not exist. If the
-	 * parameter has a single value, the array has a length of 1.
-	 */
-        public String[] getParameterValues(String name) {            
 
-	    Object value = parameters.get(name);
+        // From the servlet spec
+        // getParameterValues(String) public java.lang.String[]
+        //	getParameterValues(java.lang.String name)
+        // Returns an array of String objects containing all of the values
+        // the given request parameter has, or null if the parameter does
+        // not exist. If the parameter has a single value, the array
+        // has a length of 1.
+        /**
+         * Returns an array of String objects containing all of the
+         * values the given request parameter has,
+         * or null if the parameter does not exist. If the
+         * parameter has a single value, the array has a length of 1.
+         */
+        public String[] getParameterValues(String name) {
 
-	    // If name does not exist return null.
-	    //
-	    if (value == null) {
-		return null;
-	    }
-	    // If a String array return it
-	    //
-	    if (value instanceof String[]) {
-		return (String[])value;
-	    } else { // Must be one big String
-		return new String[] { value.toString() };
-	    }
+            Object value = parameters.get(name);
+
+            // If name does not exist return null.
+            //
+            if (value == null) {
+                return null;
+            }
+            // If a String array return it
+            //
+            if (value instanceof String[]) {
+                return (String[]) value;
+            } else { // Must be one big String
+                return new String[]{value.toString()};
+            }
         }
-        
+
         public Enumeration getParameterNames() {
             return parameters.keys();
         }
-        
+
         public Map getParameterMap() {
             return parameters;
         }

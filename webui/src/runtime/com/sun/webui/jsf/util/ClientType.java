@@ -25,7 +25,6 @@
  *
  * Created on December 16, 2004, 8:19 AM
  */
-
 package com.sun.webui.jsf.util;
 
 /**
@@ -39,30 +38,30 @@ package com.sun.webui.jsf.util;
  *@see com.sun.webui.jsf.util.ClientSniffer
  *
  */
-public class ClientType { 
+public class ClientType {
 
-    private String type; 
-        
+    private String type;
     /** Client type is Mozilla 6 or higher */
-    public static final ClientType GECKO = new ClientType("gecko") ;
+    public static final ClientType GECKO = new ClientType("gecko");
     /** Client type is IE7 or higher */
     public static final ClientType IE7 = new ClientType("ie7");
     /** Client type is IE6 */
     public static final ClientType IE6 = new ClientType("ie6");
-     /** Client type is IE 5, version 5.5 or higher */
-    public static final ClientType IE5_5 = new ClientType("ie5.5"); 
+    /** Client type is IE 5, version 5.5 or higher */
+    public static final ClientType IE5_5 = new ClientType("ie5.5");
     /** Client type is not IE 5.5+ or gecko. */
     public static final ClientType OTHER = new ClientType("default");
 
-    private ClientType(String s) { 
-	type = s; 
-    } 
-       
+    private ClientType(String s) {
+        type = s;
+    }
+
     /**
      * Get a String representation of the action
      * @return A String representation of the value type.
      */
+    @Override
     public String toString() {
-	return type;
+        return type;
     }
 }

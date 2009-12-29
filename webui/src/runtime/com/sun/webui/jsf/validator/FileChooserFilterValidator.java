@@ -20,7 +20,7 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 /*
- * $Id: FileChooserFilterValidator.java,v 1.1 2007-02-16 01:51:51 bob_yennaco Exp $
+ * $Id: FileChooserFilterValidator.java,v 1.1.20.1 2009-12-29 05:00:37 jyeary Exp $
  */
 package com.sun.webui.jsf.validator;
 
@@ -28,7 +28,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
-
 import com.sun.webui.jsf.component.FileChooser;
 
 // This is difficult to get right. We assume the
@@ -55,10 +54,10 @@ import com.sun.webui.jsf.component.FileChooser;
 //
 public class FileChooserFilterValidator implements Validator {
 
-    public void validate(FacesContext context, UIComponent  component,
-	    Object value) throws ValidatorException {
+    public void validate(FacesContext context, UIComponent component,
+            Object value) throws ValidatorException {
 
-	FileChooser chooser = (FileChooser)component.getParent();
-	chooser.validateFilterComponent(context, component, value);
+        FileChooser chooser = (FileChooser) component.getParent();
+        chooser.validateFilterComponent(context, component, value);
     }
 }

@@ -19,14 +19,12 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.util;
 
 import java.util.Map;
 import java.util.StringTokenizer;
 
 import javax.faces.context.FacesContext;
-
 
 /**
  * This utility class parses the user agent of a HttpServletRequest
@@ -106,45 +104,45 @@ public class ClientSniffer {
      *			extract the user agent.
      */
     public ClientSniffer(FacesContext context) {
-	String version = null;
-	setUserAgent(context);
-	agent = getUserAgent();
-        
-	// Parse user agent.
-	if (agent != null) {
-            
-	    StringTokenizer st = new StringTokenizer(agent, "/");
+        String version = null;
+        setUserAgent(context);
+        agent = getUserAgent();
 
-	    // Parse out user agent name.
-	    if (st.hasMoreTokens()) {
-		st.nextToken();
-	    }
+        // Parse user agent.
+        if (agent != null) {
 
-	    // Get user agent version number.
-	    if (st.hasMoreTokens()) {
-		version = st.nextToken();
-	    }
+            StringTokenizer st = new StringTokenizer(agent, "/");
 
-	    // Remove white space & extra info.
-	    st = new StringTokenizer(version);
+            // Parse out user agent name.
+            if (st.hasMoreTokens()) {
+                st.nextToken();
+            }
 
-	    if (st.hasMoreTokens()) {
-		version = st.nextToken();
-	    }
-	}
+            // Get user agent version number.
+            if (st.hasMoreTokens()) {
+                version = st.nextToken();
+            }
 
-	// Parse user agent major version number.
-	if (version != null) {
-	    StringTokenizer st = new StringTokenizer(version, ".");
+            // Remove white space & extra info.
+            st = new StringTokenizer(version);
 
-	    if (st.hasMoreTokens()) {
-		try {
-		    major = Integer.parseInt(st.nextToken());
-		} catch (NumberFormatException ex) {
-		    // Ignore
-		}
-	    }
-	}
+            if (st.hasMoreTokens()) {
+                version = st.nextToken();
+            }
+        }
+
+        // Parse user agent major version number.
+        if (version != null) {
+            StringTokenizer st = new StringTokenizer(version, ".");
+
+            if (st.hasMoreTokens()) {
+                try {
+                    major = Integer.parseInt(st.nextToken());
+                } catch (NumberFormatException ex) {
+                    // Ignore
+                }
+            }
+        }
     }
 
     /**
@@ -158,18 +156,18 @@ public class ClientSniffer {
      *	@return	A <code>ClientSniffer</code> instance.
      */
     public static ClientSniffer getInstance(FacesContext context) {
-	// Look for a cached one
-	Map requestMap = context.getExternalContext().getRequestMap();
-	ClientSniffer sniffer = (ClientSniffer) requestMap.get("__sniffer");
+        // Look for a cached one
+        Map requestMap = context.getExternalContext().getRequestMap();
+        ClientSniffer sniffer = (ClientSniffer) requestMap.get("__sniffer");
 
-	if (sniffer == null) {
-	    // Not yet created, create one
-	    sniffer = new ClientSniffer(context);
-	    requestMap.put("__sniffer", sniffer);
-	}
+        if (sniffer == null) {
+            // Not yet created, create one
+            sniffer = new ClientSniffer(context);
+            requestMap.put("__sniffer", sniffer);
+        }
 
-	// Return the sniffer
-	return sniffer;
+        // Return the sniffer
+        return sniffer;
     }
 
     /**
@@ -182,10 +180,10 @@ public class ClientSniffer {
      *	@param	context	The <code>FacesContext</code>
      */
     protected void setUserAgent(FacesContext context) {
-        Map headerMap  = context.getExternalContext().getRequestHeaderMap();
-        if(null != headerMap) {
+        Map headerMap = context.getExternalContext().getRequestHeaderMap();
+        if (null != headerMap) {
             agent = (String) headerMap.get("USER-AGENT");
-            if(null != agent) {
+            if (null != agent) {
                 agent = agent.toLowerCase();
             }
         }
@@ -197,7 +195,7 @@ public class ClientSniffer {
      * @return The user agent.
      */
     public String getUserAgent() {
-	return agent;
+        return agent;
     }
 
     /**
@@ -207,7 +205,7 @@ public class ClientSniffer {
      * -1 if the version number was not retrieved.
      */
     public int getUserAgentMajor() {
-	return major;
+        return major;
     }
 
     /**
@@ -216,14 +214,13 @@ public class ClientSniffer {
      * @return true or false
      */
     public boolean isWin() {
-	boolean result = false;
+        boolean result = false;
 
-	if ((agent != null) && ((agent.indexOf("win") != -1)
-		|| (agent.indexOf("16bit") != -1))) {
-	    result = true;
-	}
+        if ((agent != null) && ((agent.indexOf("win") != -1) || (agent.indexOf("16bit") != -1))) {
+            result = true;
+        }
 
-	return result;
+        return result;
     }
 
     /**
@@ -232,13 +229,13 @@ public class ClientSniffer {
      * @return true or false
      */
     public boolean isSun() {
-	boolean result = false;
+        boolean result = false;
 
-	if ((agent != null) && (agent.indexOf("sunos") != -1)) {
-	    result = true;
-	}
+        if ((agent != null) && (agent.indexOf("sunos") != -1)) {
+            result = true;
+        }
 
-	return result;
+        return result;
     }
 
     /**
@@ -247,13 +244,13 @@ public class ClientSniffer {
      * @return true or false
      */
     public boolean isGecko() {
-	boolean result = false;
+        boolean result = false;
 
-	if ((agent != null) && (agent.indexOf("gecko") != -1)) {
-	    result = true;
-	}
+        if ((agent != null) && (agent.indexOf("gecko") != -1)) {
+            result = true;
+        }
 
-	return result;
+        return result;
     }
 
     /**
@@ -262,24 +259,18 @@ public class ClientSniffer {
      * @return true or false
      */
     public boolean isNav() {
-	boolean result = false;
+        boolean result = false;
 
-	if ((agent != null)
-		&& (agent.indexOf("mozilla") != -1)
-		&& (agent.indexOf("spoofer") == -1)
-		&& (agent.indexOf("compatible") == -1)
-		&& (agent.indexOf("opera") == -1)
-		&& (agent.indexOf("webtv") == -1)
-		&& (agent.indexOf("hotjava") == -1)) {
-	    // The header for Netscape 4.x is similar to the header
-	    // for the Mozilla browser; however, Netscape 4.x does not
-	    // implement the Gecko engine.
-	    if (!(isGecko() && (agent.indexOf("netscape") == -1))) {
-		result = true;
-	    }
-	}
+        if ((agent != null) && (agent.indexOf("mozilla") != -1) && (agent.indexOf("spoofer") == -1) && (agent.indexOf("compatible") == -1) && (agent.indexOf("opera") == -1) && (agent.indexOf("webtv") == -1) && (agent.indexOf("hotjava") == -1)) {
+            // The header for Netscape 4.x is similar to the header
+            // for the Mozilla browser; however, Netscape 4.x does not
+            // implement the Gecko engine.
+            if (!(isGecko() && (agent.indexOf("netscape") == -1))) {
+                result = true;
+            }
+        }
 
-	return result;
+        return result;
     }
 
     /**
@@ -289,13 +280,13 @@ public class ClientSniffer {
      * @return true or false
      */
     public boolean isNav4() {
-	boolean result = false;
+        boolean result = false;
 
-	if (isNav() && (major == 4)) {
-	    result = true;
-	}
+        if (isNav() && (major == 4)) {
+            result = true;
+        }
 
-	return result;
+        return result;
     }
 
     /**
@@ -305,13 +296,13 @@ public class ClientSniffer {
      * @return true or false
      */
     public boolean isNav4up() {
-	boolean result = false;
+        boolean result = false;
 
-	if (isNav() && (major >= 4)) {
-	    result = true;
-	}
+        if (isNav() && (major >= 4)) {
+            result = true;
+        }
 
-	return result;
+        return result;
     }
 
     /**
@@ -321,13 +312,13 @@ public class ClientSniffer {
      * @return true or false
      */
     public boolean isNav6() {
-	boolean result = false;
-	if (isNav() && (major == 5) && (null != agent) &&
+        boolean result = false;
+        if (isNav() && (major == 5) && (null != agent) &&
                 (agent.indexOf("netscape6") != -1)) {
-	    result = true;
-	}
+            result = true;
+        }
 
-	return result;
+        return result;
     }
 
     /**
@@ -337,13 +328,13 @@ public class ClientSniffer {
      * @return true or false
      */
     public boolean isNav6up() {
-	boolean result = false;
+        boolean result = false;
 
-	if (isNav() && major >= 5) {
-	    result = true;
-	}
+        if (isNav() && major >= 5) {
+            result = true;
+        }
 
-	return result;
+        return result;
     }
 
     /**
@@ -353,13 +344,12 @@ public class ClientSniffer {
      * @return true or false
      */
     public boolean isNav7() {
-	boolean result = false;
-	if (isNav() && major == 5 && (null != agent)
-		&& (agent.indexOf("netscape/7") != -1)) {
-	    result = true;
-	}
+        boolean result = false;
+        if (isNav() && major == 5 && (null != agent) && (agent.indexOf("netscape/7") != -1)) {
+            result = true;
+        }
 
-	return result;
+        return result;
     }
 
     /**
@@ -369,13 +359,12 @@ public class ClientSniffer {
      * @return true or false
      */
     public boolean isNav70() {
-	boolean result = false;
-	if (isNav() && major == 5 && (null != agent)
-		&& (agent.indexOf("netscape/7.0") != -1)) {
-	    result = true;
-	}
+        boolean result = false;
+        if (isNav() && major == 5 && (null != agent) && (agent.indexOf("netscape/7.0") != -1)) {
+            result = true;
+        }
 
-	return result;
+        return result;
     }
 
     /**
@@ -385,13 +374,13 @@ public class ClientSniffer {
      * @return true or false
      */
     public boolean isNav7up() {
-	boolean result = false;
+        boolean result = false;
 
-	if (isNav() && (major >= 5) && !isNav4() && !isNav6()) {
-	    result = true;
-	}
+        if (isNav() && (major >= 5) && !isNav4() && !isNav6()) {
+            result = true;
+        }
 
-	return result;
+        return result;
     }
 
     /**
@@ -400,15 +389,13 @@ public class ClientSniffer {
      * @return true or false
      */
     public boolean isIe() {
-	boolean result = false;
+        boolean result = false;
 
-	if ((agent != null)
-		&& (agent.indexOf("msie") != -1)
-		&& (agent.indexOf("opera") == -1)) {
-	    result = true;
-	}
+        if ((agent != null) && (agent.indexOf("msie") != -1) && (agent.indexOf("opera") == -1)) {
+            result = true;
+        }
 
-	return result;
+        return result;
     }
 
     /**
@@ -418,13 +405,13 @@ public class ClientSniffer {
      * @return true or false
      */
     public boolean isIe3() {
-	boolean result = false;
+        boolean result = false;
 
-	if (isIe() && (major < 4)) {
-	    result = true;
-	}
+        if (isIe() && (major < 4)) {
+            result = true;
+        }
 
-	return result;
+        return result;
     }
 
     /**
@@ -434,13 +421,12 @@ public class ClientSniffer {
      * @return true or false
      */
     public boolean isIe4() {
-	boolean result = false;
-	if (isIe() && (major == 4) && (null != agent) 
-        && (agent.indexOf("msie 4") != -1)) {
-	    result = true;
-	}
+        boolean result = false;
+        if (isIe() && (major == 4) && (null != agent) && (agent.indexOf("msie 4") != -1)) {
+            result = true;
+        }
 
-	return result;
+        return result;
     }
 
     /**
@@ -450,12 +436,12 @@ public class ClientSniffer {
      * @return true or false
      */
     public boolean isIe5() {
-	boolean result = false;
-	if (isIe() && (major == 4) && (null != agent) && (agent.indexOf("msie 5") != -1)) {
-	    result = true;
-	}
+        boolean result = false;
+        if (isIe() && (major == 4) && (null != agent) && (agent.indexOf("msie 5") != -1)) {
+            result = true;
+        }
 
-	return result;
+        return result;
     }
 
     /**
@@ -465,13 +451,13 @@ public class ClientSniffer {
      * @return true or false
      */
     public boolean isIe5up() {
-	boolean result = false;
+        boolean result = false;
 
-	if (isIe() && !isIe3() && !isIe4()) {
-	    result = true;
-	}
+        if (isIe() && !isIe3() && !isIe4()) {
+            result = true;
+        }
 
-	return result;
+        return result;
     }
 
     /**
@@ -481,12 +467,12 @@ public class ClientSniffer {
      * @return true or false
      */
     public boolean isIe6() {
-	boolean result = false;
-	if (isIe() && (major == 4) && (null != agent) && (agent.indexOf("msie 6") != -1)) {
-	    result = true;
-	}
+        boolean result = false;
+        if (isIe() && (major == 4) && (null != agent) && (agent.indexOf("msie 6") != -1)) {
+            result = true;
+        }
 
-	return result;
+        return result;
     }
 
     /**
@@ -496,12 +482,12 @@ public class ClientSniffer {
      * @return true or false
      */
     public boolean isIe7() {
-	boolean result = false;
-	if (isIe() && (major == 4) && (null != agent) && (agent.indexOf("msie 7") != -1)) {
-	    result = true;
-	}
+        boolean result = false;
+        if (isIe() && (major == 4) && (null != agent) && (agent.indexOf("msie 7") != -1)) {
+            result = true;
+        }
 
-	return result;
+        return result;
     }
 
     /**
@@ -511,13 +497,13 @@ public class ClientSniffer {
      * @return true or false
      */
     public boolean isIe6up() {
-	boolean result = false;
+        boolean result = false;
 
-	if (isIe() && !isIe3() && !isIe4() && !isIe5()) {
-	    result = true;
-	}
+        if (isIe() && !isIe3() && !isIe4() && !isIe5()) {
+            result = true;
+        }
 
-	return result;
+        return result;
     }
 
     /**
@@ -527,15 +513,15 @@ public class ClientSniffer {
      * @return true or false
      */
     public boolean isIe7up() {
-	boolean result = false;
+        boolean result = false;
 
-	if (isIe() && !isIe3() && !isIe4() && !isIe5() && !isIe6() ) {
-	    result = true;
-	}
+        if (isIe() && !isIe3() && !isIe4() && !isIe5() && !isIe6()) {
+            result = true;
+        }
 
-	return result;
+        return result;
     }
-    
+
     /**
      *	This method is used by the Theme.
      *
@@ -545,8 +531,8 @@ public class ClientSniffer {
      */
     public static ClientType getClientType(FacesContext context) {
         Map map = context.getExternalContext().getRequestHeaderMap();
-        if(null == map) {
-            return ClientType.OTHER;            
+        if (null == map) {
+            return ClientType.OTHER;
         }
         String agent = (String) map.get("USER-AGENT");
 

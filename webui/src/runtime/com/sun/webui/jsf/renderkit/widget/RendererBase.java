@@ -24,21 +24,13 @@ package com.sun.webui.jsf.renderkit.widget;
 import com.sun.webui.jsf.component.Widget;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -74,7 +66,8 @@ abstract public class RendererBase extends Renderer {
      * @exception IOException if an input/output error occurs.
      * @exception NullPointerException if context or component is null.
      */
-    public void encodeBegin(FacesContext context, UIComponent component) 
+    @Override
+    public void encodeBegin(FacesContext context, UIComponent component)
             throws IOException {
         // Do nothing...
     }
@@ -89,6 +82,7 @@ abstract public class RendererBase extends Renderer {
      * @exception IOException if an input/output error occurs.
      * @exception NullPointerException if context or component is null.
      */
+    @Override
     public void encodeChildren(FacesContext context, UIComponent component)
             throws IOException {
         // Do nothing... Children are rendered when obtaining component 
@@ -113,6 +107,7 @@ abstract public class RendererBase extends Renderer {
      * @exception IOException if an input/output error occurs.
      * @exception NullPointerException if context or component is null.
      */
+    @Override
     public void encodeEnd(FacesContext context, UIComponent component)
             throws IOException {
         if (context == null || component == null) {
@@ -145,14 +140,14 @@ abstract public class RendererBase extends Renderer {
             writer.write(JavaScriptUtilities.getModule("widget.*"));
             writer.write("\n");
             writer.write(JavaScriptUtilities.getModuleName(
-                "widget.common.createWidget"));
+                    "widget.common.createWidget"));
             writer.write("(");
         }
 
         try {
             // Always render properties.
             writer.write(getProperties(context, component).toString(
-                JavaScriptUtilities.INDENT_FACTOR));
+                    JavaScriptUtilities.INDENT_FACTOR));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -171,14 +166,14 @@ abstract public class RendererBase extends Renderer {
      * for rendering the children the component it is asked to render.
      * The default implementation returns false.
      */
+    @Override
     public boolean getRendersChildren() {
-        return true; 
+        return true;
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Property methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * This method may be used to add attribute name/value pairs to the given
      * JSONObject.
@@ -213,7 +208,7 @@ abstract public class RendererBase extends Renderer {
      * @param component UIComponent to be rendered.
      */
     abstract protected JSONArray getModules(FacesContext context,
-        UIComponent component) throws JSONException;
+            UIComponent component) throws JSONException;
 
     /**
      * Helper method to obtain component properties.
@@ -222,7 +217,7 @@ abstract public class RendererBase extends Renderer {
      * @param component UIComponent to be rendered.
      */
     abstract protected JSONObject getProperties(FacesContext context,
-        UIComponent component) throws IOException, JSONException;
+            UIComponent component) throws IOException, JSONException;
 
     /**
      * This method may be used to set core name/value pairs for the given
@@ -234,11 +229,9 @@ abstract public class RendererBase extends Renderer {
      *
      * @exception IOException if an input/output error occurs
      */
-    protected void setCoreProperties(FacesContext context, UIComponent component, 
+    protected void setCoreProperties(FacesContext context, UIComponent component,
             JSONObject json) throws JSONException {
-        json.put("id", component.getClientId(context))
-            .put("_modules", getModules(context, component))
-            .put("_widgetType", ((Widget) component).getWidgetType());    
+        json.put("id", component.getClientId(context)).put("_modules", getModules(context, component)).put("_widgetType", ((Widget) component).getWidgetType());
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
