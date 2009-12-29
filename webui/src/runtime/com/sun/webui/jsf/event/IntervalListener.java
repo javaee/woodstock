@@ -28,30 +28,31 @@
  * the Source Creation and Management node. Right-click the template and choose
  * Open. You can then make changes to the template in the Source Editor.
  */
-
 package com.sun.webui.jsf.event;
 
-import java.io.Serializable; 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent; 
+import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
 import com.sun.webui.jsf.component.Scheduler;
+import java.io.Serializable;
 
 /**
  *
- * @author avk
+ * @author avk, John Yeary
  */
-public class IntervalListener implements ActionListener, java.io.Serializable {
-    
+public class IntervalListener implements ActionListener, Serializable {
+
+    private static final long serialVersionUID = 4953938119722927272L;
+
     public void processAction(ActionEvent event) {
-        UIComponent comp = event.getComponent(); 
-        while(comp != null && !(comp instanceof Scheduler)) { 
-            comp = comp.getParent(); 
-        } 
-        if(comp != null) { 
-            ((Scheduler)comp).updateRepeatUnitMenu();
-        } 
+        UIComponent comp = event.getComponent();
+        while (comp != null && !(comp instanceof Scheduler)) {
+            comp = comp.getParent();
+        }
+        if (comp != null) {
+            ((Scheduler) comp).updateRepeatUnitMenu();
+        }
         FacesContext.getCurrentInstance().renderResponse();
     }
 }

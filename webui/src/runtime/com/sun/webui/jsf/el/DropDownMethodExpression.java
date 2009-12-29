@@ -27,7 +27,6 @@
  * To change this template, choose Tools | Template Manager
  * and open the template in the editor.
  */
-
 package com.sun.webui.jsf.el;
 
 import javax.faces.component.StateHolder;
@@ -38,36 +37,38 @@ import javax.faces.context.FacesContext;
 
 /**
  *
- * @author dc151887
+ * @author dc151887, John Yeary
  */
-public class DropDownMethodExpression extends MethodExpression  implements StateHolder{
-    
+public class DropDownMethodExpression extends MethodExpression implements StateHolder {
+
+    private static final long serialVersionUID = 3229154216397152494L;
+
     /** Creates a new instance of DropDownMethodExpression */
     public DropDownMethodExpression() {
     }
-    
     private transient String value = null;
-    
-    public void setValue(String value) { 
-        this.value = value; 
-    } 
-    
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
     public MethodInfo getMethodInfo(ELContext context) {
         return null;
     }
-    
+
     public Object invoke(ELContext context, Object[] params) {
         return value;
     }
-    
+
     public String getExpressionString() {
         return value;
     }
-    
+
     public boolean isLiteralText() {
         return true;
     }
-    
+
+    //FIXME this does not comply with the contract for equals.
     public boolean equals(Object obj) {
         return true;
     }
@@ -75,24 +76,19 @@ public class DropDownMethodExpression extends MethodExpression  implements State
     public int hashCode() {
         return value.hashCode();
     }
-    
     private boolean transientFlag = false;
-
 
     public boolean isTransient() {
         return this.transientFlag;
     }
 
-
     public void setTransient(boolean transientFlag) {
         this.transientFlag = transientFlag;
     }
 
-
     public void restoreState(FacesContext context, Object state) {
         this.value = (String) state;
     }
-
 
     public Object saveState(FacesContext context) {
         return this.value;

@@ -28,10 +28,9 @@
  * the Source Creation and Management node. Right-click the template and choose
  * Open. You can then make changes to the template in the Source Editor.
  */
-
 package com.sun.webui.jsf.converter;
 
-import java.io.Serializable; 
+import java.io.Serializable;
 import java.util.Date;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -45,27 +44,26 @@ import javax.faces.application.FacesMessage;
 
 /**
  *
- * @author avk
+ * @author avk, John Yeary
  */
 public class DateConverter implements Converter, Serializable {
-    
+
+    private static final long serialVersionUID = 1580936705838582740L;
     private static final String INVALID_DATE_ID = "DateConverter.invalidDate"; //NOI18N
-    
+
     public DateConverter() {
     }
-    
-    public String getAsString(FacesContext context, UIComponent component, Object o) throws ConverterException{
+
+    public String getAsString(FacesContext context, UIComponent component, Object o) throws ConverterException {
         try {
-            return getDateManager(component).getDateFormat().format((Date)o);
-        }
-        catch(Exception ex) {
+            return getDateManager(component).getDateFormat().format((Date) o);
+        } catch (Exception ex) {
             throw new ConverterException(ex);
         }
     }
-    
-    
+
     public Object getAsObject(FacesContext context, UIComponent component, String s) throws ConverterException {
-        if(s.length() == 0) {
+        if (s.length() == 0) {
             return null;
         }
         // Generate errors for dates that don't strictly follow format 6347646
@@ -76,17 +74,16 @@ public class DateConverter implements Converter, Serializable {
         try {
             Date date = df.parse(s);
             return date;
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             FacesMessage facesMessage = null;
             try {
                 String message = ThemeUtilities.getTheme(context).getMessage(INVALID_DATE_ID);
                 MessageFormat mf = new MessageFormat(message,
-                                              context.getViewRoot().getLocale());
+                        context.getViewRoot().getLocale());
                 String example = getDateManager(component).getDateFormat().format(new Date());
                 Object[] params = {s, example};
                 facesMessage = new FacesMessage(mf.format(params));
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 throw new ConverterException(ex);
             }
             throw new ConverterException(facesMessage);
@@ -95,17 +92,17 @@ public class DateConverter implements Converter, Serializable {
             df.setLenient(saveLenient);
         }
     }
-    
+
     private DateManager getDateManager(UIComponent component) {
         DateManager dateManager = null;
-        if(component instanceof DateManager) {
-            dateManager = (DateManager)component;
-        } else if(component.getParent() instanceof DateManager) {
-            dateManager = (DateManager)(component.getParent());
+        if (component instanceof DateManager) {
+            dateManager = (DateManager) component;
+        } else if (component.getParent() instanceof DateManager) {
+            dateManager = (DateManager) (component.getParent());
         }
-        if(dateManager == null) { 
+        if (dateManager == null) {
             throw new RuntimeException("The DateConverter can only be used with components which implement DateManager"); //NOI18N
-        } 
+        }
         return dateManager;
     }
 }
