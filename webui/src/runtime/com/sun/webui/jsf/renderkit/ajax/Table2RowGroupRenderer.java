@@ -22,21 +22,15 @@
 package com.sun.webui.jsf.renderkit.ajax;
 
 import com.sun.faces.annotation.Renderer;
-
 import com.sun.data.provider.RowKey;
 import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
 import com.sun.webui.jsf.component.Table2Column;
 import com.sun.webui.jsf.component.Table2RowGroup;
 import com.sun.webui.jsf.util.WidgetUtilities;
-
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.Map;
-
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,9 +38,8 @@ import org.json.JSONObject;
 /**
  * This class renders Table2RowGroup components.
  */
-@Renderer(@Renderer.Renders(
-    rendererType="com.sun.webui.jsf.ajax.Table2RowGroup",
-    componentFamily="com.sun.webui.jsf.Table2RowGroup"))
+@Renderer(@Renderer.Renders(rendererType = "com.sun.webui.jsf.ajax.Table2RowGroup",
+componentFamily = "com.sun.webui.jsf.Table2RowGroup"))
 public class Table2RowGroupRenderer extends javax.faces.render.Renderer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Renderer methods
@@ -62,6 +55,7 @@ public class Table2RowGroupRenderer extends javax.faces.render.Renderer {
      * @exception IOException if an input/output error occurs.
      * @exception NullPointerException if context or component is null.
      */
+    @Override
     public void encodeBegin(FacesContext context, UIComponent component) {
         // Do nothing...
     }
@@ -76,6 +70,7 @@ public class Table2RowGroupRenderer extends javax.faces.render.Renderer {
      * @exception IOException if an input/output error occurs.
      * @exception NullPointerException if context or component is null.
      */
+    @Override
     public void encodeChildren(FacesContext context, UIComponent component)
             throws IOException {
         if (context == null || component == null) {
@@ -84,7 +79,7 @@ public class Table2RowGroupRenderer extends javax.faces.render.Renderer {
 
         // Get first and max rows parameters.
         String xjson = (String) context.getExternalContext().
-        getRequestHeaderMap().get(AsyncResponse.XJSON_HEADER);
+                getRequestHeaderMap().get(AsyncResponse.XJSON_HEADER);
         if (xjson == null) {
             return;
         }
@@ -111,7 +106,7 @@ public class Table2RowGroupRenderer extends javax.faces.render.Renderer {
             if (rows != null) {
                 rows.write(context.getResponseWriter());
             }
-        } catch(JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
@@ -126,6 +121,7 @@ public class Table2RowGroupRenderer extends javax.faces.render.Renderer {
      * @exception IOException if an input/output error occurs.
      * @exception NullPointerException if context or component is null.
      */
+    @Override
     public void encodeEnd(FacesContext context, UIComponent component) {
         // Do nothing...
     }
@@ -135,14 +131,14 @@ public class Table2RowGroupRenderer extends javax.faces.render.Renderer {
      * for rendering the children the component it is asked to render.
      * The default implementation returns false.
      */
+    @Override
     public boolean getRendersChildren() {
-        return true; 
+        return true;
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Helper method to render rows.
      *
@@ -190,14 +186,13 @@ public class Table2RowGroupRenderer extends javax.faces.render.Renderer {
                     Iterator grandKids = col.getChildren().iterator();
                     while (grandKids.hasNext()) {
                         WidgetUtilities.addProperties(cols,
-                            WidgetUtilities.renderComponent(context, (UIComponent) 
-                                grandKids.next()));
+                                WidgetUtilities.renderComponent(context, (UIComponent) grandKids.next()));
                     }
                 }
                 json.put(cols);
             }
             component.setRowKey(null); // Clean up.
-        } catch(JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return json;
