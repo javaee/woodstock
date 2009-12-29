@@ -23,10 +23,8 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-
 import java.util.ArrayList;
 import java.util.Map;
-
 import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
 
@@ -203,10 +201,11 @@ import javax.faces.context.FacesContext;
  * for that property.</em>
  * </p>
  */
-@Component(type="com.sun.webui.jsf.Checkbox", family="com.sun.webui.jsf.Checkbox", displayName="Checkbox", tagName="checkbox",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_checkbox",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_checkbox_props")
+@Component(type = "com.sun.webui.jsf.Checkbox", family = "com.sun.webui.jsf.Checkbox", displayName = "Checkbox", tagName = "checkbox",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_checkbox",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_checkbox_props")
 public class Checkbox extends RbCbSelector {
+
     /**
      * Constructor for a <code>Checkbox</code>.
      */
@@ -224,6 +223,7 @@ public class Checkbox extends RbCbSelector {
     /**
      * <p>Return the family for this component.</p>
      */
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.Checkbox";
     }
@@ -250,12 +250,11 @@ public class Checkbox extends RbCbSelector {
                 getRequestMap();
 
         if (name != null) {
-            return (ArrayList)rm.get(name);
+            return (ArrayList) rm.get(name);
         } else {
             return null;
         }
     }
-
 
     /**
      * <p>Update the request parameter that holds the value of the
@@ -277,6 +276,7 @@ public class Checkbox extends RbCbSelector {
      *
      * @param context The context of this request.
      */
+    @Override
     public void validate(FacesContext context) {
 
         super.validate(context);
@@ -309,10 +309,10 @@ public class Checkbox extends RbCbSelector {
     }
 
     protected void addToRequestMap(FacesContext context, String groupName,
-                Object selected) {
+            Object selected) {
 
         Map requestMap = context.getExternalContext().getRequestMap();
-        ArrayList selectedCB = (ArrayList)requestMap.get(groupName);
+        ArrayList selectedCB = (ArrayList) requestMap.get(groupName);
         if (selectedCB == null) {
             selectedCB = new ArrayList();
             requestMap.put(groupName, selectedCB);
@@ -325,31 +325,33 @@ public class Checkbox extends RbCbSelector {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
     // Hide items
-    @Property(name="items", isHidden=true, isAttribute=false)
+    @Property(name = "items", isHidden = true, isAttribute = false)
+    @Override
     public Object getItems() {
         return super.getItems();
     }
-    
+
     // Hide required
-    @Property(name="required", isHidden=true, isAttribute=false)
+    @Property(name = "required", isHidden = true, isAttribute = false)
+    @Override
     public boolean isRequired() {
         return super.isRequired();
     }
-    
+
     // Hide value 
-    @Property(name="value", isHidden=true, isAttribute=false)
+    @Property(name = "value", isHidden = true, isAttribute = false)
+    @Override
     public Object getValue() {
         return super.getValue();
     }
-
     /**
      * <p>Sets the style level for the generated label, provided the
      * label attribute has been set. Valid values are 1 (largest), 2 and
      * 3 (smallest). The default value is 3.</p>
      */
-    @Property(name="labelLevel", displayName="Label Level", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.LabelLevelsEditor")
+    @Property(name = "labelLevel", displayName = "Label Level", category = "Appearance",
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.LabelLevelsEditor")
     private int labelLevel = Integer.MIN_VALUE;
     private boolean labelLevel_set = false;
 
@@ -358,6 +360,7 @@ public class Checkbox extends RbCbSelector {
      * label attribute has been set. Valid values are 1 (largest), 2 and
      * 3 (smallest). The default value is 3.</p>
      */
+    @Override
     public int getLabelLevel() {
         if (this.labelLevel_set) {
             return this.labelLevel;
@@ -380,6 +383,7 @@ public class Checkbox extends RbCbSelector {
      * 3 (smallest). The default value is 3.</p>
      * @see #getLabelLevel()
      */
+    @Override
     public void setLabelLevel(int labelLevel) {
         this.labelLevel = labelLevel;
         this.labelLevel_set = true;
@@ -388,7 +392,8 @@ public class Checkbox extends RbCbSelector {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.labelLevel = ((Integer) _values[1]).intValue();
@@ -398,6 +403,7 @@ public class Checkbox extends RbCbSelector {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[3];
         _values[0] = super.saveState(_context);

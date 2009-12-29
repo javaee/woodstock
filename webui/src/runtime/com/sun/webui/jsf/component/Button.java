@@ -23,7 +23,6 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
 
 import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
@@ -31,14 +30,16 @@ import javax.faces.context.FacesContext;
 /**
  * The Button component is used to display an input button.
  */
-@Component(type="com.sun.webui.jsf.Button",
-    family="com.sun.webui.jsf.Button",
-    tagRendererType="com.sun.webui.jsf.Button",
+//TODO remove commented code
+@Component(type = "com.sun.webui.jsf.Button",
+family = "com.sun.webui.jsf.Button",
+tagRendererType = "com.sun.webui.jsf.Button",
 //    tagRendererType="com.sun.webui.jsf.widget.Button",
-    displayName="Button", tagName="button",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_button",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_button_props")
+displayName = "Button", tagName = "button",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_button",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_button_props")
 public class Button extends WebuiCommand implements ComplexComponent {//, Widget {
+
     /**
      * Default constructor.
      */
@@ -51,6 +52,7 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
     /**
      * <p>Return the family for this component.</p>
      */
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.Button";
     }
@@ -60,11 +62,11 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
      *
      * @return The type of widget represented by this component.
      */
-/*
+    /*
     public String getWidgetType() {
-        return JavaScriptUtilities.getNamespace("button");
+    return JavaScriptUtilities.getNamespace("button");
     }
-*/
+     */
     /**
      * Returns the absolute ID of an HTML element suitable for use as
      * the value of an HTML LABEL element's <code>for</code> attribute.
@@ -100,7 +102,7 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
      * @param context The FacesContext used for the request
      */
     public String getFocusElementId(FacesContext context) {
-	return getLabeledElementId(context);
+        return getLabeledElementId(context);
     }
 
     /**
@@ -117,15 +119,15 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
      * @see #getFocusElementId
      */
     public String getPrimaryElementID(FacesContext context) {
-         return getLabeledElementId(context);
+        return getLabeledElementId(context);
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
     // Overwrite value annotation
-    @Property(name="value", isHidden=true, isAttribute=false)
+    @Property(name = "value", isHidden = true, isAttribute = false)
+    @Override
     public Object getValue() {
         return super.getValue();
     }
@@ -136,6 +138,7 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
      *
      * @param name Name of value binding expression to retrieve
      */
+    @Override
     public ValueExpression getValueExpression(String name) {
         if (name.equals("text")) {
             return super.getValueExpression("value");
@@ -151,20 +154,20 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
      * @param name    Name of value binding to set
      * @param binding ValueExpression to set, or null to remove
      */
-    public void setValueExpression(String name,ValueExpression binding) {
+    @Override
+    public void setValueExpression(String name, ValueExpression binding) {
         if (name.equals("text")) {
             super.setValueExpression("value", binding);
             return;
         }
         super.setValueExpression(name, binding);
     }
-
     /**
      * <p>Alternative textual description of the image rendered by this component. The alt
      * text can be used by screen readers and in tool tips, and when image display is turned off in
      * the web browser.</p>
      */
-    @Property(name="alt", displayName="Alt Text", category="Accessibility", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "alt", displayName = "Alt Text", category = "Accessibility", editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String alt = null;
 
     /**
@@ -192,13 +195,12 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
     public void setAlt(String alt) {
         this.alt = alt;
     }
-
     /**
      * <p>Indicates that activation of this component by the user is not currently 
      * permitted. In this component library, the disabled attribute also causes 
      * the button to be renderered using a particular style.</p>
      */
-    @Property(name="disabled", displayName="Disabled", category="Behavior")
+    @Property(name = "disabled", displayName = "Disabled", category = "Behavior")
     private boolean disabled = false;
     private boolean disabled_set = false;
 
@@ -233,14 +235,13 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
         this.disabled = disabled;
         this.disabled_set = true;
     }
-
     /**
      * <p>Escape the html text so it won't be interpreted by the browser as HTML. When 
      * the <code>escape</code> value is set to false, an HTML <code>button</code> 
      * element is rendered, instead of an HTML <code>input</code> element. And the 
      * <code>alt</code> attribute does not apply.</p>
      */
-    @Property(name="escape", displayName="Escape", category="Appearance")
+    @Property(name = "escape", displayName = "Escape", category = "Appearance")
     private boolean escape = false;
     private boolean escape_set = false;
 
@@ -277,40 +278,38 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
         this.escape = escape;
         this.escape_set = true;
     }
-
     /**
      * Alternative HTML template to be used by this component.
      */
 //    @Property(name="htmlTemplate", displayName="HTML Template", category="Appearance")
 //    private String htmlTemplate = null;
-
     /**
      * Get alternative HTML template to be used by this component.
      */
-/*
+    /*
     public String getHtmlTemplate() {
-        if (this.htmlTemplate != null) {
-            return this.htmlTemplate;
-        }
-        ValueExpression _vb = getValueExpression("htmlTemplate");
-        if (_vb != null) {
-            return (String) _vb.getValue(getFacesContext().getELContext());
-        }
-        return null;
+    if (this.htmlTemplate != null) {
+    return this.htmlTemplate;
     }
-*/
+    ValueExpression _vb = getValueExpression("htmlTemplate");
+    if (_vb != null) {
+    return (String) _vb.getValue(getFacesContext().getELContext());
+    }
+    return null;
+    }
+     */
     /**
      * Set alternative HTML template to be used by this component.
      */
-/*
+    /*
     public void setHtmlTemplate(String htmlTemplate) {
-        this.htmlTemplate = htmlTemplate;
+    this.htmlTemplate = htmlTemplate;
     }
-*/
+     */
     /**
      * <p>The identifier key of a theme image to be used for the button. </p>
      */
-    @Property(name="icon", displayName="Icon", category="Appearance", isHidden=true, isAttribute=true, editorClassName="com.sun.webui.jsf.component.propertyeditors.ThemeIconsEditor")
+    @Property(name = "icon", displayName = "Icon", category = "Appearance", isHidden = true, isAttribute = true, editorClassName = "com.sun.webui.jsf.component.propertyeditors.ThemeIconsEditor")
     private String icon = null;
 
     /**
@@ -334,7 +333,6 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
     public void setIcon(String icon) {
         this.icon = icon;
     }
-
     /**
      * <p>Resource path of an image to be displayed to create the visual appearance of 
      * this button instead of the standard button image. Either the 
@@ -342,7 +340,7 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
      * an <code>imageURL</code> value is given, the button type is set to 
      * <code>image</code>.</p>
      */
-    @Property(name="imageURL", displayName="Image URL", category="Appearance", editorClassName="com.sun.rave.propertyeditors.ImageUrlPropertyEditor")
+    @Property(name = "imageURL", displayName = "Image URL", category = "Appearance", editorClassName = "com.sun.rave.propertyeditors.ImageUrlPropertyEditor")
     private String imageURL = null;
 
     /**
@@ -374,14 +372,13 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
     }
-
     /**
      * Indicates that the button should be rendered using a different style 
      * than normal buttons. By default, a button that specifies the mini
      * attribute looks the same as a normal button. You must set your
      * own CSS style to render a mini button. 
      */
-    @Property(name="mini", displayName="Is Mini", category="Appearance")
+    @Property(name = "mini", displayName = "Is Mini", category = "Appearance")
     private boolean mini = false;
     private boolean mini_set = false;
 
@@ -418,14 +415,13 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
         this.mini = mini;
         this.mini_set = true;
     }
-
     /**
      * <p>Indicates that padding should not be applied to the button text. By 
      * default, whitespace characters are padded to button text greater than 
      * or equal to 4 characters in length. If the value is set to true, no 
      * padding is applied.</p>
      */
-    @Property(name="noTextPadding", displayName="No Text Padding", category="Appearance")
+    @Property(name = "noTextPadding", displayName = "No Text Padding", category = "Appearance")
     private boolean noTextPadding = false;
     private boolean noTextPadding_set = false;
 
@@ -462,11 +458,10 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
         this.noTextPadding = noTextPadding;
         this.noTextPadding_set = true;
     }
-
     /**
      * <p>Scripting code executed when this element loses focus.</p>
      */
-    @Property(name="onBlur", displayName="Blur Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onBlur", displayName = "Blur Script", category = "Javascript", editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onBlur = null;
 
     /**
@@ -490,12 +485,11 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
     public void setOnBlur(String onBlur) {
         this.onBlur = onBlur;
     }
-
     /**
      * <p>Scripting code executed when a mouse click
      * occurs over this component.</p>
      */
-    @Property(name="onClick", displayName="Click Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onClick", displayName = "Click Script", category = "Javascript", editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onClick = null;
 
     /**
@@ -521,12 +515,11 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
     public void setOnClick(String onClick) {
         this.onClick = onClick;
     }
-
     /**
      * <p>Scripting code executed when a mouse double click
      * occurs over this component.</p>
      */
-    @Property(name="onDblClick", displayName="Double Click Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onDblClick", displayName = "Double Click Script", category = "Javascript", editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onDblClick = null;
 
     /**
@@ -552,13 +545,12 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
     public void setOnDblClick(String onDblClick) {
         this.onDblClick = onDblClick;
     }
-
     /**
      * <p>Scripting code executed when this component  receives focus. An
      * element receives focus when the user selects the element by pressing
      * the tab key or clicking the mouse.</p>
      */
-    @Property(name="onFocus", displayName="Focus Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onFocus", displayName = "Focus Script", category = "Javascript", editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onFocus = null;
 
     /**
@@ -586,12 +578,11 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
     public void setOnFocus(String onFocus) {
         this.onFocus = onFocus;
     }
-
     /**
      * <p>Scripting code executed when the user presses down on a key while the
      * component has focus.</p>
      */
-    @Property(name="onKeyDown", displayName="Key Down Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onKeyDown", displayName = "Key Down Script", category = "Javascript", editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyDown = null;
 
     /**
@@ -617,12 +608,11 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
     public void setOnKeyDown(String onKeyDown) {
         this.onKeyDown = onKeyDown;
     }
-
     /**
      * <p>Scripting code executed when the user presses and releases a key while
      * the component has focus.</p>
      */
-    @Property(name="onKeyPress", displayName="Key Press Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onKeyPress", displayName = "Key Press Script", category = "Javascript", editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyPress = null;
 
     /**
@@ -648,12 +638,11 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
     public void setOnKeyPress(String onKeyPress) {
         this.onKeyPress = onKeyPress;
     }
-
     /**
      * <p>Scripting code executed when the user releases a key while the
      * component has focus.</p>
      */
-    @Property(name="onKeyUp", displayName="Key Up Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onKeyUp", displayName = "Key Up Script", category = "Javascript", editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyUp = null;
 
     /**
@@ -679,12 +668,11 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
     public void setOnKeyUp(String onKeyUp) {
         this.onKeyUp = onKeyUp;
     }
-
     /**
      * <p>Scripting code executed when the user presses a mouse button while the
      * mouse pointer is on the component.</p>
      */
-    @Property(name="onMouseDown", displayName="Mouse Down Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseDown", displayName = "Mouse Down Script", category = "Javascript", editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseDown = null;
 
     /**
@@ -710,12 +698,11 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
     public void setOnMouseDown(String onMouseDown) {
         this.onMouseDown = onMouseDown;
     }
-
     /**
      * <p>Scripting code executed when the user moves the mouse pointer while
      * over the component.</p>
      */
-    @Property(name="onMouseMove", displayName="Mouse Move Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseMove", displayName = "Mouse Move Script", category = "Javascript", editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseMove = null;
 
     /**
@@ -741,11 +728,10 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
     public void setOnMouseMove(String onMouseMove) {
         this.onMouseMove = onMouseMove;
     }
-
     /**
      * <p>Scripting code executed when the user moves the mouse pointer off this component.</p>
      */
-    @Property(name="onMouseOut", displayName="Mouse Out Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseOut", displayName = "Mouse Out Script", category = "Javascript", editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseOut = null;
 
     /**
@@ -761,7 +747,7 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
         }
         return null;
     }
-    
+
     /**
      * <p>Scripting code executed when the user moves the mouse pointer off this component.</p>
      * @see #getOnMouseOut()
@@ -769,12 +755,11 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
     public void setOnMouseOut(String onMouseOut) {
         this.onMouseOut = onMouseOut;
     }
-
     /**
      * <p>Scripting code executed when the user moves the  mouse pointer into
      * the boundary of this component.</p>
      */
-    @Property(name="onMouseOver", displayName="Mouse In Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseOver", displayName = "Mouse In Script", category = "Javascript", editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseOver = null;
 
     /**
@@ -800,12 +785,11 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
     public void setOnMouseOver(String onMouseOver) {
         this.onMouseOver = onMouseOver;
     }
-
     /**
      * <p>Scripting code executed when the user releases a mouse button while
      * the mouse pointer is on the component.</p>
      */
-    @Property(name="onMouseUp", displayName="Mouse Up Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseUp", displayName = "Mouse Up Script", category = "Javascript", editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseUp = null;
 
     /**
@@ -831,11 +815,10 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
     public void setOnMouseUp(String onMouseUp) {
         this.onMouseUp = onMouseUp;
     }
-
     /**
      * <p>Indicates that the button is the most commonly used button within a group.</p>
      */
-    @Property(name="primary", displayName="Is Primary", category="Appearance")
+    @Property(name = "primary", displayName = "Is Primary", category = "Appearance")
     private boolean primary = false;
     private boolean primary_set = false;
 
@@ -866,13 +849,12 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
         this.primary = primary;
         this.primary_set = true;
     }
-
     /**
      * <p>Indicates that the button should be a HTML reset button. By default, 
      * this value is false and the button is created as a submit button. If the
      * value is set to true, no action listener will be invoked.</p>
      */
-    @Property(name="reset", displayName="Is Reset", category="Behavior")
+    @Property(name = "reset", displayName = "Is Reset", category = "Behavior")
     private boolean reset = false;
     private boolean reset_set = false;
 
@@ -907,12 +889,11 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
         this.reset = reset;
         this.reset_set = true;
     }
-
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
+    @Property(name = "style", displayName = "CSS Style(s)", category = "Appearance", editorClassName = "com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
@@ -938,12 +919,11 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
     public void setStyle(String style) {
         this.style = style;
     }
-
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)", category = "Appearance", editorClassName = "com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
@@ -969,14 +949,13 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-
     /**
      * <p>Position of this element in the tabbing order of the current document. 
      * Tabbing order determines the sequence in which elements receive 
      * focus when the tab key is pressed. The value must be an integer 
      * between 0 and 32767.</p>
      */
-    @Property(name="tabIndex", displayName="Tab Index", category="Accessibility", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "tabIndex", displayName = "Tab Index", category = "Accessibility", editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int tabIndex = Integer.MIN_VALUE;
     private boolean tabIndex_set = false;
 
@@ -1020,7 +999,7 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
      * an <code>imageURL</code> value is given, the button type is set to 
      * <code>image</code>.</p>
      */
-    @Property(name="text", displayName="Button Text", category="Appearance", isDefault=true, editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "text", displayName = "Button Text", category = "Appearance", isDefault = true, editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     public Object getText() {
         return getValue();
     }
@@ -1035,13 +1014,12 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
     public void setText(Object text) {
         setValue(text);
     }
-
     /**
      * <p>Sets the value of the title attribute for the HTML element.
      * The specified text will display as a tooltip if the mouse cursor hovers 
      * over the HTML element.</p>
      */
-    @Property(name="toolTip", displayName="Tool Tip", category="Behavior", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "toolTip", displayName = "Tool Tip", category = "Behavior", editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String toolTip = null;
 
     /**
@@ -1069,7 +1047,6 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
     public void setToolTip(String toolTip) {
         this.toolTip = toolTip;
     }
-
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -1079,7 +1056,7 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @Property(name="visible", displayName="Visible", category="Behavior")
+    @Property(name = "visible", displayName = "Visible", category = "Behavior")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -1126,7 +1103,8 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.alt = (String) _values[1];
@@ -1168,6 +1146,7 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[35];
         _values[0] = super.saveState(_context);

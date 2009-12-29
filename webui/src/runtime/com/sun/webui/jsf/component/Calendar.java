@@ -26,15 +26,9 @@ import com.sun.faces.annotation.Property;
 import com.sun.webui.jsf.converter.DateConverter;
 import com.sun.webui.jsf.validator.DateInRangeValidator;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.RenderingUtilities;
-
-import java.io.Serializable;
-
 import java.text.DateFormat;
 import java.util.Date;
-import java.util.Locale;
 import java.util.TimeZone;
-
 import javax.el.ValueExpression;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
@@ -45,9 +39,9 @@ import javax.faces.validator.Validator;
 /**
  * The Calendar component is used to allow a user to select a date.
  */
-@Component(type="com.sun.webui.jsf.Calendar", family="com.sun.webui.jsf.Calendar", displayName="Calendar", tagName="calendar",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_calendar",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_calendar_props")
+@Component(type = "com.sun.webui.jsf.Calendar", family = "com.sun.webui.jsf.Calendar", displayName = "Calendar", tagName = "calendar",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_calendar",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_calendar_props")
 public class Calendar extends Field implements DateManager, NamingContainer {
 
     private static final String DATE_PICKER_LINK_FACET = "datePickerLink";//NOI18N
@@ -55,9 +49,8 @@ public class Calendar extends Field implements DateManager, NamingContainer {
     private static final String DATE_PICKER_FACET = "datePicker";//NOI18N
     private static final String DATE_PICKER_ID = "_datePicker";//NOI18N
     public static final String PATTERN_ID = "_pattern"; //NOI18N
-    
-    private DateConverter dateConverter = null; 
-    
+    private DateConverter dateConverter = null;
+
     /** Creates a new instance of Calendar */
     public Calendar() {
         super();
@@ -67,9 +60,11 @@ public class Calendar extends Field implements DateManager, NamingContainer {
     /**
      * <p>Return the family for this component.</p>
      */
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.Calendar";
     }
+
     /**
      * This method returns the ImageHyperlink that serves as the "button" to
      * show or hide the calendar date picker display.
@@ -77,26 +72,24 @@ public class Calendar extends Field implements DateManager, NamingContainer {
      * @param context The current FacesContext.
      * @return The ImageHyperlink to show or hide the calendar date picker.
      */
-    public ImageHyperlink getDatePickerLink(FacesContext context) { 
+    public ImageHyperlink getDatePickerLink(FacesContext context) {
 
-        UIComponent component = getFacet(DATE_PICKER_LINK_FACET); 
-        
+        UIComponent component = getFacet(DATE_PICKER_LINK_FACET);
+
         ImageHyperlink datePickerLink;
         if (component instanceof ImageHyperlink) {
-            datePickerLink = (ImageHyperlink)component;
+            datePickerLink = (ImageHyperlink) component;
         } else {
             datePickerLink = new ImageHyperlink();
             getFacets().put(DATE_PICKER_LINK_FACET, datePickerLink);
         }
-        
-        datePickerLink.setId(DATE_PICKER_LINK_ID);            
+
+        datePickerLink.setId(DATE_PICKER_LINK_ID);
         datePickerLink.setAlign("middle");  //NOI18N
 
         // render the image hyperlink to show/hide the calendar
         StringBuffer js = new StringBuffer(200);
-        js.append("javascript: ")
-            .append(getJavaScriptObjectName(context))
-            .append(".toggle(); return false;");  //NOI18N
+        js.append("javascript: ").append(getJavaScriptObjectName(context)).append(".toggle(); return false;");  //NOI18N
 
         // Don't set Javascript as the URL -- bugtraq #6306848.
         datePickerLink.setOnClick(js.toString());
@@ -105,95 +98,95 @@ public class Calendar extends Field implements DateManager, NamingContainer {
         // We should do this, but unfortunately the component can't be enabled
         // from the client-side yet. 
         //component.getAttributes().put("disabled", new Boolean(isDisabled()));  //NOI18N
-        
+
         return datePickerLink;
     }
-    
-    public CalendarMonth getDatePicker() { 
-        
-        UIComponent comp = getFacet(DATE_PICKER_FACET);      
+
+    public CalendarMonth getDatePicker() {
+
+        UIComponent comp = getFacet(DATE_PICKER_FACET);
         if (comp == null || !(comp instanceof CalendarMonth)) {
             CalendarMonth datePicker = new CalendarMonth();
-            datePicker.setPopup(true); 
+            datePicker.setPopup(true);
             datePicker.setId(DATE_PICKER_ID);
             getFacets().put(DATE_PICKER_FACET, datePicker);
             comp = datePicker;
         }
-        ((CalendarMonth)comp).setJavaScriptObjectName
-                (getJavaScriptObjectName(FacesContext.getCurrentInstance()));
-        return (CalendarMonth)comp;
+        ((CalendarMonth) comp).setJavaScriptObjectName(getJavaScriptObjectName(FacesContext.getCurrentInstance()));
+        return (CalendarMonth) comp;
     }
-    
+
     public String getJavaScriptObjectName(FacesContext context) {
         return JavaScriptUtilities.getDomNode(getFacesContext(), this);
-    }  
-    
-    public Converter getConverter() {     
-        
+    }
+
+    @Override
+    public Converter getConverter() {
+
         // We add the validator at this point, if needed...
         Validator[] validators = getValidators();
-        int len = validators.length; 
-        boolean found = false; 
-        for(int i=0; i<len; ++i) { 
-            if(validators[i] instanceof DateInRangeValidator) { 
+        int len = validators.length;
+        boolean found = false;
+        for (int i = 0; i < len; ++i) {
+            if (validators[i] instanceof DateInRangeValidator) {
                 found = true;
-                break; 
-            } 
-        } 
-        if(!found) {
+                break;
+            }
+        }
+        if (!found) {
             addValidator(new DateInRangeValidator());
         }
         Converter converter = super.getConverter();
-        
+
         if (converter == null) {
-            if(dateConverter == null) { 
+            if (dateConverter == null) {
                 dateConverter = new DateConverter();
-            } 
-            converter = dateConverter; 
-        }   
+            }
+            converter = dateConverter;
+        }
         return converter;
     }
 
+    @Override
     public String getReadOnlyValueString(FacesContext context) {
-        if(getValue() == null) { 
+        if (getValue() == null) {
             return "-"; //NOI18N
-        } 
-        else { 
+        } else {
             return super.getReadOnlyValueString(context);
         }
     }
-    
+
     public DateFormat getDateFormat() {
         return getDatePicker().getDateFormat();
     }
-    
+
     // Since the value of the minDate attribute could change, we can't
     // cache this in an attribute.
     public Date getFirstAvailableDate() {
         Date minDate = getMinDate();
-        if(minDate == null) {
+        if (minDate == null) {
             java.util.Calendar calendar = getDatePicker().getCalendar();
             calendar.add(java.util.Calendar.YEAR, -100);
-            calendar.set(java.util.Calendar.HOUR_OF_DAY, 0); 
-            calendar.set(java.util.Calendar.MINUTE, 0); 
-            calendar.set(java.util.Calendar.SECOND, 0); 
-            calendar.set(java.util.Calendar.MILLISECOND, 0); 
+            calendar.set(java.util.Calendar.HOUR_OF_DAY, 0);
+            calendar.set(java.util.Calendar.MINUTE, 0);
+            calendar.set(java.util.Calendar.SECOND, 0);
+            calendar.set(java.util.Calendar.MILLISECOND, 0);
             minDate = calendar.getTime();
         }
         return minDate;
     }
-    
+
     public Date getLastAvailableDate() {
         Date maxDate = getMaxDate();
-        if(maxDate == null) {
+        if (maxDate == null) {
             Date minDate = getFirstAvailableDate();
             java.util.Calendar calendar = getDatePicker().getCalendar();
             calendar.setTime(minDate);
             calendar.add(java.util.Calendar.YEAR, 200);
-            calendar.set(java.util.Calendar.HOUR_OF_DAY, 23); 
-            calendar.set(java.util.Calendar.MINUTE, 59); 
-            calendar.set(java.util.Calendar.SECOND, 59); 
-            calendar.set(java.util.Calendar.MILLISECOND, 999); 
+            calendar.set(java.util.Calendar.HOUR_OF_DAY, 23);
+            calendar.set(java.util.Calendar.MINUTE, 59);
+            calendar.set(java.util.Calendar.SECOND, 59);
+            calendar.set(java.util.Calendar.MILLISECOND, 999);
             maxDate = calendar.getTime();
         }
         return maxDate;
@@ -212,8 +205,9 @@ public class Calendar extends Field implements DateManager, NamingContainer {
      * @see #getLabeledElementId
      * @see #getFocusElementId
      */
+    @Override
     public String getPrimaryElementID(FacesContext context) {
-	return getLabeledElementId(context);
+        return getLabeledElementId(context);
     }
 
     /**
@@ -230,6 +224,7 @@ public class Calendar extends Field implements DateManager, NamingContainer {
      * @return An abolute id suitable for the value of an HTML LABEL element's
      * <code>for</code> attribute.
      */
+    @Override
     public String getLabeledElementId(FacesContext context) {
         // The id of the calendar component is assigned to the
         // the HTML table element that lays out an optional
@@ -245,7 +240,7 @@ public class Calendar extends Field implements DateManager, NamingContainer {
         // The field component is responsible for the input text field
         // as well.
         //
-        return this.getClientId(context).concat(INPUT_ID);        
+        return this.getClientId(context).concat(INPUT_ID);
     }
 
     /**
@@ -264,10 +259,11 @@ public class Calendar extends Field implements DateManager, NamingContainer {
      *
      * @param context The FacesContext used for the request
      */
+    @Override
     public String getFocusElementId(FacesContext context) {
-	return getLabeledElementId(context);
+        return getLabeledElementId(context);
     }
-            
+
     /**
      * Update the datePicker with an explicitly set date format pattern.
      */
@@ -289,30 +285,33 @@ public class Calendar extends Field implements DateManager, NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Flag indicating that an input value for this field is mandatory, and 
      * failure to provide one will trigger a validation error.
      */
-    @Property(name="required") 
+    @Property(name = "required")
+    @Override
     public void setRequired(boolean required) {
         super.setRequired(required);
     }
 
     // Hide maxLength
-    @Property(name="maxLength", isHidden=true, isAttribute=false)
+    @Property(name = "maxLength", isHidden = true, isAttribute = false)
+    @Override
     public int getMaxLength() {
         return super.getMaxLength();
     }
-    
+
     // Hide text
-    @Property(name="text", isHidden=true, isAttribute=false)
+    @Property(name = "text", isHidden = true, isAttribute = false)
+    @Override
     public Object getText() {
         return super.getText();
     }
-    
+
     // Hide trim
-    @Property(name="trim", isHidden=true, isAttribute=false)
+    @Property(name = "trim", isHidden = true, isAttribute = false)
+    @Override
     public boolean isTrim() {
         return super.isTrim();
     }
@@ -323,6 +322,7 @@ public class Calendar extends Field implements DateManager, NamingContainer {
      *
      * @param name Name of value binding expression to retrieve
      */
+    @Override
     public ValueExpression getValueExpression(String name) {
         if (name.equals("selectedDate")) {
             return super.getValueExpression("value");
@@ -338,14 +338,14 @@ public class Calendar extends Field implements DateManager, NamingContainer {
      * @param name    Name of value binding to set
      * @param binding ValueExpression to set, or null to remove
      */
-    public void setValueExpression(String name,ValueExpression binding) {
+    @Override
+    public void setValueExpression(String name, ValueExpression binding) {
         if (name.equals("selectedDate")) {
             super.setValueExpression("value", binding);
             return;
         }
         super.setValueExpression(name, binding);
     }
-
     /**
      * <p>The date format pattern to use (i.e. yyyy-MM-dd). The
      * component uses an instance of
@@ -361,7 +361,7 @@ public class Calendar extends Field implements DateManager, NamingContainer {
      * documentation for that attribute. 
      * </p>
      */
-    @Property(name="dateFormatPattern", displayName="Date Format Pattern", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.DateFormatPatternsEditor", shortDescription="The date format pattern to use (e.g., yyyy-MM-dd).")
+    @Property(name = "dateFormatPattern", displayName = "Date Format Pattern", category = "Appearance", editorClassName = "com.sun.webui.jsf.component.propertyeditors.DateFormatPatternsEditor", shortDescription = "The date format pattern to use (e.g., yyyy-MM-dd).")
     private String dateFormatPattern = null;
 
     /**
@@ -409,7 +409,6 @@ public class Calendar extends Field implements DateManager, NamingContainer {
     private void _setDateFormatPattern(String dateFormatPattern) {
         this.dateFormatPattern = dateFormatPattern;
     }
-
     /**
      * <p>A message below the textfield for the date, indicating the
      * string format to use when entering a date as text into the
@@ -432,7 +431,7 @@ public class Calendar extends Field implements DateManager, NamingContainer {
      * is overridden, you may need to override the hint on a
      * per-locale basis too. </p>
      */
-    @Property(name="dateFormatPatternHelp", displayName="Date Format Pattern Help", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "dateFormatPatternHelp", displayName = "Date Format Pattern Help", category = "Appearance", editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String dateFormatPatternHelp = null;
 
     /**
@@ -494,7 +493,6 @@ public class Calendar extends Field implements DateManager, NamingContainer {
     public void setDateFormatPatternHelp(String dateFormatPatternHelp) {
         this.dateFormatPatternHelp = dateFormatPatternHelp;
     }
-
     /**
      * <p>A <code>java.util.Date</code> object representing the last
      * selectable day. The default value is 200 years after the
@@ -506,10 +504,10 @@ public class Calendar extends Field implements DateManager, NamingContainer {
      * follow this date. At present such dates can be selected, but
      * will not be validated when the form is submitted.</p>
      */
-    @Property(name="maxDate", displayName="Last selectable date", category="Data", editorClassName="com.sun.rave.propertyeditors.binding.ValueBindingPropertyEditor", shortDescription="The last selectable date.")
+    @Property(name = "maxDate", displayName = "Last selectable date", category = "Data", editorClassName = "com.sun.rave.propertyeditors.binding.ValueBindingPropertyEditor", shortDescription = "The last selectable date.")
     private java.util.Date maxDate = null;
 
-     /**
+    /**
      * <p>A <code>java.util.Date</code> object representing the last
      * selectable day. The default value is 200 years after the
      * <code>minDate</code> (which is evaluated first).</p> 
@@ -546,7 +544,6 @@ public class Calendar extends Field implements DateManager, NamingContainer {
     public void setMaxDate(java.util.Date maxDate) {
         this.maxDate = maxDate;
     }
-
     /**
      * <p>A <code>java.util.Date</code> object representing the first
      * selectable day. The default value is 100 years prior to today's date.</p> 
@@ -557,7 +554,7 @@ public class Calendar extends Field implements DateManager, NamingContainer {
      * precede this date. At present such dates can be selected, but
      * will not be validated when the form is submitted.</p>
      */
-    @Property(name="minDate", displayName="First selectable date", category="Data", editorClassName="com.sun.rave.propertyeditors.binding.ValueBindingPropertyEditor", shortDescription="The first selectable date.")
+    @Property(name = "minDate", displayName = "First selectable date", category = "Data", editorClassName = "com.sun.rave.propertyeditors.binding.ValueBindingPropertyEditor", shortDescription = "The first selectable date.")
     private java.util.Date minDate = null;
 
     /**
@@ -600,7 +597,7 @@ public class Calendar extends Field implements DateManager, NamingContainer {
      * <p>A <code>java.util.Date</code> object representing the currently
      * selected calendar date.</p>
      */
-    @Property(name="selectedDate", displayName="Selected Date", category="Data", editorClassName="com.sun.rave.propertyeditors.binding.ValueBindingPropertyEditor", shortDescription="The date currently selected.")
+    @Property(name = "selectedDate", displayName = "Selected Date", category = "Data", editorClassName = "com.sun.rave.propertyeditors.binding.ValueBindingPropertyEditor", shortDescription = "The date currently selected.")
     public java.util.Date getSelectedDate() {
         return (java.util.Date) getValue();
     }
@@ -613,13 +610,12 @@ public class Calendar extends Field implements DateManager, NamingContainer {
     public void setSelectedDate(java.util.Date selectedDate) {
         setValue((Object) selectedDate);
     }
-
     /**
      * <p>The <code>java.util.TimeZone</code> used with this
      * component. Unless set, the default TimeZone for the locale in  
      * <code>javax.faces.component.UIViewRoot</code> is used.</p>
      */
-    @Property(name="timeZone", displayName="Time Zone", category="Appearance", isHidden=true)
+    @Property(name = "timeZone", displayName = "Time Zone", category = "Appearance", isHidden = true)
     private java.util.TimeZone timeZone = null;
 
     /**
@@ -651,7 +647,8 @@ public class Calendar extends Field implements DateManager, NamingContainer {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.dateFormatPattern = (String) _values[1];
@@ -664,6 +661,7 @@ public class Calendar extends Field implements DateManager, NamingContainer {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[6];
         _values[0] = super.saveState(_context);
