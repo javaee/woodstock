@@ -23,13 +23,10 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
 import javax.faces.component.NamingContainer;
@@ -53,10 +50,12 @@ import javax.faces.component.UIComponentBase;
  * an example, please see the documentation for the <code>propertySheet</code> 
  * Tag.</p>
  */
-@Component(type="com.sun.webui.jsf.PropertySheet", family="com.sun.webui.jsf.PropertySheet", displayName="Property Sheet", tagName="propertySheet",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_property_sheet",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_property_sheet_props")
+@Component(type = "com.sun.webui.jsf.PropertySheet", family = "com.sun.webui.jsf.PropertySheet",
+displayName = "Property Sheet", tagName = "propertySheet",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_property_sheet",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_property_sheet_props")
 public class PropertySheet extends UIComponentBase implements NamingContainer {
+
     /**
      *	Constructor.
      */
@@ -82,8 +81,8 @@ public class PropertySheet extends UIComponentBase implements NamingContainer {
      *	@return	The number of visible sections.
      */
     public int getSectionCount() {
-	// Return the answer
-	return getVisibleSections().size();
+        // Return the answer
+        return getVisibleSections().size();
     }
 
     /**
@@ -96,49 +95,46 @@ public class PropertySheet extends UIComponentBase implements NamingContainer {
      *		objects.
      */
     public List getVisibleSections() {
-	int numChildren = getChildCount();
+        int numChildren = getChildCount();
 
-	// See if we've already figured this out
-	if ((_visibleSections != null) && (_childCount == numChildren)) {
-	    return _visibleSections;
-	}
-	_childCount = numChildren;
+        // See if we've already figured this out
+        if ((_visibleSections != null) && (_childCount == numChildren)) {
+            return _visibleSections;
+        }
+        _childCount = numChildren;
 
-	// Make sure we have children
-	if (numChildren == 0) {
-	    _visibleSections = new ArrayList(0);
-	    return _visibleSections;
-	}
+        // Make sure we have children
+        if (numChildren == 0) {
+            _visibleSections = new ArrayList(0);
+            return _visibleSections;
+        }
 
-	// Add the visible sections to the result List
-	UIComponent child = null;
-	List visibleSections = new ArrayList();
-	Iterator it = getChildren().iterator();
-	while (it.hasNext()) {
-	    child = (UIComponent)it.next();
-	    if ((child instanceof PropertySheetSection) && child.isRendered()) {
-		if (((PropertySheetSection)child).getVisibleSectionChildren().size() > 0) {
-		    visibleSections.add(child);
-		}
-	    }
-	}
+        // Add the visible sections to the result List
+        UIComponent child = null;
+        List visibleSections = new ArrayList();
+        Iterator it = getChildren().iterator();
+        while (it.hasNext()) {
+            child = (UIComponent) it.next();
+            if ((child instanceof PropertySheetSection) && child.isRendered()) {
+                if (((PropertySheetSection) child).getVisibleSectionChildren().size() > 0) {
+                    visibleSections.add(child);
+                }
+            }
+        }
 
-	// Return the visible PropertySheetSections
-	_visibleSections = visibleSections;
-	return _visibleSections;
+        // Return the visible PropertySheetSections
+        _visibleSections = visibleSections;
+        return _visibleSections;
     }
-
-
     /**
      *	<p> Used to cache the visible sections.</p>
      */
-    private transient List	_visibleSections = null;
-    private transient int	_childCount = -1;
+    private transient List _visibleSections = null;
+    private transient int _childCount = -1;
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // UIComponent methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * If the rendered property is true, render the begining of the current
      * state of this UIComponent to the response contained in the specified
@@ -152,6 +148,7 @@ public class PropertySheet extends UIComponentBase implements NamingContainer {
      * @exception IOException if an input/output error occurs while rendering.
      * @exception NullPointerException if FacesContext is null.
      */
+    @Override
     public void encodeBegin(FacesContext context) throws IOException {
         // Clear cached variables -- bugtraq #6270214.
         _visibleSections = null;
@@ -162,12 +159,12 @@ public class PropertySheet extends UIComponentBase implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -179,18 +176,18 @@ public class PropertySheet extends UIComponentBase implements NamingContainer {
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
-
     /**
      * <p>This boolean attribute allows you to control whether jump links
      * will be created at the top of this <code>PropertySheet</code>
      * or not.  The default is NOT to create the links -- setting this
      * attribute to "true" turns this feature on.</p>
      */
-    @Property(name="jumpLinks", displayName="Show Jump Links", category="Appearance")
+    @Property(name = "jumpLinks", displayName = "Show Jump Links", category = "Appearance")
     private boolean jumpLinks = false;
     private boolean jumpLinks_set = false;
 
@@ -227,14 +224,13 @@ public class PropertySheet extends UIComponentBase implements NamingContainer {
         this.jumpLinks = jumpLinks;
         this.jumpLinks_set = true;
     }
-
     /**
      * <p>Specifies whether to display a required field legend in the 
      * upper right area of the property sheet. This attribute should be set
      * to true if one or more properties in the property sheet sections are 
      * marked required. </p>
      */
-    @Property(name="requiredFields", displayName="Required Field Legend", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.RequiredFieldsPropertyEditor")
+    @Property(name = "requiredFields", displayName = "Required Field Legend", category = "Appearance", editorClassName = "com.sun.webui.jsf.component.propertyeditors.RequiredFieldsPropertyEditor")
     private String requiredFields = null;
 
     /**
@@ -264,12 +260,11 @@ public class PropertySheet extends UIComponentBase implements NamingContainer {
     public void setRequiredFields(String requiredFields) {
         this.requiredFields = requiredFields;
     }
-
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
+    @Property(name = "style", displayName = "CSS Style(s)", category = "Appearance", editorClassName = "com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
@@ -295,12 +290,11 @@ public class PropertySheet extends UIComponentBase implements NamingContainer {
     public void setStyle(String style) {
         this.style = style;
     }
-
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)", category = "Appearance", editorClassName = "com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
@@ -326,7 +320,6 @@ public class PropertySheet extends UIComponentBase implements NamingContainer {
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -336,7 +329,7 @@ public class PropertySheet extends UIComponentBase implements NamingContainer {
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @Property(name="visible", displayName="Visible", category="Behavior")
+    @Property(name = "visible", displayName = "Visible", category = "Behavior")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -383,7 +376,8 @@ public class PropertySheet extends UIComponentBase implements NamingContainer {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.jumpLinks = ((Boolean) _values[1]).booleanValue();
@@ -398,6 +392,7 @@ public class PropertySheet extends UIComponentBase implements NamingContainer {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[8];
         _values[0] = super.saveState(_context);

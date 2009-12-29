@@ -24,16 +24,16 @@ package com.sun.webui.jsf.component;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
-
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
 
 /**
  * The Html component is used to create the &lt;html&gt; element.
  */
-@Component(type="com.sun.webui.jsf.Html", family="com.sun.webui.jsf.Html", displayName="Html", tagName="html",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_html",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_html_props")
+@Component(type = "com.sun.webui.jsf.Html", family = "com.sun.webui.jsf.Html",
+displayName = "Html", tagName = "html",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_html",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_html_props")
 public class Html extends UIComponentBase {
 
     /**
@@ -54,12 +54,12 @@ public class Html extends UIComponentBase {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -71,15 +71,15 @@ public class Html extends UIComponentBase {
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
-
     /**
      * <p>Sets the language code for this document</p>
      */
-    @Property(name="lang", displayName="Lang", category="Advanced")
+    @Property(name = "lang", displayName = "Lang", category = "Advanced")
     private String lang = null;
 
     /**
@@ -103,12 +103,11 @@ public class Html extends UIComponentBase {
     public void setLang(String lang) {
         this.lang = lang;
     }
-
     /**
      * <p>Defines the XML namespace attribute.  Default value is: 
      * http://www.w3.org/1999/xhtml</p>
      */
-    @Property(name="xmlns", displayName="XML Namespace", category="Advanced", isDefault=true)
+    @Property(name = "xmlns", displayName = "XML Namespace", category = "Advanced", isDefault = true)
     private String xmlns = null;
 
     /**
@@ -138,7 +137,8 @@ public class Html extends UIComponentBase {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.lang = (String) _values[1];
@@ -148,6 +148,7 @@ public class Html extends UIComponentBase {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[3];
         _values[0] = super.saveState(_context);
@@ -155,5 +156,4 @@ public class Html extends UIComponentBase {
         _values[2] = this.xmlns;
         return _values;
     }
-
 }

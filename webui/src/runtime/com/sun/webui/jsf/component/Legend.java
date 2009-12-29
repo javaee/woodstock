@@ -23,12 +23,10 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-import com.sun.webui.jsf.component.Icon;
 import com.sun.webui.jsf.util.ComponentUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.theme.Theme;
-
 import javax.el.ValueExpression;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
@@ -39,9 +37,10 @@ import javax.faces.convert.Converter;
 /**
  * The Legend component displays a legend to explain icons used in a page.
  */
-@Component(type="com.sun.webui.jsf.Legend", family="com.sun.webui.jsf.Legend", displayName="Legend", tagName="legend",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_legend",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_legend_props")
+@Component(type = "com.sun.webui.jsf.Legend", family = "com.sun.webui.jsf.Legend",
+displayName = "Legend", tagName = "legend",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_legend",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_legend_props")
 public class Legend extends UIOutput implements NamingContainer {
 
     /** 
@@ -60,6 +59,7 @@ public class Legend extends UIOutput implements NamingContainer {
     /**
      * <p>Return the family for this component.</p>
      */
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.Legend";
     }
@@ -79,33 +79,32 @@ public class Legend extends UIOutput implements NamingContainer {
      * @return - legendImage facet or an Icon instance
      */
     public UIComponent getLegendImage() {
-	// First check if an image facet was specified
-	UIComponent imageFacet = getFacet(LEGEND_IMAGE_FACET);
-	// If not create one with the default icon.
-	if (imageFacet != null) {
-	    return imageFacet;
-	}
+        // First check if an image facet was specified
+        UIComponent imageFacet = getFacet(LEGEND_IMAGE_FACET);
+        // If not create one with the default icon.
+        if (imageFacet != null) {
+            return imageFacet;
+        }
 
-	Theme theme = ThemeUtilities.                    
-	    getTheme(FacesContext.getCurrentInstance());           
-	Icon icon = ThemeUtilities.getIcon(theme,
-		ThemeImages.LEGEND_REQUIRED_ICON);
-	icon.setId(
-	    ComponentUtilities.createPrivateFacetId(this, LEGEND_IMAGE_FACET));
-	icon.setParent(this);
+        Theme theme = ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
+        Icon icon = ThemeUtilities.getIcon(theme,
+                ThemeImages.LEGEND_REQUIRED_ICON);
+        icon.setId(
+                ComponentUtilities.createPrivateFacetId(this, LEGEND_IMAGE_FACET));
+        icon.setParent(this);
 
-	return icon;
+        return icon;
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -117,7 +116,8 @@ public class Legend extends UIOutput implements NamingContainer {
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
@@ -133,21 +133,22 @@ public class Legend extends UIOutput implements NamingContainer {
      * </li><li>the ID of a registered converter (a String).</li>
      * </ul>
      */
-    @Property(name="converter", isHidden=true, isAttribute=false)
+    @Property(name = "converter", isHidden = true, isAttribute = false)
+    @Override
     public Converter getConverter() {
         return super.getConverter();
     }
-    
+
     // Hide value
-    @Property(name="value", isHidden=true, isAttribute=false)
+    @Property(name = "value", isHidden = true, isAttribute = false)
+    @Override
     public Object getValue() {
         return super.getValue();
     }
-
     /**
      * <p>Specifies the position of the legend. Valid values are: "right" (the default) and "left".</p>
      */
-    @Property(name="position", displayName="Legend Position")
+    @Property(name = "position", displayName = "Legend Position")
     private String position = null;
 
     /**
@@ -171,12 +172,11 @@ public class Legend extends UIOutput implements NamingContainer {
     public void setPosition(String position) {
         this.position = position;
     }
-
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="style", displayName="CSS Style(s)")
+    @Property(name = "style", displayName = "CSS Style(s)")
     private String style = null;
 
     /**
@@ -202,12 +202,11 @@ public class Legend extends UIOutput implements NamingContainer {
     public void setStyle(String style) {
         this.style = style;
     }
-
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)")
     private String styleClass = null;
 
     /**
@@ -233,12 +232,11 @@ public class Legend extends UIOutput implements NamingContainer {
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-
     /**
      * <p>The explanatory text that is displayed in the legend. If not specified, the 
      * required field legend text is displayed.</p>
      */
-    @Property(name="text", displayName="Legend Text")
+    @Property(name = "text", displayName = "Legend Text")
     private String text = null;
 
     /**
@@ -263,7 +261,6 @@ public class Legend extends UIOutput implements NamingContainer {
     public void setText(String text) {
         this.text = text;
     }
-
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -273,7 +270,7 @@ public class Legend extends UIOutput implements NamingContainer {
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @Property(name="visible", displayName="Visible")
+    @Property(name = "visible", displayName = "Visible")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -320,7 +317,8 @@ public class Legend extends UIOutput implements NamingContainer {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.position = (String) _values[1];
@@ -334,6 +332,7 @@ public class Legend extends UIOutput implements NamingContainer {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[7];
         _values[0] = super.saveState(_context);

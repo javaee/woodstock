@@ -24,9 +24,7 @@ package com.sun.webui.jsf.component;
 import com.sun.faces.annotation.Property;
 import com.sun.webui.jsf.util.ComponentUtilities;
 import com.sun.webui.jsf.util.ConversionUtilities;
-
 import java.io.IOException;
-
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.component.NamingContainer;
@@ -40,6 +38,7 @@ import javax.faces.render.Renderer;
  * RadioButton and Checkbox renderers.
  */
 public class RbCbSelector extends Selector implements NamingContainer {
+
     /**
      * Image facet name.
      */
@@ -50,7 +49,6 @@ public class RbCbSelector extends Selector implements NamingContainer {
     private final static String IMAGE_URL_PROP = "imageURL";
     private final static String URL_PROP = "url";
     private final static String ALT_PROP = "alt";
-
     /**
      * Label facet name.
      */
@@ -67,7 +65,6 @@ public class RbCbSelector extends Selector implements NamingContainer {
     private final static String TOOLTIP_PROP = "toolTip";
     private final static String VISIBLE_PROP = "visible";
     private final static String RENDERED_PROP = "rendered";
-
     private final static String ID_SEPARATOR = "_"; //NOI18N
 
     // This is the default value for selectedValue.
@@ -92,10 +89,11 @@ public class RbCbSelector extends Selector implements NamingContainer {
     /**
      * <p>Return the family for this component.</p>
      */
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.RbCbSelector";
     }
-    
+
     /**
      * Implemented by subclasses in order to reflect the selection
      * state of this component id part of a group.
@@ -120,6 +118,7 @@ public class RbCbSelector extends Selector implements NamingContainer {
     // of selected grouped checkboxes, so that initially selected
     // check boxes are available on the first render cycle
     //
+    @Override
     public void encodeBegin(FacesContext context) throws IOException {
 
         if (context == null) {
@@ -129,16 +128,16 @@ public class RbCbSelector extends Selector implements NamingContainer {
             return;
         }
 
-	// If the checkbox or radio button isn't valid, or
-	// not in a group or not
-	// selected, don't put it in the RequestMap.
-	//
-	String groupName = getName();
-	if (groupName == null || !isValid() || !isChecked()) {
-	    return;
-	}
+        // If the checkbox or radio button isn't valid, or
+        // not in a group or not
+        // selected, don't put it in the RequestMap.
+        //
+        String groupName = getName();
+        if (groupName == null || !isValid() || !isChecked()) {
+            return;
+        }
 
-	addToRequestMap(context, groupName);
+        addToRequestMap(context, groupName);
 
         String rendererType = getRendererType();
         if (rendererType != null) {
@@ -193,19 +192,19 @@ public class RbCbSelector extends Selector implements NamingContainer {
      * @param context the context of this request.
      * @param submittedValue the submitted String value of this component.
      */
-    public Object getConvertedValue(FacesContext context, 
-				    Object submittedValue)
-	    throws ConverterException {
+    @Override
+    public Object getConvertedValue(FacesContext context,
+            Object submittedValue)
+            throws ConverterException {
 
-	// First defer to the renderer.
-	//
-	Renderer renderer = getRenderer(context);
-	if (renderer != null) {
-	    return renderer.getConvertedValue(context, this, submittedValue);
-	}
-	return getConvertedValue(context, this, submittedValue);
+        // First defer to the renderer.
+        //
+        Renderer renderer = getRenderer(context);
+        if (renderer != null) {
+            return renderer.getConvertedValue(context, this, submittedValue);
+        }
+        return getConvertedValue(context, this, submittedValue);
     }
-
 
     /**
      * Convert the <code>submittedValue</code> argument.
@@ -249,140 +248,139 @@ public class RbCbSelector extends Selector implements NamingContainer {
      * @param component an RbCbSelector instance.
      * @param submittedValue the submitted String value of this component.
      */
-    public Object getConvertedValue(FacesContext context, 
-	    RbCbSelector component, Object submittedValue)
-	    throws ConverterException {
+    public Object getConvertedValue(FacesContext context,
+            RbCbSelector component, Object submittedValue)
+            throws ConverterException {
 
-	// This would indicate minimally not selected
-	//
-	if (submittedValue == null) {
-	    throw new ConverterException(
-	    "The submitted value is null. " + //NOI18N
-	    "The submitted value must be a String or String array.");//NOI18N
-	}
+        // This would indicate minimally not selected
+        //
+        if (submittedValue == null) {
+            throw new ConverterException(
+                    "The submitted value is null. " + //NOI18N
+                    "The submitted value must be a String or String array.");//NOI18N
+        }
 
-	// Expect a String or String[]
-	// Should be made to be just String.
-	//
-	boolean isStringArray = submittedValue instanceof String[];
-	boolean isString = submittedValue instanceof String;
-	if (!(isStringArray || isString)) {
-	    throw new ConverterException(
-	    "The submitted value must be a String or String array.");//NOI18N
-	}
+        // Expect a String or String[]
+        // Should be made to be just String.
+        //
+        boolean isStringArray = submittedValue instanceof String[];
+        boolean isString = submittedValue instanceof String;
+        if (!(isStringArray || isString)) {
+            throw new ConverterException(
+                    "The submitted value must be a String or String array.");//NOI18N
+        }
 
-	String rawValue = null;
-	if (isStringArray) {
-	    if (((String[])submittedValue).length > 0) {
-		rawValue = ((String[])submittedValue)[0];
-	    }
-	} else if (isString) {
-	    rawValue = (String)submittedValue;
-	}
+        String rawValue = null;
+        if (isStringArray) {
+            if (((String[]) submittedValue).length > 0) {
+                rawValue = ((String[]) submittedValue)[0];
+            }
+        } else if (isString) {
+            rawValue = (String) submittedValue;
+        }
 
-	// Need to determine if the submitted value is not checked
-	// and unchanged. If it is unchecked, rawValue == null or
-	// rawValue == "". Compare with the rendered value. If the
-	// rendered value is "" or null, then the component is unchanged
-	// and if the rendered value was not null, try and convert it.
-	//
-	boolean unselected = rawValue == null || rawValue.length() == 0;
+        // Need to determine if the submitted value is not checked
+        // and unchanged. If it is unchecked, rawValue == null or
+        // rawValue == "". Compare with the rendered value. If the
+        // rendered value is "" or null, then the component is unchanged
+        // and if the rendered value was not null, try and convert it.
+        //
+        boolean unselected = rawValue == null || rawValue.length() == 0;
 
-	// If the component was unselected then we need to know if it
-	// was rendered unselected due to a value that was an empty
-	// string or null. If it is was submitted as unselected
-	// and rendered as unselected, we need the rendered value that
-	// implied unselected, since it may not null, just different
-	// than "selectedValue"
-	//
-	Object newValue = null;
-	Object selectedValue = getSelectedValue();
-	if (unselected) {
-	    newValue = ConversionUtilities.convertRenderedValue(context,
-		rawValue, this);
-	    // Determine the unselected value for Boolean controls
-	    // if the converted value is null but the the component
-	    // value wasn't rendered as null.
-	    // For example if the control rendered as null, and is 
-	    // still unselected, then we don't want to return FALSE
-	    // for a Boolean control, since it is unchanged.
-	    // But if it has changed and is unselected then return
-	    // the unselected value of FALSE.
-	    //
-	    if (!ConversionUtilities.renderedNull(component) &&
-		    selectedValue instanceof Boolean &&
-		    newValue == null) {
+        // If the component was unselected then we need to know if it
+        // was rendered unselected due to a value that was an empty
+        // string or null. If it is was submitted as unselected
+        // and rendered as unselected, we need the rendered value that
+        // implied unselected, since it may not null, just different
+        // than "selectedValue"
+        //
+        Object newValue = null;
+        Object selectedValue = getSelectedValue();
+        if (unselected) {
+            newValue = ConversionUtilities.convertRenderedValue(context,
+                    rawValue, this);
+            // Determine the unselected value for Boolean controls
+            // if the converted value is null but the the component
+            // value wasn't rendered as null.
+            // For example if the control rendered as null, and is
+            // still unselected, then we don't want to return FALSE
+            // for a Boolean control, since it is unchanged.
+            // But if it has changed and is unselected then return
+            // the unselected value of FALSE.
+            //
+            if (!ConversionUtilities.renderedNull(component) &&
+                    selectedValue instanceof Boolean &&
+                    newValue == null) {
 
-		// return the complement of the selectedValue
-		// Boolean value.
-		//
-		newValue = ((Boolean)selectedValue).booleanValue() ?
-			Boolean.FALSE : Boolean.TRUE;
-	    }
-	    return getUnselectedValue(context, component, newValue);
-	} else {
-	    newValue = ConversionUtilities.convertValueToObject
-			(component, rawValue, context);
-	    return newValue == rawValue ? selectedValue : newValue;
-	}
+                // return the complement of the selectedValue
+                // Boolean value.
+                //
+                newValue = ((Boolean) selectedValue).booleanValue() ? Boolean.FALSE : Boolean.TRUE;
+            }
+            return getUnselectedValue(context, component, newValue);
+        } else {
+            newValue = ConversionUtilities.convertValueToObject(component, rawValue, context);
+            return newValue == rawValue ? selectedValue : newValue;
+        }
     }
 
     private Object getUnselectedValue(FacesContext context,
-	    UIComponent component, Object noValue) {
+            UIComponent component, Object noValue) {
 
-	// Determine the type of the component's value object
+        // Determine the type of the component's value object
         ValueExpression valueExpr =
                 component.getValueExpression("value"); //NOI18N
-        
-	// If there's no value binding we don't care
-	// since the local value is an object and can support null or ""
-	//
+
+        // If there's no value binding we don't care
+        // since the local value is an object and can support null or ""
+        //
         if (valueExpr == null) {
             return noValue;
-	} 
+        }
         // We have found a valuebinding.
         Class clazz = valueExpr.getType(context.getELContext());
-        
+
         // Null class
         if (clazz == null) {
             return noValue;
         }
-	// Pass noValue for use in primitive boolean case.
-	// If the "selectedValue" was Boolean.FALSE, unselected
-	// will be Boolean.TRUE.
-	//
-	if (clazz.isPrimitive()) {
-	    return getPrimitiveUnselectedValue(clazz, noValue);
-	}
+        // Pass noValue for use in primitive boolean case.
+        // If the "selectedValue" was Boolean.FALSE, unselected
+        // will be Boolean.TRUE.
+        //
+        if (clazz.isPrimitive()) {
+            return getPrimitiveUnselectedValue(clazz, noValue);
+        }
 
-	// bail out
-	return noValue;
+        // bail out
+        return noValue;
     }
 
     private Object getPrimitiveUnselectedValue(Class clazz,
-	    Object booleanUnselectedValue) {
+            Object booleanUnselectedValue) {
 
-	// it MUST be at least one of these
-	//
-	if (clazz.equals(Boolean.TYPE)) {
-	    return booleanUnselectedValue;
-	} else if (clazz.equals(Byte.TYPE)) {
-	    return new Integer(Byte.MIN_VALUE);
-	} else if (clazz.equals(Double.TYPE)) {
-	    return new Double(Double.MIN_VALUE);
-	} else if (clazz.equals(Float.TYPE)) {
-	    return new Float(Float.MIN_VALUE);
-	} else if (clazz.equals(Integer.TYPE)) {
-	    return new Integer(Integer.MIN_VALUE);
-	} else if (clazz.equals(Character.TYPE)) {
-	    return new Character(Character.MIN_VALUE);
-	} else if (clazz.equals(Short.TYPE)) {
-	    return new Short(Short.MIN_VALUE);
-	} else { 
-	    // if (clazz.equals(Long.TYPE)) 
-	    return new Long(Long.MIN_VALUE);
-	}
+        // it MUST be at least one of these
+        //
+        if (clazz.equals(Boolean.TYPE)) {
+            return booleanUnselectedValue;
+        } else if (clazz.equals(Byte.TYPE)) {
+            return new Integer(Byte.MIN_VALUE);
+        } else if (clazz.equals(Double.TYPE)) {
+            return new Double(Double.MIN_VALUE);
+        } else if (clazz.equals(Float.TYPE)) {
+            return new Float(Float.MIN_VALUE);
+        } else if (clazz.equals(Integer.TYPE)) {
+            return new Integer(Integer.MIN_VALUE);
+        } else if (clazz.equals(Character.TYPE)) {
+            return new Character(Character.MIN_VALUE);
+        } else if (clazz.equals(Short.TYPE)) {
+            return new Short(Short.MIN_VALUE);
+        } else {
+            // if (clazz.equals(Long.TYPE))
+            return new Long(Long.MIN_VALUE);
+        }
     }
+
     /**
      * Return the value of the <code>selectedValue</code> property.
      * If <code>selectedValue</code> is null, then a <code>Boolean</code>
@@ -390,8 +388,8 @@ public class RbCbSelector extends Selector implements NamingContainer {
      * boolean control.
      */
     public Object getSelectedValue() {
-	Object sv = _getSelectedValue();
-	return sv == null ? trueSelectedValue : sv;
+        Object sv = _getSelectedValue();
+        return sv == null ? trueSelectedValue : sv;
     }
 
     // Hack to overcome introspection of "isSelected"
@@ -402,21 +400,21 @@ public class RbCbSelector extends Selector implements NamingContainer {
      * equal to the <code>selected</code> property.
      */
     public boolean isChecked() {
-	Object selectedValue = getSelectedValue();
-	Object selected = getSelected();
-	if (selectedValue == null || selected == null) {
-	    return false;
-	}
-	// Need to support "selected" set to a constant String
-	// such as "true" or "false" when it is a boolean control.
-	// This does not include when selected is bound to a String
-	//
-	if (getValueExpression("selected") == null && //NOI18N
-	    selected instanceof String && selectedValue instanceof Boolean) {
-	    return selectedValue.equals(Boolean.valueOf((String)selected));
-	} else {
-	    return selected.equals(selectedValue);
-	}
+        Object selectedValue = getSelectedValue();
+        Object selected = getSelected();
+        if (selectedValue == null || selected == null) {
+            return false;
+        }
+        // Need to support "selected" set to a constant String
+        // such as "true" or "false" when it is a boolean control.
+        // This does not include when selected is bound to a String
+        //
+        if (getValueExpression("selected") == null && //NOI18N
+                selected instanceof String && selectedValue instanceof Boolean) {
+            return selectedValue.equals(Boolean.valueOf((String) selected));
+        } else {
+            return selected.equals(selectedValue);
+        }
     }
 
     /**
@@ -443,11 +441,11 @@ public class RbCbSelector extends Selector implements NamingContainer {
      * @return - the image facet or an ImageComponent instance or null
      */
     public UIComponent getImageComponent() {
-	UIComponent imageComponent = getFacet(IMAGE_FACET);
-	if (imageComponent != null) {
-	    return imageComponent;
-	}
-	return(createImageComponent());
+        UIComponent imageComponent = getFacet(IMAGE_FACET);
+        if (imageComponent != null) {
+            return imageComponent;
+        }
+        return (createImageComponent());
     }
 
     /**
@@ -474,11 +472,11 @@ public class RbCbSelector extends Selector implements NamingContainer {
      */
     public UIComponent getLabelComponent() {
 
-	UIComponent labelComponent = getFacet(LABEL_FACET);
-	if (labelComponent != null) {
-	    return labelComponent;
-	}
-	return createLabelComponent();
+        UIComponent labelComponent = getFacet(LABEL_FACET);
+        if (labelComponent != null) {
+            return labelComponent;
+        }
+        return createLabelComponent();
     }
 
     /**
@@ -490,40 +488,40 @@ public class RbCbSelector extends Selector implements NamingContainer {
      */
     protected UIComponent createLabelComponent() {
 
-	// This diverges from previous behavior if a subsequent
-	// request yields a null label. Previously if a private
-	// facet was created, and getLabel() returned null
-	// the previous facet was returned.
-	//
-	String label = getLabel();
-	if (label == null) {
-	    /* Not saving the facet yet.
-	    ComponentUtilities.removePrivateFacet(this, LABEL_FACET);
-	    */
-	    return null;
-	}
+        // This diverges from previous behavior if a subsequent
+        // request yields a null label. Previously if a private
+        // facet was created, and getLabel() returned null
+        // the previous facet was returned.
+        //
+        String label = getLabel();
+        if (label == null) {
+            /* Not saving the facet yet.
+            ComponentUtilities.removePrivateFacet(this, LABEL_FACET);
+             */
+            return null;
+        }
 
-	Label flabel = new Label();
-	if (flabel == null) {
-	    return null;
-	}
+        Label flabel = new Label();
+        if (flabel == null) {
+            return null;
+        }
         flabel.setId(
-	    ComponentUtilities.createPrivateFacetId(this, LABEL_FACET));
+                ComponentUtilities.createPrivateFacetId(this, LABEL_FACET));
 
-	flabel.setFor(getClientId(getFacesContext()));
-	flabel.setText(label);
-	flabel.setLabelLevel(getLabelLevel());
-	flabel.setToolTip(getToolTip());
+        flabel.setFor(getClientId(getFacesContext()));
+        flabel.setText(label);
+        flabel.setLabelLevel(getLabelLevel());
+        flabel.setToolTip(getToolTip());
 
-	/* This wasn't done previously. 
-	 * But need to set parent. I'm not sure the Label
-	 * for stuff will work, or even if it should for individual
-	 * rb's and cb's
-	 *
-	ComponentUtilities.putPrivateFacet(this, LABEL_FACET, flabel);
-	 */
-	flabel.setParent(this);
-	return flabel;
+        /* This wasn't done previously.
+         * But need to set parent. I'm not sure the Label
+         * for stuff will work, or even if it should for individual
+         * rb's and cb's
+         *
+        ComponentUtilities.putPrivateFacet(this, LABEL_FACET, flabel);
+         */
+        flabel.setParent(this);
+        return flabel;
     }
 
     /**
@@ -532,44 +530,44 @@ public class RbCbSelector extends Selector implements NamingContainer {
      */
     protected UIComponent createImageComponent() {
 
-	String iurl = getImageURL();
-	if (iurl == null) {
-	    /* Not saving the facet yet.
-	    ComponentUtilities.removePrivateFacet(this, IMAGE_FACET);
-	    */
-	    return null;
-	}
+        String iurl = getImageURL();
+        if (iurl == null) {
+            /* Not saving the facet yet.
+            ComponentUtilities.removePrivateFacet(this, IMAGE_FACET);
+             */
+            return null;
+        }
 
-	ImageComponent image = new ImageComponent();
+        ImageComponent image = new ImageComponent();
         image.setId(
-	    ComponentUtilities.createPrivateFacetId(this, IMAGE_FACET));
+                ComponentUtilities.createPrivateFacetId(this, IMAGE_FACET));
 
-	image.setUrl(getImageURL());
-	image.setToolTip(getToolTip());
-	image.setAlt(getToolTip());
+        image.setUrl(getImageURL());
+        image.setToolTip(getToolTip());
+        image.setAlt(getToolTip());
 
-	/* This wasn't done previously. 
-	 * But need to set parent. I'm not sure the Label
-	 * for stuff will work, or even if it should for individual
-	 * rb's and cb's
-	 *
-	ComponentUtilities.putPrivateFacet(this, LABEL_FACET, flabel);
-	 */
-	image.setParent(this);
+        /* This wasn't done previously.
+         * But need to set parent. I'm not sure the Label
+         * for stuff will work, or even if it should for individual
+         * rb's and cb's
+         *
+        ComponentUtilities.putPrivateFacet(this, LABEL_FACET, flabel);
+         */
+        image.setParent(this);
 
-	return image;
+        return image;
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * <p>Return the <code>ValueExpression</code> stored for the
      * specified name (if any), respecting any property aliases.</p>
      *
      * @param name Name of value binding expression to retrieve
      */
+    @Override
     public ValueExpression getValueExpression(String name) {
         if (name.equals("selected")) {
             return super.getValueExpression("value");
@@ -588,7 +586,8 @@ public class RbCbSelector extends Selector implements NamingContainer {
      * @param name    Name of value binding to set
      * @param binding ValueExpression to set, or null to remove
      */
-    public void setValueExpression(String name,ValueExpression binding) {
+    @Override
+    public void setValueExpression(String name, ValueExpression binding) {
         if (name.equals("selected")) {
             super.setValueExpression("value", binding);
             return;
@@ -599,7 +598,6 @@ public class RbCbSelector extends Selector implements NamingContainer {
         }
         super.setValueExpression(name, binding);
     }
-
     /**
      * <p>
      * A context relative path of an image to be displayed with
@@ -607,7 +605,8 @@ public class RbCbSelector extends Selector implements NamingContainer {
      * for the image, specify an <code>image</code> facet instead
      * of the <code>imageURL</code> attribute.</p>
      */
-    @Property(name="imageURL", category="Appearance", editorClassName="com.sun.rave.propertyeditors.ImageUrlPropertyEditor")
+    @Property(name = "imageURL", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.ImageUrlPropertyEditor")
     private String imageURL = null;
 
     /**
@@ -639,13 +638,13 @@ public class RbCbSelector extends Selector implements NamingContainer {
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
     }
-
     /**
      * <p>Specifies the options that the web application user can choose
      * from. The value must be one of an array, Map or Collection
      * whose members are all subclasses of<code>com.sun.webui.jsf.model.Option</code>.</p>
      */
-    @Property(name="items", displayName="Items", category="Data", editorClassName="com.sun.rave.propertyeditors.binding.ValueBindingPropertyEditor")
+    @Property(name = "items", displayName = "Items", category = "Data",
+    editorClassName = "com.sun.rave.propertyeditors.binding.ValueBindingPropertyEditor")
     private Object items = null;
 
     /**
@@ -653,6 +652,7 @@ public class RbCbSelector extends Selector implements NamingContainer {
      * from. The value must be one of an array, Map or Collection
      * whose members are all subclasses of<code>com.sun.webui.jsf.model.Option</code>.</p>
      */
+    @Override
     public Object getItems() {
         if (this.items != null) {
             return this.items;
@@ -670,10 +670,10 @@ public class RbCbSelector extends Selector implements NamingContainer {
      * whose members are all subclasses of<code>com.sun.webui.jsf.model.Option</code>.</p>
      * @see #getItems()
      */
+    @Override
     public void setItems(Object items) {
         this.items = items;
     }
-
     /**
      * <p>
      * Identifies the control as participating as part
@@ -684,7 +684,8 @@ public class RbCbSelector extends Selector implements NamingContainer {
      * in the group, within the scope of the <code>Form</code>
      * parent component containing the grouped components.</p>
      */
-    @Property(name="name", displayName="Group Name", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "name", displayName = "Group Name", category = "Advanced",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String name = null;
 
     /**
@@ -729,7 +730,9 @@ public class RbCbSelector extends Selector implements NamingContainer {
      * must be bound to ArrayList, an Object array, or an array of
      * primitives.</p>
      */
-    @Property(name="selected", displayName="Selected", category="Data", editorClassName="com.sun.webui.jsf.component.propertyeditors.RbCbSelectedPropertyEditor")
+    @Property(name = "selected", displayName = "Selected", category = "Data",
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.RbCbSelectedPropertyEditor")
+    @Override
     public Object getSelected() {
         return getValue();
     }
@@ -741,6 +744,7 @@ public class RbCbSelector extends Selector implements NamingContainer {
      * primitives.</p>
      * @see #getSelected()
      */
+    @Override
     public void setSelected(Object selected) {
         setValue(selected);
     }
@@ -760,7 +764,8 @@ public class RbCbSelector extends Selector implements NamingContainer {
      * If a boolean component is not selected, the <code>selected</code>
      * property value is a false <code>Boolean</code> instance.</p>
      */
-    @Property(name="selectedValue", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "selectedValue", category = "Advanced",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private Object _getSelectedValue() {
         return getItems();
     }
@@ -788,7 +793,8 @@ public class RbCbSelector extends Selector implements NamingContainer {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.imageURL = (String) _values[1];
@@ -799,6 +805,7 @@ public class RbCbSelector extends Selector implements NamingContainer {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[4];
         _values[0] = super.saveState(_context);

@@ -23,29 +23,24 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-import com.sun.webui.jsf.converter.DateConverter; 
+import com.sun.webui.jsf.converter.DateConverter;
 import com.sun.webui.jsf.event.IntervalListener;
-import com.sun.webui.jsf.event.MethodExprValueChangeListener;
 import com.sun.webui.jsf.event.SchedulerPreviewListener;
 import com.sun.webui.jsf.model.ClockTime;
 import com.sun.webui.jsf.model.Option;
 import com.sun.webui.jsf.model.ScheduledEvent;
 import com.sun.webui.jsf.model.scheduler.*;
-import com.sun.webui.jsf.model.scheduler.RepeatUnitConverter; 
+import com.sun.webui.jsf.model.scheduler.RepeatUnitConverter;
 import com.sun.webui.jsf.util.ComponentUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.jsf.util.ConversionUtilities;
-import com.sun.webui.jsf.validator.DateInRangeValidator; 
-import com.sun.webui.jsf.validator.MethodExprValidator;
+import com.sun.webui.jsf.validator.DateInRangeValidator;
 import com.sun.webui.theme.Theme;
-
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Date;
 import java.text.DateFormat;
-
 import javax.el.ValueExpression;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -58,25 +53,23 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 import javax.faces.convert.IntegerConverter;
 import javax.faces.event.ValueChangeEvent;
-import javax.faces.event.ValueChangeListener;
 import javax.faces.validator.DoubleRangeValidator;
-import javax.faces.validator.Validator;
 
 /**
  * The Scheduler component is used to display a calendar and the input controls
  * that are used for selecting a date and time.
  */
-@Component(type="com.sun.webui.jsf.Scheduler", family="com.sun.webui.jsf.Scheduler", displayName="Scheduler", tagName="scheduler",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_scheduler",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_scheduler_props")
+@Component(type = "com.sun.webui.jsf.Scheduler", family = "com.sun.webui.jsf.Scheduler",
+displayName = "Scheduler", tagName = "scheduler",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_scheduler",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_scheduler_props")
 public class Scheduler extends WebuiInput
         implements ComplexComponent, DateManager, NamingContainer {
-    
+
     /**
      * The date picker facet name.
      */
     public static final String DATE_PICKER_FACET = "datePicker"; //NOI18N
-    
     /**
      * The date facet name.
      */
@@ -85,13 +78,11 @@ public class Scheduler extends WebuiInput
      * The date label facet name.
      */
     public static final String DATE_LABEL_FACET = "dateLabel"; //NOI18N
-
     /**
      * The start date label text.
      */
     public final static String START_DATE_TEXT_KEY =
-	"Scheduler.startDate"; //NOI18N
-    
+            "Scheduler.startDate"; //NOI18N
     /**
      * The start time facet name.
      */
@@ -100,13 +91,12 @@ public class Scheduler extends WebuiInput
      * The start time facet name.
      */
     public static final String START_TIME_LABEL_FACET =
-	"startTimeLabel"; //NOI18N
+            "startTimeLabel"; //NOI18N
     /**
      * The start time label text.
      */
     public final static String START_TIME_TEXT_KEY =
-	"Scheduler.startTime"; //NOI18N
-    
+            "Scheduler.startTime"; //NOI18N
     /**
      * The end time facet name.
      */
@@ -119,18 +109,16 @@ public class Scheduler extends WebuiInput
      * The end time label text.
      */
     public final static String END_TIME_TEXT_KEY = "Scheduler.endTime"; //NOI18N
-    
     /**
      * The repeat unit facet name.
      */
     public static final String REPEAT_LIMIT_UNIT_FACET =
-	"repeatLimitUnit"; //NOI18N
+            "repeatLimitUnit"; //NOI18N
     /**
      * The repeat unit descriptions text key.
      */
     public final static String REPEAT_UNIT_DESCRIPTION_TEXT_KEY =
-		"Scheduler.repeatUnitDesc"; //NOI18N
-
+            "Scheduler.repeatUnitDesc"; //NOI18N
     /**
      * The repeat limit facet name.
      */
@@ -139,34 +127,32 @@ public class Scheduler extends WebuiInput
      * The repeat limit label facet name.
      */
     public static final String REPEAT_LIMIT_LABEL_FACET =
-	"repeatLimitLabel"; //NOI18N
+            "repeatLimitLabel"; //NOI18N
     /**
      * The repeat limit label text.
      */
     public final static String REPEAT_LIMIT_TEXT_KEY =
-	"Scheduler.repeatLimit"; //NOI18N
-    
+            "Scheduler.repeatLimit"; //NOI18N
     /**
      * The repeat interval facet name.
      */
     public static final String REPEAT_INTERVAL_FACET =
-	"repeatInterval"; //NOI18N
+            "repeatInterval"; //NOI18N
     /**
      * The repeat interval label facet name.
      */
     public static final String REPEAT_INTERVAL_LABEL_FACET =
-	"repeatIntervalLabel"; //NOI18N
+            "repeatIntervalLabel"; //NOI18N
     /**
      * The repeat interval label text.
      */
     public final static String REPEAT_INTERVAL_TEXT_KEY =
-	"Scheduler.repeatInterval"; //NOI18N
+            "Scheduler.repeatInterval"; //NOI18N
     /**
      * The repeat interval descriptions text key.
      */
     public final static String REPEAT_INTERVAL_DESCRIPTION_TEXT_KEY =
-		"Scheduler.repeatIntervalDesc"; //NOI18N
-
+            "Scheduler.repeatIntervalDesc"; //NOI18N
     /**
      * The preview button facet name.
      */
@@ -175,64 +161,59 @@ public class Scheduler extends WebuiInput
      * The preview button text key.
      */
     public static final String PREVIEW_BUTTON_TEXT_KEY =
-			"Scheduler.preview"; //NOI18N
-
+            "Scheduler.preview"; //NOI18N
     /**
      * The start hour title text key
      */
     public static final String START_HOUR_TITLE_TEXT_KEY =
-			"Scheduler.startHourTitle"; //NOI18N
+            "Scheduler.startHourTitle"; //NOI18N
     /**
      * The start minute title text key
      */
     public static final String START_MINUTE_TITLE_TEXT_KEY =
-			 "Scheduler.startMinuteTitle"; //NOI18N
-
+            "Scheduler.startMinuteTitle"; //NOI18N
     /**
      * The end hour title text key
      */
     public static final String END_HOUR_TITLE_TEXT_KEY =
-			"Scheduler.endHourTitle"; //NOI18N
+            "Scheduler.endHourTitle"; //NOI18N
     /**
      * The end minute title text key
      */
     public static final String END_MINUTE_TITLE_TEXT_KEY =
-			 "Scheduler.endMinuteTitle"; //NOI18N
+            "Scheduler.endMinuteTitle"; //NOI18N
     /**
      * The end before start error text key
      */
     private final String END_BEFORE_START_TEXT_KEY =
-		    "Scheduler.endBeforeStart"; //NOI18N
+            "Scheduler.endBeforeStart"; //NOI18N
     /**
      * The invalid input text key
      */
     private static final String INVALID_INPUT_TEXT_KEY =
-                        "Scheduler.invalidInput";  //NOI18N
+            "Scheduler.invalidInput";  //NOI18N
     /**
      * The invalid date text key
      */
     private static final String INVALID_DATE_TEXT_KEY =
-		"Scheduler.invalidDate"; //NOI18N
+            "Scheduler.invalidDate"; //NOI18N
     /**
      * The invalid start time text key
      */
     private static final String INVALID_START_TIME_TEXT_KEY =
-		"Scheduler.invalidStartTime"; //NOI18N
+            "Scheduler.invalidStartTime"; //NOI18N
     /**
      * The invalid end time text key
      */
     private static final String INVALID_END_TIME_TEXT_KEY =
-		"Scheduler.invalidEndTime"; //NOI18N
-
+            "Scheduler.invalidEndTime"; //NOI18N
     public static final String ICON_ID = "_icon"; //NOI18N
-    
     private static final String VALUE_SUBMITTED =
             "com.sun.webui.jsf.SchedulerSubmitted"; //NOI18N
-    private static final String FIRST_AVAILABLE_DATE = 
+    private static final String FIRST_AVAILABLE_DATE =
             "com.sun.webui.jsf.FirstAvailable"; //NOI18N
-     private static final String LAST_AVAILABLE_DATE = 
+    private static final String LAST_AVAILABLE_DATE =
             "com.sun.webui.jsf.LastAvailable"; //NOI18N
-    
     private static final boolean DEBUG = false;
 
     /**
@@ -246,6 +227,7 @@ public class Scheduler extends WebuiInput
     /**
      * <p>Return the family for this component.</p>
      */
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.Scheduler";
     }
@@ -260,23 +242,22 @@ public class Scheduler extends WebuiInput
      * @return a CalendarMonth component.
      */
     public CalendarMonth getDatePicker() {
-        
-        CalendarMonth dp = (CalendarMonth)
-	    ComponentUtilities.getPrivateFacet(this, DATE_PICKER_FACET, true);
+
+        CalendarMonth dp = (CalendarMonth) ComponentUtilities.getPrivateFacet(this, DATE_PICKER_FACET, true);
         if (dp == null) {
             dp = new CalendarMonth();
             dp.setPopup(false);
             dp.setId(ComponentUtilities.createPrivateFacetId(this,
-			DATE_PICKER_FACET));
-	    ComponentUtilities.putPrivateFacet(this, DATE_PICKER_FACET, dp);
+                    DATE_PICKER_FACET));
+            ComponentUtilities.putPrivateFacet(this, DATE_PICKER_FACET, dp);
         }
-        
+
         dp.setJavaScriptObjectName(getJavaScriptObjectName(
-		    FacesContext.getCurrentInstance()));
+                FacesContext.getCurrentInstance()));
 
         return dp;
     }
-    
+
     /**
      * Return a component that implements a label for the date component.
      * If a facet named <code>dateLabel</code> is found
@@ -294,25 +275,25 @@ public class Scheduler extends WebuiInput
     // defined in  other components with facets
     //
     public UIComponent getDateLabelComponent(Theme theme) {
-        
-	// This criteria is different than other label facets
-	// Other label facets check for "" as well
-	// as null and in those cases, uses the default.
-	//
-        String label = getDateLabel(); 
-        if (label == null) { 
-          label = theme.getMessage(START_DATE_TEXT_KEY);
-        } 
 
-	// Really need to optimize calling "getXXXComponent" methods.
-	// Many times these reinitialize the component. Depending
-	// on the lifecycle phase, this may or may not be appropriate.
-	//
-	UIComponent comp = getDateComponent();
+        // This criteria is different than other label facets
+        // Other label facets check for "" as well
+        // as null and in those cases, uses the default.
+        //
+        String label = getDateLabel();
+        if (label == null) {
+            label = theme.getMessage(START_DATE_TEXT_KEY);
+        }
+
+        // Really need to optimize calling "getXXXComponent" methods.
+        // Many times these reinitialize the component. Depending
+        // on the lifecycle phase, this may or may not be appropriate.
+        //
+        UIComponent comp = getDateComponent();
         return getLabelFacet(DATE_LABEL_FACET, label,
-	    comp != null ? comp.getClientId(getFacesContext()) : null);
+                comp != null ? comp.getClientId(getFacesContext()) : null);
     }
-        
+
     /**
      * Return a component that implements  a date input field.
      * If a facet named <code>date</code> is found
@@ -327,44 +308,47 @@ public class Scheduler extends WebuiInput
      * @return a date input field facet component
      */
     public UIComponent getDateComponent() {
-        
-        if(DEBUG) log("getDateComponent()"); //NOI18N
-        
-	// Check if the page author has defined the facet
-	//
-	UIComponent fieldComponent = getFacet(DATE_FACET); 
-	if (fieldComponent != null) {
-	    if (DEBUG) { 
-		log("\tFound facet"); //NOI18N
-	    } 
-	    return fieldComponent;
-	}
 
-	// Return the private facet or create one, but initialize
-	// it every time
-	//
-	// We know it's a TextField
-	//
-	TextField field = (TextField)ComponentUtilities.getPrivateFacet(this,
-	    DATE_FACET, true);
-	if (field == null) {
-	    if (DEBUG) log("create Field"); //NOI18N
-	    field = new TextField(); 
-	    field.setId(ComponentUtilities.createPrivateFacetId(this,
-		DATE_FACET));
-            ((EditableValueHolder)field).setConverter(new DateConverter());
-            ((EditableValueHolder)field).addValidator(
-		new DateInRangeValidator());           
-	    ComponentUtilities.putPrivateFacet(this, DATE_FACET, field);
-	}
-	// FIXME: 12 should be part of Theme.
-	//
-	field.setDisabled(isDisabled());
-	initFieldFacet(field, 12, isRequired());
+        if (DEBUG) {
+            log("getDateComponent()"); //NOI18N
+        }
+        // Check if the page author has defined the facet
+        //
+        UIComponent fieldComponent = getFacet(DATE_FACET);
+        if (fieldComponent != null) {
+            if (DEBUG) {
+                log("\tFound facet"); //NOI18N
+            }
+            return fieldComponent;
+        }
 
-	return field; 
-    }  
-      
+        // Return the private facet or create one, but initialize
+        // it every time
+        //
+        // We know it's a TextField
+        //
+        TextField field = (TextField) ComponentUtilities.getPrivateFacet(this,
+                DATE_FACET, true);
+        if (field == null) {
+            if (DEBUG) {
+                log("create Field"); //NOI18N
+            }
+            field = new TextField();
+            field.setId(ComponentUtilities.createPrivateFacetId(this,
+                    DATE_FACET));
+            ((EditableValueHolder) field).setConverter(new DateConverter());
+            ((EditableValueHolder) field).addValidator(
+                    new DateInRangeValidator());
+            ComponentUtilities.putPrivateFacet(this, DATE_FACET, field);
+        }
+        // FIXME: 12 should be part of Theme.
+        //
+        field.setDisabled(isDisabled());
+        initFieldFacet(field, 12, isRequired());
+
+        return field;
+    }
+
     /**
      * Return a component that implements a label for the start time component.
      * If a facet named <code>startTimeLabel</code> is found
@@ -382,24 +366,24 @@ public class Scheduler extends WebuiInput
     // defined in  other components with facets
     //
     public UIComponent getStartTimeLabelComponent(Theme theme) {
-        
-	// This criteria is different that other label facets
-	// Other label facets have checked for "" as well
-	// as null and in those cases, uses the default.
-	//
+
+        // This criteria is different that other label facets
+        // Other label facets have checked for "" as well
+        // as null and in those cases, uses the default.
+        //
         String label = getStartTimeLabel();
         if (label == null) {
             label = theme.getMessage(START_TIME_TEXT_KEY);
         }
-	// Really need to optimize calling "getXXXComponent" methods.
-	// Many times these reinitialize the component. Depending
-	// on the lifecycle phase, this may or may not be appropriate.
-	//
-	UIComponent comp = getStartTimeComponent();
+        // Really need to optimize calling "getXXXComponent" methods.
+        // Many times these reinitialize the component. Depending
+        // on the lifecycle phase, this may or may not be appropriate.
+        //
+        UIComponent comp = getStartTimeComponent();
         return getLabelFacet(START_TIME_LABEL_FACET, label,
-	    comp != null ? comp.getClientId(getFacesContext()) : null);
+                comp != null ? comp.getClientId(getFacesContext()) : null);
     }
-    
+
     /**
      * Return a Time component that implements the start time.
      * If <code>ComponentUtilities.getPrivateFacet()</code>
@@ -418,13 +402,13 @@ public class Scheduler extends WebuiInput
      */
     public Time getStartTimeComponent() {
 
-	// Note that tooltip keys are passed here.
-	// This is unlike many other facets. The keys are
-	// resolved in Time.endcodeEnd.
-	//
+        // Note that tooltip keys are passed here.
+        // This is unlike many other facets. The keys are
+        // resolved in Time.endcodeEnd.
+        //
         return getTimeFacet(START_TIME_FACET, isRequired(),
-		START_HOUR_TITLE_TEXT_KEY,
-		START_MINUTE_TITLE_TEXT_KEY);
+                START_HOUR_TITLE_TEXT_KEY,
+                START_MINUTE_TITLE_TEXT_KEY);
     }
 
     /**
@@ -444,25 +428,25 @@ public class Scheduler extends WebuiInput
     // defined in  other components with facets
     //
     public UIComponent getEndTimeLabelComponent(Theme theme) {
-        
-	// This criteria is different that other label facets
-	// Other label facets have checked for "" as well
-	// as null and in those cases, uses the default.
-	//
+
+        // This criteria is different that other label facets
+        // Other label facets have checked for "" as well
+        // as null and in those cases, uses the default.
+        //
         String label = getEndTimeLabel();
         if (label == null) {
-	    label = theme.getMessage(END_TIME_TEXT_KEY);
+            label = theme.getMessage(END_TIME_TEXT_KEY);
         }
-	// Really need to optimize calling "getXXXComponent" methods.
-	// Many times these reinitialize the component. Depending
-	// on the lifecycle phase, this may or may not be appropriate.
-	//
-	UIComponent comp = getEndTimeComponent();
+        // Really need to optimize calling "getXXXComponent" methods.
+        // Many times these reinitialize the component. Depending
+        // on the lifecycle phase, this may or may not be appropriate.
+        //
+        UIComponent comp = getEndTimeComponent();
         return getLabelFacet(END_TIME_LABEL_FACET, label,
-	    comp != null ? comp.getClientId(getFacesContext()) : null);
-        
+                comp != null ? comp.getClientId(getFacesContext()) : null);
+
     }
-    
+
     /**
      * Return a Time component that implements the end time.
      * If <code>ComponentUtilities.getPrivateFacet()</code>
@@ -480,15 +464,15 @@ public class Scheduler extends WebuiInput
      * @return an end time Time component.
      */
     public Time getEndTimeComponent() {
-	// Note that tooltip keys are passed here.
-	// This is unlike many other facets. The keys are
-	// resolved in Time.endcodeEnd.
-	//
+        // Note that tooltip keys are passed here.
+        // This is unlike many other facets. The keys are
+        // resolved in Time.endcodeEnd.
+        //
         return getTimeFacet(END_TIME_FACET, false,
-		END_HOUR_TITLE_TEXT_KEY,
-		END_MINUTE_TITLE_TEXT_KEY);
+                END_HOUR_TITLE_TEXT_KEY,
+                END_MINUTE_TITLE_TEXT_KEY);
     }
-   
+
     /**
      * Return a component that implements a label for repeat interval component.
      * If a facet named <code>repeatIntervalLabel</code> is found
@@ -504,25 +488,25 @@ public class Scheduler extends WebuiInput
      */
     public UIComponent getRepeatIntervalLabelComponent() {
 
-	// This criteria is different that other components with
-	// label facets. Other label facets check for "" as well
-	// as null and then, uses the default.
-	//
+        // This criteria is different that other components with
+        // label facets. Other label facets check for "" as well
+        // as null and then, uses the default.
+        //
         String label = getRepeatIntervalLabel();
         if (label == null) {
-	    FacesContext context = FacesContext.getCurrentInstance();
+            FacesContext context = FacesContext.getCurrentInstance();
             label = ThemeUtilities.getTheme(context).getMessage(
-		REPEAT_INTERVAL_TEXT_KEY);
+                    REPEAT_INTERVAL_TEXT_KEY);
         }
-	// Really need to optimize calling "getXXXComponent" methods.
-	// Many times these reinitialize the component. Depending
-	// on the lifecycle phase, this may or may not be appropriate.
-	//
-	UIComponent comp = getRepeatIntervalComponent();
+        // Really need to optimize calling "getXXXComponent" methods.
+        // Many times these reinitialize the component. Depending
+        // on the lifecycle phase, this may or may not be appropriate.
+        //
+        UIComponent comp = getRepeatIntervalComponent();
         return getLabelFacet(REPEAT_INTERVAL_LABEL_FACET, label,
-	    comp != null ? comp.getClientId(getFacesContext()) : null);
+                comp != null ? comp.getClientId(getFacesContext()) : null);
     }
-    
+
     /**
      * Return a DropDown component that implements a repeat interval menu.
      * If <code>ComponentUtilities.getPrivateFacet()</code>
@@ -540,38 +524,39 @@ public class Scheduler extends WebuiInput
      * @return a repeat interval DropDown component.
      */
     public DropDown getRepeatIntervalComponent() {
-        
-        if(DEBUG) log("getRepeatIntervalComponent"); //NOI18N
-        
-	// Support only a private facet.
-	//
-        DropDown dropDown = (DropDown)
-	    ComponentUtilities.getPrivateFacet(this, REPEAT_INTERVAL_FACET,
-		    true);
+
+        if (DEBUG) {
+            log("getRepeatIntervalComponent"); //NOI18N
+        }
+        // Support only a private facet.
+        //
+        DropDown dropDown = (DropDown) ComponentUtilities.getPrivateFacet(this, REPEAT_INTERVAL_FACET,
+                true);
         if (dropDown == null) {
-	    if(DEBUG) log("createDropDown"); //NOI18N
-        
-	    dropDown = new DropDown();
-	    dropDown.setId(ComponentUtilities.createPrivateFacetId(this,
-		REPEAT_INTERVAL_FACET));
+            if (DEBUG) {
+                log("createDropDown"); //NOI18N
+            }
+            dropDown = new DropDown();
+            dropDown.setId(ComponentUtilities.createPrivateFacetId(this,
+                    REPEAT_INTERVAL_FACET));
             dropDown.setSubmitForm(true);
             dropDown.setConverter(new RepeatIntervalConverter());
             dropDown.setImmediate(true);
             dropDown.addActionListener(new IntervalListener());
 
-	    ComponentUtilities.putPrivateFacet(this, REPEAT_INTERVAL_FACET,
-		dropDown);
-	}
+            ComponentUtilities.putPrivateFacet(this, REPEAT_INTERVAL_FACET,
+                    dropDown);
+        }
 
-	dropDown.setItems(getRepeatIntervalItems());
-	Theme theme =
-	    ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
-	dropDown.setToolTip(
-		theme.getMessage(REPEAT_INTERVAL_DESCRIPTION_TEXT_KEY));
+        dropDown.setItems(getRepeatIntervalItems());
+        Theme theme =
+                ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
+        dropDown.setToolTip(
+                theme.getMessage(REPEAT_INTERVAL_DESCRIPTION_TEXT_KEY));
 
         return dropDown;
     }
-    
+
     /**
      * Return a component that implements a label for the repeat limit
      * component.
@@ -587,26 +572,26 @@ public class Scheduler extends WebuiInput
      * @return a repeat limit label facet component
      */
     public UIComponent getRepeatLimitLabelComponent() {
-        
-	// This criteria is different that other label facets
-	// Other label facets have checked for "" as well
-	// as null and in those cases, uses the default.
-	//
+
+        // This criteria is different that other label facets
+        // Other label facets have checked for "" as well
+        // as null and in those cases, uses the default.
+        //
         String label = getRepeatLimitLabel();
         if (label == null) {
-	    FacesContext context = FacesContext.getCurrentInstance();
+            FacesContext context = FacesContext.getCurrentInstance();
             label = ThemeUtilities.getTheme(context).getMessage(
-		REPEAT_LIMIT_TEXT_KEY);
+                    REPEAT_LIMIT_TEXT_KEY);
         }
-	// Really need to optimize calling "getXXXComponent" methods.
-	// Many times these reinitialize the component. Depending
-	// on the lifecycle phase, this may or may not be appropriate.
-	//
-	UIComponent comp = getRepeatingFieldComponent();
+        // Really need to optimize calling "getXXXComponent" methods.
+        // Many times these reinitialize the component. Depending
+        // on the lifecycle phase, this may or may not be appropriate.
+        //
+        UIComponent comp = getRepeatingFieldComponent();
         return getLabelFacet(REPEAT_LIMIT_LABEL_FACET, label,
-	    comp != null ? comp.getClientId(getFacesContext()) : null);
+                comp != null ? comp.getClientId(getFacesContext()) : null);
     }
-    
+
     /**
      * Return a component that implements  a repeating limit input field.
      * If a facet named <code>repeatLimit</code> is found
@@ -621,54 +606,57 @@ public class Scheduler extends WebuiInput
      * @return a repeat limit input field facet component
      */
     public UIComponent getRepeatingFieldComponent() {
-        
-        if(DEBUG) log("getRepeatingFieldComponent()"); //NOI18N
-        
-	// Check if the page author has defined the facet
-	//
-	UIComponent fieldComponent = getFacet(REPEAT_LIMIT_FACET); 
-	if (fieldComponent != null) {
-	    if (DEBUG) { 
-		log("\tFound facet"); //NOI18N
-	    } 
-	    return fieldComponent;
-	}
 
-	// Return the private facet or create one, but initialize
-	// it every time
-	//
-	// We know it's a TextField
-	//
-	TextField field = (TextField)ComponentUtilities.getPrivateFacet(this,
-	    REPEAT_LIMIT_FACET, true);
-	if (field == null) {
-	    if (DEBUG) log("create Field"); //NOI18N
-	    field = new TextField(); 
-	    field.setId(ComponentUtilities.createPrivateFacetId(this,
-		REPEAT_LIMIT_FACET));
+        if (DEBUG) {
+            log("getRepeatingFieldComponent()"); //NOI18N
+        }
+        // Check if the page author has defined the facet
+        //
+        UIComponent fieldComponent = getFacet(REPEAT_LIMIT_FACET);
+        if (fieldComponent != null) {
+            if (DEBUG) {
+                log("\tFound facet"); //NOI18N
+            }
+            return fieldComponent;
+        }
+
+        // Return the private facet or create one, but initialize
+        // it every time
+        //
+        // We know it's a TextField
+        //
+        TextField field = (TextField) ComponentUtilities.getPrivateFacet(this,
+                REPEAT_LIMIT_FACET, true);
+        if (field == null) {
+            if (DEBUG) {
+                log("create Field"); //NOI18N
+            }
+            field = new TextField();
+            field.setId(ComponentUtilities.createPrivateFacetId(this,
+                    REPEAT_LIMIT_FACET));
             IntegerConverter converter = new IntegerConverter();
             field.setConverter(converter);
-            DoubleRangeValidator drv = new DoubleRangeValidator(); 
+            DoubleRangeValidator drv = new DoubleRangeValidator();
             drv.setMinimum(1);
             field.addValidator(drv);
-	    ComponentUtilities.putPrivateFacet(this, REPEAT_LIMIT_FACET, field);
-	}
+            ComponentUtilities.putPrivateFacet(this, REPEAT_LIMIT_FACET, field);
+        }
 
-	// Ideally this facet should be disabled or enabled here
-	// based on the state of the Scheduler. Currently it is 
-	// disabled/enabled in disableRepeatLimitComponents
-	// and enableRepeatLimitComponents, which are called from
-	// updateRepeatUnitMenu, which is called from the IntervalListener.
-	// initializeValues also explicitly enables/disables this 
-	// facet. It is called during encodeEnd if the validation
-	// phase is run, i.e. Scheduler.submittedValue == null.
-	// 
+        // Ideally this facet should be disabled or enabled here
+        // based on the state of the Scheduler. Currently it is
+        // disabled/enabled in disableRepeatLimitComponents
+        // and enableRepeatLimitComponents, which are called from
+        // updateRepeatUnitMenu, which is called from the IntervalListener.
+        // initializeValues also explicitly enables/disables this
+        // facet. It is called during encodeEnd if the validation
+        // phase is run, i.e. Scheduler.submittedValue == null.
+        //
 
-	// FIXME: 3 should be part of Theme.
-	//
-	initFieldFacet(field, 3, false);
+        // FIXME: 3 should be part of Theme.
+        //
+        initFieldFacet(field, 3, false);
 
-	return field;
+        return field;
     }
 
     /**
@@ -688,42 +676,43 @@ public class Scheduler extends WebuiInput
      * @return a repeat unit DropDown component.
      */
     public DropDown getRepeatUnitComponent() {
-        
-	if (DEBUG) log("getRepeatUnitComponent()"); //NOI18N
-	// Support only a private facet.
-	//
-        DropDown dropDown = (DropDown)
-	    ComponentUtilities.getPrivateFacet(this, REPEAT_LIMIT_UNIT_FACET,
-		    true);
+
+        if (DEBUG) {
+            log("getRepeatUnitComponent()"); //NOI18N
+        }	// Support only a private facet.
+        //
+        DropDown dropDown = (DropDown) ComponentUtilities.getPrivateFacet(this, REPEAT_LIMIT_UNIT_FACET,
+                true);
         if (dropDown == null) {
-	    if (DEBUG) log("createDropDown"); //NOI18N
-        
-	    dropDown = new DropDown();
-	    dropDown.setId(ComponentUtilities.createPrivateFacetId(this,
-		REPEAT_LIMIT_UNIT_FACET));
+            if (DEBUG) {
+                log("createDropDown"); //NOI18N
+            }
+            dropDown = new DropDown();
+            dropDown.setId(ComponentUtilities.createPrivateFacetId(this,
+                    REPEAT_LIMIT_UNIT_FACET));
             dropDown.setConverter(new RepeatUnitConverter());
-	    ComponentUtilities.putPrivateFacet(this, REPEAT_LIMIT_UNIT_FACET,
-		dropDown);
-	}
+            ComponentUtilities.putPrivateFacet(this, REPEAT_LIMIT_UNIT_FACET,
+                    dropDown);
+        }
 
-	// Ideally this facet should be disabled or enabled here
-	// based on the state of the Scheduler. Currently it is 
-	// disabled/enabled in disableRepeatLimitComponents
-	// and enableRepeatLimitComponents, which are called from
-	// updateRepeatUnitMenu, which is called from the IntervalListener.
-	// initializeValues also explicitly enables/disables this 
-	// facet. It is called during encodeEnd if the validation
-	// phase is run, i.e. Scheduler.submittedValue == null.
-	// 
+        // Ideally this facet should be disabled or enabled here
+        // based on the state of the Scheduler. Currently it is
+        // disabled/enabled in disableRepeatLimitComponents
+        // and enableRepeatLimitComponents, which are called from
+        // updateRepeatUnitMenu, which is called from the IntervalListener.
+        // initializeValues also explicitly enables/disables this
+        // facet. It is called during encodeEnd if the validation
+        // phase is run, i.e. Scheduler.submittedValue == null.
+        //
 
-	dropDown.setItems(getRepeatUnitItems());
-	Theme theme =
-	    ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
-	dropDown.setToolTip(theme.getMessage(REPEAT_UNIT_DESCRIPTION_TEXT_KEY));
+        dropDown.setItems(getRepeatUnitItems());
+        Theme theme =
+                ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
+        dropDown.setToolTip(theme.getMessage(REPEAT_UNIT_DESCRIPTION_TEXT_KEY));
 
-	return dropDown;
-    }   
-      
+        return dropDown;
+    }
+
     /**
      * Return a component that implements a preview button facet.
      * If a facet named <code>previewButton</code> is found
@@ -739,50 +728,51 @@ public class Scheduler extends WebuiInput
      */
     public UIComponent getPreviewButtonComponent() {
 
-	if (DEBUG) log("getPreviewButtonComponent()");  //NOI18N
+        if (DEBUG) {
+            log("getPreviewButtonComponent()");  //NOI18N
+        }
+        // Check if the page author has defined the facet
+        //
+        UIComponent buttonComponent = getFacet(PREVIEW_BUTTON_FACET);
+        if (buttonComponent != null) {
+            if (DEBUG) {
+                log("\tFound facet"); //NOI18N
+            }
+            return buttonComponent;
+        }
 
-	// Check if the page author has defined the facet
-	//
-	UIComponent buttonComponent = getFacet(PREVIEW_BUTTON_FACET); 
-	if (buttonComponent != null) {
-	    if (DEBUG) { 
-		log("\tFound facet"); //NOI18N
-	    } 
-	    return buttonComponent;
-	}
-
-	// Return the private facet or create one, but initialize
-	// it every time
-	//
-	// We know it's a Button
-	//
-	Button button = (Button)ComponentUtilities.getPrivateFacet(this,
-		PREVIEW_BUTTON_FACET, true);
-	if (button == null) {
-	    if (DEBUG) log("create Button");  //NOI18N
-	    button = new Button(); 
-	    button.setId(ComponentUtilities.createPrivateFacetId(this,
-		PREVIEW_BUTTON_FACET));
+        // Return the private facet or create one, but initialize
+        // it every time
+        //
+        // We know it's a Button
+        //
+        Button button = (Button) ComponentUtilities.getPrivateFacet(this,
+                PREVIEW_BUTTON_FACET, true);
+        if (button == null) {
+            if (DEBUG) {
+                log("create Button");  //NOI18N
+            }
+            button = new Button();
+            button.setId(ComponentUtilities.createPrivateFacetId(this,
+                    PREVIEW_BUTTON_FACET));
 
             button.setMini(true);
             button.setPrimary(false);
-            button.setImmediate(true); 
-            button.addActionListener(new SchedulerPreviewListener()); 
+            button.setImmediate(true);
+            button.addActionListener(new SchedulerPreviewListener());
 
-	    ComponentUtilities.putPrivateFacet(this, PREVIEW_BUTTON_FACET,
-		button);
-	}
+            ComponentUtilities.putPrivateFacet(this, PREVIEW_BUTTON_FACET,
+                    button);
+        }
 
-	button.setText(ThemeUtilities.getTheme(
-		FacesContext.getCurrentInstance()).getMessage(
-			PREVIEW_BUTTON_TEXT_KEY));
+        button.setText(ThemeUtilities.getTheme(
+                FacesContext.getCurrentInstance()).getMessage(
+                PREVIEW_BUTTON_TEXT_KEY));
 
-	return button; 
+        return button;
     }
-    
-    
-    // Called in IntervalListener
 
+    // Called in IntervalListener
     /**
      * Called from IntervalListener, enable or disable dependent facets.
      * If the REPEAT_INTERVAL_FACET exists, has a non null value that
@@ -796,45 +786,52 @@ public class Scheduler extends WebuiInput
      * facets as described above.
      */
     public void updateRepeatUnitMenu() {
-        
-        if (DEBUG) log("updateRepeatUnitMenu"); //NOI18N
 
+        if (DEBUG) {
+            log("updateRepeatUnitMenu"); //NOI18N
+        }
         // We only need to do something if the fields that limit
         // repetition are shown
         if (!isLimitRepeating()) {
-            if (DEBUG) log("repeat limit fields not shown - return"); //NOI18N
+            if (DEBUG) {
+                log("repeat limit fields not shown - return"); //NOI18N
+            }
             return;
         }
-	// Get the private facets directly, don't initialize here.
-	// unless it doesn't exist but it should exist.
-	//
-        DropDown repeatIntervalComp = 
-		(DropDown)getPrivateFacet(REPEAT_INTERVAL_FACET);
+        // Get the private facets directly, don't initialize here.
+        // unless it doesn't exist but it should exist.
+        //
+        DropDown repeatIntervalComp =
+                (DropDown) getPrivateFacet(REPEAT_INTERVAL_FACET);
 
         Object value = repeatIntervalComp.getValue();
 
         if (value == null || !(value instanceof RepeatInterval)) {
-            if (DEBUG) log("value is null - disable everything"); //NOI18N
+            if (DEBUG) {
+                log("value is null - disable everything"); //NOI18N
+            }
             disableRepeatLimitComponents();
         } else {
-            RepeatInterval ri = (RepeatInterval)value;
-            if (DEBUG) log("RI value is " + ri.getKey()); //NOI18N
+            RepeatInterval ri = (RepeatInterval) value;
+            if (DEBUG) {
+                log("RI value is " + ri.getKey()); //NOI18N
+            }
             if (ri.getRepresentation().equals(RepeatInterval.ONETIME)) {
                 if (DEBUG) {
-		    log("value is ONE TIME - disable everything"); //NOI18N
-		}
+                    log("value is ONE TIME - disable everything"); //NOI18N
+                }
                 disableRepeatLimitComponents();
-                
+
             } else {
-		if (DEBUG) {
-		    log("Repeat specified, enable everything: " + //NOI18N
-			((RepeatInterval)value).getKey());
-		}
-		enableRepeatLimitComponents(ri);
+                if (DEBUG) {
+                    log("Repeat specified, enable everything: " + //NOI18N
+                            ((RepeatInterval) value).getKey());
+                }
+                enableRepeatLimitComponents(ri);
             }
         }
     }
-    
+
     /**
      * Implement this method so that it returns the DOM ID of the 
      * HTML element which should receive focus when the component 
@@ -849,9 +846,9 @@ public class Scheduler extends WebuiInput
      * @see #getFocusElementId
      */
     public String getPrimaryElementID(FacesContext context) {
-	return getLabeledElementId(context);
+        return getLabeledElementId(context);
     }
-    
+
     /**
      * Returns the absolute ID of an HTML element suitable for use as
      * the value of an HTML LABEL element's <code>for</code> attribute.
@@ -873,14 +870,14 @@ public class Scheduler extends WebuiInput
      */
     public String getLabeledElementId(FacesContext context) {
         UIComponent comp = getDateComponent();
-	if (comp == null) {
-	    return null;
-	}
+        if (comp == null) {
+            return null;
+        }
         if (comp instanceof ComplexComponent) {
-            return ((ComplexComponent)comp).getLabeledElementId(context);
+            return ((ComplexComponent) comp).getLabeledElementId(context);
         } else {
             return comp.getClientId(context);
-        }        
+        }
     }
 
     /**
@@ -899,9 +896,9 @@ public class Scheduler extends WebuiInput
      * @param context The FacesContext used for the request
      */
     public String getFocusElementId(FacesContext context) {
-	// For return the labeled component
-	//
-	return getLabeledElementId(context);
+        // For return the labeled component
+        //
+        return getLabeledElementId(context);
     }
 
     /**
@@ -919,32 +916,32 @@ public class Scheduler extends WebuiInput
      * </p>
      */
     public Object getRepeatIntervalItems() {
-        
+
         Object optionsObject = _getRepeatIntervalItems();
         if (optionsObject == null) {
             Option[] options = new Option[5];
             options[0] = new RepeatIntervalOption(
-		RepeatInterval.getInstance(RepeatInterval.ONETIME));
+                    RepeatInterval.getInstance(RepeatInterval.ONETIME));
             options[1] = new RepeatIntervalOption(
-		RepeatInterval.getInstance(RepeatInterval.HOURLY));
+                    RepeatInterval.getInstance(RepeatInterval.HOURLY));
             options[2] = new RepeatIntervalOption(
-		RepeatInterval.getInstance(RepeatInterval.DAILY));
+                    RepeatInterval.getInstance(RepeatInterval.DAILY));
             options[3] = new RepeatIntervalOption(
-		RepeatInterval.getInstance(RepeatInterval.WEEKLY));
+                    RepeatInterval.getInstance(RepeatInterval.WEEKLY));
             options[4] = new RepeatIntervalOption(
-		RepeatInterval.getInstance(RepeatInterval.MONTHLY));
-            
-            optionsObject = options;           
-            
-	    // This should not be done. 
-	    // This changes a developers bound value if there
-	    // is a setter. Unlikely, but should check for a value binding.
-	    //
+                    RepeatInterval.getInstance(RepeatInterval.MONTHLY));
+
+            optionsObject = options;
+
+            // This should not be done.
+            // This changes a developers bound value if there
+            // is a setter. Unlikely, but should check for a value binding.
+            //
             setRepeatIntervalItems(options);
         }
         return optionsObject;
     }
-    
+
     /**
      * If the developer has not provided repeat unit items, return
      * an <code>Options</code> array of <code>RepeatUnitOption</code>
@@ -959,37 +956,37 @@ public class Scheduler extends WebuiInput
      * </p>
      */
     public Object getRepeatUnitItems() {
-        
+
         Object optionsObject = _getRepeatUnitItems();
-        if (optionsObject == null) { 
-            Option[] options = new Option[4];        
+        if (optionsObject == null) {
+            Option[] options = new Option[4];
             options[0] = new RepeatUnitOption(
-		RepeatUnit.getInstance(RepeatUnit.HOURS));
+                    RepeatUnit.getInstance(RepeatUnit.HOURS));
             options[1] = new RepeatUnitOption(
-		RepeatUnit.getInstance(RepeatUnit.DAYS));
+                    RepeatUnit.getInstance(RepeatUnit.DAYS));
             options[2] = new RepeatUnitOption(
-		RepeatUnit.getInstance(RepeatUnit.WEEKS));
+                    RepeatUnit.getInstance(RepeatUnit.WEEKS));
             options[3] = new RepeatUnitOption(
-		RepeatUnit.getInstance(RepeatUnit.MONTHS));
+                    RepeatUnit.getInstance(RepeatUnit.MONTHS));
             optionsObject = options;
 
-	    // This should not be done. 
-	    // This changes a developers bound value if there
-	    // is a setter. Unlikely, but should check for a value binding.
-	    //
-            setRepeatUnitItems(options); 
-        } 
+            // This should not be done.
+            // This changes a developers bound value if there
+            // is a setter. Unlikely, but should check for a value binding.
+            //
+            setRepeatUnitItems(options);
+        }
         return optionsObject;
-      }
+    }
 
     public DateFormat getDateFormat() {
         return getDatePicker().getDateFormat();
     }
-    
+
     public String getJavaScriptObjectName(FacesContext context) {
         return JavaScriptUtilities.getDomNode(getFacesContext(), this);
     }
-    
+
     /**
      * <p>Specialized decode behavior on top of that provided by the
      * superclass.  In addition to the standard
@@ -1000,67 +997,71 @@ public class Scheduler extends WebuiInput
      * calls {@link FacesContext#renderResponse}.  </p>
      * @exception NullPointerException
      */
+    @Override
     public void processDecodes(FacesContext context) {
-        
-        if (DEBUG) log("processDecodes()"); //NOI18N
+
+        if (DEBUG) {
+            log("processDecodes()"); //NOI18N
+        }
         if (context == null) {
             throw new NullPointerException();
         }
-        
+
         // Skip processing if our rendered flag is false
         if (!isRendered()) {
             return;
         }
-        
-        setValid(true);
-        
-	// Obtain facets with the state that they had when the
-	// facet was rendered. For the private facets which must
-	// exist since component was rendered, use getPrivateFacet.
-	// If that returns null, call the getXXXComponent method.
-	// Only the DATE_FACET, and PREVIEW_BUTTON_FACET
-	// facet have public alternatives. For these call the
-	// getXXXComponent methods.
-	//
-	UIComponent facet = getPrivateFacet(DATE_PICKER_FACET);
-	facet.processDecodes(context);
 
-	// never returns null;
-	// might be developer defined facets.
-	//
-	getPreviewButtonComponent().processDecodes(context);
-	getDateComponent().processDecodes(context);
+        setValid(true);
+
+        // Obtain facets with the state that they had when the
+        // facet was rendered. For the private facets which must
+        // exist since component was rendered, use getPrivateFacet.
+        // If that returns null, call the getXXXComponent method.
+        // Only the DATE_FACET, and PREVIEW_BUTTON_FACET
+        // facet have public alternatives. For these call the
+        // getXXXComponent methods.
+        //
+        UIComponent facet = getPrivateFacet(DATE_PICKER_FACET);
+        facet.processDecodes(context);
+
+        // never returns null;
+        // might be developer defined facets.
+        //
+        getPreviewButtonComponent().processDecodes(context);
+        getDateComponent().processDecodes(context);
 
         if (isStartTime()) {
-	    facet = getPrivateFacet(START_TIME_FACET);
-	    facet.processDecodes(context);
+            facet = getPrivateFacet(START_TIME_FACET);
+            facet.processDecodes(context);
         }
         if (isEndTime()) {
-	    facet = getPrivateFacet(END_TIME_FACET);
-	    facet.processDecodes(context);
+            facet = getPrivateFacet(END_TIME_FACET);
+            facet.processDecodes(context);
         }
-        if (isRepeating()) { 
-	    facet = getPrivateFacet(REPEAT_INTERVAL_FACET);
-	    facet.processDecodes(context);
-            if (isLimitRepeating()) { 
-		facet = getPrivateFacet(REPEAT_LIMIT_FACET);
-		facet.processDecodes(context);
-		facet = getPrivateFacet(REPEAT_LIMIT_UNIT_FACET);
-		facet.processDecodes(context);
-            } 
+        if (isRepeating()) {
+            facet = getPrivateFacet(REPEAT_INTERVAL_FACET);
+            facet.processDecodes(context);
+            if (isLimitRepeating()) {
+                facet = getPrivateFacet(REPEAT_LIMIT_FACET);
+                facet.processDecodes(context);
+                facet = getPrivateFacet(REPEAT_LIMIT_UNIT_FACET);
+                facet.processDecodes(context);
+            }
         }
-        
+
         setSubmittedValue(VALUE_SUBMITTED);
-        
+
         // There is nothing to decode other than the facets
-        
+
         if (isImmediate()) {
-            if(DEBUG) log("Scheduler is immediate"); //NOI18N
+            if (DEBUG) {
+                log("Scheduler is immediate"); //NOI18N
+            }
             runValidation(context);
         }
     }
 
-    
     /**
      * <p>Perform the following algorithm to validate the local value of
      * this {@link UIInput}.</p>
@@ -1104,82 +1105,97 @@ public class Scheduler extends WebuiInput
     // apporpiate state by the time rendering occurs.
     // That is not the case currently.
     //
-    public Object getConvertedValue(FacesContext context, Object submittedValue) 
-        throws ConverterException {
-        
-        if(DEBUG) log("getConvertedValue()");
-        
+    @Override
+    public Object getConvertedValue(FacesContext context, Object submittedValue)
+            throws ConverterException {
+
+        if (DEBUG) {
+            log("getConvertedValue()");
+        }
+
         if (context == null) {
             throw new NullPointerException();
-        } 
-        
+        }
+
         // Process all the facets and children of this component
         Iterator kids = getFacetsAndChildren();
         UIComponent kid = null;
- 
+
         while (kids.hasNext()) {
             kid = (UIComponent) kids.next();
-            if(kid instanceof EditableValueHolder &&
-		    !(((EditableValueHolder)kid).isValid())) {
+            if (kid instanceof EditableValueHolder &&
+                    !(((EditableValueHolder) kid).isValid())) {
                 return null;
-            } 
+            }
         }
-        
+
         // We ran the ordinary validation process in processValidators, so 
         // we use getValue() to get the value from the children - they 
         // will have been processed at this point. 
-        
-        Object dateValue = ((EditableValueHolder)getDateComponent()).getValue();
+
+        Object dateValue = ((EditableValueHolder) getDateComponent()).getValue();
         Object startTimeValue = null;
-        Object endTimeValue = null; 
-        
-        if(DEBUG) log("Date value is " + String.valueOf(dateValue));
-        
-        if(isStartTime()) {
+        Object endTimeValue = null;
+
+        if (DEBUG) {
+            log("Date value is " + String.valueOf(dateValue));
+        }
+
+        if (isStartTime()) {
             startTimeValue = getStartTimeComponent().getValue();
-            if(DEBUG) log("Date value is " + String.valueOf(startTimeValue));
+            if (DEBUG) {
+                log("Date value is " + String.valueOf(startTimeValue));
+            }
         }
-        
-        if(isEndTime()) {
+
+        if (isEndTime()) {
             endTimeValue = getEndTimeComponent().getValue();
-            if(DEBUG) log("Date value is " + String.valueOf(endTimeValue));
+            if (DEBUG) {
+                log("Date value is " + String.valueOf(endTimeValue));
+            }
         }
-        
+
         ScheduledEvent newValue = createScheduledEvent(dateValue, startTimeValue,
-                                                       endTimeValue, context);
-        if(isRepeating()) {    
+                endTimeValue, context);
+        if (isRepeating()) {
             boolean valueRepeat = false;
-            
+
             Object repeatFrequency = getRepeatIntervalComponent().getValue();
-            if(repeatFrequency != null && repeatFrequency instanceof RepeatInterval) {
-                RepeatInterval freq = (RepeatInterval)repeatFrequency;
-                if(freq.getCalendarField().intValue() > -1) { 
-                    valueRepeat = true; 
-                } 
-            } 
-            if(valueRepeat) {
+            if (repeatFrequency != null && repeatFrequency instanceof RepeatInterval) {
+                RepeatInterval freq = (RepeatInterval) repeatFrequency;
+                if (freq.getCalendarField().intValue() > -1) {
+                    valueRepeat = true;
+                }
+            }
+            if (valueRepeat) {
 
                 newValue.setRepeatingEvent(true);
-             
+
                 try {
-                    
-                    newValue.setRepeatInterval((RepeatInterval)repeatFrequency);
-                    
-                    if(DEBUG) log("Repeat frequency value is " + 
-                                   String.valueOf(((RepeatInterval)repeatFrequency).getCalendarField()));
-                    
-                    if(isLimitRepeating()) {
+
+                    newValue.setRepeatInterval((RepeatInterval) repeatFrequency);
+
+                    if (DEBUG) {
+                        log("Repeat frequency value is " +
+                                String.valueOf(((RepeatInterval) repeatFrequency).getCalendarField()));
+                    }
+
+                    if (isLimitRepeating()) {
                         Object repeatUnit = getRepeatUnitComponent().getValue();
-                        if(DEBUG) log("Repeat unit is " + String.valueOf(repeatUnit));
-                        if(repeatUnit instanceof RepeatUnit) {
-                            newValue.setDurationUnit((RepeatUnit)repeatUnit);
-                        } else { 
+                        if (DEBUG) {
+                            log("Repeat unit is " + String.valueOf(repeatUnit));
+                        }
+                        if (repeatUnit instanceof RepeatUnit) {
+                            newValue.setDurationUnit((RepeatUnit) repeatUnit);
+                        } else {
                             newValue.setDurationUnit(null);
                         }
-                        Object repeatLimit = ((EditableValueHolder)getRepeatingFieldComponent()).getValue();
-                        if(DEBUG) log("Repeat unit is " + String.valueOf(repeatLimit));
-                        if(repeatLimit instanceof Integer) {
-                            newValue.setDuration((Integer)repeatLimit);
+                        Object repeatLimit = ((EditableValueHolder) getRepeatingFieldComponent()).getValue();
+                        if (DEBUG) {
+                            log("Repeat unit is " + String.valueOf(repeatLimit));
+                        }
+                        if (repeatLimit instanceof Integer) {
+                            newValue.setDuration((Integer) repeatLimit);
                         } else {
                             newValue.setDuration(null);
                         }
@@ -1187,26 +1203,23 @@ public class Scheduler extends WebuiInput
                         newValue.setDurationUnit(null);
                         newValue.setDuration(null);
                     }
-                } catch(Exception ce) {
+                } catch (Exception ce) {
                     throw new ConverterException();
                 }
-            }
-            
-            else {
+            } else {
                 newValue.setRepeatingEvent(false);
                 newValue.setDurationUnit(null);
                 newValue.setDuration(null);
             }
-        } 
-      else {
+        } else {
             newValue.setRepeatingEvent(false);
             newValue.setDurationUnit(null);
             newValue.setDuration(null);
-      }
-      getDatePicker().setValue(newValue); 
-      return newValue;
+        }
+        getDatePicker().setValue(newValue);
+        return newValue;
     }
-    
+
     /**
      * Return a component that implements a label for the facetName role.
      * If a facet named facetName is found
@@ -1226,55 +1239,56 @@ public class Scheduler extends WebuiInput
      * @return a label facet component
      */
     private UIComponent getLabelFacet(String facetName, String labelText,
-	String labeledComponentId) {
-        
-        if(DEBUG) log("getLabelFacet() " + facetName); //NOI18N
+            String labeledComponentId) {
 
+        if (DEBUG) {
+            log("getLabelFacet() " + facetName); //NOI18N
+        }
         // Check if the page author has defined a label facet
-	//
+        //
         UIComponent labelFacet = getFacet(facetName);
-	if (labelFacet != null) {
-	    return labelFacet;
-	}
+        if (labelFacet != null) {
+            return labelFacet;
+        }
 
-	// No longer modify a developer defined facet. Not even for the
-	// "for" attribute, even though it may not be straightforward
-	// to know what the labeled component is. Err on the side
-	// of consistently not modifying a developer defined facet.
-	//
+        // No longer modify a developer defined facet. Not even for the
+        // "for" attribute, even though it may not be straightforward
+        // to know what the labeled component is. Err on the side
+        // of consistently not modifying a developer defined facet.
+        //
 
-	// Return the private facet or create one, but initialize
-	// it every time
-	//
-	// We know it's a Label
-	//
-	Label label = (Label)ComponentUtilities.getPrivateFacet(this,
-		facetName, true);
-	if (label == null) {
-	    label = new Label();
-	    label.setId(ComponentUtilities.createPrivateFacetId(this,
-		facetName));
+        // Return the private facet or create one, but initialize
+        // it every time
+        //
+        // We know it's a Label
+        //
+        Label label = (Label) ComponentUtilities.getPrivateFacet(this,
+                facetName, true);
+        if (label == null) {
+            label = new Label();
+            label.setId(ComponentUtilities.createPrivateFacetId(this,
+                    facetName));
 
-	    // Note that in the original code labels were not put
-	    // into the facet map. I'm not sure why. It's not clear
-	    // if the label will always be able find its "for"
-	    // component otherwise. Also the parent wasn't set either
-	    // which means the label will not have a clientId
-	    // renedered. Adding it to the facet map here.
-	    //
-	    ComponentUtilities.putPrivateFacet(this, facetName, label);
-	}
+            // Note that in the original code labels were not put
+            // into the facet map. I'm not sure why. It's not clear
+            // if the label will always be able find its "for"
+            // component otherwise. Also the parent wasn't set either
+            // which means the label will not have a clientId
+            // renedered. Adding it to the facet map here.
+            //
+            ComponentUtilities.putPrivateFacet(this, facetName, label);
+        }
 
-	label.setText(labelText);
-	label.setFor(labeledComponentId);
+        label.setText(labelText);
+        label.setFor(labeledComponentId);
 
-	// FIXME: Should be part of Theme
-	//
-	label.setLabelLevel(2);
+        // FIXME: Should be part of Theme
+        //
+        label.setLabelLevel(2);
 
         return label;
     }
-    
+
     /**
      * Initialize a field facet
      *
@@ -1283,19 +1297,20 @@ public class Scheduler extends WebuiInput
      * @param required if true the field is required.
      */
     private void initFieldFacet(TextField field, int columns,
-	    boolean required) {
-        
-        if(DEBUG) log("initFieldFacet()"); //NOI18N
-        
+            boolean required) {
+
+        if (DEBUG) {
+            log("initFieldFacet()"); //NOI18N
+        }
         field.setColumns(columns);
         field.setTrim(true);
         field.setRequired(required);
-	int tindex = getTabIndex();
-        if(tindex > 0) {
+        int tindex = getTabIndex();
+        if (tindex > 0) {
             field.setTabIndex(tindex);
         }
     }
-        
+
     /**
      * Return a Time facet component.
      * If <code>ComponentUtilities.getPrivateFacet()</code>
@@ -1314,28 +1329,31 @@ public class Scheduler extends WebuiInput
      */
     private Time getTimeFacet(String facetName, boolean required,
             String hourKey, String minutesKey) {
-        
-        if(DEBUG) log("getTimeFacet() " + facetName); //NOI18N
 
+        if (DEBUG) {
+            log("getTimeFacet() " + facetName); //NOI18N
+        }
         // Not a public facet
-        Time time = (Time)ComponentUtilities.getPrivateFacet(this,
-		facetName, true);
+        Time time = (Time) ComponentUtilities.getPrivateFacet(this,
+                facetName, true);
         if (time == null) {
-            if(DEBUG) log("Create new Time Component"); //NOI18N
+            if (DEBUG) {
+                log("Create new Time Component"); //NOI18N
+            }
             time = new Time();
             time.setId(ComponentUtilities.createPrivateFacetId(this,
-		facetName));
+                    facetName));
             ComponentUtilities.putPrivateFacet(this, facetName, time);
         }
 
-	time.setRequired(required);
-	time.setTimeZone(getTimeZone());
-	time.setHourTooltipKey(hourKey);
-	time.setMinutesTooltipKey(minutesKey);
+        time.setRequired(required);
+        time.setTimeZone(getTimeZone());
+        time.setHourTooltipKey(hourKey);
+        time.setMinutesTooltipKey(minutesKey);
 
         return time;
     }
-    
+
     private void runValidation(FacesContext context) {
         try {
             validate(context);
@@ -1343,12 +1361,12 @@ public class Scheduler extends WebuiInput
             context.renderResponse();
             throw e;
         }
-        
+
         if (!isValid()) {
             context.renderResponse();
         }
     }
-    
+
     // Note that this method can throw exception when getConvertedValue
     // is called during updateDatePicker in encodeEnd when immediate
     // request actions occur and some of the facet's have null values.
@@ -1359,10 +1377,10 @@ public class Scheduler extends WebuiInput
             Object startTimeObject,
             Object endTimeObject,
             FacesContext context) {
-        
+
         ScheduledEvent event = null;
         String messageKey = null;
-        
+
         if (!(dateObject instanceof Date)) {
             messageKey = INVALID_DATE_TEXT_KEY;
         }
@@ -1373,33 +1391,35 @@ public class Scheduler extends WebuiInput
             messageKey = INVALID_END_TIME_TEXT_KEY;
         }
         if (messageKey == null) {
-            
+
             event = new ScheduledEvent();
-            
-            Date date = (Date)dateObject;
-            ClockTime startTime = (ClockTime)startTimeObject;
-            
-            if (DEBUG) log("Base date is " + date.toString()); //NOI18N
+
+            Date date = (Date) dateObject;
+            ClockTime startTime = (ClockTime) startTimeObject;
+
+            if (DEBUG) {
+                log("Base date is " + date.toString()); //NOI18N
+            }
             event.setStartTime(calculateDate(date, startTime));
-            
+
             if (endTimeObject != null) {
-                ClockTime endTime = (ClockTime)endTimeObject;
+                ClockTime endTime = (ClockTime) endTimeObject;
                 event.setEndTime(calculateDate(date, endTime));
-                if(event.getEndTime().before(event.getStartTime())) {
+                if (event.getEndTime().before(event.getStartTime())) {
                     messageKey = END_BEFORE_START_TEXT_KEY;
-		    // This should not be happening here.
-		    // This should be done during validation.
-		    // Currently this can occur during a call to 
-		    // getConvertedValue within normal request processing
-		    // or during encodeEnd in the event of an immediate
-		    // request action, in updateDatePicker.
-		    //
+                    // This should not be happening here.
+                    // This should be done during validation.
+                    // Currently this can occur during a call to
+                    // getConvertedValue within normal request processing
+                    // or during encodeEnd in the event of an immediate
+                    // request action, in updateDatePicker.
+                    //
                     getEndTimeComponent().setValid(false);
                 }
             }
         }
-        
-        if(messageKey != null) {
+
+        if (messageKey != null) {
             String message =
                     ThemeUtilities.getTheme(context).getMessage(messageKey);
             throw new ConverterException(new FacesMessage(message));
@@ -1408,17 +1428,15 @@ public class Scheduler extends WebuiInput
     }
 
     private Date calculateDate(Date date, ClockTime time) {
-        
-	java.util.Calendar calendar = (java.util.Calendar)
-		(getDatePicker().getCalendar().clone());
+
+        java.util.Calendar calendar = (java.util.Calendar) (getDatePicker().getCalendar().clone());
 
         calendar.setTime(date);
         calendar.set(java.util.Calendar.HOUR_OF_DAY, time.getHour().intValue());
         calendar.set(java.util.Calendar.MINUTE, time.getMinute().intValue());
         return calendar.getTime();
     }
-    
-    
+
     private void disableRepeatLimitComponents() {
         DropDown dd = getRepeatUnitComponent();
         UIComponent comp = getRepeatingFieldComponent();
@@ -1426,10 +1444,10 @@ public class Scheduler extends WebuiInput
         dd.setSubmittedValue(null);
         dd.setValue(null);
         comp.getAttributes().put("disabled", Boolean.TRUE);
-        ((EditableValueHolder)comp).setValue(null);
-        ((EditableValueHolder)comp).setSubmittedValue(null);
+        ((EditableValueHolder) comp).setValue(null);
+        ((EditableValueHolder) comp).setSubmittedValue(null);
     }
-    
+
     private void enableRepeatLimitComponents(RepeatInterval ri) {
         DropDown dd = getRepeatUnitComponent();
         UIComponent comp = getRepeatingFieldComponent();
@@ -1441,7 +1459,7 @@ public class Scheduler extends WebuiInput
 
     private void log(String s) {
         System.out.println(this.getClass().getName() + "::" + s);
-    }   
+    }
 
     /**
      * Return a private facet.
@@ -1456,31 +1474,27 @@ public class Scheduler extends WebuiInput
      */
     private UIComponent getPrivateFacet(String facetName) {
 
-	// Return the private facet if it exists
-	//
-	UIComponent facet = ComponentUtilities.getPrivateFacet(this,
-		facetName, false);
-	if (facet != null) {
-	    return facet;
-	}
+        // Return the private facet if it exists
+        //
+        UIComponent facet = ComponentUtilities.getPrivateFacet(this,
+                facetName, false);
+        if (facet != null) {
+            return facet;
+        }
 
-	if (facetName.equals(DATE_PICKER_FACET)) {
-	    facet = getDatePicker();
-	} else
-	if (facetName.equals(START_TIME_FACET)) {
-	    facet = getStartTimeComponent();
-	} else
-	if (facetName.equals(END_TIME_FACET)) {
-	    facet = getEndTimeComponent();
-	} else
-	if (facetName.equals(REPEAT_LIMIT_UNIT_FACET)) {
-	    facet = getRepeatUnitComponent();
-	} else
-	if (facetName.equals(REPEAT_INTERVAL_FACET)) {
-	    facet = getRepeatIntervalComponent();
-	}
+        if (facetName.equals(DATE_PICKER_FACET)) {
+            facet = getDatePicker();
+        } else if (facetName.equals(START_TIME_FACET)) {
+            facet = getStartTimeComponent();
+        } else if (facetName.equals(END_TIME_FACET)) {
+            facet = getEndTimeComponent();
+        } else if (facetName.equals(REPEAT_LIMIT_UNIT_FACET)) {
+            facet = getRepeatUnitComponent();
+        } else if (facetName.equals(REPEAT_INTERVAL_FACET)) {
+            facet = getRepeatIntervalComponent();
+        }
 
-	return facet;
+        return facet;
     }
 
     // Take this from SchedulerRenderer. A Renderer shouldn't be
@@ -1494,7 +1508,8 @@ public class Scheduler extends WebuiInput
     // 
     /**
      * @exception NullPointerException
-     */ 
+     */
+    @Override
     public void encodeEnd(FacesContext context) throws IOException {
 
         if (context == null) {
@@ -1503,16 +1518,19 @@ public class Scheduler extends WebuiInput
         if (!isRendered()) {
             return;
         }
-        
+
         if (getSubmittedValue() != null) {
-            if(DEBUG) log("Found submitted value"); //NOI18N
-            updateDatePicker(context);  
-        } 
-        else { 
-            if (DEBUG) log("No submitted value"); //NOI18N
-            initializeValues(context);     
+            if (DEBUG) {
+                log("Found submitted value"); //NOI18N
+            }
+            updateDatePicker(context);
+        } else {
+            if (DEBUG) {
+                log("No submitted value"); //NOI18N
+            }
+            initializeValues(context);
         }
-        
+
         String rendererType = getRendererType();
         if (rendererType != null) {
             getRenderer(context).encodeEnd(context, this);
@@ -1533,128 +1551,132 @@ public class Scheduler extends WebuiInput
     // subcomponents.
     //
     private void updateDatePicker(FacesContext context) {
-        
-        if (DEBUG) log("updateDatePicker()"); //NOI18N
-        try { 
-            Object value = getConvertedValue(context, null); 
 
-	    // This happens IN getConvertedValue
-	    // when there is no exception
-	    //
-            getDatePicker().setValue(value); 
-        } 
-        catch(Exception ex) {
-           
-	    // Why doesn't getConvertedValue do this ?
-	    //
-	    UIComponent comp = getDateComponent();
-	    Object value = ((EditableValueHolder)comp).getSubmittedValue();
-	    if (value != null) {
-		try {
-		    Object dO = ConversionUtilities.convertValueToObject(comp,
-			       (String)value, context);
-		    getDatePicker().setValue(dO);
-		} catch(Exception ex2) {
-		       // do nothing
-		}
-	    }
-        }     
+        if (DEBUG) {
+            log("updateDatePicker()"); //NOI18N
+        }
+        try {
+            Object value = getConvertedValue(context, null);
+
+            // This happens IN getConvertedValue
+            // when there is no exception
+            //
+            getDatePicker().setValue(value);
+        } catch (Exception ex) {
+
+            // Why doesn't getConvertedValue do this ?
+            //
+            UIComponent comp = getDateComponent();
+            Object value = ((EditableValueHolder) comp).getSubmittedValue();
+            if (value != null) {
+                try {
+                    Object dO = ConversionUtilities.convertValueToObject(comp,
+                            (String) value, context);
+                    getDatePicker().setValue(dO);
+                } catch (Exception ex2) {
+                    // do nothing
+                }
+            }
+        }
     }
 
     // Need to figure out if this is the right thing to do? These components
     // do not retain their values unless managed this way.
     // For the time component the problem is that the submitted value can't
     // be used to set the value, so to speak.
-
     private void initializeValues(FacesContext context) {
-        
-        if(DEBUG) log("initializeValue()"); //NOI18N
 
-	CalendarMonth dp = getDatePicker();
-        
-	// Note that the repeating field component's disabled state
-	// will NOT be modfied if 
-	//
-	// value == null || value ! instanceof ScheduledEvent &&
-	// isRepeating == false || (isRepeating == true && 
-	// 	isLimitRepeating == false)
-	//
-	// Or
-	//
-	// value != null && value instanceof ScheduledEvent &&
-	// isRepeating == false || (isRepeating == true && 
-	// 	isLimitRepeating == false)
-	//
-	// So what does this mean ? Similarly getRepeatUnitComponent's
-	// disabled state may also not be modfied under the same
-	// conditions.
+        if (DEBUG) {
+            log("initializeValue()"); //NOI18N
+        }
+        CalendarMonth dp = getDatePicker();
+
+        // Note that the repeating field component's disabled state
+        // will NOT be modfied if
+        //
+        // value == null || value ! instanceof ScheduledEvent &&
+        // isRepeating == false || (isRepeating == true &&
+        // 	isLimitRepeating == false)
+        //
+        // Or
+        //
+        // value != null && value instanceof ScheduledEvent &&
+        // isRepeating == false || (isRepeating == true &&
+        // 	isLimitRepeating == false)
+        //
+        // So what does this mean ? Similarly getRepeatUnitComponent's
+        // disabled state may also not be modfied under the same
+        // conditions.
 
         Object value = getValue();
         if (value != null && value instanceof ScheduledEvent) {
 
-            if(DEBUG) log("Found scheduled event"); //NOI18N
-            ScheduledEvent event = (ScheduledEvent)value;
+            if (DEBUG) {
+                log("Found scheduled event"); //NOI18N
+            }
+            ScheduledEvent event = (ScheduledEvent) value;
 
             // Set the value of the date picker
-            dp.setValue(event); 
-            dp.displayValue(); 
-            
-            // Initialize the start date field
-            ((EditableValueHolder)
-		getDateComponent()).setValue(event.getStartTime());
+            dp.setValue(event);
+            dp.displayValue();
 
-	    // Isn't this redundant ?
-	    //
+            // Initialize the start date field
+            ((EditableValueHolder) getDateComponent()).setValue(event.getStartTime());
+
+            // Isn't this redundant ?
+            //
             //dp.setValue(event); 
 
             if (isStartTime()) {
-                if(DEBUG) log("Setting the start time"); //NOI8N
+                if (DEBUG) {
+                    log("Setting the start time"); //NOI8N
+                }
                 getStartTimeComponent().setValue(
                         getClockTime(dp, event.getStartTime()));
             }
-            
+
             // Initialize the end date field
             if (isEndTime()) {
                 getEndTimeComponent().setValue(
                         getClockTime(dp, event.getEndTime()));
             }
-            
+
             // Initialize the fields that configure repetition
             if (isRepeating()) {
                 RepeatInterval ri = event.getRepeatInterval();
                 getRepeatIntervalComponent().setValue(ri);
                 if (isLimitRepeating()) {
                     DropDown unitDropDown = getRepeatUnitComponent();
-                    UIComponent comp = getRepeatingFieldComponent(); 
+                    UIComponent comp = getRepeatingFieldComponent();
                     if (ri == null || ri.getRepresentation().equals(
-						RepeatInterval.ONETIME)) {
+                            RepeatInterval.ONETIME)) {
                         unitDropDown.setDisabled(true);
                         unitDropDown.setValue(null);
-			// Will trash a developer facet
-			//
-                        ((EditableValueHolder)comp).setValue(null);
+                        // Will trash a developer facet
+                        //
+                        ((EditableValueHolder) comp).setValue(null);
                         comp.getAttributes().put("disabled", //NOI18N
-				Boolean.TRUE);
+                                Boolean.TRUE);
                     } else {
                         unitDropDown.setDisabled(false);
                         unitDropDown.setValue(event.getDurationUnit());
 
-			// Will trash a developer defined facet
-			//
-                        ((EditableValueHolder)comp).setValue(
-				event.getDuration());
+                        // Will trash a developer defined facet
+                        //
+                        ((EditableValueHolder) comp).setValue(
+                                event.getDuration());
                         comp.getAttributes().put("disabled", //NOI18N
-				Boolean.FALSE);
+                                Boolean.FALSE);
                     }
-                }             
+                }
             }
 
         } else {
-            
+
             // Set the value of the date picker
-            dp.setValue(null); 
-            
-            ((EditableValueHolder)getDateComponent()).setValue(null);
+            dp.setValue(null);
+
+            ((EditableValueHolder) getDateComponent()).setValue(null);
 
             if (isStartTime()) {
                 getStartTimeComponent().setValue(null);
@@ -1667,18 +1689,17 @@ public class Scheduler extends WebuiInput
                 getRepeatIntervalComponent().setValue(RepeatInterval.ONETIME);
                 if (isLimitRepeating()) {
 
-		    DropDown ru = getRepeatUnitComponent();
+                    DropDown ru = getRepeatUnitComponent();
                     ru.setValue(null);
-                    ru.setDisabled(true); 
+                    ru.setDisabled(true);
 
-		    EditableValueHolder rf = (EditableValueHolder)
-			getRepeatingFieldComponent();
+                    EditableValueHolder rf = (EditableValueHolder) getRepeatingFieldComponent();
 
-		    // Will trash a developer defined facet
-		    //
-		    rf.setValue(null);
-                    ((UIComponent)rf).getAttributes().put("disabled", //NOI18N
-			Boolean.TRUE);
+                    // Will trash a developer defined facet
+                    //
+                    rf.setValue(null);
+                    ((UIComponent) rf).getAttributes().put("disabled", //NOI18N
+                            Boolean.TRUE);
                 }
             }
         }
@@ -1687,55 +1708,62 @@ public class Scheduler extends WebuiInput
     // Reimplement this as a converter for Time, and have time take
     // Date too...
     private ClockTime getClockTime(CalendarMonth datePicker, Date date) {
-        if (DEBUG) log("getClockTime()"); //NOI18N
+        if (DEBUG) {
+            log("getClockTime()"); //NOI18N
+        }
         if (date == null) {
-            if (DEBUG) log("\tdate is null"); //NOI18N
+            if (DEBUG) {
+                log("\tdate is null"); //NOI18N
+            }
             return null;
         }
-        if (DEBUG) log("date is " + date.toString()); //NOI18N
-        java.util.Calendar calendar = (java.util.Calendar)
-		(datePicker.getCalendar());
+        if (DEBUG) {
+            log("date is " + date.toString()); //NOI18N
+        }
+        java.util.Calendar calendar = (java.util.Calendar) (datePicker.getCalendar());
         calendar.setTime(date);
 
         ClockTime clockTime = new ClockTime();
         clockTime.setHour(new Integer(calendar.get(
-		java.util.Calendar.HOUR_OF_DAY)));
+                java.util.Calendar.HOUR_OF_DAY)));
         clockTime.setMinute(new Integer(calendar.get(
-		java.util.Calendar.MINUTE)));
+                java.util.Calendar.MINUTE)));
 
-        if (DEBUG) log("Hour is " + clockTime.getHour().toString()); //NOI18N
-        if (DEBUG) log("Hour is " + clockTime.getMinute().toString()); //NOI18N
-
+        if (DEBUG) {
+            log("Hour is " + clockTime.getHour().toString()); //NOI18N
+        }
+        if (DEBUG) {
+            log("Hour is " + clockTime.getMinute().toString()); //NOI18N
+        }
         return clockTime;
     }
 
-    
-      // Since the value of the minDate attribute could change, we can't
+    // Since the value of the minDate attribute could change, we can't
     // cache this in an attribute.
     public Date getFirstAvailableDate() {
         Date minDate = getMinDate();
-        if(minDate == null) {
-            java.util.Calendar calendar = getDatePicker().getCalendar(); 
-            calendar.set(java.util.Calendar.HOUR_OF_DAY, 0); 
-            calendar.set(java.util.Calendar.MINUTE, 0); 
-            calendar.set(java.util.Calendar.SECOND, 0); 
-            calendar.set(java.util.Calendar.MILLISECOND, 0); 
+        if (minDate == null) {
+            java.util.Calendar calendar = getDatePicker().getCalendar();
+            calendar.set(java.util.Calendar.HOUR_OF_DAY, 0);
+            calendar.set(java.util.Calendar.MINUTE, 0);
+            calendar.set(java.util.Calendar.SECOND, 0);
+            calendar.set(java.util.Calendar.MILLISECOND, 0);
             minDate = calendar.getTime();
         }
         return minDate;
     }
-    
+
     public Date getLastAvailableDate() {
         Date maxDate = getMaxDate();
-        if(maxDate == null) {
+        if (maxDate == null) {
             Date minDate = getFirstAvailableDate();
             java.util.Calendar calendar = getDatePicker().getCalendar();
             calendar.setTime(minDate);
             calendar.add(java.util.Calendar.YEAR, 4);
-            calendar.set(java.util.Calendar.HOUR_OF_DAY, 23); 
-            calendar.set(java.util.Calendar.MINUTE, 59); 
-            calendar.set(java.util.Calendar.SECOND, 59); 
-            calendar.set(java.util.Calendar.MILLISECOND, 999); 
+            calendar.set(java.util.Calendar.HOUR_OF_DAY, 23);
+            calendar.set(java.util.Calendar.MINUTE, 59);
+            calendar.set(java.util.Calendar.SECOND, 59);
+            calendar.set(java.util.Calendar.MILLISECOND, 999);
             maxDate = calendar.getTime();
         }
         return maxDate;
@@ -1744,21 +1772,21 @@ public class Scheduler extends WebuiInput
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The current value of this component.
      */
-    @Property(name="value")
+    @Property(name = "value")
+    @Override
     public void setValue(Object value) {
         super.setValue(value);
     }
 
     // Hide converter
-    @Property(name="converter", isHidden=true, isAttribute=false)
+    @Property(name = "converter", isHidden = true, isAttribute = false)
+    @Override
     public Converter getConverter() {
         return super.getConverter();
     }
-
     /**
      * <p>The date format pattern to use (i.e. yyyy-MM-dd). The
      * component uses an instance of
@@ -1774,7 +1802,10 @@ public class Scheduler extends WebuiInput
      * documentation for that attribute. 
      * </p>
      */
-    @Property(name="dateFormatPattern", displayName="Date Format Pattern", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.DateFormatPatternsEditor", shortDescription="The date format pattern to use (e.g., yyyy-MM-dd).")
+    @Property(name = "dateFormatPattern", displayName = "Date Format Pattern",
+    category = "Appearance",
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.DateFormatPatternsEditor",
+    shortDescription = "The date format pattern to use (e.g., yyyy-MM-dd).")
     private String dateFormatPattern = null;
 
     /**
@@ -1822,7 +1853,6 @@ public class Scheduler extends WebuiInput
     public void setDateFormatPattern(String dateFormatPattern) {
         this.dateFormatPattern = dateFormatPattern;
     }
-
     /**
      * <p>A message below the text field for the date, indicating the
      * string format to use when entering a date as text into the
@@ -1845,7 +1875,8 @@ public class Scheduler extends WebuiInput
      * is overridden, you may need to override the hint on a
      * per-locale basis too. </p>
      */
-    @Property(name="dateFormatPatternHelp", displayName="Date Format Pattern Help", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "dateFormatPatternHelp", displayName = "Date Format Pattern Help",
+    category = "Appearance", editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String dateFormatPatternHelp = null;
 
     /**
@@ -1907,11 +1938,11 @@ public class Scheduler extends WebuiInput
     public void setDateFormatPatternHelp(String dateFormatPatternHelp) {
         this.dateFormatPatternHelp = dateFormatPatternHelp;
     }
-
     /**
      * <p>This text replaces the "Start Date" label.</p>
      */
-    @Property(name="dateLabel", displayName="Date Label", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "dateLabel", displayName = "Date Label", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String dateLabel = null;
 
     /**
@@ -1935,13 +1966,12 @@ public class Scheduler extends WebuiInput
     public void setDateLabel(String dateLabel) {
         this.dateLabel = dateLabel;
     }
-
     /**
      * <p>Standard HTML attribute which determines whether the web
      * application user can change the the value of this component.
      * NOT YET IMPLEMENTED.</p>
      */
-    @Property(name="disabled", displayName="Disabled", isHidden=true, isAttribute=false)
+    @Property(name = "disabled", displayName = "Disabled", isHidden = true, isAttribute = false)
     private boolean disabled = false;
     private boolean disabled_set = false;
 
@@ -1976,12 +2006,11 @@ public class Scheduler extends WebuiInput
         this.disabled = disabled;
         this.disabled_set = true;
     }
-
     /**
      * <p>Flag indicating that an input field for the end time should be
      * shown. The default value is true.</p>
      */
-    @Property(name="endTime", displayName="Show End Time", category="Appearance")
+    @Property(name = "endTime", displayName = "Show End Time", category = "Appearance")
     private boolean endTime = false;
     private boolean endTime_set = false;
 
@@ -2014,11 +2043,11 @@ public class Scheduler extends WebuiInput
         this.endTime = endTime;
         this.endTime_set = true;
     }
-
     /**
      * <p>This text replaces the "End Time" label.</p>
      */
-    @Property(name="endTimeLabel", displayName="End Time Label", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "endTimeLabel", displayName = "End Time Label", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String endTimeLabel = null;
 
     /**
@@ -2042,12 +2071,11 @@ public class Scheduler extends WebuiInput
     public void setEndTimeLabel(String endTimeLabel) {
         this.endTimeLabel = endTimeLabel;
     }
-
     /**
      * <p>Flag indicating that a control for setting a limit for repeating
      * events should be shown. The default value is true.</p>
      */
-    @Property(name="limitRepeating", displayName="Limit Repeating Events", category="Appearance")
+    @Property(name = "limitRepeating", displayName = "Limit Repeating Events", category = "Appearance")
     private boolean limitRepeating = false;
     private boolean limitRepeating_set = false;
 
@@ -2080,7 +2108,6 @@ public class Scheduler extends WebuiInput
         this.limitRepeating = limitRepeating;
         this.limitRepeating_set = true;
     }
-
     /**
      * <p>A <code>java.util.Date</code> object representing the last
      * selectable day. The default value is four years after the
@@ -2092,7 +2119,9 @@ public class Scheduler extends WebuiInput
      * follow this date. At present such dates can be selected, but
      * will not be validated when the form is submitted.</p>
      */
-    @Property(name="maxDate", displayName="Last selectable date", category="Data", editorClassName="com.sun.rave.propertyeditors.binding.ValueBindingPropertyEditor", shortDescription="The last selectable date.")
+    @Property(name = "maxDate", displayName = "Last selectable date", category = "Data",
+    editorClassName = "com.sun.rave.propertyeditors.binding.ValueBindingPropertyEditor",
+    shortDescription = "The last selectable date.")
     private java.util.Date maxDate = null;
 
     /**
@@ -2132,7 +2161,6 @@ public class Scheduler extends WebuiInput
     public void setMaxDate(java.util.Date maxDate) {
         this.maxDate = maxDate;
     }
-
     /**
      * <p>A <code>java.util.Date</code> object representing the first
      * selectable day. The default value is today's date.</p> 
@@ -2143,7 +2171,9 @@ public class Scheduler extends WebuiInput
      * precede this date. At present such dates can be selected, but
      * will not be validated when the form is submitted.</p>
      */
-    @Property(name="minDate", displayName="First selectable date", category="Data", editorClassName="com.sun.rave.propertyeditors.binding.ValueBindingPropertyEditor", shortDescription="The first selectable date.")
+    @Property(name = "minDate", displayName = "First selectable date", category = "Data",
+    editorClassName = "com.sun.rave.propertyeditors.binding.ValueBindingPropertyEditor",
+    shortDescription = "The first selectable date.")
     private java.util.Date minDate = null;
 
     /**
@@ -2181,12 +2211,11 @@ public class Scheduler extends WebuiInput
     public void setMinDate(java.util.Date minDate) {
         this.minDate = minDate;
     }
-
     /**
      * <p>Flag indicating that the "Preview in Browser" button should be
      * displayed - default value is true.</p>
      */
-    @Property(name="previewButton", displayName="Preview Button", category="Appearance")
+    @Property(name = "previewButton", displayName = "Preview Button", category = "Appearance")
     private boolean previewButton = false;
     private boolean previewButton_set = false;
 
@@ -2219,13 +2248,12 @@ public class Scheduler extends WebuiInput
         this.previewButton = previewButton;
         this.previewButton_set = true;
     }
-
     /**
      * <p>If this attribute is set to true, the value of the component is
      * rendered as text, preceded by the label if one was defined. NOT
      * YET IMPLEMENTED.</p>
      */
-    @Property(name="readOnly", displayName="Read-only", category="Behavior")
+    @Property(name = "readOnly", displayName = "Read-only", category = "Behavior")
     private boolean readOnly = false;
     private boolean readOnly_set = false;
 
@@ -2260,7 +2288,6 @@ public class Scheduler extends WebuiInput
         this.readOnly = readOnly;
         this.readOnly_set = true;
     }
-
     /**
      * <p>Override the items that appear on the repeat interval menu. 
      * The value must be one of an array, Map or Collection
@@ -2275,7 +2302,8 @@ public class Scheduler extends WebuiInput
      * If this attribute is not specified, default options of "One Time", 
      * "Hourly", "Weekly", "Monthtly" will be shown.</p>
      */
-    @Property(name="repeatIntervalItems", displayName="Repeat Interval Menu Items", category="Data", editorClassName="com.sun.webui.jsf.component.propertyeditors.RepeatIntervalEditor")
+    @Property(name = "repeatIntervalItems", displayName = "Repeat Interval Menu Items",
+    category = "Data", editorClassName = "com.sun.webui.jsf.component.propertyeditors.RepeatIntervalEditor")
     private Object repeatIntervalItems = null;
 
     /**
@@ -2321,12 +2349,12 @@ public class Scheduler extends WebuiInput
     public void setRepeatIntervalItems(Object repeatIntervalItems) {
         this.repeatIntervalItems = repeatIntervalItems;
     }
-
     /**
      * <p>Override the default value of the label for the repeat
      * interval menu.</p>
      */
-    @Property(name="repeatIntervalLabel", displayName="Repeat Interval Label", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "repeatIntervalLabel", displayName = "Repeat Interval Label",
+    category = "Appearance", editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String repeatIntervalLabel = null;
 
     /**
@@ -2352,12 +2380,12 @@ public class Scheduler extends WebuiInput
     public void setRepeatIntervalLabel(String repeatIntervalLabel) {
         this.repeatIntervalLabel = repeatIntervalLabel;
     }
-
     /**
      * <p>Override the default value of the label for the repeat
      * limit menu.</p>
      */
-    @Property(name="repeatLimitLabel", displayName="Repeat Limit Label", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "repeatLimitLabel", displayName = "Repeat Limit Label",
+    category = "Appearance", editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String repeatLimitLabel = null;
 
     /**
@@ -2383,7 +2411,6 @@ public class Scheduler extends WebuiInput
     public void setRepeatLimitLabel(String repeatLimitLabel) {
         this.repeatLimitLabel = repeatLimitLabel;
     }
-
     /**
      * <p>Override the items that appear on the repeat limit unit menu. 
      * The value must be one of an array, Map or Collection
@@ -2394,7 +2421,8 @@ public class Scheduler extends WebuiInput
      * The default value is to show a menu with values "Hours", 
      * "Days", "Weeks", "Months".</p>
      */
-    @Property(name="repeatUnitItems", displayName="Repeat Limit Unit Items", category="Data", editorClassName="com.sun.webui.jsf.component.propertyeditors.RepeatUnitEditor")
+    @Property(name = "repeatUnitItems", displayName = "Repeat Limit Unit Items",
+    category = "Data", editorClassName = "com.sun.webui.jsf.component.propertyeditors.RepeatUnitEditor")
     private Object repeatUnitItems = null;
 
     /**
@@ -2432,12 +2460,11 @@ public class Scheduler extends WebuiInput
     public void setRepeatUnitItems(Object repeatUnitItems) {
         this.repeatUnitItems = repeatUnitItems;
     }
-
     /**
      * <p>Flag indicating that a control for scheduling a repeated event
      * should be shown. The default value is true.</p>
      */
-    @Property(name="repeating", displayName="Repeating Events", category="Appearance")
+    @Property(name = "repeating", displayName = "Repeating Events", category = "Appearance")
     private boolean repeating = false;
     private boolean repeating_set = false;
 
@@ -2470,12 +2497,11 @@ public class Scheduler extends WebuiInput
         this.repeating = repeating;
         this.repeating_set = true;
     }
-
     /**
      * <p>Flag indicating that the user must enter a value for this Scheduler.
      * Default value is true.</p>
      */
-    @Property(name="required", displayName="Required", isHidden=true, isAttribute=false)
+    @Property(name = "required", displayName = "Required", isHidden = true, isAttribute = false)
     private boolean required = false;
     private boolean required_set = false;
 
@@ -2483,6 +2509,7 @@ public class Scheduler extends WebuiInput
      * <p>Flag indicating that the user must enter a value for this Scheduler.
      * Default value is true.</p>
      */
+    @Override
     public boolean isRequired() {
         if (this.required_set) {
             return this.required;
@@ -2504,16 +2531,16 @@ public class Scheduler extends WebuiInput
      * Default value is true.</p>
      * @see #isRequired()
      */
+    @Override
     public void setRequired(boolean required) {
         this.required = required;
         this.required_set = true;
     }
-
     /**
      * <p>Flag indicating if the "* indicates required field" message should be
      * displayed - default value is true.</p>
      */
-    @Property(name="requiredLegend", displayName="Required Legend", category="Appearance")
+    @Property(name = "requiredLegend", displayName = "Required Legend", category = "Appearance")
     private boolean requiredLegend = false;
     private boolean requiredLegend_set = false;
 
@@ -2546,12 +2573,11 @@ public class Scheduler extends WebuiInput
         this.requiredLegend = requiredLegend;
         this.requiredLegend_set = true;
     }
-
     /**
      * <p>Flag indicating that an input field for the start time should be
      * shown. The default value is true.</p>
      */
-    @Property(name="startTime", displayName="Show Start Time", category="Appearance")
+    @Property(name = "startTime", displayName = "Show Start Time", category = "Appearance")
     private boolean startTime = false;
     private boolean startTime_set = false;
 
@@ -2584,11 +2610,11 @@ public class Scheduler extends WebuiInput
         this.startTime = startTime;
         this.startTime_set = true;
     }
-
     /**
      * <p>This text replaces the "Start Time" label.</p>
      */
-    @Property(name="startTimeLabel", displayName="Start Time Label", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "startTimeLabel", displayName = "Start Time Label",
+    category = "Appearance", editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String startTimeLabel = null;
 
     /**
@@ -2612,12 +2638,12 @@ public class Scheduler extends WebuiInput
     public void setStartTimeLabel(String startTimeLabel) {
         this.startTimeLabel = startTimeLabel;
     }
-
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
+    @Property(name = "style", displayName = "CSS Style(s)", category = "Appearance",
+    editorClassName = "com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
@@ -2643,12 +2669,12 @@ public class Scheduler extends WebuiInput
     public void setStyle(String style) {
         this.style = style;
     }
-
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)",
+    category = "Appearance", editorClassName = "com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
@@ -2674,14 +2700,14 @@ public class Scheduler extends WebuiInput
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-
     /**
      * <p>Position of this element in the tabbing order of the current document. 
      * Tabbing order determines the sequence in which elements receive 
      * focus when the tab key is pressed. The value must be an integer 
      * between 0 and 32767.</p>
      */
-    @Property(name="tabIndex", displayName="Tab Index", category="Accessibility", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "tabIndex", displayName = "Tab Index", category = "Accessibility",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int tabIndex = Integer.MIN_VALUE;
     private boolean tabIndex_set = false;
 
@@ -2718,13 +2744,12 @@ public class Scheduler extends WebuiInput
         this.tabIndex = tabIndex;
         this.tabIndex_set = true;
     }
-
     /**
      * <p>The <code>java.util.TimeZone</code> used with this
      * component. Unless set, the default TimeZone for the locale in  
      * <code>javax.faces.component.UIViewRoot</code> is used.</p>
      */
-    @Property(name="timeZone", displayName="Time Zone", isHidden=true)
+    @Property(name = "timeZone", displayName = "Time Zone", isHidden = true)
     private java.util.TimeZone timeZone = null;
 
     /**
@@ -2752,7 +2777,6 @@ public class Scheduler extends WebuiInput
     public void setTimeZone(java.util.TimeZone timeZone) {
         this.timeZone = timeZone;
     }
-
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -2762,7 +2786,7 @@ public class Scheduler extends WebuiInput
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @Property(name="visible", displayName="Visible", category="Behavior")
+    @Property(name = "visible", displayName = "Visible", category = "Behavior")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -2809,7 +2833,8 @@ public class Scheduler extends WebuiInput
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.dateFormatPattern = (String) _values[1];
@@ -2853,6 +2878,7 @@ public class Scheduler extends WebuiInput
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[37];
         _values[0] = super.saveState(_context);

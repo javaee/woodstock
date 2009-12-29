@@ -24,17 +24,18 @@ package com.sun.webui.jsf.component;
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
 import com.sun.webui.jsf.util.ConversionUtilities;
-
 import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
 
 /**
  * The PasswordField component is used to create a password textfield.
  */
-@Component(type="com.sun.webui.jsf.PasswordField", family="com.sun.webui.jsf.PasswordField", displayName="Password Field", instanceName="passwordField", tagName="passwordField",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_password_field",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_password_field_props")
+@Component(type = "com.sun.webui.jsf.PasswordField", family = "com.sun.webui.jsf.PasswordField",
+displayName = "Password Field", instanceName = "passwordField", tagName = "passwordField",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_password_field",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_password_field_props")
 public class PasswordField extends Field {
+
     /**
      * Default constructor.
      */
@@ -46,25 +47,27 @@ public class PasswordField extends Field {
     /**
      * <p>Return the family for this component.</p>
      */
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.PasswordField";
     }
 
-   /**
+    /**
      * <p>Return the value to be rendered as a string when the
      * component is readOnly. The value will be 
-    * represented using asterisks.</p>
+     * represented using asterisks.</p>
      * @param context FacesContext for the current request
      * @return A String value of the component
      */
+    @Override
     public String getReadOnlyValueString(FacesContext context) {
-        
+
         String value = ConversionUtilities.convertValueToString(this, getValue());
-        if(value == null) {
+        if (value == null) {
             return new String();
         }
         char[] chars = value.toCharArray();
-        for(int i=0; i< chars.length; ++i) {
+        for (int i = 0; i < chars.length; ++i) {
             chars[i] = '*';
         }
         return new String(chars);
@@ -73,12 +76,12 @@ public class PasswordField extends Field {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Flag indicating that an input value for this field is mandatory, and 
      * failure to provide one will trigger a validation error.
      */
-    @Property(name="required") 
+    @Property(name = "required")
+    @Override
     public void setRequired(boolean required) {
         super.setRequired(required);
     }
@@ -89,6 +92,7 @@ public class PasswordField extends Field {
      *
      * @param name Name of value binding expression to retrieve
      */
+    @Override
     public ValueExpression getValueExpression(String name) {
         if (name.equals("password")) {
             return super.getValueExpression("value");
@@ -104,22 +108,25 @@ public class PasswordField extends Field {
      * @param name    Name of value binding to set
      * @param binding ValueExpression to set, or null to remove
      */
-    public void setValueExpression(String name,ValueExpression binding) {
+    @Override
+    public void setValueExpression(String name, ValueExpression binding) {
         if (name.equals("password")) {
             super.setValueExpression("value", binding);
             return;
         }
         super.setValueExpression(name, binding);
     }
-    
+
     // Hide text
-    @Property(name="text", isHidden=true, isAttribute=false)
+    @Property(name = "text", isHidden = true, isAttribute = false)
+    @Override
     public Object getText() {
         return super.getText();
     }
-    
+
     // Hide value
-    @Property(name="value", isHidden=true, isAttribute=false)
+    @Property(name = "value", isHidden = true, isAttribute = false)
+    @Override
     public Object getValue() {
         return super.getValue();
     }
@@ -130,7 +137,8 @@ public class PasswordField extends Field {
      * expression, the corresponding value will be updated
      * if validation succeeds.</p>
      */
-    @Property(name="password", displayName="Password", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "password", displayName = "Password", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     public Object getPassword() {
         return getValue();
     }
@@ -149,7 +157,8 @@ public class PasswordField extends Field {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
     }
@@ -157,6 +166,7 @@ public class PasswordField extends Field {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[1];
         _values[0] = super.saveState(_context);

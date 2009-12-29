@@ -24,10 +24,8 @@ package com.sun.webui.jsf.component;
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
 import com.sun.webui.jsf.theme.ThemeImages;
-import com.sun.webui.jsf.theme.ThemeStyles;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.theme.Theme;
-
 import javax.el.MethodExpression;
 import javax.el.ValueExpression;
 import javax.faces.application.Application;
@@ -37,33 +35,36 @@ import javax.faces.context.FacesContext;
  * The HelpWindow component displays a link that opens a popup window for a help
  * system.
  */
-@Component(type="com.sun.webui.jsf.HelpWindow", family="com.sun.webui.jsf.HelpWindow", displayName="Help Window", tagName="helpWindow",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_help_window",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_help_window_props")
+@Component(type = "com.sun.webui.jsf.HelpWindow", family = "com.sun.webui.jsf.HelpWindow",
+displayName = "Help Window", tagName = "helpWindow",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_help_window",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_help_window_props")
 public class HelpWindow extends IconHyperlink {
+
     public static final String DEFAULT_JSP_PATH =
-        "/com_sun_webui_jsf/help/";
-    
+            "/com_sun_webui_jsf/help/";
     public static final String DEFAULT_NAVIGATION_JSP = "navigator.jsp";
     public static final String DEFAULT_STATUS_JSP = "status.jsp";
     public static final String DEFAULT_BUTTONNAV_JSP = "buttonnav.jsp";
     public static final String DEFAULT_BUTTONFRAME_JSP = "buttonFrame.jsp";
     public static final String DEFAULT_TIPS_FILE = "tips.jsp";
+
     /** Creates a new instance of HelpWindow */
     public HelpWindow() {
-        super();        
+        super();
         setRendererType("com.sun.webui.jsf.HelpWindow");
     }
 
     /**
      * <p>Return the family for this component.</p>
      */
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.HelpWindow";
     }
 
     private String _getUrl() {
-        
+
         if (super.getUrl() != null) {
             return super.getUrl();
         }
@@ -74,10 +75,10 @@ public class HelpWindow extends IconHyperlink {
         // This is the *only* way this should be implemented as it fixes the bug, 
         // and follows JSF's design allowing the ViewHandler to translate 
         // the url as required.                      
-        
+
         String jspPath = DEFAULT_JSP_PATH;
         FacesContext context = FacesContext.getCurrentInstance();
-        
+
         // Path prefix if set should be done from the JavaHelpBackingBean only. 
         // Having two different places to set the same info is confusing. By default
         // it is assumed that the path is set to <appcontext>/com_sun_webui_jsf/help.
@@ -85,54 +86,53 @@ public class HelpWindow extends IconHyperlink {
         // should be overidden by supplying a managed bean property for "jspPath".
         // The assumtion here is that all help related data reside in the same
         // place for a given app.
-        
+
         Application app = context.getApplication();
-        ValueExpression vb = 
-            app.getExpressionFactory().createValueExpression(getFacesContext()
-                .getELContext(), "#{JavaHelpBean.jspPath}", Object.class);
-            
-        if (vb.getValue(context.getELContext()) != null) {                
-            jspPath = ((String) vb.getValue(context.getELContext())).concat(jspPath);                
+        ValueExpression vb =
+                app.getExpressionFactory().createValueExpression(getFacesContext().getELContext(), "#{JavaHelpBean.jspPath}", Object.class);
+
+        if (vb.getValue(context.getELContext()) != null) {
+            jspPath = ((String) vb.getValue(context.getELContext())).concat(jspPath);
         }
-        
+
         StringBuffer url = new StringBuffer(jspPath);
         url.append("helpwindow.jsp");
-        
+
         // renderer will assign the required request parameters and after 
         // invoking handler.getActionUrl()
-        
+
         return url.toString();
     }
-    
-    private String _getIcon() {        
+
+    private String _getIcon() {
         if (isLinkIcon()) {
             // return the default help window link icon
             return ThemeImages.HREF_LINK;
         }
-        
+
         // don't display an icon
         return ThemeImages.DOT;
     }
-    
+
     private Object _getText() {
         if (super.getText() != null) {
             return super.getText();
         }
-        
+
         Theme t = ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
         return t.getMessage("help.help");
     }
-    
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * <p>Return the <code>ValueExpression</code> stored for the
      * specified name (if any), respecting any property aliases.</p>
      *
      * @param name Name of value binding expression to retrieve
      */
+    @Override
     public ValueExpression getValueExpression(String name) {
         if (name.equals("linkText")) {
             return super.getValueExpression("text");
@@ -148,16 +148,18 @@ public class HelpWindow extends IconHyperlink {
      * @param name    Name of value binding to set
      * @param binding ValueExpression to set, or null to remove
      */
-    public void setValueExpression(String name,ValueExpression binding) {
+    @Override
+    public void setValueExpression(String name, ValueExpression binding) {
         if (name.equals("linkText")) {
             super.setValueExpression("text", binding);
             return;
         }
         super.setValueExpression(name, binding);
     }
-    
+
     // Hide actionExpression
-    @Property(name="actionExpression", isHidden=true, isAttribute=false)
+    @Property(name = "actionExpression", isHidden = true, isAttribute = false)
+    @Override
     public MethodExpression getActionExpression() {
         return super.getActionExpression();
     }
@@ -166,127 +168,145 @@ public class HelpWindow extends IconHyperlink {
      * Scripting code executed when a mouse double click occurs over this
      * component.
      */
-    @Property(name="onDblClick", isHidden=false, isAttribute=true)
+    @Property(name = "onDblClick", isHidden = false, isAttribute = true)
+    @Override
     public String getOnDblClick() {
         return super.getOnDblClick();
     }
-    
+
     // Hide actionListenerExpression
-    @Property(name="actionListenerExpression", isHidden=true, isAttribute=false)
+    @Property(name = "actionListenerExpression", isHidden = true, isAttribute = false)
+    @Override
     public MethodExpression getActionListenerExpression() {
         return super.getActionListenerExpression();
     }
-    
+
     // Hide Align
-    @Property(name="Align", isHidden=true, isAttribute=false)
+    @Property(name = "Align", isHidden = true, isAttribute = false)
+    @Override
     public String getAlign() {
         return super.getAlign();
     }
-    
+
     // Hide alt
-    @Property(name="alt", isHidden=true, isAttribute=false)
+    @Property(name = "alt", isHidden = true, isAttribute = false)
+    @Override
     public String getAlt() {
         return super.getAlt();
     }
-    
+
     // Hide border
-    @Property(name="border", isHidden=true, isAttribute=false)
+    @Property(name = "border", isHidden = true, isAttribute = false)
+    @Override
     public int getBorder() {
         return super.getBorder();
     }
-    
+
     // Hide height
-    @Property(name="height", isHidden=true, isAttribute=false)
+    @Property(name = "height", isHidden = true, isAttribute = false)
+    @Override
     public int getHeight() {
         return super.getHeight();
     }
-    
+
     // Hide hspace
-    @Property(name="hspace", isHidden=true, isAttribute=false)
+    @Property(name = "hspace", isHidden = true, isAttribute = false)
+    @Override
     public int getHspace() {
         return super.getHspace();
     }
-    
+
     // Hide icon
-    @Property(name="icon", isHidden=true, isAttribute=false)
+    @Property(name = "icon", isHidden = true, isAttribute = false)
+    @Override
     public String getIcon() {
         return _getIcon();
     }
-    
+
     // Hide imageURL
-    @Property(name="imageURL", isHidden=true, isAttribute=false)
+    @Property(name = "imageURL", isHidden = true, isAttribute = false)
+    @Override
     public String getImageURL() {
         return super.getImageURL();
     }
-    
+
     // Hide immediate
-    @Property(name="immediate", isHidden=true, isAttribute=false)
+    @Property(name = "immediate", isHidden = true, isAttribute = false)
+    @Override
     public boolean isImmediate() {
         return super.isImmediate();
     }
-    
+
     // Hide target
-    @Property(name="target", isHidden=false, isAttribute=true)
+    @Property(name = "target", isHidden = false, isAttribute = true)
+    @Override
     public String getTarget() {
         if (super.getTarget() != null) {
             return super.getTarget();
         }
-        
+
         return "help_window";
     }
-    
+
+    @Override
     public void setTarget(String value) {
         super.setTarget(value);
     }
-    
+
     // Hide text
-    @Property(name="text", isHidden=true, isAttribute=false)
+    @Property(name = "text", isHidden = true, isAttribute = false)
+    @Override
     public Object getText() {
         return _getText();
     }
-    
+
     // hide textPosition
-    @Property(name="textPosition", isHidden=true, isAttribute=false)
+    @Property(name = "textPosition", isHidden = true, isAttribute = false)
+    @Override
     public String getTextPosition() {
         return super.getTextPosition();
     }
-    
+
     // Hide type
-    @Property(name="type", isHidden=true, isAttribute=false)
+    @Property(name = "type", isHidden = true, isAttribute = false)
+    @Override
     public String getType() {
         return super.getType();
     }
-    
+
     // Hide url
-    @Property(name="url", isHidden=true, isAttribute=false)
+    @Property(name = "url", isHidden = true, isAttribute = false)
+    @Override
     public String getUrl() {
         return _getUrl();
     }
-    
+
     // Hide urlLang
-    @Property(name="urlLang", isHidden=true, isAttribute=false)
+    @Property(name = "urlLang", isHidden = true, isAttribute = false)
+    @Override
     public String getUrlLang() {
         return super.getUrlLang();
     }
-    
+
     // Hide value
-    @Property(name="value", isHidden=true, isAttribute=false)
+    @Property(name = "value", isHidden = true, isAttribute = false)
+    @Override
     public Object getValue() {
         return super.getValue();
     }
-    
+
     // Hide vspace
-    @Property(name="vspace", isHidden=true, isAttribute=false)
+    @Property(name = "vspace", isHidden = true, isAttribute = false)
+    @Override
     public int getVspace() {
         return super.getVspace();
     }
-
     /**
      * <p>The help file to be displayed in the help window content 
      * frame when the help link is clicked. The value can be a relative path or 
      * a file name.</p>
      */
-    @Property(name="helpFile", displayName="Help File")
+    @Property(name = "helpFile", displayName = "Help File")
     private String helpFile = null;
 
     public String getHelpFile() {
@@ -309,13 +329,12 @@ public class HelpWindow extends IconHyperlink {
     public void setHelpFile(String helpFile) {
         this.helpFile = helpFile;
     }
-
     /**
      * <p>The context relative path to the help set to be displayed. This attribute
      * overrides any value set for the helpSetPath property in the 
      * application's HelpBackingBean instance.</p>
      */
-    @Property(name="helpSetPath", displayName="Help Set Path")
+    @Property(name = "helpSetPath", displayName = "Help Set Path")
     private String helpSetPath = null;
 
     public String getHelpSetPath() {
@@ -345,7 +364,7 @@ public class HelpWindow extends IconHyperlink {
      * text for the help window link. The icon is useful in inline help
      * links to the help window. By default the value is false.</p>
      */
-    @Property(name="linkIcon", displayName="Link Icon")
+    @Property(name = "linkIcon", displayName = "Link Icon")
     private boolean linkIcon = false;
     private boolean linkIcon_set = false;
 
@@ -379,7 +398,7 @@ public class HelpWindow extends IconHyperlink {
     /**
      * <p>The text to display for the hyperlink that opens the help window.</p>
      */
-    @Property(name="linkText", displayName="Link Text")
+    @Property(name = "linkText", displayName = "Link Text")
     public String getLinkText() {
         return (String) getText();
     }
@@ -391,14 +410,14 @@ public class HelpWindow extends IconHyperlink {
     public void setLinkText(String linkText) {
         setText((Object) linkText);
     }
-
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="style", displayName="CSS Style(s)")
+    @Property(name = "style", displayName = "CSS Style(s)")
     private String style = null;
 
+    @Override
     public String getStyle() {
         if (this.style != null) {
             return this.style;
@@ -415,17 +434,18 @@ public class HelpWindow extends IconHyperlink {
      * component is rendered.</p>
      * @see #getStyle()
      */
+    @Override
     public void setStyle(String style) {
         this.style = style;
     }
-
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)")
     private String styleClass = null;
 
+    @Override
     public String getStyleClass() {
         if (this.styleClass != null) {
             return this.styleClass;
@@ -442,10 +462,10 @@ public class HelpWindow extends IconHyperlink {
      * component is rendered.</p>
      * @see #getStyleClass()
      */
+    @Override
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -455,10 +475,11 @@ public class HelpWindow extends IconHyperlink {
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @Property(name="visible", displayName="Visible")
+    @Property(name = "visible", displayName = "Visible")
     private boolean visible = false;
     private boolean visible_set = false;
 
+    @Override
     public boolean isVisible() {
         if (this.visible_set) {
             return this.visible;
@@ -485,16 +506,16 @@ public class HelpWindow extends IconHyperlink {
      * submissions because the HTML is present.</p>
      * @see #isVisible()
      */
+    @Override
     public void setVisible(boolean visible) {
         this.visible = visible;
         this.visible_set = true;
     }
-
     /**
      * <p>The text to display in the browser window frame for the help window. 
      * This text is rendered in the HTML title element.</p>
      */
-    @Property(name="windowTitle", displayName="Help Window Title")
+    @Property(name = "windowTitle", displayName = "Help Window Title")
     private String windowTitle = null;
 
     public String getWindowTitle() {
@@ -524,18 +545,14 @@ public class HelpWindow extends IconHyperlink {
      * return the javascript code segment that defines the
      * default helpWindow behaviour.</p>
      */
+    @Override
     public String getOnClick() {
         String clickHandler = super.getOnClick();
         if (clickHandler != null && clickHandler.length() > 0) {
             return clickHandler;
         } else {
             StringBuffer onClick = new StringBuffer("javascript: ");
-            onClick.append("var win = window.open('','")
-                .append(getTarget())
-                .append("','height=500,")
-                .append("width=750,top='+((screen.height-(screen.height/1.618))-")
-                .append("(500/2))+',left='+((screen.width-750)/2)+',resizable');")
-                .append("win.focus()");
+            onClick.append("var win = window.open('','").append(getTarget()).append("','height=500,").append("width=750,top='+((screen.height-(screen.height/1.618))-").append("(500/2))+',left='+((screen.width-750)/2)+',resizable');").append("win.focus()");
             return onClick.toString();
         }
     }
@@ -543,7 +560,8 @@ public class HelpWindow extends IconHyperlink {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.helpFile = (String) _values[1];
@@ -560,6 +578,7 @@ public class HelpWindow extends IconHyperlink {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[10];
         _values[0] = super.saveState(_context);

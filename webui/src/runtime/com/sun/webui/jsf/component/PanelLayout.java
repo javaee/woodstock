@@ -24,7 +24,6 @@ package com.sun.webui.jsf.component;
 import com.sun.faces.annotation.Attribute;
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-
 import javax.el.ValueExpression;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponentBase;
@@ -33,21 +32,21 @@ import javax.faces.context.FacesContext;
 /**
  * The PanelLayout component is used to display a group of related components.
  */
-@Component(type="com.sun.webui.jsf.PanelLayout", family="com.sun.webui.jsf.PanelLayout", displayName="Layout Panel", instanceName="layoutPanel", tagName="panelLayout",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_layout_panel",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_panel_layout_props")
+@Component(type = "com.sun.webui.jsf.PanelLayout", family = "com.sun.webui.jsf.PanelLayout",
+displayName = "Layout Panel", instanceName = "layoutPanel", tagName = "panelLayout",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_layout_panel",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_panel_layout_props")
 public class PanelLayout extends UIComponentBase implements NamingContainer {
-    
+
     /**
      * Keyword that indicates flow layout.
      */
     public final static String FLOW_LAYOUT = "flow";
-    
     /**
      * Keyword that indicates grid layout or absolute positioning.
      */
     public final static String GRID_LAYOUT = "grid";
-    
+
     /**
      * Creates a new instance of PanelLayout.
      */
@@ -62,35 +61,37 @@ public class PanelLayout extends UIComponentBase implements NamingContainer {
     public String getFamily() {
         return "com.sun.webui.jsf.PanelLayout";
     }
-    
+
     /**
      * Set the layout mode for this panel, to either "grid" or "flow". The
      * default value is "grid". Setting this property to an unrecognized value
      * will cause it to reset to the default value.
      */
     public void setPanelLayout(String panelLayout) {
-        if (FLOW_LAYOUT.equals(panelLayout))
+        if (FLOW_LAYOUT.equals(panelLayout)) {
             _setPanelLayout(FLOW_LAYOUT);
-        else
+        } else {
             _setPanelLayout(GRID_LAYOUT);
+        }
     }
-    
+
     public String getPanelLayout() {
         String panelLayout = _getPanelLayout();
-        if (panelLayout == null)
+        if (panelLayout == null) {
             return GRID_LAYOUT;
+        }
         return panelLayout;
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -102,15 +103,16 @@ public class PanelLayout extends UIComponentBase implements NamingContainer {
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
-
     /**
      * <p>Use absolute grid positioning, or flow layout</p>
      */
-    @Property(name="panelLayout", displayName="Panel Layout", attribute=@Attribute(name="panelLayout", isBindable=false, isRequired=false))
+    @Property(name = "panelLayout", displayName = "Panel Layout",
+    attribute = @Attribute(name = "panelLayout", isBindable = false, isRequired = false))
     private String panelLayout = null;
 
     /**
@@ -127,12 +129,12 @@ public class PanelLayout extends UIComponentBase implements NamingContainer {
     private void _setPanelLayout(String panelLayout) {
         this.panelLayout = panelLayout;
     }
-
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
+    @Property(name = "style", displayName = "CSS Style(s)", category = "Appearance",
+    editorClassName = "com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
@@ -158,12 +160,12 @@ public class PanelLayout extends UIComponentBase implements NamingContainer {
     public void setStyle(String style) {
         this.style = style;
     }
-
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
@@ -189,7 +191,6 @@ public class PanelLayout extends UIComponentBase implements NamingContainer {
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -199,7 +200,7 @@ public class PanelLayout extends UIComponentBase implements NamingContainer {
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @Property(name="visible", displayName="Visible", category="Behavior")
+    @Property(name = "visible", displayName = "Visible", category = "Behavior")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -246,7 +247,8 @@ public class PanelLayout extends UIComponentBase implements NamingContainer {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.panelLayout = (String) _values[1];
@@ -259,6 +261,7 @@ public class PanelLayout extends UIComponentBase implements NamingContainer {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[6];
         _values[0] = super.saveState(_context);

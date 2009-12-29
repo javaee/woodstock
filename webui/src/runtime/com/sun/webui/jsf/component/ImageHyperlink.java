@@ -24,10 +24,7 @@ package com.sun.webui.jsf.component;
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
 import com.sun.webui.jsf.util.ComponentUtilities;
-
-import java.util.List;
 import java.util.Map;
-
 import javax.el.ValueExpression;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
@@ -36,12 +33,13 @@ import javax.faces.context.FacesContext;
 /**
  * The ImageHyperlink component is used to display a hyperlinked image.
  */
-@Component(type="com.sun.webui.jsf.ImageHyperlink", family="com.sun.webui.jsf.ImageHyperlink", displayName="Image Hyperlink", tagName="imageHyperlink",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_image_hyperlink",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_image_hyperlink_props")
+@Component(type = "com.sun.webui.jsf.ImageHyperlink", family = "com.sun.webui.jsf.ImageHyperlink",
+displayName = "Image Hyperlink", tagName = "imageHyperlink",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_image_hyperlink",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_image_hyperlink_props")
 public class ImageHyperlink extends Hyperlink implements NamingContainer {
-    private static final String IMAGE_FACET = "image"; //NOI18N
 
+    private static final String IMAGE_FACET = "image"; //NOI18N
     /**
      * Used for identifying the facet in the facet map associated
      * with this component
@@ -60,6 +58,7 @@ public class ImageHyperlink extends Hyperlink implements NamingContainer {
     /**
      * <p>Return the family for this component.</p>
      */
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.ImageHyperlink";
     }
@@ -100,84 +99,84 @@ public class ImageHyperlink extends Hyperlink implements NamingContainer {
      * @return ImageComponent or Icon instance
      */
     public UIComponent getImageFacet() {
-        UIComponent image = 
-	    ComponentUtilities.getPrivateFacet(this, IMAGE_FACET, false);
-	if (image != null) {
-	    return image;
-	}
+        UIComponent image =
+                ComponentUtilities.getPrivateFacet(this, IMAGE_FACET, false);
+        if (image != null) {
+            return image;
+        }
 
         String imageURL = getImageURL();
         String icon = getIcon();
-        
+
         if (imageURL == null && icon == null) {
-	    ComponentUtilities.removePrivateFacet(this,
-		IMAGE_FACET);
-	    return null;
-	}
-        
-	// ImageURL takes precedence
-	if (imageURL != null) {
-	    image = new ImageComponent();
-	} else {
-	    image = new Icon();
-	}
+            ComponentUtilities.removePrivateFacet(this,
+                    IMAGE_FACET);
+            return null;
+        }
 
-	Map<String, Object> map = image.getAttributes();
-	if (icon != null) {
-	    map.put("icon", icon);  //NOI18N
-	}
-	if (imageURL != null) {
-	    map.put("url", imageURL);  //NOI18N
-	}
+        // ImageURL takes precedence
+        if (imageURL != null) {
+            image = new ImageComponent();
+        } else {
+            image = new Icon();
+        }
 
-	setAttributes(
-	    ComponentUtilities.createPrivateFacetId(this, IMAGE_FACET), image);
-        
+        Map<String, Object> map = image.getAttributes();
+        if (icon != null) {
+            map.put("icon", icon);  //NOI18N
+        }
+        if (imageURL != null) {
+            map.put("url", imageURL);  //NOI18N
+        }
+
+        setAttributes(
+                ComponentUtilities.createPrivateFacetId(this, IMAGE_FACET), image);
+
         return image;
     }
-    
+
     protected void setAttributes(String facetId, UIComponent image) {
 
-	//must reset the id always due to a side effect in JSF and putting
+        //must reset the id always due to a side effect in JSF and putting
         //components in a table.
         image.setId(facetId);
         image.setParent(this);
-                
+
         // align
         String align = getAlign();
-	Map<String, Object> atts = image.getAttributes();
+        Map<String, Object> atts = image.getAttributes();
         if (align != null) {
-	    atts.put("align", align); // NOI18N
+            atts.put("align", align); // NOI18N
         }
         // border
         int dim = getBorder();
         if (dim >= 0) {
-	    atts.put("border", dim); // NOI18N
+            atts.put("border", dim); // NOI18N
         }
         // description
         String description = getAlt();
         if (description != null) {
-	    atts.put("alt", description); // NOI18N
+            atts.put("alt", description); // NOI18N
         }
         // height
         dim = getHeight();
         if (dim >= 0) {
-	    atts.put("height", dim); // NOI18N
+            atts.put("height", dim); // NOI18N
         }
         // hspace
         dim = getHspace();
         if (dim >= 0) {
-	    atts.put("hspace", dim); // NOI18N
+            atts.put("hspace", dim); // NOI18N
         }
         // vspace
         dim = getVspace();
         if (dim >= 0) {
-	    atts.put("vspace", dim); // NOI18N
+            atts.put("vspace", dim); // NOI18N
         }
         // width
         dim = getWidth();
         if (dim >= 0) {
-	    atts.put("width", dim); // NOI18N
+            atts.put("width", dim); // NOI18N
         }
         // disabled (based on parent)
         Boolean disabled = (Boolean) getAttributes().get("disabled"); //NOI18N
@@ -189,21 +188,21 @@ public class ImageHyperlink extends Hyperlink implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * <p>Specifies the position of the image with respect to its context.
      * Valid values are: bottom (the default); middle; top; left; right.</p>
      */
-    @Property(name="onDblClick", isHidden=true, isAttribute=true)
+    @Property(name = "onDblClick", isHidden = true, isAttribute = true)
+    @Override
     public String getOnDblClick() {
         return super.getOnDblClick();
     }
-
     /**
      * <p>Specifies the position of the image with respect to its context.
      * Valid values are: bottom (the default); middle; top; left; right.</p>
      */
-    @Property(name="align", displayName="Align", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.HtmlAlignEditor")
+    @Property(name = "align", displayName = "Align", category = "Appearance",
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.HtmlAlignEditor")
     private String align = null;
 
     /**
@@ -229,13 +228,13 @@ public class ImageHyperlink extends Hyperlink implements NamingContainer {
     public void setAlign(String align) {
         this.align = align;
     }
-
     /**
      * <p>Alternative textual description of the image rendered by this component. The alt
      * text can be used by screen readers and in tool tips, and when image display is turned off in
      * the web browser.</p>
      */
-    @Property(name="alt", displayName="Alt Text", category="Accessibility", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "alt", displayName = "Alt Text", category = "Accessibility",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String alt = null;
 
     /**
@@ -263,12 +262,12 @@ public class ImageHyperlink extends Hyperlink implements NamingContainer {
     public void setAlt(String alt) {
         this.alt = alt;
     }
-
     /**
      * <p>Specifies the width of the img border in pixels.
      * The default value for this attribute depends on the client browser</p>
      */
-    @Property(name="border", displayName="Border", category="Appearance", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "border", displayName = "Border", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int border = Integer.MIN_VALUE;
     private boolean border_set = false;
 
@@ -301,11 +300,11 @@ public class ImageHyperlink extends Hyperlink implements NamingContainer {
         this.border = border;
         this.border_set = true;
     }
-
     /**
      * <p>When specified, the width and height attributes tell the client browser to override the natural image or object size in favor of these values, specified in pixels. Some browsers might not support this behavior.</p>
      */
-    @Property(name="height", displayName="Height", category="Appearance", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "height", displayName = "Height", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int height = Integer.MIN_VALUE;
     private boolean height_set = false;
 
@@ -336,13 +335,13 @@ public class ImageHyperlink extends Hyperlink implements NamingContainer {
         this.height = height;
         this.height_set = true;
     }
-
     /**
      * <p>Specifies the amount of white space in pixels to be inserted to the left and 
      * right of the image. The default value is not specified but is 
      * generally a small, non-zero size.</p>
      */
-    @Property(name="hspace", displayName="Horizontal Space", category="Advanced", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "hspace", displayName = "Horizontal Space", category = "Advanced",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int hspace = Integer.MIN_VALUE;
     private boolean hspace_set = false;
 
@@ -377,11 +376,11 @@ public class ImageHyperlink extends Hyperlink implements NamingContainer {
         this.hspace = hspace;
         this.hspace_set = true;
     }
-
     /**
      * <p>The identifier of the desired theme image.</p>
      */
-    @Property(name="icon", displayName="Icon", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.ThemeIconsEditor")
+    @Property(name = "icon", displayName = "Icon", category = "Appearance",
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.ThemeIconsEditor")
     private String icon = null;
 
     /**
@@ -405,11 +404,11 @@ public class ImageHyperlink extends Hyperlink implements NamingContainer {
     public void setIcon(String icon) {
         this.icon = icon;
     }
-
     /**
      * <p>Absolute or relative URL to the image to be rendered.</p>
      */
-    @Property(name="imageURL", displayName="Image Url", category="Appearance", editorClassName="com.sun.rave.propertyeditors.ImageUrlPropertyEditor")
+    @Property(name = "imageURL", displayName = "Image Url", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.ImageUrlPropertyEditor")
     private String imageURL = null;
 
     /**
@@ -433,12 +432,12 @@ public class ImageHyperlink extends Hyperlink implements NamingContainer {
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
     }
-
     /**
      * <p>Specifies where the text will be placed relative to the image. The valid 
      * values currently are "right" or "left".</p>
      */
-    @Property(name="textPosition", displayName="Text Position", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.HtmlHorizontalAlignEditor")
+    @Property(name = "textPosition", displayName = "Text Position", category = "Appearance",
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.HtmlHorizontalAlignEditor")
     private String textPosition = null;
 
     /**
@@ -464,7 +463,6 @@ public class ImageHyperlink extends Hyperlink implements NamingContainer {
     public void setTextPosition(String textPosition) {
         this.textPosition = textPosition;
     }
-
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -474,7 +472,7 @@ public class ImageHyperlink extends Hyperlink implements NamingContainer {
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @Property(name="visible", displayName="Visible", category="Behavior")
+    @Property(name = "visible", displayName = "Visible", category = "Behavior")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -487,6 +485,7 @@ public class ImageHyperlink extends Hyperlink implements NamingContainer {
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
+    @Override
     public boolean isVisible() {
         if (this.visible_set) {
             return this.visible;
@@ -513,17 +512,18 @@ public class ImageHyperlink extends Hyperlink implements NamingContainer {
      * submissions because the HTML is present.</p>
      * @see #isVisible()
      */
+    @Override
     public void setVisible(boolean visible) {
         this.visible = visible;
         this.visible_set = true;
     }
-
     /**
      * <p>Specifies the amount of white space in pixels to be inserted above and below the 
      * image. The default value is not specified but is generally a small, 
      * non-zero size.</p>
      */
-    @Property(name="vspace", displayName="Vertical Space", category="Advanced", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "vspace", displayName = "Vertical Space", category = "Advanced",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int vspace = Integer.MIN_VALUE;
     private boolean vspace_set = false;
 
@@ -558,13 +558,13 @@ public class ImageHyperlink extends Hyperlink implements NamingContainer {
         this.vspace = vspace;
         this.vspace_set = true;
     }
-
     /**
      * <p>Image width override. When specified, the width and height attributes 
      * tell user agents to override the natural image or object size in favor 
      * of these values.</p>
      */
-    @Property(name="width", displayName="Width", category="Appearance", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "width", displayName = "Width", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int width = Integer.MIN_VALUE;
     private boolean width_set = false;
 
@@ -603,7 +603,8 @@ public class ImageHyperlink extends Hyperlink implements NamingContainer {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.align = (String) _values[1];
@@ -628,6 +629,7 @@ public class ImageHyperlink extends Hyperlink implements NamingContainer {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[18];
         _values[0] = super.saveState(_context);

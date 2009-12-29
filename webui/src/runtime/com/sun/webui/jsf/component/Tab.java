@@ -42,11 +42,12 @@ import javax.faces.event.FacesEvent;
  * <p>Tab extends {@link Hyperlink}. Clicking on a tab therefore submits the
  * current page.
  */
-@Component(type="com.sun.webui.jsf.Tab", family="com.sun.webui.jsf.Tab", displayName="Tab", tagName="tab",
-        helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tab",
-        propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_tab_props")
+@Component(type = "com.sun.webui.jsf.Tab", family = "com.sun.webui.jsf.Tab",
+displayName = "Tab", tagName = "tab",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_tab",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_tab_props")
 public class Tab extends Hyperlink implements NamingContainer {
-    
+
     /**
      * Create a new instance of Tab.
      */
@@ -54,7 +55,7 @@ public class Tab extends Hyperlink implements NamingContainer {
         super();
         setRendererType("com.sun.webui.jsf.Tab");
     }
-    
+
     /**
      * Create a new instance of Tab with the text property set to the value
      * specified.
@@ -63,7 +64,8 @@ public class Tab extends Hyperlink implements NamingContainer {
         this();
         setText(text);
     }
-    
+
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.Tab";
     }
@@ -72,31 +74,30 @@ public class Tab extends Hyperlink implements NamingContainer {
      * Scripting code executed when a mouse double click occurs over this
      * component.
      */
-    @Property(isHidden=true, isAttribute=true)
+    @Property(isHidden = true, isAttribute = true)
     @Override
     public String getOnDblClick() {
         return super.getOnDblClick();
     }
-    
-    @Property(isHidden=true, isAttribute=false)
+
+    @Property(isHidden = true, isAttribute = false)
     @Override
     public Object getValue() {
         return super.getValue();
     }
 
-    @Property(shortDescription="The display label for this tab")
+    @Property(shortDescription = "The display label for this tab")
     @Override
     public Object getText() {
         return super.getText();
     }
-    
     /**
      * The id of this tab's currently selected Tab child or null if one is not
      * selected.
      */
-    @Property(isHidden=true)
+    @Property(isHidden = true)
     private String selectedChildId = null;
-    
+
     /**
      * Returns the id of this tab's currently selected Tab child, or null if one is not
      * selected.
@@ -111,40 +112,43 @@ public class Tab extends Hyperlink implements NamingContainer {
         }
         return null;
     }
-    
+
     /**
      * Set the id of this tab's currently selected Tab child to the value specified.
      */
     public void setSelectedChildId(String selectedChildId) {
         this.selectedChildId = selectedChildId;
     }
-    
+
     /**
      * Returns the number of children of this tab that are themselves tabs.
      */
     public int getTabChildCount() {
-        if (this.getChildCount() == 0)
+        if (this.getChildCount() == 0) {
             return 0;
+        }
         int childTabCount = 0;
         for (UIComponent child : this.getChildren()) {
-            if (child instanceof Tab)
+            if (child instanceof Tab) {
                 childTabCount++;
+            }
         }
         return childTabCount;
     }
-    
+
     /**
      * Returns a list of all children of this tab that are themselves tabs.
      */
     public List<Tab> getTabChildren() {
         List<Tab> tabChildren = new ArrayList<Tab>();
         for (UIComponent child : this.getChildren()) {
-            if (child instanceof Tab)
+            if (child instanceof Tab) {
                 tabChildren.add((Tab) child);
+            }
         }
         return tabChildren;
     }
-    
+
     /**
      * Customized implementation that allows child components to decode possible
      * submitted input only if the component is part of the currently selected
@@ -155,22 +159,26 @@ public class Tab extends Hyperlink implements NamingContainer {
      */
     @Override
     public void processDecodes(FacesContext context) {
-        if (!this.isRendered())
+        if (!this.isRendered()) {
             return;
+        }
         TabSet tabSet = Tab.getTabSet(this);
-        if (tabSet == null)
+        if (tabSet == null) {
             return;
+        }
         if (this.getId() != null && this.getId().equals(tabSet.getSelected())) {
             // If this tab was the selected tab in the submitted page, invoke process
             // decodes on all children components
-            for (UIComponent child : this.getChildren())
+            for (UIComponent child : this.getChildren()) {
                 child.processDecodes(context);
+            }
         } else {
             // Otherwise, invoke process decodes only on any tab children, since
             // one of them, or one of their descendants, may be the tab that was
             // selected on the submitted page
-            for (Tab tabChild : this.getTabChildren())
+            for (Tab tabChild : this.getTabChildren()) {
                 tabChild.processDecodes(context);
+            }
         }
         try {
             decode(context);
@@ -196,17 +204,17 @@ public class Tab extends Hyperlink implements NamingContainer {
             }
         }
     }
-    
+
     /**
      * Restore the state of this component.
      */
     @Override
-    public void restoreState(FacesContext _context,Object _state) {
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.selectedChildId = (String) _values[1];
     }
-    
+
     /**
      * Save the state of this component.
      */
@@ -217,7 +225,7 @@ public class Tab extends Hyperlink implements NamingContainer {
         _values[1] = this.selectedChildId;
         return _values;
     }
-    
+
     /**
      * Utility method that returns the tabSet instance that contains the tab specified.
      */
@@ -225,10 +233,11 @@ public class Tab extends Hyperlink implements NamingContainer {
         TabSet tabSet = null;
         UIComponent parent = tab.getParent();
         while (tabSet == null && parent != null) {
-            if (parent instanceof TabSet)
+            if (parent instanceof TabSet) {
                 tabSet = (TabSet) parent;
-            else
+            } else {
                 parent = parent.getParent();
+            }
         }
         return tabSet;
     }

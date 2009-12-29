@@ -23,15 +23,9 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-import com.sun.webui.jsf.util.ConversionUtilities;
-
 import java.util.Map;
-
 import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter; // for javadoc
-import javax.faces.convert.ConverterException;
-import javax.faces.render.Renderer;
 
 /**
  * <p>A component that represents a radio button.</p>
@@ -212,22 +206,25 @@ import javax.faces.render.Renderer;
  * set on the subcomponent for that property.</em>
  * </p>
  */
-@Component(type="com.sun.webui.jsf.RadioButton", family="com.sun.webui.jsf.RadioButton", displayName="Radio Button", tagName="radioButton",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_radiobutton",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_radio_button_props")
+@Component(type = "com.sun.webui.jsf.RadioButton", family = "com.sun.webui.jsf.RadioButton",
+displayName = "Radio Button", tagName = "radioButton",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_radiobutton",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_radio_button_props")
 public class RadioButton extends RbCbSelector {
+
     /**
      * Default constructor.
      */
     public RadioButton() {
-	super();
-	setMultiple(false);
+        super();
+        setMultiple(false);
         setRendererType("com.sun.webui.jsf.RadioButton");
     }
 
     /**
      * <p>Return the family for this component.</p>
      */
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.RadioButton";
     }
@@ -248,14 +245,14 @@ public class RadioButton extends RbCbSelector {
      */
     public static Object getSelected(String name) {
 
-	Map rm = FacesContext.getCurrentInstance().getExternalContext().
-		getRequestMap();
+        Map rm = FacesContext.getCurrentInstance().getExternalContext().
+                getRequestMap();
 
-	if (name != null) {
-	    return rm.get(name);
-	} else {
-	    return null;
-	}
+        if (name != null) {
+            return rm.get(name);
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -275,62 +272,67 @@ public class RadioButton extends RbCbSelector {
      * 
      * @param context The context of this request.
      */
+    @Override
     public void validate(FacesContext context) {
 
-	super.validate(context);
+        super.validate(context);
 
-	if (!(isValid() && isChecked())) {
-	    return;
-	}
+        if (!(isValid() && isChecked())) {
+            return;
+        }
 
-	String groupName = getName();
-	if (groupName == null) {
-	    return;
-	}
+        String groupName = getName();
+        if (groupName == null) {
+            return;
+        }
 
-	addToRequestMap(context, groupName);
+        addToRequestMap(context, groupName);
     }
 
+    @Override
     protected void addToRequestMap(FacesContext context, String groupName) {
 
-	Map requestMap = context.getExternalContext().getRequestMap();
-	requestMap.put(groupName, getValue());
+        Map requestMap = context.getExternalContext().getRequestMap();
+        requestMap.put(groupName, getValue());
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
     // Hide items
-    @Property(name="items", isHidden=true, isAttribute=false)
+    @Property(name = "items", isHidden = true, isAttribute = false)
+    @Override
     public Object getItems() {
         return super.getItems();
     }
-    
+
     // Hide required
-    @Property(name="required", isHidden=true, isAttribute=false)
+    @Property(name = "required", isHidden = true, isAttribute = false)
+    @Override
     public boolean isRequired() {
         return super.isRequired();
     }
-    
+
     // Hide hidden
-    @Property(isHidden=true, isAttribute=false)
+    @Property(isHidden = true, isAttribute = false)
+    @Override
     public Object getValue() {
         return super.getValue();
     }
-    
+
     // Hide onSelect
-    @Property(isHidden=true, isAttribute=false)
+    @Property(isHidden = true, isAttribute = false)
+    @Override
     public String getOnSelect() {
         return super.getOnSelect();
     }
-
     /**
      * <p>Sets the style level for the generated label, provided the
      * label attribute has been set. Valid values are 1 (largest), 2 and
      * 3 (smallest). The default value is 3.</p>
      */
-    @Property(name="labelLevel", displayName="Label Level", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.LabelLevelsEditor")
+    @Property(name = "labelLevel", displayName = "Label Level", category = "Appearance",
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.LabelLevelsEditor")
     private int labelLevel = Integer.MIN_VALUE;
     private boolean labelLevel_set = false;
 
@@ -339,6 +341,7 @@ public class RadioButton extends RbCbSelector {
      * label attribute has been set. Valid values are 1 (largest), 2 and
      * 3 (smallest). The default value is 3.</p>
      */
+    @Override
     public int getLabelLevel() {
         if (this.labelLevel_set) {
             return this.labelLevel;
@@ -361,6 +364,7 @@ public class RadioButton extends RbCbSelector {
      * 3 (smallest). The default value is 3.</p>
      * @see #getLabelLevel()
      */
+    @Override
     public void setLabelLevel(int labelLevel) {
         this.labelLevel = labelLevel;
         this.labelLevel_set = true;
@@ -369,7 +373,8 @@ public class RadioButton extends RbCbSelector {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.labelLevel = ((Integer) _values[1]).intValue();
@@ -379,6 +384,7 @@ public class RadioButton extends RbCbSelector {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[3];
         _values[0] = super.saveState(_context);

@@ -24,7 +24,6 @@ package com.sun.webui.jsf.component;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
-
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
 
@@ -33,10 +32,11 @@ import com.sun.faces.annotation.Property;
  * the url attribute. The tag can also be used embed Javascript code within the 
  * rendered HTML page.
  */
-@Component(type="com.sun.webui.jsf.Script", family="com.sun.webui.jsf.Script",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_script",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_script_props")
+@Component(type = "com.sun.webui.jsf.Script", family = "com.sun.webui.jsf.Script",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_script",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_script_props")
 public class Script extends UIComponentBase {
+
     /**
      * Default constructor.
      */
@@ -55,12 +55,12 @@ public class Script extends UIComponentBase {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -72,16 +72,17 @@ public class Script extends UIComponentBase {
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
-
     /**
      * <p>Defines the character (charset) encoding of the target URL.
      * See iana.org for a complete list of character encodings.</p>
      */
-    @Property(name="charset", displayName="Charset", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "charset", displayName = "Charset", category = "Advanced",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String charset = null;
 
     /**
@@ -107,11 +108,11 @@ public class Script extends UIComponentBase {
     public void setCharset(String charset) {
         this.charset = charset;
     }
-
     /**
      * <p>Indicates the MIME type of the script.  Default is "text/javascript"</p>
      */
-    @Property(name="type", displayName="Type", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "type", displayName = "Type", category = "Advanced",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String type = null;
 
     /**
@@ -135,13 +136,13 @@ public class Script extends UIComponentBase {
     public void setType(String type) {
         this.type = type;
     }
-
     /**
      * <p>Defines the absolute or relative URL to a file that contains the 
      * script.  Use this attribute to refer to a file instead of inserting the 
      * script into your HTML document</p>
      */
-    @Property(name="url", displayName="URL", category="Data", isDefault=true, editorClassName="com.sun.webui.jsf.component.propertyeditors.SunWebUrlPropertyEditor")
+    @Property(name = "url", displayName = "URL", category = "Data", isDefault = true,
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.SunWebUrlPropertyEditor")
     private String url = null;
 
     /**
@@ -173,7 +174,8 @@ public class Script extends UIComponentBase {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.charset = (String) _values[1];
@@ -184,6 +186,7 @@ public class Script extends UIComponentBase {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[4];
         _values[0] = super.saveState(_context);
@@ -192,5 +195,4 @@ public class Script extends UIComponentBase {
         _values[3] = this.url;
         return _values;
     }
-
 }

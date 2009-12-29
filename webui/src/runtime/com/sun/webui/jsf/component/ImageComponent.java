@@ -24,19 +24,19 @@ package com.sun.webui.jsf.component;
 import javax.el.ValueExpression;
 import javax.faces.component.UIGraphic;
 import javax.faces.context.FacesContext;
-
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
 
 /**
  * The ImageComponent is used to display in inline graphic image. 
  */
-@Component(type="com.sun.webui.jsf.Image", family="com.sun.webui.jsf.Image", displayName="Image",
-    tagName="image", instanceName="image",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_image_component",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_image_component_props")
+@Component(type = "com.sun.webui.jsf.Image", family = "com.sun.webui.jsf.Image",
+displayName = "Image",
+tagName = "image", instanceName = "image",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_image_component",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_image_component_props")
 public class ImageComponent extends UIGraphic {
-    
+
     /**
      * <p>Construct a new <code>ImageComponent</code>.</p>
      */
@@ -48,6 +48,7 @@ public class ImageComponent extends UIGraphic {
     /**
      * <p>Return the family for this component.</p>
      */
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.Image";
     }
@@ -55,12 +56,12 @@ public class ImageComponent extends UIGraphic {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -72,7 +73,8 @@ public class ImageComponent extends UIGraphic {
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
@@ -83,6 +85,7 @@ public class ImageComponent extends UIGraphic {
      *
      * @param name Name of value binding expression to retrieve
      */
+    @Override
     public ValueExpression getValueExpression(String name) {
         if (name.equals("url")) {
             return super.getValueExpression("value");
@@ -98,7 +101,8 @@ public class ImageComponent extends UIGraphic {
      * @param name    Name of value binding to set
      * @param binding ValueExpression to set, or null to remove
      */
-    public void setValueExpression(String name,ValueExpression binding) {
+    @Override
+    public void setValueExpression(String name, ValueExpression binding) {
         if (name.equals("url")) {
             super.setValueExpression("value", binding);
             return;
@@ -107,16 +111,17 @@ public class ImageComponent extends UIGraphic {
     }
 
     // Hide value
-    @Property(name="value", isHidden=true, isAttribute=false)
+    @Property(name = "value", isHidden = true, isAttribute = false)
+    @Override
     public Object getValue() {
         return super.getValue();
     }
-
     /**
      * <p>Specifies the position of the image with respect to its context.
      * Valid values are: bottom (the default); middle; top; left; right.</p>
      */
-    @Property(name="align", displayName="Align", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.HtmlAlignEditor")
+    @Property(name = "align", displayName = "Align", category = "Appearance",
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.HtmlAlignEditor")
     private String align = null;
 
     /**
@@ -142,13 +147,13 @@ public class ImageComponent extends UIGraphic {
     public void setAlign(String align) {
         this.align = align;
     }
-
     /**
      * <p>Alternative textual description of the image rendered by this
      * component. The alt text can be used by screen readers and in tool tips,
      * and when image display is turned off in the web browser.</p>
      */
-    @Property(name="alt", displayName="Alt Text", category="Accessibility", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "alt", displayName = "Alt Text", category = "Accessibility",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String alt = null;
 
     /**
@@ -176,12 +181,12 @@ public class ImageComponent extends UIGraphic {
     public void setAlt(String alt) {
         this.alt = alt;
     }
-
     /**
      * <p>Specifies the width of the img border in pixels.
      * The default value for this attribute depends on the web browser.</p>
      */
-    @Property(name="border", displayName="Border", category="Appearance", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "border", displayName = "Border", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int border = Integer.MIN_VALUE;
     private boolean border_set = false;
 
@@ -214,14 +219,14 @@ public class ImageComponent extends UIGraphic {
         this.border = border;
         this.border_set = true;
     }
-
     /**
      * <p>Image height override. When specified, the width and height attributes 
      * tell web browsers to override the natural image or object size in favor 
      * of these values, specified in pixels. Some browsers might not support 
      * this behavior.</p>
      */
-    @Property(name="height", displayName="Height", category="Appearance", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "height", displayName = "Height", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int height = Integer.MIN_VALUE;
     private boolean height_set = false;
 
@@ -258,13 +263,13 @@ public class ImageComponent extends UIGraphic {
         this.height = height;
         this.height_set = true;
     }
-
     /**
      * <p>Specifies the amount of white space in pixels to be inserted to the
      * left and right of the image. The default value is not specified but is       
      * generally a small, non-zero size.</p>
      */
-    @Property(name="hspace", displayName="Horizontal Space", category="Advanced", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "hspace", displayName = "Horizontal Space", category = "Advanced",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int hspace = Integer.MIN_VALUE;
     private boolean hspace_set = false;
 
@@ -299,11 +304,11 @@ public class ImageComponent extends UIGraphic {
         this.hspace = hspace;
         this.hspace_set = true;
     }
-
     /**
      * <p>The identifier of the desired theme image.</p>
      */
-    @Property(name="icon", displayName="Icon", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.ThemeIconsEditor")
+    @Property(name = "icon", displayName = "Icon", category = "Appearance",
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.ThemeIconsEditor")
     private String icon = null;
 
     /**
@@ -327,11 +332,11 @@ public class ImageComponent extends UIGraphic {
     public void setIcon(String icon) {
         this.icon = icon;
     }
-
     /**
      * <p>A verbose description of this image.</p>
      */
-    @Property(name="longDesc", displayName="Long Description", category="Accessibility", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "longDesc", displayName = "Long Description", category = "Accessibility",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String longDesc = null;
 
     /**
@@ -355,12 +360,12 @@ public class ImageComponent extends UIGraphic {
     public void setLongDesc(String longDesc) {
         this.longDesc = longDesc;
     }
-
     /**
      * <p>Scripting code executed when a mouse click
      * occurs over this component.</p>
      */
-    @Property(name="onClick", displayName="Click Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onClick", displayName = "Click Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onClick = null;
 
     /**
@@ -386,12 +391,12 @@ public class ImageComponent extends UIGraphic {
     public void setOnClick(String onClick) {
         this.onClick = onClick;
     }
-
     /**
      * <p>Scripting code executed when a mouse double click
      * occurs over this component.</p>
      */
-    @Property(name="onDblClick", displayName="Double Click Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onDblClick", displayName = "Double Click Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onDblClick = null;
 
     /**
@@ -417,12 +422,12 @@ public class ImageComponent extends UIGraphic {
     public void setOnDblClick(String onDblClick) {
         this.onDblClick = onDblClick;
     }
-
     /**
      * <p>Scripting code executed when the user presses a mouse button while the
      * mouse pointer is on the component.</p>
      */
-    @Property(name="onMouseDown", displayName="Mouse Down Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseDown", displayName = "Mouse Down Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseDown = null;
 
     /**
@@ -448,12 +453,12 @@ public class ImageComponent extends UIGraphic {
     public void setOnMouseDown(String onMouseDown) {
         this.onMouseDown = onMouseDown;
     }
-
     /**
      * <p>Scripting code executed when the user moves the mouse pointer while
      * over the component.</p>
      */
-    @Property(name="onMouseMove", displayName="Mouse Move Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseMove", displayName = "Mouse Move Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseMove = null;
 
     /**
@@ -479,12 +484,12 @@ public class ImageComponent extends UIGraphic {
     public void setOnMouseMove(String onMouseMove) {
         this.onMouseMove = onMouseMove;
     }
-
     /**
      * <p>Scripting code executed when a mouse out movement
      * occurs over this component.</p>
      */
-    @Property(name="onMouseOut", displayName="Mouse Out Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseOut", displayName = "Mouse Out Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseOut = null;
 
     /**
@@ -510,12 +515,12 @@ public class ImageComponent extends UIGraphic {
     public void setOnMouseOut(String onMouseOut) {
         this.onMouseOut = onMouseOut;
     }
-
     /**
      * <p>Scripting code executed when the user moves the  mouse pointer into
      * the boundary of this component.</p>
      */
-    @Property(name="onMouseOver", displayName="Mouse In Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseOver", displayName = "Mouse In Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseOver = null;
 
     /**
@@ -541,12 +546,12 @@ public class ImageComponent extends UIGraphic {
     public void setOnMouseOver(String onMouseOver) {
         this.onMouseOver = onMouseOver;
     }
-
     /**
      * <p>Scripting code executed when the user releases a mouse button while
      * the mouse pointer is on the component.</p>
      */
-    @Property(name="onMouseUp", displayName="Mouse Up Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseUp", displayName = "Mouse Up Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseUp = null;
 
     /**
@@ -572,12 +577,12 @@ public class ImageComponent extends UIGraphic {
     public void setOnMouseUp(String onMouseUp) {
         this.onMouseUp = onMouseUp;
     }
-
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
+    @Property(name = "style", displayName = "CSS Style(s)", category = "Appearance",
+    editorClassName = "com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
@@ -603,12 +608,12 @@ public class ImageComponent extends UIGraphic {
     public void setStyle(String style) {
         this.style = style;
     }
-
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
@@ -634,13 +639,13 @@ public class ImageComponent extends UIGraphic {
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-
     /**
      * <p>Sets the value of the title attribute for the HTML element.
      * The specified text will display as a tooltip if the mouse cursor hovers 
      * over the HTML element.</p>
      */
-    @Property(name="toolTip", displayName="Tool Tip", category="Behavior", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "toolTip", displayName = "Tool Tip", category = "Behavior",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String toolTip = null;
 
     /**
@@ -672,7 +677,9 @@ public class ImageComponent extends UIGraphic {
     /**
      * <p>Absolute or relative URL to the image to be rendered.</p>
      */
-    @Property(name="url", displayName="Url", category="Appearance", editorClassName="com.sun.rave.propertyeditors.ImageUrlPropertyEditor")
+    @Property(name = "url", displayName = "Url", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.ImageUrlPropertyEditor")
+    @Override
     public String getUrl() {
         return (String) getValue();
     }
@@ -681,10 +688,10 @@ public class ImageComponent extends UIGraphic {
      * <p>Absolute or relative URL to the image to be rendered.</p>
      * @see #getUrl()
      */
+    @Override
     public void setUrl(String url) {
         setValue((Object) url);
     }
-
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -694,7 +701,7 @@ public class ImageComponent extends UIGraphic {
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @Property(name="visible", displayName="Visible", category="Behavior")
+    @Property(name = "visible", displayName = "Visible", category = "Behavior")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -737,13 +744,13 @@ public class ImageComponent extends UIGraphic {
         this.visible = visible;
         this.visible_set = true;
     }
-
     /**
      * <p>Specifies the amount of white space in pixels to be inserted above and
      * below the image. The default value is not specified but is generally a
      * small, non-zero size.</p>
      */
-    @Property(name="vspace", displayName="Vertical Space", category="Advanced", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "vspace", displayName = "Vertical Space", category = "Advanced",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int vspace = Integer.MIN_VALUE;
     private boolean vspace_set = false;
 
@@ -778,14 +785,14 @@ public class ImageComponent extends UIGraphic {
         this.vspace = vspace;
         this.vspace_set = true;
     }
-
     /**
      * <p>Image width override. When specified, the width and height attributes 
      * tell web browsers to override the natural image or object size in favor 
      * of these values, specified in pixels. Some browsers might not support 
      * this behavior.</p>
      */
-    @Property(name="width", displayName="Width", category="Appearance", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "width", displayName = "Width", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int width = Integer.MIN_VALUE;
     private boolean width_set = false;
 
@@ -826,7 +833,8 @@ public class ImageComponent extends UIGraphic {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.align = (String) _values[1];
@@ -860,6 +868,7 @@ public class ImageComponent extends UIGraphic {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[27];
         _values[0] = super.saveState(_context);

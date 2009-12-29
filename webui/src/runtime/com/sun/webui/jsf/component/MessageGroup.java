@@ -23,15 +23,7 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-import com.sun.webui.jsf.theme.ThemeImages;
-import com.sun.webui.jsf.util.ConversionUtilities;
-import com.sun.webui.jsf.util.LogUtil;
-import com.sun.webui.theme.Theme;
-
-import java.util.List;
-
 import javax.el.ValueExpression;
-import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
 
@@ -39,10 +31,12 @@ import javax.faces.context.FacesContext;
  * The MessageGroup component is used to display a list of messages for the page
  * and all its components.
  */
-@Component(type="com.sun.webui.jsf.MessageGroup", family="com.sun.webui.jsf.MessageGroup", displayName="Message Group", tagName="messageGroup",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_message_group",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_message_group_props")
+@Component(type = "com.sun.webui.jsf.MessageGroup", family = "com.sun.webui.jsf.MessageGroup",
+displayName = "Message Group", tagName = "messageGroup",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_message_group",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_message_group_props")
 public class MessageGroup extends UIComponentBase {
+
     private static final boolean DEBUG = false;
 
     /**
@@ -60,19 +54,19 @@ public class MessageGroup extends UIComponentBase {
         return "com.sun.webui.jsf.MessageGroup";
     }
 
-    private void log(String s) { 
+    private void log(String s) {
         System.out.println(getClass().getName() + "::" + s);
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -84,15 +78,15 @@ public class MessageGroup extends UIComponentBase {
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
-
     /**
      * <p>Set this attribute to true to display the detailed message.</p>
      */
-    @Property(name="showDetail", displayName="Show Detail Message", category="Appearance")
+    @Property(name = "showDetail", displayName = "Show Detail Message", category = "Appearance")
     private boolean showDetail = false;
     private boolean showDetail_set = false;
 
@@ -123,14 +117,13 @@ public class MessageGroup extends UIComponentBase {
         this.showDetail = showDetail;
         this.showDetail_set = true;
     }
-
     /**
      * <p>Use the showGlobalOnly attribute to display only those messages that 
      * are not associated with a component id. This attribute allows you to 
      * avoid showing a component error twice if you use <code>webuijsf:message</code> 
      * and <code>webuijsf:messageGroup</code> in the same page.</p>
      */
-    @Property(name="showGlobalOnly", displayName="Show Global Messages Only", category="Behavior")
+    @Property(name = "showGlobalOnly", displayName = "Show Global Messages Only", category = "Behavior")
     private boolean showGlobalOnly = false;
     private boolean showGlobalOnly_set = false;
 
@@ -167,11 +160,10 @@ public class MessageGroup extends UIComponentBase {
         this.showGlobalOnly = showGlobalOnly;
         this.showGlobalOnly_set = true;
     }
-
     /**
      * <p>Set this attribute to true to display the summary message.</p>
      */
-    @Property(name="showSummary", displayName="Show Summary Message", category="Appearance")
+    @Property(name = "showSummary", displayName = "Show Summary Message", category = "Appearance")
     private boolean showSummary = false;
     private boolean showSummary_set = false;
 
@@ -202,12 +194,12 @@ public class MessageGroup extends UIComponentBase {
         this.showSummary = showSummary;
         this.showSummary_set = true;
     }
-
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
+    @Property(name = "style", displayName = "CSS Style(s)", category = "Appearance",
+    editorClassName = "com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
@@ -233,12 +225,12 @@ public class MessageGroup extends UIComponentBase {
     public void setStyle(String style) {
         this.style = style;
     }
-
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
@@ -264,13 +256,13 @@ public class MessageGroup extends UIComponentBase {
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-
     /**
      * <p>Sets the value of the title attribute for the HTML element.
      * The specified text will display as a tooltip if the mouse cursor hovers 
      * over the HTML element.</p>
      */
-    @Property(name="toolTip", displayName="Tool Tip", category="Behavior", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "toolTip", displayName = "Tool Tip", category = "Behavior",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String toolTip = null;
 
     /**
@@ -298,7 +290,6 @@ public class MessageGroup extends UIComponentBase {
     public void setToolTip(String toolTip) {
         this.toolTip = toolTip;
     }
-
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -308,7 +299,7 @@ public class MessageGroup extends UIComponentBase {
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @Property(name="visible", displayName="Visible", category="Behavior")
+    @Property(name = "visible", displayName = "Visible", category = "Behavior")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -351,14 +342,14 @@ public class MessageGroup extends UIComponentBase {
         this.visible = visible;
         this.visible_set = true;
     }
-
     /**
      * <p>Sets the title of the message group. If this attribute is not
      * specified, the default title "System Messages" will be used.</p>
      */
-    @Property(name="title", displayName="title", category="Behavior", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "title", displayName = "title", category = "Behavior",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String title = null;
-    
+
     /**
      * <p>Sets the title of the message group. If this attribute is not
      * specified, the default title "System Messages" will be used.</p>
@@ -374,7 +365,6 @@ public class MessageGroup extends UIComponentBase {
         return null;
     }
 
-    
     /**
      * <p>Sets the title of the message group. If this attribute is not
      * specified, the default title "System Messages" will be used.</p>
@@ -384,11 +374,11 @@ public class MessageGroup extends UIComponentBase {
         this.title = title;
     }
 
-
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.showDetail = ((Boolean) _values[1]).booleanValue();
@@ -402,12 +392,13 @@ public class MessageGroup extends UIComponentBase {
         this.toolTip = (String) _values[9];
         this.visible = ((Boolean) _values[10]).booleanValue();
         this.visible_set = ((Boolean) _values[11]).booleanValue();
-        this.title = (String)_values[12];
+        this.title = (String) _values[12];
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[13];
         _values[0] = super.saveState(_context);

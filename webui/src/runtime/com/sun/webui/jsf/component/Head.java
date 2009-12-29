@@ -24,7 +24,6 @@ package com.sun.webui.jsf.component;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
-
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
 
@@ -32,9 +31,10 @@ import com.sun.faces.annotation.Property;
  * The Head component is used to provide information to be used in the head 
  * element.
  */
-@Component(type="com.sun.webui.jsf.Head", family="com.sun.webui.jsf.Head", displayName="Head", tagName="head",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_head",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_head_props")
+@Component(type = "com.sun.webui.jsf.Head", family = "com.sun.webui.jsf.Head",
+displayName = "Head", tagName = "head",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_head",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_head_props")
 public class Head extends UIComponentBase {
 
     /**
@@ -55,12 +55,12 @@ public class Head extends UIComponentBase {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -72,16 +72,16 @@ public class Head extends UIComponentBase {
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
-
     /**
      * Flag (true or false) indicating that Dojo debugging is enabled. The 
      * default value is false.
      */
-    @Property(name="debug", displayName="Enable Dojo Debugging", category="Advanced")
+    @Property(name = "debug", displayName = "Enable Dojo Debugging", category = "Advanced")
     private boolean debug = false;
     private boolean debug_set = false;
 
@@ -103,7 +103,7 @@ public class Head extends UIComponentBase {
         }
         return false;
     }
-    
+
     /**
      * Set flag indicating that Dojo debugging is enabled.
      */
@@ -111,12 +111,11 @@ public class Head extends UIComponentBase {
         this.debug = debug;
         this.debug_set = true;
     }
-
     /**
      * Flag (true or false) indicating that component JavaScript should be 
      * output in page. The default value is true.
      */
-    @Property(name="javaScript", displayName="Include Component JavaScript", category="Advanced")
+    @Property(name = "javaScript", displayName = "Include Component JavaScript", category = "Advanced")
     private boolean javaScript = true;
     private boolean javaScript_set = false;
 
@@ -146,13 +145,12 @@ public class Head extends UIComponentBase {
         this.javaScript = javaScript;
         this.javaScript_set = true;
     }
-
     /**
      * Flag (true or false) indicating that Dojo should search for dojoType 
      * widget tags. Page load time is proportional to the number of nodes on the
      * page. The default value is false.
      */
-    @Property(name="parseWidgets", displayName="Parse Dojo Widgets", category="Advanced")
+    @Property(name = "parseWidgets", displayName = "Parse Dojo Widgets", category = "Advanced")
     private boolean parseWidgets = false;
     private boolean parseWidgets_set = false;
 
@@ -182,12 +180,11 @@ public class Head extends UIComponentBase {
         this.parseWidgets = parseWidgets;
         this.parseWidgets_set = true;
     }
-
     /**
      * Flag (true or false) indicating if meta data should be rendered. The 
      * default value is true.
      */
-    @Property(name="meta", displayName="Render Meta Data", category="Advanced")
+    @Property(name = "meta", displayName = "Render Meta Data", category = "Advanced")
     private boolean meta = false;
     private boolean meta_set = false;
 
@@ -217,13 +214,12 @@ public class Head extends UIComponentBase {
         this.meta = meta;
         this.meta_set = true;
     }
-
     /**
      * <p>Flag (true or false) indicating that a default html base tag should be
      * shown or not.  Changing this attribute could cause webuijsf:anchor to not work
      * properly.  The default value is false.</p>
      */
-    @Property(name="defaultBase", displayName="Default Base", category="Appearance")
+    @Property(name = "defaultBase", displayName = "Default Base", category = "Appearance")
     private boolean defaultBase = false;
     private boolean defaultBase_set = false;
 
@@ -258,12 +254,11 @@ public class Head extends UIComponentBase {
         this.defaultBase = defaultBase;
         this.defaultBase_set = true;
     }
-
     /**
      * <p>A space separated list of URL's that contains meta data information 
      * about the page</p>
      */
-    @Property(name="profile", displayName="Profile", category="Advanced")
+    @Property(name = "profile", displayName = "Profile", category = "Advanced")
     private String profile = null;
 
     /**
@@ -289,11 +284,10 @@ public class Head extends UIComponentBase {
     public void setProfile(String profile) {
         this.profile = profile;
     }
-
     /**
      * <p>Title of the document to be displayed in the browser title bar.</p>
      */
-    @Property(name="title", displayName="title", category="Appearance", isDefault=true)
+    @Property(name = "title", displayName = "title", category = "Appearance", isDefault = true)
     private String title = null;
 
     /**
@@ -321,7 +315,8 @@ public class Head extends UIComponentBase {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.defaultBase = ((Boolean) _values[1]).booleanValue();
@@ -333,6 +328,7 @@ public class Head extends UIComponentBase {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[5];
         _values[0] = super.saveState(_context);
@@ -342,5 +338,4 @@ public class Head extends UIComponentBase {
         _values[4] = this.title;
         return _values;
     }
-
 }

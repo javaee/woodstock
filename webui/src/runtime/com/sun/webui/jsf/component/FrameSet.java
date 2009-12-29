@@ -24,16 +24,16 @@ package com.sun.webui.jsf.component;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
-
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
 
 /**
  * The FrameSet component defines a set of frames.
  */
-@Component(type="com.sun.webui.jsf.FrameSet", family="com.sun.webui.jsf.FrameSet", displayName="Frame Set", tagName="frameSet",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_frame_set",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_frame_set_props")
+@Component(type = "com.sun.webui.jsf.FrameSet", family = "com.sun.webui.jsf.FrameSet",
+displayName = "Frame Set", tagName = "frameSet",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_frame_set",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_frame_set_props")
 public class FrameSet extends UIComponentBase {
 
     /**
@@ -54,12 +54,12 @@ public class FrameSet extends UIComponentBase {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -71,17 +71,18 @@ public class FrameSet extends UIComponentBase {
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
-
     /**
      * <p>The width, in pixels, of the space around frames. The frameSpacing 
      * attribute and the border attribute set the same property in different 
      * browsers.  Set frameSpacing and border to the same value.</p>
      */
-    @Property(name="border", displayName="border", category="Appearance", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "border", displayName = "border", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int border = Integer.MIN_VALUE;
     private boolean border_set = false;
 
@@ -116,12 +117,11 @@ public class FrameSet extends UIComponentBase {
         this.border = border;
         this.border_set = true;
     }
-
     /**
      * <p>The bordercolor attribute allows you to set the color of the frame 
      * borders using a hex value or a color name.</p>
      */
-    @Property(name="borderColor", displayName="Border Color", category="Appearance")
+    @Property(name = "borderColor", displayName = "Border Color", category = "Appearance")
     private String borderColor = null;
 
     /**
@@ -147,14 +147,13 @@ public class FrameSet extends UIComponentBase {
     public void setBorderColor(String borderColor) {
         this.borderColor = borderColor;
     }
-
-     /**
+    /**
      * <p>Defines the number and size of columns in a frameset. The size can be 
      * specified in pixels, percentage of the page width, or with an 
      * asterisk (*).  Specifying * causes the columns to use available space.
      * See the HTML specification for the frameset element for more details.</p>
      */
-    @Property(name="cols", displayName="Number of Columns", category="Appearance", isDefault=true)
+    @Property(name = "cols", displayName = "Number of Columns", category = "Appearance", isDefault = true)
     private String cols = null;
 
     /**
@@ -184,8 +183,6 @@ public class FrameSet extends UIComponentBase {
     public void setCols(String cols) {
         this.cols = cols;
     }
-
-    
     /**
      * <p>Flag indicating whether frames should have borders or not. If 
      * frameBorder is true, decorative borders are drawn. If frameBorder is  
@@ -193,7 +190,7 @@ public class FrameSet extends UIComponentBase {
      * page.  To show no border or space between frames, you should set 
      * frameBorder to false, and set frameSpacing and border to 0.</p>
      */
-    @Property(name="frameBorder", displayName="Frame Border", category="Appearance")
+    @Property(name = "frameBorder", displayName = "Frame Border", category = "Appearance")
     private boolean frameBorder = false;
     private boolean frameBorder_set = false;
 
@@ -232,13 +229,13 @@ public class FrameSet extends UIComponentBase {
         this.frameBorder = frameBorder;
         this.frameBorder_set = true;
     }
-
- /**
+    /**
      * <p>The width, in pixels, of the space around frames. The frameSpacing attribute 
      * and the border attribute set the same property in different browsers.  
      * Set frameSpacing and border to the same value.</p>
      */
-    @Property(name="frameSpacing", displayName="Frame Spacing", category="Appearance", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "frameSpacing", displayName = "Frame Spacing", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int frameSpacing = Integer.MIN_VALUE;
     private boolean frameSpacing_set = false;
 
@@ -273,14 +270,13 @@ public class FrameSet extends UIComponentBase {
         this.frameSpacing = frameSpacing;
         this.frameSpacing_set = true;
     }
-
     /**
      * <p>Defines the number and size of rows in a frameset. The size can be 
      * specified in pixels, percentage of the page length, or with an 
      * asterisk (*).  Specifying * causes the rows to use available space.
      * See the HTML specification for the frameset element for more details.</p>
      */
-    @Property(name="rows", displayName="Number of Rows", category="Appearance")
+    @Property(name = "rows", displayName = "Number of Rows", category = "Appearance")
     private String rows = null;
 
     /**
@@ -310,12 +306,12 @@ public class FrameSet extends UIComponentBase {
     public void setRows(String rows) {
         this.rows = rows;
     }
-
-   /**
+    /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
+    @Property(name = "style", displayName = "CSS Style(s)", category = "Appearance",
+    editorClassName = "com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
@@ -341,12 +337,12 @@ public class FrameSet extends UIComponentBase {
     public void setStyle(String style) {
         this.style = style;
     }
-
-   /**
+    /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
@@ -372,13 +368,13 @@ public class FrameSet extends UIComponentBase {
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-
-  /**
+    /**
      * <p>Sets the value of the title attribute for the HTML element.
      * The specified text will display as a tooltip if the mouse cursor hovers 
      * over the HTML element.</p>
      */
-    @Property(name="toolTip", displayName="Tool Tip", category="Behavior", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "toolTip", displayName = "Tool Tip", category = "Behavior",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String toolTip = null;
 
     /**
@@ -410,7 +406,8 @@ public class FrameSet extends UIComponentBase {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.border = ((Integer) _values[1]).intValue();
@@ -430,6 +427,7 @@ public class FrameSet extends UIComponentBase {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[13];
         _values[0] = super.saveState(_context);
@@ -447,5 +445,4 @@ public class FrameSet extends UIComponentBase {
         _values[12] = this.toolTip;
         return _values;
     }
-
 }

@@ -24,7 +24,6 @@ package com.sun.webui.jsf.component;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
-
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
 
@@ -32,10 +31,12 @@ import com.sun.faces.annotation.Property;
  * The Meta component is used to create an HTML <meta> element in the rendered
  * HTML page.
  */
-@Component(type="com.sun.webui.jsf.Meta", family="com.sun.webui.jsf.Meta", displayName="Meta", tagName="meta",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_meta",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_meta_props")
+@Component(type = "com.sun.webui.jsf.Meta", family = "com.sun.webui.jsf.Meta",
+displayName = "Meta", tagName = "meta",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_meta",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_meta_props")
 public class Meta extends UIComponentBase {
+
     /**
      * <p>Construct a new <code>Meta</code>.</p>
      */
@@ -54,12 +55,12 @@ public class Meta extends UIComponentBase {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -71,16 +72,16 @@ public class Meta extends UIComponentBase {
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
-
     /**
      * <p>The content attribute is used to specify the data to  associate with a 
      * name attribute or httpEquiv attribute in the webuijsf:meta tag.</p>
      */
-    @Property(name="content", displayName="Content", category="Appearance", isDefault=true)
+    @Property(name = "content", displayName = "Content", category = "Appearance", isDefault = true)
     private String content = null;
 
     /**
@@ -106,13 +107,12 @@ public class Meta extends UIComponentBase {
     public void setContent(String content) {
         this.content = content;
     }
-
     /**
      * <p>The httpEquiv attribute is used to specify a value for the http-equiv 
      * attribute of an HTML Meta element. The http-equiv attribute specifies 
      * HTTP properties that the web server can use in the HTTP response header.</p>
      */
-    @Property(name="httpEquiv", displayName="HTTP header", category="Appearance")
+    @Property(name = "httpEquiv", displayName = "HTTP header", category = "Appearance")
     private String httpEquiv = null;
 
     /**
@@ -140,13 +140,12 @@ public class Meta extends UIComponentBase {
     public void setHttpEquiv(String httpEquiv) {
         this.httpEquiv = httpEquiv;
     }
-
     /**
      * <p>The identifier that is assigned to a property in the meta element.  
      * The content attribute provides the actual content of the property that 
      * is identified by the name attribute.</p>
      */
-    @Property(name="name", displayName="Name", category="Appearance")
+    @Property(name = "name", displayName = "Name", category = "Appearance")
     private String name = null;
 
     /**
@@ -174,12 +173,11 @@ public class Meta extends UIComponentBase {
     public void setName(String name) {
         this.name = name;
     }
-
     /**
      * <p>Defines a format to be used to interpret the value of the content 
      * attribute.</p>
      */
-    @Property(name="scheme", displayName="Scheme", category="Advanced")
+    @Property(name = "scheme", displayName = "Scheme", category = "Advanced")
     private String scheme = null;
 
     /**
@@ -209,7 +207,8 @@ public class Meta extends UIComponentBase {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.content = (String) _values[1];
@@ -221,6 +220,7 @@ public class Meta extends UIComponentBase {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[5];
         _values[0] = super.saveState(_context);

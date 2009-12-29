@@ -23,17 +23,18 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-
 import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
 
 /**
  * The Hyperlink component is used to create a link. 
  */
-@Component(type="com.sun.webui.jsf.Hyperlink", family="com.sun.webui.jsf.Hyperlink", displayName="Hyperlink", tagName="hyperlink",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_hyperlink",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_hyperlink_props")
+@Component(type = "com.sun.webui.jsf.Hyperlink", family = "com.sun.webui.jsf.Hyperlink",
+displayName = "Hyperlink", tagName = "hyperlink",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_hyperlink",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_hyperlink_props")
 public class Hyperlink extends WebuiCommand implements ComplexComponent {
+
     /**
      * Default constructor.
      */
@@ -45,10 +46,11 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
     /**
      * <p>Return the family for this component.</p>
      */
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.Hyperlink";
     }
-    
+
     /**
      * Implement this method so that it returns the DOM ID of the 
      * HTML element which should receive focus when the component 
@@ -63,9 +65,9 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
      * @see #getFocusElementId
      */
     public String getPrimaryElementID(FacesContext context) {
-         return getLabeledElementId(context);
+        return getLabeledElementId(context);
     }
-    
+
     /**
      * Returns the absolute ID of an HTML element suitable for use as
      * the value of an HTML LABEL element's <code>for</code> attribute.
@@ -100,14 +102,15 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
      * @param context The FacesContext used for the request
      */
     public String getFocusElementId(FacesContext context) {
-	// For now return the labeled component.
-	//
-	return getLabeledElementId(context);
+        // For now return the labeled component.
+        //
+        return getLabeledElementId(context);
     }
 
+    @Override
     public String toString() {
-        StringBuffer buffer = new StringBuffer(100); 
-        buffer.append(this.getClass().getName()); 
+        StringBuffer buffer = new StringBuffer(100);
+        buffer.append(this.getClass().getName());
         buffer.append(" id: ");
         buffer.append(getId());
         return buffer.toString();
@@ -116,13 +119,13 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * <p>Return the <code>ValueExpression</code> stored for the
      * specified name (if any), respecting any property aliases.</p>
      *
      * @param name Name of value binding expression to retrieve
      */
+    @Override
     public ValueExpression getValueExpression(String name) {
         if (name.equals("text")) {
             return super.getValueExpression("value");
@@ -138,25 +141,13 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
      * @param name    Name of value binding to set
      * @param binding ValueExpression to set, or null to remove
      */
-    public void setValueExpression(String name,ValueExpression binding) {
+    @Override
+    public void setValueExpression(String name, ValueExpression binding) {
         if (name.equals("text")) {
             super.setValueExpression("value", binding);
             return;
         }
         super.setValueExpression(name, binding);
-    }
-    
-    /**
-     * <p>Flag indicating that activation of this component by the user is not
-     * currently permitted. In this component library, the disabled attribute
-     * also causes the hyperlink to be renderered as formatted text in an 
-     * HTML <span> tag. The hyperlink cannot be enabled from the client 
-     * because this is a server side only feature. You cannot 
-     * disable an anchor.</p>
-     */
-    @Property(isHidden=true, isAttribute=false)
-    public Object getValue() {
-        return super.getValue();
     }
 
     /**
@@ -167,7 +158,20 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
      * because this is a server side only feature. You cannot 
      * disable an anchor.</p>
      */
-    @Property(name="disabled", displayName="Disabled", category="Behavior")
+    @Property(isHidden = true, isAttribute = false)
+    @Override
+    public Object getValue() {
+        return super.getValue();
+    }
+    /**
+     * <p>Flag indicating that activation of this component by the user is not
+     * currently permitted. In this component library, the disabled attribute
+     * also causes the hyperlink to be renderered as formatted text in an 
+     * HTML <span> tag. The hyperlink cannot be enabled from the client 
+     * because this is a server side only feature. You cannot 
+     * disable an anchor.</p>
+     */
+    @Property(name = "disabled", displayName = "Disabled", category = "Behavior")
     private boolean disabled = false;
     private boolean disabled_set = false;
 
@@ -208,11 +212,11 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
         this.disabled = disabled;
         this.disabled_set = true;
     }
-
     /**
      * <p>Scripting code executed when this element loses focus.</p>
      */
-    @Property(name="onBlur", displayName="Blur Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onBlur", displayName = "Blur Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onBlur = null;
 
     /**
@@ -236,7 +240,6 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
     public void setOnBlur(String onBlur) {
         this.onBlur = onBlur;
     }
-
     /**
      * <p>Scripting code executed when a mouse click occurs over this component.
      * If the component submits the form (by using the action attribute), the 
@@ -247,7 +250,8 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
      * appended after your script in the anchor's onclick. It is ok to return 
      * from your script to abort the submit process if necessary.</p>
      */
-    @Property(name="onClick", displayName="Click Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onClick", displayName = "Click Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onClick = null;
 
     /**
@@ -285,13 +289,13 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
     public void setOnClick(String onClick) {
         this.onClick = onClick;
     }
-
     /**
      * <p>Scripting code executed when a mouse double click
      * occurs over this component.</p>
      */
-    @Property(name="onDblClick", displayName="Double Click Script", category="Javascript", isHidden=true, isAttribute=false, 
-            editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onDblClick", displayName = "Double Click Script", category = "Javascript",
+    isHidden = true, isAttribute = false,
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onDblClick = null;
 
     /**
@@ -317,13 +321,13 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
     public void setOnDblClick(String onDblClick) {
         this.onDblClick = onDblClick;
     }
-
     /**
      * <p>Scripting code executed when this component  receives focus. An
      * element receives focus when the user selects the element by pressing
      * the tab key or clicking the mouse.</p>
      */
-    @Property(name="onFocus", displayName="Focus Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onFocus", displayName = "Focus Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onFocus = null;
 
     /**
@@ -351,12 +355,12 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
     public void setOnFocus(String onFocus) {
         this.onFocus = onFocus;
     }
-
     /**
      * <p>Scripting code executed when the user presses down on a key while the
      * component has focus.</p>
      */
-    @Property(name="onKeyDown", displayName="Key Down Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onKeyDown", displayName = "Key Down Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyDown = null;
 
     /**
@@ -382,12 +386,12 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
     public void setOnKeyDown(String onKeyDown) {
         this.onKeyDown = onKeyDown;
     }
-
     /**
      * <p>Scripting code executed when the user presses and releases a key while
      * the component has focus.</p>
      */
-    @Property(name="onKeyPress", displayName="Key Press Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onKeyPress", displayName = "Key Press Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyPress = null;
 
     /**
@@ -413,12 +417,12 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
     public void setOnKeyPress(String onKeyPress) {
         this.onKeyPress = onKeyPress;
     }
-
     /**
      * <p>Scripting code executed when the user releases a key while the
      * component has focus.</p>
      */
-    @Property(name="onKeyUp", displayName="Key Up Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onKeyUp", displayName = "Key Up Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyUp = null;
 
     /**
@@ -444,12 +448,12 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
     public void setOnKeyUp(String onKeyUp) {
         this.onKeyUp = onKeyUp;
     }
-
     /**
      * <p>Scripting code executed when the user presses a mouse button while the
      * mouse pointer is on the component.</p>
      */
-    @Property(name="onMouseDown", displayName="Mouse Down Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseDown", displayName = "Mouse Down Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseDown = null;
 
     /**
@@ -475,12 +479,12 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
     public void setOnMouseDown(String onMouseDown) {
         this.onMouseDown = onMouseDown;
     }
-
     /**
      * <p>Scripting code executed when the user moves the mouse pointer while
      * over the component.</p>
      */
-    @Property(name="onMouseMove", displayName="Mouse Move Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseMove", displayName = "Mouse Move Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseMove = null;
 
     /**
@@ -506,12 +510,12 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
     public void setOnMouseMove(String onMouseMove) {
         this.onMouseMove = onMouseMove;
     }
-
     /**
      * <p>Scripting code executed when a mouse out movement
      * occurs over this component.</p>
      */
-    @Property(name="onMouseOut", displayName="Mouse Out Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseOut", displayName = "Mouse Out Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseOut = null;
 
     /**
@@ -537,12 +541,12 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
     public void setOnMouseOut(String onMouseOut) {
         this.onMouseOut = onMouseOut;
     }
-
     /**
      * <p>Scripting code executed when the user moves the  mouse pointer into
      * the boundary of this component.</p>
      */
-    @Property(name="onMouseOver", displayName="Mouse In Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseOver", displayName = "Mouse In Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseOver = null;
 
     /**
@@ -568,12 +572,12 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
     public void setOnMouseOver(String onMouseOver) {
         this.onMouseOver = onMouseOver;
     }
-
     /**
      * <p>Scripting code executed when the user releases a mouse button while
      * the mouse pointer is on the component.</p>
      */
-    @Property(name="onMouseUp", displayName="Mouse Up Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseUp", displayName = "Mouse Up Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseUp = null;
 
     /**
@@ -599,13 +603,12 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
     public void setOnMouseUp(String onMouseUp) {
         this.onMouseUp = onMouseUp;
     }
-
     /**
      * <p>The shape of the hot spot on the screen (for use in client-side image 
      * maps). Valid values are: default (entire region); rect (rectangular 
      * region); circle (circular region); and poly (polygonal region).</p>
      */
-    @Property(name="shape", displayName="Shape", category="Advanced", isHidden=true, isAttribute=false)
+    @Property(name = "shape", displayName = "Shape", category = "Advanced", isHidden = true, isAttribute = false)
     private String shape = null;
 
     /**
@@ -633,12 +636,12 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
     public void setShape(String shape) {
         this.shape = shape;
     }
-
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
+    @Property(name = "style", displayName = "CSS Style(s)", category = "Appearance",
+    editorClassName = "com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
@@ -664,12 +667,12 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
     public void setStyle(String style) {
         this.style = style;
     }
-
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
@@ -695,14 +698,14 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-
     /**
      * <p>Position of this element in the tabbing order of the current document. 
      * Tabbing order determines the sequence in which elements receive 
      * focus when the tab key is pressed. The value must be an integer 
      * between 0 and 32767.</p>
      */
-    @Property(name="tabIndex", displayName="Tab Index", category="Accessibility", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "tabIndex", displayName = "Tab Index", category = "Accessibility",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int tabIndex = Integer.MIN_VALUE;
     private boolean tabIndex_set = false;
 
@@ -739,14 +742,14 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
         this.tabIndex = tabIndex;
         this.tabIndex_set = true;
     }
-
     /**
      * <p>The resource at the specified URL is displayed in the frame that is 
      * specified with the target attribute. Values such as "_blank" that are 
      * valid for the target attribute of a HTML anchor element are also valid 
      * for this attribute in this component</p>
      */
-    @Property(name="target", displayName="Target", category="Behavior", editorClassName="com.sun.webui.jsf.component.propertyeditors.FrameTargetsEditor")
+    @Property(name = "target", displayName = "Target", category = "Behavior",
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.FrameTargetsEditor")
     private String target = null;
 
     /**
@@ -780,7 +783,8 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
     /**
      * <p>The text to be displayed for the hyperlink.</p>
      */
-    @Property(name="text", displayName="text", category="Appearance", isDefault=true, editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "text", displayName = "text", category = "Appearance", isDefault = true,
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     public Object getText() {
         return getValue();
     }
@@ -792,13 +796,13 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
     public void setText(Object text) {
         setValue(text);
     }
-
     /**
      * <p>Sets the value of the title attribute for the HTML element.
      * The specified text will display as a tooltip if the mouse cursor hovers 
      * over the HTML element.</p>
      */
-    @Property(name="toolTip", displayName="Tool Tip", category="Behavior", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "toolTip", displayName = "Tool Tip", category = "Behavior",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String toolTip = null;
 
     /**
@@ -826,11 +830,11 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
     public void setToolTip(String toolTip) {
         this.toolTip = toolTip;
     }
-
     /**
      * <p>The MIME content type of the resource specified by this component.</p>
      */
-    @Property(name="type", displayName="Type", category="Advanced", editorClassName="com.sun.webui.jsf.component.propertyeditors.MimeTypesEditor")
+    @Property(name = "type", displayName = "Type", category = "Advanced",
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.MimeTypesEditor")
     private String type = null;
 
     /**
@@ -854,7 +858,6 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
     public void setType(String type) {
         this.type = type;
     }
-
     /**
      * <p>Absolute, relative, or context relative (starting with "/") URL to the 
      * resource selected by this hyperlink. If the url attribute is specified, 
@@ -862,7 +865,8 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
      * attribute is specified, the form is submitted. If both are specified,
      * the url attribute takes precedence.</p>
      */
-    @Property(name="url", displayName="URL", category="Behavior", editorClassName="com.sun.webui.jsf.component.propertyeditors.SunWebUrlPropertyEditor")
+    @Property(name = "url", displayName = "URL", category = "Behavior",
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.SunWebUrlPropertyEditor")
     private String url = null;
 
     /**
@@ -894,11 +898,11 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
     public void setUrl(String url) {
         this.url = url;
     }
-
     /**
      * <p>The language code of the resource designated by this hyperlink.</p>
      */
-    @Property(name="urlLang", displayName="URL Lang", category="Advanced", editorClassName="com.sun.webui.jsf.component.propertyeditors.LanguagesEditor")
+    @Property(name = "urlLang", displayName = "URL Lang", category = "Advanced",
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.LanguagesEditor")
     private String urlLang = null;
 
     /**
@@ -922,7 +926,6 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
     public void setUrlLang(String urlLang) {
         this.urlLang = urlLang;
     }
-
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -932,7 +935,7 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @Property(name="visible", displayName="Visible", category="Behavior")
+    @Property(name = "visible", displayName = "Visible", category = "Behavior")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -979,7 +982,8 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.disabled = ((Boolean) _values[1]).booleanValue();
@@ -1013,6 +1017,7 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[27];
         _values[0] = super.saveState(_context);

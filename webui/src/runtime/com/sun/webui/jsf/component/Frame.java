@@ -24,16 +24,16 @@ package com.sun.webui.jsf.component;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
-
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
 
 /**
  * The Frame component is used inside a FrameSet component to denote a frame.
  */
-@Component(type="com.sun.webui.jsf.Frame", family="com.sun.webui.jsf.Frame", displayName="Frame", tagName="frame",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_frame",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_frame_props")
+@Component(type = "com.sun.webui.jsf.Frame", family = "com.sun.webui.jsf.Frame",
+displayName = "Frame", tagName = "frame",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_frame",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_frame_props")
 public class Frame extends UIComponentBase {
 
     /**
@@ -54,12 +54,12 @@ public class Frame extends UIComponentBase {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -71,16 +71,16 @@ public class Frame extends UIComponentBase {
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
-
     /**
      * <p>Set the value of the frameBorder attribute to "true" when a border is 
      * needed around the frame.</p>
      */
-    @Property(name="frameBorder", displayName="Frame Border", category="Appearance")
+    @Property(name = "frameBorder", displayName = "Frame Border", category = "Appearance")
     private boolean frameBorder = false;
     private boolean frameBorder_set = false;
 
@@ -113,11 +113,10 @@ public class Frame extends UIComponentBase {
         this.frameBorder = frameBorder;
         this.frameBorder_set = true;
     }
-
     /**
      * <p>A URL to a long description of the frame contents. Use it for browsers that do not support frames</p>
      */
-    @Property(name="longDesc", displayName="Long Description", category="Appearance")
+    @Property(name = "longDesc", displayName = "Long Description", category = "Appearance")
     private String longDesc = null;
 
     /**
@@ -141,11 +140,11 @@ public class Frame extends UIComponentBase {
     public void setLongDesc(String longDesc) {
         this.longDesc = longDesc;
     }
-
     /**
      * <p>Defines the top and bottom margins in the frame</p>
      */
-    @Property(name="marginHeight", displayName="Margin Height", category="Appearance", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "marginHeight", displayName = "Margin Height", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int marginHeight = Integer.MIN_VALUE;
     private boolean marginHeight_set = false;
 
@@ -176,11 +175,11 @@ public class Frame extends UIComponentBase {
         this.marginHeight = marginHeight;
         this.marginHeight_set = true;
     }
-
     /**
      * <p>Defines the left and right margins in the frame</p>
      */
-    @Property(name="marginWidth", displayName="Margin Width", category="Appearance", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "marginWidth", displayName = "Margin Width", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int marginWidth = Integer.MIN_VALUE;
     private boolean marginWidth_set = false;
 
@@ -211,11 +210,10 @@ public class Frame extends UIComponentBase {
         this.marginWidth = marginWidth;
         this.marginWidth_set = true;
     }
-
     /**
      * <p>Defines a unique name for the frame (to use in scripts)</p>
      */
-    @Property(name="name", displayName="Name", category="Appearance", isDefault=true)
+    @Property(name = "name", displayName = "Name", category = "Appearance", isDefault = true)
     private String name = null;
 
     /**
@@ -239,12 +237,11 @@ public class Frame extends UIComponentBase {
     public void setName(String name) {
         this.name = name;
     }
-
     /**
      * <p>Set the value of the noResize attribute to "true" when  user 
      * is not allowed to resize the frame.</p>
      */
-    @Property(name="noResize", displayName="No Resize", category="Appearance", isHidden=true, isAttribute=true)
+    @Property(name = "noResize", displayName = "No Resize", category = "Appearance", isHidden = true, isAttribute = true)
     private boolean noResize = false;
     private boolean noResize_set = false;
 
@@ -277,11 +274,10 @@ public class Frame extends UIComponentBase {
         this.noResize = noResize;
         this.noResize_set = true;
     }
-
     /**
      * <p>Determines scrollbar action (valid values are: yes, no, auto)</p>
      */
-    @Property(name="scrolling", displayName="Scrolling", category="Appearance")
+    @Property(name = "scrolling", displayName = "Scrolling", category = "Appearance")
     private String scrolling = null;
 
     /**
@@ -305,12 +301,12 @@ public class Frame extends UIComponentBase {
     public void setScrolling(String scrolling) {
         this.scrolling = scrolling;
     }
-
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
+    @Property(name = "style", displayName = "CSS Style(s)", category = "Appearance",
+    editorClassName = "com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
@@ -336,12 +332,12 @@ public class Frame extends UIComponentBase {
     public void setStyle(String style) {
         this.style = style;
     }
-
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
@@ -367,13 +363,13 @@ public class Frame extends UIComponentBase {
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-
     /**
      * <p>Sets the value of the title attribute for the HTML element.
      * The specified text will display as a tooltip if the mouse cursor hovers 
      * over the HTML element.</p>
      */
-    @Property(name="toolTip", displayName="Tool Tip", category="Behavior", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "toolTip", displayName = "Tool Tip", category = "Behavior",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String toolTip = null;
 
     /**
@@ -401,11 +397,10 @@ public class Frame extends UIComponentBase {
     public void setToolTip(String toolTip) {
         this.toolTip = toolTip;
     }
-
     /**
      * <p>Defines the URL of the file to show in the frame.</p>
      */
-    @Property(name="url", displayName="URL", category="Appearance")
+    @Property(name = "url", displayName = "URL", category = "Appearance")
     private String url = null;
 
     /**
@@ -433,7 +428,8 @@ public class Frame extends UIComponentBase {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.frameBorder = ((Boolean) _values[1]).booleanValue();
@@ -456,6 +452,7 @@ public class Frame extends UIComponentBase {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[16];
         _values[0] = super.saveState(_context);
@@ -476,5 +473,4 @@ public class Frame extends UIComponentBase {
         _values[15] = this.url;
         return _values;
     }
-
 }

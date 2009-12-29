@@ -23,38 +23,37 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-
 import javax.el.ValueExpression;
 import javax.faces.component.NamingContainer;
 import javax.faces.context.FacesContext;
-
-import com.sun.webui.jsf.component.ComplexComponent;
 
 /**
  * The RadioButtonGroup component is used to display two or more radio buttons
  * in a grid layout in the rendered HTML page.
  */
-@Component(type="com.sun.webui.jsf.RadioButtonGroup", family="com.sun.webui.jsf.RadioButtonGroup", displayName="Radio Button Group", tagName="radioButtonGroup",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_radiobutton_group",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_radio_button_group_props")
+@Component(type = "com.sun.webui.jsf.RadioButtonGroup", family = "com.sun.webui.jsf.RadioButtonGroup",
+displayName = "Radio Button Group", tagName = "radioButtonGroup",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_radiobutton_group",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_radio_button_group_props")
 public class RadioButtonGroup extends Selector implements NamingContainer,
-	ComplexComponent {
+        ComplexComponent {
+
     /**
      * Default constructor.
      */
     public RadioButtonGroup() {
         super();
-	setMultiple(false);
+        setMultiple(false);
         setRendererType("com.sun.webui.jsf.RadioButtonGroup");
     }
 
     /**
      * <p>Return the family for this component.</p>
      */
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.RadioButtonGroup";
     }
-
 
     /**
      * Implement this method so that it returns the DOM ID of the 
@@ -69,9 +68,9 @@ public class RadioButtonGroup extends Selector implements NamingContainer,
      * @see #getFocusElementId
      */
     public String getPrimaryElementID(FacesContext context) {
-	return this.getClientId(context);
+        return this.getClientId(context);
     }
-     
+
     /**
      * Returns the absolute ID of an HTML element suitable for use as
      * the value of an HTML LABEL element's <code>for</code> attribute.
@@ -87,12 +86,12 @@ public class RadioButtonGroup extends Selector implements NamingContainer,
      * <code>for</code> attribute.
      */
     public String getLabeledElementId(FacesContext context) {
-	 // Return the first radio button id. We don't support children
-	 // yet and the Renderer creates the radio buttons on the fly
-	 // But we know what the id  that the renderer creates
-	 // for the first radio button, hack, certainly.
-	 //
-	 return getFirstRbId(context);
+        // Return the first radio button id. We don't support children
+        // yet and the Renderer creates the radio buttons on the fly
+        // But we know what the id  that the renderer creates
+        // for the first radio button, hack, certainly.
+        //
+        return getFirstRbId(context);
     }
 
     /**
@@ -108,62 +107,63 @@ public class RadioButtonGroup extends Selector implements NamingContainer,
      * @param context The FacesContext used for the request
      */
     public String getFocusElementId(FacesContext context) {
-	 // Return the first radio button id. We don't support children
-	 // yet and the Renderer creates the radio buttons on the fly
-	 // But we know what the id  that the renderer creates
-	 // for the first radio button, hack, certainly.
-	 //
-	 return getFirstRbId(context);
+        // Return the first radio button id. We don't support children
+        // yet and the Renderer creates the radio buttons on the fly
+        // But we know what the id  that the renderer creates
+        // for the first radio button, hack, certainly.
+        //
+        return getFirstRbId(context);
     }
 
     private String getFirstRbId(FacesContext context) {
-	StringBuilder sb = new StringBuilder(getClientId(context))
-	    .append(String.valueOf(NamingContainer.SEPARATOR_CHAR))
-	    .append(getId())
-	    .append("_0"); //NOI18N
-	return sb.toString();
+        StringBuilder sb = new StringBuilder(getClientId(context)).append(String.valueOf(NamingContainer.SEPARATOR_CHAR)).append(getId()).append("_0"); //NOI18N
+        return sb.toString();
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
     // Hide onBlur
-    @Property(name="onBlur", isHidden=true, isAttribute=false)
+    @Property(name = "onBlur", isHidden = true, isAttribute = false)
+    @Override
     public String getOnBlur() {
         return super.getOnBlur();
     }
-    
+
     // Hide onChange
-    @Property(name="onChange", isHidden=true, isAttribute=false)
+    @Property(name = "onChange", isHidden = true, isAttribute = false)
+    @Override
     public String getOnChange() {
         return super.getOnChange();
     }
-    
+
     // Hide onFocus
-    @Property(name="onFocus", isHidden=true, isAttribute=false)
+    @Property(name = "onFocus", isHidden = true, isAttribute = false)
+    @Override
     public String getOnFocus() {
         return super.getOnFocus();
     }
-    
+
     // Hide onSelect
-    @Property(name="onSelect", isHidden=true, isAttribute=false)
+    @Property(name = "onSelect", isHidden = true, isAttribute = false)
+    @Override
     public String getOnSelect() {
         return super.getOnSelect();
     }
-    
+
     // Hide value
-    @Property(name="value", isHidden=true, isAttribute=false)
+    @Property(name = "value", isHidden = true, isAttribute = false)
+    @Override
     public Object getValue() {
         return super.getValue();
     }
-
     /**
      * Defines how many columns may be used to layout the radio buttons. The
      * value must be greater than or equal to one. The default value is one. 
      * Invalid values are ignored and the value is set to one.
      */
-    @Property(name="columns", displayName="Columns", category="Appearance", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "columns", displayName = "Columns", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int columns = Integer.MIN_VALUE;
     private boolean columns_set = false;
 
@@ -202,7 +202,7 @@ public class RadioButtonGroup extends Selector implements NamingContainer,
     }
 
     // visible
-    @Property(name="visible", displayName="Visible", category="Behavior")
+    @Property(name = "visible", displayName = "Visible", category = "Behavior")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -215,6 +215,7 @@ public class RadioButtonGroup extends Selector implements NamingContainer,
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
+    @Override
     public boolean isVisible() {
         if (this.visible_set) {
             return this.visible;
@@ -241,6 +242,7 @@ public class RadioButtonGroup extends Selector implements NamingContainer,
      * submissions because the HTML is present.</p>
      * @see #isVisible()
      */
+    @Override
     public void setVisible(boolean visible) {
         this.visible = visible;
         this.visible_set = true;
@@ -249,7 +251,8 @@ public class RadioButtonGroup extends Selector implements NamingContainer,
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.columns = ((Integer) _values[1]).intValue();
@@ -261,6 +264,7 @@ public class RadioButtonGroup extends Selector implements NamingContainer,
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[5];
         _values[0] = super.saveState(_context);

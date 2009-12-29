@@ -23,17 +23,18 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-
 import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
 
 /**
  * The Listbox component allows users to select one or more items from a list.
  */
-@Component(type="com.sun.webui.jsf.Listbox", family="com.sun.webui.jsf.Listbox", displayName="Listbox", tagName="listbox",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_listbox",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_listbox_props")
+@Component(type = "com.sun.webui.jsf.Listbox", family = "com.sun.webui.jsf.Listbox",
+displayName = "Listbox", tagName = "listbox",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_listbox",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_listbox_props")
 public class Listbox extends ListSelector {
+
     /**
      * Default constructor.
      */
@@ -48,15 +49,17 @@ public class Listbox extends ListSelector {
      * of the <code>rendererType</code> property, may be used to select
      * the appropriate renderer for this component instance.</p>
      */
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.Listbox";
     }
 
+    @Override
     public int getRows() {
 
         int rows = super.getRows();
-        if(rows < 1) { 
-            rows = 12; 
+        if (rows < 1) {
+            rows = 12;
             super.setRows(rows);
         }
         return rows;
@@ -67,22 +70,23 @@ public class Listbox extends ListSelector {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     // Hide onSelect
-    @Property(name="onSelect", isHidden=true, isAttribute=false)
+    @Property(name = "onSelect", isHidden = true, isAttribute = false)
+    @Override
     public String getOnSelect() {
         return super.getOnSelect();
     }
-    
+
     // Hide value
-    @Property(name="value", isHidden=true, isAttribute=false)
+    @Property(name = "value", isHidden = true, isAttribute = false)
+    @Override
     public Object getValue() {
         return super.getValue();
     }
-
     /**
      * <p>When set to true, this attribute causes the list items to be rendered 
      * in a monospace font.</p>
      */
-    @Property(name="monospace", displayName="Use Monospace Space", category="Appearance")
+    @Property(name = "monospace", displayName = "Use Monospace Space", category = "Appearance")
     private boolean monospace = false;
     private boolean monospace_set = false;
 
@@ -111,15 +115,15 @@ public class Listbox extends ListSelector {
         this.monospace = monospace;
         this.monospace_set = true;
     }
-
     /**
      * <p>Flag indicating that the application user can make select
      * 	more than one option at a time from the listbox.</p>
      */
-    @Property(name="multiple", displayName="Multiple", category="Data")
+    @Property(name = "multiple", displayName = "Multiple", category = "Data")
     private boolean multiple = false;
     private boolean multiple_set = false;
 
+    @Override
     public boolean isMultiple() {
         if (this.multiple_set) {
             return this.multiple;
@@ -141,19 +145,20 @@ public class Listbox extends ListSelector {
      * 	more than one option at a time from the listbox.</p>
      * @see #isMultiple()
      */
+    @Override
     public void setMultiple(boolean multiple) {
         this.multiple = multiple;
         this.multiple_set = true;
     }
-
     /**
      * <p>Sets the value of the title attribute for the HTML element.
      * The specified text will display as a tooltip if the mouse cursor hovers 
      * over the HTML element.</p>
      */
-    @Property(name="toolTip", displayName="Tool Tip", category="Behavior")
+    @Property(name = "toolTip", displayName = "Tool Tip", category = "Behavior")
     private String toolTip = null;
 
+    @Override
     public String getToolTip() {
         if (this.toolTip != null) {
             return this.toolTip;
@@ -171,6 +176,7 @@ public class Listbox extends ListSelector {
      * over the HTML element.</p>
      * @see #getToolTip()
      */
+    @Override
     public void setToolTip(String toolTip) {
         this.toolTip = toolTip;
     }
@@ -178,7 +184,8 @@ public class Listbox extends ListSelector {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.monospace = ((Boolean) _values[1]).booleanValue();
@@ -191,6 +198,7 @@ public class Listbox extends ListSelector {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[6];
         _values[0] = super.saveState(_context);

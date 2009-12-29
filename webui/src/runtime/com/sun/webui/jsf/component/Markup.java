@@ -24,7 +24,6 @@ package com.sun.webui.jsf.component;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
-
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
 
@@ -32,9 +31,10 @@ import com.sun.faces.annotation.Property;
  * The Markup component allows HTML elements to be inserted into the JSP page 
  * where HTML is not permitted inside a JSF tag.
  */
-@Component(type="com.sun.webui.jsf.Markup", family="com.sun.webui.jsf.Markup", displayName="Markup", tagName="markup",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_markup",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_markup_props")
+@Component(type = "com.sun.webui.jsf.Markup", family = "com.sun.webui.jsf.Markup",
+displayName = "Markup", tagName = "markup",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_markup",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_markup_props")
 public class Markup extends UIComponentBase {
 
     /**
@@ -55,12 +55,12 @@ public class Markup extends UIComponentBase {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -72,16 +72,17 @@ public class Markup extends UIComponentBase {
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
-
     /**
      * <p>Add the rest of the attribute name="value" type pairs inside this 
      * attribute.  The inserted attributes will need to be escaped.</p>
      */
-    @Property(name="extraAttributes", displayName="Extra Attributes", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "extraAttributes", displayName = "Extra Attributes", category = "Advanced",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String extraAttributes = null;
 
     /**
@@ -107,12 +108,11 @@ public class Markup extends UIComponentBase {
     public void setExtraAttributes(String extraAttributes) {
         this.extraAttributes = extraAttributes;
     }
-
     /**
      * <p>Flag indicating that tag is a singleton tag and that it should end with
      * a trailing /</p>
      */
-    @Property(name="singleton", displayName="Single Tag", category="Advanced")
+    @Property(name = "singleton", displayName = "Single Tag", category = "Advanced")
     private boolean singleton = false;
     private boolean singleton_set = false;
 
@@ -145,12 +145,12 @@ public class Markup extends UIComponentBase {
         this.singleton = singleton;
         this.singleton_set = true;
     }
-
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
+    @Property(name = "style", displayName = "CSS Style(s)", category = "Appearance",
+    editorClassName = "com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
@@ -176,12 +176,12 @@ public class Markup extends UIComponentBase {
     public void setStyle(String style) {
         this.style = style;
     }
-
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
@@ -207,11 +207,11 @@ public class Markup extends UIComponentBase {
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-
     /**
      * <p>Name of the HTML element to render.</p>
      */
-    @Property(name="tag", displayName="Tag Name", category="Advanced", isDefault=true, editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "tag", displayName = "Tag Name", category = "Advanced", isDefault = true,
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String tag = null;
 
     /**
@@ -239,7 +239,8 @@ public class Markup extends UIComponentBase {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.extraAttributes = (String) _values[1];
@@ -253,6 +254,7 @@ public class Markup extends UIComponentBase {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[7];
         _values[0] = super.saveState(_context);
@@ -264,5 +266,4 @@ public class Markup extends UIComponentBase {
         _values[6] = this.tag;
         return _values;
     }
-
 }

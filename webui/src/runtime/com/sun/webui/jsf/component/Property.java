@@ -22,12 +22,9 @@
 package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
-
 import com.sun.webui.jsf.util.ComponentUtilities;
-
 import java.beans.Beans;
-import java.util.Iterator; 
-
+import java.util.Iterator;
 import javax.el.ValueExpression;
 import javax.faces.component.EditableValueHolder;
 import javax.faces.component.NamingContainer;
@@ -70,11 +67,12 @@ import javax.faces.context.FacesContext;
  * created will have its required attribute marked true.</p><p> For an example, 
  * please see the documentation for the <code>propertySheet</code> Tag.</p>
  */
-@Component(type="com.sun.webui.jsf.Property", family="com.sun.webui.jsf.Property", displayName="Property", tagName="property",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_property",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_property_props")
+@Component(type = "com.sun.webui.jsf.Property", family = "com.sun.webui.jsf.Property",
+displayName = "Property", tagName = "property",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_property",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_property_props")
 public class Property extends UIComponentBase implements ComplexComponent,
-	NamingContainer {
+        NamingContainer {
 
     public static final String CONTENT_FACET = "content"; //NOI18N
     public static final String HELPTEXT_FACET = "helpText"; //NOI18N
@@ -110,42 +108,42 @@ public class Property extends UIComponentBase implements ComplexComponent,
      * <code>for</code> attribute.
      */
     public String getLabeledElementId(FacesContext context) {
-	// Check for "content" facet first
-	UIComponent contentFacet = getContentComponent();
+        // Check for "content" facet first
+        UIComponent contentFacet = getContentComponent();
 
-	// The field component is the one that is labelled
-	UIComponent labeledComponent = null;
-        
-	if (contentFacet == null) {
+        // The field component is the one that is labelled
+        UIComponent labeledComponent = null;
+
+        if (contentFacet == null) {
             // If there is no facet, assume that the content is specified 
             // as a child of this component. Search for a
             // required ComplexComponent among the children
-	    labeledComponent = findLabeledComponent(this, true);
-	} else {
+            labeledComponent = findLabeledComponent(this, true);
+        } else {
             // If a facet has been specified, see if the facet is a required
             // ComplexComponent or search for a required ComplexComponent
             // among the children of the facet component
-	    labeledComponent = findLabeledComponent(contentFacet, false);
-	}
-	
+            labeledComponent = findLabeledComponent(contentFacet, false);
+        }
+
         if (labeledComponent != null) {
-	    // NOTE: Don't use ComplexComponent here, the Label component will.
+            // NOTE: Don't use ComplexComponent here, the Label component will.
             if (Beans.isDesignTime()) {
                 //6474235: recalculate clientId
                 UIComponent resetIdComp = labeledComponent;
                 while (resetIdComp != null) {
-                    resetIdComp.setId(resetIdComp.getId());  
+                    resetIdComp.setId(resetIdComp.getId());
                     resetIdComp = resetIdComp.getParent();
                 }
             }
             if (labeledComponent instanceof ComplexComponent) {
-                return ((ComplexComponent)labeledComponent).getLabeledElementId(context);
+                return ((ComplexComponent) labeledComponent).getLabeledElementId(context);
             } else {
-		return labeledComponent.getClientId(context);
-	    }
+                return labeledComponent.getClientId(context);
+            }
         }
-        return null; 
-        
+        return null;
+
     }
 
     /**
@@ -161,9 +159,9 @@ public class Property extends UIComponentBase implements ComplexComponent,
      * @param context The FacesContext used for the request
      */
     public String getFocusElementId(FacesContext context) {
-	// Just return the same id as the labeled component for now.
-	//
-	return getLabeledElementId(context);
+        // Just return the same id as the labeled component for now.
+        //
+        return getLabeledElementId(context);
     }
 
     /**
@@ -183,76 +181,76 @@ public class Property extends UIComponentBase implements ComplexComponent,
      * @see #getFocusElementId
      */
     public String getPrimaryElementID(FacesContext context) {
-	// Check for "content" facet first
-	UIComponent contentFacet = getContentComponent();
+        // Check for "content" facet first
+        UIComponent contentFacet = getContentComponent();
 
-	// The field component is the one that is labelled
-	UIComponent labeledComponent = null;
-        
-	if (contentFacet == null) {
+        // The field component is the one that is labelled
+        UIComponent labeledComponent = null;
+
+        if (contentFacet == null) {
             // If there is no facet, assume that the content is specified 
             // as a child of this component. Search for a
             // required EditableValueHolderamong the children
-	    //
-	    labeledComponent = findLabeledComponent(this, true);
-	} else {
+            //
+            labeledComponent = findLabeledComponent(this, true);
+        } else {
             // If a facet has been specified, see if the facet is a required
             // EditableValueHolder or search for a required EditableValueHolder
             // among the children of the facet component
-	    labeledComponent = findLabeledComponent(contentFacet, false);
-	}
-	
+            labeledComponent = findLabeledComponent(contentFacet, false);
+        }
+
         if (labeledComponent != null) {
-	    // Return an absolute path (relative is harder to calculate)
-	    // NOTE: Label component does not fully support relative anyway,
-	    // NOTE: the ":" I'm adding isn't necessary... however, it doesn't
-	    // NOTE: hurt and if Label ever does support relative paths, the
-	    // NOTE: ":" prefix is needed to specify a full path.
-	    // NOTE:
-	    // NOTE: Don't use ComplexComponent here, the Label component will.
+            // Return an absolute path (relative is harder to calculate)
+            // NOTE: Label component does not fully support relative anyway,
+            // NOTE: the ":" I'm adding isn't necessary... however, it doesn't
+            // NOTE: hurt and if Label ever does support relative paths, the
+            // NOTE: ":" prefix is needed to specify a full path.
+            // NOTE:
+            // NOTE: Don't use ComplexComponent here, the Label component will.
             if (Beans.isDesignTime()) {
                 //6474235: recalculate clientId
                 UIComponent resetIdComp = labeledComponent;
                 while (resetIdComp != null) {
-                    resetIdComp.setId(resetIdComp.getId());  
+                    resetIdComp.setId(resetIdComp.getId());
                     resetIdComp = resetIdComp.getParent();
                 }
             }
             return ":" + labeledComponent.getClientId(context); // NOI18N
         }
-        return null; 
+        return null;
     }
 
-     /**
-      *	<p> This method checks the component, children, and facets to see if
-      *	    any of them are <code>EditableValueHolder</code>s.  The first one
-      * found is returned, null
-      *	    otherwise.</p>
-      *
-      *	@param	comp	The <code>UIComponent</code> to check.
-      *	@param	skip	Flag indicating the initial component should be ignored
-      *
-      *	@return	The first <code>EditableValueHolder</code>, null if not found.
-      */
-    private static UIComponent findLabeledComponent(UIComponent comp, 
-	    boolean skip) {
-	if (!skip) {
-	    // Check to see if comp is an EditableValueHolder
-	    if (comp instanceof EditableValueHolder) {
-		return comp;
-	    }
-	}
+    /**
+     *	<p> This method checks the component, children, and facets to see if
+     *	    any of them are <code>EditableValueHolder</code>s.  The first one
+     * found is returned, null
+     *	    otherwise.</p>
+     *
+     *	@param	comp	The <code>UIComponent</code> to check.
+     *	@param	skip	Flag indicating the initial component should be ignored
+     *
+     *	@return	The first <code>EditableValueHolder</code>, null if not found.
+     */
+    private static UIComponent findLabeledComponent(UIComponent comp,
+            boolean skip) {
+        if (!skip) {
+            // Check to see if comp is an EditableValueHolder
+            if (comp instanceof EditableValueHolder) {
+                return comp;
+            }
+        }
 
-	// Next check children and facets
-	Iterator it = comp.getFacetsAndChildren();
-	while (it.hasNext()) {
-	    comp = findLabeledComponent((UIComponent) it.next(), false);
-	    if (comp != null) {
-		return comp;
-	    }
-	}
-	// Not found
-	return null;
+        // Next check children and facets
+        Iterator it = comp.getFacetsAndChildren();
+        while (it.hasNext()) {
+            comp = findLabeledComponent((UIComponent) it.next(), false);
+            if (comp != null) {
+                return comp;
+            }
+        }
+        // Not found
+        return null;
     }
 
     /**
@@ -262,7 +260,7 @@ public class Property extends UIComponentBase implements ComplexComponent,
      */
     public UIComponent getContentComponent() {
 
-	return getFacet(CONTENT_FACET);
+        return getFacet(CONTENT_FACET);
     }
 
     /**
@@ -283,31 +281,31 @@ public class Property extends UIComponentBase implements ComplexComponent,
      */
     public UIComponent getHelpTextComponent() {
 
-	UIComponent component = getFacet(HELPTEXT_FACET);
-	if (component != null) {
-	    return component;
-	}
+        UIComponent component = getFacet(HELPTEXT_FACET);
+        if (component != null) {
+            return component;
+        }
 
-	String helpText = getHelpText();
-	if (helpText == null) {
-	    return null;
-	}
-	// Create one every time.
-	//
-	component = (UIComponent)new HelpInline();
-	if (component == null) {
-	    // log severe problem
-	    return null;
-	}
-	// Assume helpText is literal
-	//
-	((HelpInline)component).setText(helpText);
-	component.setId(
-	    ComponentUtilities.createPrivateFacetId(this, HELPTEXT_FACET));
-	component.setParent(this);
-	((HelpInline)component).setType("field"); //NOI18N
+        String helpText = getHelpText();
+        if (helpText == null) {
+            return null;
+        }
+        // Create one every time.
+        //
+        component = (UIComponent) new HelpInline();
+        if (component == null) {
+            // log severe problem
+            return null;
+        }
+        // Assume helpText is literal
+        //
+        ((HelpInline) component).setText(helpText);
+        component.setId(
+                ComponentUtilities.createPrivateFacetId(this, HELPTEXT_FACET));
+        component.setParent(this);
+        ((HelpInline) component).setType("field"); //NOI18N
 
-	return component;
+        return component;
 
     }
 
@@ -326,69 +324,69 @@ public class Property extends UIComponentBase implements ComplexComponent,
      */
     public UIComponent getLabelComponent() {
 
-	UIComponent component = getFacet(LABEL_FACET);
-	if (component != null) {
-	    return component;
-	}
+        UIComponent component = getFacet(LABEL_FACET);
+        if (component != null) {
+            return component;
+        }
 
-	// If label is null, don't return any component.
-	// This may need to be revisited but is the common
-	// behavior of other components, rightly or wrongly
-	//
-	String label = getLabel();
-	if (label == null) {
-	    return null;
-	}
-	component = ComponentUtilities.getPrivateFacet(this,
-		LABEL_FACET, true);
-	if (component == null) {
-	    // This really should be done using JSF application
-	    // create component, and component type.
-	    //
-	    component = (UIComponent)new Label();
-	    if (component == null) {
-		// Log severe problem
-		return null;
-	    }
-	    component.setId(ComponentUtilities.createPrivateFacetId(
-		this, LABEL_FACET));
-	    ComponentUtilities.putPrivateFacet(this, LABEL_FACET,
-		component);
-	}
+        // If label is null, don't return any component.
+        // This may need to be revisited but is the common
+        // behavior of other components, rightly or wrongly
+        //
+        String label = getLabel();
+        if (label == null) {
+            return null;
+        }
+        component = ComponentUtilities.getPrivateFacet(this,
+                LABEL_FACET, true);
+        if (component == null) {
+            // This really should be done using JSF application
+            // create component, and component type.
+            //
+            component = (UIComponent) new Label();
+            if (component == null) {
+                // Log severe problem
+                return null;
+            }
+            component.setId(ComponentUtilities.createPrivateFacetId(
+                    this, LABEL_FACET));
+            ComponentUtilities.putPrivateFacet(this, LABEL_FACET,
+                    component);
+        }
 
-	((Label)component).setText(label);
+        ((Label) component).setText(label);
 
-	// Theme should be queried for the label level if 
-	// there isn't an attribute, which there should be.
-	// The renderer verifies the value.
-	//
-	//((Label)component).setLabelLevel(getLabelLevel());
+        // Theme should be queried for the label level if
+        // there isn't an attribute, which there should be.
+        // The renderer verifies the value.
+        //
+        //((Label)component).setLabelLevel(getLabelLevel());
 
-	// We need to set the for attribute for this label.
-	// How do we choose which of the possibly several
-	// properties to set it on. Easy. The Property component
-	// should have a "for" attribute whose value is the
-	// component to associate the label to.
-	//
-	// Currently there are heuristics implemented to try 
-	// find the labelled component, continue using that
-	// for now.
-	//
-	String id = getLabeledElementId(getFacesContext());
-	((Label)component).setFor(id);
+        // We need to set the for attribute for this label.
+        // How do we choose which of the possibly several
+        // properties to set it on. Easy. The Property component
+        // should have a "for" attribute whose value is the
+        // component to associate the label to.
+        //
+        // Currently there are heuristics implemented to try
+        // find the labelled component, continue using that
+        // for now.
+        //
+        String id = getLabeledElementId(getFacesContext());
+        ((Label) component).setFor(id);
 
-	return component;
+        return component;
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @com.sun.faces.annotation.Property(name="id") 
+    @com.sun.faces.annotation.Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -400,17 +398,17 @@ public class Property extends UIComponentBase implements ComplexComponent,
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @com.sun.faces.annotation.Property(name="rendered") 
+    @com.sun.faces.annotation.Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
-
     /**
      * <p>Flag indicating that the user is not permitted to activate this
      * component, and that the component's value will not be submitted with the
      * form.</p>
      */
-    @com.sun.faces.annotation.Property(name="disabled", displayName="Disabled", category="Behavior")
+    @com.sun.faces.annotation.Property(name = "disabled", displayName = "Disabled", category = "Behavior")
     private boolean disabled = false;
     private boolean disabled_set = false;
 
@@ -445,14 +443,14 @@ public class Property extends UIComponentBase implements ComplexComponent,
         this.disabled = disabled;
         this.disabled_set = true;
     }
-
     /**
      * <p>The text specified with this attribue is displayed below the content 
      * of the property in a small font. The value can be a literal String or 
      * a ValueBinding expression. If you want greater control over the content 
      * that is displayed in the help text area, use the helpText facet.</p>
      */
-    @com.sun.faces.annotation.Property(name="helpText", displayName="Help Text", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @com.sun.faces.annotation.Property(name = "helpText", displayName = "Help Text",
+    category = "Appearance", editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String helpText = null;
 
     /**
@@ -482,7 +480,6 @@ public class Property extends UIComponentBase implements ComplexComponent,
     public void setHelpText(String helpText) {
         this.helpText = helpText;
     }
-
     /**
      * <p>Use this attribute to specify the text of the label of this
      * property. The text is displayed in the column that is
@@ -491,7 +488,8 @@ public class Property extends UIComponentBase implements ComplexComponent,
      * first input element in the content area of the property.  
      * To label a different component, use the label facet instead.</p>
      */
-    @com.sun.faces.annotation.Property(name="label", displayName="Label", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @com.sun.faces.annotation.Property(name = "label", displayName = "Label",
+    category = "Appearance", editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String label = null;
 
     /**
@@ -525,7 +523,6 @@ public class Property extends UIComponentBase implements ComplexComponent,
     public void setLabel(String label) {
         this.label = label;
     }
-
     /**
      * <p>Specifies the alignment for the property label. 
      * The label occupies a cell in the first column of a table that is 
@@ -534,7 +531,9 @@ public class Property extends UIComponentBase implements ComplexComponent,
      * is left. This attibute applies to labels that are specified with either 
      * the label attribute or the label facet.</p>
      */
-    @com.sun.faces.annotation.Property(name="labelAlign", displayName="Label Alignment", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.HtmlHorizontalAlignEditor")
+    @com.sun.faces.annotation.Property(name = "labelAlign", displayName = "Label Alignment", 
+    category = "Appearance",
+            editorClassName = "com.sun.webui.jsf.component.propertyeditors.HtmlHorizontalAlignEditor")
     private String labelAlign = null;
 
     /**
@@ -568,7 +567,6 @@ public class Property extends UIComponentBase implements ComplexComponent,
     public void setLabelAlign(String labelAlign) {
         this.labelAlign = labelAlign;
     }
-
     /**
      * <p>Specifies that the label should not wrap around to another line, if set to
      * true. If the label is long, the label column in the table for the property  
@@ -576,7 +574,7 @@ public class Property extends UIComponentBase implements ComplexComponent,
      * This attibute applies to labels that are specified with either the label 
      * attribute or the label facet.</p>
      */
-    @com.sun.faces.annotation.Property(name="noWrap", displayName="Label No-Wrap", category="Appearance")
+    @com.sun.faces.annotation.Property(name = "noWrap", displayName = "Label No-Wrap", category = "Appearance")
     private boolean noWrap = false;
     private boolean noWrap_set = false;
 
@@ -615,14 +613,13 @@ public class Property extends UIComponentBase implements ComplexComponent,
         this.noWrap = noWrap;
         this.noWrap_set = true;
     }
-
     /**
      * <p>Specifies that the content of the property should occupy the label 
      * area as well as the content area, if set to true. The default value is 
      * false. This attribute is useful for properties that require the entire 
      * width of the property sheet.</p>
      */
-    @com.sun.faces.annotation.Property(name="overlapLabel", displayName="Overlap Label", category="Appearance")
+    @com.sun.faces.annotation.Property(name = "overlapLabel", displayName = "Overlap Label", category = "Appearance")
     private boolean overlapLabel = false;
     private boolean overlapLabel_set = false;
 
@@ -659,12 +656,12 @@ public class Property extends UIComponentBase implements ComplexComponent,
         this.overlapLabel = overlapLabel;
         this.overlapLabel_set = true;
     }
-
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @com.sun.faces.annotation.Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
+    @com.sun.faces.annotation.Property(name = "style", displayName = "CSS Style(s)",
+    category = "Appearance", editorClassName = "com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
@@ -690,12 +687,12 @@ public class Property extends UIComponentBase implements ComplexComponent,
     public void setStyle(String style) {
         this.style = style;
     }
-
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @com.sun.faces.annotation.Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
+    @com.sun.faces.annotation.Property(name = "styleClass", displayName = "CSS Style Class(es)",
+    category = "Appearance", editorClassName = "com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
@@ -721,7 +718,6 @@ public class Property extends UIComponentBase implements ComplexComponent,
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -731,7 +727,7 @@ public class Property extends UIComponentBase implements ComplexComponent,
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @com.sun.faces.annotation.Property(name="visible", displayName="Visible", category="Behavior")
+    @com.sun.faces.annotation.Property(name = "visible", displayName = "Visible", category = "Behavior")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -778,7 +774,8 @@ public class Property extends UIComponentBase implements ComplexComponent,
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.disabled = ((Boolean) _values[1]).booleanValue();
@@ -799,6 +796,7 @@ public class Property extends UIComponentBase implements ComplexComponent,
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[14];
         _values[0] = super.saveState(_context);

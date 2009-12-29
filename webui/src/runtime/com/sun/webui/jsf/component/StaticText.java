@@ -25,7 +25,6 @@ import javax.el.ValueExpression;
 import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
 
@@ -33,9 +32,10 @@ import com.sun.faces.annotation.Property;
  * The StaticText component is used to display text that is not interactive in 
  * the rendered HTML page.
  */
-@Component(type="com.sun.webui.jsf.StaticText", family="com.sun.webui.jsf.StaticText", displayName="Static Text", tagName="staticText",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_static_text",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_static_text_props")
+@Component(type = "com.sun.webui.jsf.StaticText", family = "com.sun.webui.jsf.StaticText",
+displayName = "Static Text", tagName = "staticText",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_static_text",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_static_text_props")
 public class StaticText extends UIOutput {
 
     /**
@@ -49,6 +49,7 @@ public class StaticText extends UIOutput {
     /**
      * <p>Return the family for this component.</p>
      */
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.StaticText";
     }
@@ -56,7 +57,6 @@ public class StaticText extends UIOutput {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The converter attribute is used to specify a method to translate native
      * property values to String and back for this component. The converter 
@@ -68,7 +68,8 @@ public class StaticText extends UIOutput {
      * </li><li>the ID of a registered converter (a String).</li>
      * </ul>
      */
-    @Property(name="converter") 
+    @Property(name = "converter")
+    @Override
     public void setConverter(Converter converter) {
         super.setConverter(converter);
     }
@@ -77,7 +78,8 @@ public class StaticText extends UIOutput {
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -89,7 +91,8 @@ public class StaticText extends UIOutput {
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
@@ -100,6 +103,7 @@ public class StaticText extends UIOutput {
      *
      * @param name Name of value binding expression to retrieve
      */
+    @Override
     public ValueExpression getValueExpression(String name) {
         if (name.equals("text")) {
             return super.getValueExpression("value");
@@ -115,24 +119,25 @@ public class StaticText extends UIOutput {
      * @param name    Name of value binding to set
      * @param binding ValueExpression to set, or null to remove
      */
-    public void setValueExpression(String name,ValueExpression binding) {
+    @Override
+    public void setValueExpression(String name, ValueExpression binding) {
         if (name.equals("text")) {
             super.setValueExpression("value", binding);
             return;
         }
         super.setValueExpression(name, binding);
     }
-    
+
     // Hide Value
-    @Property(name="value", isHidden=true, isAttribute=false)
+    @Property(name = "value", isHidden = true, isAttribute = false)
+    @Override
     public Object getValue() {
         return super.getValue();
     }
-
     /**
      * <p>Escape the html text so it won't be interpreted by the browser as HTML</p>
      */
-    @Property(name="escape", displayName="Escape", category="Data")
+    @Property(name = "escape", displayName = "Escape", category = "Data")
     private boolean escape = false;
     private boolean escape_set = false;
 
@@ -163,12 +168,12 @@ public class StaticText extends UIOutput {
         this.escape = escape;
         this.escape_set = true;
     }
-
     /**
      * <p>Scripting code executed when a mouse click
      * occurs over this component.</p>
      */
-    @Property(name="onClick", displayName="Click Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onClick", displayName = "Click Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onClick = null;
 
     /**
@@ -194,12 +199,12 @@ public class StaticText extends UIOutput {
     public void setOnClick(String onClick) {
         this.onClick = onClick;
     }
-
     /**
      * <p>Scripting code executed when a mouse double click
      * occurs over this component.</p>
      */
-    @Property(name="onDblClick", displayName="Double Click Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onDblClick", displayName = "Double Click Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onDblClick = null;
 
     /**
@@ -225,12 +230,12 @@ public class StaticText extends UIOutput {
     public void setOnDblClick(String onDblClick) {
         this.onDblClick = onDblClick;
     }
-
     /**
      * <p>Scripting code executed when the user presses a mouse button while the
      * mouse pointer is on the component.</p>
      */
-    @Property(name="onMouseDown", displayName="Mouse Down Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseDown", displayName = "Mouse Down Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseDown = null;
 
     /**
@@ -256,12 +261,12 @@ public class StaticText extends UIOutput {
     public void setOnMouseDown(String onMouseDown) {
         this.onMouseDown = onMouseDown;
     }
-
     /**
      * <p>Scripting code executed when the user moves the mouse pointer while
      * over the component.</p>
      */
-    @Property(name="onMouseMove", displayName="Mouse Move Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseMove", displayName = "Mouse Move Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseMove = null;
 
     /**
@@ -287,12 +292,12 @@ public class StaticText extends UIOutput {
     public void setOnMouseMove(String onMouseMove) {
         this.onMouseMove = onMouseMove;
     }
-
     /**
      * <p>Scripting code executed when a mouse out movement
      * occurs over this component.</p>
      */
-    @Property(name="onMouseOut", displayName="Mouse Out Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseOut", displayName = "Mouse Out Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseOut = null;
 
     /**
@@ -318,12 +323,12 @@ public class StaticText extends UIOutput {
     public void setOnMouseOut(String onMouseOut) {
         this.onMouseOut = onMouseOut;
     }
-
     /**
      * <p>Scripting code executed when the user moves the  mouse pointer into
      * the boundary of this component.</p>
      */
-    @Property(name="onMouseOver", displayName="Mouse In Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseOver", displayName = "Mouse In Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseOver = null;
 
     /**
@@ -349,12 +354,12 @@ public class StaticText extends UIOutput {
     public void setOnMouseOver(String onMouseOver) {
         this.onMouseOver = onMouseOver;
     }
-
     /**
      * <p>Scripting code executed when the user releases a mouse button while
      * the mouse pointer is on the component.</p>
      */
-    @Property(name="onMouseUp", displayName="Mouse Up Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseUp", displayName = "Mouse Up Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseUp = null;
 
     /**
@@ -380,12 +385,12 @@ public class StaticText extends UIOutput {
     public void setOnMouseUp(String onMouseUp) {
         this.onMouseUp = onMouseUp;
     }
-
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
+    @Property(name = "style", displayName = "CSS Style(s)", category = "Appearance",
+    editorClassName = "com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
@@ -411,12 +416,12 @@ public class StaticText extends UIOutput {
     public void setStyle(String style) {
         this.style = style;
     }
-
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
@@ -446,7 +451,8 @@ public class StaticText extends UIOutput {
     /**
      * <p>The text to be displayed for this component.</p>
      */
-    @Property(name="text", displayName="Text", category="Appearance", isDefault=true, editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "text", displayName = "Text", category = "Appearance", isDefault = true,
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     public Object getText() {
         return getValue();
     }
@@ -458,13 +464,13 @@ public class StaticText extends UIOutput {
     public void setText(Object text) {
         setValue(text);
     }
-
     /**
      * <p>Sets the value of the title attribute for the HTML element.
      * The specified text will display as a tooltip if the mouse cursor hovers 
      * over the HTML element.</p>
      */
-    @Property(name="toolTip", displayName="Tool Tip", category="Behavior", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "toolTip", displayName = "Tool Tip", category = "Behavior",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String toolTip = null;
 
     /**
@@ -492,7 +498,6 @@ public class StaticText extends UIOutput {
     public void setToolTip(String toolTip) {
         this.toolTip = toolTip;
     }
-
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -502,7 +507,7 @@ public class StaticText extends UIOutput {
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @Property(name="visible", displayName="Visible", category="Behavior")
+    @Property(name = "visible", displayName = "Visible", category = "Behavior")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -549,7 +554,8 @@ public class StaticText extends UIOutput {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.escape = ((Boolean) _values[1]).booleanValue();
@@ -571,6 +577,7 @@ public class StaticText extends UIOutput {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[15];
         _values[0] = super.saveState(_context);
@@ -590,5 +597,4 @@ public class StaticText extends UIOutput {
         _values[14] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
-
 }

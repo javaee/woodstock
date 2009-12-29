@@ -25,16 +25,16 @@ import javax.el.ValueExpression;
 import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
 
 /**
  * The PageSeparator component creates a horizontal line.
  */
-@Component(type="com.sun.webui.jsf.PageSeparator", family="com.sun.webui.jsf.PageSeparator", displayName="Page Separator", tagName="pageSeparator",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_page_separator",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_page_separator_props")
+@Component(type = "com.sun.webui.jsf.PageSeparator", family = "com.sun.webui.jsf.PageSeparator",
+displayName = "Page Separator", tagName = "pageSeparator",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_page_separator",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_page_separator_props")
 public class PageSeparator extends UIOutput {
 
     /**
@@ -48,6 +48,7 @@ public class PageSeparator extends UIOutput {
     /**
      * <p>Return the family for this component.</p>
      */
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.PageSeparator";
     }
@@ -55,12 +56,12 @@ public class PageSeparator extends UIOutput {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -72,21 +73,24 @@ public class PageSeparator extends UIOutput {
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
 
     // Hide converter
-    @Property(isHidden=true, isAttribute=false)
+    @Property(isHidden = true, isAttribute = false)
+    @Override
     public Converter getConverter() {
         return super.getConverter();
     }
 
     // value
-    @Property(name="value", displayName="Value", isHidden=true, isAttribute=false)
+    @Property(name = "value", displayName = "Value", isHidden = true, isAttribute = false)
     private Object value = null;
 
+    @Override
     public Object getValue() {
         if (this.value != null) {
             return this.value;
@@ -98,15 +102,16 @@ public class PageSeparator extends UIOutput {
         return null;
     }
 
+    @Override
     public void setValue(Object value) {
         this.value = value;
     }
-
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
+    @Property(name = "style", displayName = "CSS Style(s)", category = "Appearance",
+    editorClassName = "com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
@@ -132,12 +137,12 @@ public class PageSeparator extends UIOutput {
     public void setStyle(String style) {
         this.style = style;
     }
-
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
@@ -163,7 +168,6 @@ public class PageSeparator extends UIOutput {
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -173,7 +177,7 @@ public class PageSeparator extends UIOutput {
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @Property(name="visible", displayName="Visible", category="Behavior")
+    @Property(name = "visible", displayName = "Visible", category = "Behavior")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -220,7 +224,8 @@ public class PageSeparator extends UIOutput {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.style = (String) _values[1];
@@ -233,6 +238,7 @@ public class PageSeparator extends UIOutput {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[6];
         _values[0] = super.saveState(_context);
@@ -243,5 +249,4 @@ public class PageSeparator extends UIOutput {
         _values[5] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
-
 }

@@ -27,7 +27,6 @@ import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.jsf.util.ComponentUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.theme.Theme;
-
 import javax.el.ValueExpression;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
@@ -37,10 +36,12 @@ import javax.faces.context.FacesContext;
 /**
  * The PageAlert component displays a full page alert.
  */
-@Component(type="com.sun.webui.jsf.PageAlert", family="com.sun.webui.jsf.PageAlert", displayName="Page Alert", tagName="pageAlert",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_page_alert",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_page_alert_props")
+@Component(type = "com.sun.webui.jsf.PageAlert", family = "com.sun.webui.jsf.PageAlert",
+displayName = "Page Alert", tagName = "pageAlert",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_page_alert",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_page_alert_props")
 public class PageAlert extends UIComponentBase implements NamingContainer {
+
     /**
      * The facets...
      */
@@ -71,9 +72,9 @@ public class PageAlert extends UIComponentBase implements NamingContainer {
      * @return A Back button (or a facet with buttons).
      */
     public UIComponent getPageAlertInput() {
-	return getFacet(PAGEALERT_INPUT_FACET);
+        return getFacet(PAGEALERT_INPUT_FACET);
     }
-    
+
     /**
      * Return a component that implements the page alert's title text.
      * If a facet named <code>pageAlertTitle</code> is found
@@ -96,16 +97,16 @@ public class PageAlert extends UIComponentBase implements NamingContainer {
     public UIComponent getPageAlertTitle() {
         UIComponent titleFacet = getFacet(PAGEALERT_TITLE_FACET);
         if (titleFacet != null) {
-	    return titleFacet;
-	}
+            return titleFacet;
+        }
 
-        StaticText title= new StaticText();
-	title.setId(
-	    ComponentUtilities.createPrivateFacetId(this,
-	    PAGEALERT_TITLE_FACET));
-	title.setParent(this);
+        StaticText title = new StaticText();
+        title.setId(
+                ComponentUtilities.createPrivateFacetId(this,
+                PAGEALERT_TITLE_FACET));
+        title.setParent(this);
         title.setText(getSafeTitle());
-        
+
         return title;
     }
 
@@ -116,9 +117,9 @@ public class PageAlert extends UIComponentBase implements NamingContainer {
      * @return A Back button (or a facet with buttons).
      */
     public UIComponent getPageAlertButtons() {
-	// First check if a buttons facet was defined 
-	UIComponent buttonFacet = getFacet(PAGEALERT_BUTTONS_FACET);	
-	return buttonFacet;
+        // First check if a buttons facet was defined
+        UIComponent buttonFacet = getFacet(PAGEALERT_BUTTONS_FACET);
+        return buttonFacet;
     }
 
     /**
@@ -135,20 +136,20 @@ public class PageAlert extends UIComponentBase implements NamingContainer {
      * @return - pageAlertSeparator facet or a PageSeparator instance
      */
     public UIComponent getPageAlertSeparator() {
-	// First check if a pageAlertSeparator facet was defined 
-	UIComponent separatorFacet = getFacet(PAGEALERT_SEPARATOR_FACET);
-	if (separatorFacet != null) {
-	    return separatorFacet;
-	}
+        // First check if a pageAlertSeparator facet was defined
+        UIComponent separatorFacet = getFacet(PAGEALERT_SEPARATOR_FACET);
+        if (separatorFacet != null) {
+            return separatorFacet;
+        }
 
-	PageSeparator separator = new PageSeparator();
-	separator.setId(ComponentUtilities.createPrivateFacetId(this,
-		PAGEALERT_SEPARATOR_FACET));
-	separator.setParent(this);
-	    
-	return separator;
+        PageSeparator separator = new PageSeparator();
+        separator.setId(ComponentUtilities.createPrivateFacetId(this,
+                PAGEALERT_SEPARATOR_FACET));
+        separator.setParent(this);
+
+        return separator;
     }
-    
+
     /**
      * Return a component that implements a page alert image.
      * If a facet named <code>pageAlertImage</code> is found
@@ -168,26 +169,26 @@ public class PageAlert extends UIComponentBase implements NamingContainer {
      * @return - pageAlertImage facet or an Icon instance
      */
     public UIComponent getPageAlertImage() {
-	// First check if a PAGEALERT_IMAGE_FACET  facet was defined 
-	UIComponent imageFacet = getFacet(PAGEALERT_IMAGE_FACET);
-	if (imageFacet != null) {
-	    return imageFacet;
-	}
-            
-	Icon icon = ThemeUtilities.getIcon(getTheme(), getIconIdentifier());
-	String alt = getAlt();
-	if (alt != null) { 
-	    icon.setAlt(alt);
-	}
-	
-	icon.setId(
-	    ComponentUtilities.createPrivateFacetId(this,
-	    PAGEALERT_IMAGE_FACET));
-	icon.setParent(this);
-	
-	return icon;
+        // First check if a PAGEALERT_IMAGE_FACET  facet was defined
+        UIComponent imageFacet = getFacet(PAGEALERT_IMAGE_FACET);
+        if (imageFacet != null) {
+            return imageFacet;
+        }
+
+        Icon icon = ThemeUtilities.getIcon(getTheme(), getIconIdentifier());
+        String alt = getAlt();
+        if (alt != null) {
+            icon.setAlt(alt);
+        }
+
+        icon.setId(
+                ComponentUtilities.createPrivateFacetId(this,
+                PAGEALERT_IMAGE_FACET));
+        icon.setParent(this);
+
+        return icon;
     }
-    
+
     public String getSafeTitle() {
         String title = getTitle();
         if (title == null) {
@@ -198,7 +199,7 @@ public class PageAlert extends UIComponentBase implements NamingContainer {
         }
         return title;
     }
-    
+
     private String getIconIdentifier() {
         String type = getType();
         if (type != null) {
@@ -217,19 +218,20 @@ public class PageAlert extends UIComponentBase implements NamingContainer {
     /*
      * Utility to get theme.
      */
+
     private Theme getTheme() {
-	return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
+        return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -241,17 +243,18 @@ public class PageAlert extends UIComponentBase implements NamingContainer {
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
-
     /**
      * <p>Alternative textual description of the image rendered by this component. The alt
      * text can be used by screen readers and in tool tips, and when image display is turned off in
      * the web browser.</p>
      */
-    @Property(name="alt", displayName="Alt Text", category="Accessibility", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "alt", displayName = "Alt Text", category = "Accessibility",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String alt = null;
 
     /**
@@ -279,11 +282,11 @@ public class PageAlert extends UIComponentBase implements NamingContainer {
     public void setAlt(String alt) {
         this.alt = alt;
     }
-
     /**
      * <p>Detailed message text for the alert. This message might include more information about the alert and instructions for what to do about the alert.</p>
      */
-    @Property(name="detail", displayName="Detail Message", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "detail", displayName = "Detail Message", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String detail = null;
 
     /**
@@ -307,12 +310,11 @@ public class PageAlert extends UIComponentBase implements NamingContainer {
     public void setDetail(String detail) {
         this.detail = detail;
     }
-
     /**
      * <p>Flag indicating that the message text should be escaped so that it is 
      * not interpreted by the browser.</p>
      */
-    @Property(name="escape", displayName="Escape", category="Data")
+    @Property(name = "escape", displayName = "Escape", category = "Data")
     private boolean escape = false;
     private boolean escape_set = false;
 
@@ -345,12 +347,12 @@ public class PageAlert extends UIComponentBase implements NamingContainer {
         this.escape = escape;
         this.escape_set = true;
     }
-
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
+    @Property(name = "style", displayName = "CSS Style(s)", category = "Appearance",
+    editorClassName = "com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
@@ -376,12 +378,12 @@ public class PageAlert extends UIComponentBase implements NamingContainer {
     public void setStyle(String style) {
         this.style = style;
     }
-
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
@@ -407,11 +409,11 @@ public class PageAlert extends UIComponentBase implements NamingContainer {
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-
     /**
      * <b>Deprecated.</b><br/><i>Use the title attribute to display the message summary in the page title.</i>
      */
-    @Property(name="summary", displayName="Summary Message", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "summary", displayName = "Summary Message", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String summary = null;
 
     /**
@@ -435,14 +437,14 @@ public class PageAlert extends UIComponentBase implements NamingContainer {
     public void setSummary(String summary) {
         this.summary = summary;
     }
-
     /**
      * <p>Position of this element in the tabbing order of the current document. 
      * Tabbing order determines the sequence in which elements receive 
      * focus when the tab key is pressed. The value must be an integer 
      * between 0 and 32767.</p>
      */
-    @Property(name="tabIndex", displayName="Tab Index", category="Accessibility", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "tabIndex", displayName = "Tab Index", category = "Accessibility",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int tabIndex = Integer.MIN_VALUE;
     private boolean tabIndex_set = false;
 
@@ -479,11 +481,11 @@ public class PageAlert extends UIComponentBase implements NamingContainer {
         this.tabIndex = tabIndex;
         this.tabIndex_set = true;
     }
-
     /**
      * <p>The text to display as the page title</p>
      */
-    @Property(name="title", displayName="Title", category="Appearance", isDefault=true, editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "title", displayName = "Title", category = "Appearance", isDefault = true,
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String title = null;
 
     /**
@@ -507,11 +509,11 @@ public class PageAlert extends UIComponentBase implements NamingContainer {
     public void setTitle(String title) {
         this.title = title;
     }
-
     /**
      * <p>The type or category of alert. The type attribute can be set to one of the following:  "question", "information", "warning" or "error". The default type is error.</p>
      */
-    @Property(name="type", displayName="Alert Type", category="Advanced", editorClassName="com.sun.webui.jsf.component.propertyeditors.PageAlertTypesEditor")
+    @Property(name = "type", displayName = "Alert Type", category = "Advanced",
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.PageAlertTypesEditor")
     private String type = null;
 
     /**
@@ -535,7 +537,6 @@ public class PageAlert extends UIComponentBase implements NamingContainer {
     public void setType(String type) {
         this.type = type;
     }
-
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -545,7 +546,7 @@ public class PageAlert extends UIComponentBase implements NamingContainer {
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @Property(name="visible", displayName="Visible", category="Behavior")
+    @Property(name = "visible", displayName = "Visible", category = "Behavior")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -592,7 +593,8 @@ public class PageAlert extends UIComponentBase implements NamingContainer {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.alt = (String) _values[1];
@@ -613,6 +615,7 @@ public class PageAlert extends UIComponentBase implements NamingContainer {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[14];
         _values[0] = super.saveState(_context);

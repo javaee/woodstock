@@ -21,15 +21,14 @@
  */
 package com.sun.webui.jsf.component;
 
-import javax.faces.context.FacesContext; 
-import com.sun.faces.annotation.Component;
-import com.sun.faces.annotation.Property;
+import javax.faces.context.FacesContext;
 
 /**
  * For internal use only.
  */
 public interface SelectorManager {
-      /**
+
+    /**
      * JSF standard method from UIComponent
      * @param context The FacesContext for the request
      * @return The client id, also the JavaScript element id
@@ -42,7 +41,7 @@ public interface SelectorManager {
      */
     public boolean isDisabled();
 
-        /**
+    /**
      * Get the JS onchange event handler
      * @return A string representing the JS event handler
      */
@@ -53,20 +52,20 @@ public interface SelectorManager {
      * @return the tabindex
      */
     public int getTabIndex();
-    
-       /**
+
+    /**
      * Returns true if the component allows multiple selections
      * @return true if the component allows multiple selections
      */
     public boolean isMultiple();
-    
+
     /**
      * Returns true if the component is readonly
      * @return true if the component is readonly
      */
-    public boolean isReadOnly(); 
-    
+    public boolean isReadOnly();
+
     public String getStyle();
-    
+
     public String getStyleClass();
 }

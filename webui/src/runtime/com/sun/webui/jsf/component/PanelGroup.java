@@ -23,9 +23,7 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-
 import javax.el.ValueExpression;
-import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.component.NamingContainer;
 import javax.faces.context.FacesContext;
@@ -33,11 +31,12 @@ import javax.faces.context.FacesContext;
 /**
  * The PanelGroup component is used to arrange a group of components.
  */
-@Component(type="com.sun.webui.jsf.PanelGroup", family="com.sun.webui.jsf.PanelGroup", displayName="Group Panel", instanceName="groupPanel", tagName="panelGroup",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_group_panel",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_panel_group_props")
+@Component(type = "com.sun.webui.jsf.PanelGroup", family = "com.sun.webui.jsf.PanelGroup",
+displayName = "Group Panel", instanceName = "groupPanel", tagName = "panelGroup",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_group_panel",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_panel_group_props")
 public class PanelGroup extends UIComponentBase implements NamingContainer {
-    
+
     public final static String SEPARATOR_FACET = "separator"; //NOI18N
 
     /**
@@ -58,12 +57,12 @@ public class PanelGroup extends UIComponentBase implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -75,11 +74,11 @@ public class PanelGroup extends UIComponentBase implements NamingContainer {
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
-
     /**
      * <p>By default, the panelGroup component is rendered on the same
      * line as the component that comes before it and the component
@@ -89,7 +88,7 @@ public class PanelGroup extends UIComponentBase implements NamingContainer {
      * The block attribute has no effect on the panelGroup component's
      * children.</p>
      */
-    @Property(name="block", displayName="Block", category="Appearance")
+    @Property(name = "block", displayName = "Block", category = "Appearance")
     private boolean block = false;
     private boolean block_set = false;
 
@@ -132,7 +131,6 @@ public class PanelGroup extends UIComponentBase implements NamingContainer {
         this.block = block;
         this.block_set = true;
     }
-
     /**
      * <p> The string of characters or HTML element that should be inserted between each
      * component that is a child of this component.  To specify an HTML element,
@@ -142,7 +140,8 @@ public class PanelGroup extends UIComponentBase implements NamingContainer {
      * separator attribute is not specified, the components are rendered with a single
      * space between them.</p>
      */
-    @Property(name="separator", displayName="Separator", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "separator", displayName = "Separator", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String separator = null;
 
     /**
@@ -178,12 +177,12 @@ public class PanelGroup extends UIComponentBase implements NamingContainer {
     public void setSeparator(String separator) {
         this.separator = separator;
     }
-
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
+    @Property(name = "style", displayName = "CSS Style(s)", category = "Appearance",
+    editorClassName = "com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
@@ -209,12 +208,12 @@ public class PanelGroup extends UIComponentBase implements NamingContainer {
     public void setStyle(String style) {
         this.style = style;
     }
-
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
@@ -240,7 +239,6 @@ public class PanelGroup extends UIComponentBase implements NamingContainer {
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -250,7 +248,7 @@ public class PanelGroup extends UIComponentBase implements NamingContainer {
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @Property(name="visible", displayName="Visible", category="Behavior")
+    @Property(name = "visible", displayName = "Visible", category = "Behavior")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -297,7 +295,8 @@ public class PanelGroup extends UIComponentBase implements NamingContainer {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.block = ((Boolean) _values[1]).booleanValue();
@@ -312,6 +311,7 @@ public class PanelGroup extends UIComponentBase implements NamingContainer {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[8];
         _values[0] = super.saveState(_context);

@@ -23,60 +23,54 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-import com.sun.webui.jsf.event.MethodExprValueChangeListener;
 import com.sun.webui.jsf.model.OptionTitle;
-import com.sun.webui.jsf.util.ConversionUtilities; 
+import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.jsf.util.MessageUtil;
-import com.sun.webui.jsf.util.ValueType; 
-import com.sun.webui.jsf.util.ValueTypeEvaluator; 
-import com.sun.webui.jsf.validator.MethodExprValidator;
-
+import com.sun.webui.jsf.util.ValueType;
+import com.sun.webui.jsf.util.ValueTypeEvaluator;
 import java.lang.reflect.Array;
-import java.util.Iterator; 
-
+import java.util.Iterator;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
-import javax.faces.event.ValueChangeListener;
 import javax.faces.render.Renderer;
-import javax.faces.validator.Validator;
 
 /** 
  * Base component for UI components that allow the user to make a selection from
  * a set of options. 
- */ 
-@Component(type="com.sun.webui.jsf.Selector", family="com.sun.webui.jsf.Selector", displayName="Selector", isTag=false,
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_selector",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_selector_props")
+ */
+@Component(type = "com.sun.webui.jsf.Selector", family = "com.sun.webui.jsf.Selector",
+displayName = "Selector", isTag = false,
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_selector",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_selector_props")
 public class Selector extends WebuiInput implements SelectorManager {
-    
+
     // If true, debugging statements are printed to stdout
     private static final boolean DEBUG = false;
-
     /**
      * Read only separator string
      */
     private static final String READ_ONLY_SEPARATOR = ", "; //NOI18N
-
     private boolean multiple;
 
-   // Holds the ValueType of this component
-    protected ValueTypeEvaluator valueTypeEvaluator = null; 
-    
-    public Selector() { 
-        valueTypeEvaluator = new ValueTypeEvaluator(this); 
+    // Holds the ValueType of this component
+    protected ValueTypeEvaluator valueTypeEvaluator = null;
+
+    public Selector() {
+        valueTypeEvaluator = new ValueTypeEvaluator(this);
         setRendererType("com.sun.webui.jsf.Selector");
     }
 
     /**
      * <p>Return the family for this component.</p>
      */
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.Selector";
     }
-    
+
     /**
      * <p>Return a flag indicating whether this component is responsible
      * for rendering its child components.  The default implementation
@@ -88,10 +82,11 @@ public class Selector extends WebuiInput implements SelectorManager {
      * <code>true</code> from this method and rely on {@link
      * UIComponentBase#encodeChildren}.</p>
      */
+    @Override
     public boolean getRendersChildren() {
         return true;
     }
-        
+
     /**
      * Retrieve the value of this component (the "selected" property) as an  
      * object. This method is invoked by the JSF engine during the validation 
@@ -102,15 +97,14 @@ public class Selector extends WebuiInput implements SelectorManager {
      * @param context The FacesContext of the request
      * @param submittedValue The submitted value of the component
      */
-    
-    public Object getConvertedValue(FacesContext context, 
-                                    Object submittedValue)
-        throws ConverterException {    
-        return getConvertedValue(this, valueTypeEvaluator, context, submittedValue); 
-    } 
-    
-        
-   /**
+    @Override
+    public Object getConvertedValue(FacesContext context,
+            Object submittedValue)
+            throws ConverterException {
+        return getConvertedValue(this, valueTypeEvaluator, context, submittedValue);
+    }
+
+    /**
      * Retrieve the value of this component (the "selected" property) as an  
      * object. This method is invoked by the JSF engine during the validation 
      * phase. The JSF default behaviour is for components to defer the 
@@ -121,106 +115,116 @@ public class Selector extends WebuiInput implements SelectorManager {
      * @param context The FacesContext of the request
      * @param submittedValue The submitted value of the component
      */
-    private Object getConvertedValue(UIComponent component, 
-				  ValueTypeEvaluator valueTypeEvaluator,
-				  FacesContext context, 
-				  Object submittedValue)
+    private Object getConvertedValue(UIComponent component,
+            ValueTypeEvaluator valueTypeEvaluator,
+            FacesContext context,
+            Object submittedValue)
+            throws ConverterException {
 
-        throws ConverterException {
-  
-        if(DEBUG) log("getConvertedValue()", component); 
+        if (DEBUG) {
+            log("getConvertedValue()", component);
+        }
 
-	if(!(submittedValue instanceof String[])) { 
-            Object[] args = { component.getClass().getName() }; 
-	    String msg = MessageUtil.getMessage
-                    ("com.sun.webui.jsf.resources.LogMessages", //NOI18N
-		     "Selector.invalidSubmittedValue", args); //NOI18N
-                          
-	    throw new ConverterException(msg);
-	} 
+        if (!(submittedValue instanceof String[])) {
+            Object[] args = {component.getClass().getName()};
+            String msg = MessageUtil.getMessage("com.sun.webui.jsf.resources.LogMessages", //NOI18N
+                    "Selector.invalidSubmittedValue", args); //NOI18N
 
-	String[] rawValues = (String[])submittedValue; 
+            throw new ConverterException(msg);
+        }
 
-	// This should never happen
-	//
-	if(rawValues.length == 1 &&
-		OptionTitle.NONESELECTED.equals(rawValues[0])) { 
-            Object[] args = { OptionTitle.NONESELECTED }; 
-	    String msg = MessageUtil.getMessage
-                    ("com.sun.webui.jsf.resources.LogMessages", //NOI18N
-		     "Selector.invalidSubmittedValue", args); //NOI18N
-                          
-	    throw new ConverterException(msg);
-	}
-	
-	// If there are no elements in rawValue nothing was submitted.
-	// If null was rendered, return null
-	//
-	if(rawValues.length == 0) {
-	    if(DEBUG) log("\t no values submitted, we return null", component); 
-	    if (ConversionUtilities.renderedNull(component)) {
-		return null; 
-	    }
-	}
+        String[] rawValues = (String[]) submittedValue;
+
+        // This should never happen
+        //
+        if (rawValues.length == 1 &&
+                OptionTitle.NONESELECTED.equals(rawValues[0])) {
+            Object[] args = {OptionTitle.NONESELECTED};
+            String msg = MessageUtil.getMessage("com.sun.webui.jsf.resources.LogMessages", //NOI18N
+                    "Selector.invalidSubmittedValue", args); //NOI18N
+
+            throw new ConverterException(msg);
+        }
+
+        // If there are no elements in rawValue nothing was submitted.
+        // If null was rendered, return null
+        //
+        if (rawValues.length == 0) {
+            if (DEBUG) {
+                log("\t no values submitted, we return null", component);
+            }
+            if (ConversionUtilities.renderedNull(component)) {
+                return null;
+            }
+        }
 
         // Why does getAttributes.get("multiple") not work? 
-	if(((SelectorManager)component).isMultiple()) { 
-	    if(DEBUG) log("\tComponent accepts multiple values", component); 
+        if (((SelectorManager) component).isMultiple()) {
+            if (DEBUG) {
+                log("\tComponent accepts multiple values", component);
+            }
 
-	    if(valueTypeEvaluator.getValueType() == ValueType.ARRAY) { 
-		if(DEBUG) log("\tComponent value is an array", component); 
-		return ConversionUtilities.convertValueToArray
-		    (component, rawValues, context); 
-	    } 
-	    // This case is not supported yet!
-	    else if(valueTypeEvaluator.getValueType() == ValueType.LIST) { 
-		if(DEBUG) log("\tComponent value is a list", component); 
-		/* Until this is fixed throw exception saying it is 
-		   unsupported
-		return ConversionUtilities.convertValueToList
-		    (component, rawValues, context); 
-		*/
-		throw new javax.faces.FacesException(
-			"List is not a supported value.");
-	    } 
-	    else {
-                if(DEBUG) log("\tMultiple selection enabled for non-array value", 
-                              component);
-                Object[] params = { component.getClass().getName() };
-                String msg = MessageUtil.getMessage
-                        ("com.sun.webui.jsf.resources.LogMessages", //NOI18N
-                         "Selector.multipleError",               //NOI18N
-                         params); 
+            if (valueTypeEvaluator.getValueType() == ValueType.ARRAY) {
+                if (DEBUG) {
+                    log("\tComponent value is an array", component);
+                }
+                return ConversionUtilities.convertValueToArray(component, rawValues, context);
+            } // This case is not supported yet!
+            else if (valueTypeEvaluator.getValueType() == ValueType.LIST) {
+                if (DEBUG) {
+                    log("\tComponent value is a list", component);
+                }
+                /* Until this is fixed throw exception saying it is
+                unsupported
+                return ConversionUtilities.convertValueToList
+                (component, rawValues, context);
+                 */
+                throw new javax.faces.FacesException(
+                        "List is not a supported value.");
+            } else {
+                if (DEBUG) {
+                    log("\tMultiple selection enabled for non-array value",
+                            component);
+                }
+                Object[] params = {component.getClass().getName()};
+                String msg = MessageUtil.getMessage("com.sun.webui.jsf.resources.LogMessages", //NOI18N
+                        "Selector.multipleError", //NOI18N
+                        params);
                 throw new ConverterException(msg);
-	    }
-	}
+            }
+        }
 
-	if(DEBUG) log("\tComponent value is an object", component); 
+        if (DEBUG) {
+            log("\tComponent value is an object", component);
+        }
 
-	// Not sure if this case is taken care of consistently
-	// Need to formulate the possible states for the
-	// submitted value and what they mean.
-	//
-	// This can overwrite an unchanged value property
-	// with null when it was originally empty string.
+        // Not sure if this case is taken care of consistently
+        // Need to formulate the possible states for the
+        // submitted value and what they mean.
+        //
+        // This can overwrite an unchanged value property
+        // with null when it was originally empty string.
 	/*
-	if(rawValues[0].length() == 0) { 
-	    if(DEBUG) log("\t empty string submitted, return null", component); 
-	    return null; 
-	} 
-	*/
+        if(rawValues[0].length() == 0) {
+        if(DEBUG) log("\t empty string submitted, return null", component);
+        return null;
+        }
+         */
 
-	String cv = rawValues.length == 0 ? "" : rawValues[0];
+        String cv = rawValues.length == 0 ? "" : rawValues[0];
 
-	if(valueTypeEvaluator.getValueType() == ValueType.NONE) { 
-            if(DEBUG) log("\t valuetype == none, return rawValue", component); 
-	    return cv;
-	} 
+        if (valueTypeEvaluator.getValueType() == ValueType.NONE) {
+            if (DEBUG) {
+                log("\t valuetype == none, return rawValue", component);
+            }
+            return cv;
+        }
 
-        if(DEBUG) log("\t Convert the thing...", component); 
-	return ConversionUtilities.convertValueToObject
-	    (component, cv, context);
-    } 
+        if (DEBUG) {
+            log("\t Convert the thing...", component);
+        }
+        return ConversionUtilities.convertValueToObject(component, cv, context);
+    }
 
     /**
      * Return a string suitable for displaying the value in read only mode.
@@ -237,11 +241,11 @@ public class Selector extends WebuiInput implements SelectorManager {
     // I note that although this code has been refactored by Rick, my 
     // original code already did this so the fault is wtih me. 
     protected String getValueAsReadOnly(FacesContext context) {
-        
-	// The comma format READ_ONLY_SEPARATOR should be part of the theme
-	// and/or configurable by the application
-	//
-	return getValueAsString(context, READ_ONLY_SEPARATOR, true);
+
+        // The comma format READ_ONLY_SEPARATOR should be part of the theme
+        // and/or configurable by the application
+        //
+        return getValueAsString(context, READ_ONLY_SEPARATOR, true);
     }
 
     /**
@@ -253,9 +257,9 @@ public class Selector extends WebuiInput implements SelectorManager {
      * @param separator A String separator between the values
     
     public String getValueAsString(FacesContext context, String separator) { 
-	 return getValueAsString(context, separator, false);
+    return getValueAsString(context, separator, false);
     }
- */
+     */
     /**
      * Get the value (the object representing the selection(s)) of this 
      * component as a String. If the component allows multiple selections,
@@ -271,102 +275,99 @@ public class Selector extends WebuiInput implements SelectorManager {
      * separator string.
      */
     private String getValueAsString(FacesContext context, String separator,
-		boolean readOnly) {
+            boolean readOnly) {
 
-	// Need to distinguish null value from an empty string
-	// value. See the end of this method for empty string
-	// value formatting
-	//
-	Object value = getValue(); 
-	if(value == null) { 
-	    return new String(); 
-	} 
+        // Need to distinguish null value from an empty string
+        // value. See the end of this method for empty string
+        // value formatting
+        //
+        Object value = getValue();
+        if (value == null) {
+            return new String();
+        }
 
-	if(valueTypeEvaluator.getValueType() == ValueType.NONE) { 
-	    return new String(); 
-	} 
-        
-	if(valueTypeEvaluator.getValueType() == ValueType.INVALID) { 
-	    return new String(); 
-	} 
+        if (valueTypeEvaluator.getValueType() == ValueType.NONE) {
+            return new String();
+        }
 
-	// Multiple selections
-	//
-	// The format should be the same as that returned
-	// from the javascript which always has a leading
-	// and terminating separator. And suitable for decoding
-	// by ListRendererBase.decode
-	//
-	if(valueTypeEvaluator.getValueType() == ValueType.LIST) { 
+        if (valueTypeEvaluator.getValueType() == ValueType.INVALID) {
+            return new String();
+        }
 
-	    StringBuffer valueBuffer = new StringBuffer(256); 
+        // Multiple selections
+        //
+        // The format should be the same as that returned
+        // from the javascript which always has a leading
+        // and terminating separator. And suitable for decoding
+        // by ListRendererBase.decode
+        //
+        if (valueTypeEvaluator.getValueType() == ValueType.LIST) {
 
-	    java.util.List list = (java.util.List)value; 
-	    Iterator valueIterator = ((java.util.List)value).iterator();
-	    String valueString = null; 
+            StringBuffer valueBuffer = new StringBuffer(256);
 
-	    // Leading delimiter
-	    //
-	    if (!readOnly && valueIterator.hasNext()) {
-		valueBuffer.append(separator);
-	    }
+            java.util.List list = (java.util.List) value;
+            Iterator valueIterator = ((java.util.List) value).iterator();
+            String valueString = null;
 
-	    while(valueIterator.hasNext()) {
-		valueString = ConversionUtilities.convertValueToString
-			(this, valueIterator.next());
-		valueBuffer.append(valueString); 
-		// Add terminating delimiter
-		//
-                if(!readOnly || (readOnly && valueIterator.hasNext())) {
+            // Leading delimiter
+            //
+            if (!readOnly && valueIterator.hasNext()) {
+                valueBuffer.append(separator);
+            }
+
+            while (valueIterator.hasNext()) {
+                valueString = ConversionUtilities.convertValueToString(this, valueIterator.next());
+                valueBuffer.append(valueString);
+                // Add terminating delimiter
+                //
+                if (!readOnly || (readOnly && valueIterator.hasNext())) {
                     valueBuffer.append(separator);
                 }
-	    } 
-	    return valueBuffer.toString(); 
-	}
+            }
+            return valueBuffer.toString();
+        }
 
-	if(valueTypeEvaluator.getValueType() == ValueType.ARRAY) {
-	    
-	    StringBuffer valueBuffer = new StringBuffer(256); 
+        if (valueTypeEvaluator.getValueType() == ValueType.ARRAY) {
 
-	    int length = Array.getLength(value); 
-	    Object valueObject = null;
-	    String valueString = null; 
-	    
-	    if (!readOnly && length != 0) {
-		valueBuffer.append(separator);
-	    }
-	    for(int counter = 0; counter < length; ++counter) { 
-		valueObject = Array.get(value,counter); 
-		valueString = 
-		    ConversionUtilities.convertValueToString
-		    (this, valueObject); 
-		valueBuffer.append(valueString); 
-		// Add terminating delimiter
-		//
-                if(!readOnly || (readOnly && counter < length - 1)) {
+            StringBuffer valueBuffer = new StringBuffer(256);
+
+            int length = Array.getLength(value);
+            Object valueObject = null;
+            String valueString = null;
+
+            if (!readOnly && length != 0) {
+                valueBuffer.append(separator);
+            }
+            for (int counter = 0; counter < length; ++counter) {
+                valueObject = Array.get(value, counter);
+                valueString =
+                        ConversionUtilities.convertValueToString(this, valueObject);
+                valueBuffer.append(valueString);
+                // Add terminating delimiter
+                //
+                if (!readOnly || (readOnly && counter < length - 1)) {
                     valueBuffer.append(separator);
                 }
-	    } 
-	    return valueBuffer.toString(); 
-	} 
+            }
+            return valueBuffer.toString();
+        }
 
-	// Empty string looks like '<sep><sep>' or if separator == "|"
-	// it'll be "||"
-	//
-	String cv = ConversionUtilities.convertValueToString(this, value);
-	if (readOnly) {
-	    return cv;
-	} else {
-	    StringBuffer sb = new StringBuffer(64);
-	    return sb.append(separator).append(cv).append(separator).toString();
-	}
-    } 
+        // Empty string looks like '<sep><sep>' or if separator == "|"
+        // it'll be "||"
+        //
+        String cv = ConversionUtilities.convertValueToString(this, value);
+        if (readOnly) {
+            return cv;
+        } else {
+            StringBuffer sb = new StringBuffer(64);
+            return sb.append(separator).append(cv).append(separator).toString();
+        }
+    }
 
     public int getLabelLevel() {
-
         int labelLevel = _getLabelLevel();
-        if(labelLevel < 1 || labelLevel > 3) { 
-            labelLevel = 2; 
+        if (labelLevel < 1 || labelLevel > 3) {
+            labelLevel = 2;
             setLabelLevel(labelLevel);
         }
         return labelLevel;
@@ -377,7 +378,7 @@ public class Selector extends WebuiInput implements SelectorManager {
      * @return Value of property multiple.
      */
     public boolean isMultiple() {
-        
+
         return this.multiple;
     }
 
@@ -386,7 +387,7 @@ public class Selector extends WebuiInput implements SelectorManager {
      * @param multiple New value of property multiple.
      */
     public void setMultiple(boolean multiple) {
-        if(this.multiple != multiple) {
+        if (this.multiple != multiple) {
             valueTypeEvaluator.reset();
             this.multiple = multiple;
         }
@@ -396,12 +397,13 @@ public class Selector extends WebuiInput implements SelectorManager {
      * Public method toString() 
      * @return A String representation of this component
      */
+    @Override
     public String toString() {
-	String string = this.getClass().getName(); 
-	return string; 
+        String string = this.getClass().getName();
+        return string;
     }
 
-     /**
+    /**
      * private method for development time error detecting
      */
     static void log(String s, Object o) {
@@ -431,66 +433,67 @@ public class Selector extends WebuiInput implements SelectorManager {
      * @param previous old value of this component (if any)
      * @param value new value of this component (if any)
      */
+    @Override
     protected boolean compareValues(Object previous, Object value) {
 
-	// Let super take care of null cases
-	//
-	if (previous == null || value == null) {
-	    return super.compareValues(previous, value);
-	}
-	if (value instanceof Object[]) {
-	    // If the lengths aren't equal return true
-	    //
-	    int length = Array.getLength(value);
-	    if (Array.getLength(previous) != length) {
-		return true;
-	    }
-	    // Each element at index "i" in previous must be equal to the
-	    // elementa at index "i" in value.
-	    //
-	    for (int i = 0; i < length; ++i) {
-
-		Object newValue = Array.get(value, i);
-		Object prevValue = Array.get(previous, i);
-
-		// This is probably not necessary since
-		// an Option's value cannot be null
-		//
-		if (newValue == null) {
-		    if (prevValue == null) {
-			continue;
-		    } else {
-			return true;
-		    }
-		}
-		if (prevValue == null) {
-		    return true;
-		}
-
-		if (!prevValue.equals(newValue)) {
-		    return true;
-		}
-	    }
-	    return false;
+        // Let super take care of null cases
+        //
+        if (previous == null || value == null) {
+            return super.compareValues(previous, value);
         }
-	return super.compareValues(previous, value);
+        if (value instanceof Object[]) {
+            // If the lengths aren't equal return true
+            //
+            int length = Array.getLength(value);
+            if (Array.getLength(previous) != length) {
+                return true;
+            }
+            // Each element at index "i" in previous must be equal to the
+            // elementa at index "i" in value.
+            //
+            for (int i = 0; i < length; ++i) {
+
+                Object newValue = Array.get(value, i);
+                Object prevValue = Array.get(previous, i);
+
+                // This is probably not necessary since
+                // an Option's value cannot be null
+                //
+                if (newValue == null) {
+                    if (prevValue == null) {
+                        continue;
+                    } else {
+                        return true;
+                    }
+                }
+                if (prevValue == null) {
+                    return true;
+                }
+
+                if (!prevValue.equals(newValue)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        return super.compareValues(previous, value);
     }
 
     public void setSelected(Object selected) {
         _setSelected(selected);
-        valueTypeEvaluator.reset(); 
+        valueTypeEvaluator.reset();
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * <p>Return the <code>ValueExpression</code> stored for the
      * specified name (if any), respecting any property aliases.</p>
      *
      * @param name Name of value binding expression to retrieve
      */
+    @Override
     public ValueExpression getValueExpression(String name) {
         if (name.equals("selected")) {
             return super.getValueExpression("value");
@@ -506,20 +509,20 @@ public class Selector extends WebuiInput implements SelectorManager {
      * @param name    Name of value binding to set
      * @param binding ValueExpression to set, or null to remove
      */
-    public void setValueExpression(String name,ValueExpression binding) {
+    @Override
+    public void setValueExpression(String name, ValueExpression binding) {
         if (name.equals("selected")) {
             super.setValueExpression("value", binding);
             return;
         }
         super.setValueExpression(name, binding);
     }
-
     /**
      * <p>Flag indicating that the user is not permitted to activate this
      * component, and that the component's value will not be submitted with the
      * form.</p>
      */
-    @Property(name="disabled", displayName="Disabled", category="Behavior")
+    @Property(name = "disabled", displayName = "Disabled", category = "Behavior")
     private boolean disabled = false;
     private boolean disabled_set = false;
 
@@ -554,13 +557,13 @@ public class Selector extends WebuiInput implements SelectorManager {
         this.disabled = disabled;
         this.disabled_set = true;
     }
-
     /**
      * <p>Specifies the options that the web application user can choose
      * from. The value must be one of an array, Map or Collection
      * whose members are all subclasses of<code>com.sun.webui.jsf.model.Option</code>.</p>
      */
-    @Property(name="items", displayName="Items", category="Data", editorClassName="com.sun.rave.propertyeditors.binding.ValueBindingPropertyEditor")
+    @Property(name = "items", displayName = "Items", category = "Data",
+    editorClassName = "com.sun.rave.propertyeditors.binding.ValueBindingPropertyEditor")
     private Object items = null;
 
     /**
@@ -588,12 +591,12 @@ public class Selector extends WebuiInput implements SelectorManager {
     public void setItems(Object items) {
         this.items = items;
     }
-
     /**
      * <p>If set, a label is rendered adjacent to the component with the
      * value of this attribute as the label text.</p>
      */
-    @Property(name="label", displayName="Label", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "label", displayName = "Label", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String label = null;
 
     /**
@@ -619,13 +622,13 @@ public class Selector extends WebuiInput implements SelectorManager {
     public void setLabel(String label) {
         this.label = label;
     }
-
     /**
      * <p>Sets the style level for the generated label, provided the
      * label attribute has been set. Valid values are 1 (largest), 2 and
      * 3 (smallest). The default value is 2.</p>
      */
-    @Property(name="labelLevel", displayName="Label Level", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.LabelLevelsEditor")
+    @Property(name = "labelLevel", displayName = "Label Level", category = "Appearance",
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.LabelLevelsEditor")
     private int labelLevel = Integer.MIN_VALUE;
     private boolean labelLevel_set = false;
 
@@ -660,11 +663,11 @@ public class Selector extends WebuiInput implements SelectorManager {
         this.labelLevel = labelLevel;
         this.labelLevel_set = true;
     }
-
     /**
      * <p>Scripting code executed when this element loses focus.</p>
      */
-    @Property(name="onBlur", displayName="Blur Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onBlur", displayName = "Blur Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onBlur = null;
 
     /**
@@ -688,12 +691,12 @@ public class Selector extends WebuiInput implements SelectorManager {
     public void setOnBlur(String onBlur) {
         this.onBlur = onBlur;
     }
-
     /**
      * <p>Scripting code executed when the element
      * value of this component is changed.</p>
      */
-    @Property(name="onChange", displayName="Value Change Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onChange", displayName = "Value Change Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onChange = null;
 
     /**
@@ -719,12 +722,12 @@ public class Selector extends WebuiInput implements SelectorManager {
     public void setOnChange(String onChange) {
         this.onChange = onChange;
     }
-
     /**
      * <p>Scripting code executed when a mouse click
      * occurs over this component.</p>
      */
-    @Property(name="onClick", displayName="Click Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onClick", displayName = "Click Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onClick = null;
 
     /**
@@ -750,12 +753,12 @@ public class Selector extends WebuiInput implements SelectorManager {
     public void setOnClick(String onClick) {
         this.onClick = onClick;
     }
-
     /**
      * <p>Scripting code executed when a mouse double click
      * occurs over this component.</p>
      */
-    @Property(name="onDblClick", displayName="Double Click Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onDblClick", displayName = "Double Click Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onDblClick = null;
 
     /**
@@ -781,13 +784,13 @@ public class Selector extends WebuiInput implements SelectorManager {
     public void setOnDblClick(String onDblClick) {
         this.onDblClick = onDblClick;
     }
-
     /**
      * <p>Scripting code executed when this component  receives focus. An
      * element receives focus when the user selects the element by pressing
      * the tab key or clicking the mouse.</p>
      */
-    @Property(name="onFocus", displayName="Focus Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onFocus", displayName = "Focus Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onFocus = null;
 
     /**
@@ -815,12 +818,12 @@ public class Selector extends WebuiInput implements SelectorManager {
     public void setOnFocus(String onFocus) {
         this.onFocus = onFocus;
     }
-
     /**
      * <p>Scripting code executed when the user presses down on a key while the
      * component has focus.</p>
      */
-    @Property(name="onKeyDown", displayName="Key Down Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onKeyDown", displayName = "Key Down Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyDown = null;
 
     /**
@@ -846,12 +849,12 @@ public class Selector extends WebuiInput implements SelectorManager {
     public void setOnKeyDown(String onKeyDown) {
         this.onKeyDown = onKeyDown;
     }
-
     /**
      * <p>Scripting code executed when the user presses and releases a key while
      * the component has focus.</p>
      */
-    @Property(name="onKeyPress", displayName="Key Press Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onKeyPress", displayName = "Key Press Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyPress = null;
 
     /**
@@ -877,12 +880,12 @@ public class Selector extends WebuiInput implements SelectorManager {
     public void setOnKeyPress(String onKeyPress) {
         this.onKeyPress = onKeyPress;
     }
-
     /**
      * <p>Scripting code executed when the user releases a key while the
      * component has focus.</p>
      */
-    @Property(name="onKeyUp", displayName="Key Up Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onKeyUp", displayName = "Key Up Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyUp = null;
 
     /**
@@ -908,12 +911,12 @@ public class Selector extends WebuiInput implements SelectorManager {
     public void setOnKeyUp(String onKeyUp) {
         this.onKeyUp = onKeyUp;
     }
-
     /**
      * <p>Scripting code executed when the user presses a mouse button while the
      * mouse pointer is on the component.</p>
      */
-    @Property(name="onMouseDown", displayName="Mouse Down Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseDown", displayName = "Mouse Down Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseDown = null;
 
     /**
@@ -939,12 +942,12 @@ public class Selector extends WebuiInput implements SelectorManager {
     public void setOnMouseDown(String onMouseDown) {
         this.onMouseDown = onMouseDown;
     }
-
     /**
      * <p>Scripting code executed when the user moves the mouse pointer while
      * over the component.</p>
      */
-    @Property(name="onMouseMove", displayName="Mouse Move Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseMove", displayName = "Mouse Move Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseMove = null;
 
     /**
@@ -970,12 +973,12 @@ public class Selector extends WebuiInput implements SelectorManager {
     public void setOnMouseMove(String onMouseMove) {
         this.onMouseMove = onMouseMove;
     }
-
     /**
      * <p>Scripting code executed when a mouse out movement
      * occurs over this component.</p>
      */
-    @Property(name="onMouseOut", displayName="Mouse Out Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseOut", displayName = "Mouse Out Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseOut = null;
 
     /**
@@ -1001,12 +1004,12 @@ public class Selector extends WebuiInput implements SelectorManager {
     public void setOnMouseOut(String onMouseOut) {
         this.onMouseOut = onMouseOut;
     }
-
     /**
      * <p>Scripting code executed when the user moves the  mouse pointer into
      * the boundary of this component.</p>
      */
-    @Property(name="onMouseOver", displayName="Mouse In Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseOver", displayName = "Mouse In Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseOver = null;
 
     /**
@@ -1032,12 +1035,12 @@ public class Selector extends WebuiInput implements SelectorManager {
     public void setOnMouseOver(String onMouseOver) {
         this.onMouseOver = onMouseOver;
     }
-
     /**
      * <p>Scripting code executed when the user releases a mouse button while
      * the mouse pointer is on the component.</p>
      */
-    @Property(name="onMouseUp", displayName="Mouse Up Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseUp", displayName = "Mouse Up Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseUp = null;
 
     /**
@@ -1063,12 +1066,12 @@ public class Selector extends WebuiInput implements SelectorManager {
     public void setOnMouseUp(String onMouseUp) {
         this.onMouseUp = onMouseUp;
     }
-
     /**
      * <p>Scripting code executed when some text in this
      * component value is selected.</p>
      */
-    @Property(name="onSelect", displayName="Text Selected Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onSelect", displayName = "Text Selected Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onSelect = null;
 
     /**
@@ -1094,12 +1097,11 @@ public class Selector extends WebuiInput implements SelectorManager {
     public void setOnSelect(String onSelect) {
         this.onSelect = onSelect;
     }
-
     /**
      * <p>If this attribute is set to true, the value of the component is
      * rendered as text, preceded by the label if one was defined.</p>
      */
-    @Property(name="readOnly", displayName="Read-only", category="Behavior")
+    @Property(name = "readOnly", displayName = "Read-only", category = "Behavior")
     private boolean readOnly = false;
     private boolean readOnly_set = false;
 
@@ -1139,7 +1141,8 @@ public class Selector extends WebuiInput implements SelectorManager {
      * must be bound to an Object array, or an array of
      * primitives.</p>
      */
-    @Property(name="selected", displayName="Selected", category="Data", editorClassName="com.sun.rave.propertyeditors.binding.ValueBindingPropertyEditor")
+    @Property(name = "selected", displayName = "Selected", category = "Data",
+    editorClassName = "com.sun.rave.propertyeditors.binding.ValueBindingPropertyEditor")
     public Object getSelected() {
         return getValue();
     }
@@ -1154,12 +1157,12 @@ public class Selector extends WebuiInput implements SelectorManager {
     private void _setSelected(Object selected) {
         setValue(selected);
     }
-
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
+    @Property(name = "style", displayName = "CSS Style(s)", category = "Appearance",
+    editorClassName = "com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
@@ -1185,12 +1188,12 @@ public class Selector extends WebuiInput implements SelectorManager {
     public void setStyle(String style) {
         this.style = style;
     }
-
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
@@ -1216,14 +1219,14 @@ public class Selector extends WebuiInput implements SelectorManager {
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-
     /**
      * <p>Position of this element in the tabbing order of the current document. 
      * Tabbing order determines the sequence in which elements receive 
      * focus when the tab key is pressed. The value must be an integer 
      * between 0 and 32767.</p>
      */
-    @Property(name="tabIndex", displayName="Tab Index", category="Accessibility", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "tabIndex", displayName = "Tab Index", category = "Accessibility",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int tabIndex = Integer.MIN_VALUE;
     private boolean tabIndex_set = false;
 
@@ -1260,13 +1263,13 @@ public class Selector extends WebuiInput implements SelectorManager {
         this.tabIndex = tabIndex;
         this.tabIndex_set = true;
     }
-
     /**
      * <p>Sets the value of the title attribute for the HTML element.
      * The specified text will display as a tooltip if the mouse cursor hovers 
      * over the HTML element.</p>
      */
-    @Property(name="toolTip", displayName="Tool Tip", category="Behavior", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "toolTip", displayName = "Tool Tip", category = "Behavior",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String toolTip = null;
 
     /**
@@ -1294,7 +1297,6 @@ public class Selector extends WebuiInput implements SelectorManager {
     public void setToolTip(String toolTip) {
         this.toolTip = toolTip;
     }
-
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -1304,7 +1306,7 @@ public class Selector extends WebuiInput implements SelectorManager {
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @Property(name="visible", displayName="Visible", category="Behavior")
+    @Property(name = "visible", displayName = "Visible", category = "Behavior")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -1351,7 +1353,8 @@ public class Selector extends WebuiInput implements SelectorManager {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.disabled = ((Boolean) _values[1]).booleanValue();
@@ -1388,6 +1391,7 @@ public class Selector extends WebuiInput implements SelectorManager {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[30];
         _values[0] = super.saveState(_context);

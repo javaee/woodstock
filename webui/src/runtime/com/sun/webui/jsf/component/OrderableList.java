@@ -23,28 +23,22 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-import com.sun.webui.jsf.event.MethodExprValueChangeListener;
 import com.sun.webui.jsf.model.list.ListItem;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.util.ComponentUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.jsf.util.ValueType;
-import com.sun.webui.jsf.util.ValueTypeEvaluator; 
-import com.sun.webui.jsf.validator.MethodExprValidator;
-
+import com.sun.webui.jsf.util.ValueTypeEvaluator;
 import java.lang.reflect.Array;
-import java.util.ArrayList; 
+import java.util.ArrayList;
 import java.util.Iterator;
-
 import javax.el.ValueExpression;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
-import javax.faces.event.ValueChangeListener;
 import javax.faces.FacesException;
-import javax.faces.validator.Validator;
 
 /**
  * The OrderableList component creates a list with buttons allowing the user to 
@@ -101,11 +95,13 @@ import javax.faces.validator.Validator;
  * <li>NONE yet</li>
  * </ul>
  */
-@Component(type="com.sun.webui.jsf.OrderableList", family="com.sun.webui.jsf.OrderableList", displayName="Orderable List", tagName="orderableList",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_orderable_list",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_orderable_list_props")
+@Component(type = "com.sun.webui.jsf.OrderableList", family = "com.sun.webui.jsf.OrderableList",
+displayName = "Orderable List", tagName = "orderableList",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_orderable_list",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_orderable_list_props")
 public class OrderableList extends WebuiInput implements ListManager,
-	NamingContainer {
+        NamingContainer {
+
     /**
      * The component id for the moveUp button.
      */
@@ -118,7 +114,6 @@ public class OrderableList extends WebuiInput implements ListManager,
      * The move up button text key.
      */
     public static final String MOVEUP_TEXT_KEY = "OrderableList.moveUp"; //NOI8N
-    
     /**
      * The component id for the moveDown button.
      */
@@ -131,7 +126,6 @@ public class OrderableList extends WebuiInput implements ListManager,
      * The move down button text key.
      */
     public static final String MOVEDOWN_TEXT_KEY = "OrderableList.moveDown"; //NOI8N
-    
     /**
      * The component id for the moveTop button.
      */
@@ -144,7 +138,6 @@ public class OrderableList extends WebuiInput implements ListManager,
      * The move top button text key.
      */
     public static final String MOVETOP_TEXT_KEY = "OrderableList.moveTop"; //NOI8N
-    
     /**
      * The component id for the moveBottom button.
      */
@@ -157,7 +150,6 @@ public class OrderableList extends WebuiInput implements ListManager,
      * The move bottom button text key.
      */
     public static final String MOVEBOTTOM_TEXT_KEY = "OrderableList.moveBottom"; //NOI8N
-
     /**
      * The component ID for the label.
      */
@@ -170,8 +162,7 @@ public class OrderableList extends WebuiInput implements ListManager,
      * The default label text message key.
      */
     public static final String LABEL_TEXT_KEY =
-		"OrderableList.defaultListLabel"; //NOI18N
-    
+            "OrderableList.defaultListLabel"; //NOI18N
     /**
      * The component ID for the read only text field.
      */
@@ -180,18 +171,15 @@ public class OrderableList extends WebuiInput implements ListManager,
      * The facet name for the readOnly text field.
      */
     public static final String READ_ONLY_FACET = "readOnly"; //NOI18N
-
     /** 
      * The name for the footer facet.
-     */ 
+     */
     public static final String FOOTER_FACET = "footer"; //NOI18N
-
     /**
      * String representing "return false" printed at the end of the
      * javascript event handlers.
      */
     public static final String RETURN = "return false;";
-    
     /**
      * Name of the JavaScript function which moves elements up.
      */
@@ -199,7 +187,7 @@ public class OrderableList extends WebuiInput implements ListManager,
     /**
      * Name of the JavaScript function which moves elements down.
      */
-    public static final String MOVEDOWN_FUNCTION = ".moveDown();";      
+    public static final String MOVEDOWN_FUNCTION = ".moveDown();";
     /**
      * Name of the JavaScript function which moves elements to the top.
      */
@@ -207,7 +195,7 @@ public class OrderableList extends WebuiInput implements ListManager,
     /**
      * Name of the JavaScript function which moves elements to the bottom.
      */
-    public static final String MOVEBOTTOM_FUNCTION = ".moveBottom();";          
+    public static final String MOVEBOTTOM_FUNCTION = ".moveBottom();";
     /**
      * Name of the JavaScript function that updates the buttons.
      */
@@ -226,11 +214,10 @@ public class OrderableList extends WebuiInput implements ListManager,
     private static final String READ_ONLY_SEPARATOR = ", "; //NOI18N
 
     // Holds the ValueType of this component
-    private ValueTypeEvaluator valueTypeEvaluator = null; 
-    private ArrayList listItems = null; 
-    private transient Theme theme = null; 
-  
-    private static final boolean DEBUG = false; 
+    private ValueTypeEvaluator valueTypeEvaluator = null;
+    private ArrayList listItems = null;
+    private transient Theme theme = null;
+    private static final boolean DEBUG = false;
 
     /**Default constructor.<p>Construct a new <code>OrderableListBase</code>.</p>
      */
@@ -243,6 +230,7 @@ public class OrderableList extends WebuiInput implements ListManager,
     /**
      * <p>Return the family for this component.</p>
      */
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.OrderableList";
     }
@@ -261,12 +249,13 @@ public class OrderableList extends WebuiInput implements ListManager,
      *
      * @return a move up button component
      */
-    public UIComponent getMoveUpButtonComponent(FacesContext context) { 
-	if(DEBUG) log("getMoveUpButtonComponent()"); //NOI18N
-
-	return getButtonFacet(MOVEUP_BUTTON_FACET, false,
-	    getTheme().getMessage(MOVEUP_TEXT_KEY), MOVEUP_FUNCTION);
-    } 
+    public UIComponent getMoveUpButtonComponent(FacesContext context) {
+        if (DEBUG) {
+            log("getMoveUpButtonComponent()"); //NOI18N
+        }
+        return getButtonFacet(MOVEUP_BUTTON_FACET, false,
+                getTheme().getMessage(MOVEUP_TEXT_KEY), MOVEUP_FUNCTION);
+    }
 
     /**
      * Return a component that implements the move down button.
@@ -281,12 +270,13 @@ public class OrderableList extends WebuiInput implements ListManager,
      *
      * @return a move down button component
      */
-    public UIComponent getMoveDownButtonComponent(FacesContext context) { 
-	if(DEBUG) log("getMoveDownButtonComponent()"); //NOI18N
-
-	return getButtonFacet(MOVEDOWN_BUTTON_FACET, false,
-            getTheme().getMessage(MOVEDOWN_TEXT_KEY), MOVEDOWN_FUNCTION);
-    } 
+    public UIComponent getMoveDownButtonComponent(FacesContext context) {
+        if (DEBUG) {
+            log("getMoveDownButtonComponent()"); //NOI18N
+        }
+        return getButtonFacet(MOVEDOWN_BUTTON_FACET, false,
+                getTheme().getMessage(MOVEDOWN_TEXT_KEY), MOVEDOWN_FUNCTION);
+    }
 
     /**
      * Return a component that implements the move to top button.
@@ -302,11 +292,12 @@ public class OrderableList extends WebuiInput implements ListManager,
      * @return a move to top button component
      */
     public UIComponent getMoveTopButtonComponent(FacesContext context) {
-	if(DEBUG) log("getMoveTopButtonComponent()");  //NOI18N
-
-	return getButtonFacet(MOVETOP_BUTTON_FACET, false,
-            getTheme().getMessage(MOVETOP_TEXT_KEY), MOVETOP_FUNCTION);
-    } 
+        if (DEBUG) {
+            log("getMoveTopButtonComponent()");  //NOI18N
+        }
+        return getButtonFacet(MOVETOP_BUTTON_FACET, false,
+                getTheme().getMessage(MOVETOP_TEXT_KEY), MOVETOP_FUNCTION);
+    }
 
     /**
      * Return a component that implements the move to bottom button.
@@ -321,12 +312,13 @@ public class OrderableList extends WebuiInput implements ListManager,
      *
      * @return a move to bottom button component
      */
-    public UIComponent getMoveBottomButtonComponent(FacesContext context) { 
-	if(DEBUG) log("getMoveBottomButtonComponent()"); //NOI18N
-
-	return getButtonFacet(MOVEBOTTOM_BUTTON_FACET, false,
-            getTheme().getMessage(MOVEBOTTOM_TEXT_KEY), MOVEBOTTOM_FUNCTION);
-    } 
+    public UIComponent getMoveBottomButtonComponent(FacesContext context) {
+        if (DEBUG) {
+            log("getMoveBottomButtonComponent()"); //NOI18N
+        }
+        return getButtonFacet(MOVEBOTTOM_BUTTON_FACET, false,
+                getTheme().getMessage(MOVEBOTTOM_TEXT_KEY), MOVEBOTTOM_FUNCTION);
+    }
 
     /**
      * Return a component that implements a button facet.
@@ -347,38 +339,41 @@ public class OrderableList extends WebuiInput implements ListManager,
      * @return a button facet component
      */
     private UIComponent getButtonFacet(String facetName, boolean primary,
-	String text, String onclickFunction) { 
+            String text, String onclickFunction) {
 
-	if (DEBUG) log("getButtonFacet() " + facetName);  //NOI18N
+        if (DEBUG) {
+            log("getButtonFacet() " + facetName);  //NOI18N
+        }
+        // Check if the page author has defined the facet
+        //
+        UIComponent buttonComponent = getFacet(facetName);
+        if (buttonComponent != null) {
+            if (DEBUG) {
+                log("\tFound facet"); //NOI18N
+            }
+            return buttonComponent;
+        }
 
-	// Check if the page author has defined the facet
-	//
-	UIComponent buttonComponent = getFacet(facetName); 
-	if (buttonComponent != null) {
-	    if (DEBUG) { 
-		log("\tFound facet"); //NOI18N
-	    } 
-	    return buttonComponent;
-	}
+        // Return the private facet or create one, but initialize
+        // it every time
+        //
+        // We know it's a Button
+        //
+        Button button = (Button) ComponentUtilities.getPrivateFacet(this,
+                facetName, true);
+        if (button == null) {
+            if (DEBUG) {
+                log("create Button");
+            }
+            button = new Button();
+            button.setId(ComponentUtilities.createPrivateFacetId(this,
+                    facetName));
+        }
 
-	// Return the private facet or create one, but initialize
-	// it every time
-	//
-	// We know it's a Button
-	//
-	Button button = (Button)ComponentUtilities.getPrivateFacet(this,
-            facetName, true);
-	if (button == null) {
-	    if (DEBUG) log("create Button"); 
-	    button = new Button(); 
-	    button.setId(ComponentUtilities.createPrivateFacetId(this,
-		facetName));
-	}
+        initButtonFacet(button, primary, text, onclickFunction);
+        ComponentUtilities.putPrivateFacet(this, facetName, button);
 
-	initButtonFacet(button, primary, text, onclickFunction);
-	ComponentUtilities.putPrivateFacet(this, facetName, button);
-
-	return button; 
+        return button;
     }
 
     /**
@@ -392,26 +387,22 @@ public class OrderableList extends WebuiInput implements ListManager,
     private void initButtonFacet(Button button, boolean primary, String text,
             String onclickFunction) {
         button.setPrimary(primary);
-	button.setText(text);
+        button.setText(text);
 
-	int tindex = getTabIndex();
-	if (tindex > 0) { 
-	    button.setTabIndex(tindex);
-	} 
+        int tindex = getTabIndex();
+        if (tindex > 0) {
+            button.setTabIndex(tindex);
+        }
 
         StringBuffer buff = new StringBuffer(256);
-        buff.append("document.getElementById('")
-            .append(getClientId(getFacesContext()))
-            .append("')")
-            .append(onclickFunction)
-            .append(RETURN);
+        buff.append("document.getElementById('").append(getClientId(getFacesContext())).append("')").append(onclickFunction).append(RETURN);
         button.setOnClick(buff.toString());
 
-	// NOTE: the original behavior would have set this
-	// on the developer defined facet. It was determined that
-	// a developer defined facet should not be modified.
-	//
-	button.setDisabled(isDisabled());
+        // NOTE: the original behavior would have set this
+        // on the developer defined facet. It was determined that
+        // a developer defined facet should not be modified.
+        //
+        button.setDisabled(isDisabled());
     }
 
     // Labels
@@ -428,15 +419,16 @@ public class OrderableList extends WebuiInput implements ListManager,
      *
      * @return a header label component
      */
-    public UIComponent getHeaderComponent() { 
-	if(DEBUG) log("getHeaderComponent()"); //NOI18N
-
-	String labelString = getLabel(); 
-	if(labelString == null || labelString.length() == 0) { 
-	    labelString = getTheme().getMessage(LABEL_TEXT_KEY);
-	}
-	return getLabelFacet(LABEL_FACET, labelString, this);
-    } 
+    public UIComponent getHeaderComponent() {
+        if (DEBUG) {
+            log("getHeaderComponent()"); //NOI18N
+        }
+        String labelString = getLabel();
+        if (labelString == null || labelString.length() == 0) {
+            labelString = getTheme().getMessage(LABEL_TEXT_KEY);
+        }
+        return getLabelFacet(LABEL_FACET, labelString, this);
+    }
 
     /**
      * Return a component that implements a label facet.
@@ -456,40 +448,42 @@ public class OrderableList extends WebuiInput implements ListManager,
      * @return a label facet component
      */
     private UIComponent getLabelFacet(String facetName, String text,
-		UIComponent forComponent) {
+            UIComponent forComponent) {
 
-	if (DEBUG) log("getLabelFacet() " + facetName);  //NOI18N
+        if (DEBUG) {
+            log("getLabelFacet() " + facetName);  //NOI18N
+        }
+        // Check if the page author has defined the facet
+        //
+        UIComponent labelComponent = getFacet(facetName);
+        if (labelComponent != null) {
+            if (DEBUG) {
+                log("\tFound facet"); //NOI18N
+            }
+            return labelComponent;
+        }
 
-	// Check if the page author has defined the facet
-	//
-	UIComponent labelComponent = getFacet(facetName); 
-	if (labelComponent != null) {
-	    if (DEBUG) { 
-		log("\tFound facet"); //NOI18N
-	    } 
-	    return labelComponent;
-	}
+        // Return the private facet or create one, but initialize
+        // it every time
+        //
+        // We know it's a Label
+        //
+        Label label = (Label) ComponentUtilities.getPrivateFacet(this, facetName, true);
 
-	// Return the private facet or create one, but initialize
-	// it every time
-	//
-	// We know it's a Label
-	//
-	Label label = (Label)ComponentUtilities.getPrivateFacet(this,
-		facetName, true);
-	if (label == null) {
-	    if (DEBUG) log("create Label"); //NOI18N
-	    label = new Label(); 
-	    label.setId(ComponentUtilities.createPrivateFacetId(this,
-		facetName));
-	}
-	initLabelFacet(label, text, forComponent.getClientId(getFacesContext()));
+        if (label == null) {
+            if (DEBUG) {
+                log("create Label"); //NOI18N
+            }
+            label = new Label();
+            label.setId(ComponentUtilities.createPrivateFacetId(this,
+                    facetName));
+        }
 
-	ComponentUtilities.putPrivateFacet(this, facetName, label);
-
-	return label; 
+        initLabelFacet(label, text, forComponent.getClientId(getFacesContext()));
+        ComponentUtilities.putPrivateFacet(this, facetName, label);
+        return label;
     }
-    
+
     /**
      * Initialize a label facet.
      *
@@ -498,19 +492,20 @@ public class OrderableList extends WebuiInput implements ListManager,
      * @param forComponent the component instance this label is for
      */
     private void initLabelFacet(Label label, String labelString,
-	    String forComponentId) {
-        
-        if(DEBUG) log("initLabelFacet()"); //NOI18N
-        
-        if(labelString == null || labelString.length() < 1) {
+            String forComponentId) {
+
+        if (DEBUG) {
+            log("initLabelFacet()"); //NOI18N
+        }
+        if (labelString == null || labelString.length() < 1) {
             // TODO - maybe print a default?
-	    // A Theme default value.
+            // A Theme default value.
             labelString = new String();
         }
 
         label.setText(labelString);
         label.setLabelLevel(getLabelLevel());
-	label.setFor(forComponentId);
+        label.setFor(forComponentId);
     }
 
     /**
@@ -547,7 +542,7 @@ public class OrderableList extends WebuiInput implements ListManager,
     public String getLabeledElementId(FacesContext context) {
         return getClientId(context).concat(ListSelector.LIST_ID);
     }
-     
+
     /**
      * Returns the id of an HTML element suitable to
      * receive the focus.
@@ -561,11 +556,11 @@ public class OrderableList extends WebuiInput implements ListManager,
      * @param context The FacesContext used for the request
      */
     public String getFocusElementId(FacesContext context) {
-	// This should be the id of the selected Option in the
-	// select list.
-	// For now return the same as for the label.
-	//
-	return getLabeledElementId(context);
+        // This should be the id of the selected Option in the
+        // select list.
+        // For now return the same as for the label.
+        //
+        return getLabeledElementId(context);
     }
 
     /**
@@ -575,62 +570,65 @@ public class OrderableList extends WebuiInput implements ListManager,
      * @throws javax.faces.FacesException 
      */
     public Iterator getListItems(FacesContext context, boolean ruler) throws FacesException {
-        
-        if(DEBUG) log("getListItems()");
-        
-	listItems = new ArrayList(); 
 
-        Object submittedValue = getSubmittedValue(); 
-        if(submittedValue != null && submittedValue instanceof String[]) { 
-            ListItem listItem = null; 
-            String[] values = (String[])submittedValue; 
-            for(int counter=0; counter < values.length; ++counter) {
-                if(DEBUG) log("Adding listItem " + values[counter]); 
-                listItem = new ListItem(values[counter], values[counter]);
-                listItem.setValue(values[counter]);               
-                listItems.add(listItem);
-            }
-            return listItems.iterator();           
-        } 
-             
-	Object listItemsObject = getList(); 
-	if(listItemsObject == null) { 
-            if(DEBUG) log("\tNo list items!");
-	    // do nothing...
-	} 
-        else if(valueTypeEvaluator.getValueType() == ValueType.LIST) {
-	    Iterator items = ((java.util.List)listItemsObject).iterator(); 
-	    Object item;
-            ListItem listItem; 
-	    while(items.hasNext()) { 
-		item = items.next(); 
-                listItems.add(createListItem(this, item)); 
-	    } 
-	} 
-	
-	 else if(valueTypeEvaluator.getValueType() == ValueType.ARRAY) {
-            
-            if(DEBUG) log("\tFound array value"); 
-
-	    // The strings variable represents the strings entered by
-	    // the user, as an array. 
-            
-            
- 	    Object[] listObjects = (Object[])listItemsObject; 
-            
-            for(int counter=0; counter<listObjects.length; ++counter) {
-                listItems.add(createListItem(this, listObjects[counter])); 
-            } 
+        if (DEBUG) {
+            log("getListItems()");
         }
 
-	else { 
-	    String msg = getTheme().getMessage("OrderableList.invalidListType"); //NOI18N 
-	    throw new FacesException(msg); 
-	} 
-            
-	return listItems.iterator(); 
-    } 
-    
+        listItems = new ArrayList();
+
+        Object submittedValue = getSubmittedValue();
+        if (submittedValue != null && submittedValue instanceof String[]) {
+            ListItem listItem = null;
+            String[] values = (String[]) submittedValue;
+            for (int counter = 0; counter < values.length; ++counter) {
+                if (DEBUG) {
+                    log("Adding listItem " + values[counter]);
+                }
+                listItem = new ListItem(values[counter], values[counter]);
+                listItem.setValue(values[counter]);
+                listItems.add(listItem);
+            }
+            return listItems.iterator();
+        }
+
+        Object listItemsObject = getList();
+        if (listItemsObject == null) {
+            if (DEBUG) {
+                log("\tNo list items!");
+            }
+        // do nothing...
+        } else if (valueTypeEvaluator.getValueType() == ValueType.LIST) {
+            Iterator items = ((java.util.List) listItemsObject).iterator();
+            Object item;
+            ListItem listItem;
+            while (items.hasNext()) {
+                item = items.next();
+                listItems.add(createListItem(this, item));
+            }
+        } else if (valueTypeEvaluator.getValueType() == ValueType.ARRAY) {
+
+            if (DEBUG) {
+                log("\tFound array value");
+            }
+
+            // The strings variable represents the strings entered by
+            // the user, as an array.
+
+
+            Object[] listObjects = (Object[]) listItemsObject;
+
+            for (int counter = 0; counter < listObjects.length; ++counter) {
+                listItems.add(createListItem(this, listObjects[counter]));
+            }
+        } else {
+            String msg = getTheme().getMessage("OrderableList.invalidListType"); //NOI18N
+            throw new FacesException(msg);
+        }
+
+        return listItems.iterator();
+    }
+
     /**
      * Enforce non null values.
      * This is ok, since Converter returns null on null input.
@@ -641,40 +639,50 @@ public class OrderableList extends WebuiInput implements ListManager,
      * But if the null case is out of the way the this should
      * work ok.
      */
-    protected ListItem createListItem(UIComponent comp, Object value) { 
-	// Do not allow null values
-	//
-	if (value == null) {
-	    throw new NullPointerException(
-	    	"OrderableList ListItems cannot have null values");
-	}
-        if(DEBUG) log("createListItem()"); 
+    protected ListItem createListItem(UIComponent comp, Object value) {
+        // Do not allow null values
+        //
+        if (value == null) {
+            throw new NullPointerException(
+                    "OrderableList ListItems cannot have null values");
+        }
+        if (DEBUG) {
+            log("createListItem()");
+        }
         String label = ConversionUtilities.convertValueToString(comp, value);
-        if(DEBUG) log("\tLabel is " + label); 
-        ListItem listItem = new ListItem(value, label); 
-        if(DEBUG) log("\tCreated ListItem"); 
-        listItem.setValue(label);  
-        return listItem; 
+        if (DEBUG) {
+            log("\tLabel is " + label);
+        }
+        ListItem listItem = new ListItem(value, label);
+        if (DEBUG) {
+            log("\tCreated ListItem");
+        }
+        listItem.setValue(label);
+        return listItem;
     }
-     
+
     public String[] getValueAsStringArray(FacesContext context) {
-        
-        if(DEBUG) log("getValueAsStringArray)");
-        
+
+        if (DEBUG) {
+            log("getValueAsStringArray)");
+        }
+
         Iterator iterator = getListItems(context, false);
         int numItems = listItems.size();
         String[] values = new String[numItems];
-        
+
         int counter = 0;
-        while(counter < numItems) {
-            values[counter] = ((ListItem)(iterator.next())).getValue();
-            if(DEBUG) log("List item value " + String.valueOf(values[counter]));
+        while (counter < numItems) {
+            values[counter] = ((ListItem) (iterator.next())).getValue();
+            if (DEBUG) {
+                log("List item value " + String.valueOf(values[counter]));
+            }
             ++counter;
         }
         return values;
     }
-        
-        /**
+
+    /**
      * Retrieve the value of this component (the "selected" property) as an  
      * object. This method is invoked by the JSF engine during the validation 
      * phase. The JSF default behaviour is for components to defer the 
@@ -683,54 +691,59 @@ public class OrderableList extends WebuiInput implements ListManager,
      * components do, so it is more efficient to do it here. 
      * @param context The FacesContext of the request
      * @param submittedValue The submitted value of the component
-     */    
-    public Object getConvertedValue(FacesContext context, 
-                                    Object submittedValue)
-        throws ConverterException {
-        
-        if(DEBUG) log("getConvertedValue()");
-        
-        if(!(submittedValue instanceof String[])) { 
+     */
+    @Override
+    public Object getConvertedValue(FacesContext context,
+            Object submittedValue)
+            throws ConverterException {
+
+        if (DEBUG) {
+            log("getConvertedValue()");
+        }
+
+        if (!(submittedValue instanceof String[])) {
             throw new ConverterException(
-		"Submitted value must be a String array"); 
-        } 
-        String[] rawValues = (String[])submittedValue; 
+                    "Submitted value must be a String array");
+        }
+        String[] rawValues = (String[]) submittedValue;
 
-	// If there are no elements in rawValues nothing was submitted.
-	// If null was rendered, return null
-	//
-	if(rawValues.length == 0) { 
-	    if (ConversionUtilities.renderedNull(this)) {
-		return null; 
-	    }
-	} 
+        // If there are no elements in rawValues nothing was submitted.
+        // If null was rendered, return null
+        //
+        if (rawValues.length == 0) {
+            if (ConversionUtilities.renderedNull(this)) {
+                return null;
+            }
+        }
 
-        Object cValue = null; 
-        try { 
-            
-	    if(valueTypeEvaluator.getValueType() == ValueType.ARRAY) { 
-		if(DEBUG) log("\tComponent value is an array"); 
-		cValue = ConversionUtilities.convertValueToArray
-		    (this, rawValues, context); 
-	    } 
-	    // This case is not supported yet!
-	    else if(valueTypeEvaluator.getValueType() == ValueType.LIST) { 
-		if(DEBUG) log("\tComponent value is a list"); 
-		/* Until this is fixed throw exception saying it is 
-		   unsupported
-		cValue = ConversionUtilities.convertValueToList
-		    (this, rawValues, context); 
-		*/
-		throw new FacesException("List is not a supported value.");
-	    } 
-        } 
-        catch(Exception ex) {
-            if(DEBUG) ex.printStackTrace(); 
+        Object cValue = null;
+        try {
+
+            if (valueTypeEvaluator.getValueType() == ValueType.ARRAY) {
+                if (DEBUG) {
+                    log("\tComponent value is an array");
+                }
+                cValue = ConversionUtilities.convertValueToArray(this, rawValues, context);
+            } // This case is not supported yet!
+            else if (valueTypeEvaluator.getValueType() == ValueType.LIST) {
+                if (DEBUG) {
+                    log("\tComponent value is a list");
+                }
+                /* Until this is fixed throw exception saying it is
+                unsupported
+                cValue = ConversionUtilities.convertValueToList
+                (this, rawValues, context);
+                 */
+                throw new FacesException("List is not a supported value.");
+            }
+        } catch (Exception ex) {
+            if (DEBUG) {
+                ex.printStackTrace();
+            }
         }
         return cValue;
-    } 
+    }
 
-    
     // Readonly value
     /**
      * Return a string suitable for displaying the value in read only mode.
@@ -740,27 +753,27 @@ public class OrderableList extends WebuiInput implements ListManager,
      * @throws javax.faces.FacesException If the list items cannot be processed
      */
     protected String getValueAsReadOnly(FacesContext context)
-                                 throws FacesException {
-        
-	// The comma format READ_ONLY_SEPARATOR should be part of the theme
-	// and/or configurable by the application
-	//
-	StringBuffer valueBuffer = new StringBuffer(200); 
-        
-        Iterator iterator = getListItems(context, false); 
+            throws FacesException {
 
-        while(iterator.hasNext()) { 
-            String string = ((ListItem)(iterator.next())).getLabel();
+        // The comma format READ_ONLY_SEPARATOR should be part of the theme
+        // and/or configurable by the application
+        //
+        StringBuffer valueBuffer = new StringBuffer(200);
+
+        Iterator iterator = getListItems(context, false);
+
+        while (iterator.hasNext()) {
+            String string = ((ListItem) (iterator.next())).getLabel();
             // Do this with a boolean on getListItems instead
-            if(string.indexOf("nbsp") > -1) {  //NOI18N
+            if (string.indexOf("nbsp") > -1) {  //NOI18N
                 continue;
             }
             valueBuffer.append(string);
-            if(iterator.hasNext()) {
+            if (iterator.hasNext()) {
                 valueBuffer.append(READ_ONLY_SEPARATOR);
             }
         }
-	return valueBuffer.toString();
+        return valueBuffer.toString();
     }
 
     /**
@@ -778,49 +791,52 @@ public class OrderableList extends WebuiInput implements ListManager,
      * @return a component that represents the read only value of this OrderableList
      */
     public UIComponent getReadOnlyValueComponent() {
-        
-        if(DEBUG) log("getReadOnlyValueComponent()"); //NOI18N
-        
-	// Check if the page author has defined the facet
-	//
-	UIComponent textComponent = getFacet(READ_ONLY_FACET); 
-	if (textComponent != null) {
-	    if (DEBUG) { 
-		log("\tFound facet"); //NOI18N
-	    } 
-	    return textComponent;
-	}
 
-	// Just create it every time.
-	//
-	if (DEBUG) log("create StaticText"); //NOI18N
-	StaticText text = new StaticText(); 
-	text.setId(ComponentUtilities.createPrivateFacetId(this,
-		READ_ONLY_FACET));
-	text.setParent(this);
-	
-	FacesContext context = FacesContext.getCurrentInstance();
-	String readOnlyString = getValueAsReadOnly(context);
+        if (DEBUG) {
+            log("getReadOnlyValueComponent()"); //NOI18N
+        }
+        // Check if the page author has defined the facet
+        //
+        UIComponent textComponent = getFacet(READ_ONLY_FACET);
+        if (textComponent != null) {
+            if (DEBUG) {
+                log("\tFound facet"); //NOI18N
+            }
+            return textComponent;
+        }
+
+        // Just create it every time.
+        //
+        if (DEBUG) {
+            log("create StaticText"); //NOI18N
+        }
+        StaticText text = new StaticText();
+        text.setId(ComponentUtilities.createPrivateFacetId(this,
+                READ_ONLY_FACET));
+        text.setParent(this);
+
+        FacesContext context = FacesContext.getCurrentInstance();
+        String readOnlyString = getValueAsReadOnly(context);
         if (readOnlyString == null || readOnlyString.length() < 1) {
             // TODO - maybe print a default?
             readOnlyString = new String();
         }
         text.setText(readOnlyString);
-	return text; 
+        return text;
     }
-    
+
     private void log(String s) {
         System.out.println(this.getClass().getName() + "::" + s); //NOI18N
     }
-    
+
     private Theme getTheme() {
-	return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
+        return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
     }
 
     public int getRows() {
-        int rows =  _getRows();
-        if(rows < 1) { 
-            rows = 12; 
+        int rows = _getRows();
+        if (rows < 1) {
+            rows = 12;
             setRows(12);
         }
         return rows;
@@ -846,49 +862,50 @@ public class OrderableList extends WebuiInput implements ListManager,
      * @param previous old value of this component (if any)
      * @param value new value of this component (if any)
      */
+    @Override
     protected boolean compareValues(Object previous, Object value) {
 
-	// Let super take care of null cases
-	//
-	if (previous == null || value == null) {
-	    return super.compareValues(previous, value);
-	}
-	if (value instanceof Object[]) {
-	    // If the lengths aren't equal return true
-	    //
-	    int length = Array.getLength(value);
-	    if (Array.getLength(previous) != length) {
-		return true;
-	    }
-	    // Each element at index "i" in previous must be equal to the
-	    // elementa at index "i" in value.
-	    //
-	    for (int i = 0; i < length; ++i) {
-
-		Object newValue = Array.get(value, i);
-		Object prevValue = Array.get(previous, i);
-
-		// This is probably not necessary since
-		// an Option's value cannot be null
-		//
-		if (newValue == null) {
-		    if (prevValue == null) {
-			continue;
-		    } else {
-			return true;
-		    }
-		}
-		if (prevValue == null) {
-		    return true;
-		}
-
-		if (!prevValue.equals(newValue)) {
-		    return true;
-		}
-	    }
-	    return false;
+        // Let super take care of null cases
+        //
+        if (previous == null || value == null) {
+            return super.compareValues(previous, value);
         }
-	return super.compareValues(previous, value);
+        if (value instanceof Object[]) {
+            // If the lengths aren't equal return true
+            //
+            int length = Array.getLength(value);
+            if (Array.getLength(previous) != length) {
+                return true;
+            }
+            // Each element at index "i" in previous must be equal to the
+            // elementa at index "i" in value.
+            //
+            for (int i = 0; i < length; ++i) {
+
+                Object newValue = Array.get(value, i);
+                Object prevValue = Array.get(previous, i);
+
+                // This is probably not necessary since
+                // an Option's value cannot be null
+                //
+                if (newValue == null) {
+                    if (prevValue == null) {
+                        continue;
+                    } else {
+                        return true;
+                    }
+                }
+                if (prevValue == null) {
+                    return true;
+                }
+
+                if (!prevValue.equals(newValue)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        return super.compareValues(previous, value);
     }
 
     public boolean mainListSubmits() {
@@ -898,13 +915,13 @@ public class OrderableList extends WebuiInput implements ListManager,
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * <p>Return the <code>ValueExpression</code> stored for the
      * specified name (if any), respecting any property aliases.</p>
      *
      * @param name Name of value binding expression to retrieve
      */
+    @Override
     public ValueExpression getValueExpression(String name) {
         if (name.equals("list")) {
             return super.getValueExpression("value");
@@ -920,24 +937,25 @@ public class OrderableList extends WebuiInput implements ListManager,
      * @param name    Name of value binding to set
      * @param binding ValueExpression to set, or null to remove
      */
-    public void setValueExpression(String name,ValueExpression binding) {
+    @Override
+    public void setValueExpression(String name, ValueExpression binding) {
         if (name.equals("list")) {
             super.setValueExpression("value", binding);
             return;
         }
         super.setValueExpression(name, binding);
     }
-    
+
     // Hide value
-    @Property(name="value", isHidden=true, isAttribute=false)
+    @Property(name = "value", isHidden = true, isAttribute = false)
+    @Override
     public Object getValue() {
         return super.getValue();
     }
-
     /**
      * <p>Flag indicating that activation of this component by the user is not currently permitted.</p>
      */
-    @Property(name="disabled", displayName="Disabled", category="Behavior")
+    @Property(name = "disabled", displayName = "Disabled", category = "Behavior")
     private boolean disabled = false;
     private boolean disabled_set = false;
 
@@ -968,12 +986,12 @@ public class OrderableList extends WebuiInput implements ListManager,
         this.disabled = disabled;
         this.disabled_set = true;
     }
-
     /**
      * <p>If set, a label is rendered adjacent to the component with the
      * value of this attribute as the label text.</p>
      */
-    @Property(name="label", displayName="List Label", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "label", displayName = "List Label", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String label = null;
 
     /**
@@ -999,12 +1017,12 @@ public class OrderableList extends WebuiInput implements ListManager,
     public void setLabel(String label) {
         this.label = label;
     }
-
     /**
      * <p>Sets the style level for the generated labels. Valid values
      * 	are 1 (largest), 2 and 3 (smallest). The default value is 2.</p>
      */
-    @Property(name="labelLevel", displayName="Label Level", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.LabelLevelsEditor")
+    @Property(name = "labelLevel", displayName = "Label Level", category = "Appearance",
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.LabelLevelsEditor")
     private int labelLevel = Integer.MIN_VALUE;
     private boolean labelLevel_set = false;
 
@@ -1037,13 +1055,12 @@ public class OrderableList extends WebuiInput implements ListManager,
         this.labelLevel = labelLevel;
         this.labelLevel_set = true;
     }
-
     /**
      * <p>If this attribute is true, the label is rendered above the
      * component. If it is false, the label is rendered next to the
      * component. The default is false.</p>
      */
-    @Property(name="labelOnTop", displayName="Label on Top", category="Appearance")
+    @Property(name = "labelOnTop", displayName = "Label on Top", category = "Appearance")
     private boolean labelOnTop = false;
     private boolean labelOnTop_set = false;
 
@@ -1085,7 +1102,8 @@ public class OrderableList extends WebuiInput implements ListManager,
      * be a JavaServer Faces EL expression that evaluates to an array of 
      * Objects or to a <code>java.util.List</code>.</p>
      */
-    @Property(name="list", displayName="List", category="Data", editorClassName="com.sun.rave.propertyeditors.binding.ValueBindingPropertyEditor")
+    @Property(name = "list", displayName = "List", category = "Data",
+    editorClassName = "com.sun.rave.propertyeditors.binding.ValueBindingPropertyEditor")
     public Object getList() {
         return getValue();
     }
@@ -1100,12 +1118,11 @@ public class OrderableList extends WebuiInput implements ListManager,
     public void setList(Object list) {
         setValue(list);
     }
-
     /**
      * <p>If this attribute is true, the Move to Top and Move to Bottom
      * buttons are shown. The default is false.</p>
      */
-    @Property(name="moveTopBottom", displayName="Move Top and Bottom", category="Appearance")
+    @Property(name = "moveTopBottom", displayName = "Move Top and Bottom", category = "Appearance")
     private boolean moveTopBottom = false;
     private boolean moveTopBottom_set = false;
 
@@ -1138,12 +1155,11 @@ public class OrderableList extends WebuiInput implements ListManager,
         this.moveTopBottom = moveTopBottom;
         this.moveTopBottom_set = true;
     }
-
     /**
      * <p>Flag indicating that the application user can make select
      * 	more than one option from the listbox.</p>
      */
-    @Property(name="multiple", displayName="Multiple", category="Data")
+    @Property(name = "multiple", displayName = "Multiple", category = "Data")
     private boolean multiple = false;
     private boolean multiple_set = false;
 
@@ -1176,12 +1192,11 @@ public class OrderableList extends WebuiInput implements ListManager,
         this.multiple = multiple;
         this.multiple_set = true;
     }
-
     /**
      * <p>If this attribute is set to true, the value of the component is
      * rendered as text, preceded by the label if one was defined.</p>
      */
-    @Property(name="readOnly", displayName="Read-only", category="Behavior")
+    @Property(name = "readOnly", displayName = "Read-only", category = "Behavior")
     private boolean readOnly = false;
     private boolean readOnly_set = false;
 
@@ -1214,12 +1229,12 @@ public class OrderableList extends WebuiInput implements ListManager,
         this.readOnly = readOnly;
         this.readOnly_set = true;
     }
-
     /**
      * <p>The number of rows to display, which determines the length of the 
      * rendered listbox. The default value is 6.</p>
      */
-    @Property(name="rows", displayName="Number of Items to Display", category="Appearance", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "rows", displayName = "Number of Items to Display", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int rows = Integer.MIN_VALUE;
     private boolean rows_set = false;
 
@@ -1252,12 +1267,12 @@ public class OrderableList extends WebuiInput implements ListManager,
         this.rows = rows;
         this.rows_set = true;
     }
-
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
+    @Property(name = "style", displayName = "CSS Style(s)", category = "Appearance",
+    editorClassName = "com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
@@ -1283,12 +1298,12 @@ public class OrderableList extends WebuiInput implements ListManager,
     public void setStyle(String style) {
         this.style = style;
     }
-
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
@@ -1314,14 +1329,14 @@ public class OrderableList extends WebuiInput implements ListManager,
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-
     /**
      * <p>Position of this element in the tabbing order for the current
      * document. The tabbing order determines the sequence in which
      * elements receive focus when the tab key is pressed. The tabIndex
      * value must be an integer between 0 and 32767.</p>
      */
-    @Property(name="tabIndex", displayName="Tab Index", category="Accessibility", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "tabIndex", displayName = "Tab Index", category = "Accessibility",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int tabIndex = Integer.MIN_VALUE;
     private boolean tabIndex_set = false;
 
@@ -1358,13 +1373,13 @@ public class OrderableList extends WebuiInput implements ListManager,
         this.tabIndex = tabIndex;
         this.tabIndex_set = true;
     }
-
     /**
      * <p>Sets the value of the title attribute for the HTML element.
      * The specified text will display as a tooltip if the mouse cursor hovers 
      * over the HTML element.</p>
      */
-    @Property(name="toolTip", displayName="Tool Tip", category="Behavior", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "toolTip", displayName = "Tool Tip", category = "Behavior",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String toolTip = null;
 
     /**
@@ -1392,7 +1407,6 @@ public class OrderableList extends WebuiInput implements ListManager,
     public void setToolTip(String toolTip) {
         this.toolTip = toolTip;
     }
-
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -1402,7 +1416,7 @@ public class OrderableList extends WebuiInput implements ListManager,
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @Property(name="visible", displayName="Visible", category="Behavior")
+    @Property(name = "visible", displayName = "Visible", category = "Behavior")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -1449,7 +1463,8 @@ public class OrderableList extends WebuiInput implements ListManager,
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.disabled = ((Boolean) _values[1]).booleanValue();
@@ -1479,6 +1494,7 @@ public class OrderableList extends WebuiInput implements ListManager,
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[23];
         _values[0] = super.saveState(_context);

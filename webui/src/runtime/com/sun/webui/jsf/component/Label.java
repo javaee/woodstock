@@ -25,19 +25,16 @@ import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
 import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.jsf.util.ComponentUtilities;
-import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.jsf.util.LogUtil;
 import com.sun.webui.jsf.util.ThemeUtilities;
-import com.sun.webui.theme.Theme; 
-
+import com.sun.webui.theme.Theme;
 import java.beans.Beans;
 import java.util.Iterator;
 import java.util.List;
-
 import javax.el.ValueExpression;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.EditableValueHolder;
-import javax.faces.component.NamingContainer; 
+import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
@@ -46,20 +43,17 @@ import javax.faces.convert.Converter;
 /**
  * The Label component displays a label for a component.
  */
-@Component(type="com.sun.webui.jsf.Label", family="com.sun.webui.jsf.Label", displayName="Label", tagName="label",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_label",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_label_props")
+@Component(type = "com.sun.webui.jsf.Label", family = "com.sun.webui.jsf.Label", displayName = "Label", tagName = "label",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_label",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_label_props")
 public class Label extends UIOutput implements NamingContainer {
-    
+
     public static final String REQUIRED_ID = "_required";
     public static final String REQUIRED_FACET = "required";
     public static final String ERROR_ID = "_error";
     public static final String ERROR_FACET = "error";
-    
-    private EditableValueHolder labeledComponent = null; 
-
+    private EditableValueHolder labeledComponent = null;
     private String element = "span"; //NOI18N
-    
     private static final boolean DEBUG = false;
 
     /**
@@ -73,6 +67,7 @@ public class Label extends UIOutput implements NamingContainer {
     /**
      * <p>Return the family for this component.</p>
      */
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.Label";
     }
@@ -92,35 +87,41 @@ public class Label extends UIOutput implements NamingContainer {
      * @deprecated 
      * @see #setFor
      */
-    public void setLabeledComponent(UIComponent comp) { 
-        
-        if(DEBUG) log("setLabeledComponent"); 
-        if(comp == null) { 
-            if(DEBUG) log("component is null"); 
-            this.labeledComponent = null; 
+    public void setLabeledComponent(UIComponent comp) {
+
+        if (DEBUG) {
+            log("setLabeledComponent");
         }
-        else if(comp instanceof EditableValueHolder) {
-            if(DEBUG) log("Component is EditableValueHolder");
-            this.labeledComponent = (EditableValueHolder)comp; 
-	    if (!Beans.isDesignTime()) {
-		this.setFor(comp.getClientId(
-			FacesContext.getCurrentInstance()));
-	    }
-	    element = "label"; 
-        } 
-        else {
-            if(DEBUG) log("Component is not an EditableValueHolder");
+        if (comp == null) {
+            if (DEBUG) {
+                log("component is null");
+            }
+            this.labeledComponent = null;
+        } else if (comp instanceof EditableValueHolder) {
+            if (DEBUG) {
+                log("Component is EditableValueHolder");
+            }
+            this.labeledComponent = (EditableValueHolder) comp;
+            if (!Beans.isDesignTime()) {
+                this.setFor(comp.getClientId(
+                        FacesContext.getCurrentInstance()));
+            }
+            element = "label";
+        } else {
+            if (DEBUG) {
+                log("Component is not an EditableValueHolder");
+            }
             if (LogUtil.infoEnabled(Label.class)) {
                 FacesContext context = FacesContext.getCurrentInstance();
-                
+
                 LogUtil.info(Label.class, "Label.invalidFor",
-                        new Object[] { getId(),
-                                context.getViewRoot().getViewId(),
-                                comp.getId() } );
+                        new Object[]{getId(),
+                            context.getViewRoot().getViewId(),
+                            comp.getId()});
             }
-            
+
             this.labeledComponent = null;
-	    element = "label"; 
+            element = "label";
         }
     }
 
@@ -145,53 +146,65 @@ public class Label extends UIOutput implements NamingContainer {
      * @see #getFor()
      */
     public EditableValueHolder getLabeledComponent() {
-        
-        if(DEBUG) log("getLabeledComponent for label " + String.valueOf(getText())); 
-        if(labeledComponent != null) { 
-            if(DEBUG) log("Found component ");
-            if(DEBUG) log(((UIComponent)labeledComponent).getId());
+
+        if (DEBUG) {
+            log("getLabeledComponent for label " + String.valueOf(getText()));
+        }
+        if (labeledComponent != null) {
+            if (DEBUG) {
+                log("Found component ");
+            }
+            if (DEBUG) {
+                log(((UIComponent) labeledComponent).getId());
+            }
             return labeledComponent;
         }
-        if(DEBUG) log("labelled component is null, try something else");
+        if (DEBUG) {
+            log("labelled component is null, try something else");
+        }
         String id = getFor();
-        
-        if(DEBUG && id != null) { 
+
+        if (DEBUG && id != null) {
             log("\tfor attribute set to " + id);
         }
-       
-        if(id == null) {
-            if(DEBUG) log("\tID is not set, find children ");
+
+        if (id == null) {
+            if (DEBUG) {
+                log("\tID is not set, find children ");
+            }
             setLabeledComponent(findLabeledChild());
-        } 
-        else {
-            if(DEBUG) log("\tID found");
-	    // If the id is an absolute path, prefix it with ":"
-	    // to tell findComponent to do a search from the root
-	    
-            if(id.indexOf(":") > -1 && !id.startsWith(":")) { 
+        } else {
+            if (DEBUG) {
+                log("\tID found");
+            }
+            // If the id is an absolute path, prefix it with ":"
+            // to tell findComponent to do a search from the root
+
+            if (id.indexOf(":") > -1 && !id.startsWith(":")) {
                 id = ":" + id;
             }
-	    // Since Label is now a NamingContainer, findComponent
-	    // will treat it as the closest NamingContainer. Therefore
-	    // obtain the parent and call findComponent on it.
-	    // This makes the logic similar to getLabelComponentId by
-	    // treating a relative path id as a sibling.
-	    //
-	    // This use of parent is different from getLabelComponentId
-	    // since we are not requiring that the parent be a 
-	    // NamingContainer.
-	    //
+            // Since Label is now a NamingContainer, findComponent
+            // will treat it as the closest NamingContainer. Therefore
+            // obtain the parent and call findComponent on it.
+            // This makes the logic similar to getLabelComponentId by
+            // treating a relative path id as a sibling.
+            //
+            // This use of parent is different from getLabelComponentId
+            // since we are not requiring that the parent be a
+            // NamingContainer.
+            //
             try {
-	    UIComponent parent = this.getParent();
-            setLabeledComponent(parent.findComponent(id));
+                UIComponent parent = this.getParent();
+                setLabeledComponent(parent.findComponent(id));
             } catch (Exception e) {
-                if (DEBUG) log("\t ID is not found");
+                if (DEBUG) {
+                    log("\t ID is not found");
+                }
             }
             element = "label";
         }
         return labeledComponent;
     }
-    
 
     /**
      * Return the absolute client id of the labeled component.
@@ -216,62 +229,66 @@ public class Label extends UIOutput implements NamingContainer {
      * @deprecated
      * @see com.sun.webui.jsf.util.RenderingUtilities#getLabeledElementId
      */
-    public String getLabeledComponentId(FacesContext context) { 
-        
-        String id = null; 
-             
-	if(labeledComponent != null) { 
-            if(labeledComponent instanceof ComplexComponent) { 
-                ComplexComponent compComp = (ComplexComponent)labeledComponent; 
+    public String getLabeledComponentId(FacesContext context) {
+
+        String id = null;
+
+        if (labeledComponent != null) {
+            if (labeledComponent instanceof ComplexComponent) {
+                ComplexComponent compComp = (ComplexComponent) labeledComponent;
                 id = compComp.getPrimaryElementID(context);
-            } 
-            else { 
-                UIComponent comp = ((UIComponent)labeledComponent); 
-                id = comp.getClientId(context); 
-            } 
-	} 
-        else { 
-            id = getFor();   
-	    // If the id is not null and is an absolute path
-	    // return the id, otherwise
-	    // assume it is a sibling if the Label has a parent.
-	    // and return the absolute path.
-	    //
-	    // This assumption should be stated in the doc for the
-	    // "for" attribute. I'm not sure what happens if the
-	    // relative path id is returned. Its possible that this
-	    // will not match any HTML element id, since most if 
-	    // not all element id's will be absolute paths starting
-	    // with the form id. Wouldn't it be better to keep searching
-	    // for a Naming container ? For exmaple until recently
-	    // many of our own components could be parents but
-	    // were not NamingContainers.
-	    //
-            if(id != null && id.indexOf(":") == -1) {
+            } else {
+                UIComponent comp = ((UIComponent) labeledComponent);
+                id = comp.getClientId(context);
+            }
+        } else {
+            id = getFor();
+            // If the id is not null and is an absolute path
+            // return the id, otherwise
+            // assume it is a sibling if the Label has a parent.
+            // and return the absolute path.
+            //
+            // This assumption should be stated in the doc for the
+            // "for" attribute. I'm not sure what happens if the
+            // relative path id is returned. Its possible that this
+            // will not match any HTML element id, since most if
+            // not all element id's will be absolute paths starting
+            // with the form id. Wouldn't it be better to keep searching
+            // for a Naming container ? For exmaple until recently
+            // many of our own components could be parents but
+            // were not NamingContainers.
+            //
+            if (id != null && id.indexOf(":") == -1) {
                 UIComponent comp = this.getParent();
-                if(comp instanceof NamingContainer) {
+                if (comp instanceof NamingContainer) {
                     id = comp.getClientId(context) + ":" + id;
                 }
             }
         }
-	return id; 
-    } 
+        return id;
+    }
 
     private UIComponent findLabeledChild() {
-        
-        if(DEBUG) log("findLabeledChild");
+
+        if (DEBUG) {
+            log("findLabeledChild");
+        }
         List kids = getChildren();
-        if(DEBUG && kids.size() == 0) {
+        if (DEBUG && kids.size() == 0) {
             log("No children!");
         }
-        for(int i = 0; i < kids.size(); i++) {
+        for (int i = 0; i < kids.size(); i++) {
             Object kid = kids.get(i);
-            if(kid instanceof EditableValueHolder) {
-                if(DEBUG) log("Found good child " + kid.toString());
-                return (UIComponent)kid;
+            if (kid instanceof EditableValueHolder) {
+                if (DEBUG) {
+                    log("Found good child " + kid.toString());
+                }
+                return (UIComponent) kid;
             }
         }
-        if(DEBUG) log("\tReturning null...");
+        if (DEBUG) {
+            log("\tReturning null...");
+        }
         return null;
     }
 
@@ -288,25 +305,25 @@ public class Label extends UIOutput implements NamingContainer {
      * </p>
      * @return - required facet or an Icon instance
      */
-    public UIComponent getRequiredIcon(Theme theme, FacesContext context) { 
-        
+    public UIComponent getRequiredIcon(Theme theme, FacesContext context) {
+
         UIComponent comp = getFacet(REQUIRED_FACET);
-        if(comp != null) {
-	    return comp;
-	}
+        if (comp != null) {
+            return comp;
+        }
 
-	Icon icon = ThemeUtilities.getIcon(theme,
-		ThemeImages.LABEL_REQUIRED_ICON);
-	icon.setId(
-	    ComponentUtilities.createPrivateFacetId(this, REQUIRED_FACET));
-	icon.setParent(this);
-	icon.setBorder(0);            
+        Icon icon = ThemeUtilities.getIcon(theme,
+                ThemeImages.LABEL_REQUIRED_ICON);
+        icon.setId(
+                ComponentUtilities.createPrivateFacetId(this, REQUIRED_FACET));
+        icon.setParent(this);
+        icon.setBorder(0);
 
-	//icon.setLongDesc("TODO: Required");
+        //icon.setLongDesc("TODO: Required");
 
-        return icon;    
+        return icon;
     }
-    
+
     /**
      * Return a component that implements an error icon.
      * If a facet named <code>error</code> is found
@@ -320,39 +337,38 @@ public class Label extends UIOutput implements NamingContainer {
      * </p>
      * @return - error facet or an Icon instance
      */
-    public UIComponent getErrorIcon(Theme theme, FacesContext context, 
-                                    boolean valid) { 
-        
+    public UIComponent getErrorIcon(Theme theme, FacesContext context,
+            boolean valid) {
+
         UIComponent comp = getFacet(ERROR_FACET);
         if (comp != null) {
-	    return comp;
-	}
-           
-	Icon icon = ThemeUtilities.getIcon(theme,
-		ThemeImages.LABEL_INVALID_ICON);
-	icon.setId(
-	    ComponentUtilities.createPrivateFacetId(this, ERROR_FACET));
-	icon.setParent(this);
-	icon.setBorder(0);
-	//icon.setLongDesc("TODO: Invalid");
+            return comp;
+        }
 
-	if (valid) {
-	   icon.setIcon(ThemeImages.DOT);
-	   icon.setAlt("");
-	}
-	else if (labeledComponent != null) {
-	   String labeledCompID = 
-	       ((UIComponent)labeledComponent).getClientId(context);
-	   Iterator messages = context.getMessages(labeledCompID);
-	   FacesMessage fm = null;
-	   StringBuffer msgBuffer = new StringBuffer(200);
-	   while(messages.hasNext()) { 
-	       fm = (FacesMessage)(messages.next());
-	       msgBuffer.append(fm.getDetail());
-	       msgBuffer.append(" "); //NOI18N
-	   }              
-	   icon.setToolTip(msgBuffer.toString());
-	}
+        Icon icon = ThemeUtilities.getIcon(theme,
+                ThemeImages.LABEL_INVALID_ICON);
+        icon.setId(
+                ComponentUtilities.createPrivateFacetId(this, ERROR_FACET));
+        icon.setParent(this);
+        icon.setBorder(0);
+        //icon.setLongDesc("TODO: Invalid");
+
+        if (valid) {
+            icon.setIcon(ThemeImages.DOT);
+            icon.setAlt("");
+        } else if (labeledComponent != null) {
+            String labeledCompID =
+                    ((UIComponent) labeledComponent).getClientId(context);
+            Iterator messages = context.getMessages(labeledCompID);
+            FacesMessage fm = null;
+            StringBuffer msgBuffer = new StringBuffer(200);
+            while (messages.hasNext()) {
+                fm = (FacesMessage) (messages.next());
+                msgBuffer.append(fm.getDetail());
+                msgBuffer.append(" "); //NOI18N
+            }
+            icon.setToolTip(msgBuffer.toString());
+        }
 
         return icon;
     }
@@ -361,11 +377,11 @@ public class Label extends UIOutput implements NamingContainer {
      * Return <code>span</code> if the label is not labeling another
      * component, else return <code>label</code>.
      */
-    public String getElement() { 
-	return element; 
-    } 
+    public String getElement() {
+        return element;
+    }
 
-    private void log(String s) { 
+    private void log(String s) {
         System.out.println(getClass().getName() + "::" + s);
     }
 
@@ -377,9 +393,9 @@ public class Label extends UIOutput implements NamingContainer {
     //
     public int getLabelLevel() {
         int level = _getLabelLevel();
-        if(level < 1 || level > 3) { 
-            level = 2; 
-            setLabelLevel(level); 
+        if (level < 1 || level > 3) {
+            level = 2;
+            setLabelLevel(level);
         }
         return level;
     }
@@ -387,7 +403,6 @@ public class Label extends UIOutput implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The converter attribute is used to specify a method to translate native
      * property values to String and back for this component. The converter 
@@ -399,7 +414,8 @@ public class Label extends UIOutput implements NamingContainer {
      * </li><li>the ID of a registered converter (a String).</li>
      * </ul>
      */
-    @Property(name="converter") 
+    @Property(name = "converter")
+    @Override
     public void setConverter(Converter converter) {
         super.setConverter(converter);
     }
@@ -408,7 +424,8 @@ public class Label extends UIOutput implements NamingContainer {
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -420,7 +437,8 @@ public class Label extends UIOutput implements NamingContainer {
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
@@ -431,6 +449,7 @@ public class Label extends UIOutput implements NamingContainer {
      *
      * @param name Name of value binding expression to retrieve
      */
+    @Override
     public ValueExpression getValueExpression(String name) {
         if (name.equals("text")) {
             return super.getValueExpression("value");
@@ -446,20 +465,21 @@ public class Label extends UIOutput implements NamingContainer {
      * @param name    Name of value binding to set
      * @param binding ValueExpression to set, or null to remove
      */
-    public void setValueExpression(String name,ValueExpression binding) {
+    @Override
+    public void setValueExpression(String name, ValueExpression binding) {
         if (name.equals("text")) {
             super.setValueExpression("value", binding);
             return;
         }
         super.setValueExpression(name, binding);
     }
-    
+
     // Hide value
-    @Property(name="value", isHidden=true, isAttribute=false)
+    @Property(name = "value", isHidden = true, isAttribute = false)
+    @Override
     public Object getValue() {
         return super.getValue();
     }
-    
     /**
      * <p>Use this attribute to specify the labeled component. 
      * The value of the attribute is the absolute client id of the component or
@@ -468,7 +488,8 @@ public class Label extends UIOutput implements NamingContainer {
      *  to search its children to see whether any of them can be used for evaluating
      * the value of this "for" attribute.</p>
      */
-    @Property(name="for", displayName="Input Component", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.InputComponentIdsEditor")
+    @Property(name = "for", displayName = "Input Component", category = "Appearance",
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.InputComponentIdsEditor")
     private String _for = null;
 
     /**
@@ -490,7 +511,6 @@ public class Label extends UIOutput implements NamingContainer {
         return null;
     }
 
-
     /**
      * <p>Use this attribute to specify the labeled component. 
      * The value of the attribute is the absolute client id of the component or
@@ -503,7 +523,6 @@ public class Label extends UIOutput implements NamingContainer {
     public void setFor(String _for) {
         this._for = _for;
     }
-
     /**
      * <p>Use the hideIndicators attribute to prevent display of the
      * required and invalid icons with the label. When the required
@@ -514,7 +533,7 @@ public class Label extends UIOutput implements NamingContainer {
      * component has more than one label, and only one label should
      * show the icons.</p>
      */
-    @Property(name="hideIndicators", displayName="Hide the Required and Invalid icons", category="Advanced")
+    @Property(name = "hideIndicators", displayName = "Hide the Required and Invalid icons", category = "Advanced")
     private boolean hideIndicators = false;
     private boolean hideIndicators_set = false;
 
@@ -559,14 +578,14 @@ public class Label extends UIOutput implements NamingContainer {
         this.hideIndicators = hideIndicators;
         this.hideIndicators_set = true;
     }
-
     /**
      * <p>Style level for this label, where lower values typically specify
      * progressively larger font sizes, and/or bolder font weights.
      * Valid values are 1, 2, and 3. The default label level is 2.  Any label
      * level outside this range will result in no label level being added.</p>
      */
-    @Property(name="labelLevel", displayName="Style Level", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.LabelLevelsEditor")
+    @Property(name = "labelLevel", displayName = "Style Level", category = "Appearance",
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.LabelLevelsEditor")
     private int labelLevel = Integer.MIN_VALUE;
     private boolean labelLevel_set = false;
 
@@ -603,12 +622,12 @@ public class Label extends UIOutput implements NamingContainer {
         this.labelLevel = labelLevel;
         this.labelLevel_set = true;
     }
-
     /**
      * <p>Scripting code executed when a mouse click
      * occurs over this component.</p>
      */
-    @Property(name="onClick", displayName="Click Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onClick", displayName = "Click Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onClick = null;
 
     /**
@@ -634,12 +653,12 @@ public class Label extends UIOutput implements NamingContainer {
     public void setOnClick(String onClick) {
         this.onClick = onClick;
     }
-
     /**
      * <p>Scripting code executed when the user presses a mouse button while the
      * mouse pointer is on the component.</p>
      */
-    @Property(name="onMouseDown", displayName="Mouse Down Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseDown", displayName = "Mouse Down Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseDown = null;
 
     /**
@@ -665,12 +684,12 @@ public class Label extends UIOutput implements NamingContainer {
     public void setOnMouseDown(String onMouseDown) {
         this.onMouseDown = onMouseDown;
     }
-
     /**
      * <p>Scripting code executed when the user moves the mouse pointer while
      * over the component.</p>
      */
-    @Property(name="onMouseMove", displayName="Mouse Move Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseMove", displayName = "Mouse Move Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseMove = null;
 
     /**
@@ -696,12 +715,12 @@ public class Label extends UIOutput implements NamingContainer {
     public void setOnMouseMove(String onMouseMove) {
         this.onMouseMove = onMouseMove;
     }
-
     /**
      * <p>Scripting code executed when a mouse out movement
      * occurs over this component.</p>
      */
-    @Property(name="onMouseOut", displayName="Mouse Out Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseOut", displayName = "Mouse Out Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseOut = null;
 
     /**
@@ -727,12 +746,12 @@ public class Label extends UIOutput implements NamingContainer {
     public void setOnMouseOut(String onMouseOut) {
         this.onMouseOut = onMouseOut;
     }
-
     /**
      * <p>Scripting code executed when the user moves the  mouse pointer into
      * the boundary of this component.</p>
      */
-    @Property(name="onMouseOver", displayName="Mouse In Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseOver", displayName = "Mouse In Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseOver = null;
 
     /**
@@ -758,12 +777,12 @@ public class Label extends UIOutput implements NamingContainer {
     public void setOnMouseOver(String onMouseOver) {
         this.onMouseOver = onMouseOver;
     }
-
     /**
      * <p>Scripting code executed when the user releases a mouse button while
      * the mouse pointer is on the component.</p>
      */
-    @Property(name="onMouseUp", displayName="Mouse Up Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
+    @Property(name = "onMouseUp", displayName = "Mouse Up Script", category = "Javascript",
+    editorClassName = "com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseUp = null;
 
     /**
@@ -789,14 +808,13 @@ public class Label extends UIOutput implements NamingContainer {
     public void setOnMouseUp(String onMouseUp) {
         this.onMouseUp = onMouseUp;
     }
-
     /**
      * <p>Flag indicating that the labeled component should be marked as
      * required. It is only relevant if the labeled component is not
      * a child of the label tag. Set this flag to ensure that the 
      * required icon shows up the first time the page is rendered.</p>
      */
-    @Property(name="requiredIndicator", displayName="Required Field Indicator", category="Appearance")
+    @Property(name = "requiredIndicator", displayName = "Required Field Indicator", category = "Appearance")
     private boolean requiredIndicator = false;
     private boolean requiredIndicator_set = false;
 
@@ -833,12 +851,12 @@ public class Label extends UIOutput implements NamingContainer {
         this.requiredIndicator = requiredIndicator;
         this.requiredIndicator_set = true;
     }
-
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
+    @Property(name = "style", displayName = "CSS Style(s)", category = "Appearance",
+    editorClassName = "com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
@@ -864,12 +882,12 @@ public class Label extends UIOutput implements NamingContainer {
     public void setStyle(String style) {
         this.style = style;
     }
-
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
@@ -903,7 +921,8 @@ public class Label extends UIOutput implements NamingContainer {
      * binding expression that corresponds to a message from a resource
      * bundle declared using <code>f:loadBundle</code>.</p>
      */
-    @Property(name="text", displayName="Label Text", category="Appearance", isDefault=true, editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "text", displayName = "Label Text", category = "Appearance", isDefault = true,
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     public Object getText() {
         return getValue();
     }
@@ -919,13 +938,13 @@ public class Label extends UIOutput implements NamingContainer {
     public void setText(Object text) {
         setValue(text);
     }
-
     /**
      * <p>Sets the value of the title attribute for the HTML element.
      * The specified text will display as a tooltip if the mouse cursor hovers 
      * over the HTML element.</p>
      */
-    @Property(name="toolTip", displayName="Tool Tip", category="Behavior", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "toolTip", displayName = "Tool Tip", category = "Behavior",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String toolTip = null;
 
     /**
@@ -953,7 +972,6 @@ public class Label extends UIOutput implements NamingContainer {
     public void setToolTip(String toolTip) {
         this.toolTip = toolTip;
     }
-
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -963,7 +981,7 @@ public class Label extends UIOutput implements NamingContainer {
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @Property(name="visible", displayName="Visible", category="Behavior")
+    @Property(name = "visible", displayName = "Visible", category = "Behavior")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -1010,7 +1028,8 @@ public class Label extends UIOutput implements NamingContainer {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this._for = (String) _values[1];
@@ -1036,6 +1055,7 @@ public class Label extends UIOutput implements NamingContainer {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[19];
         _values[0] = super.saveState(_context);

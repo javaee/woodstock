@@ -23,15 +23,7 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-import com.sun.webui.jsf.theme.ThemeImages;
-import com.sun.webui.jsf.util.ConversionUtilities;
-import com.sun.webui.jsf.util.LogUtil;
-import com.sun.webui.theme.Theme;
-
-import java.util.List;
-
 import javax.el.ValueExpression;
-import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
 
@@ -39,10 +31,12 @@ import javax.faces.context.FacesContext;
  * The Message component is used to display error and warning messages for 
  * another component.
  */
-@Component(type="com.sun.webui.jsf.Message", family="com.sun.webui.jsf.Message", displayName="Message", tagName="message",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_message",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_message_props")
+@Component(type = "com.sun.webui.jsf.Message", family = "com.sun.webui.jsf.Message",
+displayName = "Message", tagName = "message",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_message",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_message_props")
 public class Message extends UIComponentBase {
+
     private static final boolean DEBUG = false;
 
     /**
@@ -60,19 +54,19 @@ public class Message extends UIComponentBase {
         return "com.sun.webui.jsf.Message";
     }
 
-    private void log(String s) { 
+    private void log(String s) {
         System.out.println(getClass().getName() + "::" + s);
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -84,17 +78,18 @@ public class Message extends UIComponentBase {
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
-
     /**
      * <p>Description of the image rendered by this component. The alt
      * text can be used by screen readers and in tool tips, and when image display is turned off in
      * the web browser.</p>
      */
-    @Property(name="alt", displayName="Alt Text", category="Accessibility", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor", isHidden=true, isAttribute=false)
+    @Property(name = "alt", displayName = "Alt Text", category = "Accessibility",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor", isHidden = true, isAttribute = false)
     private String alt = null;
 
     /**
@@ -122,11 +117,11 @@ public class Message extends UIComponentBase {
     public void setAlt(String alt) {
         this.alt = alt;
     }
-
     /**
      * <p>Identifier for the component associated with this message component.</p>
      */
-    @Property(name="for", displayName="Input Component", category="Behavior", editorClassName="com.sun.webui.jsf.component.propertyeditors.InputComponentIdsEditor")
+    @Property(name = "for", displayName = "Input Component", category = "Behavior",
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.InputComponentIdsEditor")
     private String _for = null;
 
     /**
@@ -150,11 +145,10 @@ public class Message extends UIComponentBase {
     public void setFor(String _for) {
         this._for = _for;
     }
-
     /**
      * <p>Set this attribute to true to display the detailed message.</p>
      */
-    @Property(name="showDetail", displayName="Show Detail Message", category="Appearance")
+    @Property(name = "showDetail", displayName = "Show Detail Message", category = "Appearance")
     private boolean showDetail = false;
     private boolean showDetail_set = false;
 
@@ -185,11 +179,10 @@ public class Message extends UIComponentBase {
         this.showDetail = showDetail;
         this.showDetail_set = true;
     }
-
     /**
      * <p>Set this attribute to true to display the summary message.</p>
      */
-    @Property(name="showSummary", displayName="Show Summary Message", category="Appearance")
+    @Property(name = "showSummary", displayName = "Show Summary Message", category = "Appearance")
     private boolean showSummary = false;
     private boolean showSummary_set = false;
 
@@ -220,12 +213,12 @@ public class Message extends UIComponentBase {
         this.showSummary = showSummary;
         this.showSummary_set = true;
     }
-
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
+    @Property(name = "style", displayName = "CSS Style(s)", category = "Appearance",
+    editorClassName = "com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
@@ -251,12 +244,12 @@ public class Message extends UIComponentBase {
     public void setStyle(String style) {
         this.style = style;
     }
-
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
@@ -282,14 +275,14 @@ public class Message extends UIComponentBase {
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-
     /**
      * <p>Position of this element in the tabbing order of the current document. 
      * Tabbing order determines the sequence in which elements receive 
      * focus when the tab key is pressed. The value must be an integer 
      * between 0 and 32767.</p>
      */
-    @Property(name="tabIndex", displayName="Tab Index", category="Accessibility", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor", isHidden=true, isAttribute=false)
+    @Property(name = "tabIndex", displayName = "Tab Index", category = "Accessibility",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor", isHidden = true, isAttribute = false)
     private int tabIndex = Integer.MIN_VALUE;
     private boolean tabIndex_set = false;
 
@@ -326,7 +319,6 @@ public class Message extends UIComponentBase {
         this.tabIndex = tabIndex;
         this.tabIndex_set = true;
     }
-
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -336,7 +328,7 @@ public class Message extends UIComponentBase {
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @Property(name="visible", displayName="Visible", category="Behavior")
+    @Property(name = "visible", displayName = "Visible", category = "Behavior")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -383,7 +375,8 @@ public class Message extends UIComponentBase {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.alt = (String) _values[1];
@@ -403,6 +396,7 @@ public class Message extends UIComponentBase {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[13];
         _values[0] = super.saveState(_context);

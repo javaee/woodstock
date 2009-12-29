@@ -28,7 +28,6 @@ import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
-
 import javax.el.ValueExpression;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
@@ -75,24 +74,20 @@ import javax.faces.el.ValueBinding;
  * </li>
  * </ul>
  */
-@Component(type="com.sun.webui.jsf.ProgressBar", family="com.sun.webui.jsf.ProgressBar",
-    displayName="ProgressBar", tagName="progressBar",
-    tagRendererType="com.sun.webui.jsf.widget.ProgressBar")
-public class ProgressBar extends javax.faces.component.UIOutput  
+@Component(type = "com.sun.webui.jsf.ProgressBar", family = "com.sun.webui.jsf.ProgressBar",
+displayName = "ProgressBar", tagName = "progressBar",
+tagRendererType = "com.sun.webui.jsf.widget.ProgressBar")
+public class ProgressBar extends javax.faces.component.UIOutput
         implements NamingContainer, Widget {
-    
+
     /** The facet name for the top text. */
     public static final String TOPTEXT_FACET = "progressTextTop"; //NOI18N
-    
     /** The facet name for the bottom text. */
     public static final String BOTTOMTEXT_FACET = "progressTextBottom"; //NOI18N
-    
     /** The facet name for the right control. */
     public static final String RIGHTTASK_CONTROL_FACET = "progressControlRight"; //NOI18N
-    
     /** The facet name for the left control. */
     public static final String BOTTOMTASK_CONTROL_FACET = "progressControlBottom"; //NOI18N
-    
     /* Task states.*/
     public static String TASK_COMPLETED = "completed"; //NOI18N
     public static String TASK_PAUSED = "paused"; //NOI18N
@@ -102,12 +97,10 @@ public class ProgressBar extends javax.faces.component.UIOutput
     public static String TASK_CANCELED = "canceled"; //NOI18N
     public static String TASK_FAILED = "failed"; //NOI18N
     public static String TASK_NOT_STARTED = "not_started"; //NOI18N
-    
     /* Types of ProgressBar. */
     public static String DETERMINATE = "DETERMINATE"; //NOI18N
     public static String INDETERMINATE = "INDETERMINATE"; //NOI18N
     public static String BUSY_INDICATOR = "BUSY"; //NOI18N
-
     /** The component id for the actions separator icon. */
     public static final String BUSY_ICON_ID = "_busyImage"; //NOI18N
 
@@ -120,14 +113,16 @@ public class ProgressBar extends javax.faces.component.UIOutput
     public FacesContext getContext() {
         return getFacesContext();
     }
-    
+
     /**
      * <p>Return the family for this component.</p>
      */
+    @Override
     public String getFamily() {
         return "com.sun.webui.jsf.ProgressBar";
     }
-    
+
+    @Override
     public String getRendererType() {
         if (AsyncResponse.isAjaxRequest()) {
             return "com.sun.webui.jsf.ajax.ProgressBar";
@@ -148,7 +143,6 @@ public class ProgressBar extends javax.faces.component.UIOutput
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Icon methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * Get the busy icon.
      *
@@ -159,23 +153,23 @@ public class ProgressBar extends javax.faces.component.UIOutput
 
         // Get child.
         Icon child = ThemeUtilities.getIcon(theme, ThemeImages.PROGRESS_BUSY);
-	child.setId(BUSY_ICON_ID);
+        child.setId(BUSY_ICON_ID);
         child.setBorder(0);
 
         // Save facet and return child.
-        getFacets().put(child.getId(), child); 
+        getFacets().put(child.getId(), child);
         return child;
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -187,19 +181,22 @@ public class ProgressBar extends javax.faces.component.UIOutput
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
 
     // Overwrite value annotation
-    @Property(isHidden=true, isAttribute=false)
+    @Property(isHidden = true, isAttribute = false)
+    @Override
     public Object getValue() {
         return super.getValue();
     }
-    
+
     // Hide converter
-    @Property(isHidden=true, isAttribute=false)
+    @Property(isHidden = true, isAttribute = false)
+    @Override
     public Converter getConverter() {
         return super.getConverter();
     }
@@ -212,26 +209,25 @@ public class ProgressBar extends javax.faces.component.UIOutput
     public UIComponent getLogMsgComponent(ProgressBar component) {
         //textArea for running log
         TextArea textArea = new TextArea();
-        textArea.setParent(component);            
+        textArea.setParent(component);
         textArea.setId("logMsg");
         textArea.setRows(4);
         textArea.setColumns(62);
 
         return textArea;
     }
-
     /**
      * Flag indicating to turn off default Ajax functionality. Set ajaxify to
      * false when providing a different Ajax implementation.
      */
-    @Property(name="ajaxify", displayName="Ajaxify", category="Javascript")
-    private boolean ajaxify = true; 
-    private boolean ajaxify_set = false; 
- 
+    @Property(name = "ajaxify", displayName = "Ajaxify", category = "Javascript")
+    private boolean ajaxify = true;
+    private boolean ajaxify_set = false;
+
     /**
      * Test if default Ajax functionality should be turned off.
      */
-    public boolean isAjaxify() { 
+    public boolean isAjaxify() {
         if (this.ajaxify_set) {
             return this.ajaxify;
         }
@@ -245,7 +241,7 @@ public class ProgressBar extends javax.faces.component.UIOutput
             }
         }
         return true;
-    } 
+    }
 
     /**
      * Set flag indicating to turn off default Ajax functionality.
@@ -254,11 +250,10 @@ public class ProgressBar extends javax.faces.component.UIOutput
         this.ajaxify = ajaxify;
         this.ajaxify_set = true;
     }
-
     /**
      * Alternative HTML template to be used by this component.
      */
-    @Property(name="htmlTemplate", displayName="HTML Template", category="Appearance")
+    @Property(name = "htmlTemplate", displayName = "HTML Template", category = "Appearance")
     private String htmlTemplate = null;
 
     /**
@@ -281,15 +276,14 @@ public class ProgressBar extends javax.faces.component.UIOutput
     public void setHtmlTemplate(String htmlTemplate) {
         this.htmlTemplate = htmlTemplate;
     }
-
     /**
      * <p>Sets the value of the title attribute for the HTML element.
      * The specified text will display as a tooltip if the mouse cursor hovers 
      * over the HTML element.</p>
      */
-    @Property(name="toolTip", displayName="toolTip Text", category="Behavior")
+    @Property(name = "toolTip", displayName = "toolTip Text", category = "Behavior")
     private String toolTip = null;
-    
+
     /**
      * <p>Sets the value of the title attribute for the HTML element.
      * The specified text will display as a tooltip if the mouse cursor hovers 
@@ -305,7 +299,7 @@ public class ProgressBar extends javax.faces.component.UIOutput
         }
         return null;
     }
-    
+
     /**
      * <p>Sets the value of the title attribute for the HTML element.
      * The specified text will display as a tooltip if the mouse cursor hovers 
@@ -315,13 +309,12 @@ public class ProgressBar extends javax.faces.component.UIOutput
     public void setToolTip(String toolTip) {
         this.toolTip = toolTip;
     }
-    
     /**
      * <p>Text to describe the operation that is monitored by the progress bar. </p>
      */
-    @Property(name="description", displayName="description", category="Appearance")
+    @Property(name = "description", displayName = "description", category = "Appearance")
     private String description = null;
-    
+
     /**
      * <p>Text to describe the operation that is monitored by the progress bar. </p>
      */
@@ -335,7 +328,7 @@ public class ProgressBar extends javax.faces.component.UIOutput
         }
         return null;
     }
-    
+
     /**
      * <p>Text to describe the operation that is monitored by the progress bar. </p>
      * @see #getDescription()
@@ -343,33 +336,31 @@ public class ProgressBar extends javax.faces.component.UIOutput
     public void setDescription(String description) {
         this.description = description;
     }
-    
     /**
      * <p>Text to be displayed along with an icon when the task fails. </p>
      */
-    @Property(name="failedStateText", displayName="Failed State Text", category="Appearance")
+    @Property(name = "failedStateText", displayName = "Failed State Text", category = "Appearance")
     private String failedStateText = null;
-    
+
     /**
      * <p>Text to be displayed along with an icon when the task fails. </p>
      */
     public String getFailedStateText() {
         ValueBinding _vb = getValueBinding("failedStateText");
         // set the default text for failed state if failedStateText is null
-        if(_vb == null && this.failedStateText == null) {
-          this.failedStateText =  ThemeUtilities.getTheme(FacesContext.getCurrentInstance())
-                                 .getMessage("ProgressBar.failedText");
+        if (_vb == null && this.failedStateText == null) {
+            this.failedStateText = ThemeUtilities.getTheme(FacesContext.getCurrentInstance()).getMessage("ProgressBar.failedText");
         }
         if (this.failedStateText != null) {
             return this.failedStateText;
         }
-        
+
         if (_vb != null) {
             return (String) _vb.getValue(getFacesContext());
         }
         return null;
     }
-    
+
     /**
      * <p>Text to be displayed along with an icon when the task fails. </p>
      * @see #getFailedStateText()
@@ -377,16 +368,15 @@ public class ProgressBar extends javax.faces.component.UIOutput
     public void setFailedStateText(String failedStateText) {
         this.failedStateText = failedStateText;
     }
-    
     /**
      * <p>Number of pixels for the height of the progress bar animation.
      * The default is 14. </p>
      */
-    @Property(name="height", displayName="Bar Height", category="Appearance", 
-              editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "height", displayName = "Bar Height", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int height = Integer.MIN_VALUE;
     private boolean height_set = false;
-    
+
     /**
      * <p>Number of pixels for the height of the progress bar animation.
      * The default is 14. </p>
@@ -406,7 +396,7 @@ public class ProgressBar extends javax.faces.component.UIOutput
         }
         return Integer.MIN_VALUE;
     }
-    
+
     /**
      * <p>Number of pixels for the height of the progress bar animation.
      * The default is 14. </p>
@@ -416,16 +406,15 @@ public class ProgressBar extends javax.faces.component.UIOutput
         this.height = height;
         this.height_set = true;
     }
-    
     /**
      * <p>Text to be displayed in a text area at the bottom of the 
      * progress bar component. </p>
      */
-    @Property(name="logMessage", displayName="Log Message", category="Appearance")
+    @Property(name = "logMessage", displayName = "Log Message", category = "Appearance")
     private String logMessage = null;
-    
+
     /**
-    * <p>Text to be displayed in a text area at the bottom of the 
+     * <p>Text to be displayed in a text area at the bottom of the
      * progress bar component. </p>
      */
     public String getLogMessage() {
@@ -438,7 +427,7 @@ public class ProgressBar extends javax.faces.component.UIOutput
         }
         return null;
     }
-    
+
     /**
      * <p>Text to be displayed in a text area at the bottom of the 
      * progress bar component. </p>
@@ -447,15 +436,14 @@ public class ProgressBar extends javax.faces.component.UIOutput
     public void setLogMessage(String logMessage) {
         this.logMessage = logMessage;
     }
-    
     /**
      * <p>Set to true to display the operation progress text superimposed on the
      * progress bar animation. </p>   
      */
-    @Property(name="overlayAnimation", displayName="Is overlayAnimation", category="Advanced")
+    @Property(name = "overlayAnimation", displayName = "Is overlayAnimation", category = "Advanced")
     private boolean overlayAnimation = false;
     private boolean overlayAnimation_set = false;
-    
+
     /**
      * <p>Set to true to display the operation progress text superimposed on the
      * progress bar animation. </p>
@@ -475,7 +463,7 @@ public class ProgressBar extends javax.faces.component.UIOutput
         }
         return false;
     }
-    
+
     /**
      * <p>Set to true to display the operation progress text superimposed on the
      * progress bar animation. </p>
@@ -485,15 +473,14 @@ public class ProgressBar extends javax.faces.component.UIOutput
         this.overlayAnimation = overlayAnimation;
         this.overlayAnimation_set = true;
     }
-    
     /**
      * <p>An integer that indicates the completion percentage of the task.</p>
      */
-    @Property(name="progress", displayName="Progress", category="Appearance", 
-              editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "progress", displayName = "Progress", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int progress = Integer.MIN_VALUE;
     private boolean progress_set = false;
-    
+
     /**
      * <p>An integer that indicates the completion percentage of the task.</p>
      */
@@ -512,7 +499,7 @@ public class ProgressBar extends javax.faces.component.UIOutput
         }
         return Integer.MIN_VALUE;
     }
-    
+
     /**
      * <p>An integer that indicates the completion percentage of the task.</p>
      * @see #getProgress()
@@ -521,14 +508,13 @@ public class ProgressBar extends javax.faces.component.UIOutput
         this.progress = progress;
         this.progress_set = true;
     }
-    
     /**
      * <p>URL to an image to use instead of the default image for the progress indicator.</p>
      */
-    @Property(name="progressImageUrl", displayName="Image Url", category="Appearance", 
-              editorClassName="com.sun.webui.jsf.component.propertyeditors.SunWebUrlPropertyEditor")
+    @Property(name = "progressImageUrl", displayName = "Image Url", category = "Appearance",
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.SunWebUrlPropertyEditor")
     private String progressImageUrl = null;
-    
+
     /**
      * <p>URL to an image to use instead of the default image for the progress indicator.</p>
      */
@@ -542,7 +528,7 @@ public class ProgressBar extends javax.faces.component.UIOutput
         }
         return null;
     }
-    
+
     /**
      * <p>URL to an image to use instead of the default image for the progress indicator.</p>
      * @see #getProgressImageUrl()
@@ -550,15 +536,14 @@ public class ProgressBar extends javax.faces.component.UIOutput
     public void setProgressImageUrl(String progressImageUrl) {
         this.progressImageUrl = progressImageUrl;
     }
-    
     /**
      * <p>The number of milliseconds between updates to the progress bar. </p>
      */
-    @Property(name="refreshRate", displayName="Refresh Rate", category="Appearance", 
-              editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "refreshRate", displayName = "Refresh Rate", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int refreshRate = Integer.MIN_VALUE;
     private boolean refreshRate_set = false;
-    
+
     /**
      * <p>The number of milliseconds between updates to the progress bar. </p>
      */
@@ -566,12 +551,12 @@ public class ProgressBar extends javax.faces.component.UIOutput
         ValueBinding _vb = getValueBinding("refreshRate");
         //set the default refresh rate 3000 if refreshRate < 0
         if (_vb == null && this.refreshRate < 0) {
-          this.refreshRate = 3000;
+            this.refreshRate = 3000;
         }
         if (this.refreshRate_set) {
             return this.refreshRate;
         }
-        
+
         if (_vb != null) {
             Object _result = _vb.getValue(getFacesContext());
             if (_result == null) {
@@ -582,7 +567,7 @@ public class ProgressBar extends javax.faces.component.UIOutput
         }
         return Integer.MIN_VALUE;
     }
-    
+
     /**
      * <p>The number of milliseconds between updates to the progress bar. </p>
      * @see #getRefreshRate()
@@ -591,13 +576,12 @@ public class ProgressBar extends javax.faces.component.UIOutput
         this.refreshRate = refreshRate;
         this.refreshRate_set = true;
     }
-    
     /**
      * <p>Text to be displayed at the bottom of the progress bar, for the status of the operation.</p>
      */
-    @Property(name="status", displayName="Status Text", category="Appearance")
+    @Property(name = "status", displayName = "Status Text", category = "Appearance")
     private String status = null;
-    
+
     /**
      * <p>Text to be displayed at the bottom of the progress bar, for the status of the operation.</p>
      */
@@ -611,7 +595,7 @@ public class ProgressBar extends javax.faces.component.UIOutput
         }
         return null;
     }
-    
+
     /**
      * <p>Text to be displayed at the bottom of the progress bar, for the status of the operation.</p>
      * @see #getStatus()
@@ -619,15 +603,14 @@ public class ProgressBar extends javax.faces.component.UIOutput
     public void setStatus(String status) {
         this.status = status;
     }
-    
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this
      * component is rendered.</p>
      */
-    @Property(name="style", displayName="CSS Style(s)", category="Appearance", 
-              editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
+    @Property(name = "style", displayName = "CSS Style(s)", category = "Appearance",
+    editorClassName = "com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
-    
+
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this
      * component is rendered.</p>
@@ -642,7 +625,7 @@ public class ProgressBar extends javax.faces.component.UIOutput
         }
         return null;
     }
-    
+
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this
      * component is rendered.</p>
@@ -651,15 +634,14 @@ public class ProgressBar extends javax.faces.component.UIOutput
     public void setStyle(String style) {
         this.style = style;
     }
-    
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this
      * component is rendered.</p>
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", 
-              editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
-    
+
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this
      * component is rendered.</p>
@@ -674,7 +656,7 @@ public class ProgressBar extends javax.faces.component.UIOutput
         }
         return null;
     }
-    
+
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this
      * component is rendered.</p>
@@ -683,18 +665,17 @@ public class ProgressBar extends javax.faces.component.UIOutput
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-    
     /**
      * <p>Position of this element in the tabbing order of the current document.
      * Tabbing order determines the sequence in which elements receive
      * focus when the tab key is pressed. The value must be an integer
      * between 0 and 32767.</p>
      */
-    @Property(name="tabIndex", displayName="Tab Index", category="Accessibility", 
-              editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "tabIndex", displayName = "Tab Index", category = "Accessibility",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int tabIndex = Integer.MIN_VALUE;
     private boolean tabIndex_set = false;
-    
+
     /**
      * <p>Position of this element in the tabbing order of the current document.
      * Tabbing order determines the sequence in which elements receive
@@ -716,7 +697,7 @@ public class ProgressBar extends javax.faces.component.UIOutput
         }
         return Integer.MIN_VALUE;
     }
-    
+
     /**
      * <p>Position of this element in the tabbing order of the current document.
      * Tabbing order determines the sequence in which elements receive
@@ -728,7 +709,6 @@ public class ProgressBar extends javax.faces.component.UIOutput
         this.tabIndex = tabIndex;
         this.tabIndex_set = true;
     }
-    
     /**
      * <p>A string representing the state of the task associated with this progress bar.
      * Valid values are:<br>
@@ -741,11 +721,11 @@ public class ProgressBar extends javax.faces.component.UIOutput
      * failed<br>
      * completed</code></p>
      */
-    @Property(name="taskState", displayName="Task State", category="Appearance",
-     editorClassName="com.sun.webui.jsf.component.propertyeditors.ProgressBarStatesTypeEditor")
+    @Property(name = "taskState", displayName = "Task State", category = "Appearance",
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.ProgressBarStatesTypeEditor")
     private String taskState = null;
-    
-       /**
+
+    /**
      * <p>A string representing the state of the task associated with this progress bar.
      * Default value for taskState is not_started.
      * Valid values are:</p>
@@ -766,24 +746,22 @@ public class ProgressBar extends javax.faces.component.UIOutput
         ValueBinding _vb = getValueBinding("taskState");
         if (this.taskState == null && _vb == null) {
             this.taskState = ProgressBar.TASK_NOT_STARTED;
-        } else if (this.taskState.equals(ProgressBar.TASK_NOT_STARTED)
-                    && this.progress > 0) {
+        } else if (this.taskState.equals(ProgressBar.TASK_NOT_STARTED) && this.progress > 0) {
             this.taskState = ProgressBar.TASK_RUNNING;
-        } else if (!(this.taskState.equals(ProgressBar.TASK_COMPLETED))
-                    && this.progress > 99) {
+        } else if (!(this.taskState.equals(ProgressBar.TASK_COMPLETED)) && this.progress > 99) {
             this.taskState = ProgressBar.TASK_COMPLETED;
-        }    
-        
+        }
+
         if (this.taskState != null) {
             return this.taskState;
         }
-        
+
         if (_vb != null) {
             return (String) _vb.getValue(getFacesContext());
         }
         return null;
     }
-    
+
     /**
      * <p>A string representing the state of the task associated with this progress bar.
      * Valid values are:</p>
@@ -800,17 +778,16 @@ public class ProgressBar extends javax.faces.component.UIOutput
     public void setTaskState(String taskState) {
         this.taskState = taskState;
     }
-    
     /**
      * <p>Type of progress bar. Value must be one of the following:<br>
      * "DETERMINATE" for horizontal bar showing percent complete<br>
      * "INDETERMINATE" for horizontal bar without percent complete<br>
      * "BUSY" for simple activity indicator</p>
      */
-    @Property(name="type", displayName="ProgressBar Type", category="Appearance",
-     editorClassName="com.sun.webui.jsf.component.propertyeditors.ProgressBarTypesEditor")
+    @Property(name = "type", displayName = "ProgressBar Type", category = "Appearance",
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.ProgressBarTypesEditor")
     private String type = null;
-    
+
     /**
      * <p>Type of progress bar. Value must be one of the following:<br>
      * "DETERMINATE" for horizontal bar showing percent complete<br>
@@ -821,18 +798,18 @@ public class ProgressBar extends javax.faces.component.UIOutput
         ValueBinding _vb = getValueBinding("type");
         //set type attribute to DETERMINATE if type is null
         if (_vb == null && this.type == null) {
-           this.type = ProgressBar.DETERMINATE;
+            this.type = ProgressBar.DETERMINATE;
         }
         if (this.type != null) {
             return this.type;
         }
-        
+
         if (_vb != null) {
             return (String) _vb.getValue(getFacesContext());
         }
         return null;
     }
-    
+
     /**
      * <p>Type of progress bar. Value must be one of the following:<br>
      * "DETERMINATE" for horizontal bar showing percent complete<br>
@@ -843,7 +820,6 @@ public class ProgressBar extends javax.faces.component.UIOutput
     public void setType(String type) {
         this.type = type;
     }
-    
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -853,10 +829,10 @@ public class ProgressBar extends javax.faces.component.UIOutput
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @Property(name="visible", displayName="Visible")
+    @Property(name = "visible", displayName = "Visible")
     private boolean visible = false;
     private boolean visible_set = false;
-    
+
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -881,7 +857,7 @@ public class ProgressBar extends javax.faces.component.UIOutput
         }
         return true;
     }
-    
+
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -896,16 +872,15 @@ public class ProgressBar extends javax.faces.component.UIOutput
         this.visible = visible;
         this.visible_set = true;
     }
-    
     /**
      * <p>Number of pixels for the width of the progress bar animation. The default
      * is 184.</p>
      */
-    @Property(name="width", displayName="Bar Width", category="Appearance", 
-              editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "width", displayName = "Bar Width", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int width = Integer.MIN_VALUE;
     private boolean width_set = false;
-    
+
     /**
      * <p>Number of pixels for the width of the progress bar animation. The default
      * is 184.</p>
@@ -925,7 +900,7 @@ public class ProgressBar extends javax.faces.component.UIOutput
         }
         return Integer.MIN_VALUE;
     }
-    
+
     /**
      * <p>Number of pixels for the width of the progress bar animation. The default
      * is 184.</p>
@@ -935,11 +910,12 @@ public class ProgressBar extends javax.faces.component.UIOutput
         this.width = width;
         this.width_set = true;
     }
-    
+
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.toolTip = (String) _values[1];
@@ -967,10 +943,11 @@ public class ProgressBar extends javax.faces.component.UIOutput
         this.width = ((Integer) _values[23]).intValue();
         this.width_set = ((Boolean) _values[24]).booleanValue();
     }
-    
+
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[25];
         _values[0] = super.saveState(_context);

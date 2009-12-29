@@ -24,7 +24,6 @@ package com.sun.webui.jsf.component;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
-
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
 
@@ -32,9 +31,10 @@ import com.sun.faces.annotation.Property;
  * The Page component is used to indicate the beginning of the part of the JSP
  * page that is used by the Sun Java Web UI Components.
  */
-@Component(type="com.sun.webui.jsf.Page", family="com.sun.webui.jsf.Page", displayName="Page", tagName="page",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_page",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_page_props")
+@Component(type = "com.sun.webui.jsf.Page", family = "com.sun.webui.jsf.Page",
+displayName = "Page", tagName = "page",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_page",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_page_props")
 public class Page extends UIComponentBase {
 
     /**
@@ -55,12 +55,12 @@ public class Page extends UIComponentBase {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -72,11 +72,11 @@ public class Page extends UIComponentBase {
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
-
     /**
      * <span style="color: rgb(0, 0, 0);">Use the frame attribute to
      * indicate whether the page should render frames. If this attribute is
@@ -91,7 +91,7 @@ public class Page extends UIComponentBase {
      * depending on the setting of xhtml attribute.<br></span>
      * <pre style="color: rgb(0, 0, 0);">&lt;!DOCTYPE html <br> PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN"<br> "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd"&gt;<br><br>&lt;!DOCTYPE html <br> PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"<br> "http://www.w3.org/TR/html4/DTD/frameset.dtd"&gt;<br></pre>
      */
-    @Property(name="frame", displayName="Needs Frame", category="Appearance")
+    @Property(name = "frame", displayName = "Needs Frame", category = "Appearance")
     private boolean frame = false;
     private boolean frame_set = false;
 
@@ -143,7 +143,6 @@ public class Page extends UIComponentBase {
         this.frame = frame;
         this.frame_set = true;
     }
-
     /**
      * <span style="color: rgb(0, 0, 0);">XHTML transitional page or HTML
      * transitional page. This attribute influences
@@ -152,7 +151,7 @@ public class Page extends UIComponentBase {
      * following,
      * depending on the setting of frameset attribute.<br></span><pre style="color: rgb(0, 0, 0);">&lt;!DOCTYPE html <br> PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN"<br> "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd"</pre><pre style="color: rgb(0, 0, 0);">&lt;!DOCTYPE html <br> PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"<br> "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;</pre>
      */
-    @Property(name="xhtml", displayName="XHTML Transitional", category="Appearance")
+    @Property(name = "xhtml", displayName = "XHTML Transitional", category = "Appearance")
     private boolean xhtml = false;
     private boolean xhtml_set = false;
 
@@ -197,7 +196,8 @@ public class Page extends UIComponentBase {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.frame = ((Boolean) _values[1]).booleanValue();
@@ -209,6 +209,7 @@ public class Page extends UIComponentBase {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[5];
         _values[0] = super.saveState(_context);
@@ -218,5 +219,4 @@ public class Page extends UIComponentBase {
         _values[4] = this.xhtml_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
-
 }

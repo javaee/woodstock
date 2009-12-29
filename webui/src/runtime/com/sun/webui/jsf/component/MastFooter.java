@@ -21,43 +21,32 @@
  */
 package com.sun.webui.jsf.component;
 
-import com.sun.faces.annotation.Attribute;
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-import com.sun.faces.annotation.PropertyCategory;
-import java.io.IOException;
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIComponentBase; /* For javadoc */
 import javax.faces.component.NamingContainer;
 import javax.faces.context.FacesContext;
-import javax.faces.el.MethodBinding;
-import javax.faces.el.ValueBinding;
 import javax.el.ValueExpression;
-
 
 /**
  *
  * @author deep
  */
-
-@Component(
-        type="com.sun.webui.jsf.MastFooter",
-        family="com.sun.webui.jsf.MastFooter",
-        displayName="MastFooter Section",
-        instanceName="mastFooter",
-        tagName="mastFooter")
-        
+@Component(type = "com.sun.webui.jsf.MastFooter",
+family = "com.sun.webui.jsf.MastFooter",
+displayName = "MastFooter Section",
+instanceName = "mastFooter",
+tagName = "mastFooter")
 public class MastFooter extends javax.faces.component.UIComponentBase
-	implements NamingContainer {
-    
+        implements NamingContainer {
+
     /**
      * Creates a new instance of MastFooter
      */
     public MastFooter() {
-	super();
+        super();
         setRendererType("com.sun.webui.jsf.MastFooter");
     }
-    
+
     /**
      * <p>Return the family for this component.</p>
      */
@@ -68,12 +57,12 @@ public class MastFooter extends javax.faces.component.UIComponentBase
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -85,16 +74,16 @@ public class MastFooter extends javax.faces.component.UIComponentBase
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
-
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="style", displayName="CSS Style(s)")
+    @Property(name = "style", displayName = "CSS Style(s)")
     private String style = null;
 
     /**
@@ -120,12 +109,11 @@ public class MastFooter extends javax.faces.component.UIComponentBase
     public void setStyle(String style) {
         this.style = style;
     }
-
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)")
     private String styleClass = null;
 
     /**
@@ -151,12 +139,12 @@ public class MastFooter extends javax.faces.component.UIComponentBase
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-
     /**
      * <p>The url to the image file to use for the Corporate Image. Use this 
      * attribute to override the corporate image that is set in the theme.</p>
      */
-    @Property(name="corporateImageURL", displayName="Corporate Image URL", category="Navigation", editorClassName="com.sun.webui.jsf.component.propertyeditors.SunWebUrlPropertyEditor")
+    @Property(name = "corporateImageURL", displayName = "Corporate Image URL", category = "Navigation",
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.SunWebUrlPropertyEditor")
     private String corporateImageURL = null;
 
     /**
@@ -182,11 +170,11 @@ public class MastFooter extends javax.faces.component.UIComponentBase
     public void setCorporateImageURL(String corporateImageURL) {
         this.corporateImageURL = corporateImageURL;
     }
-    
     /**
      * <p>The description for the Corporate Image, used as alt text for the image.</p>
      */
-    @Property(name="corporateImageDescription", displayName="Corporate Image Description", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "corporateImageDescription", displayName = "Corporate Image Description",
+    category = "Appearance", editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String corporateImageDescription = null;
 
     /**
@@ -210,14 +198,14 @@ public class MastFooter extends javax.faces.component.UIComponentBase
     public void setCorporateImageDescription(String corporateImageDescription) {
         this.corporateImageDescription = corporateImageDescription;
     }
-
     /**
      * <p>The height to use for the Corporate Image, in pixels. 
      * Use this attribute when specifying the corporateImageURL, along with 
      * the corporateImageWidth attribute, to specify dimensions of  PNG images 
      * for use in Internet Explorer.</p>
      */
-    @Property(name="corporateImageHeight", displayName="Corporate Image Height", category="Appearance", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "corporateImageHeight", displayName = "Corporate Image Height",
+    category = "Appearance", editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int corporateImageHeight = Integer.MIN_VALUE;
     private boolean corporateImageHeight_set = false;
 
@@ -254,14 +242,13 @@ public class MastFooter extends javax.faces.component.UIComponentBase
         this.corporateImageHeight = corporateImageHeight;
         this.corporateImageHeight_set = true;
     }
-
-
     /**
      * <p>The width to use for the Corporate Image URL, in pixels. Use this 
      * attribute along with the corporateImageHeight attribute to specify 
      * dimensions of  PNG images for use in Internet Explorer.</p>
      */
-    @Property(name="corporateImageWidth", displayName="Corporate Image Width", category="Appearance", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    @Property(name = "corporateImageWidth", displayName = "Corporate Image Width",
+    category = "Appearance", editorClassName = "com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int corporateImageWidth = Integer.MIN_VALUE;
     private boolean corporateImageWidth_set = false;
 
@@ -296,7 +283,6 @@ public class MastFooter extends javax.faces.component.UIComponentBase
         this.corporateImageWidth = corporateImageWidth;
         this.corporateImageWidth_set = true;
     }
-    
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -306,7 +292,7 @@ public class MastFooter extends javax.faces.component.UIComponentBase
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @Property(name="visible", displayName="Visible")
+    @Property(name = "visible", displayName = "Visible")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -353,7 +339,8 @@ public class MastFooter extends javax.faces.component.UIComponentBase
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.style = (String) _values[1];
@@ -371,6 +358,7 @@ public class MastFooter extends javax.faces.component.UIComponentBase
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[11];
         _values[0] = super.saveState(_context);
@@ -384,8 +372,6 @@ public class MastFooter extends javax.faces.component.UIComponentBase
         _values[8] = this.corporateImageHeight_set ? Boolean.TRUE : Boolean.FALSE;
         _values[9] = new Integer(this.corporateImageWidth);
         _values[10] = this.corporateImageWidth_set ? Boolean.TRUE : Boolean.FALSE;
-        
         return _values;
     }
-
 }

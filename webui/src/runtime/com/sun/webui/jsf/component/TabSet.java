@@ -68,11 +68,12 @@ import javax.faces.event.ValueChangeEvent;
  * value processing.</li>
  * </ul>
  */
-@Component(type="com.sun.webui.jsf.TabSet", family="com.sun.webui.jsf.TabSet", displayName="Tab Set", tagName="tabSet",
-helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tab_set",
-        propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_tab_set_props")
-        public class TabSet extends WebuiInput implements NamingContainer {
-    
+@Component(type = "com.sun.webui.jsf.TabSet", family = "com.sun.webui.jsf.TabSet",
+displayName = "Tab Set", tagName = "tabSet",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_tab_set",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_tab_set_props")
+public class TabSet extends WebuiInput implements NamingContainer {
+
     /**
      * Create a new TabSet.
      */
@@ -80,12 +81,12 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tab_set",
         super();
         setRendererType("com.sun.webui.jsf.TabSet");
     }
-    
+
     @Override
     public String getFamily() {
         return "com.sun.webui.jsf.TabSet";
     }
-    
+
     @Override
     public ValueExpression getValueExpression(String name) {
         if (name.equals("selected")) {
@@ -93,29 +94,29 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tab_set",
         }
         return super.getValueExpression(name);
     }
-    
+
     @Override
-    public void setValueExpression(String name,ValueExpression binding) {
+    public void setValueExpression(String name, ValueExpression binding) {
         if (name.equals("selected")) {
             super.setValueExpression("value", binding);
             return;
         }
         super.setValueExpression(name, binding);
     }
-    
-    @Property(isHidden=true, isAttribute=false)
+
+    @Property(isHidden = true, isAttribute = false)
     @Override
     public Converter getConverter() {
         return super.getConverter();
     }
-    
-    @Property(isHidden=true, isAttribute=false)
+
+    @Property(isHidden = true, isAttribute = false)
     @Override
     public boolean isRequired() {
         return super.isRequired();
     }
-    
-    @Property(isHidden=true, isAttribute=false)
+
+    @Property(isHidden = true, isAttribute = false)
     @Override
     public MethodExpression getValidatorExpression() {
         return super.getValidatorExpression();
@@ -124,12 +125,11 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tab_set",
     /**
      * The current value of this component.
      */
-    @Property(isHidden=true, isAttribute=true)
+    @Property(isHidden = true, isAttribute = true)
     @Override
     public Object getValue() {
         return super.getValue();
     }
-    
     /**
      * Set the method expression that identifies a method that handles
      * the action event fired when one of this tab set's tabs is used to submit
@@ -138,10 +138,10 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tab_set",
      * defines the method must implement the <code>java.io.Serializable</code>
      * interface or <code>javax.faces.component.StateHolder</code> interface.
      */
-    @Property(name="actionListenerExpression", displayName="Action Listener Expression", category="Advanced")
-    @Property.Method(signature="void processAction(javax.faces.event.ActionEvent)")
+    @Property(name = "actionListenerExpression", displayName = "Action Listener Expression", category = "Advanced")
+    @Property.Method(signature = "void processAction(javax.faces.event.ActionEvent)")
     private MethodExpression actionListenerExpression;
-    
+
     /**
      * Get the method expression that identifies a method that handles
      * the action event fired when one of this tab set's tabs is used to submit
@@ -150,7 +150,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tab_set",
     public MethodExpression getActionListenerExpression() {
         return this.actionListenerExpression;
     }
-    
+
     /**
      * Set the method expression that identifies a method that handles
      * the action event fired when one of this tab set's tabs is used to submit
@@ -162,17 +162,16 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tab_set",
     public void setActionListenerExpression(MethodExpression actionListenerExpression) {
         this.actionListenerExpression = actionListenerExpression;
     }
-    
     /**
      * Returns true if the tabs in this tab set should remember
      * which of their tab children was last selected. This enables the user to
      * choose other tabs in the set, and have the child tab selection in the
      * original tab be retained when the user returns to the original tab.
      */
-    @Property(name="lastSelectedChildSaved", displayName="Last Selected Child Saved", isHidden=true)
+    @Property(name = "lastSelectedChildSaved", displayName = "Last Selected Child Saved", isHidden = true)
     private boolean lastSelectedChildSaved = true;
     private boolean lastSelectedChildSaved_set = true;
-    
+
     /**
      * Returns true if the tabs in this tab set should remember
      * which of their tab children was last selected. This enables the user to
@@ -194,7 +193,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tab_set",
         }
         return true;
     }
-    
+
     /**
      * Set to true if the tabs in this tab set should remember
      * which of their tab children was last selected. This enables the user to
@@ -205,16 +204,15 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tab_set",
         this.lastSelectedChildSaved = lastSelectedChildSaved;
         this.lastSelectedChildSaved_set = true;
     }
-    
     /**
      * Returns true if the tabs should render in a visually lighter style, with reduced
      * shading and bolding. This attribute can only be used with mini tabs, so
      * you must also set the mini attribute to true to render lightweight tabs.
      */
-    @Property(name="lite", displayName="Lightweight Tab Set", category="Appearance")
+    @Property(name = "lite", displayName = "Lightweight Tab Set", category = "Appearance")
     private boolean lite = false;
     private boolean lite_set = false;
-    
+
     /**
      * Returns true if the tabs should render in a visually lighter style, with reduced
      * shading and bolding. This attribute can only be used with mini tabs, so
@@ -235,7 +233,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tab_set",
         }
         return false;
     }
-    
+
     /**
      * Set to true to render the tabs in a visually lighter style, with reduced
      * shading and bolding. This attribute can only be used with mini tabs, so
@@ -245,16 +243,15 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tab_set",
         this.lite = lite;
         this.lite_set = true;
     }
-    
     /**
      * Set this attribute to true in a first level tab set, to create tabs that
      * have the smaller "mini" tab style. Note that mini tab sets will not display
      * properly if more than one level of tabs are specified.
      */
-    @Property(name="mini", displayName="Mini", category="Appearance")
+    @Property(name = "mini", displayName = "Mini", category = "Appearance")
     private boolean mini = false;
     private boolean mini_set = false;
-    
+
     /**
      * Set this attribute to true in a first level tab set, to create tabs that
      * have the smaller "mini" tab style. Note that mini tab sets will not display
@@ -275,7 +272,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tab_set",
         }
         return false;
     }
-    
+
     /**
      * Set this attribute to true in a first level tab set, to create tabs that
      * have the smaller "mini" tab style. Note that mini tab sets will not display
@@ -285,19 +282,19 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tab_set",
         this.mini = mini;
         this.mini_set = true;
     }
-    
+
     /**
      * The id of the selected tab.
      */
-    @Property(name="selected", displayName="Selected", category="Data", editorClassName="com.sun.webui.jsf.component.propertyeditors.TabIdsEditor")
-    
+    @Property(name = "selected", displayName = "Selected", category = "Data",
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.TabIdsEditor")
     /**
      * The id of the selected tab.
      */
     public String getSelected() {
         return (String) getValue();
     }
-    
+
     /**
      * The id of the selected tab.
      * @see #getSelected()
@@ -305,15 +302,16 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tab_set",
     public void setSelected(String selected) {
         setValue((Object) selected);
     }
-    
+
     /**
      * Returns this tab set's tab descendant with id equal to the value of
      * the selected property. If the value of the selected property is null,
      * returns the first tab child. If there are no tab children, returns null.
      */
     public Tab getSelectedTab() {
-        if (this.getChildCount() == 0)
+        if (this.getChildCount() == 0) {
             return null;
+        }
         Stack<Tab> tabStack = new Stack<Tab>();
         for (UIComponent child : this.getChildren()) {
             if (Tab.class.isAssignableFrom(child.getClass())) {
@@ -339,14 +337,14 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tab_set",
         }
         return selectedTab;
     }
-    
     /**
      * CSS style(s) to be applied to the outermost HTML element when this
      * component is rendered.
      */
-    @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
+    @Property(name = "style", displayName = "CSS Style(s)", category = "Appearance",
+    editorClassName = "com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
-    
+
     /**
      * CSS style(s) to be applied to the outermost HTML element when this
      * component is rendered.
@@ -361,7 +359,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tab_set",
         }
         return null;
     }
-    
+
     /**
      * CSS style(s) to be applied to the outermost HTML element when this
      * component is rendered.
@@ -370,15 +368,14 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tab_set",
     public void setStyle(String style) {
         this.style = style;
     }
-    
     /**
      * CSS style class(es) to be applied to the outermost HTML element when this
      * component is rendered.
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", 
-        editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
+    @Property(name = "styleClass", displayName = "CSS Style Class(es)", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
-    
+
     /**
      * CSS style class(es) to be applied to the outermost HTML element when this
      * component is rendered.
@@ -393,7 +390,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tab_set",
         }
         return null;
     }
-    
+
     /**
      * CSS style class(es) to be applied to the outermost HTML element when this
      * component is rendered.
@@ -402,7 +399,6 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tab_set",
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-    
     /**
      * Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -412,10 +408,10 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tab_set",
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.
      */
-    @Property(name="visible", displayName="Visible", category="Behavior")
+    @Property(name = "visible", displayName = "Visible", category = "Behavior")
     private boolean visible = false;
     private boolean visible_set = false;
-    
+
     /**
      * Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -440,7 +436,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tab_set",
         }
         return true;
     }
-    
+
     /**
      * Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
@@ -455,14 +451,16 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tab_set",
         this.visible = visible;
         this.visible_set = true;
     }
-    
+
     /**
      * Marks this tab set as valid only if all input component children of the
      * currently selected tab are valid.
      */
+    @Override
     public void validate(FacesContext context) {
-        if (!this.isRendered())
+        if (!this.isRendered()) {
             return;
+        }
         this.setValid(true);
         if (!this.isImmediate()) {
             Tab selectedTab = this.getSelectedTab();
@@ -496,12 +494,12 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tab_set",
             }
         }
     }
-    
+
     /**
      * Restore the state of this component.
      */
     @Override
-    public void restoreState(FacesContext _context,Object _state) {
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.actionListenerExpression = (javax.el.MethodExpression) _values[1];
@@ -516,7 +514,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tab_set",
         this.visible = ((Boolean) _values[10]).booleanValue();
         this.visible_set = ((Boolean) _values[11]).booleanValue();
     }
-    
+
     /**
      * Save the state of this component.
      */
@@ -537,7 +535,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tab_set",
         _values[11] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
-    
+
     /**
      * Returns the tab with the id specified that is a child of this tabSet. If
      * no such descendant tab exists, returns null. If this tabSet contains more
@@ -556,7 +554,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tab_set",
         }
         return null;
     }
-    
+
     /**
      * Returns the tab with the id specified that is a child of the tab specified. If
      * no such descendant tab exists, returns null. If the tab specified contains more

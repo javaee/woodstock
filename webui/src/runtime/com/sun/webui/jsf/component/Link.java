@@ -24,7 +24,6 @@ package com.sun.webui.jsf.component;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
-
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
 
@@ -32,9 +31,10 @@ import com.sun.faces.annotation.Property;
  * The Link component is iused to insert information into the &lt;head&gt; 
  * element, such as links to external stylesheets.
  */
-@Component(type="com.sun.webui.jsf.Link", family="com.sun.webui.jsf.Link", displayName="Link", tagName="link",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_link",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_link_props")
+@Component(type = "com.sun.webui.jsf.Link", family = "com.sun.webui.jsf.Link",
+displayName = "Link", tagName = "link",
+helpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_link",
+propertiesHelpKey = "projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_link_props")
 public class Link extends UIComponentBase {
 
     /**
@@ -55,12 +55,12 @@ public class Link extends UIComponentBase {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
      */
-    @Property(name="id") 
+    @Property(name = "id")
+    @Override
     public void setId(String id) {
         super.setId(id);
     }
@@ -72,16 +72,17 @@ public class Link extends UIComponentBase {
      * the component is not rendered, it is also not processed on any subsequent
      * form submission.
      */
-    @Property(name="rendered") 
+    @Property(name = "rendered")
+    @Override
     public void setRendered(boolean rendered) {
         super.setRendered(rendered);
     }
-
     /**
      * <p>Defines the character (charset) encoding of the target URL. Default 
      * value is "ISO-8859-1".</p>
      */
-    @Property(name="charset", displayName="Charset", category="Advanced", editorClassName="com.sun.webui.jsf.component.propertyeditors.CharacterSetsEditor")
+    @Property(name = "charset", displayName = "Charset", category = "Advanced",
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.CharacterSetsEditor")
     private String charset = null;
 
     /**
@@ -107,14 +108,14 @@ public class Link extends UIComponentBase {
     public void setCharset(String charset) {
         this.charset = charset;
     }
-
     /**
      * <p>Specifies the type of display device for which the referenced document 
      * is designed.  The media attribute is useful for specifying different 
      * stylesheets for print and viewing on a screen.  The default value is 
      * "screen".</p>
      */
-    @Property(name="media", displayName="Media Type", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name = "media", displayName = "Media Type", category = "Appearance",
+    editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String media = null;
 
     /**
@@ -144,13 +145,13 @@ public class Link extends UIComponentBase {
     public void setMedia(String media) {
         this.media = media;
     }
-
     /**
      * <p>Defines the relationship between the current document and the 
      * targeted document. Default is "stylesheet". Other possible values 
      * are described at w3.org.</p>
      */
-    @Property(name="rel", displayName="Rel", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.HtmlLinkTypesEditor")
+    @Property(name = "rel", displayName = "Rel", category = "Appearance",
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.HtmlLinkTypesEditor")
     private String rel = null;
 
     /**
@@ -178,11 +179,10 @@ public class Link extends UIComponentBase {
     public void setRel(String rel) {
         this.rel = rel;
     }
-
     /**
      * <p>Specifies the MIME type of the target URL.  Default is: "text/css"</p>
      */
-    @Property(name="type", displayName="Mime type", category="Appearance")
+    @Property(name = "type", displayName = "Mime type", category = "Appearance")
     private String type = null;
 
     /**
@@ -206,11 +206,11 @@ public class Link extends UIComponentBase {
     public void setType(String type) {
         this.type = type;
     }
-
     /**
      * <p>The absolute or relative target URL of the resource.</p>
      */
-    @Property(name="url", displayName="URL", category="Appearance", isDefault=true, editorClassName="com.sun.webui.jsf.component.propertyeditors.SunWebUrlPropertyEditor")
+    @Property(name = "url", displayName = "URL", category = "Appearance", isDefault = true,
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.SunWebUrlPropertyEditor")
     private String url = null;
 
     /**
@@ -234,12 +234,12 @@ public class Link extends UIComponentBase {
     public void setUrl(String url) {
         this.url = url;
     }
-
     /**
      * <p>Defines the ISO language code of the human language used in the target 
      * URL file. For example, valid values might be en, fr, es.</p>
      */
-    @Property(name="urlLang", displayName="URL Language", category="Advanced", editorClassName="com.sun.webui.jsf.component.propertyeditors.LanguagesEditor")
+    @Property(name = "urlLang", displayName = "URL Language", category = "Advanced",
+    editorClassName = "com.sun.webui.jsf.component.propertyeditors.LanguagesEditor")
     private String urlLang = null;
 
     /**
@@ -269,7 +269,8 @@ public class Link extends UIComponentBase {
     /**
      * <p>Restore the state of this component.</p>
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    @Override
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.charset = (String) _values[1];
@@ -283,6 +284,7 @@ public class Link extends UIComponentBase {
     /**
      * <p>Save the state of this component.</p>
      */
+    @Override
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[7];
         _values[0] = super.saveState(_context);
@@ -294,5 +296,4 @@ public class Link extends UIComponentBase {
         _values[6] = this.urlLang;
         return _values;
     }
-
 }
