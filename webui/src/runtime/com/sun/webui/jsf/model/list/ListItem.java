@@ -25,7 +25,6 @@
  *
  * Created on December 23, 2004, 3:01 PM
  */
-
 package com.sun.webui.jsf.model.list;
 
 /**
@@ -33,30 +32,31 @@ package com.sun.webui.jsf.model.list;
  * @author avk
  */
 public class ListItem {
-    
+
     Object valueObject;
     String label;
     String value;
     String description = null;
     boolean selected = false;
     boolean disabled = false;
-    boolean title = false; 
-    
+    boolean title = false;
+
     public ListItem(String label) {
         this.label = label;
         this.valueObject = label;
     }
-    
+
     public ListItem(Object realValue, String label) {
         this.label = label;
         this.valueObject = realValue;
     }
-    
+
     public ListItem(Object realValue, String label, boolean disabled) {
         this.label = label;
         this.valueObject = realValue;
         this.disabled = disabled;
     }
+
     public ListItem(Object realValue, String label, String description,
             boolean disabled) {
         this.label = label;
@@ -64,49 +64,48 @@ public class ListItem {
         this.description = description;
         this.disabled = disabled;
     }
-    
+
     public String getLabel() {
         return label;
     }
-    
+
     public String getValue() {
         return value;
     }
-    
+
     public void setValue(String value) {
         this.value = value;
     }
-    
+
     public String getDescription() {
         return description;
     }
-    
+
     public boolean isSelected() {
         return selected;
     }
-    
+
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
-    
+
     public Object getValueObject() {
         return valueObject;
     }
-    
+
     public boolean isDisabled() {
         return disabled;
     }
-    
+
     public void setDisabled(boolean disabled) {
         this.disabled = disabled;
     }
-    
+
     public void setTitle(boolean title) {
         this.title = title;
     }
-    
+
     public boolean isTitle() {
         return title;
     }
-   
 }

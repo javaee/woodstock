@@ -19,7 +19,6 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.model;
 
 /**
@@ -27,8 +26,7 @@ package com.sun.webui.jsf.model;
  * @author deep
  */
 public interface ResourceModel {
-   
-        
+
     /**
      * Returns the root value of the file system in question.
      * For example, in the default implementation of this interface for local
@@ -37,8 +35,7 @@ public interface ResourceModel {
      * @return returns the absolute root (directory for files and folders).
      */
     public String getAbsoluteRoot();
-    
-        
+
     /**
      * Sets the root value of the resource system in question.
      * For example, in the default implementation of this interface for local
@@ -47,7 +44,7 @@ public interface ResourceModel {
      * @param absRoot - the value to be used as the root of this resource system
      */
     public void setAbsoluteRoot(String absRoot);
-    
+
     /**
      * Return the separator String for this resource system. For a 
      * file system chooser this would be File.separator.
@@ -55,8 +52,7 @@ public interface ResourceModel {
      * @return returns the separator String.
      */
     public String getSeparatorString();
-    
-     
+
     /**
      * Get the Server namefrom where the resources are being loaded.
      *
@@ -64,23 +60,22 @@ public interface ResourceModel {
      * 
      */
     public String getServerName();
-    
-     /**
+
+    /**
      * Set the server name from where the resources are being loaded.
      *
      * @param serverName - the server name to be set
      * 
      */
     public void setServerName(String serverName);
-    
+
     /**
      * Return the filter String currently in use.
      *
      * @return returns the filter String.
      */
     public String getFilterValue();
-    
-        
+
     /**
      * Set the filter String entered by the user in the Filter text field.
      *
@@ -88,16 +83,14 @@ public interface ResourceModel {
      * 
      */
     public void setFilterValue(String filterString);
-    
-        
+
     /**
      * Return the sort field that is currently active.
      * 
      * @return returns the sort field in use.
      */
     public String getSortValue();
-    
-        
+
     /**
      * Set the sort field chosen by the user from the drop down menu.
      * 
@@ -105,7 +98,7 @@ public interface ResourceModel {
      * 
      */
     public void setSortValue(String sortField);
-    
+
     /**
      * This method is called to get the current directory of
      * the resuource list being displayed in the filechooser's listbox
@@ -113,8 +106,7 @@ public interface ResourceModel {
      * @return returns the current root (directory for files and folders).
      */
     public String getCurrentDir();
-    
-    
+
     /**
      * This method is called to set the current directory of
      * the resuource list that would be displayed in the next
@@ -124,14 +116,14 @@ public interface ResourceModel {
      * 
      */
     public void setCurrentDir(String dir);
-    
+
     /**
      * Returns the list of objects in the container represented by the
      * current directory. This method returns an Array of ResourecItem objects
      */
-    public ResourceItem[] getFolderContent(String folder, 
-	boolean disableFiles, boolean disableFolders);
-    
+    public ResourceItem[] getFolderContent(String folder,
+            boolean disableFiles, boolean disableFolders);
+
     /**
      * Given a ResourceItem key return the ResourceItem.
      *
@@ -147,8 +139,8 @@ public interface ResourceModel {
      * @param  path - the absolute path to the resource
      * @return returns the current root (directory for files and folders).
      */
-     public boolean isFolderType(String path);
-     
+    public boolean isFolderType(String path);
+
     /**
      * This methods checks if the resource path in question can be accessed
      * by the user trying to select or view it.
@@ -158,8 +150,7 @@ public interface ResourceModel {
      *  by the resource name.
      */
     public boolean canRead(String resourceName);
-    
-        
+
     /**
      * This methods checks if the resource path in question can be accessed
      * for writes by the user.
@@ -170,9 +161,7 @@ public interface ResourceModel {
      * 
      */
     public boolean canWrite(String resourceName);
-    
-    
-        
+
     /* *
      * Create a resource of the given name in the node specified.
      * In the context of the filechooser this would mean creating a file
@@ -185,7 +174,6 @@ public interface ResourceModel {
      *
     public boolean createResource(String resourceName, String rootDir);
      */
-    
     /* *
      * Returns true if the user has set if component is to function as
      * a file or directory chooser.
@@ -194,7 +182,6 @@ public interface ResourceModel {
      *
     public boolean isChooserTypeSet();
      */
-    
     /* *
      * Set the component to function as a folder chooser. This will 
      * cause all files or non container items to be disabled in the 
@@ -205,7 +192,6 @@ public interface ResourceModel {
      *
     public void setFolderChooser(boolean flag);
      */
-    
     /* *
      * This method returns true if the component is a folder chooser. This will 
      * cause all files or non container items to be disabled in the 
@@ -215,12 +201,14 @@ public interface ResourceModel {
      * 
     public boolean isFolderChooser();
      */
-
     public String getParentFolder();
 
     public String getEscapeChar();
+
     public String getDelimiterChar();
+
     public Object[] getSelectedContent(String[] content, boolean selectFolders)
-	throws ResourceModelException;
+            throws ResourceModelException;
+
     public String[] getRoots();
 }

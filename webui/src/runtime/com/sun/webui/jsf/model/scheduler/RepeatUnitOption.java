@@ -24,28 +24,28 @@
  *
  * Created on July 14, 2005, 2:19 PM
  *
- * To change this template, choose Tools | Options and locate the template under
- * the Source Creation and Management node. Right-click the template and choose
- * Open. You can then make changes to the template in the Source Editor.
  */
-
 package com.sun.webui.jsf.model.scheduler;
 
-import javax.faces.context.FacesContext; 
-import com.sun.webui.jsf.model.Option; 
+import javax.faces.context.FacesContext;
+import com.sun.webui.jsf.model.Option;
+
 /**
  *
- * @author avk
+ * @author avk, John Yeary
  */
 public class RepeatUnitOption extends Option {
-    
+
+    private static final long serialVersionUID = -2361907202066625777L;
+
     /** Creates a new instance of RepeatMonthly */
     public RepeatUnitOption(RepeatUnit repeatUnit) {
         this.setValue(repeatUnit);
     }
-    
+
+    @Override
     public String getLabel() {
-        return ((RepeatUnit)getValue()).getLabel(FacesContext.getCurrentInstance());
+        return ((RepeatUnit) getValue()).getLabel(FacesContext.getCurrentInstance());
     }
 }
   

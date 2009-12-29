@@ -25,7 +25,6 @@
  *
  * Created on December 23, 2004, 3:01 PM
  */
-
 package com.sun.webui.jsf.model.list;
 
 /**
@@ -33,13 +32,13 @@ package com.sun.webui.jsf.model.list;
  * @author avk
  */
 public class StartGroup {
-    
+
     private String label;
-    
+
     public StartGroup(String label) {
         this.label = label;
     }
-    
+
     public String getLabel() {
         return label;
     }

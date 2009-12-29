@@ -21,9 +21,8 @@
  */
 
 /*
- * $Id: OptionTitle.java,v 1.1 2007-02-16 01:31:44 bob_yennaco Exp $
+ * $Id: OptionTitle.java,v 1.1.20.1 2009-12-29 03:47:57 jyeary Exp $
  */
-
 package com.sun.webui.jsf.model;
 
 /**
@@ -64,25 +63,25 @@ package com.sun.webui.jsf.model;
  * </p>
  */
 public class OptionTitle extends Option {
-    
+
+    private static final long serialVersionUID = 6492074308022690077L;
     public static final String NONESELECTED = "com_sun_webui_jsf_NONESELECTED";
-  
-    public OptionTitle(String title) { 
+
+    public OptionTitle(String title) {
         super(NONESELECTED, title); //NOI18N
-    } 
+    }
 
     /*
     public String getLabel() {
 
-	// FIXME: The dash "look" should be part of the Theme
-	// ideally as a format String with one parameter.
-	// 
-        String label = super.getLabel();
-        label = "&#8212; ".concat(label).concat(" &#8212;"); 
-        return label; 
+    // FIXME: The dash "look" should be part of the Theme
+    // ideally as a format String with one parameter.
+    //
+    String label = super.getLabel();
+    label = "&#8212; ".concat(label).concat(" &#8212;");
+    return label;
     }
-    */
-    
+     */
     /**
      * The value will not be changed, if this method is called.
      */

@@ -20,9 +20,8 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 /*
- * $Id: ResourceModelException.java,v 1.1 2007-02-16 01:32:12 bob_yennaco Exp $
+ * $Id: ResourceModelException.java,v 1.1.20.1 2009-12-29 03:47:57 jyeary Exp $
  */
-
 package com.sun.webui.jsf.model;
 
 import javax.faces.validator.ValidatorException;
@@ -35,11 +34,13 @@ import javax.faces.application.FacesMessage;
  */
 public class ResourceModelException extends ValidatorException {
 
+    private static final long serialVersionUID = -8267067702146533999L;
+
     public ResourceModelException(FacesMessage fmsg) {
-	super(fmsg);
+        super(fmsg);
     }
 
     public ResourceModelException(FacesMessage fmsg, Throwable cause) {
-	super(fmsg, cause);
+        super(fmsg, cause);
     }
 }

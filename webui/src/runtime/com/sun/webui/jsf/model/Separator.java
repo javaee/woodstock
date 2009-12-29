@@ -19,7 +19,6 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.model;
 
 /**
@@ -28,6 +27,7 @@ package com.sun.webui.jsf.model;
  * etc.
  * </p>
  */
-
 public class Separator extends Option {
+
+    private static final long serialVersionUID = 364005507452241799L;
 }

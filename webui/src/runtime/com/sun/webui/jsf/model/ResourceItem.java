@@ -19,7 +19,6 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.model;
 
 /**
@@ -38,7 +37,6 @@ package com.sun.webui.jsf.model;
  *
  * @author deep
  */
-
 public interface ResourceItem {
 
     /**
@@ -49,15 +47,15 @@ public interface ResourceItem {
      * @return an object which is the value of the ResourceItem.
      */
     public Object getItemValue();
-    
+
     /**
      * Returns a String representing the item key.
      * 
      *
      * @return returns an object representing the resource item
      */
-    public String getItemKey();    
-    
+    public String getItemKey();
+
     /**
      * Set the item key.
      * 
@@ -65,7 +63,7 @@ public interface ResourceItem {
      * @param key - the resource item key
      */
     public void setItemKey(String key);
-        
+
     /**
      * Returns an object representing the resource item.
      * 
@@ -73,7 +71,7 @@ public interface ResourceItem {
      * @return returns an object representing the resource item
      */
     public String getItemLabel();
-        
+
     /**
      * Returns an object representing the resource item.
      * 
@@ -81,7 +79,7 @@ public interface ResourceItem {
      * @return returns an object representing the resource item
      */
     public void setItemLabel(String label);
-        
+
     /**
      * Returns an boolean value indicating if the item should be selectable
      * in the filechooser's listbox.
@@ -90,7 +88,7 @@ public interface ResourceItem {
      * @return true if the item in the listbox should be disabled. 
      */
     public boolean isItemDisabled();
-        
+
     /**
      * Sets the item disabled flag. If set to true the item should 
      * not be selectable.
@@ -100,7 +98,7 @@ public interface ResourceItem {
      * @enabled flag when set to true indicates item is not selectable.
      */
     public void setItemDisabled(boolean disabled);
-        
+
     /**
      * Returns a flag indicating if the resource item is a container. If true 
      * the item is a container item.
@@ -111,5 +109,4 @@ public interface ResourceItem {
     public boolean isContainerItem();
 
     public boolean equals(Object resourceItem);
-        
 }

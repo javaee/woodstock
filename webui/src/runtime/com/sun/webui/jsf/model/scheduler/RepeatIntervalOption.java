@@ -28,26 +28,27 @@
  * the Source Creation and Management node. Right-click the template and choose
  * Open. You can then make changes to the template in the Source Editor.
  */
-
 package com.sun.webui.jsf.model.scheduler;
 
-import javax.faces.context.FacesContext; 
-import com.sun.webui.jsf.model.Option; 
-import com.sun.webui.jsf.model.scheduler.RepeatInterval; 
+import javax.faces.context.FacesContext;
+import com.sun.webui.jsf.model.Option;
 
 /**
  *
- * @author avk
+ * @author avk, John Yeary
  */
 public class RepeatIntervalOption extends Option {
-    
+
+    private static final long serialVersionUID = 5893100201596785304L;
+
     /** Creates a new instance of RepeatMonthly */
     public RepeatIntervalOption(RepeatInterval repeatInterval) {
         this.setValue(repeatInterval);
     }
-    
+
+    @Override
     public String getLabel() {
-        return ((RepeatInterval)getValue()).getLabel(FacesContext.getCurrentInstance());
+        return ((RepeatInterval) getValue()).getLabel(FacesContext.getCurrentInstance());
     }
 }
   

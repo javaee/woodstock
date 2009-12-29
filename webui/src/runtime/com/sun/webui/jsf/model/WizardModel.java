@@ -19,14 +19,11 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.model;
 
 import java.util.Iterator;
 import javax.faces.component.StateHolder;
-
 import com.sun.webui.jsf.event.WizardEvent;
-import com.sun.webui.jsf.event.WizardEventListener;
 import com.sun.webui.jsf.component.Wizard;
 import com.sun.webui.jsf.component.WizardStep;
 
@@ -352,5 +349,4 @@ public interface WizardModel extends StateHolder {
      * model instance.
      */
     public void complete();
-
 }

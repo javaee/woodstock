@@ -21,7 +21,6 @@
  */
 package com.sun.webui.jsf.model;
 
-import com.sun.webui.jsf.util.MessageUtil;
 import java.util.ArrayList;
 import java.io.Serializable;
 
@@ -32,22 +31,23 @@ import java.io.Serializable;
  * <code>CheckboxGroup</code>, <code>RadioButtonGroup</code>), and 
  * <code>AddRemove</code>.
  *
- * @author gjmurphy
+ * @author gjmurphy, John Yeary
  */
 public class OptionsList implements Serializable {
-    
+
+    private static final long serialVersionUID = 6695656179045426419L;
     private ArrayList options;
     private ArrayList selectedValues;
     private boolean isMultiple;
-    
+
     public boolean isMultiple() {
         return isMultiple;
     }
-    
+
     public void setMultiple(boolean isMultiple) {
         this.isMultiple = isMultiple;
     }
-    
+
     public OptionsList() {
         options = new ArrayList();
         selectedValues = new ArrayList();
@@ -56,10 +56,12 @@ public class OptionsList implements Serializable {
 
     public void setOptions(Option[] options) {
         this.options.clear();
-        if (options == null)
+        if (options == null) {
             return;
-        for (int i = 0; i < options.length; i++)
+        }
+        for (int i = 0; i < options.length; i++) {
             this.options.add(options[i]);
+        }
     }
 
     public Option[] getOptions() {
@@ -67,7 +69,7 @@ public class OptionsList implements Serializable {
         this.options.toArray(options);
         return options;
     }
-    
+
     /**
      * If this options list is in "multiple" mode, value specified may be
      * an array of objects or a singleton. Otherwise, the value is treated as
@@ -75,31 +77,34 @@ public class OptionsList implements Serializable {
      */
     public void setSelectedValue(Object value) {
         selectedValues.clear();
-        if (value == null)
+        if (value == null) {
             return;
+        }
         if (value instanceof Object[]) {
             Object[] values = (Object[]) value;
-            for (int i = 0; i < values.length; i++)
+            for (int i = 0; i < values.length; i++) {
                 selectedValues.add(values[i]);
+            }
         } else {
             selectedValues.add(value);
         }
     }
-    
+
     /**
      * If this options list is in "multiple" mode, returns an array of objects;
      * otherwise, returns a singleton.
      */
     public Object getSelectedValue() {
         if (isMultiple) {
-            if (selectedValues.size() == 0)
+            if (selectedValues.size() == 0) {
                 return new Object[0];
+            }
             return selectedValues.toArray();
         } else {
-            if (selectedValues.size() == 0) 
+            if (selectedValues.size() == 0) {
                 return null;
+            }
             return selectedValues.get(0);
         }
     }
-    
 }

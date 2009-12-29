@@ -19,18 +19,14 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.model;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-
 import javax.faces.context.FacesContext;
-
 import com.sun.webui.jsf.event.WizardEvent;
-import com.sun.webui.jsf.event.WizardEventListener;
 import com.sun.webui.jsf.component.Wizard;
 import com.sun.webui.jsf.component.WizardBranch;
 import com.sun.webui.jsf.component.WizardBranchSteps;
@@ -92,7 +88,6 @@ import com.sun.webui.jsf.component.WizardSubstepBranch;
  */
 public class WizardModelBase implements WizardModel {
 
-
     /**
      * The current step sequence of {@link WizardStep WizardStep} instances.
      */
@@ -115,8 +110,8 @@ public class WizardModelBase implements WizardModel {
      * at the appropriate time.
      */
     public WizardModelBase() {
-	super();
-	wizardState = new WizardState();
+        super();
+        wizardState = new WizardState();
     }
 
     /**
@@ -134,21 +129,21 @@ public class WizardModelBase implements WizardModel {
     public void initialize(Wizard wizard) {
 
 
-	wizardSteps = new ArrayList();
+        wizardSteps = new ArrayList();
 
-	// Steps can be obtained from both "getSteps" or 
-	// as children of Wizard. This model uses one or the
-	// other. If wizard.getSteps() does not return null
-	// it uses that list, if it returns null it checks for 
-	// wizard children and uses that list.
-	//
-	List steps = (List)wizard.getSteps();
-	if (steps == null) {
-	    steps = (List)wizard.getChildren();
-	}
-	ListIterator childIterator = steps.listIterator();
-	buildStepList(childIterator, wizardSteps);
-	wizardStepList = new WizardStepListBase(this);
+        // Steps can be obtained from both "getSteps" or
+        // as children of Wizard. This model uses one or the
+        // other. If wizard.getSteps() does not return null
+        // it uses that list, if it returns null it checks for
+        // wizard children and uses that list.
+        //
+        List steps = (List) wizard.getSteps();
+        if (steps == null) {
+            steps = (List) wizard.getChildren();
+        }
+        ListIterator childIterator = steps.listIterator();
+        buildStepList(childIterator, wizardSteps);
+        wizardStepList = new WizardStepListBase(this);
     }
 
     // Call recursively to collect substep and branch children
@@ -179,49 +174,46 @@ public class WizardModelBase implements WizardModel {
      * current sequence.
      */
     protected void buildStepList(ListIterator childIterator,
-	ArrayList wizardSteps) {
+            ArrayList wizardSteps) {
 
-	    Object step = null;
-	    while (childIterator.hasNext()) {
-		step = childIterator.next();
-		if (step instanceof WizardBranch) {
-		    WizardBranch branch = (WizardBranch)step;
-		    if (branch.isTaken()) {
-			buildStepList(branch.getChildren().listIterator(),
-			    wizardSteps);
-		    } else {
-			// If the branch hasn't been taken then
-			// this is the last step until it is taken.
-			//
-			wizardSteps.add(step);
-			break;
-		    }
-		} else
-		if (step instanceof WizardBranchSteps) {
-		    WizardBranchSteps branchSteps = (WizardBranchSteps)step;
-		    if (branchSteps.isTaken()) {
-			buildStepList(branchSteps.getChildren().listIterator(),
-			    wizardSteps);
-		    }
-		} else
-		if (step instanceof WizardSubstepBranch) {
-		    WizardSubstepBranch substep = (WizardSubstepBranch)step;
-		    if (substep.isTaken()) {
-			buildStepList(substep.getChildren().listIterator(),
-			    wizardSteps);
-		    }
-		} else
-		if (step instanceof WizardStep) {
-		    // If even one WizardStep has help, show help
-		    //
-		    if (wizardState.getHasStepHelp() == null) {
-			if (((WizardStep)step).getHelp() != null) {
-			    wizardState.setHasStepHelp(Boolean.TRUE);
-			}
-		    }
-		    wizardSteps.add(step);
-		}
-	    }
+        Object step = null;
+        while (childIterator.hasNext()) {
+            step = childIterator.next();
+            if (step instanceof WizardBranch) {
+                WizardBranch branch = (WizardBranch) step;
+                if (branch.isTaken()) {
+                    buildStepList(branch.getChildren().listIterator(),
+                            wizardSteps);
+                } else {
+                    // If the branch hasn't been taken then
+                    // this is the last step until it is taken.
+                    //
+                    wizardSteps.add(step);
+                    break;
+                }
+            } else if (step instanceof WizardBranchSteps) {
+                WizardBranchSteps branchSteps = (WizardBranchSteps) step;
+                if (branchSteps.isTaken()) {
+                    buildStepList(branchSteps.getChildren().listIterator(),
+                            wizardSteps);
+                }
+            } else if (step instanceof WizardSubstepBranch) {
+                WizardSubstepBranch substep = (WizardSubstepBranch) step;
+                if (substep.isTaken()) {
+                    buildStepList(substep.getChildren().listIterator(),
+                            wizardSteps);
+                }
+            } else if (step instanceof WizardStep) {
+                // If even one WizardStep has help, show help
+                //
+                if (wizardState.getHasStepHelp() == null) {
+                    if (((WizardStep) step).getHelp() != null) {
+                        wizardState.setHasStepHelp(Boolean.TRUE);
+                    }
+                }
+                wizardSteps.add(step);
+            }
+        }
     }
 
     /**
@@ -229,7 +221,7 @@ public class WizardModelBase implements WizardModel {
      * of the current sequence of {@link WizardStep WizardStep} instances.
      */
     public Iterator getWizardStepIterator() {
-	return wizardSteps.iterator();
+        return wizardSteps.iterator();
     }
 
     /**
@@ -237,14 +229,14 @@ public class WizardModelBase implements WizardModel {
      * {@link WizardStepListItem WizardStepListItem} instances.
      */
     public WizardStepList getWizardStepList() {
-	return wizardStepList;
+        return wizardStepList;
     }
 
     /**
      * Return the first {@link WizardStep WizardStep} instance.
      */
     public WizardStep getFirstStep() {
-	return (WizardStep)wizardSteps.get(0);
+        return (WizardStep) wizardSteps.get(0);
     }
 
     /**
@@ -255,7 +247,7 @@ public class WizardModelBase implements WizardModel {
      * the existence of branch steps.
      */
     public WizardStep getLastStep() {
-	return (WizardStep)wizardSteps.get(wizardSteps.size() - 1);
+        return (WizardStep) wizardSteps.get(wizardSteps.size() - 1);
     }
 
     /**
@@ -267,16 +259,16 @@ public class WizardModelBase implements WizardModel {
      */
     protected int getStepIndex(String id) {
 
-	for (int i = 0; i < wizardSteps.size(); ++i) {
-	    WizardStep step = (WizardStep)wizardSteps.get(i);
-	    if (id.equals(step.getId())) {
-		return i;
-	    }
-	}
-	// What else ? 
-	// Need to implement errors to component
-	// alerts ? FacesMessage ?
-	return wizardState.getCurrentStep();
+        for (int i = 0; i < wizardSteps.size(); ++i) {
+            WizardStep step = (WizardStep) wizardSteps.get(i);
+            if (id.equals(step.getId())) {
+                return i;
+            }
+        }
+        // What else ?
+        // Need to implement errors to component
+        // alerts ? FacesMessage ?
+        return wizardState.getCurrentStep();
     }
 
     /**
@@ -287,15 +279,15 @@ public class WizardModelBase implements WizardModel {
      * @param step The step preceding the returned step.
      */
     public WizardStep getNextStep(WizardStep step) {
-	WizardStep next = null;
-	try {
-	    int i = wizardSteps.indexOf(step);
-	    if (i != -1) {
-		next = (WizardStep)wizardSteps.get(++i);
-	    }
-	} catch (Exception e) {
-	}
-	return next;
+        WizardStep next = null;
+        try {
+            int i = wizardSteps.indexOf(step);
+            if (i != -1) {
+                next = (WizardStep) wizardSteps.get(++i);
+            }
+        } catch (Exception e) {
+        }
+        return next;
     }
 
     /**
@@ -306,28 +298,27 @@ public class WizardModelBase implements WizardModel {
      * @param step The step following the returned step.
      */
     public WizardStep getPreviousStep(WizardStep step) {
-	WizardStep previous = null;
-	try {
-	    int i = wizardSteps.indexOf(step);
-	    if (i != -1) {
-		previous = (WizardStep)wizardSteps.get(--i);
-	    }
-	} catch (Exception e) {
-	}
-	return previous;
+        WizardStep previous = null;
+        try {
+            int i = wizardSteps.indexOf(step);
+            if (i != -1) {
+                previous = (WizardStep) wizardSteps.get(--i);
+            }
+        } catch (Exception e) {
+        }
+        return previous;
     }
 
     /**
      * Return the current {@link WizardStep WizardStep} instance.
      */
     public WizardStep getCurrentStep() {
-	WizardStep step = null;
-	try {
-	    step = (WizardStep)wizardSteps.get(wizardState.getCurrentStep());
-	}
-	catch (Exception e) {
-	}
-	return step;
+        WizardStep step = null;
+        try {
+            step = (WizardStep) wizardSteps.get(wizardState.getCurrentStep());
+        } catch (Exception e) {
+        }
+        return step;
     }
 
     /**
@@ -336,13 +327,13 @@ public class WizardModelBase implements WizardModel {
      * @param step The step to test.
      */
     public boolean isCurrentStep(WizardStep step) {
-	boolean result = false;
-	try {
-	    int i = wizardSteps.indexOf(step);
-	    result = wizardState.getCurrentStep() == i;
-	} catch (Exception e) {
-	}
-	return result;
+        boolean result = false;
+        try {
+            int i = wizardSteps.indexOf(step);
+            result = wizardState.getCurrentStep() == i;
+        } catch (Exception e) {
+        }
+        return result;
     }
 
     /**
@@ -353,7 +344,7 @@ public class WizardModelBase implements WizardModel {
      * @param step The step to identify.
      */
     public boolean isFinishStep(WizardStep step) {
-	return step == null ? false : step.isFinish();
+        return step == null ? false : step.isFinish();
     }
 
     /**
@@ -365,7 +356,7 @@ public class WizardModelBase implements WizardModel {
      * @param step The step to identify.
      */
     public boolean isResultsStep(WizardStep step) {
-	return step == null ? false : step.isResults();
+        return step == null ? false : step.isResults();
     }
 
     /**
@@ -379,7 +370,7 @@ public class WizardModelBase implements WizardModel {
      * @param step The step to identify.
      */
     public boolean isBranch(WizardStep step) {
-	return step instanceof WizardBranch;
+        return step instanceof WizardBranch;
     }
 
     /**
@@ -389,7 +380,7 @@ public class WizardModelBase implements WizardModel {
      * {@link WizardBranch WizardBranch} instance.
      */
     public String getPlaceholderText(WizardStep step) {
-	return step == null ? null : ((WizardBranch)step).getPlaceholderText();
+        return step == null ? null : ((WizardBranch) step).getPlaceholderText();
     }
 
     /**
@@ -402,8 +393,7 @@ public class WizardModelBase implements WizardModel {
      * @param step The step to check.
      */
     public boolean isSubstep(WizardStep step) {
-	return step == null ? false :
-		step.getParent() instanceof WizardSubstepBranch;
+        return step == null ? false : step.getParent() instanceof WizardSubstepBranch;
     }
 
     /**
@@ -421,12 +411,12 @@ public class WizardModelBase implements WizardModel {
      * @param step The step to check.
      */
     public boolean canGotoStep(WizardStep step) {
-	try {
-	    int i = wizardSteps.indexOf(step);
-	    return wizardState.getCurrentStep() > i;
-	} catch (Exception e) {
-	    return false;
-	}
+        try {
+            int i = wizardSteps.indexOf(step);
+            return wizardState.getCurrentStep() > i;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     /**
@@ -438,8 +428,8 @@ public class WizardModelBase implements WizardModel {
      * @param step The step to check.
      */
     public boolean isPreviousDisabled(WizardStep step) {
-	WizardStep first = getFirstStep();
-	return first == null ? false : first.getId().equals(step.getId());
+        WizardStep first = getFirstStep();
+        return first == null ? false : first.getId().equals(step.getId());
     }
 
     /**
@@ -450,7 +440,7 @@ public class WizardModelBase implements WizardModel {
      * @param step The step to check.
      */
     public boolean isNextDisabled(WizardStep step) {
-	return false;
+        return false;
     }
 
     /**
@@ -461,7 +451,7 @@ public class WizardModelBase implements WizardModel {
      * @param step The step to check.
      */
     public boolean isFinishDisabled(WizardStep step) {
-	return false;
+        return false;
     }
 
     /**
@@ -472,7 +462,7 @@ public class WizardModelBase implements WizardModel {
      * @param step The step to check.
      */
     public boolean isCancelDisabled(WizardStep step) {
-	return false;
+        return false;
     }
 
     /**
@@ -483,7 +473,7 @@ public class WizardModelBase implements WizardModel {
      * @param step The step to check.
      */
     public boolean isCloseDisabled(WizardStep step) {
-	return false;
+        return false;
     }
 
     /**
@@ -494,7 +484,7 @@ public class WizardModelBase implements WizardModel {
      * @param step The step to check.
      */
     public boolean hasPrevious(WizardStep step) {
-	return step == null ? false : !isResultsStep(step);
+        return step == null ? false : !isResultsStep(step);
     }
 
     /**
@@ -506,8 +496,7 @@ public class WizardModelBase implements WizardModel {
      * @param step The step to check.
      */
     public boolean hasNext(WizardStep step) {
-	return step == null ? false :
-		!(isFinishStep(step) || isResultsStep(step));
+        return step == null ? false : !(isFinishStep(step) || isResultsStep(step));
     }
 
     /**
@@ -518,7 +507,7 @@ public class WizardModelBase implements WizardModel {
      * @param step The step to check.
      */
     public boolean hasCancel(WizardStep step) {
-	return step == null ? false : !isResultsStep(step);
+        return step == null ? false : !isResultsStep(step);
     }
 
     /**
@@ -529,7 +518,7 @@ public class WizardModelBase implements WizardModel {
      * @param step The step to check.
      */
     public boolean hasClose(WizardStep step) {
-	return step == null ? false : isResultsStep(step);
+        return step == null ? false : isResultsStep(step);
     }
 
     /**
@@ -540,10 +529,10 @@ public class WizardModelBase implements WizardModel {
      * @param step The step to check.
      */
     public boolean hasFinish(WizardStep step) {
-	// For now we only support simple linear wizards with no
-	// results page.
-	//
-	return step == null ? false : isFinishStep(step);
+        // For now we only support simple linear wizards with no
+        // results page.
+        //
+        return step == null ? false : isFinishStep(step);
     }
 
     /**
@@ -555,8 +544,7 @@ public class WizardModelBase implements WizardModel {
      * false is returned.
      */
     public boolean hasStepHelp() {
-	return wizardState.getHasStepHelp() == null ? false :
-		wizardState.getHasStepHelp().booleanValue();
+        return wizardState.getHasStepHelp() == null ? false : wizardState.getHasStepHelp().booleanValue();
     }
 
     /**
@@ -567,7 +555,7 @@ public class WizardModelBase implements WizardModel {
      * wizard to navigate to some other page.
      */
     public boolean isComplete() {
-	return wizardState.isComplete();
+        return wizardState.isComplete();
     }
 
     /**
@@ -575,8 +563,8 @@ public class WizardModelBase implements WizardModel {
      * referenced.
      */
     public void complete() {
-	wizardSteps = null;
-	wizardState.reset();
+        wizardSteps = null;
+        wizardState.reset();
     }
 
     /**
@@ -588,7 +576,7 @@ public class WizardModelBase implements WizardModel {
      * RENDER_RESPONSE phase was normally expected.
      */
     public boolean decode(int event, boolean prematureRender) {
-	return prematureRender ? false : wizardState.decode(event);
+        return prematureRender ? false : wizardState.decode(event);
     }
 
     /**
@@ -602,7 +590,7 @@ public class WizardModelBase implements WizardModel {
      * RENDER_RESPONSE phase was normally expected.
      */
     public boolean validate(int event, boolean prematureRender) {
-	return prematureRender ? false : wizardState.validate(event);
+        return prematureRender ? false : wizardState.validate(event);
     }
 
     /**
@@ -616,7 +604,7 @@ public class WizardModelBase implements WizardModel {
      * RENDER_RESPONSE phase was normally expected.
      */
     public boolean update(int event, boolean prematureRender) {
-	return prematureRender ? false : wizardState.update(event);
+        return prematureRender ? false : wizardState.update(event);
     }
 
     /**
@@ -635,57 +623,57 @@ public class WizardModelBase implements WizardModel {
      */
     public boolean handleEvent(WizardEvent event) {
 
-	boolean returnValue = true;
+        boolean returnValue = true;
 
-	switch (event.getNavigationEvent()) {
+        switch (event.getNavigationEvent()) {
 
-	case WizardEvent.NEXT:
-	    wizardState.nextStep();
-	break;
+            case WizardEvent.NEXT:
+                wizardState.nextStep();
+                break;
 
-	case WizardEvent.PREVIOUS:
-	    wizardState.previousStep();
-	break;
+            case WizardEvent.PREVIOUS:
+                wizardState.previousStep();
+                break;
 
-	case WizardEvent.FINISH:
-	    int i = wizardState.getCurrentStep() + 1;
-	    if (i == wizardSteps.size()) {
-		wizardState.close();
-	    } else {
-		wizardState.finishStep();
-	    }
-	break;
+            case WizardEvent.FINISH:
+                int i = wizardState.getCurrentStep() + 1;
+                if (i == wizardSteps.size()) {
+                    wizardState.close();
+                } else {
+                    wizardState.finishStep();
+                }
+                break;
 
-	case WizardEvent.GOTOSTEP:
-	    String gotoStepId = event.getGotoStepId();
-	    if (gotoStepId != null) {
-		int index = getStepIndex(gotoStepId);
-		wizardState.gotoStep(index);
-	    }
-	break;
+            case WizardEvent.GOTOSTEP:
+                String gotoStepId = event.getGotoStepId();
+                if (gotoStepId != null) {
+                    int index = getStepIndex(gotoStepId);
+                    wizardState.gotoStep(index);
+                }
+                break;
 
-	case WizardEvent.CANCEL:
-	    wizardState.cancel();
-	break;
+            case WizardEvent.CANCEL:
+                wizardState.cancel();
+                break;
 
-	case WizardEvent.CLOSE:
-	    wizardState.close();
-	break;
+            case WizardEvent.CLOSE:
+                wizardState.close();
+                break;
 
-	case WizardEvent.HELPTAB:
-	break;
+            case WizardEvent.HELPTAB:
+                break;
 
-	case WizardEvent.STEPSTAB:
-	break;
+            case WizardEvent.STEPSTAB:
+                break;
 
-	case WizardEvent.INVALID:
-	break;
+            case WizardEvent.INVALID:
+                break;
 
-	case WizardEvent.NOEVENT:
-	break;
-	}
+            case WizardEvent.NOEVENT:
+                break;
+        }
 
-	return returnValue;
+        return returnValue;
     }
 
     /**
@@ -698,103 +686,103 @@ public class WizardModelBase implements WizardModel {
      */
     class WizardState {
 
-	static final int START= -1;
-	static final int NEXT= 0;
-	static final int PREVIOUS= 1;
-	static final int CANCEL= 2;
-	static final int FINISH= 3;
-	static final int CLOSE= 4;
-	static final int GOTOSTEP= 7;
+        static final int START = -1;
+        static final int NEXT = 0;
+        static final int PREVIOUS = 1;
+        static final int CANCEL = 2;
+        static final int FINISH = 3;
+        static final int CLOSE = 4;
+        static final int GOTOSTEP = 7;
+        int state;
+        int currentStep;
+        Boolean hasStepHelp;
 
-	int state;
-	int currentStep;
-	Boolean hasStepHelp;
+        WizardState() {
+            super();
+            this.state = START;
+            this.currentStep = 0;
+        }
 
-	WizardState() {
-	    super();
-	    this.state = START;
-	    this.currentStep = 0;
-	}
+        int getState() {
+            return state;
+        }
 
-	int getState() {
-	    return state;
-	}
+        void setState(int state) {
+            this.state = state;
+        }
 
-	void setState(int state) {
-	    this.state = state;
-	}
+        Boolean getHasStepHelp() {
+            return hasStepHelp;
+        }
 
-	Boolean getHasStepHelp() {
-	    return hasStepHelp;
-	}
+        void setHasStepHelp(Boolean hasStepHelp) {
+            this.hasStepHelp = hasStepHelp;
+        }
 
-	void setHasStepHelp(Boolean hasStepHelp) {
-	    this.hasStepHelp = hasStepHelp;
-	}
+        boolean isComplete() {
+            return state == CLOSE || state == CANCEL;
+        }
 
-	boolean isComplete() {
-	    return state == CLOSE || state == CANCEL;
-	}
+        boolean decode(int event) {
+            return true;
+        }
 
-	boolean decode(int event) {
-	    return true;
-	}
+        boolean validate(int event) {
+            return event == WizardEvent.FINISH ||
+                    event == WizardEvent.NEXT ||
+                    event == WizardEvent.NOEVENT;
+        }
 
-	boolean validate(int event) {
-	    return event == WizardEvent.FINISH || 
-		event == WizardEvent.NEXT ||
-		event == WizardEvent.NOEVENT;
-	}
+        // Its not clear if another state is needed for
+        // updating on the previous click. We want the
+        // state but not the commit.
+        //
+        boolean update(int event) {
+            return event == WizardEvent.FINISH ||
+                    event == WizardEvent.NEXT ||
+                    event == WizardEvent.NOEVENT;
+        }
 
-	// Its not clear if another state is needed for
-	// updating on the previous click. We want the
-	// state but not the commit.
-	//
-	boolean update(int event) {
-	    return event == WizardEvent.FINISH || 
-		event == WizardEvent.NEXT ||
-		event == WizardEvent.NOEVENT;
-	}
+        void nextStep() {
+            state = NEXT;
+            ++currentStep;
+        }
 
-	void nextStep() {
-	    state = NEXT;
-	    ++currentStep;
-	}
+        void finishStep() {
+            state = FINISH;
+            ++currentStep;
+        }
 
-	void finishStep() {
-	    state = FINISH;
-	    ++currentStep;
-	}
+        void previousStep() {
+            state = PREVIOUS;
+            --currentStep;
+        }
 
-	void previousStep() {
-	    state = PREVIOUS;
-	    --currentStep;
-	}
+        void gotoStep(int step) {
+            state = GOTOSTEP;
+            currentStep = step;
+        }
 
-	void gotoStep(int step) {
-	    state = GOTOSTEP;
-	    currentStep = step;
-	}
+        int getCurrentStep() {
+            return currentStep;
+        }
 
-	int getCurrentStep() {
-	    return currentStep;
-	}
+        void setCurrentStep(int currentStep) {
+            this.currentStep = currentStep;
+        }
 
-	void setCurrentStep(int currentStep) {
-	    this.currentStep = currentStep;
-	}
+        void reset() {
+            state = START;
+            currentStep = 0;
+        }
 
-	void reset() {
-	    state = START;
-	    currentStep = 0;
-	}
+        void cancel() {
+            this.state = CANCEL;
+        }
 
-	void cancel() {
-	    this.state = CANCEL;
-	}
-	void close() {
-	    this.state = CLOSE;
-	}
+        void close() {
+            this.state = CLOSE;
+        }
     };
 
     /**
@@ -805,12 +793,12 @@ public class WizardModelBase implements WizardModel {
      * <code>WizardState</code> instance.
      */
     public Object saveState(FacesContext context) {
-	 Object[] state = new Object[3];
-	 int i = 0;
-	 state[i++] = new Integer(wizardState.getState());
-	 state[i++] = new Integer(wizardState.getCurrentStep());
-	 state[i++] = wizardState.getHasStepHelp();
-	 return state;
+        Object[] state = new Object[3];
+        int i = 0;
+        state[i++] = new Integer(wizardState.getState());
+        state[i++] = new Integer(wizardState.getCurrentStep());
+        state[i++] = wizardState.getHasStepHelp();
+        return state;
     }
 
     /**
@@ -821,11 +809,11 @@ public class WizardModelBase implements WizardModel {
      * <code>WizardState</code> instance.
      */
     public void restoreState(FacesContext context, Object state) {
-	 Object[] _state = (Object[])state;
-	 int i = 0;
-	 wizardState.setState(((Integer)_state[i++]).intValue());
-	 wizardState.setCurrentStep(((Integer)_state[i++]).intValue());
-	 wizardState.setHasStepHelp((Boolean)_state[i++]);
+        Object[] _state = (Object[]) state;
+        int i = 0;
+        wizardState.setState(((Integer) _state[i++]).intValue());
+        wizardState.setCurrentStep(((Integer) _state[i++]).intValue());
+        wizardState.setHasStepHelp((Boolean) _state[i++]);
     }
 
     /**
@@ -833,7 +821,7 @@ public class WizardModelBase implements WizardModel {
      * class. This call does not modify this class.
      */
     public void setTransient(boolean transientFlag) {
-	// ignore this
+        // ignore this
     }
 
     /**
@@ -841,6 +829,6 @@ public class WizardModelBase implements WizardModel {
      * persistent. This method returns <code>false</code>
      */
     public boolean isTransient() {
-	return false;
+        return false;
     }
 }

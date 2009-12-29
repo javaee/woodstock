@@ -19,13 +19,12 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.model;
 
 import com.sun.webui.jsf.component.WizardStep;
 
 public class WizardStepListItemBase implements WizardStepListItem {
-    
+
     String stepNumberString;
     boolean substep;
     boolean branch;
@@ -35,44 +34,54 @@ public class WizardStepListItemBase implements WizardStepListItem {
     WizardStep step;
 
     WizardStepListItemBase(WizardStep step, String stepNumberString,
-	    boolean currentStep, boolean substep, boolean branch,
-	    String placeholderText, boolean canGotoStep) {
-	this.step = step;
-	this.stepNumberString= stepNumberString;
-	this.currentStep = currentStep;
-	this.substep = substep;
-	this.branch = branch;
-	this.placeholderText = placeholderText;
-	this.canGotoStep = canGotoStep;
+            boolean currentStep, boolean substep, boolean branch,
+            String placeholderText, boolean canGotoStep) {
+        this.step = step;
+        this.stepNumberString = stepNumberString;
+        this.currentStep = currentStep;
+        this.substep = substep;
+        this.branch = branch;
+        this.placeholderText = placeholderText;
+        this.canGotoStep = canGotoStep;
     }
+
     public boolean isSubstep() {
-	return substep;
+        return substep;
     }
+
     public boolean isBranch() {
-	return branch;
+        return branch;
     }
+
     public String getPlaceholderText() {
-	return placeholderText;
+        return placeholderText;
     }
+
     public boolean isCurrentStep() {
-	return currentStep;
+        return currentStep;
     }
+
     public void setCurrentStep(boolean currentStep) {
-	this.currentStep = currentStep;
+        this.currentStep = currentStep;
     }
+
     public boolean canGotoStep() {
-	return canGotoStep;
+        return canGotoStep;
     }
+
     public void setCanGotoStep(boolean canGotoStep) {
-	this.canGotoStep = canGotoStep;
+        this.canGotoStep = canGotoStep;
     }
+
     public WizardStep getStep() {
-	return step;
+        return step;
     }
+
     public void setStep(WizardStep step) {
-	this.step = step;
+        this.step = step;
     }
+
     public String getStepNumberString() {
-	return stepNumberString;
+        return stepNumberString;
     }
 }

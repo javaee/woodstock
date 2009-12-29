@@ -25,7 +25,6 @@
  *
  * Created on December 23, 2004, 3:01 PM
  */
-
 package com.sun.webui.jsf.model.list;
 
 /**
@@ -33,9 +32,8 @@ package com.sun.webui.jsf.model.list;
  * @author avk
  */
 public class EndGroup {
-    
+
     /** Creates a new instance of EndGroup */
     public EndGroup() {
     }
-    
 }

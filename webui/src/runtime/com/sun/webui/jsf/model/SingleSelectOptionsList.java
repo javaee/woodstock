@@ -25,16 +25,19 @@ package com.sun.webui.jsf.model;
  * A default list of options, for components which can select only one option
  * at a time.
  *
- * @author gjmurphy
+ * @author gjmurphy, John Yeary
  */
 public class SingleSelectOptionsList extends DefaultOptionsList {
-    
+
+    private static final long serialVersionUID = -5424069058620671793L;
+
     public SingleSelectOptionsList() {
         super();
         super.setMultiple(false);
     }
-    
+    //FIXME Is this missing an implementation
+
+    @Override
     public void setMultiple(boolean isMultiple) {
     }
-    
 }

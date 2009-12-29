@@ -19,19 +19,15 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
- /*
- * $Id: Markup.java,v 1.1 2007-02-16 01:31:12 bob_yennaco Exp $
+/*
+ * $Id: Markup.java,v 1.1.20.1 2009-12-29 03:47:57 jyeary Exp $
  */
-
 package com.sun.webui.jsf.model;
-
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-
 import javax.faces.FacesException;
 import javax.faces.component.UIComponent;
-
 
 /**
  * <p>Utility bean that serves as an accumulating buffer for
@@ -39,13 +35,10 @@ import javax.faces.component.UIComponent;
  * The fundamental API is modelled after <code>ResponseWriter</code>
  * in JavaServer Faces.</p>
  */
-
 public class Markup {
 
 
     // ------------------------------------------------------- Static Variables
-
-
     /*
      * <p>Entities from HTML 4.0, section 24.2.1;
      * character codes 0xA0 to 0xFF</p>
@@ -148,25 +141,17 @@ public class Markup {
         "thorn",
         "yuml"
     };
-
-
     // ----------------------------------------------------- Instance Variables
-
-
     /**
      * <p>Buffer into which we accumulate the created markup.</p>
      */
     private StringBuffer buffer = new StringBuffer();
-
-
     /**
      * <p>The character encoding that we assume will be used when
      * the markup contained in this instance is rendered.  The
      * default value ("ISO-8859-1") is an attempt to be conservative.</p>
      */
     private String encoding = "ISO-8859-1";
-
-
     /**
      * <p>Flag indicating that an element is currently open.</p>
      */
@@ -174,8 +159,6 @@ public class Markup {
 
 
     // ------------------------------------------------------------- Properties
-
-
     /**
      * <p>Return the character encoding assumed to be used when the
      * markup contained in this instance is ultimately rendered.</p>
@@ -185,7 +168,6 @@ public class Markup {
         return this.encoding;
 
     }
-
 
     /**
      * <p>Set the character encoding assumed to be used when the
@@ -198,7 +180,6 @@ public class Markup {
         this.encoding = encoding;
 
     }
-
 
     /**
      * <p>Return the markup that has been accumulated in this element,
@@ -214,8 +195,6 @@ public class Markup {
 
 
     // --------------------------------------------------------- Public Methods
-
-
     /**
      * <p>Clear any accumulated markup stored in this object,
      * making it suitable for reuse.</p>
@@ -227,17 +206,14 @@ public class Markup {
 
     }
 
-
     /**
      * <p>Return the markup that has been accumulated in this element.
      * This is an alias for the <code>getMarkup()</code> method.</p>
      */
+    @Override
     public String toString() {
-
         return getMarkup();
-
     }
-
 
     /**
      * <p>Accumulate the start of a new element, up to and including
@@ -269,7 +245,6 @@ public class Markup {
 
     }
 
-
     /**
      * <p>Accumulate the end of an element, after closing any open element
      * created by a call to <code>startElement()</code>.  Elements must be
@@ -297,7 +272,6 @@ public class Markup {
 
     }
 
-
     /**
      * <p>Accumulate an attribute name and corresponding value.  This
      * method may only be called after a call to <code>startElement()</code>
@@ -320,8 +294,7 @@ public class Markup {
             throw new NullPointerException();
         }
         if (!open) {
-            throw new IllegalStateException
-                ("No element is currently open"); //I18N - FIXME
+            throw new IllegalStateException("No element is currently open"); //I18N - FIXME
         }
 
         // Handle boolean values specially
@@ -335,7 +308,7 @@ public class Markup {
                 buffer.append(name);
                 buffer.append('"'); //NOI18N
             // } else {
-                // Write nothing for false boolean attributes
+            // Write nothing for false boolean attributes
             }
             return;
         }
@@ -350,7 +323,7 @@ public class Markup {
         int length = text.length();
         for (int i = 0; i < length; i++) {
             char ch = text.charAt(i);
-            
+
             // Tilde or less...
             if (ch < 0xA0) {
                 // If "?" or over, no escaping is needed (this covers
@@ -361,8 +334,8 @@ public class Markup {
                     // If between "'" and ";", no escaping is needed
                     if (ch < 0x3c) {
                         buffer.append(ch);
-                        // Note - "<" isn't escaped in attributes, as per
-                        // HTML spec
+                    // Note - "<" isn't escaped in attributes, as per
+                    // HTML spec
                     } else if (ch == '>') { //NOI18N
                         buffer.append("&gt;"); //NOI18N
                     } else {
@@ -373,9 +346,11 @@ public class Markup {
                         // HTML 4.0, section B.7.1: ampersands followed by
                         // an open brace don't get escaped
                         if ((i + 1 < length) && (text.charAt(i + 1) == '{')) //NOI18N
+                        {
                             buffer.append(ch);
-                        else
+                        } else {
                             buffer.append("&amp;"); //NOI18N
+                        }
                     } else if (ch == '"') {
                         buffer.append("&quot;"); //NOI18N
                     } else {
@@ -401,7 +376,6 @@ public class Markup {
 
     }
 
-
     /**
      * <p>Accumulate an attribute name and corresponding URI value.  This
      * method may only be called after a call to <code>startElement()</code>
@@ -424,8 +398,7 @@ public class Markup {
             throw new NullPointerException();
         }
         if (!open) {
-            throw new IllegalStateException
-                ("No element is currently open"); //I18N - FIXME
+            throw new IllegalStateException("No element is currently open"); //I18N - FIXME
         }
 
         String text = value.toString();
@@ -453,8 +426,7 @@ public class Markup {
                     // Not much we can do if it isn't.
                     hexadecimals(ch);
                 }
-            }
-            // DO NOT encode '%'.  If you do, then for starters,
+            } // DO NOT encode '%'.  If you do, then for starters,
             // we'll double-encode anything that's pre-encoded.
             // And, what's worse, there becomes no way to use
             // characters that must be encoded if you
@@ -465,15 +437,13 @@ public class Markup {
             // } 
             else if (ch == '"') {
                 buffer.append("%22"); //NOI18N
-            }
-            // Everything in the query parameters will be decoded
+            } // Everything in the query parameters will be decoded
             // as if it were in the request's character set.  So use
             // the real encoding for those!
             else if (ch == '?') { //NOI18N
                 buffer.append('?'); //NOI18N
                 try {
-                    buffer.append
-                        (URLEncoder.encode(text.substring(i + 1), encoding));
+                    buffer.append(URLEncoder.encode(text.substring(i + 1), encoding));
                 } catch (UnsupportedEncodingException e) {
                     throw new FacesException(e);
                 }
@@ -487,7 +457,6 @@ public class Markup {
         buffer.append('"'); //NOI18N
 
     }
-
 
     /**
      * <p>Accumulate a comment containing the specified text, after
@@ -514,7 +483,6 @@ public class Markup {
 
     }
 
-
     /**
      * <p>Accumulate an object, after converting it to a String (if necessary)
      * <strong>WITHOUT</strong> performing escaping appropriate for the
@@ -539,7 +507,6 @@ public class Markup {
         buffer.append(raw.toString());
 
     }
-
 
     /**
      * <p>Accumulate an object, after converting it to a String (if necessary)
@@ -571,7 +538,7 @@ public class Markup {
 
         for (int i = 0; i < length; i++) {
             char ch = stext.charAt(i);
-            
+
             // Tilde or less...
             if (ch < 0xA0) {
                 // If "?" or over, no escaping is needed (this covers
@@ -614,8 +581,6 @@ public class Markup {
 
 
     // ------------------------------------------------------ Protected Methods
-
-
     /**
      * <p>Close the currently open starting element, if any.</p>
      */
@@ -627,7 +592,6 @@ public class Markup {
         }
 
     }
-
 
     /**
      * <p>Append the hexadecimal equivalent of the specified
@@ -643,7 +607,6 @@ public class Markup {
 
     }
 
-
     /**
      * <p>Append the specified character as an escaped two-hex-digit value.</p>
      *
@@ -652,11 +615,10 @@ public class Markup {
     protected void hexadecimals(char ch) {
 
         buffer.append('%'); //NOI18N
-        hexadecimal( (int) ((ch >> 4) % 0x10) );
-        hexadecimal( (int) (ch % 0x10) );
+        hexadecimal((int) ((ch >> 4) % 0x10));
+        hexadecimal((int) (ch % 0x10));
 
     }
-
 
     /**
      * <p>Append a numeric escape for the specified character.</p>
@@ -702,6 +664,4 @@ public class Markup {
         buffer.append(';'); //NOI18N
 
     }
-
-
 }

@@ -19,25 +19,20 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
- /*
- * $Id: ScriptMarkup.java,v 1.1 2007-02-16 01:32:26 bob_yennaco Exp $
+/*
+ * $Id: ScriptMarkup.java,v 1.1.20.1 2009-12-29 03:47:57 jyeary Exp $
  */
-
 package com.sun.webui.jsf.model;
-
 
 /**
  * <p>Specialized version of {@link Markup} that automatically surrounds
  * any accumulated markup in this element with the required prolog and
  * epilogue strings for an embedded script element.</p>
  */
-
 public class ScriptMarkup extends Markup {
 
 
     // ----------------------------------------------------- Instance Variables
-
-
     /**
      * <p>The CDATA wrapping flag for this markup.</p>
      */
@@ -45,8 +40,6 @@ public class ScriptMarkup extends Markup {
 
 
     // ------------------------------------------------------------- Properties
-
-
     /**
      * <p>Return the current state of CDATA wrapping for this markup.</p>
      */
@@ -55,7 +48,6 @@ public class ScriptMarkup extends Markup {
         return this.cdata;
 
     }
-
 
     /**
      * <p>Set the new state of CDATA wrapping for this markup.</p>
@@ -68,16 +60,14 @@ public class ScriptMarkup extends Markup {
 
     }
 
-
-
     /**
      * <p>Return the accumulated markup for this element, surrounded by the
      * required prolog and epilog strings for an embedded script element.</p>
      */
+    @Override
     public String getMarkup() {
 
-        StringBuffer sb = new StringBuffer
-            ("<script type=\"text/javascript\">"); //NOI18N
+        StringBuffer sb = new StringBuffer("<script type=\"text/javascript\">"); //NOI18N
         if (isCdata()) {
             sb.append("<![CDATA["); //NOI18N
         }
@@ -89,8 +79,5 @@ public class ScriptMarkup extends Markup {
         }
         sb.append("</script>\n"); //NOI18N
         return sb.toString();
-
     }
-
-
 }

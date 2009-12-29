@@ -19,7 +19,6 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.model;
 
 import java.io.File;
@@ -27,19 +26,20 @@ import java.io.Serializable;
 
 /**
  *
- * @author deep
+ * @author deep, John Yeary
  */
+//TODO add hashcode
 public class FileChooserItem implements ResourceItem, Serializable {
-    
-    
+
+    private static final long serialVersionUID = -6760386335678324488L;
     File item = null;
     String itemKey = null;
-    String itemLabel  = null;
+    String itemLabel = null;
     boolean itemDisabled = true;
-    
+
     /** Creates a new instance of FileChooserItem */
     public FileChooserItem(File file) {
-        
+
         this.item = file;
         StringBuffer buffer = new StringBuffer();
         if (item.isDirectory()) {
@@ -50,7 +50,7 @@ public class FileChooserItem implements ResourceItem, Serializable {
         buffer.append(item.getAbsolutePath());
         this.itemKey = buffer.toString();
     }
- 
+
     /**
      * Returns an object representing the value of this resource item.
      * For the default case of the FileChooser this would be a File
@@ -61,7 +61,7 @@ public class FileChooserItem implements ResourceItem, Serializable {
     public Object getItemValue() {
         return item;
     }
-        
+
     /**
      * Returns a String representing the item key.
      * 
@@ -70,8 +70,8 @@ public class FileChooserItem implements ResourceItem, Serializable {
      */
     public String getItemKey() {
         return this.itemKey;
-    }    
-    
+    }
+
     /**
      * Set the item key.
      * 
@@ -83,7 +83,7 @@ public class FileChooserItem implements ResourceItem, Serializable {
             this.itemKey = key;
         }
     }
-        
+
     /**
      * Returns an object representing the resource item.
      * 
@@ -93,7 +93,7 @@ public class FileChooserItem implements ResourceItem, Serializable {
     public String getItemLabel() {
         return this.itemLabel;
     }
-        
+
     /**
      * Returns an object representing the resource item.
      * 
@@ -101,11 +101,12 @@ public class FileChooserItem implements ResourceItem, Serializable {
      * @return returns an object representing the resource item
      */
     public void setItemLabel(String label) {
-        
+
         if (label != null) {
             this.itemLabel = label;
         }
     }
+
     /**
      * Returns an boolean value indicating if the item should be selectable
      * in the filechooser's listbox.
@@ -116,7 +117,7 @@ public class FileChooserItem implements ResourceItem, Serializable {
     public boolean isItemDisabled() {
         return this.itemDisabled;
     }
-        
+
     /**
      * Sets the item disabled flag. If set to true the item should 
      * not be selectable.
@@ -127,8 +128,8 @@ public class FileChooserItem implements ResourceItem, Serializable {
      */
     public void setItemDisabled(boolean disabled) {
         this.itemDisabled = disabled;
-    }        
-        
+    }
+
     /**
      * Returns a flag indicating if the resource item is a container. If true 
      * the item is a container item.
@@ -140,43 +141,43 @@ public class FileChooserItem implements ResourceItem, Serializable {
         return item.isDirectory();
     }
 
+    @Override
     public boolean equals(Object object) {
 
-	if (!(object instanceof ResourceItem)) {
-	    return false;
-	}
-	ResourceItem resourceItem = (ResourceItem)object;
+        if (!(object instanceof ResourceItem)) {
+            return false;
+        }
+        ResourceItem resourceItem = (ResourceItem) object;
 
-	boolean flags = isContainerItem() == resourceItem.isContainerItem() &&
-		isItemDisabled() == resourceItem.isItemDisabled();
+        boolean flags = isContainerItem() == resourceItem.isContainerItem() &&
+                isItemDisabled() == resourceItem.isItemDisabled();
 
-	if (!flags) {
-	    return false;
-	}
-	if (!objectEquals(getItemValue(), resourceItem.getItemValue())) {
-	    return false;
-	}
-	if (!objectEquals(getItemKey(), resourceItem.getItemKey())) {
-	    return false;
-	}
-	if (!objectEquals(getItemLabel(), resourceItem.getItemLabel())) {
-	    return false;
-	}
-	return true;
+        if (!flags) {
+            return false;
+        }
+        if (!objectEquals(getItemValue(), resourceItem.getItemValue())) {
+            return false;
+        }
+        if (!objectEquals(getItemKey(), resourceItem.getItemKey())) {
+            return false;
+        }
+        if (!objectEquals(getItemLabel(), resourceItem.getItemLabel())) {
+            return false;
+        }
+        return true;
     }
 
     private boolean objectEquals(Object obj0, Object obj1) {
-	if (obj0 == null) {
-	    if (obj1 == null) {
-		return true;
-	    } else {
-		return false;
-	    }
-	} else {
-	    // Should handle null
-	    //
-	    return !obj0.equals(obj1);
-	}
+        if (obj0 == null) {
+            if (obj1 == null) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            // Should handle null
+            //
+            return !obj0.equals(obj1);
+        }
     }
-        
 }

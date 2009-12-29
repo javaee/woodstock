@@ -25,10 +25,10 @@
  *
  * Created on April 1, 2005, 9:39 AM
  */
-
 package com.sun.webui.jsf.model;
-import java.io.File; 
-import java.io.InputStream; 
+
+import java.io.File;
+import java.io.InputStream;
 import java.io.IOException;
 import java.io.Serializable;
 
@@ -36,8 +36,9 @@ import java.io.Serializable;
  *
  * @author avk
  */
+//FIXME Should this be implements Serializable?
 public interface UploadedFile extends Serializable {
-    
+
     /**
      * Returns a {@link java.io.InputStream InputStream} for reading the file. 
      *
@@ -45,8 +46,7 @@ public interface UploadedFile extends Serializable {
      *
      * @exception IOException if there is a problem while reading the file
      */
-     public InputStream getInputStream() throws IOException;
-
+    public InputStream getInputStream() throws IOException;
 
     /**
      * Get the content-type that the browser communicated with the request
@@ -58,7 +58,6 @@ public interface UploadedFile extends Serializable {
      */
     public String getContentType();
 
-
     /**
      * Use this method to retrieve the name that the file has on the web 
      * application user's local system. 
@@ -69,8 +68,6 @@ public interface UploadedFile extends Serializable {
 
 
     // ------------------------------------------------------- FileItem methods
-
-
     /**
      * The size of the file in bytes
      *
@@ -78,13 +75,11 @@ public interface UploadedFile extends Serializable {
      */
     public long getSize();
 
-
     /**
      * Use this method to retrieve the contents of the file as an array of bytes. 
      * @return The contents of the file as a byte array
      */
     public byte[] getBytes();
-
 
     /**
      * Use this method to retrieve the contents of the file as a String
@@ -92,7 +87,6 @@ public interface UploadedFile extends Serializable {
      * @return the contents of the file as a String
      */
     public String getAsString();
-
 
     /**
      * Write the contents of the uploaded file to a file on the server host. 
@@ -113,5 +107,4 @@ public interface UploadedFile extends Serializable {
      * happen automatically when the resource is garbage collected). 
      */
     public void dispose();
-    
 }

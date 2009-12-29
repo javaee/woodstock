@@ -24,78 +24,79 @@
  *
  * Created on July 8, 2005, 1:32 PM
  */
-
 package com.sun.webui.jsf.model;
+
 import java.io.Serializable;
 
-
+//TODO add missing hashcode
 public class ClockTime implements Serializable {
-    
-    
+
+    private static final long serialVersionUID = 3125735012249146691L;
+
     /** Creates a new instance of ClockTime */
     public ClockTime() {
     }
-    
     /**
      * Holds value of property hour.
      */
     private Integer hour;
-    
+
     /**
      * Getter for property hour.
      * @return Value of property hour.
      */
     public Integer getHour() {
-        
+
         return this.hour;
     }
-    
+
     /**
      * Setter for property hour.
      * @param hour New value of property hour.
      */
     public void setHour(Integer hour) {
-        if(hour.intValue() > -1 && hour.intValue() < 24) {
+        if (hour.intValue() > -1 && hour.intValue() < 24) {
             this.hour = hour;
         } else {
             throw new RuntimeException();
         }
     }
-    
     /**
      * Holds value of property minute.
      */
     private Integer minute;
-    
+
     /**
      * Getter for property minute.
      * @return Value of property minute.
      */
     public Integer getMinute() {
-        
+
         return this.minute;
     }
-    
+
     /**
      * Setter for property minute.
      * @param minute New value of property minute.
      */
     public void setMinute(Integer minute) {
-        if(minute.intValue() > -1 && minute.intValue() < 60) {
+        if (minute.intValue() > -1 && minute.intValue() < 60) {
             this.minute = minute;
         } else {
             throw new RuntimeException();
         }
     }
-    
+
+    @Override
     public boolean equals(Object obj) {
-        if(obj instanceof ClockTime) {
-            return (((ClockTime)obj).getHour().equals(hour) &&
-                    ((ClockTime)obj).getMinute().equals(minute));
+        if (obj instanceof ClockTime) {
+            return (((ClockTime) obj).getHour().equals(hour) &&
+                    ((ClockTime) obj).getMinute().equals(minute));
         }
         return false;
     }
-    
+
+    @Override
     public String toString() {
         StringBuffer buffer = new StringBuffer(128);
         buffer.append(this.getClass().getName());

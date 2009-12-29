@@ -19,7 +19,6 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.jsf.model;
 
 /**
@@ -28,19 +27,19 @@ package com.sun.webui.jsf.model;
  * etc.
  * </p>
  */
-
 public class OptionGroup extends Option {
 
-	private Option[] selections;
+    private static final long serialVersionUID = -819045439816403421L;
+    private Option[] selections;
 
-	public OptionGroup() {
-	}
+    public OptionGroup() {
+    }
 
-	public Option[] getOptions() {
-	    return selections;
-	}
+    public Option[] getOptions() {
+        return selections;
+    }
 
-	public void setOptions(Option[] selections) {
-	    this.selections = selections;
-	}
+    public void setOptions(Option[] selections) {
+        this.selections = selections;
+    }
 }

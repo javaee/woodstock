@@ -26,15 +26,11 @@
  * Created on April 29, 2005, 12:40 PM
  *
  */
-
 package com.sun.webui.jsf.model;
 
 import com.sun.data.provider.FieldKey;
 import com.sun.data.provider.impl.ObjectArrayDataProvider;
 import com.sun.webui.jsf.util.MessageUtil;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * Default date for the <code>Table</code> component. The following behavior is
@@ -43,45 +39,48 @@ import java.util.List;
  * <li>Upon component creation, pre-populate the table with some dummy data</li>
  * </ul>
  *
- * @author Winston Prakash
+ * @author Winston Prakash, John Yeary
  */
-public class DefaultTableDataProvider extends ObjectArrayDataProvider{
-    
+public class DefaultTableDataProvider extends ObjectArrayDataProvider {
+
+    private static final long serialVersionUID = 4182857827502651144L;
+
     /** Default constructor. */
     public DefaultTableDataProvider() {
         setArray(getDefaultTableData());
     }
-    
+
     /**
      * Create data that will be displayed when the table is first dropped
      * in the designer
      */
-    public Data[] getDefaultTableData(){
+    public Data[] getDefaultTableData() {
         int noRows = 5;
         int noCols = 3;
         Data[] dataSet = new Data[noRows];
         for (int i = 0; i < noRows; i++) {
             String[] dataStrs = new String[noCols];
-            for(int j=0; j < noCols; j++){
+            for (int j = 0; j < noCols; j++) {
                 dataStrs[j] = getMessage("defaultTblCell", String.valueOf(i + 1), String.valueOf(j + 1));
             }
             dataSet[i] = new Data(dataStrs);
         }
         return dataSet;
     }
-    
+
     /** Return the Field Keys skiiping the 0th index
      *   which is the "class" property
      */
+    @Override
     public FieldKey[] getFieldKeys() {
         FieldKey[] superFieldKeys = super.getFieldKeys();
         FieldKey[] fieldKeys = new FieldKey[superFieldKeys.length - 1];
-        for(int i=1; i < superFieldKeys.length; i++){
-             fieldKeys[i-1] = superFieldKeys[i];
+        for (int i = 1; i < superFieldKeys.length; i++) {
+            fieldKeys[i - 1] = superFieldKeys[i];
         }
         return fieldKeys;
     }
-    
+
     /**
      * Get the message substituting the arguments
      */
@@ -89,46 +88,46 @@ public class DefaultTableDataProvider extends ObjectArrayDataProvider{
         String bundle = getClass().getPackage().getName() + ".Bundle";
         return MessageUtil.getMessage(bundle, key, new Object[]{arg1, arg2});
     }
-    
+
     /**
      * Data structure that holds data for three columns of a table
      */
     public static class Data {
+
         private String[] columns = null;
-        
+
         public Data(String[] cols) {
             columns = cols;
         }
-        
+
         /** Get first column. */
         public String getColumn1() {
             return columns[0];
         }
-        
+
         /** Set first column. */
         public void setColumn1(String col) {
             columns[0] = col;
         }
-        
+
         /** Get second column. */
         public String getColumn2() {
             return columns[1];
         }
-        
+
         /** Set second column. */
         public void setColumn2(String col) {
             columns[1] = col;
         }
-        
+
         /** Get third column. */
         public String getColumn3() {
             return columns[2];
         }
-        
+
         /** Set third column. */
         public void setColumn3(String col) {
             columns[2] = col;
         }
     }
-    
 }

@@ -25,17 +25,20 @@ package com.sun.webui.jsf.model;
  * A default list of options, for components which are always in multiple
  * select mode.
  *
- * @author gjmurphy
+ * @author gjmurphy, John Yeary
  */
 public class MultipleSelectOptionsList extends DefaultOptionsList {
-    
+
+    private static final long serialVersionUID = -6465497882261933314L;
+
     /** Creates a new instance of MultipleSelectOptionsList */
     public MultipleSelectOptionsList() {
         super();
         super.setMultiple(true);
     }
 
+    //FIXME Is this is missing an implementation?
+    @Override
     public void setMultiple(boolean isMultiple) {
     }
-    
 }

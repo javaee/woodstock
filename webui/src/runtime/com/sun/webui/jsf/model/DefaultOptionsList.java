@@ -22,23 +22,22 @@
 package com.sun.webui.jsf.model;
 
 import com.sun.webui.jsf.util.MessageUtil;
-import java.util.ArrayList;
-import java.io.Serializable;
 
 /** A default list of options, pre-populated with three default items.
  *
- * @author gjmurphy
+ * @author gjmurphy, John Yeary
  */
 public class DefaultOptionsList extends OptionsList {
-    
+
+    private static final long serialVersionUID = -1377760857272606790L;
+
     public DefaultOptionsList() {
         String bundle = DefaultOptionsList.class.getPackage().getName() + ".Bundle";
-        Option[] options = new Option[] {
+        Option[] options = new Option[]{
             new Option("item1", MessageUtil.getMessage(bundle, "item1")), //NOI18N
             new Option("item2", MessageUtil.getMessage(bundle, "item2")), //NOI18N
-            new Option("item3", MessageUtil.getMessage(bundle, "item3"))  //NOI18N
+            new Option("item3", MessageUtil.getMessage(bundle, "item3")) //NOI18N
         };
         this.setOptions(options);
     }
-    
 }

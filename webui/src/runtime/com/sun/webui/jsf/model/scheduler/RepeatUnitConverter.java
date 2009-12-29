@@ -21,35 +21,30 @@
  */
 package com.sun.webui.jsf.model.scheduler;
 
-import java.io.IOException;
-import java.io.Serializable; 
-import java.util.Calendar;
+import java.io.Serializable;
 import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter; 
-import com.sun.webui.jsf.model.scheduler.RepeatUnit; 
-import com.sun.webui.theme.Theme; 
-import com.sun.webui.jsf.util.ThemeUtilities;
+import javax.faces.convert.Converter;
 
 import javax.faces.context.FacesContext;
 
 // Delete the setters once you have reimplemented this not to 
 // use the default Serializable mechanism, but the same as 
 // in the converter.... 
-
 public class RepeatUnitConverter implements Converter, Serializable {
-          
+
+    private static final long serialVersionUID = 8474867258235790714L;
+
     public String getAsString(FacesContext context, UIComponent component,
             Object value) {
-        if(value == null) { 
-            return null; 
-        } 
-        return ((RepeatUnit)value).getRepresentation();
+        if (value == null) {
+            return null;
+        }
+        return ((RepeatUnit) value).getRepresentation();
     }
-    
+
     public Object getAsObject(FacesContext context, UIComponent component,
             String value) {
-        return RepeatUnit.getInstance(value);      
+        return RepeatUnit.getInstance(value);
     }
 }
 
