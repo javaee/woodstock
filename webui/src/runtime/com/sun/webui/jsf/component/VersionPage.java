@@ -94,15 +94,20 @@ public class VersionPage extends UIOutput implements NamingContainer {
     public Object getValue() {
         return super.getValue();
     }
+
     /**
-     * <p>The application copyright information.</p>
+     *	<p> The application copyright information.  This data is not escaped.
+     *	    If this is user-provided information (not common), the developer is
+     *	    responsible for escaping this property to prevent XSS attacks.</p>
      */
     @Property(name = "copyrightString", displayName = "Copyright String", category = "Appearance",
     editorClassName = "com.sun.rave.propertyeditors.StringPropertyEditor")
     private String copyrightString = null;
 
     /**
-     * <p>The application copyright information.</p>
+     *	<p> The application copyright information.  This data is not escaped.
+     *	    If this is user-provided information (not common), the developer is
+     *	    responsible for escaping this property to prevent XSS attacks.</p>
      */
     public String getCopyrightString() {
         if (this.copyrightString != null) {

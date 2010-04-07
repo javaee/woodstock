@@ -294,7 +294,8 @@ public class VersionPageRenderer extends AbstractRenderer {
         writer.startElement(HTMLElements.DIV, versionPage);
         writer.writeAttribute(HTMLAttributes.CLASS, style, null);
         if ((text = versionPage.getCopyrightString()) != null) {
-            writer.writeText(text, "copyrightString"); //NOI18N
+	    // Do not escape (i.e. use writeText), allow <br>'s other HTML
+            writer.write(text);
         }
         writer.endElement(HTMLElements.DIV);
 

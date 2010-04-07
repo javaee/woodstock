@@ -30,6 +30,23 @@
 
 <h1>Woodstock 4.0.2.4 JSF Components Release Notes</h1>
 
+<h3>Changes added in 4.0.2.5</h3>
+<ul><li>Source code cleanup.</li>
+    <li>Changed version page style to use 100% of the width.  This was the
+	design intent, but was only enforced in the past by having text that
+	required more than the window width.  It now works with shorter text
+	as well.</li>
+    <li>Checked in a new non-S-shaped version of the version page background
+	image.</li>
+    <li>Fixed bug preventing HTML to be used in the version page
+	copyrightString property.  It is important to be able to insert br's,
+	b's and other important html tags for formatting purposes.  This
+	property is expected to originate from the developer and should not
+	require escaping by default.  IF the developer expects user-created
+	content to be inserted here, it is now the developer's responsibility
+	to escape this text.</li>
+</ul>
+
 <h3>Changes added in 4.0.2.4</h3>
 <ul><li>If no Woodstock-supported locales are specified, the locales supported
 	by JSF (i.e. Application.getSupportedLocales()) are now used.</li>
