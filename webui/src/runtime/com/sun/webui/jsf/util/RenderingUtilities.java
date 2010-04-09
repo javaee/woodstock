@@ -813,12 +813,13 @@ public class RenderingUtilities {
 	// This is generating and XHTML invalid error.
 	// It doesn't like "alt".
 	//
+	String defaultAlt = ThemeUtilities.getTheme(context).getMessage(
+	    "skipLink.defaultAlt", new String[] {anchorName}); //NOI18N
         if(toolTip != null) {
             writer.writeAttribute("alt", toolTip, null);
         } else {
-            writer.writeAttribute("alt", anchorName + " skip link", null); // GF-required 508 change
+            writer.writeAttribute("alt", defaultAlt, null); // GF 508 change
         }
-
         if(tabIndex != null) {
             writer.writeAttribute("tabindex", tabIndex.toString(), null);
         }        
@@ -828,7 +829,7 @@ public class RenderingUtilities {
         icon.setWidth(1);
         icon.setHeight(1);
         icon.setBorder(0);
-        icon.setToolTip(anchorName + " skip link");
+        icon.setToolTip((toolTip == null) ? defaultAlt : toolTip);
 
 	buffer.setLength(0);
 	buffer.append(anchorName).append("_icon"); //NOI18N

@@ -398,7 +398,7 @@ public class MastheadRenderer extends AbstractRenderer {
         ImageComponent separator = new ImageComponent();
         separator.setParent(masthead);
         separator.setIcon(ThemeImages.MASTHEAD_SEPARATOR);
-        separator.setAlt("separator image"); // GF-required 508 change
+        separator.setAlt(theme.getMessage("masthead.statusAreaSepAltText")); // GF-required 508 change
 
         renderUserInfo(context, masthead, theme, labelStyle, textStyle,
                 separator, writer);
