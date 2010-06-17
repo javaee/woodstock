@@ -185,7 +185,7 @@ public class TreeRenderer extends TreeNodeRenderer {
         // Check if the TreeNode has children. If so, render each child which
         // in turn would cause each of the descendent nodes to get rendered.
 
-        Iterator iter = node.getChildren().iterator();
+        Iterator<UIComponent> iter = node.getChildren().iterator();
 
         //writer.writeText("\n", null);
         String clientID = node.getClientId(context);
@@ -193,10 +193,7 @@ public class TreeRenderer extends TreeNodeRenderer {
         writer.writeAttribute(HTMLAttributes.ID,
                 clientID + "_children", null);
         while (iter.hasNext()) {
-            UIComponent comp = (UIComponent) iter.next();
-            if (comp instanceof TreeNode) {
-                RenderingUtilities.renderComponent(comp, context);
-            }
+	    RenderingUtilities.renderComponent(iter.next(), context);
         }
 
         writer.endElement(HTMLElements.DIV);

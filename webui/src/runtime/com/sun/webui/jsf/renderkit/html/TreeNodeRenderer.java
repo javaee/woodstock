@@ -177,7 +177,7 @@ public class TreeNodeRenderer extends javax.faces.render.Renderer {
         renderTreeRow(node, imageIter, context, writer);
         writer.endElement(HTMLElements.DIV); // treerow div ends
         //writer.writeText("\n", null);
-        List children = node.getChildren();
+        List<UIComponent> children = node.getChildren();
 
 
         // If node is expanded or if its a client side tree we need to lay
@@ -201,12 +201,9 @@ public class TreeNodeRenderer extends javax.faces.render.Renderer {
             }
             // writer.writeText("\n", null);
 
-            Iterator iter = children.iterator();
+            Iterator<UIComponent> iter = children.iterator();
             while (iter.hasNext()) {
-                UIComponent comp = (UIComponent) iter.next();
-                if (comp instanceof TreeNode) {
-                    RenderingUtilities.renderComponent(comp, context);
-                }
+		RenderingUtilities.renderComponent(iter.next(), context);
             }
 
             writer.endElement(HTMLElements.DIV);
