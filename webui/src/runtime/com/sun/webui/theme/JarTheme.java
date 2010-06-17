@@ -20,7 +20,7 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 /*
- * $Id: JarTheme.java,v 1.1.6.1 2009-12-29 05:05:17 jyeary Exp $
+ * $Id: JarTheme.java,v 1.1.6.2 2010-06-17 07:36:50 kenpaulsen Exp $
  */
 package com.sun.webui.theme;
 
@@ -257,7 +257,7 @@ public class JarTheme implements Theme {
                 return translateURI(path);
             }
         } catch (MissingResourceException mre) {
-            StringBuffer msgBuffer = new StringBuffer("Could not find propery ");
+            StringBuffer msgBuffer = new StringBuffer("Could not find property ");
             msgBuffer.append(clientType.toString());
             msgBuffer.append(" in ResourceBundle ");
             msgBuffer.append(stylesheets.toString());
