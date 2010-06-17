@@ -25,6 +25,7 @@
  *
  * Created on December 16, 2004, 8:19 AM
  */
+
 package com.sun.webui.jsf.util;
 
 /**
@@ -41,6 +42,7 @@ package com.sun.webui.jsf.util;
 public class ClientType {
 
     private String type;
+
     /** Client type is Mozilla 6 or higher */
     public static final ClientType GECKO = new ClientType("gecko");
     /** Client type is IE7 or higher */
@@ -49,11 +51,13 @@ public class ClientType {
     public static final ClientType IE6 = new ClientType("ie6");
     /** Client type is IE 5, version 5.5 or higher */
     public static final ClientType IE5_5 = new ClientType("ie5.5");
+     /** Client type is safari */
+    public static final ClientType SAFARI = new ClientType("safari"); 
     /** Client type is not IE 5.5+ or gecko. */
     public static final ClientType OTHER = new ClientType("default");
 
     private ClientType(String s) {
-        type = s;
+	type = s;
     }
 
     /**
@@ -62,6 +66,6 @@ public class ClientType {
      */
     @Override
     public String toString() {
-        return type;
+	return type;
     }
 }
