@@ -28,12 +28,17 @@
 </head>
 <body>
 
-<h1>Woodstock 4.0.2.5 JSF Components Release Notes</h1>
+<h1>Woodstock 4.0.2.6 JSF Components Release Notes</h1>
 
 <h3>Changes added in 4.0.2.6</h3>
 <ul><li>Fixed GlassFish issue #4020/#4234.  NPE was fired when client with
 	user-agent without a version was used.</li>
-    <li></li>
+    <li>Fixed Tree/TreeNode so they render *all* their children.  This enables
+	non-visual components to be used within the tree (like Ajax zones,
+	events objects, iterators, etc.).</li>
+    <li>Fixed bug where embeded TreeNode image was placed as a child instead
+	of a facet.</li>
+    <li>Added initial support for Safari &amp; Chrome.</li>
     </ul>
 
 <h3>Changes added in 4.0.2.5</h3>
