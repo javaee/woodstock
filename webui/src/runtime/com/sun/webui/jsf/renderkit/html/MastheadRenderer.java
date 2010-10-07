@@ -355,7 +355,8 @@ public class MastheadRenderer extends AbstractRenderer {
             //
             startTable(writer, masthead, theme.getStyleClass(
                     ThemeStyles.MASTHEAD_TABLE_END));
-            writer.startElement(HTMLElements.TR, masthead); //NOI18N
+            writer.startElement(HTMLElements.TR, masthead);
+            writer.startElement(HTMLElements.TD, masthead);
             // get the text and label styles from the theme
             //
             String labelStyle = theme.getStyleClass(ThemeStyles.MASTHEAD_LABEL);
@@ -363,8 +364,9 @@ public class MastheadRenderer extends AbstractRenderer {
 
             RenderingUtilities.renderComponent(statusArea, context);
 
-            writer.endElement(HTMLElements.TR); //NOI18N
-            writer.endElement(HTMLElements.TABLE); //NOI18N
+            writer.endElement(HTMLElements.TD);
+            writer.endElement(HTMLElements.TR);
+            writer.endElement(HTMLElements.TABLE);
         } else {
             renderStatusAreaComponents(context, masthead, theme, writer);
         }
