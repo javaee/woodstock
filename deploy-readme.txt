@@ -1,6 +1,6 @@
 Please see:
 
-    http://sites.google.com/site/glassfishconsole/updatingwoodstockinv2
+    http://sites.google.com/site/glassfishconsole/updatingwoodstock
 
 * Remember to change the version #'s in master/build.properties **AND**
   mvndeploy **AND** mvninstall
