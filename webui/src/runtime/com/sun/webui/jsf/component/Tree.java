@@ -23,6 +23,7 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
+import com.sun.webui.jsf.util.CookieUtils;
 import com.sun.webui.jsf.util.LogUtil;
 import com.sun.webui.jsf.util.RenderingUtilities;
 import java.util.ArrayList;
@@ -44,6 +45,7 @@ import javax.faces.event.ValueChangeListener;
 import javax.faces.validator.Validator;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+
 
 /**
  * The Tree component is used to display a tree structure in the rendered HTML
@@ -532,8 +534,8 @@ public class Tree extends TreeNode implements EditableValueHolder {
     public void setSelected(String selected) {
         if (selected == null || selected.length() == 0) {
             FacesContext context = FacesContext.getCurrentInstance();
-            String treeCID = getClientId(context);
-            Cookie cookie = getCookie(context, treeCID + COOKIE_SUFFIX);
+            Cookie cookie = CookieUtils.getCookieValue(context,
+		    getClientId(context) + COOKIE_SUFFIX);
             if (cookie != null) {
                 if (!RenderingUtilities.isPortlet(context)) {
                     ExternalContext extCtx = context.getExternalContext();
@@ -1199,11 +1201,10 @@ public class Tree extends TreeNode implements EditableValueHolder {
      */
     public String getCookieSelectedTreeNode() {
         FacesContext context = FacesContext.getCurrentInstance();
-        String treeCID = getClientId(context);
 
-        // If it's stull null, look at cookies...
-        Cookie cookie = getCookie(context, treeCID + COOKIE_SUFFIX);
-
+        // If look at cookies...
+        Cookie cookie = CookieUtils.getCookieValue(context,
+		getClientId(context) + COOKIE_SUFFIX);
         if (cookie != null) {
             return cookie.getValue();
         }
@@ -1222,8 +1223,8 @@ public class Tree extends TreeNode implements EditableValueHolder {
      */
     public String getCookieExpandNode() {
         FacesContext context = FacesContext.getCurrentInstance();
-        String treeCID = getClientId(context);
-        Cookie cookie = getCookie(context, treeCID + COOKIE_SUFFIX_EXPAND);
+        Cookie cookie = CookieUtils.getCookieValue(context,
+		getClientId(context) + COOKIE_SUFFIX_EXPAND);
 
         if (cookie != null) {
             return cookie.getValue();
@@ -1231,28 +1232,6 @@ public class Tree extends TreeNode implements EditableValueHolder {
 
         // Not found, return null
         return null;
-    }
-
-    /**
-     *	<p> Gets the requested cookie name after URLEncoding it (ensures
-     *	    invalid characters are not used.  This requires that the cookie
-     *	    name be URLEncoded prior to being set as well.</p>
-     */
-    private Cookie getCookie(FacesContext context, String name) {
-        /*
-        // FIXME: Need to ensure cookie names do not use '/' or other invalid
-        // FIXME: characters.  This change can fix the reading for Tree cookies,
-        // FIXME: however, the cookies are set on the client and escaping is not
-        // FIXME: consistent on the client.  Need to find a consistent client-side
-        // FIXME: solution which also works on the server (or some other strategy).
-        // FIXME: Must test this change as it could break highlighting/scrolling/etc.
-        try {
-        name = URLEncoder.encode(name, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-        // Do nothing... just use name
-        }
-         */
-        return (Cookie) context.getExternalContext().getRequestCookieMap().get(name);
     }
 
 

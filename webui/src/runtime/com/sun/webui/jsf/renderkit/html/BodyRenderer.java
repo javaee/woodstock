@@ -24,6 +24,7 @@ package com.sun.webui.jsf.renderkit.html;
 import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.Body;
 import com.sun.webui.jsf.component.ComplexComponent;
+import com.sun.webui.jsf.util.CookieUtils;
 import com.sun.webui.jsf.util.FocusManager;
 import com.sun.webui.jsf.util.LogUtil;
 import com.sun.webui.jsf.util.MessageUtil;
@@ -196,6 +197,8 @@ public class BodyRenderer extends AbstractRenderer {
         String viewId = context.getViewRoot().getViewId(); // Scroll cookie name.
         String urlString = context.getApplication().getViewHandler().
                 getActionURL(context, viewId); // Cookie string.
+	// Get this after we calculate the urlString...
+	viewId = CookieUtils.getValidCookieName(viewId);
 
         // The common.body function accepts the scroll cookie
         // information. We should reconsider using cookies and

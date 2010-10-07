@@ -22,23 +22,27 @@
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.faces.annotation.Renderer;
-import java.beans.Beans;
-import java.io.IOException;
-import java.util.List;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
-import javax.faces.component.UIParameter;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import com.sun.webui.jsf.component.Alert;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.jsf.theme.ThemeStyles;
+import com.sun.webui.jsf.util.CookieUtils;
 import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
+
+import java.beans.Beans;
+import java.io.IOException;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIParameter;
+import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 
 /**
  * <p>Renderer for an {@link Alert} component.</p>
@@ -454,8 +458,8 @@ public class AlertRenderer extends AbstractRenderer {
             String viewId = context.getViewRoot().getViewId();
             String urlString = context.getApplication().getViewHandler().
                     getActionURL(context, viewId);
-// FIXME: 'viewId' contains '/' characters which are invalid...
-// FIXME: try urlencoding/decoding the key to make it valid
+	    // Get this after we calculate the urlString...
+	    viewId = CookieUtils.getValidCookieName(viewId);
             Cookie cookie = new Cookie(viewId, "");
             cookie.setPath(urlString);
             response.addCookie(cookie);
