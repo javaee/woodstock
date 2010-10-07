@@ -57,6 +57,8 @@ webui.@THEME@.tree = {
         domNode.expandTurner = webui.@THEME@.tree.expandTurner;
         domNode.findContainingTreeNode = webui.@THEME@.tree.findContainingTreeNode;
         domNode.findNodeByTypeAndProp = webui.@THEME@.tree.findNodeByTypeAndProp;
+        domNode.badCookieChars = webui.@THEME@.tree.badCookieChars;
+        domNode.getValidCookieName = webui.@THEME@.tree.getValidCookieName;
         domNode.getCookieValue = webui.@THEME@.tree.getCookieValue;
         domNode.getHighlightTreeBgColor = webui.@THEME@.tree.getHighlightTreeBgColor;
         domNode.getHighlightTreeTextColor = webui.@THEME@.tree.getHighlightTreeTextColor;
@@ -77,6 +79,18 @@ webui.@THEME@.tree = {
         domNode.updateHighlight = webui.@THEME@.tree.updateHighlight;
     },
 
+    badCookieChars: ["(", ")", "<", ">", "@", ",", ";", ":", "\\", "\"", "/", "[", "]", "?", "=", "{", "}", " ", "\t"],
+
+    /**
+     * Ensure we use a RFC 2109 compliant cookie name.
+     */
+    getValidCookieName: function(name) {
+	for (var idx=0; idx<this.badCookieChars.length; idx++) {
+	    name = name.replace(this.badCookieChars[idx], "_");
+	}
+	return name;
+    },
+
     setCookieValue: function(cookieName, val) {
 
 	/*
@@ -87,10 +101,12 @@ webui.@THEME@.tree = {
         so that it is applicable for all pages on site.
 	*/
 
+	cookieName = this.getValidCookieName(cookieName);
 	document.cookie = cookieName + "=" + val +";path=/;";
     },
 
     getCookieValue: function(cookieName) {
+	cookieName = this.getValidCookieName(cookieName);
         var docCookie = document.cookie;
         var pos= docCookie.indexOf(cookieName+"=");
 

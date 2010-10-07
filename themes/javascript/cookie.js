@@ -26,20 +26,32 @@ dojo.provide("webui.@THEME@.cookie");
  * The functions of this closure are used to manipulate cookies.
  */
 webui.@THEME@.cookie = {
+    badCookieChars: ["(", ")", "<", ">", "@", ",", ";", ":", "\\", "\"", "/", "[", "]", "?", "=", "{", "}", " ", "\t"],
+
+    /**
+     * Ensure we use a RFC 2109 compliant cookie name.
+     */
+    getValidCookieName: function(name) {
+	for (var idx=0; idx<this.badCookieChars.length; idx++) {
+	    name = name.replace(this.badCookieChars[idx], "_");
+	}
+	return name;
+    },
+
     /**
      * This function will get the cookie value.
      */
     get: function() {
         // Get document cookie.
         var cookie = document.cookie;
-
+	var cName = this.getValidCookieName(this.$cookieName);
         // Parse webui_ScrollCookie value.
-        var pos = cookie.indexOf(this.$cookieName + "=");
+        var pos = cookie.indexOf(cName + "=");
         if (pos == -1) {
             return null;
         }
 
-        var start = pos + this.$cookieName.length + 1;
+        var start = pos + cName.length + 1;
         var end = cookie.indexOf(";", start);
         if (end == -1) {
             end = cookie.length;
@@ -79,7 +91,7 @@ webui.@THEME@.cookie = {
      */
     reset: function() {
         // Clear cookie value.
-        document.cookie = this.$cookieName + "=";
+        document.cookie = this.getValidCookieName(this.$cookieName) + "=";
         return true;
     },
 
@@ -102,7 +114,7 @@ webui.@THEME@.cookie = {
             }
             cookieVal += prop + ':' + escape(this[prop]);
         }
-        var cookieString = this.$cookieName + "=" + cookieVal;
+        var cookieString = this.getValidCookieName(this.$cookieName) + "=" + cookieVal;
         if (this.$path != null) {
             cookieString += ";path=" + this.$path;
         }
