@@ -1058,7 +1058,7 @@
        &lt;webuijsf:breadcrumbs id="breadcrumbs1"&gt;
          &lt;webuijsf:hyperlink url="http://google.com" label="Google"/&gt;
          &lt;webuijsf:hyperlink url="http://yahoo.com" label="Yahoo"/&gt;
-         &lt;webuijsf:hyperlink url="http://sun.com" label="Sun"/&gt;
+         &lt;webuijsf:hyperlink url="http://example.com" label="Example"/&gt;
        &lt;/webuijsf:breadcrumbs&gt;
  </pre>
  </code>
@@ -16897,7 +16897,7 @@ components are used in the page.</p>
                    you to others when they receive your messages. Enter the name you would 
                    like to appear in the From field of your outgoing messages, for example, 
                    John Smith. Then enter your email address. This is the address others 
-                   will use to send email to you, for example john.smith@sun.com."&gt;
+                   will use to send email to you, for example john.smith@example.com."&gt;
  	    &lt;webuijsf:markup tag="p" extraAttributes="style='margin-left:2%'"&gt;
  	    &lt;webuijsf:label id="namelbl" text="Your Name"/&gt;
  	    &lt;webuijsf:textField id="namefld"
@@ -16917,7 +16917,7 @@ components are used in the page.</p>
  	    title="Email Server Information"
  	    detail="Select the type of incoming server and server name."
  	    help="Select the type of the incoming server you are using. 
-                   Then enter the name of your incoming server, for example, mail.sun.com."&gt;
+                   Then enter the name of your incoming server, for example, mail.example.com."&gt;
  	    &lt;webuijsf:markup tag="p" extraAttributes="style='margin-left:2%'"&gt;
  	    &lt;webuijsf:radioButton id="pop" name="mailservertype"
  		label="POP"
@@ -17588,7 +17588,7 @@ components are used in the page.</p>
                    identifies you to others when they receive your messages. Enter the <br>
                    name you would like to appear in the From field of your outgoing messages, <br>
                    for example, John Smith. Then enter your email address. This is the address <br>
-                   others will use to send email to you, for example john.smith@sun.com."&gt;<br>
+                   others will use to send email to you, for example john.smith@example.com."&gt;<br>
  <br>
  	    &lt;jsp:include page="../wizard/acct-steps/identity.jsp"/&gt;<br>
  <br>
@@ -17604,8 +17604,8 @@ components are used in the page.</p>
  	    title="Email Server Information"<br>
  	    detail="Select the type of incoming server and outgoing server name."<br>
  	    help="&amp;lt;p&amp;gt;Select the type of the incoming server you are using. Then enter the name <br>
-                   of your incoming server, for example, mail.sun.com.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;Then enter the <br>
-                   outgoing (SMTP) server name, for example, smtp.sun.com&amp;lt;/p&amp;gt;"&gt;<br>
+                   of your incoming server, for example, mail.example.com.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;Then enter the <br>
+                   outgoing (SMTP) server name, for example, smtp.example.com&amp;lt;/p&amp;gt;"&gt;<br>
  <br>
  	    &lt;jsp:include page="../wizard/acct-steps/emailserver.jsp"/&gt;<br>
  <br>
@@ -17636,7 +17636,7 @@ components are used in the page.</p>
  	    summary="Specify Outgoing Server"<br>
  	    title="Outgoing Server Information"<br>
  	    detail="Specify the outgoing server name."<br>
- 	    help="Enter the outgoing (SMTP) server name, for example, smtp.sun.com."&gt;<br>
+ 	    help="Enter the outgoing (SMTP) server name, for example, smtp.example.com."&gt;<br>
  <br>
  	    &lt;jsp:include page="../wizard/acct-steps/outgoingserver.jsp"/&gt;<br>
  <br>
@@ -17651,7 +17651,7 @@ components are used in the page.</p>
  	    summary="Specify News Server"<br>
  	    title="News Server Information"<br>
  	    detail="Specify the news server name."<br>
- 	    help="Enter the news (NNTP) server name, for example, news.sun.com."&gt;<br>
+ 	    help="Enter the news (NNTP) server name, for example, news.example.com."&gt;<br>
  	    &lt;jsp:include page="../wizard/acct-steps/newsserver.jsp"/&gt;<br>
  <br>
  	&lt;/webuijsf:wizardStep&gt;<br>
@@ -18584,7 +18584,7 @@ components are used in the page.</p>
                    identifies you to others when they receive your messages. Enter the <br>
                    name you would like to appear in the From field of your outgoing messages, <br>
                    for example, John Smith. Then enter your email address. This is the address <br>
-                   others will use to send email to you, for example john.smith@sun.com."&gt;<br>
+                   others will use to send email to you, for example john.smith@example.com."&gt;<br>
  <br>
  	    &lt;webuijsf:markup tag="p" extraAttributes="style='margin-left:2%'"&gt;<br>
  <br>
@@ -18613,8 +18613,8 @@ components are used in the page.</p>
  	    title="Email Server Information"<br>
  	    detail="Select the type of incoming server and server name."<br>
  	    help="&amp;lt;p&amp;gt;Select the type of the incoming server you are using. Then enter the name <br>
-                   of your incoming server, for example, mail.sun.com.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;Then enter the <br>
-                   outgoing (SMTP) server name, for example, smtp.sun.com&amp;lt;/p&amp;gt;"&gt;<br>
+                   of your incoming server, for example, mail.example.com.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;Then enter the <br>
+                   outgoing (SMTP) server name, for example, smtp.example.com&amp;lt;/p&amp;gt;"&gt;<br>
  <br>
  	    &lt;webuijsf:markup tag="p" extraAttributes="style='margin-left:2%'"&gt;<br>
  <br>
