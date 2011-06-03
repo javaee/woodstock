@@ -11,6 +11,8 @@ Please see:
 
 * Remember to document any process changes!!!
 
+* You MUST use Maven 2.x.  Maven 3 will not work.
+
 Troubleshooting:
 
 * mvn may not work...

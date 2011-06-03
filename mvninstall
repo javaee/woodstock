@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # REMEMBER TO CHANGE THIS VERSION #!!!!!!
-WOODSTOCK_VER="4.0.2.6"
+WOODSTOCK_VER="4.0.2.7"
 
 mvn install:install-file -Dfile=webui/netbeans/modules/autoload/ext/webui-jsf.jar \
                          -Dsources=webui/dist/webui-jsf-src.zip\

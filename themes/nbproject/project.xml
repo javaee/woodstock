@@ -20,11 +20,13 @@
 
  Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 -->
-
 <project xmlns="http://www.netbeans.org/ns/project/1">
     <type>org.netbeans.modules.ant.freeform</type>
     <configuration>
         <general-data xmlns="http://www.netbeans.org/ns/freeform-project/1">
+            <name>themes</name>
+        </general-data>
+        <general-data xmlns="http://www.netbeans.org/ns/freeform-project/2">
             <!-- Do not use Project Properties customizer when editing this file manually. -->
             <name>themes</name>
             <properties/>
@@ -33,15 +35,18 @@
                     <label>src</label>
                     <type>java</type>
                     <location>src</location>
+                    <encoding>MacRoman</encoding>
                 </source-folder>
                 <source-folder>
-                    <label>Source Packages</label>
+                    <label>javascript</label>
                     <type>java</type>
-                    <location>.</location>
+                    <location>javascript</location>
+                    <encoding>MacRoman</encoding>
                 </source-folder>
                 <source-folder>
-                    <label>Source Packages</label>
+                    <label>themes</label>
                     <location>.</location>
+                    <encoding>MacRoman</encoding>
                 </source-folder>
             </folders>
             <ide-actions>
@@ -63,8 +68,8 @@
                         <location>src</location>
                     </source-folder>
                     <source-folder style="packages">
-                        <label>Source Packages</label>
-                        <location>.</location>
+                        <label>javascript</label>
+                        <location>javascript</location>
                     </source-folder>
                     <source-file>
                         <location>build.xml</location>
@@ -76,6 +81,7 @@
                     <ide-action name="rebuild"/>
                 </context-menu>
             </view>
+            <subprojects/>
         </general-data>
         <java-data xmlns="http://www.netbeans.org/ns/freeform-project-java/1">
             <compilation-unit>
@@ -83,7 +89,7 @@
                 <source-level>1.5</source-level>
             </compilation-unit>
             <compilation-unit>
-                <package-root>.</package-root>
+                <package-root>javascript</package-root>
                 <source-level>1.5</source-level>
             </compilation-unit>
         </java-data>
