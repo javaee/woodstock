@@ -525,14 +525,22 @@ webui.@THEME@.addRemove = {
             ++ cntr;
         }
 
+	//need to test IE browser, refer go GLASSFISH-16903
         cntr = 0;
-
-            while(cntr < newOptions.length) {
-                this.selectedValues.add(newOptions[cntr], null);
-//                this.selectedValues.children[this.selectedValues.children.length-1] = newOptions[cntr];
-                ++cntr;
-            }
-
+	var ua = navigator.userAgent;;
+	var ie = false ;
+	if (ua.indexOf("MSIE") > -1) {
+	    ie=true;
+	}
+	while(cntr < newOptions.length) {
+	    if (ie){
+		this.selectedValues.add(newOptions[cntr], cntr);
+	    }else{
+		this.selectedValues.add(newOptions[cntr], null);
+	    }
+	    //this.selectedValues.children[this.selectedValues.children.length-1] = newOptions[cntr];
+	    ++cntr;
+	}
         /*
         if(this.selectedOptions.remove == null) {
             // For Mozilla
