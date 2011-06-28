@@ -8,6 +8,7 @@ Please see:
 * Remember to update the doc/release-notes.html file
 
 * Remember to tag the release!!!
+(eg. "svn copy https://svn.java.net/svn/woodstock~svn/branches/Woodstock_402_Branch https://svn.java.net/svn/woodstock~svn/tags/4.0.2.8")
 
 * Remember to document any process changes!!!
 
