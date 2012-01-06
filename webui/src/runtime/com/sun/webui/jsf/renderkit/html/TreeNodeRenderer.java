@@ -228,6 +228,11 @@ public class TreeNodeRenderer extends javax.faces.render.Renderer {
         }
     }
 
+    private void setToolTip(ImageHyperlink ihl, TreeNode node) {
+        ihl.setToolTip(node.getText() + " node");  // GF-required 508 change
+        ihl.setAlt(node.getText() + " node image");  // GF-required 508 change
+    }
+
     /**
      * Renders each row of the tree. A tree row consists of a set of images
      * followed by the actual row image or text.
@@ -266,15 +271,17 @@ public class TreeNodeRenderer extends javax.faces.render.Renderer {
         // check if image facet has been supplied. If so, render it.
         UIComponent imageFacet = node.getFacet(Tree.TREE_IMAGE_FACET_NAME);
         if (imageFacet != null) {
+            if (imageFacet instanceof ImageHyperlink) {
+                ImageHyperlink ihl = (ImageHyperlink) imageFacet;
+                setToolTip(ihl, node);
+            }
             RenderingUtilities.renderComponent(imageFacet, context);
         } else {
             String imageURL = node.getImageURL();
             if (imageURL != null && imageURL.length() > 0) {
                 ImageHyperlink ihl =
                         node.getNodeImageHyperlink();
-                ihl.setToolTip(node.getId() + " node");  // GF-required 508 change
-                ihl.setAlt(node.getId() + " node image");  // GF-required 508 change
-
+                setToolTip(ihl, node);
                 renderImageOrText(node, ihl, context);
             }
         }

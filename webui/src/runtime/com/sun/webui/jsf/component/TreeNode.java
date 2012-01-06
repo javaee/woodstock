@@ -648,9 +648,10 @@ public class TreeNode extends UIComponentBase implements NamingContainer, Serial
         boolean first = true;
         boolean bottomNode = false;
         int count = 1;
+        TreeNode prevNode = getParentTreeNode(this);
 
-        for (TreeNode node = getParentTreeNode(this); node != null;
-                node = getParentTreeNode(node)) {
+        for (TreeNode node = prevNode; node != null;
+                prevNode = node, node = getParentTreeNode(node)) {
 
             attributes = node.getAttributes();
 
@@ -690,6 +691,8 @@ public class TreeNode extends UIComponentBase implements NamingContainer, Serial
                     stack.push(imageIcon);
                     IconHyperlink ihl = getTurnerImageHyperlink();
                     ihl.setIcon(imageIcon);
+                    ihl.setToolTip("Toggle " + getText() + " node");  // GF-required 508 change
+                    ihl.setAlt("Toggle " + getText() + " node icon");  // GF-required 508 change
                     Tree rootNode = getAbsoluteRoot(this);
                     if (rootNode != null) {
                         if (rootNode.isClientSide()) {
@@ -715,7 +718,8 @@ public class TreeNode extends UIComponentBase implements NamingContainer, Serial
                         ic = new ImageComponent();
 
                         ic.setId(id);
-                        ic.setToolTip(id + " icon"); // GF-required 508 change
+                        ic.setToolTip(getText() + " node");  // GF-required 508 change
+                        ic.setAlt(getText() + " node icon");  // GF-required 508 change
                         this.getFacets().put(id, ic);
                     }
                     ic.setIcon(imageIcon);
@@ -742,7 +746,8 @@ public class TreeNode extends UIComponentBase implements NamingContainer, Serial
                 if (ic == null) {
                     ic = new ImageComponent();
                     ic.setIcon(imageIcon);
-                    ic.setToolTip(id + " icon"); // GF-required 508 change
+                    ic.setToolTip(prevNode.getText()+ " child");  // GF-required 508 change
+                    ic.setAlt(prevNode.getText() + " child icon");  // GF-required 508 change
                     ic.setId(id);
 		    this.getFacets().put(id, ic);
                 }
