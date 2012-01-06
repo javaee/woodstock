@@ -170,6 +170,7 @@ public class PropertySheetSectionRenderer extends Renderer {
         writer.writeAttribute(HTMLAttributes.CELLSPACING, 0, null);
         writer.writeAttribute(HTMLAttributes.CELLPADDING, 0, null);
         writer.writeAttribute(HTMLAttributes.TITLE, "", null); //NOI18N
+        writer.writeAttribute(HTMLAttributes.ROLE, HTMLAttributes.ROLE_PRESENTATION, null);
 
         // Unfortunately the PropertyRenderer needs to render
         // a TR and TD since we are opening a table context here.

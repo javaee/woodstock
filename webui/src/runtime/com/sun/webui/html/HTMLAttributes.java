@@ -146,4 +146,6 @@ public class HTMLAttributes {
     public static final String VLINK = "vlink"; //NOI18N
     public static final String VSPACE = "vspace"; //NOI18N
     public static final String WIDTH = "width"; //NOI18N
+    public static final String ROLE = "role"; //NOI18N
+    public static final String ROLE_PRESENTATION = "presentation"; //NOI18N
 }
