@@ -299,13 +299,15 @@ public class ContentPageTitleRenderer extends javax.faces.render.Renderer {
             RenderingUtilities.renderComponent(pagetitle.getFacet("pageTitle"),
                     context);
         } else {
-            writer.startElement("h1", pagetitle);
-            style = theme.getStyleClass(ThemeStyles.TITLE_TEXT);
-            writer.writeAttribute("class", style, null); //NOI18N
-
             String title = pagetitle.getTitle();
-            writer.write(title != null ? title : "");
-            writer.endElement("h1");
+            if (title != null) {
+                writer.startElement("h1", pagetitle);
+                style = theme.getStyleClass(ThemeStyles.TITLE_TEXT);
+                writer.writeAttribute("class", style, null); //NOI18N
+
+                writer.write(title != null ? title : "");
+                writer.endElement("h1");
+            }
         }
 
         writer.endElement("div");
