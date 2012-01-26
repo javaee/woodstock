@@ -4,6 +4,8 @@
 
 WOODSTOCK_VERSION="4.0.2.10"
 
+#====== remove existing copies=========
+rm -rf webui-jsf-*
 #================  webui-jsf jars  =====================
 #
 
