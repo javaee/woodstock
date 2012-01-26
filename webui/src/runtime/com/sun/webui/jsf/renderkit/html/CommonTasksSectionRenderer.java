@@ -132,7 +132,6 @@ public class CommonTasksSectionRenderer extends AbstractRenderer {
         writer.writeAttribute(HTMLAttributes.CELLSPACING, "0",
                 HTMLAttributes.CELLSPACING);
         writer.writeAttribute(HTMLAttributes.TITLE, "", HTMLAttributes.TITLE);
-        writer.writeAttribute(HTMLAttributes.ROLE, HTMLAttributes.ROLE_PRESENTATION, null);
         if (cts.getTitle() != null) {
             title = cts.getTitle();
         } else {
@@ -153,7 +152,6 @@ public class CommonTasksSectionRenderer extends AbstractRenderer {
         writer.writeAttribute(HTMLAttributes.CELLSPACING, "0",
                 HTMLAttributes.CELLSPACING);
         writer.writeAttribute(HTMLAttributes.TITLE, "", HTMLAttributes.TITLE);
-        writer.writeAttribute(HTMLAttributes.ROLE, HTMLAttributes.ROLE_PRESENTATION, null);
 
         writer.write("\n");                                        // NOI18N
 
