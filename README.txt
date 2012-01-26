@@ -1,9 +1,12 @@
+
 Please see:
 
-    http://sites.google.com/site/glassfishconsole/updatingwoodstock
+    http://aseng-wiki.us.oracle.com/asengwiki/display/GlassFish/WoodstockUpdate 
+    for detail instruction on how to update and publish woodstock jars.
 
-* Remember to change the version #'s in master/build.properties **AND**
-  mvndeploy **AND** mvninstall
+* To build:  cd master; ant clean; ant;  The jars will be available at master/build/ship/lib directory.
+
+* Remember to change the version #'s in master/build.properties **AND**  build-bundles
 
 * Remember to update the doc/release-notes.html file
 
@@ -13,6 +16,9 @@ Please see:
 * Remember to document any process changes!!!
 
 * You MUST use Maven 2.x.  Maven 3 will not work.
+
+
+** deploy.pom,  mvndeploy and mvninstall **  is outdated.
 
 Troubleshooting:
 
