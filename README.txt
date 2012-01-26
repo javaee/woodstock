@@ -6,9 +6,11 @@ Please see:
 
 * To build:  cd master; ant clean; ant;  The jars will be available at master/build/ship/lib directory.
 
-* Remember to change the version #'s in master/build.properties **AND**  build-bundles
+* BEFORE Running build-bundles to create the webui-jsf-bundle.jar and webui-jsf-suntheme-bundle.jar for pushing using Nexus UI, do the following:
 
-* Remember to update the doc/release-notes.html file
+     * Remember to change the version #'s in master/build.properties **AND**  build-bundles
+
+     * Remember to update the doc/release-notes.html file
 
 * Remember to tag the release!!!
 (eg. "svn copy https://svn.java.net/svn/woodstock~svn/branches/Woodstock_402_Branch https://svn.java.net/svn/woodstock~svn/tags/4.0.2.8")
@@ -16,9 +18,6 @@ Please see:
 * Remember to document any process changes!!!
 
 * You MUST use Maven 2.x.  Maven 3 will not work.
-
-
-** deploy.pom,  mvndeploy and mvninstall **  is outdated.
 
 Troubleshooting:
 
