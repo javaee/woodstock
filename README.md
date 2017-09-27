@@ -15,3 +15,4 @@ enhancements. For future development or migration of existing Woodstock projects
 officially endorsing ICEfaces as the replacement technology for Woodstock. 
 
 http://www.icesoft.org/java/projects/ICEfaces/overview.jsf
+legacy e-mail may be located from this index page: http://download.oracle.com/javaee-archive/
