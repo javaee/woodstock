@@ -32,6 +32,10 @@ import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * <p>Renderer for a {@link Head} component.</p>
@@ -43,6 +47,9 @@ public class HeadRenderer extends AbstractRenderer {
      * <p>The set of String pass-through attributes to be rendered.</p>
      */
     private static final String stringAttributes[] = {"profile"}; //NOI18N
+
+    private static final String DATE_ONE =
+            (new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.US)).format(new Date(1));
 
     /**
      * <p>Render the appropriate element start, depending on whether the
@@ -86,6 +93,14 @@ public class HeadRenderer extends AbstractRenderer {
             // Meta tags
             if (head.isMeta()) {
                 writer.write("\n"); //NOI18N
+                
+                HttpServletResponse servletResponse = (HttpServletResponse) context.getCurrentInstance().getExternalContext().getResponse();
+                servletResponse.setHeader("Pragma", "no-cache");
+                servletResponse.setHeader("Cache-Control", "no-store");
+                servletResponse.setHeader("Cache-Control", "no-cache");
+                servletResponse.setHeader("Expires", DATE_ONE);
+                servletResponse.setHeader("X-Frame-Options", "SAMEORIGIN");
+                
                 renderMetaTag("no-cache", "Pragma", writer, head);
                 renderMetaTag("no-cache", "Cache-Control", writer, head);
                 renderMetaTag("no-store", "Cache-Control", writer, head);
