@@ -2,7 +2,7 @@
 
 # REMEMBER TO CHANGE THIS VERSION #!!!!!!
 
-WOODSTOCK_VERSION="4.0.2.10"
+WOODSTOCK_VERSION="4.0.2.11"
 
 #====== remove existing copies=========
 rm -rf webui-jsf-*
