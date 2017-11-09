@@ -168,7 +168,7 @@ public class CommonTasksSectionRenderer extends AbstractRenderer {
         writer.startElement(HTMLElements.TD, cts);
         writer.writeAttribute(HTMLAttributes.HEIGHT, "503",
                 HTMLAttributes.HEIGHT);
-        renderSpacerImage(cts, 503, 1, theme, context);
+        renderSpacerImage(cts, 503, 1, theme, context, SPACER_IMAGE);
         writer.endElement(HTMLElements.TD);
         writer.endElement(HTMLElements.TR);
         writer.endElement(HTMLElements.TABLE);
@@ -296,7 +296,7 @@ public class CommonTasksSectionRenderer extends AbstractRenderer {
             writer.startElement(HTMLElements.TD, cts);
             writer.writeAttribute(HTMLAttributes.WIDTH, spacerWidth,
                     HTMLAttributes.WIDTH);         // NOI18N
-            renderSpacerImage(cts, 1, columnWidth, theme, context);
+            renderSpacerImage(cts, 1, columnWidth, theme, context, SPACER_IMAGE + i);
             writer.endElement(HTMLElements.TD);
 
             //set the spacing between two columns
@@ -327,11 +327,11 @@ public class CommonTasksSectionRenderer extends AbstractRenderer {
      * @exception IOException if an input/output error occurs
      */
     protected void renderSpacerImage(UIComponent component, int height,
-            int width, Theme theme, FacesContext context)
+            int width, Theme theme, FacesContext context, String id)
             throws IOException {
         Icon img = ThemeUtilities.getIcon(theme, ThemeImages.CTS_SPACER_IMAGE);
         img.setParent(component);
-        img.setId(SPACER_IMAGE);
+        img.setId(id);
         RenderingUtilities.renderComponent(img, context);
     }
 
