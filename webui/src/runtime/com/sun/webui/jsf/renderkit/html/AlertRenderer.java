@@ -367,6 +367,10 @@ public class AlertRenderer extends AbstractRenderer {
         if (detail != null) {
             writer.startElement("span", alert);
             writer.writeAttribute("class", styles[7], null); //NOI18N
+
+	    //Added to force screen reader to read alert box incase of deployment error
+	    writer.writeAttribute("role", "alert", null);
+
             writer.writeText("\n", null); //NOI18N
             renderFormattedMessage(writer, alert, context, detail);
             writer.endElement("span"); //NOI18N
