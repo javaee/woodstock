@@ -1,7 +1,5 @@
-<jsp:root version="2.0" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:webuijsf="http://www.sun.com/webui/webuijsf">
-<jsp:directive.page contentType="text/html"/>
-<f:view>    
-    <!--
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
       DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
 
 	  Copyright (c) 2007-2018 Oracle and/or its affiliates. All rights reserved.
@@ -39,7 +37,11 @@
 	  and therefore, elected the GPL Version 2 license, then the option applies
 	  only if the new code is made subject to such option by the copyright
 	  holder.
-    -->
+-->
+
+<jsp:root version="2.0" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:webuijsf="http://www.sun.com/webui/webuijsf">
+<jsp:directive.page contentType="text/html"/>
+<f:view>
   <webuijsf:page>
     <f:loadBundle basename="com.sun.webui.jsf.example.resources.Resources" var="msgs" />
     <webuijsf:html id="html">   
