@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+
+    Copyright (c) 2007-2018 Oracle and/or its affiliates. All rights reserved.
+
+    The contents of this file are subject to the terms of either the GNU
+    General Public License Version 2 only ("GPL") or the Common Development
+    and Distribution License("CDDL") (collectively, the "License").  You
+    may not use this file except in compliance with the License.  You can
+    obtain a copy of the License at
+    https://oss.oracle.com/licenses/CDDL+GPL-1.1
+    or LICENSE.txt.  See the License for the specific
+    language governing permissions and limitations under the License.
+
+    When distributing the software, include this License Header Notice in each
+    file and include the License file at LICENSE.txt.
+
+    GPL Classpath Exception:
+    Oracle designates this particular file as subject to the "Classpath"
+    exception as provided by Oracle in the GPL Version 2 section of the License
+    file that accompanied this code.
+
+    Modifications:
+    If applicable, add the following below the License Header, with the fields
+    enclosed by brackets [] replaced by your own identifying information:
+    "Portions Copyright [year] [name of copyright owner]"
+
+    Contributor(s):
+    If you wish your version of this file to be governed by only the CDDL or
+    only the GPL Version 2, indicate your decision by adding "[Contributor]
+    elects to include this software in this distribution under the [CDDL or GPL
+    Version 2] license."  If you don't indicate a single choice of license, a
+    recipient has the option to distribute your version of this file under
+    either the CDDL, the GPL Version 2 or to extend the choice of license to
+    its licensees as provided above.  However, if you add GPL Version 2 code
+    and therefore, elected the GPL Version 2 license, then the option applies
+    only if the new code is made subject to such option by the copyright
+    holder.
+
+-->
+
+<jsp:root version="2.0" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:webuijsf="http://www.sun.com/webui/webuijsf">
+    <jsp:directive.page contentType="text/html"/>
+       <f:view>
+        <webuijsf:page >
+            <webuijsf:html>
+                <f:loadBundle basename="com.sun.webui.jsf.example.resources.Resources" var="msgs" />
+                <webuijsf:head title="#{msgs.hyperlink_title}">
+		  <webuijsf:link rel="shortcut icon" url="/images/favicon.ico" type="image/x-icon" />
+                </webuijsf:head>
+                <webuijsf:body>
+                    <webuijsf:form id="hyperlinkForm">
+
+                       <!-- Masthead -->
+                       <webuijsf:masthead id="Masthead" productImageURL="/images/example_primary_masthead.png"
+                         productImageDescription="#{msgs.mastheadAltText}" 
+                         userInfo="test_user"
+                         serverInfo="test_server" />     
+                       
+                       <!-- Bread Crumb Component -->
+                       <webuijsf:breadcrumbs id="breadcrumbs">
+                            <webuijsf:hyperlink id="exampleLink"
+                                          text="#{msgs.index_title}"
+                                          toolTip="#{msgs.index_title}"
+                                          actionExpression="#{HyperlinkBean.showExampleIndex}" 
+                                          onMouseOver="javascript:window.status='#{msgs.index_breadcrumbMouseOver}'; return true;"
+                                          onMouseOut="javascript: window.status=''; return true" />
+                            <webuijsf:hyperlink id="hyperlinkExample" text="#{msgs.hyperlink_title}"/>
+                       </webuijsf:breadcrumbs>
+                       
+                       <!-- Alert for validator exception. -->
+                       <webuijsf:alert id="pageAlert" rendered="#{HyperlinkBean.errorsOnPage}" detail="#{HyperlinkBean.detailMsg}" type="error" 
+                                 summary="#{HyperlinkBean.summaryMsg}"> 
+                       </webuijsf:alert>
+                       
+                       <!-- Page Title -->
+                       <webuijsf:contentPageTitle title="#{msgs.hyperlink_title}" id="linkContentPage1"/>
+                          <webuijsf:markup tag="div" styleClass="#{themeStyles.CONTENT_MARGIN}">
+                          <br/>
+                          <webuijsf:anchor id="top" />
+
+                          <!-- Hyperlink List -->
+                            
+                          <!-- using image and text as hyperlink -->
+                            <br/><br/>
+                            <webuijsf:label labelLevel="1" text="#{msgs.hyperlink_imageTextHeading}" id="bodylabel"/>
+                            <webuijsf:helpInline id="imageHelp" text="#{msgs.hyperlink_textBody}" />
+                            <br/>                       
+                            <webuijsf:hyperlink id="hyperlinkimage" url="http://www.sun.com" 
+                                          toolTip="#{msgs.hyperlink_imageTooltip}" 
+                                          disabled="#{HyperlinkBean.linkOnoff}">
+                               <webuijsf:image 
+				url="/images/version_product_name.png"
+				id="image1" 
+				 height="40" width="180"
+				 alt="#{msgs.hyperlink_imageTooltip}" 
+				 border="1" hspace="0" 
+				 vspace="5" align="middle" 
+				 toolTip="#{msgs.hyperlink_imageTooltip}"/>
+                            <f:verbatim><![CDATA[&nbsp;]]></f:verbatim>             
+                               <webuijsf:staticText text="#{msgs.hyperlink_textlinkBody}" />
+                            </webuijsf:hyperlink>
+                                                      
+                          <!-- ImageHyperlink -->
+                            <br/><br/><br/>
+                            <webuijsf:label labelLevel="1" text="#{msgs.hyperlink_imageHeading}" id="imagelink"/>
+                            <webuijsf:helpInline id="imageHyperHelp" text="#{msgs.hyperlink_imagelinktext}" />
+                            <br/>                        
+                            <webuijsf:imageHyperlink id="imagehyperlink" 
+			    imageURL="/images/version_product_name.png"
+			    url="http://www.sun.com" 
+			    toolTip="#{msgs.masthead_imagehyperlinkToolTip}"
+                            hspace="5" vspace="5"
+			    height="40" width="180"
+                            disabled="#{HyperlinkBean.linkOnoff}" />
+
+                            <br/><br/><br/>                          
+                            <webuijsf:label labelLevel="1" text="#{msgs.hyperlink_pageHeading}" id="pagelabel"/>
+                            <webuijsf:helpInline id="pageHelp" text="#{msgs.hyperlink_textPage}" />
+                            <br/>                       
+                            <webuijsf:hyperlink id="hyperlinkPage" text="#{msgs.hyperlink_textlinkPage}" 
+                                          url="http://www.mozilla.org/" disabled="#{HyperlinkBean.linkOnoff}"
+                                          toolTip="#{msgs.hyperlink_linkPagetoolTip}" />
+
+                           <!--  submit hyperlink -->                   
+                            <br/><br/><br/>                                  
+                            <webuijsf:label labelLevel="1" text="#{msgs.hyperlink_submitHeading}" id="submitlabel"/>
+                            <webuijsf:helpInline id="submitHelp" text="#{msgs.hyperlink_textSubmit}" />
+                            <br/>
+                            <webuijsf:textField id="nameField" label="#{msgs.hyperlink_textlabel}" text="#{HyperlinkBean.userName}" 
+                                          required="true" />
+                            <br/><br/>                            
+                            <webuijsf:hyperlink id="hyperlinkSubmit" text="#{msgs.hyperlink_textlinkSubmit}" 
+                                          actionExpression="#{HyperlinkBean.nextPage}" 
+                                          toolTip="#{msgs.hyperlink_linkSubmittoolTip}"
+                                          disabled="#{HyperlinkBean.linkOnoff}"  />
+                            
+                            <!-- hyperlink with immediate attribute set to true. -->
+                            <br/><br/><br/>
+                            <webuijsf:label labelLevel="1" text="#{msgs.hyperlink_immediateHyperlink}" id="requestlabel"/>
+                            <webuijsf:helpInline id="immediateHelp" text="#{msgs.hyperlink_textImmediate}" />
+                            <br/>                        
+                            <webuijsf:hyperlink  id="hyperlinkImmediate" immediate="true" 
+					   actionListenerExpression="#{HyperlinkBean.immediateAction}"
+                                           actionExpression="#{HyperlinkBean.nextPage}" 
+                                           text="#{msgs.hyperlink_textlinkImmediate}" 
+                                           disabled="#{HyperlinkBean.linkOnoff}"
+                                           toolTip="#{msgs.hyperlink_linkImmediatetoolTip}" >
+                            </webuijsf:hyperlink>
+                          
+                          <!-- hyperlink using f:param -->
+                            <br/><br/><br/>
+                            <webuijsf:label labelLevel="1" text="#{msgs.hyperlink_paramHeading}" id="fparam"/>
+                            <webuijsf:helpInline id="paramHelp" text="#{msgs.hyperlink_paramtext}" />
+                            <br/>
+                            <webuijsf:hyperlink id="paramlink" disabled="#{HyperlinkBean.linkOnoff}"  
+                                          text="#{msgs.hyperlink_paramlinktext}" 
+                                          toolTip="#{msgs.hyperlink_paramlinktooltip}"
+                                          actionExpression="#{HyperlinkBean.nextPage}" >
+                                <f:param name="dateParam" value="#{HyperlinkBean.startDate}"/>          
+                            </webuijsf:hyperlink> 
+                                          
+                            <!-- Anchor tag -->
+                            <br/><br/><br/>
+                            <webuijsf:label labelLevel="1" text="#{msgs.hyperlink_anchorHeading}" id="anchorlabel"/>
+                            <webuijsf:helpInline id="anchorHelp" text="#{msgs.hyperlink_anchortext}" />
+                            <br/>
+                            <webuijsf:hyperlink id="anchorlink" disabled="#{HyperlinkBean.linkOnoff}"  
+                                          text="#{msgs.hyperlink_anchorlinktext}" url="#top" 
+                                          toolTip="#{msgs.hyperlink_anchortoolTip}" />
+                                          
+                          <!-- Disabling enabling hyperlinks -->
+                            <br/><br/><br/>
+                            <webuijsf:panelGroup id="pageButtonsGroupBottom">
+                                
+                                <webuijsf:button id="disable" primary="true" immediate="true" 
+                                           actionListenerExpression="#{HyperlinkBean.onOffbuttonAction}"
+                                           text="#{msgs.hyperlink_disableButton}" disabled="#{HyperlinkBean.disableHyperlink}" />
+                                <webuijsf:button id="enable" primary="true" immediate="true" 
+                                           actionListenerExpression="#{HyperlinkBean.onOffbuttonAction}"
+                                           text="#{msgs.hyperlink_enableButton}" disabled="#{HyperlinkBean.enableHyperlink}" />             
+                            </webuijsf:panelGroup>                       
+                          </webuijsf:markup>
+                                                    
+                                    
+                    </webuijsf:form>
+                </webuijsf:body> 
+            </webuijsf:html>  
+        </webuijsf:page>
+    </f:view>
+</jsp:root>
