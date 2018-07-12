@@ -122,7 +122,9 @@
         <!-- Libraries need to execute the annotation processor -->
         <pathelement location="${lib.annotations}/jsfa-proc.jar"/>
         <pathelement location="${lib.annotations}/velocity-1.4.jar"/>
-        <pathelement location="${lib.annotations}/velocity-dep-1.4.jar"/>
+        <pathelement location="${lib.annotations}/velocity-engine-core-2.0.jar"/>
+        <pathelement location="${lib.annotations}/slf4j-api-1.7.25.jar"/>
+        <pathelement location="${lib.annotations}/commons-lang3-3.5.jar"/>
     </path>
     
     <path id="annotation-classpath">
@@ -201,7 +203,8 @@
     
     <path id="propertyeditors.jars">
         <pathelement location="${lib.creator}/com-sun-rave-propertyeditors.jar"/>
-        <pathelement location="${lib.netbeans}/openide.jar"/>
+        <pathelement location="${lib.netbeans}/org-openide-explorer-RELEASE82.jar"/>
+        <pathelement location="${lib.netbeans}/org-openide-util-RELEASE802.jar"/>
         <pathelement location="${lib.netbeans}/openide-loaders.jar"/>
     </path>
 
