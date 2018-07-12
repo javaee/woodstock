@@ -248,6 +248,10 @@
 	<get src="http://repo1.maven.org/maven2/org/slf4j/slf4j-api/1.7.25/slf4j-api-1.7.25.jar" dest="${lib.annotations}/slf4j-api-1.7.25.jar" usetimestamp="true"/>
 	<get src="http://repo1.maven.org/maven2/org/apache/commons/commons-lang3/3.5/commons-lang3-3.5.jar" 
                                                                         dest="${lib.annotations}/commons-lang3-3.5.jar" usetimestamp="true"/>
+	<get src="http://bits.netbeans.org/maven2/org/netbeans/api/org-openide-util/RELEASE802/org-openide-util-RELEASE802.jar" 
+                                                                        dest="${lib.netbeans}/org-openide-util-RELEASE802.jar" usetimestamp="true"/>
+        <get src="http://bits.netbeans.org/maven2/org/netbeans/api/org-openide-explorer/RELEASE82/org-openide-explorer-RELEASE82.jar" 
+                                                                        dest="${lib.netbeans}/org-openide-explorer-RELEASE82.jar" usetimestamp="true"/>
         <pathconvert property="apt.classpath">
             <path refid="annotation-classpath"/>
         </pathconvert>
@@ -319,10 +323,6 @@
     </target>
 
     <target name="compile-all-designtime" depends="runtime-jars,compile-precopy-designtime">
-	<get src="http://bits.netbeans.org/maven2/org/netbeans/api/org-openide-util/RELEASE802/org-openide-util-RELEASE802.jar" 
-                                                                        dest="${lib.netbeans}/org-openide-util-RELEASE802.jar" usetimestamp="true"/>
-        <get src="http://bits.netbeans.org/maven2/org/netbeans/api/org-openide-explorer/RELEASE82/org-openide-explorer-RELEASE82.jar" 
-                                                                        dest="${lib.netbeans}/org-openide-explorer-RELEASE82.jar" usetimestamp="true"/>
         <javac srcdir="${designtime}:${gen}/beaninfo"
             destdir="${classes}/designtime" deprecation="false"
             debug="${debug}"
