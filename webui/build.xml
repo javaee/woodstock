@@ -122,7 +122,9 @@
         <!-- Libraries need to execute the annotation processor -->
         <pathelement location="${lib.annotations}/jsfa-proc.jar"/>
         <pathelement location="${lib.annotations}/velocity-1.4.jar"/>
-        <pathelement location="${lib.annotations}/velocity-dep-1.4.jar"/>
+        <pathelement location="${lib.annotations}/velocity-engine-core-2.0.jar"/>
+        <pathelement location="${lib.annotations}/slf4j-api-1.7.25.jar"/>
+        <pathelement location="${lib.annotations}/commons-lang3-3.5.jar"/>
     </path>
     
     <path id="annotation-classpath">
@@ -201,7 +203,8 @@
     
     <path id="propertyeditors.jars">
         <pathelement location="${lib.creator}/com-sun-rave-propertyeditors.jar"/>
-        <pathelement location="${lib.netbeans}/openide.jar"/>
+        <pathelement location="${lib.netbeans}/org-openide-explorer-RELEASE82.jar"/>
+        <pathelement location="${lib.netbeans}/org-openide-util-RELEASE802.jar"/>
         <pathelement location="${lib.netbeans}/openide-loaders.jar"/>
     </path>
 
@@ -213,7 +216,6 @@
         <pathelement location="${lib.external}/json.jar"/>
     </path>
 
-    
     <!-- Build targets -->
   
     <target name="process-runtime-annotations">
@@ -241,6 +243,15 @@
     </target>
   
     <target name="process-annotations" unless="annotations-uptodate">
+	<get src="http://central.maven.org/maven2/org/apache/velocity/velocity-engine-core/2.0/velocity-engine-core-2.0.jar" 
+                                                                        dest="${lib.annotations}/velocity-engine-core-2.0.jar" usetimestamp="true"/>
+	<get src="http://central.maven.org/maven2/org/slf4j/slf4j-api/1.7.25/slf4j-api-1.7.25.jar" dest="${lib.annotations}/slf4j-api-1.7.25.jar" usetimestamp="true"/>
+	<get src="http://central.maven.org/maven2/org/apache/commons/commons-lang3/3.5/commons-lang3-3.5.jar" 
+                                                                        dest="${lib.annotations}/commons-lang3-3.5.jar" usetimestamp="true"/>
+	<get src="http://bits.netbeans.org/maven2/org/netbeans/api/org-openide-util/RELEASE802/org-openide-util-RELEASE802.jar" 
+                                                                        dest="${lib.netbeans}/org-openide-util-RELEASE802.jar" usetimestamp="true"/>
+        <get src="http://bits.netbeans.org/maven2/org/netbeans/api/org-openide-explorer/RELEASE82/org-openide-explorer-RELEASE82.jar" 
+                                                                        dest="${lib.netbeans}/org-openide-explorer-RELEASE82.jar" usetimestamp="true"/>
         <pathconvert property="apt.classpath">
             <path refid="annotation-classpath"/>
         </pathconvert>
@@ -269,6 +280,17 @@
     </target>
 
     <target name="compile-all-runtime" depends="compile-precopy-runtime">
+    	<get src="http://central.maven.org/maven2/org/json/json/20090211/json-20090211.jar" dest="${lib.external}/json.jar" usetimestamp="true"/>
+    	<get src="http://central.maven.org/maven2/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar" 
+									dest="${lib.external}/commons-collections.jar" usetimestamp="true"/>
+    	<get src="http://central.maven.org/maven2/commons-logging/commons-logging/1.0.4/commons-logging-1.0.4.jar" 
+									dest="${lib.external}/commons-logging.jar" usetimestamp="true"/>
+    	<get src="http://central.maven.org/maven2/commons-beanutils/commons-beanutils/1.6/commons-beanutils-1.6.jar" 
+                                                                        dest="${lib.external}/commons-beanutils.jar" usetimestamp="true"/>
+    	<get src="http://central.maven.org/maven2/commons-fileupload/commons-fileupload/1.0/commons-fileupload-1.0.jar" 
+                                                                        dest="${lib.external}/commons-fileupload-1.0.jar" usetimestamp="true"/>
+    	<get src="http://central.maven.org/maven2/commons-digester/commons-digester/2.1/commons-digester-2.1.jar" 
+                                                                        dest="${lib.external}/commons-digester.jar" usetimestamp="true"/>
         <javac srcdir="${runtime}:${gen}/taglib" 
             destdir="${classes}/runtime" deprecation="false"
             debug="${debug}"
@@ -301,7 +323,6 @@
     </target>
 
     <target name="compile-all-designtime" depends="runtime-jars,compile-precopy-designtime">
-  
         <javac srcdir="${designtime}:${gen}/beaninfo"
             destdir="${classes}/designtime" deprecation="false"
             debug="${debug}"
