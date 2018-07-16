@@ -4,7 +4,12 @@ Please see:
     http://aseng-wiki.us.oracle.com/asengwiki/display/GlassFish/WoodstockUpdate 
     for detail instruction on how to update and publish woodstock jars.
 
-* To build:  cd master; ant clean; ant;  The jars will be available at master/build/ship/lib directory.
+* To build:  
+	SET the ENV property ANT_OPTS with HTTP Proxy and HTTP Port
+
+	export ANT_OPTS="-Dhttp.proxyHost=<HTTP_PROXY_VALUE> -Dhttp.proxyPort=<HTTP_PORT_VALUE>"
+
+	cd master; ant clean; ant;  The jars will be available at master/build/ship/lib directory.
 
 * BEFORE Running build-bundles to create the webui-jsf-bundle.jar and webui-jsf-suntheme-bundle.jar for pushing using Nexus UI, do the following:
 
