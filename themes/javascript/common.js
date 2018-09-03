@@ -39,20 +39,23 @@
  */
 
 
-dojo.provide("webui.@THEME@.common");
+//dojo.provide("webui.@THEME@.common");
 
-dojo.require("webui.@THEME@.browser");
+//dojo.require("webui.@THEME@.browser");
+
+define(["webui/suntheme/browser", "webui/suntheme/props"], function(browser, props) {
 
 /**
  * Define webui.@THEME@.common name space.
  */
-webui.@THEME@.common = {
+//webui.@THEME@.common = {
+    return {
     // Variables needed when submitting form so timeout will work properly.
     formToSubmit: null,
     submissionComponentId: null,
 
     // Browser properties.
-    browser: new webui.@THEME@.browser(),
+    browser: browser,
 
     // Place holder for body properties instantiated by BodyRenderer.
     body: null,
@@ -185,7 +188,7 @@ webui.@THEME@.common = {
         // Now replace escaped delimiters
         // i.e.  "\," with ","
         for (i = 0; i < selections.length; ++i) {
-            unescapedArray[i] = webui.@THEME@.common.unescapeString(
+            unescapedArray[i] = this.unescapeString(
                 selections[i], delimiter, escapeChar);
         }
         return unescapedArray;
@@ -215,7 +218,7 @@ webui.@THEME@.common = {
         }
 
         // break out style classes into an array  
-        var classes = webui.@THEME@.common.splitStyleClasses(element);
+        var classes = this.splitStyleClasses(element);
         if (classes == null) {
             return false;
         }
@@ -277,7 +280,7 @@ webui.@THEME@.common = {
         }
 
         // break out style classes into an array  
-        var classes = webui.@THEME@.common.splitStyleClasses(element);
+        var classes = this.splitStyleClasses(element);
         if (classes == null) {
             return false;
         }
@@ -341,16 +344,16 @@ webui.@THEME@.common = {
         // "submissionComponentId" is a component id (not client id).
         // the virtual form implementation uses _submissionComponentId
         // to determine which virtual form (if any) was submitted.
-        if (webui.@THEME@.common.formToSubmit == null) {
+        if (this.formToSubmit == null) {
             return false;
         }
-        if (webui.@THEME@.common.submissionComponentId != null 
-                && webui.@THEME@.common.submissionComponentId.length > 0) {
-            webui.@THEME@.common.insertHiddenField('_submissionComponentId', 
-                webui.@THEME@.common.submissionComponentId,
-                webui.@THEME@.common.formToSubmit);
+        if (this.submissionComponentId != null 
+                && this.submissionComponentId.length > 0) {
+            this.insertHiddenField('_submissionComponentId', 
+                this.submissionComponentId,
+                this.formToSubmit);
         }
-        webui.@THEME@.common.formToSubmit.submit();
+        this.formToSubmit.submit();
         return false;
     },
 
@@ -361,9 +364,9 @@ webui.@THEME@.common = {
      * @param submissionComponentId The Id of the component submitting the form.
      */
     timeoutSubmitForm: function(form, submissionComponentId) {
-        webui.@THEME@.common.formToSubmit = form;
-        webui.@THEME@.common.submissionComponentId = submissionComponentId;
-        setTimeout('webui.@THEME@.common.submitForm()', 0);
+        this.formToSubmit = form;
+        this.submissionComponentId = submissionComponentId;
+        setTimeout('common.submitForm()', 0);
     },
 
     /**
@@ -380,7 +383,7 @@ webui.@THEME@.common = {
         // no way of knowing that a virtual form was submitted.
         if (form != null && submissionComponentId != null
                 && submissionComponentId.length > 0) {
-            webui.@THEME@.common.insertHiddenField('_submissionComponentId',
+            this.insertHiddenField('_submissionComponentId',
                 submissionComponentId, form);
         }
     },
@@ -424,14 +427,14 @@ webui.@THEME@.common = {
      * by this name. It always deletes an element of name from parentForm.
      */
     createSubmittableArray: function(name, parentForm, labels, values) {
-        webui.@THEME@.common.deleteSubmittableArray(name, parentForm);
+        this.deleteSubmittableArray(name, parentForm);
 
         if (values == null || values.length <= 0) {
             return;
         }
 
         var selections = document.createElement('select');
-        selections.className = webui.@THEME@.props.hiddenClassName;
+        selections.className = props.hiddenClassName;
         selections.name = name;
         selections.id = name;
         selections.multiple = true;
@@ -469,7 +472,7 @@ webui.@THEME@.common = {
         }
         // Get element.
         var element = document.getElementById(elementId);
-        return webui.@THEME@.common.isVisibleElement(element);
+        return this.isVisibleElement(element);
     },
 
     /**
@@ -484,9 +487,9 @@ webui.@THEME@.common = {
             return false;
         }
         // Test for the hidden style class.
-        var styleClasses = webui.@THEME@.common.splitStyleClasses(element); 
-        return !webui.@THEME@.common.checkStyleClasses(styleClasses,
-            webui.@THEME@.props.hiddenClassName);
+        var styleClasses = this.splitStyleClasses(element); 
+        return !this.checkStyleClasses(styleClasses,
+            props.hiddenClassName);
     },
 
     /**
@@ -502,7 +505,7 @@ webui.@THEME@.common = {
         }
         // Get element.
         var element = document.getElementById(elementId);
-        webui.@THEME@.common.setVisibleElement(element, visible);
+        this.setVisibleElement(element, visible);
     },
 
     /**
@@ -517,13 +520,14 @@ webui.@THEME@.common = {
             return false;
         }
         if (visible) {
-            webui.@THEME@.common.stripStyleClass(element,
-                webui.@THEME@.props.hiddenClassName);
+            this.stripStyleClass(element,
+                props.hiddenClassName);
         } else {
-            webui.@THEME@.common.addStyleClass(element,
-                webui.@THEME@.props.hiddenClassName);
+            thi.addStyleClass(element,
+                props.hiddenClassName);
         }
     }
 }
+});
 
 //-->

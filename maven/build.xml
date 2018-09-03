@@ -188,11 +188,11 @@
 
 		<!-- prototype dependency -->
 		<mkdir dir="${upload.dir}/prototype"/>
-		<copy tofile="${upload.dir}/prototype/prototype.jar" file="${bits.location}/prototype/prototype-1.5.0.jar"/>
+		<copy tofile="${upload.dir}/prototype/prototype.jar" file="${bits.location}/prototype/prototype-1.7.3.jar"/>
 
 		<!-- dojo-ajax dependency -->
 		<mkdir dir="${upload.dir}/dojo-ajax"/>
-		<copy tofile="${upload.dir}/dojo-ajax/dojo-ajax.jar" file="${bits.location}/dojo-ajax/dojo-0.4.1a-jax.jar"/>
+		<copy tofile="${upload.dir}/dojo-ajax/dojo-ajax.jar" file="${bits.location}/dojo-ajax/dojo-1.12.4-ajax.jar"/>
 
 		<!-- portlet dependency -->
 		<mkdir dir="${upload.dir}/portlet"/>
@@ -250,11 +250,11 @@
         
         <!-- prototype dependency -->
         <mkdir dir="${upload.dir}/prototype"/>
-        <copy tofile="${upload.dir}/prototype/prototype.jar" file="../webui/lib/external/prototype-1.5.0.jar"/>
+        <copy tofile="${upload.dir}/prototype/prototype.jar" file="../webui/lib/external/prototype-1.7.3.jar"/>
         
         <!-- dojo-ajax dependency -->
         <mkdir dir="${upload.dir}/dojo-ajax"/>
-        <copy tofile="${upload.dir}/dojo-ajax/dojo-ajax.jar" file="../webui/lib/external/dojo-0.4.1-ajax.jar"/>
+        <copy tofile="${upload.dir}/dojo-ajax/dojo-ajax.jar" file="../webui/lib/external/dojo-1.12.4-ajax.jar"/>
         
         <!-- portlet dependency -->
         <mkdir dir="${upload.dir}/portlet"/>

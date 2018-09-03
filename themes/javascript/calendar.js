@@ -39,15 +39,16 @@
  */
 
 
-dojo.provide("webui.@THEME@.calendar");
+//dojo.provide("webui.@THEME@.calendar");
 
-dojo.require("webui.@THEME@.common");
-dojo.require("webui.@THEME@.formElements");
+//dojo.require("webui.@THEME@.common");
+//dojo.require("webui.@THEME@.formElements");
+define(["webui/suntheme/common", "webui/suntheme/formElements"], function(common, formElements) {
 
 /** 
  * Define webui.@THEME@.calendar name space. 
  */
-webui.@THEME@.calendar = {
+    return {
     /**
      * This function is used to initialize HTML element properties with the
      * following Object literals.
@@ -95,26 +96,26 @@ webui.@THEME@.calendar = {
         domNode.datePickerId = props.datePickerId;
         domNode.dateLinkId = props.datePickerId + ":dateLink";
         domNode.lastRow = document.getElementById(props.rowId);
-        domNode.monthMenu = webui.@THEME@.listbox.getSelectElement(props.monthMenuId);
-        domNode.yearMenu = webui.@THEME@.listbox.getSelectElement(props.yearMenuId);
+        domNode.monthMenu = listbox.getSelectElement(props.monthMenuId);
+        domNode.yearMenu = listbox.getSelectElement(props.yearMenuId);
 
         // Set functions.
-        domNode.toggle = webui.@THEME@.calendar.toggleCalendar;
-        domNode.dayClicked = webui.@THEME@.calendar.dayClicked;
-        domNode.decreaseMonth = webui.@THEME@.calendar.decreaseMonth;
-        domNode.increaseMonth = webui.@THEME@.calendar.increaseMonth;
-        domNode.redrawCalendar = webui.@THEME@.calendar.redrawCalendar;
-        domNode.setCurrentValue = webui.@THEME@.calendar.setCurrentValue;
-        domNode.setDisabled = webui.@THEME@.calendar.setDisabled;
-        domNode.setInitialFocus = webui.@THEME@.calendar.setInitialFocus;
-        domNode.formatDate = webui.@THEME@.calendar.formatDate;
-        domNode.ieStackingContextFix = webui.@THEME@.calendar.ieStackingContextFix;
-        domNode.ieGetShim = webui.@THEME@.calendar.ieGetShim;
-        domNode.ieShowShim = webui.@THEME@.calendar.ieShowShim;
-        domNode.ieHideShim = webui.@THEME@.calendar.ieHideShim;
-        domNode.setSelectedValue = webui.@THEME@.calendar.setSelectedValue;
-        domNode.setLimitedSelectedValue = webui.@THEME@.calendar.setLimitedSelectedValue;
-        domNode.redrawPopup = webui.@THEME@.calendar.redrawPopup;
+        domNode.toggle = this.toggleCalendar;
+        domNode.dayClicked = this.dayClicked;
+        domNode.decreaseMonth = this.decreaseMonth;
+        domNode.increaseMonth = this.increaseMonth;
+        domNode.redrawCalendar = this.redrawCalendar;
+        domNode.setCurrentValue = this.setCurrentValue;
+        domNode.setDisabled = this.setDisabled;
+        domNode.setInitialFocus = this.setInitialFocus;
+        domNode.formatDate = this.formatDate;
+        domNode.ieStackingContextFix = this.ieStackingContextFix;
+        domNode.ieGetShim = this.ieGetShim;
+        domNode.ieShowShim = this.ieShowShim;
+        domNode.ieHideShim = this.ieHideShim;
+        domNode.setSelectedValue = this.setSelectedValue;
+        domNode.setLimitedSelectedValue = this.setLimitedSelectedValue;
+        domNode.redrawPopup = this.redrawPopup;
     },
 
     /* This function is used by the day links in the calendar display to
@@ -532,7 +533,7 @@ webui.@THEME@.calendar = {
     },
 
     setDisabled: function(disabled) {
-        webui.@THEME@.field.setDisabled(this.field.id, disabled);
+        field.setDisabled(this.field.id, disabled);
         var span = this.calendarToggle.parentNode;
         if(disabled) {
             span.style.display = "none";
@@ -540,9 +541,9 @@ webui.@THEME@.calendar = {
             span.style.display = "block";
         }
         if(disabled) {
-            webui.@THEME@.common.addStyleClass(this.pattern, this.hiddenClass);
+            common.addStyleClass(this.pattern, this.hiddenClass);
         } else {
-            webui.@THEME@.common.stripStyleClass(this.pattern, this.hiddenClass);
+            common.stripStyleClass(this.pattern, this.hiddenClass);
         }
     },
 
@@ -707,6 +708,7 @@ webui.@THEME@.calendar = {
     }
 
 //    </RAVE>
-}
+};
+});
 
 //-->

@@ -39,12 +39,13 @@
  */
 
 
-dojo.provide("webui.@THEME@.editableList");
+//dojo.provide("webui.@THEME@.editableList");
+define( function() {
 
 /** 
  * Define webui.@THEME@.editableList name space. 
  */ 
-webui.@THEME@.editableList = {
+    return {
     /**
      * This function is used to initialize HTML element properties with the
      * following Object literals.
@@ -77,7 +78,7 @@ webui.@THEME@.editableList = {
 	// of the rendered field component
 	//
 	domNode.list = 
-	    webui.@THEME@.listbox.getSelectElement(props.id + "_list");
+	    listbox.getSelectElement(props.id + "_list");
 		
 
         // Bug 6338492 -
@@ -115,18 +116,18 @@ webui.@THEME@.editableList = {
 	// of the rendered field component
 	//
         domNode.field =
-	    webui.@THEME@.field.getInputElement(facetid /* + "_field"*/);
+	    field.getInputElement(facetid /* + "_field"*/);
         domNode.addButton = document.getElementById(facetid + "_addButton"); 
         domNode.removeButton = document.getElementById(facetid + "_removeButton"); 
     
         // attach methods
-        domNode.add = webui.@THEME@.editableList.add;
-        domNode.enableAdd = webui.@THEME@.editableList.enableAdd;
-        domNode.enableRemove = webui.@THEME@.editableList.enableRemove;
-        domNode.setAddDisabled = webui.@THEME@.editableList.setAddDisabled;
-        domNode.setRemoveDisabled = webui.@THEME@.editableList.setRemoveDisabled; 
-        domNode.updateButtons = webui.@THEME@.editableList.updateButtons;
-        domNode.setDisabled = webui.@THEME@.editableList.setDisabled;
+        domNode.add = this.add;
+        domNode.enableAdd = this.enableAdd;
+        domNode.enableRemove = this.enableRemove;
+        domNode.setAddDisabled = this.setAddDisabled;
+        domNode.setRemoveDisabled = this.setRemoveDisabled; 
+        domNode.updateButtons = this.updateButtons;
+        domNode.setDisabled = this.setDisabled;
     },
 
     add: function(elementId) {
@@ -180,5 +181,6 @@ webui.@THEME@.editableList = {
         this.list.disabled = disabled; 
     }
 }
+});
 
 //-->

@@ -976,10 +976,13 @@ public class FileChooserRenderer extends AbstractRenderer {
             json.put("id", id).put("chooserType", chooserType).put("parentFolder", parentDir).put("separatorChar", sep).put("escapeChar", esc).put("delimiter", chooser.getDelimiterChar()).put("currentFolder", currentFolder);
 
             // Append JavaScript.
-            buff.append(JavaScriptUtilities.getModule("fileChooser")).append("\n") // NOI18N
-                    .append(JavaScriptUtilities.getModuleName("fileChooser.init")) // NOI18N
+//            buff.append(JavaScriptUtilities.getModule("fileChooser")).append("\n") // NOI18N
+            buff.append("require(['").append(JavaScriptUtilities.getModuleName("fileChooser")).append("'], function (fileChooser) {").append("\n") // NOI18N
+//                    .append(JavaScriptUtilities.getModuleName("fileChooser.init")) // NOI18N
+                    .append("fileChooser.init")
                     .append("(") //NOI18N
                     .append(json.toString(JavaScriptUtilities.INDENT_FACTOR)).append(");"); //NOI18N
+            buff.append("});");
 
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(chooser, writer,

@@ -39,12 +39,13 @@
  */
 
 
-dojo.provide("webui.@THEME@.props");
+//dojo.provide("webui.@THEME@.props");
+define( function() {
 
 /**
  * This closure is used to provide theme properties.
  */
-webui.@THEME@.props = {
+    return {
     // Common properties.
     hiddenClassName: "hidden@THEME_CSS@", // Use webui.@THEME@.common.setVisibleElement
 
@@ -116,5 +117,6 @@ webui.@THEME@.props = {
         treeRowClass: "TreeRow@THEME_CSS@"
     }
 }
+});
 
 //-->

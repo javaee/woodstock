@@ -39,12 +39,15 @@
  */
 
 
-dojo.provide("webui.@THEME@.addRemove");
+//dojo.provide("webui.@THEME@.addRemove");
+
+define( function() {
 
 /**
  * Define webui.@THEME@.addRemove name space.
  */
-webui.@THEME@.addRemove = {
+//webui.@THEME@.addRemove = {
+    return {
     /**
      * This function is used to initialize HTML element properties with the
      * following Object literals.
@@ -135,19 +138,19 @@ webui.@THEME@.addRemove = {
         }
 
         // attach AddRemove object methods
-        domNode.add = webui.@THEME@.addRemove.add;
-        domNode.addAll = webui.@THEME@.addRemove.addAll;
-        domNode.remove = webui.@THEME@.addRemove.remove;
-        domNode.removeAll = webui.@THEME@.addRemove.removeAll;
-        domNode.moveUp = webui.@THEME@.addRemove.moveUp;
-        domNode.moveDown = webui.@THEME@.addRemove.moveDown;
-        domNode.updateButtons = webui.@THEME@.addRemove.updateButtons;
-        domNode.calculateIndex = webui.@THEME@.addRemove.calculateIndex;
-        domNode.moveOption = webui.@THEME@.addRemove.moveOption;
-        domNode.updateValue = webui.@THEME@.addRemove.updateValue;
-        domNode.allowMultipleAdditions = webui.@THEME@.addRemove.allowMultipleAdditions;
-        domNode.availableOnChange = webui.@THEME@.addRemove.availableOnChange;
-        domNode.selectedOnChange = webui.@THEME@.addRemove.selectedOnChange;
+        domNode.add = this.add;
+        domNode.addAll = this.addAll;
+        domNode.remove = this.remove;
+        domNode.removeAll = this.removeAll;
+        domNode.moveUp = this.moveUp;
+        domNode.moveDown = this.moveDown;
+        domNode.updateButtons = this.updateButtons;
+        domNode.calculateIndex = this.calculateIndex;
+        domNode.moveOption = this.moveOption;
+        domNode.updateValue = this.updateValue;
+        domNode.allowMultipleAdditions = this.allowMultipleAdditions;
+        domNode.availableOnChange = this.availableOnChange;
+        domNode.selectedOnChange = this.selectedOnChange;
     },
 
     add: function() {
@@ -581,8 +584,8 @@ webui.@THEME@.addRemove = {
     allowMultipleAdditions: function() {
         // Replace the add and remove functions with functions which
         // leave the available items as they are
-        this.add = webui.@THEME@.addRemove.multipleAdd;
-        this.remove = webui.@THEME@.addRemove.multipleRemove;
+        this.add = this.multipleAdd;
+        this.remove = this.multipleRemove;
     },
 
     multipleAdd: function() {
@@ -694,6 +697,7 @@ webui.@THEME@.addRemove = {
         this.updateButtons();
         return false;
     }
-}
+};
+});
 
 //-->

@@ -39,12 +39,13 @@
  */
 
 
-dojo.provide("webui.@THEME@.cookie");
+//dojo.provide("webui.@THEME@.cookie");
+define( function() {
 
 /**
  * The functions of this closure are used to manipulate cookies.
  */
-webui.@THEME@.cookie = {
+    return cookie = {
     badCookieChars: ["(", ")", "<", ">", "@", ",", ";", ":", "\\", "\"", "/", "[", "]", "?", "=", "{", "}", " ", "\t"],
 
     /**
@@ -147,7 +148,8 @@ webui.@THEME@.cookie = {
  * This function is used to construct a javascript object for
  * maintaining scroll position via cookie.
  */
-webui.@THEME@.scrollCookie = function(viewId, path) {    
+    
+    return scrollCookie = function(viewId, path) {    
     // All predefined properties of this object begin with '$' because
     // we don't want to store these values in the cookie.
     this.$cookieName = viewId;
@@ -188,6 +190,8 @@ webui.@THEME@.scrollCookie = function(viewId, path) {
 }
 
 // Inherit cookie properties.
-webui.@THEME@.scrollCookie.prototype = webui.@THEME@.cookie;
+    scrollCookie.prototype = this.cookie;
+
+});
 
 //-->

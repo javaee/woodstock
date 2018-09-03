@@ -244,11 +244,14 @@ public class OrderableListRenderer extends ListRendererBase {
             json.put("id", component.getClientId(context)).put("moveMessage", styles[14]);
 
             // Append JavaScript.
-            buff.append(JavaScriptUtilities.getModule("orderableList")).append("\n") // NOI18N
-                    .append(JavaScriptUtilities.getModuleName("orderableList.init")) // NOI18N
+//            buff.append(JavaScriptUtilities.getModule("orderableList")).append("\n") // NOI18N
+            buff.append("require(['").append(JavaScriptUtilities.getModuleName("orderableList")).append("'], function (orderableList) {").append("\n") // NOI18N
+//                    .append(JavaScriptUtilities.getModuleName("orderableList.init")) // NOI18N
+                    .append("orderableList.init") // NOI18N
                     .append("(") //NOI18N
                     .append(json.toString(JavaScriptUtilities.INDENT_FACTOR)).append(");\n") //NOI18N
                     .append(JavaScriptUtilities.getDomNode(context, component)).append(OrderableList.UPDATEBUTTONS_FUNCTION);
+            buff.append("});");
 
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(component, writer,

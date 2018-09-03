@@ -57,14 +57,15 @@
 //   </ui:wizard>
 //
 
-dojo.provide("webui.@THEME@.wizard");
+//dojo.provide("webui.@THEME@.wizard");
 
-dojo.require("webui.@THEME@.common");
+//dojo.require("webui.@THEME@.common");
+define(["webui/suntheme/common"], function() {
 
 /** 
  * Define webui.@THEME@.wizard name space. 
  */ 
-webui.@THEME@.wizard = {
+    return {
     /**
      * This function is used to initialize HTML element properties with the
      * following Object literals.
@@ -90,16 +91,16 @@ webui.@THEME@.wizard = {
         Object.extend(domNode, props);
 
         // Set functions.
-        domNode.nextClicked = webui.@THEME@.wizard.nextClicked;
-        domNode.previousClicked = webui.@THEME@.wizard.previousClicked;
-        domNode.cancelClicked = webui.@THEME@.wizard.cancelClicked;
-        domNode.finishClicked = webui.@THEME@.wizard.finishClicked;
-        domNode.closeClicked = webui.@THEME@.wizard.closeClicked;
-        domNode.gotoStepClicked = webui.@THEME@.wizard.gotoStepClicked;
-        domNode.closePopup = webui.@THEME@.wizard.closePopup;
-        domNode.closeAndForward = webui.@THEME@.wizard.closeAndForward;
-        domNode.wizOnLoad = webui.@THEME@.wizard.wizOnLoad;
-        domNode.resize_hack = webui.@THEME@.wizard.resize_hack;
+        domNode.nextClicked = this.nextClicked;
+        domNode.previousClicked = this.previousClicked;
+        domNode.cancelClicked = this.cancelClicked;
+        domNode.finishClicked = this.finishClicked;
+        domNode.closeClicked = this.closeClicked;
+        domNode.gotoStepClicked = this.gotoStepClicked;
+        domNode.closePopup = this.closePopup;
+        domNode.closeAndForward = this.closeAndForward;
+        domNode.wizOnLoad = this.wizOnLoad;
+        domNode.resize_hack = this.resize_hack;
     },
 
     nextClicked: function() {
@@ -200,7 +201,7 @@ webui.@THEME@.wizard = {
     // used only for popup window and IE, and called by wizOnLoad.
     //
     resize_hack: function(helpid, stepsid, wizbdyid) {
-        if (webui.@THEME@.common.browser.is_ie5up) {
+        if (common.browser.is_ie5up) {
             var bdy = document.getElementById(wizbdyid);
 
             if (bdy != null) {
@@ -222,5 +223,5 @@ webui.@THEME@.wizard = {
         }
     }
 }
-
+});
 //-->

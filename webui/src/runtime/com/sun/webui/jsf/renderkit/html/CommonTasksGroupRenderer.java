@@ -170,11 +170,12 @@ public class CommonTasksGroupRenderer extends AbstractRenderer {
         try {
             JSONObject json = getJSONProperties(context, theme, component);
 
-            buff.append(JavaScriptUtilities.getModule("commonTasksSection")).append("\n") // NOI18N
-                    .append(JavaScriptUtilities.getModuleName(
-                    "commonTasksSection.init(")) // NOI18N
+            buff.append("require(['").append(JavaScriptUtilities.getModuleName("commonTasksSection")).append("'], function (commonTasksSection) {").append("\n") // NOI18N
+//                    .append(JavaScriptUtilities.getModuleName("commonTasksSection.init(")) // NOI18N
+                    .append("commonTasksSection.init(")
                     .append(json.toString(JavaScriptUtilities.INDENT_FACTOR)).append(");\n"); //NOI18N
-
+            buff.append("});");
+            
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(component, writer,
                     buff.toString());

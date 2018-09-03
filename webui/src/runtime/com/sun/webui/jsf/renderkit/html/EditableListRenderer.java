@@ -474,11 +474,14 @@ public class EditableListRenderer extends ListRendererBase {
             json.put("id", component.getClientId(context));
 
             // Append JavaScript.
-            buff.append(JavaScriptUtilities.getModule("editableList")).append("\n") // NOI18N
-                    .append(JavaScriptUtilities.getModuleName("editableList.init")) // NOI18N
+//            buff.append(JavaScriptUtilities.getModule("editableList")).append("\n") // NOI18N
+            buff.append("require(['").append(JavaScriptUtilities.getModuleName("editableList")).append("'], function (editableList) {").append("\n") // NOI18N
+//                    .append(JavaScriptUtilities.getModuleName("editableList.init")) // NOI18N
+                    .append("editableList.init") // NOI18N
                     .append("(") //NOI18N
                     .append(json.toString(JavaScriptUtilities.INDENT_FACTOR)).append(");\n") //NOI18N
                     .append(JavaScriptUtilities.getDomNode(context, component)).append(EditableList.UPDATE_BUTTONS_FUNCTION);
+            buff.append("});");
 
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(component, writer,

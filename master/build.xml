@@ -126,7 +126,7 @@
              <property name="buildnumber" value="${buildnumber}"/> 
         </ant> 
 
-	<!-- jsp -->
+	
 	<copy todir="${releasejsp}/help" >
 	    <fileset dir="${webui.component.jsp}/help">
                 <include name="**" />
@@ -195,8 +195,8 @@
 	<include name="lib/dataprovider.jar"/>
 	<include name="lib/${suntheme.jar}"/>
 	<include name="lib/json.jar"/>
-	<include name="lib/dojo-0.4.1-ajax.jar"/>
-	<include name="lib/prototype-1.5.0.jar"/>
+	<include name="lib/dojo-1.12.4-ajax.jar"/>
+	<include name="lib/prototype-1.7.3.jar"/>
     </patternset>
 
     <patternset id="com-sun-webui-jsf">

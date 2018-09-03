@@ -436,15 +436,19 @@ public class WizardRenderer extends AbstractRenderer {
                     javax.faces.render.ResponseStateManager.VIEW_STATE_PARAM);
 
             // Append JavaScript.
-            buff.append(JavaScriptUtilities.getModule("wizard")).append("\n") // NOI18N
-                    .append(JavaScriptUtilities.getModuleName("wizard.init")) // NOI18N
+//            buff.append(JavaScriptUtilities.getModule("wizard")).append("\n") // NOI18N
+            buff.append("require(['").append(JavaScriptUtilities.getModuleName("wizard")).append("'], function (wizard) {").append("\n") // NOI18N
+//                    .append(JavaScriptUtilities.getModuleName("wizard.init")) // NOI18N
+                    .append("wizard.init") // NOI18N
                     .append("(") //NOI18N
                     .append(json.toString(JavaScriptUtilities.INDENT_FACTOR)).append(");"); //NOI18N
-
+            
             // Render JavaScript to close wizard after init function is called.
             if (((Wizard) component).isComplete()) {
                 buff.append(getWizardCloseJavaScript(context, component));
             }
+            
+            buff.append("});");
 
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(component, writer,

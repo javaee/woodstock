@@ -235,16 +235,19 @@ public class TreeRenderer extends TreeNodeRenderer {
 
             // Append JavaScript.
             String jsObject = JavaScriptUtilities.getDomNode(context, node);
-            buff.append(JavaScriptUtilities.getModule("tree")).append("\n") // NOI18N
-                    .append(JavaScriptUtilities.getModuleName("tree.init")) // NOI18N
+//            buff.append(JavaScriptUtilities.getModule("tree")).append("\n") // NOI18N
+            buff.append("require(['").append(JavaScriptUtilities.getModuleName("tree")).append("'], function (tree) {").append("\n") // NOI18N
+//                    .append(JavaScriptUtilities.getModuleName("tree.init")) // NOI18N
+                    .append("tree.init") // NOI18N
                     .append("(") //NOI18N
                     .append(json.toString(JavaScriptUtilities.INDENT_FACTOR)).append(");\n"); //NOI18N
 
             if (nodeID != null) {
-                buff.append(jsObject).append(".selectTreeNode('").append(nodeID).append("');");
+                buff.append("tree").append(".selectTreeNode('").append(nodeID).append("');");
             } else {
-                buff.append(jsObject).append(".updateHighlight('").append(clientID).append("');");
+                buff.append("tree").append(".updateHighlight('").append(clientID).append("');");
             }
+            buff.append("});");
 
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(component, writer,
