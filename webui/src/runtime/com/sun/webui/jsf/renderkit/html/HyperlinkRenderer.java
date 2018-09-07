@@ -272,8 +272,8 @@ public class HyperlinkRenderer extends AbstractRenderer {
                         }
                     }
                     
-//                    buff.append("return admingui.woodstock.hyperLinkSubmit(this, '") //NOI18N
-                    buff.append("return hyperlinkfunc(this, '") //NOI18N
+                    buff.append("return admingui.woodstock.hyperLinkSubmit(this, '") //NOI18N
+//                    buff.append("return hyperlinkfunc(this, '") //NOI18N
                             .append(formClientId).append("', "); //NOI18N
 
                     boolean didOnce = false;

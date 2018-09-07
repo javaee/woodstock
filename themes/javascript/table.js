@@ -54,7 +54,7 @@
 
 //dojo.require("webui.@THEME@.common");
 //dojo.require("webui.@THEME@.formElements");
-define(["webui/suntheme/common", "webui/suntheme/formElements"], function() {
+define(["webui/suntheme/common"], function(common) {
 
 /**
  * Define webui.@THEME@.table name space.
@@ -393,14 +393,14 @@ define(["webui/suntheme/common", "webui/suntheme/formElements"], function() {
         domNode.TERTIARY  = 2;
 
         // Replace extra backslashes, JSON escapes new lines (e.g., \\n).
-	domNode.hiddenSelectionsMsg = props.hiddenSelectionsMsg.replace(/\\n/g, "\n");
-        domNode.totalSelectionsMsg = props.totalSelectionsMsg.replace(/\\n/g, "\n");
-	domNode.missingSelectionMsg = props.missingSelectionMsg.replace(/\\n/g, "\n");
-	domNode.duplicateSelectionMsg = props.duplicateSelectionMsg.replace(/\\n/g, "\n");
-        domNode.deleteSelectionsMsg = props.deleteSelectionsMsg.replace(/\\n/g, "\n");
+	domNode.hiddenSelectionsMsg = props.hiddenSelectionsMsg != null ? props.hiddenSelectionsMsg.replace(/\\n/g, "\n") : null;
+        domNode.totalSelectionsMsg = props.hiddenSelectionsMsg != null ? props.totalSelectionsMsg.replace(/\\n/g, "\n") : null;
+	domNode.missingSelectionMsg = props.hiddenSelectionsMsg != null ? props.missingSelectionMsg.replace(/\\n/g, "\n") : null;
+	domNode.duplicateSelectionMsg = props.hiddenSelectionsMsg != null ?  props.duplicateSelectionMsg.replace(/\\n/g, "\n") : null;
+        domNode.deleteSelectionsMsg = props.hiddenSelectionsMsg != null ?  props.deleteSelectionsMsg.replace(/\\n/g, "\n") : null;
 
         // Private functions.
-        domNode.initSortOrderMenu = table.initSortOrderMenu;
+        domNode.initSortOrderMenu = this.initSortOrderMenu;
         domNode.initSortOrderMenuToolTip = this.initSortOrderMenuToolTip;
         domNode.resetFilterMenu = this.resetFilterMenu;
         domNode.togglePanel = this.togglePanel;

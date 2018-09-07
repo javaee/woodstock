@@ -269,14 +269,14 @@ public class ButtonRenderer extends AbstractRenderer {
             e.printStackTrace();
         }
 
-        StringBuffer buff1 = new StringBuffer(200);
-        buff1.append("function hyperlinkfunc(hyplnk1, formClientId, params) { \n")
-                .append("require(['webui/suntheme/hyperlink'], function(hyperlink) { \n")
-                .append("hyperlink.submit(hyplnk1, formClientId, params); \n")
-                .append("return false; \n")
-                .append("});")
-                .append("}");
-        JavaScriptUtilities.renderJavaScript(component, writer, buff1.toString());
+//        StringBuffer buff1 = new StringBuffer(200);
+//        buff1.append("function hyperlinkfunc(hyplnk1, formClientId, params) { \n")
+//                .append("require(['webui/suntheme/hyperlink'], function(hyperlink) { \n")
+//                .append("hyperlink.submit(hyplnk1, formClientId, params); \n")
+//                .append("return false; \n")
+//                .append("});")
+//                .append("}");
+//        JavaScriptUtilities.renderJavaScript(component, writer, buff1.toString());
     }
 
     /**
