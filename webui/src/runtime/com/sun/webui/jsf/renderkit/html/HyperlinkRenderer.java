@@ -206,7 +206,7 @@ public class HyperlinkRenderer extends AbstractRenderer {
     protected void renderLink(FacesContext context, UIComponent component,
             ResponseWriter writer) throws IOException {
         Hyperlink link = (Hyperlink) component;
-
+        
         if (!link.isDisabled()) {
             // Start the appropriate element
             writer.startElement("a", link); //NOI18N
@@ -264,7 +264,6 @@ public class HyperlinkRenderer extends AbstractRenderer {
                 UIComponent form = Util.getForm(context, component);
                 if (form != null) {
                     String formClientId = form.getClientId(context);
-
                     StringBuffer buff = new StringBuffer(200);
                     if (onclick != null) {
                         buff.append(onclick);
@@ -272,10 +271,9 @@ public class HyperlinkRenderer extends AbstractRenderer {
                             buff.append(";"); //NOI18N
                         }
                     }
-                    buff.append("return ") //NOI18N
-                            .append(JavaScriptUtilities.getModuleName(
-                            "hyperlink.submit")) //NOI18N
-                            .append("(this, '") //NOI18N
+                    
+                    buff.append("return admingui.woodstock.hyperLinkSubmit(this, '") //NOI18N
+//                    buff.append("return hyperlinkfunc(this, '") //NOI18N
                             .append(formClientId).append("', "); //NOI18N
 
                     boolean didOnce = false;
@@ -314,7 +312,7 @@ public class HyperlinkRenderer extends AbstractRenderer {
                     } else {
                         buff.append(")");
                     }
-
+                    
                     buff.append(");");
                     writer.writeAttribute("onclick", buff.toString(), null);
                     writer.writeAttribute("href", "#", null); //NOI18N

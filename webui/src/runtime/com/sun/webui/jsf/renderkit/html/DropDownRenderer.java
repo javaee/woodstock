@@ -153,7 +153,8 @@ public class DropDownRenderer extends ListRendererBase {
         Theme theme = ThemeUtilities.getTheme(context);
         String[] styles = new String[10];
         styles[0] = getOnChangeJavaScript(component,
-                JavaScriptUtilities.getModuleName("jumpDropDown.changed"), //NOI18N
+//                JavaScriptUtilities.getModuleName("jumpDropDown.changed"), //NOI18N
+                "admingui.woodstock.dropDownChanged", //NOI18N
                 context);
         styles[1] = theme.getStyleClass(ThemeStyles.MENU_JUMP);
         styles[2] = ""; // jumpMENU can't be disabled

@@ -39,14 +39,15 @@
  */
 
 
-dojo.provide("webui.@THEME@.scheduler");
+//dojo.provide("webui.@THEME@.scheduler");
 
-dojo.require("webui.@THEME@.formElements");
+//dojo.require("webui.@THEME@.formElements");
+define(["webui/suntheme/formElements"], function(formElements) {
 
 /** 
  * Define webui.@THEME@.scheduler name space. 
  */ 
-webui.@THEME@.scheduler = {
+    return {
     /**
      * This function is used to initialize HTML element properties with the
      * following Object literals.
@@ -81,13 +82,13 @@ webui.@THEME@.scheduler = {
         domNode.dateLinkId = props.datePickerId + ":dateLink"; 
 
         // Set functions.
-        domNode.setSelected = webui.@THEME@.scheduler.setSelected;
-        domNode.setDateValue = webui.@THEME@.scheduler.setDateValue; 
-        domNode.isToday = webui.@THEME@.scheduler.isToday;	
+        domNode.setSelected = this.setSelected;
+        domNode.setDateValue = this.setDateValue; 
+        domNode.isToday = this.isToday;	
     },
 
     setDateValue: function(value, link) {
-        webui.@THEME@.field.setValue(this.dateFieldId, value); 
+        thisfield.setValue(this.dateFieldId, value); 
         this.setSelected(link);	
     },
 
@@ -147,5 +148,5 @@ webui.@THEME@.scheduler = {
         return false;
     }
 }
-
+});
 //-->

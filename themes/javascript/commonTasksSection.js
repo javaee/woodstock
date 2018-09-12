@@ -39,14 +39,16 @@
  */
 
 
-dojo.provide("webui.@THEME@.commonTasksSection");
+define([ "webui/suntheme/common" ], function(common) {
+    
+    return {
 
-dojo.require("webui.@THEME@.common");
+//dojo.require("webui.@THEME@.common");
 
 /** 
  * Define webui.@THEME@.commonTasksSection name space. 
  */
-webui.@THEME@.commonTasksSection = {
+//webui.@THEME@.commonTasksSection = {
     /**
      * This function is used to initialize HTML element properties with the
      * following Object literals.
@@ -75,10 +77,10 @@ webui.@THEME@.commonTasksSection = {
         Object.extend(domNode, props);
 
         // Set functions.
-        domNode.hideAll = webui.@THEME@.commonTasksSection.hideAll;
-        domNode.addCommonTask = webui.@THEME@.commonTasksSection.addCommonTask;
-        domNode.addInfoPanel = webui.@THEME@.commonTasksSection.addInfoPanel;
-        domNode.windowResize = webui.@THEME@.commonTasksSection.windowResize;
+        domNode.hideAll = this.hideAll;
+        domNode.addCommonTask = this.addCommonTask;
+        domNode.addInfoPanel = this.addInfoPanel;
+        domNode.windowResize = this.windowResize;
         domNode.onclick = domNode.hideAll;
 
         // Set task element array.
@@ -96,11 +98,11 @@ webui.@THEME@.commonTasksSection = {
         for (var i = 0; i < this.count; i++) {
             task = this.taskElement[i];
             if (task.infoPanel) {
-               webui.@THEME@.common.setVisibleElement(task.infoPanel.info, false);
+               common.setVisibleElement(task.infoPanel.info, false);
                task.infoPanel.image.src = this.pic3URL;
             }
         }
-        if (webui.@THEME@.common.browser.is_ie5up) {
+        if (common.browser.is_ie5up) {
             window. event.cancelBubble = true;
         } else {
             event.stopPropagation();
@@ -111,7 +113,7 @@ webui.@THEME@.commonTasksSection = {
         for (var i = 0; i < this.count; i++) {
             task = this.taskElement[i];
             if (task.infoPanel) {
-               webui.@THEME@.common.setVisibleElement(task.infoPanel.info, false);
+               common.setVisibleElement(task.infoPanel.info, false);
                task.infoPanel.image.src = this.pic3URL;
             }
         }
@@ -162,9 +164,9 @@ webui.@THEME@.commonTasksSection = {
          *Events which handle the closing of the div.
          */
         this.close.onclick = function(event) {     
-           webui.@THEME@.common.setVisibleElement(that.info, false);
+           common.setVisibleElement(that.info, false);
             that.image.src = that.parent.pic3URL;	
-            if (webui.@THEME@.common.browser.is_ie5up) {
+            if (common.browser.is_ie5up) {
                 window. event.cancelBubble = true;
             } else {
                 event.stopPropagation();
@@ -172,8 +174,8 @@ webui.@THEME@.commonTasksSection = {
         }
 
         this.info.onclick = function(event) {
-            webui.@THEME@.common.setVisibleElement(that.info, true);
-             if (webui.@THEME@.common.browser.is_ie5up) {
+            common.setVisibleElement(that.info, true);
+             if (common.browser.is_ie5up) {
                  window. event.cancelBubble = true;
             } else {
                     event.stopPropagation();
@@ -184,7 +186,7 @@ webui.@THEME@.commonTasksSection = {
          * Events which handle the image changes for the "i" image.
          */
         this.imageLink.onmouseover = function() {
-              if (!webui.@THEME@.common.isVisibleElement(that.info)) {
+              if (!common.isVisibleElement(that.info)) {
                 that.image.src = that.parent.pic2URL;
             } else {
                 that.image.src = that.parent.pic1URL;
@@ -192,7 +194,7 @@ webui.@THEME@.commonTasksSection = {
         }
 
         this.imageLink.onfocus = function() {
-              if (!webui.@THEME@.common.isVisibleElement(that.info)) {
+              if (!common.isVisibleElement(that.info)) {
                 that.image.src = that.parent.pic2URL;
             } else {
                 that.image.src = that.parent.pic1URL;
@@ -200,7 +202,7 @@ webui.@THEME@.commonTasksSection = {
         }
 
         this.imageLink.onblur = function() {
-              if (!webui.@THEME@.common.isVisibleElement(that.info)) {
+              if (!common.isVisibleElement(that.info)) {
                 that.image.src = that.parent.pic3URL;
             } else {
                 that.image.src = that.parent.pic1URL;
@@ -208,7 +210,7 @@ webui.@THEME@.commonTasksSection = {
         }
 
         this.imageLink.onmouseout = function() {
-              if (!webui.@THEME@.common.isVisibleElement(that.info)) {
+              if (!common.isVisibleElement(that.info)) {
                 that.image.src = that.parent.pic3URL;
             } else {
                 that.image.src = that.parent.pic1URL;
@@ -220,7 +222,7 @@ webui.@THEME@.commonTasksSection = {
          */
         this.image.onclick = function(event) {
             that.showInfoPanel();
-            if (webui.@THEME@.common.browser.is_ie5up) {
+            if (common.browser.is_ie5up) {
                 window. event.cancelBubble = true;
             } else {
                 event.stopPropagation();
@@ -231,7 +233,7 @@ webui.@THEME@.commonTasksSection = {
             if(event.keyCode == 13) {
                 that.showInfoPanel();
             }
-                if (webui.@THEME@.common.browser.is_ie5up) {
+                if (common.browser.is_ie5up) {
                      window.event.cancelBubble = true;
                 } else {
                      event.stopPropagation();
@@ -244,13 +246,13 @@ webui.@THEME@.commonTasksSection = {
                 task = cts.taskElement[i];
                 if (task.infoPanel != null
                         && task.infoPanel.image.id != this.image.id) {
-                    webui.@THEME@.common.setVisibleElement(task.infoPanel.info, false);
+                    common.setVisibleElement(task.infoPanel.info, false);
                     task.infoPanel.image.src = cts.pic3URL;
                 }
             }
  
-              if (!webui.@THEME@.common.isVisibleElement(this.info)) {
-                webui.@THEME@.common.setVisibleElement(this.info, true);
+              if (!common.isVisibleElement(this.info)) {
+                common.setVisibleElement(this.info, true);
                 this.getElementPosition2(this.image.id);
                 this.getElementPosition(this.spacer);        
                     this.info.style.top = (this.ttop + 12) +'px';
@@ -260,7 +262,7 @@ webui.@THEME@.commonTasksSection = {
                 this.image.src = cts.pic1URL;
             } else {
                 this.image.src = cts.pic3URL;
-                webui.@THEME@.common.setVisibleElement(this.info, false);
+                common.setVisibleElement(this.info, false);
             }
         }  
 
@@ -305,6 +307,7 @@ webui.@THEME@.commonTasksSection = {
             this.ileft=offsetLeft;
         }
     }
-}
+    };
+});
 
 //-->

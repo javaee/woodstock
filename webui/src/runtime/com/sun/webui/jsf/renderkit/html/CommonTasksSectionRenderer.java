@@ -212,11 +212,10 @@ public class CommonTasksSectionRenderer extends AbstractRenderer {
                     ThemeImages.CTS_RIGHT_TOGGLE));
 
             StringBuffer buff = new StringBuffer();
-            buff.append(JavaScriptUtilities.getModule("commonTasksSection")).append("\n") // NOI18N
-                    .append(JavaScriptUtilities.getModuleName(
-                    "commonTasksSection.init(")) // NOI18N
+            buff.append("require(['").append(JavaScriptUtilities.getModuleName("commonTasksSection")).append("'], function (commonTasksSection) {").append("\n") // NOI18N
+                    .append("commonTasksSection.init(") // NOI18N
                     .append(json.toString(JavaScriptUtilities.INDENT_FACTOR)).append(");\n"); //NOI18N
-
+            buff.append("});");
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(component, writer,
                     buff.toString());

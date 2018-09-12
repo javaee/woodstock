@@ -84,11 +84,15 @@ public class JavaScriptUtilities {
 
         try {
             JSONObject json = new JSONObject();
+            JSONObject json1 = new JSONObject();
+            json1.put("webui/suntheme", "../../com/sun/webui/jsf/suntheme/javascript");
             json.put("isDebug", debug)
                 .put("debugAtAllCosts", debug)
-                .put("parseWidgets", parseWidgets);
+                .put("parseWidgets", parseWidgets)
+                .put("async", true)
+                .put("paths", json1);
 
-            buff.append("djConfig=")
+            buff.append("var dojoConfig=")
                 .append(json.toString(INDENT_FACTOR))
                 .append(";\n");
         } catch (JSONException e) {
@@ -110,14 +114,14 @@ public class JavaScriptUtilities {
         StringBuffer buff = new StringBuffer(256);
 
         // Append JavaScript.
-        buff.append("dojo.hostenv.setModulePrefix(\"")
-            .append(getTheme().getJSString(ThemeJavascript.MODULE_PREFIX))
-            .append("\", \"")
-            .append(theme.getPathToJSFile(ThemeJavascript.MODULE_PATH))
-            .append("\");\n")
-            .append(getModule("*"))
-            .append("\n");
-
+//        buff.append("dojo.hostenv.setModulePrefix(\"")
+////            .append(getTheme().getJSString(ThemeJavascript.MODULE_PREFIX))
+//            .append("webui/suntheme")
+//            .append("\", \"")
+//            .append(theme.getPathToJSFile(ThemeJavascript.MODULE_PATH))
+//            .append("\");\n")
+//            .append(getModule("*"))
+//            .append("\n");
         // Output includes for debugging. This will ensure that JavaScript
         // files are accessible to JavaScript debuggers.
         if (writeIncludes) {
@@ -145,7 +149,7 @@ public class JavaScriptUtilities {
      */
     public static void renderDojoInclude(UIComponent component,
             ResponseWriter writer) throws IOException {
-        renderJavaScriptInclude(component, writer, ThemeJavascript.DOJO);
+        renderJavaScriptIncludeDojo(component, writer, ThemeJavascript.DOJO);
     }
 
     /**
@@ -252,9 +256,9 @@ public class JavaScriptUtilities {
      */
     public static String getModule(String name) {
         StringBuffer buff = new StringBuffer(128);
-        buff.append("dojo.require('")
+        buff.append("require([\"")
             .append(getModuleName(name))
-            .append("');");
+            .append("\"]);");
         return buff.toString();
     }
 
@@ -267,8 +271,9 @@ public class JavaScriptUtilities {
      */
     public static String getModuleName(String name) {
         StringBuffer buff = new StringBuffer(128);
-        buff.append(getTheme().getJSString(ThemeJavascript.MODULE_PREFIX))
-            .append(".")
+//        buff.append(getTheme().getJSString(ThemeJavascript.MODULE_PREFIX))
+        buff.append("webui/suntheme")
+            .append("/")
             .append(name);
         return buff.toString();
     }
@@ -282,7 +287,8 @@ public class JavaScriptUtilities {
      */
     public static String getNamespace(String name) {
         StringBuffer buff = new StringBuffer(128);
-        buff.append(getTheme().getJSString(ThemeJavascript.MODULE_PREFIX))
+//        buff.append(getTheme().getJSString(ThemeJavascript.MODULE_PREFIX))
+        buff.append("webui/suntheme")
             .append(":")
             .append(name);
         return buff.toString();
@@ -351,6 +357,25 @@ public class JavaScriptUtilities {
 
         writer.startElement("script", component);
         writer.writeAttribute("type", "text/javascript", null);
+        writer.writeURIAttribute("src", jsFile, null);
+        writer.endElement("script");
+        writer.write("\n");
+    }
+    
+    private static void renderJavaScriptIncludeDojo(UIComponent component,
+            ResponseWriter writer, String file) throws  IOException {
+        if (file == null) {
+	    return;
+	}
+
+	String jsFile = getTheme().getPathToJSFile(file);
+	if (jsFile == null) {
+	    return;
+	}
+
+        writer.startElement("script", component);
+        writer.writeAttribute("type", "text/javascript", null);
+//        writer.writeAttribute("data-dojo-config", "async: true", null);
         writer.writeURIAttribute("src", jsFile, null);
         writer.endElement("script");
         writer.write("\n");

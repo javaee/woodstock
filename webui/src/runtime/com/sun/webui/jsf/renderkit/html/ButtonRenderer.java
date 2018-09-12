@@ -257,14 +257,26 @@ public class ButtonRenderer extends AbstractRenderer {
             json.put("id", button.getClientId(context)).put("mini", button.isMini()).put("disabled", button.isDisabled()).put("secondary", !button.isPrimary()).put("icon", (button.getImageURL() != null || button.getIcon() != null));
 
             // Append JavaScript.
-            buff.append(JavaScriptUtilities.getModuleName("button.init")).append("(").append(json.toString(JavaScriptUtilities.INDENT_FACTOR)).append(");");
-
+//            buff.append(JavaScriptUtilities.getModuleName("button.init")).append("(").append(json.toString(JavaScriptUtilities.INDENT_FACTOR)).append(");");
+            buff.append("require(['").append(JavaScriptUtilities.getModuleName("button")).append("'], function (button) {").append("\n")
+                    .append("button.init").append("(").append(json.toString(JavaScriptUtilities.INDENT_FACTOR)).append(");")
+                    .append("});");
+            
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(component, writer,
                     buff.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+//        StringBuffer buff1 = new StringBuffer(200);
+//        buff1.append("function hyperlinkfunc(hyplnk1, formClientId, params) { \n")
+//                .append("require(['webui/suntheme/hyperlink'], function(hyperlink) { \n")
+//                .append("hyperlink.submit(hyplnk1, formClientId, params); \n")
+//                .append("return false; \n")
+//                .append("});")
+//                .append("}");
+//        JavaScriptUtilities.renderJavaScript(component, writer, buff1.toString());
     }
 
     /**

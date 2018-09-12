@@ -39,11 +39,13 @@
  */
 
 
-dojo.provide("webui.@THEME@.body");
+//dojo.provide("webui.@THEME@.body");
 
-dojo.require("webui.@THEME@.common");
-dojo.require("webui.@THEME@.cookie");
+//dojo.require("webui.@THEME@.common");
+//dojo.require("webui.@THEME@.cookie");
+define(["webui/suntheme/common", "webui/suntheme/cookie"], function(common, cookie) {
 
+    return {
 /**
  * Construct a javascript body object.
  * <p>
@@ -81,7 +83,7 @@ dojo.require("webui.@THEME@.cookie");
  * @param focusElementFieldId the id of a hidden field to maintain
  * the id of the last element to have the focus.
  */
-webui.@THEME@.body = function(viewId, path, defaultFocusElementId, 
+    body = function(viewId, path, defaultFocusElementId, 
 	focusElementId, focusElementFieldId)  {
 
     /**
@@ -111,7 +113,7 @@ webui.@THEME@.body = function(viewId, path, defaultFocusElementId,
     /**
      * Create the scroll cookie object.
      */
-    this.scrollCookie = new webui.@THEME@.scrollCookie(viewId, path);
+    this.scrollCookie = new scrollCookie(viewId, path);
 
     /**
      * @deprecated
@@ -240,7 +242,7 @@ webui.@THEME@.body = function(viewId, path, defaultFocusElementId,
 	try {
 	    result = element != null && element.focus && !element.disabled &&
 		element.type != "hidden" &&
-		webui.@THEME@.common.isVisible(element.id);
+		common.isVisible(element.id);
 	} catch (e) {
 	}
 	return result;
@@ -354,7 +356,7 @@ webui.@THEME@.body = function(viewId, path, defaultFocusElementId,
 	    // focus to some other element if the event element
 	    // deemed to receive the focus can't accept the focus.
 	    //
-	    webui.@THEME@.common.body.updateFocusElementField(node);
+	    common.body.updateFocusElementField(node);
 	}
 	return true;
     };
@@ -377,10 +379,10 @@ webui.@THEME@.body = function(viewId, path, defaultFocusElementId,
 	//
 	if (window.document.addEventListener) {
 	    window.document.addEventListener('focus', 
-		webui.@THEME@.common.body.focusListener, true);
+		common.body.focusListener, true);
 	} else {
 	    document.attachEvent('onfocusin', 
-		webui.@THEME@.common.body.focusListener);
+		common.body.focusListener);
 	}
 
         // use settimeout to delay setting focus on the default
@@ -389,21 +391,21 @@ webui.@THEME@.body = function(viewId, path, defaultFocusElementId,
         // hidden fields by catching the 'element.focus()' in
         // setDefaultFocus
         //
-	window.setTimeout('webui.@THEME@.common.body.setDefaultFocus()',
+	window.setTimeout('common.body.setDefaultFocus()',
 	    10);
 
 	// Set up the scroll position after the focus has been
 	// restored. Need to make sure that this takes into
 	// account the default focus that was just set.
 	//
-	webui.@THEME@.common.body.setDefaultScrollPosition();
+	common.body.setDefaultScrollPosition();
     };
 
     /**
      * Update the page's scroll position
      */
     this.onUnloadListener = function(evt) {
-	webui.@THEME@.common.body.storeScrollPosition();
+	common.body.storeScrollPosition();
     };
 
     /*
@@ -420,5 +422,7 @@ webui.@THEME@.body = function(viewId, path, defaultFocusElementId,
 	window.attachEvent('onunload', this.onUnloadListener);
     }
 }
+    }
+});
 
 //-->

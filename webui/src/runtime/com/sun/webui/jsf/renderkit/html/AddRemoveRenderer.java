@@ -177,8 +177,10 @@ public class AddRemoveRenderer extends ListRendererBase {
             String jsObject = JavaScriptUtilities.getDomNode(context, component);
 
             // Append JavaScript.
-            buff.append(JavaScriptUtilities.getModule("addRemove")).append("\n") // NOI18N
-                    .append(JavaScriptUtilities.getModuleName("addRemove.init")) // NOI18N
+//            buff.append(JavaScriptUtilities.getModule("addRemove")).append("\n") // NOI18N
+            buff.append("require(['").append(JavaScriptUtilities.getModuleName("addRemove")).append("'], function (addRemove) {").append("\n")
+//                    .append(JavaScriptUtilities.getModuleName("addRemove.init")) // NOI18N
+                    .append("addRemove.init") // NOI18N
                     .append("(") //NOI18N
                     .append(json.toString(JavaScriptUtilities.INDENT_FACTOR)).append(");\n") //NOI18N
                     .append(jsObject).append(AddRemove.UPDATEBUTTONS_FUNCTION);
@@ -187,6 +189,7 @@ public class AddRemoveRenderer extends ListRendererBase {
                 buff.append("\n") //NOI18N
                         .append(jsObject).append(AddRemove.MULTIPLEADDITIONS_FUNCTION);
             }
+            buff.append("});");
 
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(component, writer,

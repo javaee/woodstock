@@ -160,11 +160,13 @@ public class AutoSubmitOnChangeAction extends BasicDisplayAction implements
             //fully qualified id (starting with ":") could look intimidating to users. so just chop off leading ":"
             id = id.substring(1, id.length());
         }
-        buffer.append(JavaScriptUtilities.getModuleName(
-                "common.timeoutSubmitForm"));
+//        buffer.append(JavaScriptUtilities.getModuleName("common.timeoutSubmitForm"));
+        buffer.append("require(['").append(JavaScriptUtilities.getModuleName("common")).append("'], function (common) {").append("\n");
+        buffer.append("common.timeoutSubmitForm");
         buffer.append("(this.form, '");
         buffer.append(id);
         buffer.append("');");
+        buffer.append("});");
         return buffer.toString();
     }
     

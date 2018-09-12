@@ -39,8 +39,8 @@
  */
 
 
-dojo.provide("webui.@THEME@.browser");
-
+//dojo.provide("webui.@THEME@.browser");
+define( ["dojo/_base/declare"], function(declare) {
 /**
  * This function is used to construct a javascript object for
  * testing browser properties. For example: 
@@ -50,7 +50,7 @@ dojo.provide("webui.@THEME@.browser");
  *     alert("Browser is IE 6 or above");
  * }
  */
-webui.@THEME@.browser = function() {
+    return declare({
     // Convert all characters to lowercase to simplify testing.
     this.agent = navigator.userAgent.toLowerCase();
 
@@ -99,6 +99,7 @@ webui.@THEME@.browser = function() {
     this.is_sun = this.agent.indexOf("sunos")!= -1;
     this.is_win = this.agent.indexOf("win")!= -1 
         || this.agent.indexOf("16bit")!= -1;
-}
+});
+});
 
 //-->

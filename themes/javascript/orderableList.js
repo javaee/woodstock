@@ -39,12 +39,13 @@
  */
 
 
-dojo.provide("webui.@THEME@.orderableList");
+//dojo.provide("webui.@THEME@.orderableList");
+define( function() {
 
 /** 
  * Define webui.@THEME@.orderableList name space. 
  */ 
-webui.@THEME@.orderableList = {
+    return {
     /**
      * This function is used to initialize HTML element properties with the
      * following Object literals.
@@ -127,13 +128,13 @@ webui.@THEME@.orderableList = {
         }
 
         // attach OrderableList object methods
-        domNode.moveUp = webui.@THEME@.orderableList.moveUp;
-        domNode.moveDown = webui.@THEME@.orderableList.moveDown;
-        domNode.moveTop = webui.@THEME@.orderableList.moveTop;
-        domNode.moveBottom = webui.@THEME@.orderableList.moveBottom;
-        domNode.updateButtons = webui.@THEME@.orderableList.updateButtons;
-        domNode.updateValue = webui.@THEME@.orderableList.updateValue;
-        domNode.onChange = webui.@THEME@.orderableList.updateButtons;
+        domNode.moveUp = this.moveUp;
+        domNode.moveDown = this.moveDown;
+        domNode.moveTop = this.moveTop;
+        domNode.moveBottom = this.moveBottom;
+        domNode.updateButtons = this.updateButtons;
+        domNode.updateValue = this.updateValue;
+        domNode.onChange = this.updateButtons;
     },
 
     // The original allowed items to be moved on both lists. Surely we
@@ -423,5 +424,5 @@ webui.@THEME@.orderableList = {
         return true;
     }
 }
-
+});
 //-->

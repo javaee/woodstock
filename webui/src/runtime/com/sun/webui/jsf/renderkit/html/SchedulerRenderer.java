@@ -658,10 +658,13 @@ public class SchedulerRenderer extends javax.faces.render.Renderer {
             json.put("id", scheduler.getClientId(context)).put("datePickerId", scheduler.getDatePicker().getClientId(context)).put("dateFieldId", scheduler.getDateComponent().getClientId(context)).put("dateClass", theme.getStyleClass(ThemeStyles.DATE_TIME_LINK)).put("selectedClass", theme.getStyleClass(ThemeStyles.DATE_TIME_BOLD_LINK)).put("edgeClass", theme.getStyleClass(ThemeStyles.DATE_TIME_OTHER_LINK)).put("edgeSelectedClass", theme.getStyleClass(ThemeStyles.DATE_TIME_OTHER_BOLD_LINK)).put("todayClass", theme.getStyleClass(ThemeStyles.DATE_TIME_TODAY_LINK)).put("dateFormat", scheduler.getDatePicker().getDateFormatPattern());
 
             // Append JavaScript.
-            buff.append(JavaScriptUtilities.getModule("scheduler")).append("\n") // NOI18N
-                    .append(JavaScriptUtilities.getModuleName("scheduler.init")) // NOI18N
+//            buff.append(JavaScriptUtilities.getModule("scheduler")).append("\n") // NOI18N
+            buff.append("require(['").append(JavaScriptUtilities.getModuleName("scheduler")).append("'], function (scheduler) {").append("\n") // NOI18N
+//                    .append(JavaScriptUtilities.getModuleName("scheduler.init")) // NOI18N
+                    .append("scheduler.init") // NOI18N
                     .append("(") //NOI18N
                     .append(json.toString(JavaScriptUtilities.INDENT_FACTOR)).append(");"); //NOI18N
+            buff.append("});");
 
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(scheduler, writer,

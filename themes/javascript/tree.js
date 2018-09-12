@@ -39,19 +39,22 @@
  */
 
 
-dojo.provide("webui.@THEME@.tree");
+//dojo.provide("webui.@THEME@.tree");
 
 /** 
  * Define webui.@THEME@.tree name space. 
  */ 
-webui.@THEME@.tree = {
+//webui.@THEME@.tree = {
+define(["webui/suntheme/props"], function(props) {
+    
+    return {
     /**
      * This function is used to initialize HTML element properties with the
      * following Object literals.
-     *
+     *getValidCookieName
      * <ul>
      *  <li>id</li>
-     * </ul>
+     * </ul>getValidCookieNamegetValidCookieName
      *
      * Note: This is considered a private API, do not use.
      *
@@ -70,32 +73,32 @@ webui.@THEME@.tree = {
         Object.extend(domNode, props);
 
 	// Set functions.
-        domNode.clearAllHighlight = webui.@THEME@.tree.clearAllHighlight;
-        domNode.clearHighlight = webui.@THEME@.tree.clearHighlight;
-        domNode.expandCollapse = webui.@THEME@.tree.expandCollapse;
-        domNode.expandTurner = webui.@THEME@.tree.expandTurner;
-        domNode.findContainingTreeNode = webui.@THEME@.tree.findContainingTreeNode;
-        domNode.findNodeByTypeAndProp = webui.@THEME@.tree.findNodeByTypeAndProp;
-        domNode.badCookieChars = webui.@THEME@.tree.badCookieChars;
-        domNode.getValidCookieName = webui.@THEME@.tree.getValidCookieName;
-        domNode.getCookieValue = webui.@THEME@.tree.getCookieValue;
-        domNode.getHighlightTreeBgColor = webui.@THEME@.tree.getHighlightTreeBgColor;
-        domNode.getHighlightTreeTextColor = webui.@THEME@.tree.getHighlightTreeTextColor;
-        domNode.getNormalTreeTextColor = webui.@THEME@.tree.getNormalTreeTextColor;
-        domNode.getParentTreeNode = webui.@THEME@.tree.getParentTreeNode;
-        domNode.getSelectedTreeNode = webui.@THEME@.tree.getSelectedTreeNode;
-        domNode.getTree = webui.@THEME@.tree.getTree;
-        domNode.highlight = webui.@THEME@.tree.highlight;
-        domNode.highlightParent = webui.@THEME@.tree.highlightParent;
-        domNode.isAnHref = webui.@THEME@.tree.isAnHref;
-        domNode.isTreeHandle = webui.@THEME@.tree.isTreeHandle;
-        domNode.onTreeNodeClick = webui.@THEME@.tree.onTreeNodeClick;
-        domNode.selectTreeNode = webui.@THEME@.tree.selectTreeNode;
-        domNode.setCookieValue = webui.@THEME@.tree.setCookieValue;
-        domNode.treecontent_submit = webui.@THEME@.tree.treecontent_submit;
-        domNode.treeNodeIsExpanded = webui.@THEME@.tree.treeNodeIsExpanded;
-        domNode.unhighlightParent = webui.@THEME@.tree.unhighlightParent;
-        domNode.updateHighlight = webui.@THEME@.tree.updateHighlight;
+        domNode.clearAllHighlight = this.clearAllHighlight;
+        domNode.clearHighlight = this.clearHighlight;
+        domNode.expandCollapse = this.expandCollapse;
+        domNode.expandTurner = this.expandTurner;
+        domNode.findContainingTreeNode = this.findContainingTreeNode;
+        domNode.findNodeByTypeAndProp = this.findNodeByTypeAndProp;
+        domNode.badCookieChars = this.badCookieChars;
+        domNode.getValidCookieName = this.getValidCookieName;
+        domNode.getCookieValue = this.getCookieValue;
+        domNode.getHighlightTreeBgColor = this.getHighlightTreeBgColor;
+        domNode.getHighlightTreeTextColor = this.getHighlightTreeTextColor;
+        domNode.getNormalTreeTextColor = this.getNormalTreeTextColor;
+        domNode.getParentTreeNode = this.getParentTreeNode;
+        domNode.getSelectedTreeNode = this.getSelectedTreeNode;
+        domNode.getTree = this.getTree;
+        domNode.highlight = this.highlight;
+        domNode.highlightParent = this.highlightParent;
+        domNode.isAnHref = this.isAnHref;
+        domNode.isTreeHandle = this.isTreeHandle;
+        domNode.onTreeNodeClick = this.onTreeNodeClick;
+        domNode.selectTreeNode = this.selectTreeNode;
+        domNode.setCookieValue = this.setCookieValue;
+        domNode.treecontent_submit = this.treecontent_submit;
+        domNode.treeNodeIsExpanded = this.treeNodeIsExpanded;
+        domNode.unhighlightParent = this.unhighlightParent;
+        domNode.updateHighlight = this.updateHighlight;
     },
 
     badCookieChars: ["(", ")", "<", ">", "@", ",", ";", ":", "\\", "\"", "/", "[", "]", "?", "=", "{", "}", " ", "\t"],
@@ -307,7 +310,7 @@ webui.@THEME@.tree = {
 
     clearHighlight: function(node) {
         if (node) {
-	    node.className = webui.@THEME@.props.tree.treeRowClass;
+	    node.className = "TreeRow_sun4";
         }
         return true;
     },
@@ -399,8 +402,7 @@ webui.@THEME@.tree = {
      */
     highlight: function(node) {
         if (node) {
-	    node.className = 
-	    	webui.@THEME@.props.tree.selectedTreeRowClass;
+	    node.className = "TreeSelRow_sun4";
             return true;
         }
         return false;
@@ -586,6 +588,8 @@ webui.@THEME@.tree = {
 	// inspect and expand the corresponding node if necessary
 	this.setCookieValue(tree.id + "-expand", nodeId);
     }
-}
+    
+    };
+});
 
 //-->

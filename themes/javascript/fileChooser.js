@@ -113,15 +113,16 @@
 // literal id's cannot be guaranteed.
 //
 
-dojo.provide("webui.@THEME@.fileChooser");
+//dojo.provide("webui.@THEME@.fileChooser");
 
-dojo.require("webui.@THEME@.common");
-dojo.require("webui.@THEME@.formElements");
+//dojo.require("webui.@THEME@.common");
+//dojo.require("webui.@THEME@.formElements");
+define(["webui/suntheme/common", "webui/suntheme/formElements"], function(common, formElements) {
 
 /** 
  * Define webui.@THEME@.fileChooser name space. 
  */ 
-webui.@THEME@.fileChooser = {
+    return {
     /**
      * This function is used to initialize HTML element properties with the
      * following Object literals.
@@ -182,53 +183,53 @@ webui.@THEME@.fileChooser = {
         }
 
         domNode.selectionsId = idPrefix + "_selections";
-        domNode.lookinfield = webui.@THEME@.field.getInputElement(idPrefix + "_lookinField");
-        domNode.filterfield = webui.@THEME@.field.getInputElement(idPrefix + "_filterField");
-        domNode.selectedfield = webui.@THEME@.field.getInputElement(idPrefix + "_selectedField");
+        domNode.lookinfield = field.getInputElement(idPrefix + "_lookinField");
+        domNode.filterfield = field.getInputElement(idPrefix + "_filterField");
+        domNode.selectedfield = field.getInputElement(idPrefix + "_selectedField");
         domNode.upButton = document.getElementById(idPrefix + "_upButton");
         domNode.openFolderButton = document.getElementById(idPrefix + "_openButton");
-        domNode.listentries = webui.@THEME@.listbox.getSelectElement(idPrefix + "_listEntries");
+        domNode.listentries = listbox.getSelectElement(idPrefix + "_listEntries");
         domNode.listOptions = domNode.listentries.options;
-        domNode.sortmenu = webui.@THEME@.dropDown.getSelectElement(idPrefix + "_sortMenu");
+        domNode.sortmenu = dropDown.getSelectElement(idPrefix + "_sortMenu");
 
         // Define the methods.
-        domNode.enterKeyPressed = webui.@THEME@.fileChooser.enterKeyPressed;
-        domNode.handleDblClick = webui.@THEME@.fileChooser.handleDblClick;
-        domNode.handleOnChange = webui.@THEME@.fileChooser.handleOnChange;
-        domNode.openFolderClicked = webui.@THEME@.fileChooser.openFolderClicked;
-        domNode.moveUpButtonClicked = webui.@THEME@.fileChooser.moveUpButtonClicked;
-        domNode.setChooseButton = webui.@THEME@.fileChooser.setChooseButton;
-        domNode.getCurrentDirectory = webui.@THEME@.fileChooser.getCurrentDirectory;
-        domNode.getOptionElements = webui.@THEME@.fileChooser.getOptionElements;
-        domNode.getSelectedOptions = webui.@THEME@.fileChooser.getSelectedOptions;
-        domNode.isFolderChooser = webui.@THEME@.fileChooser.isFolderChooser;
-        domNode.isFolderSelected = webui.@THEME@.fileChooser.isFolderSelected;
-        domNode.getSelectionValue = webui.@THEME@.fileChooser.getSelectionValue;
-        domNode.getSelectionValueByIndex = webui.@THEME@.fileChooser.getSelectionValueByIndex;
-        domNode.getSelectionType = webui.@THEME@.fileChooser.getSelectionType;
-        domNode.getSelectionTypeByIndex = webui.@THEME@.fileChooser.getSelectionTypeByIndex;
-        domNode.getValueType = webui.@THEME@.fileChooser.getValueType;
-        domNode.itemSelected = webui.@THEME@.fileChooser.itemSelected;
-        domNode.getSelectedFolders = webui.@THEME@.fileChooser.getSelectedFolders;
-        domNode.getSelectedFiles = webui.@THEME@.fileChooser.getSelectedFiles;
-        domNode.getSelectedValuesByType = webui.@THEME@.fileChooser.getSelectedValuesByType;
-        domNode.setSelectedFieldValue = webui.@THEME@.fileChooser.setSelectedFieldValue;
-        domNode.clearSelections = webui.@THEME@.fileChooser.clearSelections;
-        domNode.deselectFolders = webui.@THEME@.fileChooser.deselectFolders;
-        domNode.deselectSelectionsByType = webui.@THEME@.fileChooser.deselectSelectionsByType;
-        domNode.setSelected = webui.@THEME@.fileChooser.setSelected;
-        domNode.clearSelectedField = webui.@THEME@.fileChooser.clearSelectedField;
-        domNode.armChooseButton = webui.@THEME@.fileChooser.armChooseButton;
-        domNode.getFileNameOnly = webui.@THEME@.fileChooser.getFileNameOnly;
-        domNode.setChooseButtonDisabled = webui.@THEME@.fileChooser.setChooseButtonDisabled;
+        domNode.enterKeyPressed = this.enterKeyPressed;
+        domNode.handleDblClick = this.handleDblClick;
+        domNode.handleOnChange = this.handleOnChange;
+        domNode.openFolderClicked = this.openFolderClicked;
+        domNode.moveUpButtonClicked = this.moveUpButtonClicked;
+        domNode.setChooseButton = this.setChooseButton;
+        domNode.getCurrentDirectory = this.getCurrentDirectory;
+        domNode.getOptionElements = this.getOptionElements;
+        domNode.getSelectedOptions = this.getSelectedOptions;
+        domNode.isFolderChooser = this.isFolderChooser;
+        domNode.isFolderSelected = this.isFolderSelected;
+        domNode.getSelectionValue = this.getSelectionValue;
+        domNode.getSelectionValueByIndex = this.getSelectionValueByIndex;
+        domNode.getSelectionType = this.getSelectionType;
+        domNode.getSelectionTypeByIndex = this.getSelectionTypeByIndex;
+        domNode.getValueType = this.getValueType;
+        domNode.itemSelected = this.itemSelected;
+        domNode.getSelectedFolders = this.getSelectedFolders;
+        domNode.getSelectedFiles = this.getSelectedFiles;
+        domNode.getSelectedValuesByType = this.getSelectedValuesByType;
+        domNode.setSelectedFieldValue = this.setSelectedFieldValue;
+        domNode.clearSelections = this.clearSelections;
+        domNode.deselectFolders = this.deselectFolders;
+        domNode.deselectSelectionsByType = this.deselectSelectionsByType;
+        domNode.setSelected = this.setSelected;
+        domNode.clearSelectedField = this.clearSelectedField;
+        domNode.armChooseButton = this.armChooseButton;
+        domNode.getFileNameOnly = this.getFileNameOnly;
+        domNode.setChooseButtonDisabled = this.setChooseButtonDisabled;
 
         // For supporting valid entries in look in field and filter field.
         //
         // It is imperative that the look in field and filter field
         // are never submitted if the value does not imply a valid action.
         // Not currently used.
-        domNode.onFocus = webui.@THEME@.fileChooser.onFocus;
-        domNode.onBlur = webui.@THEME@.fileChooser.onBlur;
+        domNode.onFocus = this.onFocus;
+        domNode.onBlur = this.onBlur;
 
         // Save the initial lookin and filter values.
         domNode.lastLookInValue = domNode.lookinfield.value;
@@ -279,7 +280,7 @@ webui.@THEME@.fileChooser = {
 	// or dbl click in the list.
 	if (this.selectedfield && element.id == this.selectedfield.id) {
 	    var escapedSelections = this.selectedfield.value;
-	    var selections = webui.@THEME@.common.unescapeStrings(escapedSelections,
+	    var selections = common.unescapeStrings(escapedSelections,
 		    this.delimiter, this.escapeChar);
 
 	    // If a choose button has been defined call its click method
@@ -439,7 +440,7 @@ webui.@THEME@.fileChooser = {
      * with the specified escape character.
      */
     handleOnChange: function() {
-	webui.@THEME@.listbox.changed(this.listentries.id);
+	listbox.changed(this.listentries.id);
 
 	// If nothing is selected disable buttons.
 	if (!this.itemSelected()) {
@@ -494,7 +495,7 @@ webui.@THEME@.fileChooser = {
 		var index = this.listentries.selectedIndex;
 		this.deselectFolders();
 		this.setSelected(index, true);
-		webui.@THEME@.listbox.changed(this.listentries.id);
+		listbox.changed(this.listentries.id);
 		this.clearSelectedField();
 	    } else if (folders.length == 1) {
 		// Only allow one folder to be selected
@@ -519,7 +520,7 @@ webui.@THEME@.fileChooser = {
 	// Make sure the hidden select option array is up
 	// to date in case there isn't a selectedFileField.
 	if (!this.setSelectedFieldValue(selections)) {
-	    webui.@THEME@.common.createSubmittableArray(
+	    common.createSubmittableArray(
                 this.selectionsId, this.listentries.form, null, selections);
 	}
 
@@ -647,14 +648,14 @@ webui.@THEME@.fileChooser = {
 	if (selections == null || selections.length == 0) {
 	    return false;
 	} else {
-	    value = webui.@THEME@.common.escapeString(
+	    value = common.escapeString(
                 this.getFileNameOnly(selections[0]), this.delimiter,
                 this.escapeChar);
 	}
 
 	for (var j = 1; j < selections.length; j++) {
 	    value = value + ',' + 
-                webui.@THEME@.common.escapeString(
+                common.escapeString(
                     this.getFileNameOnly(selections[j]), this.delimiter,
                     this.escapeChar);
 	} 
@@ -702,7 +703,7 @@ webui.@THEME@.fileChooser = {
 	} 
 	// call listbox.changed to update the
 	// private state
-	webui.@THEME@.listbox.changed(this.listentries.id);
+	listbox.changed(this.listentries.id);
 
 	if (this.selectedfield != null) {
 	    this.selectedfield.value = "";
@@ -711,7 +712,7 @@ webui.@THEME@.fileChooser = {
 
     setSelected: function(index, torf) {
 	this.listOptions[index].selected = torf;
-	webui.@THEME@.listbox.changed(this.listentries.id);
+	listbox.changed(this.listentries.id);
     },
 
     deselectFolders: function() {
@@ -725,7 +726,7 @@ webui.@THEME@.fileChooser = {
 		this.listOptions[j].selected = false;
 	    } 
 	} 
-	webui.@THEME@.listbox.changed(this.listentries.id);
+	listbox.changed(this.listentries.id);
     },
 
     armChooseButton: function(flag) {
@@ -807,6 +808,7 @@ webui.@THEME@.fileChooser = {
 	justTheFileName = arrayOfPaths[arrayOfPaths.length -1];
         return justTheFileName;
     }
-}
+};
+});
 
 //-->

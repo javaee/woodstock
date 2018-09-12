@@ -334,10 +334,12 @@ public class CalendarRenderer extends FieldRenderer {
             json.put("id", calendar.getClientId(context)).put("firstDay", day).put("fieldId", calendar.getClientId(context).concat(Calendar.INPUT_ID)).put("patternId", calendar.getClientId(context).concat(Calendar.PATTERN_ID)).put("calendarToggleId", calendar.getDatePickerLink(context).getClientId(context)).put("datePickerId", datePickerId).put("monthMenuId", calendar.getDatePicker().getMonthMenu().getClientId(context)).put("yearMenuId", calendar.getDatePicker().getYearMenu().getClientId(context)).put("rowId", datePickerId + ":row5").put("showButtonSrc", styles[8]).put("hideButtonSrc", styles[9]).put("dateFormat", calendar.getDatePicker().getDateFormatPattern()).put("dateClass", styles[10]).put("edgeClass", styles[11]).put("selectedClass", styles[15]).put("edgeSelectedClass", styles[16]).put("todayClass", styles[17]).put("hiddenClass", styles[2]);
 
             // Append JavaScript.
-            buff.append(JavaScriptUtilities.getModule("calendar")).append("\n") // NOI18N
-                    .append(JavaScriptUtilities.getModuleName("calendar.init")) // NOI18N
+            buff.append("require(['").append(JavaScriptUtilities.getModuleName("calendar")).append("'], function (calendar) {").append("\n") // NOI18N
+//                    .append(JavaScriptUtilities.getModuleName("calendar.init")) // NOI18N
+                    .append("calendar.init")
                     .append("(") //NOI18N
                     .append(json.toString(JavaScriptUtilities.INDENT_FACTOR)).append(");"); //NOI18N
+            buff.append("});");
 
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(calendar, writer,
